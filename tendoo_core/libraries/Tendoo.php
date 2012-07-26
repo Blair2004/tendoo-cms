@@ -219,6 +219,7 @@ class Tendoo
 		  `ACTIVATED` varchar(20) NOT NULL,
 		  `TENDOO_VERS` varchar(100) NOT NULL,
 		  `ENCRYPTED_DIR` text NOT NULL,
+		  `APP_VERS` varchar(100) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -353,7 +354,15 @@ class Tendoo
 				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
 				$lib					=	new News(null);
 				$lib->createCat('Cat&eacute;gorie sans nom','Cette cat&eacute;gorie sert d\'illustration.');
-				$lib->publish_news('Bienvenue sur Tendoo '.$this->getVersId(),'Voici votre premi&egrave;re publication dans votre blog Tendoo, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',1,$this->core->url->img_url('Hub_back.png'),1,TRUE);
+				$lib->publish_news(
+					'Bienvenue sur Tendoo '.$this->getVersId(),
+					'Voici votre premi&egrave;re publication dans votre blog Tendoo, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',
+					1,
+					$this->core->url->img_url('Hub_back.png'),
+					$this->core->url->img_url('Hub_back.png'),
+					1,
+					TRUE
+				);
 			}
 		}
 		else if($app	==	'Tendoo_index_mod')

@@ -585,8 +585,8 @@ class Tendoo_admin
 	}
 	// New methods
 	private $appAllowedType					=	array('MODULE','THEME');
-	private $appModuleAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HAS_MENU','HAS_API','HAS_ICON','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','TENDOO_VERS','ENCRYPTED_DIR');
-	private $appThemeAllowedTableField		=	array('NAMESPACE','HUMAN_NAME','AUTHOR','DESCRIPTION','TENDOO_VERS','ENCRYPTED_DIR');
+	private $appModuleAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HAS_MENU','HAS_API','HAS_ICON','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','TENDOO_VERS','ENCRYPTED_DIR','APP_VERS');
+	private $appThemeAllowedTableField		=	array('NAMESPACE','HUMAN_NAME','AUTHOR','DESCRIPTION','TENDOO_VERS','ENCRYPTED_DIR','APP_VERS');
 	public function tendoo_installer($source)
 	{
 		function Unzip($zip)
@@ -1058,7 +1058,7 @@ class Tendoo_admin
 	public function appTableField($fields)
 	{
 		$this->appTableField	=	$fields; // File information such as NAMESPACE, HUMAN_NAME, DESCRIPTION and others
-		$this->appTableField['APP_VERS']	=	$this->appVers; // ajoute la version de l'app.
+		$this->appTableField['APP_VERS']	=	$this->appVers;
 	}
 	private $appAction		=	array();
 	public function appAction($action)
@@ -1518,7 +1518,7 @@ class Tendoo_admin
 		$_privilege	=	array();
 		$query		=	$this->core->db->get('tendoo_admin_privileges');
 		$result		=	$query->result_array();
-		if(count($result[0]) > 0)
+		if(count($result) > 0)
 		{
 			foreach($result as $r) // Parcours les privileges
 			{

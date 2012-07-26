@@ -56,6 +56,14 @@
       <section class="scrollable">
         <div class="wrapper">
           <div class="row">
+			<div class="col-lg-12">
+			<?php
+			if($priv_stats == FALSE || count($stats['ordered']) <= 1)
+			{
+				echo tendoo_warning('Si aucun graphisme ne s\'affiche, c\'est certainement parce qu\'il n\'y a pas beaucoup de donn&eacute;e &agrave; traiter');
+			}
+			?>
+			</div>
           	<div class="col-lg-4">
             <section class="panel">
               <header class="panel-heading">Statistiques sur les utilisateurs</header>
@@ -80,7 +88,7 @@
 					}
 				}
 				?>]"><?php
-				if(is_array($priv_stats))
+				if(is_array($priv_stats) && $priv_stats == TRUE)
 				{
 					for($i=0; $i < count($priv_stats);$i++)
 					{
@@ -98,7 +106,7 @@
                 <div class="line pull-in"></div>
                 <div class="text-xs">
                 <?php
-				if(is_array($priv_stats))
+				if(is_array($priv_stats) && $priv_stats	== TRUE)
 				{
 					foreach($priv_stats as $p)
 					{
@@ -108,6 +116,12 @@
                         <i class="icon-circle" style="color:<?php echo $color;?>"></i> <?php echo $p['PRIV_NAME'];?>
                         <?Php
 					}
+				}
+				else
+				{
+				?>
+				Statistique indisponible, aucun privil&egrave;ge ne semble avoir &eacute;t&eacute; cr&eacute;e.
+				<?php
 				}
 				?>
                 </div>
