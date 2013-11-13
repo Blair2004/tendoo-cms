@@ -1,0 +1,52 @@
+.hubby_success
+{
+	padding:1%;
+	width:98%;
+	display:inline-block;
+	background:#00a300;
+	color:#EEE;
+	margin-bottom:10px;
+}
+.hubby_notice
+{
+	padding:1%;
+	width:98%;
+	display:inline-block;
+	background:#6CB6FF;
+	color:#FFF;
+	margin-bottom:10px;
+}
+.hubby_error, .hubby_warning
+{
+	padding:1%;
+	width:98%;
+	display:inline-block;
+	background:#FF5B5B;
+	color:#FFF;
+	margin-bottom:10px;
+}
+.admin_widget textarea
+{
+	margin:0 !important;
+	width:98% !important; 
+	padding:1% !important;
+}
+.style_1 label
+{
+	line-height:20px;
+	display:block;
+}
+.style_1 textarea
+{
+	min-height:200px;
+	padding:1%;
+	width:98%;
+}
+.paragraph
+{
+	line-height:15px;
+	border:dashed 1px #999;
+	background:#EEE;
+	padding:1%;
+	color:#666;
+}
