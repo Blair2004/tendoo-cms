@@ -12,16 +12,13 @@ class Install
 		$this->data['error']	=	'';
 		$this->load->library('file');
 		$this->load->library('form_validation');
-		$this->core->file->css_push('modern');
-		$this->core->file->css_push('modern-responsive');
-		$this->core->file->css_push('hubby_default');
-		$this->core->file->css_push('ub.framework');
-		$this->core->file->css_push('hubby_global');
+		$this->core->file->css_push('app.v2');
+		$this->core->file->css_push('css1');
+		$this->core->file->css_push('css2');
+		$this->core->file->css_push('font');$this->core->file->css_push('hubby_global');
 
 		$this->core->file->js_push('jquery');
-		$this->core->file->js_push('dropdown');
-		$this->core->file->js_push('hubby_app');
-		$this->core->file->js_push('resizer');
+		$this->core->file->js_push('app.v2');
 	}
 	public function index($i = 1,$e = '')
 	{
@@ -30,11 +27,6 @@ class Install
 	public function etape($i = 1,$e = '')
 	{
 		$this->data['etape']	=	$i;
-		$this->core->file->js_push('jquery-1.7');
-		$this->core->file->css_push('reset');
-		$this->core->file->css_push('hubby_global');
-		$this->core->file->css_push('hubby_default');
-		$this->core->file->css_push('ub.framework');
 		$this->data['InstallError'] = '';
 		if($i == 1)
 		{
@@ -45,7 +37,7 @@ class Install
 				$this->core->url->redirect(array('install','etape',2));
 			}
 			$this->core->hubby->setTitle('Hubby - Installation');
-			$this->load->view('install/step/head',$this->data);
+			$this->load->view('header',$this->data);
 			$this->load->view('install/step/1/homebody',$this->data);
 		}
 		else if($i == 2)
@@ -84,7 +76,7 @@ class Install
 				}
 			}
 			$this->core->hubby->setTitle('Hubby - Première etape');
-			$this->load->view('install/step/head',$this->data);
+			$this->load->view('header',$this->data);
 			$this->load->view('install/step/2/homebody',$this->data);
 		}
 		else if($i == 3)
@@ -104,7 +96,7 @@ class Install
 				}
 				if(isset($_POST['site_name']))
 				{
-					$this->core->form_validation->set_rules('site_name','Nom de l\'hôte','trim|required|min_length[4]');
+					$this->core->form_validation->set_rules('site_name','Nom du site','trim|required|min_length[4]');
 					if($this->core->form_validation->run())
 					{
 						if(!$this->core->hubby->createTables())
@@ -124,7 +116,7 @@ class Install
 					// Execute control
 				}
 				$this->core->hubby->setTitle('Hubby - Segonde etape');
-				$this->core->load->view('install/step/head',$this->data);
+				$this->load->view('header',$this->data);
 				$this->core->load->view('install/step/3/homebody',$this->data);
 			}
 			else
@@ -160,7 +152,7 @@ class Install
 				$this->core->url->redirect('admin');
 			}
 			$this->core->hubby->setTitle('Hubby - Bravo votre site web est pr&ecirc;t');
-			$this->load->view('install/step/head',$this->data);
+			$this->load->view('header',$this->data);
 			$this->load->view('install/step/4/homebody',$this->data);
 		}
 	}

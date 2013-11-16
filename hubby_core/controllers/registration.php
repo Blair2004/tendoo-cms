@@ -41,17 +41,11 @@ Class registration
 	}
 	private function loadOuputFile()
 	{
-		$this->core->file->css_push('modern');
-		$this->core->file->css_push('modern-responsive');
-		$this->core->file->css_push('hubby_default');
-		$this->core->file->css_push('ub.framework');
+		$this->core->file->css_push('app.v2');
+		$this->core->file->css_push('css1');
+		$this->core->file->css_push('css2');
+		$this->core->file->css_push('font');
 		$this->core->file->css_push('hubby_global');
-
-		$this->core->file->js_push('jquery-1.9');
-		$this->core->file->js_push('dropdown');
-		$this->core->file->js_push('hubby_app');
-		$this->core->file->js_push('resizer');
-		$this->core->file->js_push('input-control');
 	}
 	// Public methods
 	public function index()
@@ -59,11 +53,10 @@ Class registration
 		$this->data['pageTitle']	=	'Cr&eacute;er un super administrateur - Hubby';
 		$this->core->hubby->setTitle($this->data['pageTitle']);
 		
-		$this->data['foot']	=	$this->load->view('registration/footer',$this->data,true);
 		$this->data['body']	=	$this->load->view('registration/createSuperAdmin',$this->data,true);
 		
-		$this->load->view('registration/header',$this->data);
-		$this->load->view('registration/global_body',$this->data);
+		$this->load->view('header',$this->data);
+		$this->load->view('global_body',$this->data);
 	}
 	public function superAdmin()
 	{
@@ -72,7 +65,7 @@ Class registration
 		$this->loadLibraries();				//	Affecting Libraries */
 		$this->construct_end();				// 	Fin du constructeur
 		
-		$this->core->form_validation->set_rules('super_admin_pseudo','Pseudo','trim|required|min_length[6]|max_length[15]');
+		$this->core->form_validation->set_rules('super_admin_pseudo','Pseudo','trim|required|min_length[5]|max_length[15]');
 		$this->core->form_validation->set_rules('super_admin_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
 		$this->core->form_validation->set_rules('super_admin_password_confirm','Confirmer le mot de passe','trim|required|min_length[6]|max_length[15]');
 		$this->core->form_validation->set_rules('super_admin_mail','Email','trim|valid_email|required');
@@ -93,10 +86,9 @@ Class registration
 		$this->data['pageTitle']	=	'Cr&eacute;er un super administrateur - Hubby';
 		$this->core->hubby->setTitle($this->data['pageTitle']);
 		
-		$this->data['foot']	=	$this->load->view('registration/footer',$this->data,true);
 		$this->data['body']	=	$this->load->view('registration/createSuperAdmin',$this->data,true);
 		
-		$this->load->view('registration/header',$this->data);
-		$this->load->view('registration/global_body',$this->data);
+		$this->load->view('header',$this->data);
+		$this->load->view('global_body',$this->data);
 	}
 }

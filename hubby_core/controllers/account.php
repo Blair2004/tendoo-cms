@@ -22,7 +22,6 @@ class Account
 		$this->core->file->css_push('modern');
 		$this->core->file->css_push('modern-responsive');
 		$this->core->file->css_push('hubby_default');
-		$this->core->file->css_push('ub.framework');
 		$this->core->file->css_push('hubby_global');
 
 		$this->core->file->js_push('jquery');

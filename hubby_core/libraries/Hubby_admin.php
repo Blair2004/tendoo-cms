@@ -87,6 +87,11 @@ class hubby_admin
 			return $array;
 		}
 	}
+	public function countPages()
+	{
+		$query	=	$this->core->db->get('hubby_controllers');
+		return $query->num_rows();
+	}
 	public function get_modules($start = NULL,$end = NULL)
 	{
 		$this->core->db		->select('*')

@@ -1,3 +1,23 @@
+.bg-color-green
+{
+	background:#09A800;
+	color:#FFF;
+}
+.bg-color-yellow
+{
+	background:#E1E100;
+	color:#FFF;
+}
+.bg-color-red
+{
+	background:#CD0601;
+	color:#FFF;
+}
+.bg-color-blue
+{
+	background:#0061C1;
+	color:#FFF;
+}
 .hubby_success
 {
 	padding:1%;

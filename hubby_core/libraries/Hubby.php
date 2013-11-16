@@ -756,9 +756,9 @@ class Hubby
 	{
 		$this->setTitle('Erreur');
 		$this->core->load->library('file');
+		$this->core->file->css_push('app.v2');
 		$this->core->file->css_push('hubby_global');
-		$this->core->file->css_push('hubby_default');
-		$error	=	strip_tags(notice($array));
+		$error	=	notice($array);
 		
 		include_once(VIEWS_DIR.'warning.php');
 	}

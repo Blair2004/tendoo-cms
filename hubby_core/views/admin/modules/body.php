@@ -1,40 +1,57 @@
-<div id="body">
-    <div class="page secondary with-sidebar">
-        <div id="canvasBubbles" style="position:absolute; top:0; height:100px; width:100%;float:left;"></div>
-        <div class="page-header" style="position:relative;">
-            <div class="page-header-content">
-                <h1>Gestionnaire des modules<small></small></h1>
-            <a class="back-button big page-back" href="<?php echo $this->core->url->site_url(array('admin','menu'));?>"></a></div>
-        </div>
-        <?php echo $lmenu;?>          
-        <div class="page-region">
-            <div class="page-region-content">
-            	<h2>Liste des modules install&eacute;s</h2>
-				<?php echo $this->core->notice->parse_notice();?>
-                <?php echo $success;?>
-                <table class="bordered striped">
-                	<thead>
-                        <tr class="info">
-                            <td>Nom</td>
-                            <td>Description</td>
-                            <td>Auteur</td>
-                            <td>Actif</td>
-                            <td>Type</td>
-                            <td>Action</td>
-                            <td>Etat</td>
-                        </tr>
-					</thead>
-                    <tbody>
-                    <?php 
-                if($mod_nbr > 0)
-                {
+<?php echo $lmenu;?>
+<section id="content">
+    <section class="vbox">
+        <?php echo $inner_head;?>
+        <section class="scrollable" id="pjax-container">
+            <header>
+                <div class="row b-b m-l-none m-r-none">
+                    <div class="col-sm-4">
+                        <h4 class="m-t m-b-none"><?php echo $this->core->hubby->getTitle();?></h4>
+                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                    </div>
+                </div>
+            </header>
+            <section class="vbox">
+                <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?>
+                    <header class="header bg-white b-b clearfix">
+                        <div class="row m-t-sm">
+                            <div class="col-sm-6 m-b-xs"> 
+                            	<a href="<?php echo $this->core->url->site_url(array('admin','menu'));?>" data-toggle="class:hide" class="btn btn-sm btn-info active"><i class="icon-caret-right text icon-large"></i><i class="icon-caret-left text-active icon-large"></i></a> 
+                                <a href="#" class="btn btn-sm btn-success"><i class="icon-plus"></i> Retour</a> 								<a href="#" class="btn btn-sm btn-danger"><i class="icon-plus"></i> Supprimer</a>
+							</div>
+                            <div class="col-sm-6 m-b-xs">
+                                <div class="input-group">
+                                    <input type="text" class="input-sm form-control" placeholder="Search">
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-sm btn-white" type="button">Go!</button>
+                                    </span> </div>
+                            </div>
+                        </div>
+                    </header>
+                    <section class="panel">
+                        <div class="table-responsive">
+                            <table class="table table-striped m-b-none">
+                                <thead>
+                                    <tr>
+                                        <th width="20">Nom</th>
+                                        <th class="th-sortable active" data-toggle="class">Auteur <span class="th-sort"> <i class="icon-sort-down text"></i> <i class="icon-sort-up text-active"></i> <i class="icon-sort"></i> </span> </th>
+                                        <th>Description</th>
+                                        <th>Actif</th>
+                                        <th>Type</th>
+                                        <th>Etat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                	<?php
+									if($mod_nbr > 0)
+                					{
                     foreach($modules as $mod)
                     {
                         ?>
                     <tr>
                         <td class="action"><a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$mod['ID']));?>"><?php echo $mod['HUMAN_NAME'];?></a></td>
-                        <td><?php echo $mod['DESCRIPTION'];?></td>
                         <td><?php echo $mod['AUTHOR'];?></td>
+                        <td><?php echo $mod['DESCRIPTION'];?></td>
                         <td><?php echo ($mod['ACTIVE'] == 'TRUE') ? 'Oui' : 'Non';?></td>
                         <td><?php echo ($mod['TYPE'] == 'GLOBAL') ? 'Globale' : 'Unique';?></td>
                         <td class="action"><a class="delete" href="<?php echo $this->core->url->site_url(array('admin','uninstall','module',$mod['ID']));?>">Desinstaller</a></td>
@@ -58,29 +75,50 @@
                         <?php
                     }
                 }
-                else
-                {
+                					else
+                					{
                     ?>
                     <tr>
                         <td colspan="6">Aucun module install&eacute;</td>
                     </tr>
                     <?php
                 }
-            ?>
-            		</tbody>
-                </table>
-                <?php 
-				if(is_array($paginate[4]))
-				{
-					foreach($paginate[4] as $p)
+									?>
+                                </tbody>                                
+                            </table>
+                        </div>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <footer class="footer bg-white b-t">
+            <div class="row m-t-sm text-center-xs">
+                <div class="col-sm-4">
+                    <select class="input-sm form-control input-s-sm inline">
+                        <option value="0">Bulk action</option>
+                        <option value="1">Delete selected</option>
+                        <option value="2">Bulk edit</option>
+                        <option value="3">Export</option>
+                    </select>
+                    <button class="btn btn-sm btn-white">Apply</button>
+                </div>
+                <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small> </div>
+                <div class="col-sm-4 text-right text-center-xs">
+                    <ul class="pagination pagination-sm m-t-none m-b-none">
+                     <?php 
+					if(is_array($paginate[4]))
 					{
-						?>
-						<a href="<?php echo $p['link'];?>"><div class="<?php echo $p['state'];?>" style="margin:0 3px;padding:3px 5px;float:left"><?php echo $p['text'];?></div></a>
-						<?php
+						foreach($paginate[4] as $p)
+						{
+							?>
+                            <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
+							<?php
+						}
 					}
-				}
 				?>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
+        </footer>
+    </section>
+    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav">EEE</a> </section>

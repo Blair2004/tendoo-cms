@@ -10,9 +10,11 @@ class hubby_index
 	}
 	public function index($arg = '')
 	{
-		$this->core->file->css_push('reset');
-		$this->core->file->css_push('hubby_global');
-		$this->core->file->css_push('ub.framework');
+		$this->core->file->css_push('app.v2');
+		$this->core->file->css_push('css1');
+		$this->core->file->css_push('css2');
+		$this->core->file->css_push('font');$this->core->file->css_push('hubby_global');
+		
 		$this->core->hubby->setTitle('Bienvenue sur '.$this->core->hubby->getVersion());
 		$this->core->load->view('header',$this->data);
 		$this->core->load->view('hubby_index_body',$this->data);

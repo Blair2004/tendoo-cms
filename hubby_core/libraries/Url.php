@@ -412,4 +412,8 @@ Class Url
 	{
 		return $this->request_uri;
 	}
+	public function font_url($font)
+	{
+		return $this->main_url().'hubby_assets/font/'.$font;
+	}
 }

@@ -13,6 +13,7 @@ class Admin
 		$this->adminConnection(); 			// 	Admin Users Libraries
 		$this->loadLibraries();				//	Affecting Libraries */
 		$this->construct_end();				// 	Fin du constructeur
+		$this->data['pageDescription']	=	$this->core->hubby->getVersion();
 	}
 	private function installStatus()
 	{
@@ -56,34 +57,30 @@ class Admin
 	}
 	private function loadOuputFile()
 	{
-		$this->core->file->css_push('modern');
-		$this->core->file->css_push('modern-responsive');
-		$this->core->file->css_push('hubby_default');
-		$this->core->file->css_push('ub.framework');
+		$this->core->file->css_push('app.v2');
+		$this->core->file->css_push('css1');
+		$this->core->file->css_push('css2');
 		$this->core->file->css_push('hubby_global');
 
 		$this->core->file->js_push('jquery-1.9');
-		$this->core->file->js_push('jquery-ui-1.8');
-		$this->core->file->js_push('dropdown');
+		$this->core->file->js_push('jquery.pjax');
+		$this->core->file->js_push('morris.min');
+		$this->core->file->js_push('raphael-min');
+		$this->core->file->js_push('app.v2');
 		$this->core->file->js_push('hubby_app');
-		$this->core->file->js_push('input-control');
-		$this->core->file->js_push('bubbles');
 	}
 	// Public functions
 	public function index()
 	{		
+		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->data['options']		=	$this->core->hubby->getOptions();
+		$this->data['ttTheme']		=	$this->core->hubby_admin->countThemes();
+		$this->data['ttModule']		=	$this->core->hubby_admin->count_modules();
+		$this->data['ttPages']		=	$this->core->hubby_admin->countPages();
+		$this->data['ttPrivileges']	=	$this->core->hubby_admin->countPrivileges();
+
 		$this->core->hubby->setTitle('Panneau de Contr&ocirc;le - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 		$this->data['body']	=	$this->load->view('admin/index/body',$this->data,true);
-		
-		$this->load->view('admin/header',$this->data);
-		$this->load->view('admin/global_body',$this->data);
-	}
-	public function menu()
-	{
-		$this->data['options']		=	$this->core->hubby->getOptions();
-		$this->core->hubby->setTitle('Menu principale - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
-		$this->data['body']	=	$this->load->view('admin/menu/body',$this->data,true);
 		
 		$this->load->view('admin/header',$this->data);
 		$this->load->view('admin/global_body',$this->data);
@@ -92,7 +89,8 @@ class Admin
 	{
 		if($this->core->users_global->isSuperAdmin()	|| $this->hubby_admin->adminAccess('system','gestpa',$this->core->users_global->current('PRIVILEGE')))
 		{
-			$this->data['success']	=	notice_from_url();
+			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
+			$this->data['success']			=	notice_from_url();
 			if($e == '')
 			{
 				$this->data['get_pages']	=	$this->core->hubby_admin->get_pages();
@@ -104,6 +102,7 @@ class Admin
 			}
 			else if($e == 'edit' && $f != '')
 			{
+				$this->form_validation->set_error_delimiters('<span style="color:red">', '</span>');
 				$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[30]');
 				$this->form_validation->set_rules('page_cname','Nom du controleur','alpha_dash|trim|required|min_length[2]|max_length[30]');
 				$this->form_validation->set_rules('page_title','Titre du controleur','trim|required|min_length[2]|max_length[50]');
@@ -189,6 +188,7 @@ class Admin
 	}
 	public function modules($e = '',$a	=	1,$f = '')
 	{
+		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->notice->push_notice(notice_from_url());
 		if($e == '' || $e == 'main')
 		{
@@ -361,12 +361,12 @@ class Admin
 	{
 		if( !$this->core->users_global->isSuperAdmin()	|| !$this->hubby_admin->adminAccess('system','gestset',$this->core->users_global->current('PRIVILEGE')))
 		{
-			$this->data['setting_notice_3']	=	new Notice;
+			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 			$this->load->library('form_validation');
 			$this->load->helper('date');
 			if($this->input->post('newName'))
 			{
-				$this->form_validation->set_rules('newName','"Du nom du site"','required|min_length[4]|max_length[15]|alpha_dash');
+				$this->form_validation->set_rules('newName','"Du nom du site"','required|min_length[4]|max_length[15]');
 				if($this->form_validation->run())
 				{
 					if($this->core->hubby_admin->editSiteName($this->input->post('newName')))
@@ -432,7 +432,7 @@ class Admin
 				{
 					$this->core->hubby_admin->editShowMessage($this->input->post('show_welcome_msg'));
 				}
-				$this->data['setting_notice_3']->push_notice(notice('done'));
+				$this->core->notice->push_notice(notice('done'));
 			}
 			$this->data['options']	=	$this->core->hubby->getOptions();
 			$this->core->hubby->setTitle('Param&ecirc;tres - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
@@ -447,17 +447,30 @@ class Admin
 			return;
 		}
 	}
-	public function themes($e	=	'main', $a	= null)
+	public function themes($e	=	'main', $a	= 1)
 	{
 		if($this->core->users_global->isSuperAdmin()	|| $this->hubby_admin->adminAccess('system','gestheme',$this->core->users_global->current('PRIVILEGE')))
 		{
+			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 			if($e == 'main')
 			{
+				$page	=	$a;
 				$this->data['options']	=	$this->core->hubby->getOptions();
 				$this->core->hubby->setTitle('Gestion des th&egrave;mes - Hubby');
 				$this->data['ttThemes']	=	$this->core->hubby_admin->countThemes();
-				$this->data['Themes']	=	$this->core->hubby_admin->getThemes(0,$this->data['ttThemes']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
-				$this->data['body']	=	$this->load->view('admin/themes/main',$this->data,true);
+				$this->data['paginate']	=	$this->core->hubby->paginate(
+					10,
+					$this->data['ttThemes'],
+					1,
+					"bg-color-blue fg-color-white",
+					"bg-color-white fg-color-blue",
+					$page,
+					$this->core->url->site_url(array('admin','modules','main')).'/'
+				); // Pagination
+				
+				$this->data['Themes']	=	$this->core->hubby_admin->getThemes($this->data['paginate'][1],$this->data['paginate'][2]);
+				$this->data['lmenu']	=	$this->load->view('admin/left_menu',$this->data,true);
+				$this->data['body']		=	$this->load->view('admin/themes/main',$this->data,true);
 				
 				$this->load->view('admin/header',$this->data);
 				$this->load->view('admin/global_body',$this->data);
@@ -577,6 +590,7 @@ class Admin
 	{
 		if($this->core->users_global->isSuperAdmin()	|| $this->hubby_admin->adminAccess('system','gestapp',$this->core->users_global->current('PRIVILEGE')))
 		{
+			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 			if(isset($_FILES['installer_file']))
 			{
 				$this->data['installer_file']	=	$this->core->hubby_admin->hubby_installer('installer_file');
@@ -597,12 +611,13 @@ class Admin
 	public function system($option	=	'index',$option_2 = 1)
 	{
 		// Is Super Admin ?
+		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 		(!$this->core->users_global->isSuperAdmin()) ? $this->core->url->redirect(array('admin','menu?notice=accessDenied')) : null;
 		// Proceed
 		if($option	==	'index')
 		{
 			$this->data['pageTitle']	=	'Syst&ecirc;me et restauration';
-			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/system_left_menu',$this->data,true);
+			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/system/body',$this->data,true);
 			
 			$this->load->view('admin/header',$this->data);
@@ -641,7 +656,7 @@ class Admin
 			}
 			$this->data['getPrivs']		=	$this->core->hubby_admin->getPrivileges();
 			$this->data['pageTitle']	=	'Gestion des administrateurs';
-			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/system_left_menu',$this->data,true);
+			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/system/createAdmin',$this->data,true);
 			
 			$this->load->view('admin/header',$this->data);
@@ -675,7 +690,7 @@ class Admin
 			$this->core->session->set_userdata('privId',$this->core->hubby_admin->getPrivId());
 			$this->data['privId']		=	$this->core->session->userdata('privId');
 			$this->data['pageTitle']	=	'Cr&eacute;er un privil&egrave;ge';
-			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/system_left_menu',$this->data,true);
+			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/system/create_privilege',$this->data,true);
 			
 			$this->load->view('admin/header',$this->data);
@@ -711,7 +726,7 @@ class Admin
 				$this->core->url->redirect(array('error','code','privilegeNotFound'));
 			}
 			$this->data['pageTitle']	=	'Modifier un privil&egrave;ge';
-			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/system_left_menu',$this->data,true);
+			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/system/edit_privilege',$this->data,true);
 			
 			$this->load->view('admin/header',$this->data);
@@ -724,15 +739,13 @@ class Admin
 			{
 				$this->core->url->redirect(array('admin','system','create_privilege?notice=mustCreatePrivilege'));
 			}
-			$this->core->file->js_push('accordion');
-			$this->core->file->js_push('dialog');
 			$this->data['ttPrivileges']	=	$this->core->hubby_admin->countPrivileges();
 			$this->data['getPrivileges']=	$this->core->hubby_admin->getPrivileges();
 			$this->data['ttModules']	=	count($this->core->hubby_admin->get_modules());
 			$this->data['paginate']		=	$this->core->hubby->paginate(10,$this->data['ttModules'],1,'bg-color-red fg-color-white','',$option_2,$this->core->url->site_url(array('admin','system','manage_actions')).'/');
 			$this->data['getModules']	=	$this->core->hubby_admin->get_modules($this->data['paginate'][1],$this->data['paginate'][2]);
 			$this->data['pageTitle']	=	'Gestionnaire d\'actions';
-			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/system_left_menu',$this->data,true);
+			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/system/privileges_and_actions',$this->data,true);
 			
 			$this->load->view('admin/header',$this->data);
@@ -776,7 +789,7 @@ class Admin
 			$this->data['paginate']		=	$this->core->hubby->paginate(10,$this->data['ttPrivileges'],1,'bg-color-red fg-color-white','',$option_2,$this->core->url->site_url(array('admin','system','privilege_list')).'/');
 			$this->data['getPriv']		=	$this->core->hubby_admin->getPrivileges($this->data['paginate'][1],$this->data['paginate'][2]);
 			$this->data['pageTitle']	=	'Privil&egrave;ges et actions';
-			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/system_left_menu',$this->data,true);
+			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/system/privilege_list',$this->data,true);
 			
 			$this->load->view('admin/header',$this->data);
@@ -831,7 +844,7 @@ class Admin
 			$this->data['getPrivs']		=	$this->core->hubby_admin->getPrivileges();
 			$this->data['adminInfo']	=	$this->core->users_global->getSpeAdminByPseudo($option_2);
 			$this->data['pageTitle']	=	'Profil administrateur - '.$this->data['adminInfo']['PSEUDO'];
-			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/system_left_menu',$this->data,true);
+			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/system/editAdmin',$this->data,true);
 			
 			$this->load->view('admin/header',$this->data);
@@ -855,7 +868,7 @@ class Admin
 					}
 				}
 				$this->data['pageTitle']	=	'Restauration souple du syst&egrave;me';
-				$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/system_left_menu',$this->data,true);
+				$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 				$this->data['body']	=	$this->load->view('admin/system/restore_soft',$this->data,true);
 				
 				$this->load->view('admin/header',$this->data);
@@ -868,7 +881,7 @@ class Admin
 				{
 				}
 				$this->data['pageTitle']	=	'Restauration brutale du syst&egrave;me';
-				$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/system_left_menu',$this->data,true);
+				$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 				$this->data['body']	=	$this->load->view('admin/system/restore_hard',$this->data,true);
 				
 				$this->load->view('admin/header',$this->data);
@@ -884,7 +897,7 @@ class Admin
 			$this->data['subadmin']		=	$this->core->users_global->getAdmin($this->data['paginate'][1],$this->data['paginate'][2]);
 			
 			$this->data['pageTitle']	=	'Gestion des administrateurs';
-			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/system_left_menu',$this->data,true);
+			$this->core->hubby->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/system/adminList',$this->data,true);
 			
 			$this->load->view('admin/header',$this->data);

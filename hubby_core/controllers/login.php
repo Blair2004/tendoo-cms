@@ -38,16 +38,11 @@ Class login
 	}
 	private function loadOuputFile()
 	{
-		$this->core->file->css_push('modern');
-		$this->core->file->css_push('modern-responsive');
-		$this->core->file->css_push('hubby_default');
-		$this->core->file->css_push('ub.framework');
+		$this->core->file->css_push('app.v2');
+		$this->core->file->css_push('css1');
+		$this->core->file->css_push('css2');
+		$this->core->file->css_push('font');
 		$this->core->file->css_push('hubby_global');
-
-		$this->core->file->js_push('jquery');
-		$this->core->file->js_push('dropdown');
-		$this->core->file->js_push('hubby_app');
-		$this->core->file->js_push('resizer');
 	}
 	// Index
 	public function index()
@@ -56,8 +51,7 @@ Class login
 		$this->loadLibraries();
 		$this->construct_end();		
 		// Method
-		$this->core->file->js_push('tile-slider');
-		$this->core->form_validation->set_rules('admin_pseudo','Pseudo','trim|required|min_length[6]|max_length[15]');
+		$this->core->form_validation->set_rules('admin_pseudo','Pseudo','trim|required|min_length[5]|max_length[15]');
 		$this->core->form_validation->set_rules('admin_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
 		if($this->core->form_validation->run())
 		{
@@ -76,16 +70,15 @@ Class login
 			else if($login_status	===	'PseudoOrPasswordWrong')
 			{
 				// Redirection a la page index.
-				$this->core->notice->push_notice(notice('AdminAuthFailed'));
+				$this->core->notice->push_notice(notice('userNotFoundOrWrongPass'));
 			}
 		}
 		$this->data['pageTitle']	=	'Connexion';
 		$this->core->hubby->setTitle($this->data['pageTitle']);
 		
-		$this->data['foot']	=	$this->load->view('login/footer',$this->data,true);
 		$this->data['body']	=	$this->load->view('login/connect',$this->data,true);
 		
-		$this->load->view('login/header',$this->data);
-		$this->load->view('login/global_body',$this->data);	
+		$this->load->view('header',$this->data);
+		$this->load->view('global_body',$this->data);	
 	}
 }

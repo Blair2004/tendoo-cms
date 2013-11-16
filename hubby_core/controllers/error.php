@@ -8,6 +8,15 @@ class error
 		$this->core				=	Controller::instance();
 		$this->core->load->library('file');
 		$this->core->load->library('notice');
+		$this->core->load->library('hubby');
+		if($this->core->hubby->connectToDb()) // On connecte si 
+		{
+			$this->core->load->library('users_global');
+		}
+		else
+		{
+			$this->core->users_global	=	FALSE;
+		}
 		$this->data['notice']	=	'';
 		$this->data['error']	=	'';
 		$this->data['success']	=	'';
@@ -25,9 +34,7 @@ class error
 		$this->core->file->css_push('app.v2');
 		$this->core->file->css_push('css1');
 		$this->core->file->css_push('css2');
-		$this->core->file->css_push('font');
-		$this->core->file->css_push('ub.framework');
-		$this->core->file->css_push('hubby_global');
+		$this->core->file->css_push('font');$this->core->file->css_push('hubby_global');
 		$this->core->load->view('header',$this->data);
 		$this->core->load->view('error/global_body',$this->data);
 	}
