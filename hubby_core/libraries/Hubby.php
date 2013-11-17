@@ -77,6 +77,7 @@ class Hubby
 		  `SITE_NAME` varchar(40) NOT NULL,
 		  `SITE_TYPE` varchar(40) NOT NULL,
 		  `SITE_LOGO` varchar(200) NOT NULL,
+		  `ALLOW_REGISTRATION` int(11) NOT NULL,
 		  `SITE_TIMEZONE` varchar(10) NOT NULL,
 		  `SITE_TIMEFORMAT` varchar(10) NOT NULL,
 		  `SHOW_WELCOME` varchar(10) NOT NULL,
@@ -426,10 +427,6 @@ class Hubby
 			return $data;
 		}
 		return false;
-	}
-	public function isInstall()
-	{
-		return $this->isInstalled;
 	}
 	public function setTitle($e)
 	{

@@ -146,7 +146,7 @@ if(!function_exists('notice'))
 		$array['upload_invalid_filetype']	=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Extension du fichier non autoris&eacute;e</div>';
 		$array['themeControlerFailed']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>L\'interace embarqu&eacute; de ce th&egrave;me n\'est pas correctement d&eacute;finie.</div>';
 		$array['themeControlerNoFound']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Ce th&egrave;me ne dispose pas d\'interface embarqu&eacute;..</div>';
-		
+		$array['registrationNotAllowed']	=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Il impossible de s\'inscrire. L\'inscription &agrave; &eacute;t&eacute; d&eacute;sactiv&eacute;e sur ce site.</div>';
 		
 		
 		

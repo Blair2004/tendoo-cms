@@ -17,7 +17,7 @@ class Admin
 	}
 	private function installStatus()
 	{
-		if(!$this->core->hubby->isInstall())
+		if(!$this->core->hubby->isInstalled())
 		{
 			$this->core->url->redirect('install/step/1');
 		}
@@ -427,12 +427,22 @@ class Admin
 			$this->data['result']	=	'';
 			if($this->input->post('other_setting')) // Setting notice go here.
 			{
-				$this->core->hubby_admin->setDefaultValuesForOtherSetting();
 				if($this->input->post('show_welcome_msg'))
 				{
 					$this->core->hubby_admin->editShowMessage($this->input->post('show_welcome_msg'));
 				}
 				$this->core->notice->push_notice(notice('done'));
+			}
+			if($this->input->post('autoriseRegistration')) // Setting notice go here.
+			{
+				if($this->core->hubby_admin->editRegistration($this->input->post('allowRegistration')))
+				{
+					$this->core->notice->push_notice(notice('done'));
+				}
+				else
+				{
+					$this->core->notice->push_notice(notice('error_occured'));
+				}
 			}
 			$this->data['options']	=	$this->core->hubby->getOptions();
 			$this->core->hubby->setTitle('Param&ecirc;tres - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);

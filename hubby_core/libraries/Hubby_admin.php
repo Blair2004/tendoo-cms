@@ -358,6 +358,18 @@ class hubby_admin
 	{
 		return $this->core->db->update('hubby_options',array('SITE_NAME'=>$e));
 	}
+	public function editRegistration($e)
+	{
+		if(is_numeric($e))
+		{
+			$e =	($e >= 0 && $e <= 1) ? $e : 0;
+		}
+		else
+		{
+			$e	=	0;
+		}
+		return $this->core->db->update('hubby_options',array('ALLOW_REGISTRATION'=>$e));
+	}
 	public function editLogoUrl($e)
 	{
 		return $this->core->db->update('hubby_options',array('SITE_LOGO'=>$e));
@@ -374,12 +386,6 @@ class hubby_admin
 	{
 		$bool	=	is_bool((bool)$e) ? $e : "TRUE";
 		$this->core->db->update('hubby_options',array('SHOW_WELCOME'=>$bool));
-	}
-	public function setDefaultValuesForOtherSetting()
-	{
-		return $this->core->db->update('hubby_options',
-			array('SHOW_WELCOME'=>'FALSE')
-		);
 	}
 	// New methods
 	private $appAllowedType					=	array('MODULE','THEME');

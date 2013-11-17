@@ -19,7 +19,7 @@
 						if($this->core->users_global->isAdmin())
 						{
 							?>
-						<a href="<?php echo $this->core->url->site_url(array('account'));?>" class="list-group-item"> <i class="icon-chevron-right"></i> <i class="icon-dashboard"></i> Espace administration </a> 
+						<a href="<?php echo $this->core->url->site_url(array('admin'));?>" class="list-group-item"> <i class="icon-chevron-right"></i> <i class="icon-dashboard"></i> Espace administration </a> 
 							<?php					
 						}
 					}

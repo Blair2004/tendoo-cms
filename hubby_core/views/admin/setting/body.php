@@ -132,6 +132,38 @@
                                             </div>
                                             <input name="other_setting" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
                                         </form>
+                                        <form method="post" class="panel-body">
+                                            <div class="form-group">
+                                                <label class="label-control">Autoriser les inscription</label>
+                                                <select name="allowRegistration" class="form-control">
+                                                	<option value="">Choisir...</option>
+                                                    <?php
+													if($options[0]['ALLOW_REGISTRATION'] == 0)
+													{
+														?>
+                                                    <option value="1">Oui</option>
+                                                    <option selected="selected" value="0">Non</option>
+                                                        <?php
+													}
+													else if($options[0]['ALLOW_REGISTRATION'] == 1)
+													{
+														?>
+                                                    <option selected="selected" value="1">Oui</option>
+                                                    <option value="0">Non</option>
+                                                        <?php
+													}
+													else
+													{
+														?>
+                                                    <option value="1">Oui</option>
+                                                    <option value="0">Non</option>
+                                                        <?php
+													}
+													?>
+                                                </select>
+                                            </div>
+                                            <input name="autoriseRegistration" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

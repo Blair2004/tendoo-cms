@@ -50,6 +50,7 @@ Class login
 		// Library
 		$this->loadLibraries();
 		$this->construct_end();		
+		$this->data['options']		=	$this->core->hubby->getOptions();
 		// Method
 		$this->core->form_validation->set_rules('admin_pseudo','Pseudo','trim|required|min_length[5]|max_length[15]');
 		$this->core->form_validation->set_rules('admin_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
