@@ -73,6 +73,11 @@ Class registration
 				$this->core->input->post('user_mail'),
 				$active	=	'FALSE'
 			);
+			if($query	==	'adminCreated')
+			{
+				$this->core->url->redirect(array('login?notice=adminCreated'));
+			}
+			$this->core->notice->push_notice(notice($query));
 		}
 		$this->data['pageTitle']	=	'Cr&eacute;er un compte - '.$this->data['options'][0]['SITE_NAME'];
 		$this->core->hubby->setTitle($this->data['pageTitle']);

@@ -19,7 +19,7 @@
                     <div class="row">
                     	<div class="col-lg-8">
                         	<header class="panel-heading text-center">
-                                Cr&eacute;er un contr&ocirc;leur
+                                Cr&eacute;er un utilisateur
                             </header>
                         	<section class="panel">
                                 <form method="post" class="panel-body">
@@ -47,6 +47,7 @@
                                         	<label class="label-control">Choisir un privil&egrave;ge</label>
                                             <select name="admin_privilege" class="form-control">
                                                 <option class="form-control" value="">Choisir un privil&egrave;ge</option>
+                                                <option value="RELPIMSUSE">Utilisateur</option>
                                                 <?php
 												foreach($getPrivs as $p)
 												{

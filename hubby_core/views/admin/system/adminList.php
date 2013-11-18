@@ -25,6 +25,7 @@
                                     <td width="300">pseudo</td>
                                     <td>Status</td>
                                     <td>Privil&egrave;ge</td>
+                                    <td>Email</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,13 +36,18 @@
 								{
 									foreach($subadmin as $s)
 									{
-										$priv	=	$this->core->hubby_admin->getPrivileges($s['PRIVILEGE'])
+										$priv	=	$this->core->hubby_admin->getPrivileges($s['PRIVILEGE']);
+										if(!$priv)
+										{
+											$priv[0]['HUMAN_NAME']	=	$this->core->users_global->convertCurrentPrivilege($s['PRIVILEGE']);
+										}
 								?>
                                 <tr>
                                     <td><?php echo $s['ID'];?></td>
                                     <td><a href="<?php echo $this->core->url->site_url(array('admin','system','editAdmin',$s['PSEUDO']));?>"><?php echo $s['PSEUDO'];?></a></td>
                                     <td><?php echo $priv[0]['HUMAN_NAME'];?></td>
-                                    <td><?php echo $s['PRIVILEGE'];?></td>
+                                    <td><?php echo $s['PRIVILEGE']	==	'RELPIMSUSE' ? 'Indisponible' : $s['PRIVILEGE'];?></td>
+                                    <td><?php echo $s['EMAIL'] == '' ? 'Indisponible' : $s['EMAIL'];?></td>
                                 </tr>
                                 <?php
 									}

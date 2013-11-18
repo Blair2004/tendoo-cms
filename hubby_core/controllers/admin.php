@@ -644,14 +644,16 @@ class Admin
 			$this->core->form_validation->set_rules('admin_password_confirm','Confirmation du mot de passe','trim|required|matches[admin_password]');
 			$this->core->form_validation->set_rules('admin_sex','Selection du sexe','trim|min_length[3]|max_length[5]');
 			$this->core->form_validation->set_rules('admin_password_email','Email','trim|valid_email|required');
-			$this->core->form_validation->set_rules('admin_privilege','Choisir privil&egrave;ge','trim|required|min_length[11]|max_length[11]');
+			$this->core->form_validation->set_rules('admin_privilege','Choisir privil&egrave;ge','trim|required|min_length[8]|max_length[11]');
 			if($this->core->form_validation->run())
 			{
 				$creation_status	=	$this->core->users_global->createAdmin(
 					$this->core->input->post('admin_pseudo'),
 					$this->core->input->post('admin_password'),
 					$this->core->input->post('admin_sex'),
-					$this->core->input->post('admin_privilege'));
+					$this->core->input->post('admin_privilege'),
+					$this->core->input->post('admin_password_email')
+				);
 				switch($creation_status)
 				{
 					case 'notAllowedPrivilege'	:
@@ -821,17 +823,12 @@ class Admin
 			if($this->core->input->post('set_admin'))
 			{
 				$this->core->form_validation->set_rules('current_admin','Concernant l\'administrateur en cours','trim|required|min_length[6]');
-				$this->core->form_validation->set_rules('edit_priv','Modifier son privil&egrave;ge','trim|required|min_length[11]|max_length[11]');
+				$this->core->form_validation->set_rules('edit_priv','Modifier son privil&egrave;ge','trim|required|min_length[8]|max_length[11]');
+				$this->core->form_validation->set_rules('user_email','Email','trim|required|valid_email');
 				if($this->core->form_validation->run())
 				{
-					if($this->core->users_global->setAdminPrivilege($this->core->input->post('edit_priv'),$this->core->input->post('current_admin')))
-					{
-						$this->core->notice->push_notice(notice('done'));
-					}
-					else
-					{
-						$this->core->notice->push_notice(notice('error_occured'));
-					}
+					$query	=	$this->core->users_global->setAdminPrivilege($this->core->input->post('edit_priv'),$this->core->input->post('current_admin'),$this->core->input->post('user_email'));
+					$this->core->notice->push_notice(notice($query));
 				}
 			}
 			if($this->core->input->post('delete_admin'))

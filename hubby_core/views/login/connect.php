@@ -25,6 +25,7 @@
 						}
 						?>
                     </form>
+                    <?php echo notice_from_url();?>
                     <?php echo form_error('admin_pseudo');?><br />
                     <?php echo form_error('admin_password');?><br />
                     <?php echo $this->core->notice->parse_notice();?> </div>

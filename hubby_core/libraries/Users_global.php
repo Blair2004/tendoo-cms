@@ -73,6 +73,10 @@ Class users_global
 	{
 		if(!$this->userExists($pseudo))
 		{
+			if($this->emailExist($email))
+			{
+				return 'emailUsed';
+			}
 			$array['PSEUDO']	=	strtolower($pseudo);
 			$array['PASSWORD']	=	sha1($password);
 			$array['SEX']		=	($sexe	==	'MASC') ? 'MASC' : 'FEM';
@@ -85,16 +89,21 @@ Class users_global
 		}
 		return 'userExists';	
 	}
-	public function createAdmin($pseudo,$password,$sexe,$privilege= 2,$active	=	'TRUE')
+	public function createAdmin($pseudo,$password,$sexe,$privilege= 2,$email,$active	=	'TRUE')
 	{
 		if(!$this->userExists($pseudo))
 		{
-			if(!$this->isAllowedPrivilege($privilege))
+			if($this->emailExist($email))
+			{
+				return 'emailUsed';
+			}
+			if(!$this->isAllowedPrivilege($privilege) && $privilege	!=	'RELPIMSUSE')
 			{
 				return 'notAllowedPrivilege';
 			}
 			$array['PSEUDO']	=	strtolower($pseudo);
 			$array['PASSWORD']	=	sha1($password);
+			$array['EMAIL']		=	$email;
 			$array['SEX']		=	($sexe	==	'MASC') ? 'MASC' : 'FEM';
 			$array['PRIVILEGE']	=	($privilege == 'NADIMERPUS') ? 'RELPIMSUSE' : $privilege;
 			$array['REG_DATE']	=	$this->hubby->datetime();
@@ -103,6 +112,16 @@ Class users_global
 			return 'adminCreated';
 		}
 		return 'adminCreationFailed';	
+	}
+	public function emailExist($email)
+	{
+		$query	=	$this->db->where('EMAIL',$email)->get('hubby_users');
+		$array	=	$query->result_array();
+		if(count($array) > 0)
+		{
+			return true;
+		}
+		return false;
 	}
 	public function authUser($pseudo,$password)
 	{
@@ -379,17 +398,27 @@ Class users_global
 		}
 		return false;
 	}
-	public function setAdminPrivilege($priv,$pseudo)
+	public function setAdminPrivilege($priv,$pseudo,$email)
 	{
 		if($this->isSuperAdmin())
 		{
-			if($this->isAllowedPrivilege($priv))
+			$current	=	$this->getSpeAdminByPseudo($pseudo);
+			if($this->emailExist($email) && $email	!=	$current['EMAIL'])
 			{
-				return $this->db->where('PSEUDO',strtolower($pseudo))->update('hubby_users',array('PRIVILEGE'=>$priv));
+				return "emailUsed";
 			}
-			return false;
+			if($this->isAllowedPrivilege($priv) || $priv 	==	'RELPIMSUSE')
+			{
+				if($this->db->where('PSEUDO',strtolower($pseudo))->update('hubby_users',
+					array('EMAIL'	=>	$email,'PRIVILEGE'=>$priv)
+				))
+				{
+					return 'done';
+				}
+			}
+			return 'unallowedPrivilege';
 		}
-		return false;
+		return 'notAllowed';
 	}
 	public function setUserElement($element, $value)
 	{
@@ -572,5 +601,12 @@ Class users_global
 			return false;
 		}
 		return false;
+	}
+	public function convertCurrentPrivilege($priv)
+	{
+		switch($priv)
+		{
+			case 'RELPIMSUSE' : return 'Utilisateur';break;
+		}
 	}
 }

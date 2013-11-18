@@ -21,12 +21,22 @@
                         <div class="wrapper w-f">
                             <form method="post" class="class-body">
                                 <div class="form-group">
-                                	<label class="label-control">Nom de l'administrateur</label>
+                                	<label class="label-control">Pseudo de l'utilisateur</label>
                                     <input type="text" class="form-control" disabled="disabled" value="<?php echo $adminInfo['PSEUDO'];?>" />
+                                </div>
+                                <div class="form-group">
+                                	<label class="label-control">Email</label>
+                                    <input placeholder="Entrer l'email" type="text" class="form-control" name="user_email" value="<?php echo $adminInfo['EMAIL'];?>" />
                                 </div>
                                 <div class="form-group">
                                     <select name="edit_priv" class="form-control">
                                         <option value="">Modifier son privil&egrave;ge</option>
+                                        <option value="RELPIMSUSE" <?php
+										if($adminInfo['PRIVILEGE'] == 'RELPIMSUSE')
+										{
+											?> selected="selected"<?php
+										}
+                                        ?>>Utilisateur</option>
                                         <?php
 											foreach($getPrivs as $p)
 											{

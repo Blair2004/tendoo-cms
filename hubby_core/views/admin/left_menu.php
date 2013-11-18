@@ -29,8 +29,8 @@
                     <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-tasks"></i> <span>Syst&egrave;me</span> </a> 
                         <ul class="dropdown-menu">
                         	<li> <a href="<?php echo $this->core->url->site_url('admin/system');?>">A propos du syst&egrave;me</a> </li>
-                            <li><a href="<?php echo $this->core->url->site_url('admin/system/adminMain');?>">Gestion des administrateurs</a></li>
-                            <li><a href="<?php echo $this->core->url->site_url('admin/system/createAdmin');?>">Cr&eacute;er un administrateur</a></li>
+                            <li><a href="<?php echo $this->core->url->site_url('admin/system/adminMain');?>">Gestion des utilisateurs</a></li>
+                            <li><a href="<?php echo $this->core->url->site_url('admin/system/createAdmin');?>">Cr&eacute;er un utilisateur</a></li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/system/privilege_list');?>">Listes des privil&egrave;ges</a> </li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/system/create_privilege');?>">Cr&eacute;er un privil&egrave;ge</a> </li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/system/manage_actions');?>">Gestionnaire d'actions</a> </li>
