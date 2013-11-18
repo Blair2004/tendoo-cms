@@ -21,6 +21,8 @@
 							?>
                         <div class="line line-dashed"></div>
                         <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('registration'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="icon-group text"></i> <span class="text">Cr&eacute;er un nouveau compte</span> <i class="icon-ok text-active"></i></a>
+                        <div class="line line-dashed"></div>
+                        <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('login','recovery'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="icon-share text"></i> <span class="text">R&eacute;cup&eacute;rer un compte</span> <i class="icon-ok text-active"></i></a>
                         <?php
 						}
 						?>

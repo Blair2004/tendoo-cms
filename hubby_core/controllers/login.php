@@ -55,7 +55,7 @@ Class login
 		$this->core->form_validation->set_rules('admin_pseudo','Pseudo','trim|required|min_length[5]|max_length[15]');
 		$this->core->form_validation->set_rules('admin_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
 		if($this->core->form_validation->run())
-		{
+		{			
 			$login_status	=	$this->core->users_global->authUser($this->core->input->post('admin_pseudo'),$this->core->input->post('admin_password'));
 			if($login_status ===	'userLoggedIn')
 			{
@@ -73,6 +73,10 @@ Class login
 				// Redirection a la page index.
 				$this->core->notice->push_notice(notice('userNotFoundOrWrongPass'));
 			}
+			else
+			{
+				$this->core->notice->push_notice(notice($login_status));
+			}
 		}
 		$this->data['pageTitle']	=	'Connexion';
 		$this->core->hubby->setTitle($this->data['pageTitle']);
@@ -81,5 +85,50 @@ Class login
 		
 		$this->load->view('header',$this->data);
 		$this->load->view('global_body',$this->data);	
+	}
+	public function recovery($action	=	'home')
+	{
+		// Library
+		$this->loadLibraries();
+		$this->construct_end();		
+		$this->data['options']		=	$this->core->hubby->getOptions();
+		// Method
+		if($action == 'home')
+		{
+			$this->data['pageTitle']	=	'Syst&egrave;me de r&eacute;cup&eacute;ration de compte';
+			$this->core->hubby->setTitle($this->data['pageTitle']);
+			$this->data['menu']	=	$this->load->view('login/recovery_menu',$this->data,true);
+			$this->data['body']	=	$this->load->view('login/recovery_main',$this->data,true);
+			
+			$this->load->view('header',$this->data);
+			$this->load->view('global_body',$this->data);	
+		}
+		else if($action == 'receiveValidation')
+		{
+			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_rules('email_valid','Email','trim|required|valid_email');
+			if($this->core->form_validation->run())
+			{
+				$query	=	$this->core->users_global->sendValidationMail($this->core->input->post('email_valid'));
+				$this->core->notice->push_notice(notice($query));
+			}
+			$this->data['pageTitle']	=	'Recevoir le mail d\'activation';
+			$this->core->hubby->setTitle($this->data['pageTitle']);
+			$this->data['menu']	=	$this->load->view('login/recovery_menu',$this->data,true);
+			$this->data['body']	=	$this->load->view('login/recovery_mailOption',$this->data,true);
+			
+			$this->load->view('header',$this->data);
+			$this->load->view('global_body',$this->data);
+		}
+		else if($action == 'password_lost')
+		{
+			$this->data['pageTitle']	=	'Mot de passe perdu';
+			$this->core->hubby->setTitle($this->data['pageTitle']);
+			$this->data['menu']	=	$this->load->view('login/recovery_menu',$this->data,true);
+			$this->data['body']	=	$this->load->view('login/recovery_password',$this->data,true);
+			
+			$this->load->view('header',$this->data);
+			$this->load->view('global_body',$this->data);
+		}
 	}
 }

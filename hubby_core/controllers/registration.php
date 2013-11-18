@@ -13,6 +13,7 @@ Class registration
 		$this->core			=	Controller::instance();
 		$this->core->load->library('hubby');
 		$this->core->load->library('users_global');
+		$this->core->load->library('captcha');
 		$this->user_global	=&	$this->core->users_global;
 		$this->load			=&	$this->core->load;
 	}
@@ -64,6 +65,8 @@ Class registration
 		$this->core->form_validation->set_rules('user_password_confirm','Confirmer le mot de passe','trim|required|min_length[6]|max_length[15]');
 		$this->core->form_validation->set_rules('user_mail','Email','trim|valid_email|required');
 		$this->core->form_validation->set_rules('user_sex','Selection du sexe','trim|required|min_length[3]|max_length[4]');
+		$this->core->form_validation->set_rules('captchaCorrespondance','Code captcha','trim|required|min_length[6]');
+		$this->core->form_validation->set_rules('user_captcha',' ','matches[captchaCorrespondance]|trim|required|min_length[6]');
 		if($this->core->form_validation->run())
 		{
 			$query	=	$this->core->users_global->createUser(
@@ -79,6 +82,8 @@ Class registration
 			}
 			$this->core->notice->push_notice(notice($query));
 		}
+		$this->core->session->set_userdata('captcha_code',$this->core->captcha->get());
+		$this->data['captcha']	=	$this->core->session->userdata('captcha_code');
 		$this->data['pageTitle']	=	'Cr&eacute;er un compte - '.$this->data['options'][0]['SITE_NAME'];
 		$this->core->hubby->setTitle($this->data['pageTitle']);
 		

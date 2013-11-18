@@ -85,6 +85,7 @@ Class users_global
 			$array['REG_DATE']	=	$this->hubby->datetime();
 			$array['ACTIVE']	=	$active;
 			$this->db->insert('hubby_users',$array);
+			$this->sendValidationMail($array['EMAIL']);
 			return 'userCreated';
 		}
 		return 'userExists';	
@@ -119,7 +120,7 @@ Class users_global
 		$array	=	$query->result_array();
 		if(count($array) > 0)
 		{
-			return true;
+			return $array[0];
 		}
 		return false;
 	}
@@ -154,7 +155,40 @@ Class users_global
 			}
 		}
 		return 'PseudoOrPasswordWrong';
-	}	
+	}
+	public function sendValidationMail($email)
+	{
+		$user	=	$this->emailExist($email);
+		$option	=	$this->core->hubby->getOptions();
+		if($user)
+		{
+			if($user['PRIVILEGE']	==	'NADIMERPUS')
+			{
+				return 'actionProhibited';
+			}
+			if($user['ACTIVE']		== 'TRUE')
+			{
+				return 'alreadyActive';
+			}
+			function content()
+			{
+				?>
+                <div><h3>We do send mail</h3></div>
+                <?php
+			}
+			$this->core->load->library('email');
+			$this->email	=&	$this->core->email;
+			$this->email->from('your@example.com', $option['SITE_NAME']);
+			$this->email->to($user['EMAIL']); 
+			
+			$this->email->subject($option['SITE_NAME'].' - Activer votre compte');
+			$this->email->message(content());	
+			
+			$this->email->send();
+			return 'accountActivated';
+		}
+		return 'unknowEmail';
+	}
 	public function isConnected()
 	{
 		return $this->connection_status;

@@ -8,6 +8,7 @@
 			;
 			$field_4	=	(form_error('user_mail')) ? form_error('user_mail') : '';
 			$field_5	=	(form_error('user_sex')) ? form_error('user_sex') : '';
+			$field_6	=	(form_error('user_captcha')) ? form_error('user_captcha') : '';
 			;
 			?>
             	<?php echo $this->core->notice->parse_notice();?>
@@ -37,6 +38,12 @@
                                 <option value="MASC">Masculin</option>
                                 <option value="FEM">Feminin</option>
                             </select>
+                        </div>
+                        <div class="form-group text">
+                        	<img src="<?php echo $captcha['DIRECTORY'];?>" class="form-control" style="height:150px;" />
+                            <input type="hidden" value="<?php echo $captcha['CODE'];?>" name="captchaCorrespondance" />
+                        	<label class="control-label">Entrer le code pr&eacute;cedent dans le champ suivant <?php echo $field_6;?></label>
+                            <input type="text" name="user_captcha" class="form-control" placeholder="Code captcha" />
                         </div>
                         <div class="line line-dashed"></div>
                         <input class="btn btn-info" type="submit" value="Cr&eacute;er" />
