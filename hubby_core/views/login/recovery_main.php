@@ -1,7 +1,7 @@
 <?php echo $menu;?>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6 col-lg-offset-3">
                 <section class="panel">
                     <header class="panel-heading">D&eacute;tails sur le syst&egrave;me de r&eacute;cup&eacute;ration de compte</header>
                     <section class="chat-list panel-body">
@@ -10,7 +10,9 @@
                         	<li>Le compte n'est pas encore actif</li>
                             <li>Le mot de passe à été oublié</li>
                         </ul>
-                        <p>Utilisez l'option "Recevoir mail d'activation" lorsque votre compte n'a pas re&ccedil;u le mail d'activation qu'il devait recevoir, et l'option "Mot de passe oubli&eacute;" lorsque vous ne vous rappellez plus du mot de passe de votre compte.</p>
+                        <p>Utilisez l'option "Recevoir mail d'activation" lorsque vous n'avez jamais été connecté &agrave; votre compte et n'avez pas re&ccedil;u le mail d'activation dans la boite email avec laquelle vous vous &ecirc;tes inscrit, et l'option "Mot de passe oubli&eacute;" lorsque vous ne vous rappellez plus du mot de passe de votre compte.</p>
+                        <br />
+                        <div class="line line-dashed"></div>
                         <a href="<?php echo $this->core->url->site_url(array('login','recovery','password_lost'));?>" class="btn btn-primary">Mot de passe oubli&eacute;</a>
                         <a href="<?php echo $this->core->url->site_url(array('login','recovery','receiveValidation'));?>" class="btn btn-info">Recevoir mail d'activation</a>
                     </section>
