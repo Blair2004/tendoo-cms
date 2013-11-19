@@ -172,16 +172,20 @@ Class users_global
 			}
 			function content()
 			{
-				?>
-                <div><h3>We do send mail</h3></div>
-                <?php
+				return '
+				<div>
+					<h3>Votre compte &agrave; &eacute;t&eacute; cr&eacute;e.</h3>
+					<p>Activez votre compte en cliquant sur le lien suivant :</p>
+					<a href="'.$this->core->url->site_url(array('login','activate',$user['EMAIL'],$this->core->hubby->timestamp() + 172800),$user['PASSWORD']).'">Activer votre compte</a>
+				</div>
+				';
 			}
 			$this->core->load->library('email');
 			$this->email	=&	$this->core->email;
-			$this->email->from('your@example.com', $option['SITE_NAME']);
+			$this->email->from('noreply@'.$_SERVER['HTTP_HOST'], $option[0]['SITE_NAME']);
 			$this->email->to($user['EMAIL']); 
 			
-			$this->email->subject($option['SITE_NAME'].' - Activer votre compte');
+			$this->email->subject($option[0]['SITE_NAME'].' - Activer votre compte');
 			$this->email->message(content());	
 			
 			$this->email->send();
