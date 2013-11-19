@@ -154,6 +154,7 @@ if(!function_exists('notice'))
 		$array['alreadyActive']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Impossible d\'envoyer le mail d\'activation car le compte attach&eacute; &agrave; cette adresse mail est d&eacute;j&agrave; actif.</div>';
 		$array['actionProhibited']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Il vous est interdit d\'effectuer cette op&eacute;ration.</div>';
 		$array['unknowEmail']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Aucun compte n\'est attach&eacute; &agrave; cette adresse mail.</div>';
+		$array['validationSended']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Un mail d\'activation &agrave; &eacute;t&eacute; envoy&eacute; &agrave; cette addresse.</div>';
 		
 		
 		

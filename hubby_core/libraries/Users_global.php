@@ -171,11 +171,12 @@ Class users_global
 				return 'alreadyActive';
 			}
 			$mail	=	 '
-			Votre compte à été correctement crée.
-				Activez votre compte en cliquant sur le lien suivant :
-				'.$this->core->url->site_url(array('login','activate',$user['EMAIL'],$this->core->hubby->timestamp() + 172800,$user['PASSWORD'])).'
-			
-			Ce mail à été envoyé à l\'occassion d\'une inscription sur le site '.$this->core->url->main_url().'. Si vous pensez qu\'il s\'agit d\'une erreur, vous pouvez supprimer votre adresse mail de notre base de donnée en cliquant sur le lien suivant : '.$this->core->url->site_url(array('login','remove',$user['EMAIL'],$this->core->hubby->timestamp() + 172800)).'
+Votre compte à été correctement crée.
+
+Activez votre compte en cliquant sur le lien suivant :
+'.$this->core->url->site_url(array('login','activate',$user['EMAIL'],$this->core->hubby->timestamp() + 172800,$user['PASSWORD'])).'
+
+Ce mail à été envoyé à l\'occassion d\'une inscription sur le site '.$this->core->url->main_url().'. Si vous pensez qu\'il s\'agit d\'une erreur, vous pouvez supprimer votre adresse mail de notre base de donnée en cliquant sur le lien suivant : '.$this->core->url->site_url(array('login','remove',$user['EMAIL'],$this->core->hubby->timestamp() + 172800)).'
 			';
 			$this->core->load->library('email');
 			$this->email	=&	$this->core->email;
@@ -186,7 +187,7 @@ Class users_global
 			$this->email->message($mail);	
 			
 			$this->email->send();
-			return 'accountActivated';
+			return 'validationSended';
 		}
 		return 'unknowEmail';
 	}

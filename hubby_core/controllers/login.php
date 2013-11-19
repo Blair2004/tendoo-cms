@@ -110,6 +110,10 @@ Class login
 			if($this->core->form_validation->run())
 			{
 				$query	=	$this->core->users_global->sendValidationMail($this->core->input->post('email_valid'));
+				if($query	==	'validationSended')
+				{
+					$this->core->url->redirect(array('login?notice='.$query)); // redirect to login
+				}
 				$this->core->notice->push_notice(notice($query));
 			}
 			$this->data['pageTitle']	=	'Recevoir le mail d\'activation';
