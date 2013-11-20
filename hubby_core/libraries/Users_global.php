@@ -171,7 +171,7 @@ Class users_global
 				return 'alreadyActive';
 			}
 			$mail	=	 '
-<h4>Votre compte à été correctement crée</h4>.<br>
+<h4>Votre compte à été correctement crée.</h4>
 
 Activez votre compte en cliquant sur le lien suivant :
 <a href="'.$this->core->url->site_url(array('login','activate',$user['EMAIL'],$this->core->hubby->timestamp() + 172800,$user['PASSWORD'])).'">Activer votre compte '.$user['PSEUDO'].'</a>.<br>
@@ -209,7 +209,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 				return 'actionProhibited';
 			}
 			$mail	=	 '
-<h4>Syst&egrave;me de r&eacute;cup&eacute;ration de mot de passe</h4>.<br>
+<h4>Syst&egrave;me de r&eacute;cup&eacute;ration de mot de passe.</h4>
 
 Changer votre mot de passe en acc&egrave;dant &agrave; cette adresse :
 <a href="'.$this->core->url->site_url(array('login','passchange',$user['EMAIL'],$this->core->hubby->timestamp() + 172800,$user['PASSWORD'])).'">Changer le mot de passe</a>.<br>
