@@ -129,6 +129,17 @@ Class login
 		}
 		else if($action == 'password_lost')
 		{
+			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_rules('email_valid','Email','trim|required|valid_email');
+			if($this->core->form_validation->run())
+			{
+				$query	=	$this->core->users_global->sendPassChanger($this->core->input->post('email_valid'));
+				if($query	==	'validationSended')
+				{
+					$this->core->url->redirect(array('login?notice='.$query)); // redirect to login
+				}
+				$this->core->notice->push_notice(notice($query));
+			}
 			$this->data['pageTitle']	=	'Mot de passe perdu';
 			$this->core->hubby->setTitle($this->data['pageTitle']);
 			$this->data['menu']	=	$this->load->view('login/recovery_menu',$this->data,true);
