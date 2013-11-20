@@ -138,5 +138,85 @@ Class login
 			$this->load->view('global_body',$this->data);
 		}
 	}
+	public function activate($email,$timestamp,$password)
+	{
+		if($timestamp	> $this->core->hubby->timestamp())
+		{
+			if($this->user_global->emailExist($email))
+			{
+				$connect	=	$this->user_global->emailConnect($email,$password);
+				if($connect)
+				{
+					if($this->core->users_global->activateUser($id))
+					{
+						$this->core->url->redirect(array('login?notice=accountActivationDone'));
+					}
+					else
+					{
+						$this->core->url->redirect(array('login?notice=accountActivationFailed'));
+					}					
+				}
+				else
+				{
+					$this->core->url->redirect(array('error','code','activationFailed'));
+				}
+			}
+			else
+			{
+				$this->core->url->redirect(array('error','code','unknowEmail'));
+			}
+		}
+		else
+		{
+			$this->core->url->redirect(array('error','code','timeStampExhausted'));
+		}
+	}
+	public function passchange($email,$timestamp,$password)
+	{
+		if($timestamp	> $this->core->hubby->timestamp())
+		{
+			if($this->user_global->emailExist($email))
+			{
+				$connect	=	$this->user_global->emailConnect($email,$password);
+				if($connect)
+				{
+					$this->core->load->library('form_validation');
+					$this->core->form_validation->set_rules('password_new','Confirmer le mot de passe','trim|required|min_length[6]|max_length[30]');
+					$this->core->form_validation->set_rules('password_new_confirm','Confirmer le mot de passe','trim|required|matches[password_new]');	
+					if($this->core->form_validation->run())
+					{
+						$query	=	$this->user_global->recoverPassword($connect['ID'],$password,$this->input->post('password_new'));
+						if($query)
+						{
+							$this->core->url->redirect(array('login?notice=activationFailed'));
+						}
+						else
+						{
+							$this->core->notice->push_notice(notice('error_occured'));
+						}
+					}
+					$this->data['pageTitle']	=	'Changer le mot de passe';
+					$this->core->hubby->setTitle($this->data['pageTitle']);
+					$this->data['menu']	=	$this->load->view('login/recovery_menu',$this->data,true);
+					$this->data['body']	=	$this->load->view('login/password_change',$this->data,true);
+					
+					$this->load->view('header',$this->data);
+					$this->load->view('global_body',$this->data);
+				}
+				else
+				{
+					$this->core->url->redirect(array('error','code','activationFailed'));
+				}
+			}
+			else
+			{
+				$this->core->url->redirect(array('error','code','unknowEmail'));
+			}
+		}
+		else
+		{
+			$this->core->url->redirect(array('error','code','timeStampExhausted'));
+		}
+	}
 	
 }
