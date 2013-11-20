@@ -158,6 +158,7 @@ Class users_global
 	}
 	public function sendValidationMail($email)
 	{
+		$option	=	$this->core->hubby->getOptions();
 		$user	=	$this->emailExist($email);
 		if($user)
 		{
