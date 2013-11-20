@@ -2,7 +2,7 @@
 Class login
 {
 	private $core;
-	private $user_global;
+	private $users_global;
 	private $load;
 	public function __construct()
 	{
@@ -142,9 +142,9 @@ Class login
 	{
 		if($timestamp	> $this->core->hubby->timestamp())
 		{
-			if($this->user_global->emailExist($email))
+			if($this->users_globals->emailExist($email))
 			{
-				$connect	=	$this->user_global->emailConnect($email,$password);
+				$connect	=	$this->users_global->emailConnect($email,$password);
 				if($connect)
 				{
 					if($this->core->users_global->activateUser($id))
@@ -175,9 +175,9 @@ Class login
 	{
 		if($timestamp	> $this->core->hubby->timestamp())
 		{
-			if($this->user_global->emailExist($email))
+			if($this->users_globals->emailExist($email))
 			{
-				$connect	=	$this->user_global->emailConnect($email,$password);
+				$connect	=	$this->users_global->emailConnect($email,$password);
 				if($connect)
 				{
 					$this->core->load->library('form_validation');
@@ -185,7 +185,7 @@ Class login
 					$this->core->form_validation->set_rules('password_new_confirm','Confirmer le mot de passe','trim|required|matches[password_new]');	
 					if($this->core->form_validation->run())
 					{
-						$query	=	$this->user_global->recoverPassword($connect['ID'],$password,$this->input->post('password_new'));
+						$query	=	$this->users_global->recoverPassword($connect['ID'],$password,$this->input->post('password_new'));
 						if($query)
 						{
 							$this->core->url->redirect(array('login?notice=activationFailed'));
