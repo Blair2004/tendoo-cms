@@ -1,10 +1,10 @@
 <?php echo $menu;?>
     <div class="container">
+		<?php echo validation_errors();?>
+        <?php echo $this->core->notice->parse_notice();?>
         <div class="row">
             <div class="col-lg-6 col-lg-offset-3">
                 <section class="panel">
-                	<?php echo validation_errors();?>
-                    <?php echo $this->core->notice->parse_notice();?>
                     <header class="panel-heading">Changer votre mot de passe</header>
                     <section class="chat-list panel-body">
                     	<form method="post" class="panel-body">

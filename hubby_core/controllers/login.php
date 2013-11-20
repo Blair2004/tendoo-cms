@@ -205,13 +205,13 @@ Class login
 					if($this->core->form_validation->run())
 					{
 						$query	=	$this->users_global->recoverPassword($connect['ID'],$password,$this->input->post('password_new'));
-						if($query)
+						if($query == 'passwordChanged')
 						{
-							$this->core->url->redirect(array('login?notice=activationFailed'));
+							$this->core->url->redirect(array('login?notice='.$query));
 						}
 						else
 						{
-							$this->core->notice->push_notice(notice('error_occured'));
+							$this->core->notice->push_notice(notice($query));
 						}
 					}
 					$this->data['pageTitle']	=	'Changer le mot de passe';
