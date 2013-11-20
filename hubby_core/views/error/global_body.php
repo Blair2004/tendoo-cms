@@ -27,9 +27,14 @@
 					{
 						?>
             	<a href="<?php echo $this->core->url->site_url(array('login'));?>" class="list-group-item"> <i class="icon-chevron-right"></i> <i class="icon-signin"></i> Connexion </a> 
+                        <?php
+						if($options[0]['ALLOW_REGISTRATION'] == '1')
+						{
+						?>
                 <a href="<?php echo $this->core->url->site_url(array('registration'));?>" class="list-group-item"> <i class="icon-chevron-right"></i> <i class="icon-group"></i> Inscription </a> 
 
                         <?php
+						}
 					}
 				}
 				else if($this->core->users_global === FALSE)

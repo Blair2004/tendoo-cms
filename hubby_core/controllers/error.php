@@ -12,10 +12,12 @@ class error
 		if($this->core->hubby->connectToDb()) // On connecte si 
 		{
 			$this->core->load->library('users_global');
+			$this->data['options']	=	$this->core->hubby->getOptions();
 		}
 		else
 		{
 			$this->core->users_global	=	FALSE;
+			$this->data['options']		=	FALSE;
 		}
 		$this->data['notice']	=	'';
 		$this->data['error']	=	'';

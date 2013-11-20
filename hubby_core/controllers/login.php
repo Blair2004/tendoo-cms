@@ -91,6 +91,10 @@ Class login
 		$this->loadLibraries();
 		$this->construct_end();		
 		$this->data['options']		=	$this->core->hubby->getOptions();
+		if($this->data['options'][0]['ALLOW_REGISTRATION'] == "0")
+		{
+			$this->core->url->redirect(array('error','code','regisAndAssociatedFunLocked'));
+		}
 		// Method
 		if($action == 'home')
 		{

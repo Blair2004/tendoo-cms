@@ -159,7 +159,6 @@ Class users_global
 	public function sendValidationMail($email)
 	{
 		$user	=	$this->emailExist($email);
-		$option	=	$this->core->hubby->getOptions();
 		if($user)
 		{
 			if($user['PRIVILEGE']	==	'NADIMERPUS')
@@ -174,12 +173,19 @@ Class users_global
 Votre compte à été correctement crée.
 
 Activez votre compte en cliquant sur le lien suivant :
-'.$this->core->url->site_url(array('login','activate',$user['EMAIL'],$this->core->hubby->timestamp() + 172800,$user['PASSWORD'])).'
+<a href="'.$this->core->url->site_url(array('login','activate',$user['EMAIL'],$this->core->hubby->timestamp() + 172800,$user['PASSWORD'])).'">Activer votre compte '.$user['PSEUDO'].'</a>
 
-Ce mail à été envoyé à l\'occassion d\'une inscription sur le site '.$this->core->url->main_url().' . Si vous pensez qu\'il s\'agit d\'une erreur, vous pouvez supprimer votre adresse mail de notre base de donnée en cliquant sur le lien suivant : '.$this->core->url->site_url(array('login','remove',$user['EMAIL'],$this->core->hubby->timestamp() + 172800)).'
+Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href="'.$this->core->url->main_url().'">'.$this->core->url->main_url().'</a>.
 			';
+			
 			$this->core->load->library('email');
 			$this->email	=&	$this->core->email;
+			$config = array (
+				'mailtype' => 'html',
+				'charset'  => 'utf-8',
+				'priority' => '1'
+			);
+			$this->email->initialize($config);
 			$this->email->from('noreply@'.$_SERVER['HTTP_HOST'], $option[0]['SITE_NAME']);
 			$this->email->to($user['EMAIL']); 
 			
@@ -188,6 +194,42 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site '.$this-
 			
 			$this->email->send();
 			return 'validationSended';
+		}
+		return 'unknowEmail';
+	}
+	public function sendPassChanger($email)
+	{
+		$user	=	$this->emailExist($email);
+		if($user)
+		{
+			if($user['PRIVILEGE']	==	'NADIMERPUS')
+			{
+				return 'actionProhibited';
+			}
+			$mail	=	 '
+Syst&egrave;me de r&eacute;cup&eacute;ration de mot de passe.
+
+Changer votre mot de passe en acc&egrave;dant &agrave; cette adresse :
+<a href="'.$this->core->url->site_url(array('login','passchange',$user['EMAIL'],$this->core->hubby->timestamp() + 172800,$user['PASSWORD'])).'">Changer le mot de passe</a>
+
+Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de mot de passe. Si vous pensez qu\'il s\'agisse d\'une erreur, nous vous prions de ne point donner de suite &agrave; ce message etant donn&eacute; que l\opération n\'est valide que pour 3h.
+			';
+			$this->core->load->library('email');
+			$this->email	=&	$this->core->email;
+			$config = array (
+				'mailtype' => 'html',
+				'charset'  => 'utf-8',
+				'priority' => '1'
+			);
+			$this->email->initialize($config);
+			$this->email->from('noreply@'.$_SERVER['HTTP_HOST'], $option[0]['SITE_NAME']);
+			$this->email->to($user['EMAIL']); 
+			
+			$this->email->subject($option[0]['SITE_NAME'].' - Changer votre mot de passe');
+			$this->email->message($mail);	
+			
+			$this->email->send();
+			return 'NewLinkSended';
 		}
 		return 'unknowEmail';
 	}

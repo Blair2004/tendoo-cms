@@ -15,7 +15,7 @@
                                 <input name="email_valid" type="text" class="form-control" />
                             </div>
                             <div class="form-group">
-                            	<p>Veuillez entre l'adresse mail du compte pour lequel vous souhaitez recevoir un mail d'activation</p>
+                            	<p>Veuillez entrer l'adresse mail du compte pour lequel vous souhaitez recevoir un mail d'activation. Si ce mail est attribu&eacute; &agrave; un compte alors l'envoi du mail d'activation sera effectu&eacute; sans probl&egrave;me.<br />Les mails d'activations ne sont valide que pour 48h, pass&eacute; ce delai, un autre mail d'activation devra &ecirc;tre envoy&eacute; en suivant la m&ecirc;me proc&eacute;dure.</p>
                             </div>
                             <div class="form-group">
                                 <input type="submit" value="Recevoir le mail d'activation" class="btn btn-primary" />
