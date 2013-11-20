@@ -142,7 +142,7 @@ Class login
 	{
 		if($timestamp	> $this->core->hubby->timestamp())
 		{
-			if($this->users_globals->emailExist($email))
+			if($this->users_global->emailExist($email))
 			{
 				$connect	=	$this->users_global->emailConnect($email,$password);
 				if($connect)
@@ -175,7 +175,7 @@ Class login
 	{
 		if($timestamp	> $this->core->hubby->timestamp())
 		{
-			if($this->users_globals->emailExist($email))
+			if($this->users_global->emailExist($email))
 			{
 				$connect	=	$this->users_global->emailConnect($email,$password);
 				if($connect)
