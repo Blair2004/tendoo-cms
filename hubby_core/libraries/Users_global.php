@@ -136,7 +136,7 @@ Class users_global
 	}
 	public function activateUser($id)
 	{
-		return $this->core->db->where('ID',$id)->update('hubby_users',array('ACTIVE','TRUE'));
+		return $this->core->db->where('ID',$id)->update('hubby_users',array('ACTIVE'=>'TRUE'));
 	}
 	public function authUser($pseudo,$password)
 	{
