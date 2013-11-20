@@ -226,7 +226,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 <h4>Syst&egrave;me de r&eacute;cup&eacute;ration de mot de passe.</h4>
 
 Changer votre mot de passe en acc&egrave;dant &agrave; cette adresse :
-<a href="'.$this->core->url->site_url(array('login','passchange',$user['EMAIL'],$this->core->hubby->timestamp() + 180,$user['PASSWORD'])).'">Changer le mot de passe</a>.<br>
+<a href="'.$this->core->url->site_url(array('login','passchange',$user['EMAIL'],$this->core->hubby->timestamp() + 10800,$user['PASSWORD'])).'">Changer le mot de passe</a>.<br>
 
 Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de mot de passe. Si vous pensez qu\'il s\'agisse d\'une erreur, nous vous prions de ne point donner de suite &agrave; ce message etant donn&eacute; que l\opération n\'est valide que pour 3h.
 			';
