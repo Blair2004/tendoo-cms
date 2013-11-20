@@ -188,6 +188,14 @@ Class login
 		{
 			if($this->users_global->emailExist($email))
 			{
+				// Library
+				$this->loadLibraries();
+				$this->construct_end();		
+				$this->data['options']		=	$this->core->hubby->getOptions();
+				if($this->data['options'][0]['ALLOW_REGISTRATION'] == "0")
+				{
+					$this->core->url->redirect(array('error','code','regisAndAssociatedFunLocked'));
+				}
 				$connect	=	$this->users_global->emailConnect($email,$password);
 				if($connect)
 				{
