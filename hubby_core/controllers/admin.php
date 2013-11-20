@@ -45,12 +45,12 @@ class Admin
 		$this->load->library('pagination');
 		$this->load->library('file');
 		$this->load->library('form_validation');
+		$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 		$this->input				=&	$this->core->input;
 		$this->notice				=&	$this->core->notice;
 		$this->file					=&	$this->core->file;
 		$this->pagination			=&	$this->core->pagination;
 		$this->form_validation		=&	$this->core->form_validation;
-		$this->form_validation->set_error_delimiters('<span class="fg-color-redLight">', '</span>');
 		$this->data['notice']		=	'';
 		$this->data['error']		=	'';
 		$this->data['success']		=	'';
@@ -94,7 +94,7 @@ class Admin
 			if($e == '')
 			{
 				$this->data['get_pages']	=	$this->core->hubby_admin->get_pages();
-				$this->core->hubby->setTitle('Gestion des pages - Panneau de Contr&ocirc;le - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+				$this->core->hubby->setTitle('Gestion des contr&ocirc;leurs');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 				$this->data['body']	=	$this->load->view('admin/pages/body',$this->data,true);
 				
 				$this->load->view('admin/header',$this->data);
@@ -102,7 +102,6 @@ class Admin
 			}
 			else if($e == 'edit' && $f != '')
 			{
-				$this->form_validation->set_error_delimiters('<span style="color:red">', '</span>');
 				$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[30]');
 				$this->form_validation->set_rules('page_cname','Nom du controleur','alpha_dash|trim|required|min_length[2]|max_length[30]');
 				$this->form_validation->set_rules('page_title','Titre du controleur','trim|required|min_length[2]|max_length[50]');
@@ -134,7 +133,7 @@ class Admin
 				{
 					$this->core->url->redirect(array('admin/pages?notice=controller_not_found'));
 				}
-				$this->core->hubby->setTitle('Edition d\'une page - Panneau de Contr&ocirc;le - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+				$this->core->hubby->setTitle('Modifier un contr&ocirc;leur');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 				$this->data['body']	=	$this->load->view('admin/pages/edit_body',$this->data,true);
 				
 				$this->load->view('admin/header',$this->data);
@@ -227,6 +226,7 @@ class Admin
 				return;
 			}
 			$this->load->library('form_validation');
+$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 			$this->form_validation->set_rules('mod_id','','required|trim|alpha_dash|min_length[1]');
 			if($this->form_validation->run())
 			{
@@ -363,6 +363,7 @@ class Admin
 		{
 			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 			$this->load->library('form_validation');
+$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 			$this->load->helper('date');
 			if($this->input->post('newName'))
 			{
@@ -488,6 +489,7 @@ class Admin
 			else if($e == 'manage')
 			{
 				$this->load->library('form_validation');
+$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 				$this->form_validation->set_rules('setDefault','Définir par d&eacute;faut');
 				$this->form_validation->set_rules('theme_id','identifiant du theme','required');
 				if($this->form_validation->run())
@@ -635,10 +637,6 @@ class Admin
 		}
 		else if($option ==  'createAdmin')
 		{
-			if(!$this->core->hubby_admin->hasPriv())
-			{
-				$this->core->url->redirect(array('admin','system','create_privilege?notice=mustCreatePrivilege'));
-			}
 			$this->core->form_validation->set_rules('admin_pseudo','Pseudo','trim|required|min_length[6]|max_length[15]');
 			$this->core->form_validation->set_rules('admin_password','Mot de passe','trim|required|min_length[6]|max_length[30]');
 			$this->core->form_validation->set_rules('admin_password_confirm','Confirmation du mot de passe','trim|required|matches[admin_password]');
@@ -679,6 +677,7 @@ class Admin
 			if(!method_exists($this->core,'form_validation'))
 			{
 				$this->core->load->library('form_validation');
+$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 			}
 			$this->core->form_validation->set_rules('priv_description','Description du privil&egrave;ge','trim|required|min_length[3]|max_length[200]');
 			$this->core->form_validation->set_rules('priv_name','Nom du privil&egrave;ge','trim|required|min_length[3]|max_length[200]');
@@ -713,6 +712,7 @@ class Admin
 			if(!method_exists($this->core,'form_validation'))
 			{
 				$this->core->load->library('form_validation');
+$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 			}
 			$this->core->form_validation->set_rules('priv_description','Description du privil&egrave;ge','trim|required|min_length[3]|max_length[200]');
 			$this->core->form_validation->set_rules('priv_name','Nom du privil&egrave;ge','trim|required|min_length[3]|max_length[200]');
@@ -811,12 +811,7 @@ class Admin
 		else if($option == 'delete_priv')
 		{
 			$this->data['deletion']	=	$this->core->hubby_admin->deletePrivilege($option_2);		
-			if($this->data['deletion'])
-			{
-				$this->core->url->redirect(array('admin','system','privilege_list?notice=done'));
-				return;
-			}
-			$this->core->url->redirect(array('admin','system','privilege_list?notice=error_occured'));			
+			$this->core->url->redirect(array('admin','system','privilege_list?notice='.$this->data['deletion']));			
 		}
 		else if($option	==	'editAdmin')
 		{
@@ -824,7 +819,7 @@ class Admin
 			{
 				$this->core->form_validation->set_rules('current_admin','Concernant l\'administrateur en cours','trim|required|min_length[6]');
 				$this->core->form_validation->set_rules('edit_priv','Modifier son privil&egrave;ge','trim|required|min_length[8]|max_length[11]');
-				$this->core->form_validation->set_rules('user_email','Email','trim|required|valid_email');
+				$this->core->form_validation->set_rules('user_email','Email','trim|valid_email');
 				if($this->core->form_validation->run())
 				{
 					$query	=	$this->core->users_global->setAdminPrivilege($this->core->input->post('edit_priv'),$this->core->input->post('current_admin'),$this->core->input->post('user_email'));

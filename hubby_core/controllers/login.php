@@ -26,12 +26,13 @@ Class login
 		$this->load->library('pagination');
 		$this->load->library('file');
 		$this->load->library('form_validation');
+$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 		$this->input				=&	$this->core->input;
 		$this->notice				=&	$this->core->notice;
 		$this->file					=&	$this->core->file;
 		$this->pagination			=&	$this->core->pagination;
 		$this->form_validation		=&	$this->core->form_validation;
-		$this->form_validation->set_error_delimiters('<span class="fg-color-redLight">', '</span>');
+		$this->core->form_validation->set_error_delimiters('<span class="fg-color-redLight">', '</span>');
 		$this->data['notice']		=	'';
 		$this->data['error']		=	'';
 		$this->data['success']		=	'';
@@ -109,6 +110,7 @@ Class login
 		else if($action == 'receiveValidation')
 		{
 			$this->core->load->library('form_validation');
+$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 			$this->core->form_validation->set_rules('email_valid','Email','trim|required|valid_email');
 			if($this->core->form_validation->run())
 			{
@@ -130,6 +132,7 @@ Class login
 		else if($action == 'password_lost')
 		{
 			$this->core->load->library('form_validation');
+$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 			$this->core->form_validation->set_rules('email_valid','Email','trim|required|valid_email');
 			if($this->core->form_validation->run())
 			{
@@ -200,6 +203,7 @@ Class login
 				if($connect)
 				{
 					$this->core->load->library('form_validation');
+$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 					$this->core->form_validation->set_rules('password_new','Confirmer le mot de passe','trim|required|min_length[6]|max_length[30]');
 					$this->core->form_validation->set_rules('password_new_confirm','Confirmer le mot de passe','trim|required|matches[password_new]');	
 					if($this->core->form_validation->run())

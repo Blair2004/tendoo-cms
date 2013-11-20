@@ -15,6 +15,7 @@
                 <section class="wrapper w-f"> 
 					<?php echo $this->core->notice->parse_notice();?>
                     <?php echo $success;?>
+                    <?php echo notice_from_url();?>
                     <div class="row">
                     	<div class="col-lg-8">
                         	<header class="panel-heading text-center">

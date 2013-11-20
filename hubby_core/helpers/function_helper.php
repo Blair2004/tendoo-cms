@@ -84,7 +84,7 @@ if(!function_exists('notice'))
 		
 		$array['config_2']					=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une erreur fatale s\'est produite durant l\'installation, veuillez re-installer Hubby.</div>';
 		$array['noThemeInstalled']			=	'<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Une erreur s\'est produite durant l\'acc&egrave;s au th&egrave;me. Il est possible qu\'aucun th&egrave;me ne soit install&eacute; ou d&eacute;finit comme th&egrave;me par d&eacute;faut.</div>';
-		$array['mustCreatePrivilege']		=	'<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Il est n&eacute;cessaire de cr&eacute;er des privil&egrave;ges avant de cr&eacute;er des administrateurs.</div>';
+		$array['mustCreatePrivilege']		=	'<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Il est n&eacute;cessaire de cr&eacute;er des privil&egrave;ges avant de g&eacute;rer des administrateurs</div>';
 		$array['controler_created']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement cr&eacute;e.</div>';		
 		$array['c_name_already_found']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une autre page poss&egrave;de d&eacute;j&agrave; ce nom comme contr&ocirc;leur, veuillez choisir un autre nom.</div>';
 		$array['name_already_found']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une autre page poss&egrave;de d&eacute;j&agrave; ce nom, veuillez choisir un autre nom.</div>';
@@ -163,9 +163,8 @@ if(!function_exists('notice'))
 		$array['accountActivationFailed']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> L\'activation du compte &agrave; &eacute;chou&eacute;e.</div>';
 		$array['samePassword']					=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Le nouveau mot de passe ne peut pas &ecirc;re identique &agrave; l\'ancien.</div>';
 		$array['passwordChanged']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Le mot de passe &agrave; &eacute;t&eacute; correctement modifi&eacute;.</div>';
-		
-		
-		
+		$array['upload_no_file_selected']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Aucun fichier n\'a &eacute;t&eacute; envoy&eacute;.</div>';
+		$array['cannotDeleteUsedPrivilege']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Vous ne pouvez pas supprimer un privil&egrave;ge en cours d\'utilisation.</div>';
 		
 		
 		
@@ -243,12 +242,12 @@ if(!function_exists('notice'))
 					}
 					else
 					{
-						return '<span class="hubby_notice"><i class="icon-info"></i> "'.$e.'" constitue une alerte introuvable</span>';
+						return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> "'.$e.'" constitue une alerte introuvable</div>';
 					}
 				}
 				else if($e != '' && strlen($e) <= 50)
 				{
-					return '<span class="hubby_notice"><i class="icon-info"></i> "'.$e.'" constitue une alerte introuvable</span>';
+					return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> "'.$e.'" constitue une alerte introuvable</div>';
 				}
 				else
 				{

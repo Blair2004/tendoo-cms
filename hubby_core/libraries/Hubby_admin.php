@@ -737,9 +737,13 @@ class hubby_admin
 		$query	=	$this->core->db->where('PRIVILEGE',$privid)->get('hubby_users');
 		if(count($query->result_array()) == 0)
 		{
-			return $this->core->db->where('PRIV_ID',$privid)->delete('hubby_admin_privileges');
+			if($this->core->db->where('PRIV_ID',$privid)->delete('hubby_admin_privileges'))
+			{
+				return 'done';
+			}
+			return 'error_occured';
 		}
-		return false;
+		return 'cannotDeleteUsedPrivilege';
 	}
 	public function getPrivId()
 	{
