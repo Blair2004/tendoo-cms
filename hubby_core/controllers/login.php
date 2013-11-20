@@ -147,7 +147,7 @@ Class login
 				$connect	=	$this->users_global->emailConnect($email,$password);
 				if($connect)
 				{
-					if($this->core->users_global->activateUser($id))
+					if($this->core->users_global->activateUser($connect['ID']))
 					{
 						$this->core->url->redirect(array('login?notice=accountActivationDone'));
 					}
