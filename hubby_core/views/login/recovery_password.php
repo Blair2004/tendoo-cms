@@ -1,9 +1,9 @@
 <?php echo $menu;?>
     <div class="container">
+		<?php echo $this->core->notice->parse_notice();?>
         <div class="row">
         	<div class="col-lg-6 col-md-offset-3">
 				<?php echo validation_errors();?>
-	            <?php echo $this->core->notice->parse_notice();?>
             </div>
             <div class="col-lg-6 col-lg-offset-3">
                 <section class="panel">

@@ -161,6 +161,13 @@ if(!function_exists('notice'))
 		$array['activationFailed']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Ce lien n\'est plus valide. La dur&eacute;e de vie de ce lien &agrave; expir&eacute;e.</div>';
 		$array['accountActivationDone']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Le compte est d&eacute;sormais actif.</div>';
 		$array['accountActivationFailed']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> L\'activation du compte &agrave; &eacute;chou&eacute;e.</div>';
+		$array['samePassword']					=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Le nouveau mot de passe ne peut pas &ecirc;re identique &agrave; l\'ancien.</div>';
+		$array['passwordChanged']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Le mot de passe &agrave; &eacute;t&eacute; correctement modifi&eacute;.</div>';
+		
+		
+		
+		
+		
 		
 		
 		

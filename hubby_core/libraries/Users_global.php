@@ -228,7 +228,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 Changer votre mot de passe en acc&egrave;dant &agrave; cette adresse :
 <a href="'.$this->core->url->site_url(array('login','passchange',$user['EMAIL'],$this->core->hubby->timestamp() + 10800,$user['PASSWORD'])).'">Changer le mot de passe</a>.<br>
 
-Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de mot de passe. Si vous pensez qu\'il s\'agisse d\'une erreur, nous vous prions de ne point donner de suite &agrave; ce message etant donn&eacute; que l\opération n\'est valide que pour 3h.
+Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de mot de passe. Si vous pensez qu\'il s\'agisse d\'une erreur, nous vous prions de ne point donner de suite &agrave; ce message etant donn&eacute; que l\'opération n\'est valide que pour 3h.
 			';
 			$this->core->load->library('email');
 			$this->email	=&	$this->core->email;
@@ -535,12 +535,13 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		$user							=	$this->getUser($account);
 		if($user['PASSWORD']	==	$old)
 		{
-			if($this->current('PASSWORD')	==	sha1($old))
+			if($this->db->where('ID',$user['ID'])->update('hubby_users',array('PASSWORD'=>sha1($new))))
 			{
-				return $this->db->where('ID',$user['ID'])->update('hubby_users',array('PASSWORD'=>sha1($new)));
+				return 'passwordChanged';
 			}
+			return 'error_occured';
 		}
-		return false;
+		return 'samePassword';
 	}
 	public function countMessage()
 	{
