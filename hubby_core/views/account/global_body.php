@@ -1,20 +1,42 @@
-    <body class="metrouicss">
-        <div id="header" class="nav-bar" style="background:inherit;">
-            <div class="nav-bar-inner padding10">
-                <span class="element brand">
-                    <img src="<?php echo $this->core->url->img_url("logo_4.png");?>" style="float:left;height:40px;position:relative;top:-10px;">
-                    <?php echo $this->core->hubby->getVersion();?>
-                </span>
-                <span class="element brand" style="float:right;font-size:13px">
-                    Connect&eacute; en tant que <strong><?php echo ucwords($this->core->users_global->current('PSEUDO'));?></strong><span> | <a href="<?php echo $this->core->url->site_url('logoff');?>" style="color:#FC3">D&eacute;connexion</a> </span>
-                </span>
-            </div>
-        </div> 
-        <?php echo $body;?>
-        <div class="" id="footer">
-            <div class="nav-bar-inner padding10" style="margin-right:20px;float:right">
-                <a href="<?php echo $this->core->url->site_url(array('index'));?>"><i class="icon-arrow-right-3" style="font-size:25px;color:white" title="Retour au site"></i></a>
-            </div>
-        </div>
-    </body>
-</html>
+<body>
+<section class="hbox stretch"> <!-- .aside -->
+    <?php echo $left_menu;?>
+    <!-- /.aside --> <!-- .vbox -->
+    <section id="content">
+        <section class="vbox">
+            <section class="scrollable">
+            	<section class="hbox stretch">
+    				<aside class="bg-white">
+                        <section class="vbox">
+                        	<?php echo $body;?>                            
+                        </section>
+                    </aside>
+    				<aside class="aside-lg bg-light lter b-l">
+                        <section class="vbox">
+                            <section class="scrollable">
+                                <div class="wrapper">
+                                    <div class="clearfix m-b"> <a href="#" class="pull-left thumb m-r"> <img src="" class="img-circle"> </a>
+                                        <div class="clear">
+                                            <div class="h3 m-t-xs m-b-xs"><?php echo ucwords($this->core->users_global->current('PSEUDO'));?></div>
+                                                <small class="text-muted"><i class="icon-map-marker"></i> <?php echo $this->core->users_global->current('TOWN');?>, <?php echo $this->core->users_global->current('STATE');?></small> 
+                                            </div>
+                                    </div>
+                                    <div> <small class="text-uc text-xs text-muted">Nom</small>
+                                        <p><?php echo $this->core->users_global->current('NAME');?></p>
+                                        <small class="text-uc text-xs text-muted">Pr&eacute;nom</small>
+                                        <p><?php echo $this->core->users_global->current('SURNAME');?></p>
+                                        <div class="line"></div>
+                                        <small class="text-uc text-xs text-muted">connection</small>
+                                        <p class="m-t-sm"> <a href="#" class="btn btn-rounded btn-twitter btn-icon"><i class="icon-twitter"></i></a> <a href="#" class="btn btn-rounded btn-facebook btn-icon"><i class="icon-facebook"></i></a> <a href="#" class="btn btn-rounded btn-gplus btn-icon"><i class="icon-google-plus"></i></a> </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+				</section>
+            </section>
+        </section>
+        <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="body"></a> </section>
+    <!-- /.vbox --> </section>
+<?php echo $this->core->file_2->js_load();?>
+</body>

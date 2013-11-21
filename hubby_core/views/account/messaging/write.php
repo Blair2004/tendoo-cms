@@ -1,45 +1,34 @@
-<div id="body">
-    <div class="page secondary with-sidebar">
-        <div class="page-header">
-            <div class="page-header-content">
-                <h1>Messagerie<small></small></h1>
-            <a class="back-button big page-back" href="<?php echo $this->core->url->site_url(array('index'));?>"></a></div>
-        </div>
-        <?php echo $lmenu;?>          
-        <div class="page-region">
-            <div class="page-region-content">
-                <div class="body-text">
-                	<div class="grid">
-                    	<div class="row">
-                        	<div class="span12">
-                            	<?php include_once(VIEWS_DIR.'account/messaging/menu.php');?>
-                                <?php echo $this->core->notice->parse_notice();?>
-                                <br />
-                                <br />
-                                <div class="span6">
-                                    <form method="post">
-                                        <div class="input-control text">
-                                            <input type="text" name="receiver" placeholder="Pseudo du correspondant" />
-                                        </div>
-                                        <div class="input-control textarea">
-                                            <textarea name="content" placeholder="Contenu du message"></textarea>
-                                        </div>
-                                        <input type="submit" value="Envoyer" /> <input type="reset" value="Tout effacer" />
-                                    </form>
-                                </div>
-                                <div class="span6">
-        <?php
-        $field_1	=	(form_error('receiver')) ? form_error('receiver') : 'Ce pseudo doit correspondre à l\'un des pseudo valide.';
-        $field_2	=	(form_error('content')) ? form_error('content') : 'Le contenu du message.';
-        ?>
-                                    <p style="padding:7px 0;"><?php echo $field_1; ?></p>
-                                    <p style="padding:7px 0;"><?php echo $field_2; ?></p>
-                                </div>
-							</div>
-						</div>
-					</div>
+<?php echo $smallHeader;?>
+<section class="scrollable bg-light lt">
+    <div class="panel-content">
+        <div class="container scrollable wrapper"> <?php echo $this->core->notice->parse_notice();?>
+            <div class="panel">
+            	<div class="panel-heading">
+                    <div class="btn-group">
+                    <?php include_once(VIEWS_DIR.'account/messaging/menu.php');?>
+                    </div>
+                </div>
+                <form method="post" class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Pseudo du correspondant</label>
+                        <input type="text" class="form-control" name="receiver" placeholder="Pseudo du correspondant" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Contenu du message</label>
+                        <textarea class="form-control" name="content" placeholder="Contenu du message"></textarea>
+                    </div>
+                    <input class="btn btn-sm btn-info" type="submit" value="Envoyer" />
+                    <input class="btn btn-sm btn-danger" type="reset" value="Tout effacer" />
+                </form>
+                <div class="wrapper">
+                    <?php
+$field_1	=	(form_error('receiver')) ? form_error('receiver') : 'Ce pseudo doit correspondre à l\'un des pseudo valide.';
+$field_2	=	(form_error('content')) ? form_error('content') : 'Le contenu du message.';
+?>
+                    <p><?php echo $field_1; ?></p>
+                    <p><?php echo $field_2; ?></p>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>

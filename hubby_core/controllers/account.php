@@ -18,29 +18,33 @@ class Account
 		$this->load->library('file');
 		$this->load->library('users_global');
 		$this->file		=&	$this->core->file;
+		$this->core->file_2	=	new File;
 		// out put files
-		$this->core->file->css_push('modern');
-		$this->core->file->css_push('modern-responsive');
-		$this->core->file->css_push('hubby_default');
+		$this->core->file->css_push('app.v2');
+		$this->core->file->css_push('css1');
+		$this->core->file->css_push('css2');
 		$this->core->file->css_push('hubby_global');
 
-		$this->core->file->js_push('jquery');
-		$this->core->file->js_push('dropdown');
+		$this->core->file->js_push('jquery-1.9');
+		$this->core->file->js_push('jquery.pjax');
+		$this->core->file->js_push('morris.min');
+		$this->core->file->js_push('raphael-min');
+		$this->core->file_2->js_push('app.v2');
 		$this->core->file->js_push('hubby_app');
-		$this->core->file->js_push('resizer');
-		$this->core->file->js_push('dialog');
 		
 		if(!$this->core->users_global->isConnected())
 		{
 			$this->url->redirect(array('login?ref='.urlencode($this->url->request_uri())));
 			return;
 		}
+		$this->data['left_menu']			=	$this->load->view('account/left_menu',$this->data,true);
+		$this->data['smallHeader']			=	$this->load->view('account/smallHeader',$this->data,true);
 
 	}
 	public function index()
 	{
 		$this->hubby->setTitle('Mon profil');
-		$this->hubby->setDescription('Mon profil');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
+		$this->hubby->setDescription('Mon profil');
 		$this->data['body']			=	$this->load->view('account/profile/body',$this->data,true);
 		
 		$this->load->view('account/header',$this->data);
@@ -53,18 +57,22 @@ class Account
 		if($this->core->input->post('user_name'))
 		{
 			$this->core->users_global->setUserElement('NAME', $this->core->input->post('user_name'));
+			$this->core->notice->push_notice(notice('userNameUpdated'));
 		}
 		if($this->core->input->post('user_surname'))
 		{
 			$this->core->users_global->setUserElement('SURNAME', $this->core->input->post('user_surname'));
+			$this->core->notice->push_notice(notice('userSurnameUpdated'));
 		}
 		if($this->core->input->post('user_state'))
 		{
 			$this->core->users_global->setUserElement('STATE', $this->core->input->post('user_state'));
+			$this->core->notice->push_notice(notice('userStateUpdated'));
 		}
 		if($this->core->input->post('user_town'))
 		{
 			$this->core->users_global->setUserElement('TOWN', $this->core->input->post('user_town'));
+			$this->core->notice->push_notice(notice('userTownUpdated'));
 		}
 		$this->hubby->setTitle('Mettre mon profil &agrave; jour');
 		$this->hubby->setDescription('Mettre mon profil &agrave; jour');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
@@ -75,6 +83,7 @@ class Account
 	}
 	public function messaging($index	=	'home',$start= 1,$end = 1,$x	=	0)
 	{
+		$this->core->hubby->timestamp();
 		if($index 	== 'home')
 		{
 			$this->load->library('form_validation');

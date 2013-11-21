@@ -1,14 +1,19 @@
 <?php
 Class Lang
 {
+	private $current;
 	public function __construct()
-	{}
-	public function load($mixed_library, $e ='')
 	{
-		echo  $e;
+	}
+	public function load($mixed_library)
+	{
 		switch($mixed_library)
 		{
 			case 'form_validation':
+				$this->current	=	'form_val';
+			break;
+			case 'date':
+				$this->current	=	'date';
 			break;
 						
 			default:
@@ -18,8 +23,10 @@ Class Lang
 	}
 	public function line($type)
 	{
-		switch($type)
+		if($this->current == 'form_val')
 		{
+			switch($type)
+			{
 			case 'required':
 			return 'Le champ de texte :"%s" ne doit pas &ecirc;tre vide';
 			break;
@@ -52,5 +59,8 @@ Class Lang
 			return $type;
 			break;
 		}
+		}
+		else if($this->current	==	'date')
+		{}
 	}
 }

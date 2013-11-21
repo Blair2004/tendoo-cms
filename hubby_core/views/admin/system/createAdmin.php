@@ -77,13 +77,11 @@ $field_5	=	(form_error('admin_privilege')) ? form_error('admin_privilege') : '';
 ?>
     						<section class="panel">
                             	<div class="wrapper">
-                                	<ul>
-                                    	<?php if(strlen($field_1) > 0):;?><li><?php echo $field_1; ?></li><?php endif;?>
-                                        <?php if(strlen($field_2) > 0):;?><li><?php echo $field_2; ?></li><?php endif;?>
-                                        <?php if(strlen($field_3) > 0):;?><li><?php echo $field_3; ?></li><?php endif;?>
-                                        <?php if(strlen($field_4) > 0):;?><li><?php echo $field_4; ?></li><?php endif;?>
-                                        <?php if(strlen($field_5) > 0):;?><li><?php echo $field_5; ?></li><?php endif;?>                                       
-                                    </ul>
+									<?php if(strlen($field_1) > 0):;?><?php echo $field_1; ?><?php endif;?>
+                                    <?php if(strlen($field_2) > 0):;?><?php echo $field_2; ?><?php endif;?>
+                                    <?php if(strlen($field_3) > 0):;?><?php echo $field_3; ?><?php endif;?>
+                                    <?php if(strlen($field_4) > 0):;?><?php echo $field_4; ?><?php endif;?>
+                                    <?php if(strlen($field_5) > 0):;?><?php echo $field_5; ?><?php endif;?>
                             	</div>
                             </section>
                         </div>

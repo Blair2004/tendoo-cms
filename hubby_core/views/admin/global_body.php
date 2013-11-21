@@ -39,6 +39,7 @@
 		{
 			if($body['MCO'] == FALSE)
 			{
+				echo $this->core->file_2->js_load();
 				page_bottom();
 			}
 		}
@@ -49,5 +50,6 @@
 	}
 	else
 	{
+		echo $this->core->file_2->js_load();
 		page_bottom();
 	}

@@ -165,8 +165,10 @@ if(!function_exists('notice'))
 		$array['passwordChanged']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Le mot de passe &agrave; &eacute;t&eacute; correctement modifi&eacute;.</div>';
 		$array['upload_no_file_selected']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Aucun fichier n\'a &eacute;t&eacute; envoy&eacute;.</div>';
 		$array['cannotDeleteUsedPrivilege']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Vous ne pouvez pas supprimer un privil&egrave;ge en cours d\'utilisation.</div>';
-		
-		
+		$array['userTownUpdated']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Ville correctement mis &agrave; jour.</div>';
+		$array['userStateUpdated']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Pays correctement mis &agrave; jour.</div>';
+		$array['userSurnameUpdated']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Pr&eacute;nom correctement mis &agrave; jour.</div>';
+		$array['userNameUpdated']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Nom correctement mis &agrave; jour.</div>';
 		
 		
 		

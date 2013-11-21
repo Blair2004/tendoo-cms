@@ -352,7 +352,7 @@ if ( ! function_exists('local_to_gmt'))
 			$time = time();
 
 		return mktime( gmdate("H", $time), gmdate("i", $time), gmdate("s", $time), gmdate("m", $time), gmdate("d", $time), gmdate("Y", $time));
-	}
+	} 
 }
 
 // ------------------------------------------------------------------------
@@ -374,19 +374,14 @@ if ( ! function_exists('gmt_to_local'))
 {
 	function gmt_to_local($time = '', $timezone = 'UTC', $dst = FALSE)
 	{
-		if ($time == '')
+		if ($time === '')
 		{
 			return now();
 		}
 
 		$time += timezones($timezone) * 3600;
 
-		if ($dst == TRUE)
-		{
-			$time += 3600;
-		}
-
-		return $time;
+		return ($dst === TRUE) ? $time + 3600 : $time;
 	}
 }
 
@@ -551,7 +546,7 @@ if ( ! function_exists('timezone_menu'))
 {
 	function timezone_menu($default = 'UTC', $class = "", $name = 'timezones')
 	{
-		$CI =& get_instance();
+		$CI = Controller::instance();
 		$CI->lang->load('date');
 
 		if ($default == 'GMT')

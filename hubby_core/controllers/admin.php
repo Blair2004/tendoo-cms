@@ -44,6 +44,7 @@ class Admin
 		$this->load->library('hubby_admin');
 		$this->load->library('pagination');
 		$this->load->library('file');
+		$this->load->library('file',null,'file_2');
 		$this->load->library('form_validation');
 		$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 		$this->input				=&	$this->core->input;
@@ -66,7 +67,7 @@ class Admin
 		$this->core->file->js_push('jquery.pjax');
 		$this->core->file->js_push('morris.min');
 		$this->core->file->js_push('raphael-min');
-		$this->core->file->js_push('app.v2');
+		$this->core->file_2->js_push('app.v2');
 		$this->core->file->js_push('hubby_app');
 	}
 	// Public functions
@@ -397,7 +398,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			}
 			if($this->input->post('newHoraire'))
 			{
-				$this->form_validation->set_rules('newHoraire','"Du fuseau horaire"','required|min_length[1]|max_length[5]');
+				$this->form_validation->set_rules('newHoraire','"Du fuseau horaire"','required|min_length[1]|max_length[20]');
 				if($this->form_validation->run())
 				{
 					if($this->core->hubby_admin->editTimeZone($this->input->post('newHoraire')))

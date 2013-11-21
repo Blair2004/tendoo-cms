@@ -1,6 +1,11 @@
-<input type="button" value="Boite de r&eacute;ception" class="tobr bg-color-blue fg-color-white" />
-<input type="button" value="Ecrire un nouveau message" class="tonew bg-color-greenLight fg-color-white" />
-<input type="button" value="Supprimer la conversation" class="todellconv bg-color-red fg-color-white" />
+    <button type="button" class="tobr btn btn-sm btn-white">
+        Boite de r&eacute;ception </button>
+    <button type="button" class="tonew btn btn-sm btn-white">
+        Ecrire un nouveau message 
+	</button>
+    <button type="button" class="todellconv btn btn-sm btn-white">
+        Supprimer la conversation 
+	</button>
 <script>
 	$(document).ready(function(){
 		$('.small_app tbody').find('tr').each(function(){
@@ -30,64 +35,21 @@
 		$('.todellconv').bind('click',function(){
 			if($('.small_app tbody').find('input[isChecked="true"]').length > 0)
 			{
-				$.Dialog({
-					'title' 		: 'Confirmer votre action',
-					'content' 		: '<div style="max-width:500px">En supprimant cette discussion, vous ne pourrez plus acc&eacute;der aux diff&eacute;rents messages qui ont &eacute;t&eacute; post&eacute; depuis. Cette action est irreversible.</div>',
-					'draggable' 	: true,
-					'overlay' 		: true,
-					'closeButton' 	: true,
-					'buttonsAlign'	: 'right',
-					'keepOpened' 	: true,
-					'buttons' 		: {
-						'Confirmer' 		: {
-							'action': function(){
-								$('.small_app form').submit();
-							}
-						},
-						'Annuler' 		: {
-							'action': function(){}
-						}
-					}
-				});
+				if(confirm('Voulez vous supprimer ce message ?'))
+				{
+					$('.small_app form').submit();
+				}
 			}
 			else if($('.conv_id').length > 0)
 			{
-				$.Dialog({
-					'title' 		: 'Confirmer votre action',
-					'content' 		: '<div style="max-width:500px">En supprimant cette discussion, vous ne pourrez plus acc&eacute;der aux diff&eacute;rents messages qui ont &eacute;t&eacute; post&eacute; depuis. Cette action est irreversible.</div>',
-					'draggable' 	: true,
-					'overlay' 		: true,
-					'closeButton' 	: true,
-					'buttonsAlign'	: 'right',
-					'keepOpened' 	: true,
-					'buttons' 		: {
-						'Confirmer' 		: {
-							'action': function(){
-								$('.read_form_id').submit();
-							}
-						},
-						'Annuler' 		: {
-							'action': function(){}
-						}
-					}
-				});
+				if(confirm('Voulez vous supprimer ce message ?'))
+				{
+					$('.read_form_id').submit();
+				}
 			}
 			else
 			{
-				$.Dialog({
-					'title' 		: 'Erreur',
-					'content' 		: '<div style="max-width:500px">Vous ne pouvez pas supprimer une discution, si aucun message n\'est selectionn&eacute;.</div>',
-					'draggable' 	: true,
-					'overlay' 		: true,
-					'closeButton' 	: true,
-					'buttonsAlign'	: 'right',
-					'keepOpened' 	: true,
-					'buttons' 		: {
-						'Fermer' 		: {
-							'action': function(){}
-						}
-					}
-				});
+				alert('Selectionnez un message avant de le supprimer');
 			}
 		});
 		$('.this').bind('mouseup',function(){
@@ -103,28 +65,37 @@
 			}
 		});
 		var field	=	
-		'<form method="post" class="reply_form">'+
-			'<fieldset class="bg-color-blueLight">'+
-				'<div class="input-control textarea">'+
-					'<textarea name="reply" placeholder="Ajouter un post">'+
-					'</textarea>'+
-					'<input type="hidden" name="convid" value="'+$('.conv_id').val()+'"/>'+
-				'</div>'+
-				'<input type="submit" value="Poster"/>'+
-			'</fieldset><br>'+
-		'</form>';
-		$('.answer_btn').toggle(function(){
+		'<div class="line"></div><div class="container"><div class="row"><div class="col-lg-10 col-lg-offset-1"><form method="post" class="panel-content reply_form">'+
+			'<div class="form-group">'+
+				'<textarea class="form-control" name="reply" placeholder="Ajouter un post">'+
+				'</textarea>'+
+				'<input type="hidden" name="convid" value="'+$('.conv_id').val()+'"/>'+
+			'</div>'+
+			'<input class="form-control btn btn-primary" type="submit" value="Poster"/>'+
+		'</form></div></div></div><div class="line"></div>';
+		$('.answer_btn').bind('click',function(){
 			if($('.reply_form').length== 0)
 			{
 				$(field).insertBefore('.answer_table');
 			}
-			$('.reply_form').show();
-		},function(){
-			if($('.reply_form').length== 0)
+			if(typeof $(this).attr('clicked') == 'undefined')
 			{
-				$(field).insertBefore('.answer_table');
+				$(this).attr('clicked','TRUE');
+				$('.reply_form').show();
 			}
-			$('.reply_form').hide();
+			else
+			{
+				if($(this).attr('clicked') == 'TRUE')
+				{
+					$(this).attr('clicked','FALSE');
+					$('.reply_form').hide();
+				}
+				else
+				{
+					$(this).attr('clicked','TRUE');
+					$('.reply_form').show();
+				}
+			}			
 		});
 	});
 </script>

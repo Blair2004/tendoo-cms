@@ -33,20 +33,20 @@
                     </li>
                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="thumb-sm avatar pull-left m-t-n-xs m-r-xs"> <img src="<?php echo $this->core->url->img_url('avatar_default.jpg');?>" alt="<?php echo ucwords($this->core->users_global->current('PSEUDO'));?>"> </span> <?php echo ucwords($this->core->users_global->current('PSEUDO'));?>, <?php echo $this->core->users_global->current('PRIVILEGE') == 'NADIMERPUS' ? 'Super administrateur' : 'Administrateur';?> <b class="caret"></b> </a>
                         <ul class="dropdown-menu animated fadeInLeft">
-                            <li> <a href="#">Param&ecirc;tres</a> </li>
-                            <li> <a href="#">Profil</a> </li>
+                            <li> <a href="<?php echo $this->core->url->site_url(array('account','profil_update'));?>">Param&ecirc;tres</a> </li>
+                            <li> <a href="<?php echo $this->core->url->site_url(array('account'));?>">Profil</a> </li>
                             <?php
 							$ttMessage	=	$this->core->users_global->countMessage();
 							if($ttMessage == 0)
 							{
 							?>
-                            <li> <a href="#"> Messagerie </a> </li>
+                            <li> <a href="<?php echo $this->core->url->site_url(array('account','messaging','home'));?>"> Messagerie </a> </li>
                             <?php
 							}
 							else
 							{
 								?>
-                            <li> <a href="#"> <span class="badge bg-danger pull-right"><?php echo $ttMessage;?></span> Messagerie </a> </li>
+                            <li> <a href="<?php echo $this->core->url->site_url(array('account','messaging','home'));?>"> <span class="badge bg-danger pull-right"><?php echo $ttMessage;?></span> Messagerie </a> </li>
                             <?php
 							}
 							?>

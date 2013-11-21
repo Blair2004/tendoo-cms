@@ -32,51 +32,19 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="fuseau">
                                 	<div class="wrapper">
-                                    	<form action="#fuseau" method="post" class="panel-body">
+                                    	<form method="post" class="panel-body">
                                             <div class="form-group">
                                                 <label class="control-label">D&eacute;finir fuseau horaire</label>
-                                                <select class="input-sm form-control inline" name="newHoraire">
-                                                    <option value="">Choisir...</option>
-                                                    <option value='UM12'>(UTC -12:00) Baker/Howland Island</option>
-                                                    <option value='UM11'>(UTC -11:00) Samoa  Zone, Niue</option>
-                                                    <option value='UM10'>(UTC -10:00) Hawaii-Aleutian </option>
-                                                    <option value='UM95'>(UTC -9:30) Marquesas Islands</option>
-                                                    <option value='UM9'>(UTC -9:00) Alaska </option>
-                                                    <option value='UM8'>(UTC -8:00) Pacifique </option>
-                                                    <option value='UM7'>(UTC -7:00) Mountain </option>
-                                                    <option value='UM6'>(UTC -6:00) Mexique </option>
-                                                    <option value='UM5'>(UTC -5:00) Bogota </option>
-                                                    <option value='UM45'>(UTC -4:30) Venezuelan </option>
-                                                    <option value='UM4'>(UTC -4:00) Atlantique </option>
-                                                    <option value='UM35'>(UTC -3:30) Newfoundland </option>
-                                                    <option value='UM3'>(UTC -3:00) Argentina, Brézil</option>
-                                                    <option value='UM2'>(UTC -2:00) Georgie du sud</option>
-                                                    <option value='UM1'>(UTC -1:00) Azores, Cape Verde Islands</option>
-                                                    <option value='UTC' selected='selected'>(UTC) Greenwich Mean </option>
-                                                    <option value='UP1'>(UTC +1:00) Europe Centrale</option>
-                                                    <option value='UP2'>(UTC +2:00) Afrique Centrale </option>
-                                                    <option value='UP3'>(UTC +3:00) Moscou</option>
-                                                    <option value='UP35'>(UTC +3:30) Iran </option>
-                                                    <option value='UP4'>(UTC +4:00) Azerbaijan </option>
-                                                    <option value='UP45'>(UTC +4:30) Afghanistan</option>
-                                                    <option value='UP5'>(UTC +5:00) Pakistan</option>
-                                                    <option value='UP55'>(UTC +5:30) Inde </option>
-                                                    <option value='UP575'>(UTC +5:45) Nepal </option>
-                                                    <option value='UP6'>(UTC +6:00) Bangladesh </option>
-                                                    <option value='UP65'>(UTC +6:30) Cocos Islands, Myanmar</option>
-                                                    <option value='UP7'>(UTC +7:00) Krasnoyarsk , Cambodia</option>
-                                                    <option value='UP8'>(UTC +8:00) Autralie de l'ouest</option>
-                                                    <option value='UP875'>(UTC +8:45) Australie</option>
-                                                    <option value='UP9'>(UTC +9:00) Japon </option>
-                                                    <option value='UP95'>(UTC +9:30) Australian Centrale </option>
-                                                    <option value='UP10'>(UTC +10:00) Australian Est</option>
-                                                    <option value='UP105'>(UTC +10:30) Lord Howe Ile</option>
-                                                    <option value='UP11'>(UTC +11:00) Magadan </option>
-                                                    <option value='UP115'>(UTC +11:30) Norfolk Iles</option>
-                                                    <option value='UP12'>(UTC +12:00) Fiji, Gilbert Iles</option>
-                                                    <option value='UP1275'>(UTC +12:45) Chatham Islands</option>
-                                                    <option value='UP13'>(UTC +13:00) Phoenix Iles , Tonga</option>
-                                                    <option value='UP14'>(UTC +14:00) Line Iles</option>
+                                                <?php $default	=	$options[0]['SITE_TIMEZONE'] == '' ? 'UTC' : $options[0]['SITE_TIMEZONE'];?>
+                                                <select name="newHoraire" class="input-sm form-control">
+                                                <?php $fuso		=	$this->core->hubby->getFuseau();
+												foreach($fuso as $f)
+												{
+													?>
+                                                    <option value="<?php echo $f['Code'];?>"><?php echo $f['Index'].' - '.$f['States'];?></option>
+                                                    <?php
+												}
+												?>
                                                 </select>
                                             </div>
                                             <input class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
@@ -85,7 +53,7 @@
                                 </div>
                                 <div class="tab-pane" id="sitename">
                                 	<div class="wrapper">
-                                    	<form method="post" class="panel-body" action="#sitename">
+                                    	<form method="post" class="panel-body">
                                             <div class="form-group">
                                                 <label class="control-label">Nom du site web</label>
                                                 <input type="text" name="newName" class="form-control" value="<?php echo $options[0]['SITE_NAME'];?>">
@@ -96,7 +64,7 @@
                                 </div>
                                 <div class="tab-pane" id="logo">
                                 	<div class="wrapper">
-                                    	<form method="post" class="panel-body" action="#logo">
+                                    	<form method="post" class="panel-body">
                                             <div class="form-group">
                                                 <label class="control-label">Lien vers logo</label>
                                                 <input type="text" name="newLogo" class="form-control">
@@ -107,7 +75,7 @@
                                 </div>
                                 <div class="tab-pane" id="dateformat">
                                 	<div class="wrapper">
-                                    	<form method="post" class="panel-body" action="#dateformat">
+                                    	<form method="post" class="panel-body">
                                             <div class="form-group">
                                                 <label class="control-label">D&eacute;finir format horaire</label>
                                                 <select name="newFormat" class="input-sm form-control inline">
