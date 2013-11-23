@@ -20,7 +20,18 @@
                         	A propos de MODUS
                         </div>
                         <div class="panel-body">
-                        MODUS est un th&egrave;me cr&eacute;e par Luiszuno, disponible a cette adresse <a href="http://luiszuno.com/themes/modus/">MODUS</a>. Ce thème qui s'adapte perfaitement aux dimensions des appareils offre un interface professionnel et une navigation aisée.<br />Il est fournis avec plusieurs éléments
+                        MODUS est un th&egrave;me cr&eacute;e par Luiszuno, disponible a cette adresse <a href="http://luiszuno.com/themes/modus/">MODUS</a>. <br /><br />Ce thème qui s'adapte perfaitement aux dimensions des appareils offre un interface professionnel et une navigation aisée.<br />Il est fournie avec plusieurs éléments :
+                        <br />
+                        <br />
+                        <ul>
+                        	<li>Caroussel</li>
+                            <li>Boites modales</li>
+                            <li>Icones</li>
+                            <li>Plugin de validation des formulaires</li>
+                            <li>Accordions</li>
+                            <li>Syst&egrave;me tabs</li>
+                            <li>Liens vers les réseaux sociaux</li>
+                        </ul>
                         </div>
                     </div>
                 </section>

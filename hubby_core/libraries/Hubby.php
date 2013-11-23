@@ -199,16 +199,12 @@ class Hubby
 		{
 			return false;
 		};
-		$array		=	array(
-			'NAMESPACE'		=>		'hubby_modus',
-			'HUMAN_NAME'	=>		'Hubby - Modus',
-			'AUTHOR'		=>		'Hubby Group',
-			'DESCRIPTION'	=>		'Un thème fait par adapt&eacute; par l\'equipe Hubby. Ce th&egrave;me provient du template r&eacute;alis&eacute; par Luizuno disponible sur luizuno.com',
-			'ACTIVATED'		=>		'TRUE',
-			'HUBBY_VERS'	=>		'0.92',
-			'ENCRYPTED_DIR'	=>		'85f173b4ecef39136a596061be621a0c'
-		);
-		$this->core->db->insert('hubby_themes',$array);
+		// Installe le thème par défaut.
+		$this->core->load->library('hubby_admin');
+		$this->hubby_admin		=&		$this->core->hubby_admin;
+		$appFile				=		array();
+		$appFile['temp_dir']	=		'85f173b4ecef39136a596061be621a0c';
+		$this->hubby_admin->coreInstall($appFile);
 		
 		return true;
 	}

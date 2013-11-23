@@ -443,178 +443,396 @@ class hubby_admin
 			$appFile	=	Unzip(INSTALLER_DIR.$this->core->upload->file_name);
 			include_once(INSTALLER_DIR.$appFile['temp_dir'].'/install.php');
 			$temp_dir	=	INSTALLER_DIR.$appFile['temp_dir'];
-			if(class_exists('Hubby_installer'))
+			
+			$appInfo	=	$this->datas(); // got declared info datas
+			$appInfo['appTableField']['ENCRYPTED_DIR']	=	$appFile['temp_dir'];
+			if(in_array($appInfo['appType'],$this->appAllowedType))
 			{
-				$appClass	=	new Hubby_installer;
-				$appInfo	=	$appClass->datas();
-				$appInfo['appTableField']['ENCRYPTED_DIR']	=	$appFile['temp_dir'];
-				if(in_array($appInfo['appType'],$this->appAllowedType))
+				if($appInfo['appType'] == 'MODULE')
 				{
-					if($appInfo['appType'] == 'MODULE')
+					if(count($appInfo['appTableField']) > 0)
 					{
-						if(count($appInfo['appTableField']) > 0)
+						foreach(array_keys($appInfo['appTableField']) as $_appTableField)
 						{
-							foreach(array_keys($appInfo['appTableField']) as $_appTableField)
+							if(!in_array($_appTableField,$this->appModuleAllowedTableField))
 							{
-								if(!in_array($_appTableField,$this->appModuleAllowedTableField))
-								{
-									$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-									$this->core->notice->push_notice(notice('invalidApp'));
-									return 'invalidApp';
-								}
+								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+								$this->core->notice->push_notice(notice('invalidApp'));
+								return 'invalidApp';
 							}
 						}
-						else
+					}
+					else
+					{
+						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+						$this->core->notice->push_notice(notice('invalidApp'));
+						return 'invalidApp';
+					}
+					if($appInfo['appHubbyVers'] <= $this->core->hubby->getVersId())
+					{
+						$this->core->db		->select('*')
+											->from('hubby_modules')
+											->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
+						$query = $this->core->db->get();
+						// -----------------------------------------------------------------------------------------
+						if($query->num_rows == 0)
 						{
-							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-							$this->core->notice->push_notice(notice('invalidApp'));
-							return 'invalidApp';
-						}
-						if($appInfo['appHubbyVers'] <= $this->core->hubby->getVersId())
-						{
-							$this->core->db		->select('*')
-												->from('hubby_modules')
-												->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
-							$query = $this->core->db->get();
-							// -----------------------------------------------------------------------------------------
-							if($query->num_rows == 0)
+							if(is_array($appInfo['appSql']))
 							{
-								if(is_array($appInfo['appSql']))
+								foreach($appInfo['appSql'] as $sql)
 								{
-									foreach($appInfo['appSql'] as $sql)
-									{
-										$this->core->db->query($sql);
-									}
+									$this->core->db->query($sql);
 								}
-								$this->core->db->insert('hubby_modules',$appInfo['appTableField']);
-								if(is_dir($temp_dir))
+							}
+							$this->core->db->insert('hubby_modules',$appInfo['appTableField']);
+							if(is_dir($temp_dir))
+							{
+								$this->extractor($temp_dir,MODULES_DIR.$appFile['temp_dir']);
+								$this->core->notice->push_notice(notice('moduleInstalled'));
+								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+								
+								if(array_key_exists('appAction',$appInfo)) // If this app allow action for privileges
 								{
-									$this->extractor($temp_dir,MODULES_DIR.$appFile['temp_dir']);
-									$this->core->notice->push_notice(notice('moduleInstalled'));
-									$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-									
-									if(array_key_exists('appAction',$appInfo)) // If this app allow action for privileges
+									for($i = 0;$i < count($appInfo['appAction']);$i++)
 									{
-										for($i = 0;$i < count($appInfo['appAction']);$i++)
-										{
-											if(
-											!array_key_exists('mod_namespace',$appInfo['appAction'][$i]) ||
-											!array_key_exists('action',$appInfo['appAction'][$i]) ||
-											!array_key_exists('action_name',$appInfo['appAction'][$i]) ||
-											!array_key_exists('action_description',$appInfo['appAction'][$i])
-											)
-											{
-												$this->core->notice->push_notice(notice('creatingHiddenControllerFailure'));
-												return 'installFailed';
-											}
-											$this->createModuleAction(
-												$appInfo['appAction'][$i]['mod_namespace'],
-												$appInfo['appAction'][$i]['action'],
-												$appInfo['appAction'][$i]['action_name'],
-												$appInfo['appAction'][$i]['action_description']
-											);
-										}
-									}
-									if(array_key_exists('appHiddenController',$appInfo))
-									{
-										if(is_array($appInfo['appHiddenController']))
-										{
 										if(
-											!array_key_exists('NAME',$appInfo['appHiddenController']) ||
-											!array_key_exists('CNAME',$appInfo['appHiddenController']) ||
-											!array_key_exists('ATTACHED_MODULE',$appInfo['appHiddenController']) ||
-											!array_key_exists('TITLE',$appInfo['appHiddenController']) ||
-											!array_key_exists('DESCRIPTION',$appInfo['appHiddenController'])
-											)
-											{
-												$this->core->notice->push_notice(notice('creatingHiddenControllerFailure'));
-												return 'installFailed';
-											}
-										$this->controller(
-											$appInfo['appHiddenController']['NAME'],
-											$appInfo['appHiddenController']['CNAME'],
-											$appInfo['appHiddenController']['ATTACHED_MODULE'],
-											$appInfo['appHiddenController']['TITLE'],
-											$appInfo['appHiddenController']['DESCRIPTION'],
-											FALSE,
-											'create',
-											null,
-											'FALSE'
-										); // Creating hidden Controller
+										!array_key_exists('mod_namespace',$appInfo['appAction'][$i]) ||
+										!array_key_exists('action',$appInfo['appAction'][$i]) ||
+										!array_key_exists('action_name',$appInfo['appAction'][$i]) ||
+										!array_key_exists('action_description',$appInfo['appAction'][$i])
+										)
+										{
+											$this->core->notice->push_notice(notice('creatingHiddenControllerFailure'));
+											return 'installFailed';
+										}
+										$this->createModuleAction(
+											$appInfo['appAction'][$i]['mod_namespace'],
+											$appInfo['appAction'][$i]['action'],
+											$appInfo['appAction'][$i]['action_name'],
+											$appInfo['appAction'][$i]['action_description']
+										);
 									}
-									}
-									return 'moduleInstalled';
 								}
-							}
-							else
-							{
-								$this->core->notice->push_notice(notice('module_alreadyExist'));
-								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-								return 'module_alreadyExist';
-							}
-						}
-						$this->core->notice->push_notice(notice('NoCompatibleModule'));
-						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-						return 'NoCompatibleModule';
-					}
-					else if($appInfo['appType'] == 'THEME')
-					{
-						if(count($appInfo['appTableField']) > 0)
-						{
-							foreach(array_keys($appInfo['appTableField']) as $_appTableField)
-							{
-								if(!in_array($_appTableField,$this->appThemeAllowedTableField))
+								if(array_key_exists('appHiddenController',$appInfo))
 								{
-									$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-									$this->core->notice->push_notice(notice('invalidApp'));
-									
-									return 'invalidApp';
+									if(is_array($appInfo['appHiddenController']))
+									{
+									if(
+										!array_key_exists('NAME',$appInfo['appHiddenController']) ||
+										!array_key_exists('CNAME',$appInfo['appHiddenController']) ||
+										!array_key_exists('ATTACHED_MODULE',$appInfo['appHiddenController']) ||
+										!array_key_exists('TITLE',$appInfo['appHiddenController']) ||
+										!array_key_exists('DESCRIPTION',$appInfo['appHiddenController'])
+										)
+										{
+											$this->core->notice->push_notice(notice('creatingHiddenControllerFailure'));
+											return 'installFailed';
+										}
+									$this->controller(
+										$appInfo['appHiddenController']['NAME'],
+										$appInfo['appHiddenController']['CNAME'],
+										$appInfo['appHiddenController']['ATTACHED_MODULE'],
+										$appInfo['appHiddenController']['TITLE'],
+										$appInfo['appHiddenController']['DESCRIPTION'],
+										FALSE,
+										'create',
+										null,
+										'FALSE'
+									); // Creating hidden Controller
 								}
+								}
+								return 'moduleInstalled';
 							}
 						}
 						else
 						{
+							$this->core->notice->push_notice(notice('module_alreadyExist'));
 							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-							$this->core->notice->push_notice(notice('invalidApp'));
-							return 'invalidApp';
+							return 'module_alreadyExist';
 						}
-						if($appInfo['appHubbyVers'] <= $this->core->hubby->getVersId())
-						{
-							$this->core->db		->select('*')
-												->from('hubby_themes')
-												->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
-							$query = $this->core->db->get();
-							// -----------------------------------------------------------------------------------------
-							if($query->num_rows == 0)
-							{
-								$this->core->db->insert('hubby_themes',$appInfo['appTableField']);
-								if(is_dir($temp_dir))
-								{
-									$this->extractor($temp_dir,THEMES_DIR.$appFile['temp_dir']);
-									$this->core->notice->push_notice(notice('theme_installed'));
-									$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-									return 'theme_installed';
-								}
-							}
-							else
-							{
-								$this->core->notice->push_notice(notice('theme_alreadyExist'));
-								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-								return 'theme_alreadyExist';
-							}
-						}
-						$this->core->notice->push_notice(notice('NoCompatibleTheme'));
-						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-						return 'NoCompatibleTheme';
 					}
+					$this->core->notice->push_notice(notice('NoCompatibleModule'));
+					$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+					return 'NoCompatibleModule';
+				}
+				else if($appInfo['appType'] == 'THEME')
+				{
+					if(count($appInfo['appTableField']) > 0)
+					{
+						foreach(array_keys($appInfo['appTableField']) as $_appTableField)
+						{
+							if(!in_array($_appTableField,$this->appThemeAllowedTableField))
+							{
+								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+								$this->core->notice->push_notice(notice('invalidApp'));
+								
+								return 'invalidApp';
+							}
+						}
+					}
+					else
+					{
+						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+						$this->core->notice->push_notice(notice('invalidApp'));
+						return 'invalidApp';
+					}
+					if($appInfo['appHubbyVers'] <= $this->core->hubby->getVersId())
+					{
+						$this->core->db		->select('*')
+											->from('hubby_themes')
+											->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
+						$query = $this->core->db->get();
+						// -----------------------------------------------------------------------------------------
+						if($query->num_rows == 0)
+						{
+							$this->core->db->insert('hubby_themes',$appInfo['appTableField']);
+							if(is_dir($temp_dir))
+							{
+								$this->extractor($temp_dir,THEMES_DIR.$appFile['temp_dir']);
+								$this->core->notice->push_notice(notice('theme_installed'));
+								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+								return 'theme_installed';
+							}
+						}
+						else
+						{
+							$this->core->notice->push_notice(notice('theme_alreadyExist'));
+							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+							return 'theme_alreadyExist';
+						}
+					}
+					$this->core->notice->push_notice(notice('NoCompatibleTheme'));
+					$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+					return 'NoCompatibleTheme';
 				}
 			}
+			
 			$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 			$this->core->notice->push_notice(notice('invalidApp'));
 			return 'invalidApp';
 		}
 		return 'errorOccured';
 	}
+	public function hubby_core_installer($appFile)
+	{
+		include_once(INSTALLER_DIR.$appFile['temp_dir'].'/install.php');
+		$temp_dir	=	INSTALLER_DIR.$appFile['temp_dir'];
+		
+		$appInfo	=	$this->datas(); // got declared info datas
+		$appInfo['appTableField']['ENCRYPTED_DIR']	=	$appFile['temp_dir'];
+		if(in_array($appInfo['appType'],$this->appAllowedType))
+		{
+			if($appInfo['appType'] == 'MODULE')
+			{
+				if(count($appInfo['appTableField']) > 0)
+				{
+					foreach(array_keys($appInfo['appTableField']) as $_appTableField)
+					{
+						if(!in_array($_appTableField,$this->appModuleAllowedTableField))
+						{
+							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+							$this->core->notice->push_notice(notice('invalidApp'));
+							return 'invalidApp';
+						}
+					}
+				}
+				else
+				{
+					$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+					$this->core->notice->push_notice(notice('invalidApp'));
+					return 'invalidApp';
+				}
+				if($appInfo['appHubbyVers'] <= $this->core->hubby->getVersId())
+				{
+					$this->core->db		->select('*')
+										->from('hubby_modules')
+										->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
+					$query = $this->core->db->get();
+					// -----------------------------------------------------------------------------------------
+					if($query->num_rows == 0)
+					{
+						if(is_array($appInfo['appSql']))
+						{
+							foreach($appInfo['appSql'] as $sql)
+							{
+								$this->core->db->query($sql);
+							}
+						}
+						$this->core->db->insert('hubby_modules',$appInfo['appTableField']);
+						if(is_dir($temp_dir))
+						{
+							$this->extractor($temp_dir,MODULES_DIR.$appFile['temp_dir']);
+							$this->core->notice->push_notice(notice('moduleInstalled'));
+							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+							
+							if(array_key_exists('appAction',$appInfo)) // If this app allow action for privileges
+							{
+								for($i = 0;$i < count($appInfo['appAction']);$i++)
+								{
+									if(
+									!array_key_exists('mod_namespace',$appInfo['appAction'][$i]) ||
+									!array_key_exists('action',$appInfo['appAction'][$i]) ||
+									!array_key_exists('action_name',$appInfo['appAction'][$i]) ||
+									!array_key_exists('action_description',$appInfo['appAction'][$i])
+									)
+									{
+										$this->core->notice->push_notice(notice('creatingHiddenControllerFailure'));
+										return 'installFailed';
+									}
+									$this->createModuleAction(
+										$appInfo['appAction'][$i]['mod_namespace'],
+										$appInfo['appAction'][$i]['action'],
+										$appInfo['appAction'][$i]['action_name'],
+										$appInfo['appAction'][$i]['action_description']
+									);
+								}
+							}
+							if(array_key_exists('appHiddenController',$appInfo))
+							{
+								if(is_array($appInfo['appHiddenController']))
+								{
+								if(
+									!array_key_exists('NAME',$appInfo['appHiddenController']) ||
+									!array_key_exists('CNAME',$appInfo['appHiddenController']) ||
+									!array_key_exists('ATTACHED_MODULE',$appInfo['appHiddenController']) ||
+									!array_key_exists('TITLE',$appInfo['appHiddenController']) ||
+									!array_key_exists('DESCRIPTION',$appInfo['appHiddenController'])
+									)
+									{
+										$this->core->notice->push_notice(notice('creatingHiddenControllerFailure'));
+										return 'installFailed';
+									}
+								$this->controller(
+									$appInfo['appHiddenController']['NAME'],
+									$appInfo['appHiddenController']['CNAME'],
+									$appInfo['appHiddenController']['ATTACHED_MODULE'],
+									$appInfo['appHiddenController']['TITLE'],
+									$appInfo['appHiddenController']['DESCRIPTION'],
+									FALSE,
+									'create',
+									null,
+									'FALSE'
+								); // Creating hidden Controller
+							}
+							}
+							return 'moduleInstalled';
+						}
+					}
+					else
+					{
+						$this->core->notice->push_notice(notice('module_alreadyExist'));
+						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+						return 'module_alreadyExist';
+					}
+				}
+				$this->core->notice->push_notice(notice('NoCompatibleModule'));
+				$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+				return 'NoCompatibleModule';
+			}
+			else if($appInfo['appType'] == 'THEME')
+			{
+				if(count($appInfo['appTableField']) > 0)
+				{
+					foreach(array_keys($appInfo['appTableField']) as $_appTableField)
+					{
+						if(!in_array($_appTableField,$this->appThemeAllowedTableField))
+						{
+							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+							$this->core->notice->push_notice(notice('invalidApp'));
+							
+							return 'invalidApp';
+						}
+					}
+				}
+				else
+				{
+					$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+					$this->core->notice->push_notice(notice('invalidApp'));
+					return 'invalidApp';
+				}
+				if($appInfo['appHubbyVers'] <= $this->core->hubby->getVersId())
+				{
+					$this->core->db		->select('*')
+										->from('hubby_themes')
+										->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
+					$query = $this->core->db->get();
+					// -----------------------------------------------------------------------------------------
+					if($query->num_rows == 0)
+					{
+						$this->core->db->insert('hubby_themes',$appInfo['appTableField']);
+						if(is_dir($temp_dir))
+						{
+							$this->extractor($temp_dir,THEMES_DIR.$appFile['temp_dir']);
+							$this->core->notice->push_notice(notice('theme_installed'));
+							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+							return 'theme_installed';
+						}
+					}
+					else
+					{
+						$this->core->notice->push_notice(notice('theme_alreadyExist'));
+						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+						return 'theme_alreadyExist';
+					}
+				}
+				$this->core->notice->push_notice(notice('NoCompatibleTheme'));
+				$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+				return 'NoCompatibleTheme';
+			}
+		}
+			
+		$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+		$this->core->notice->push_notice(notice('invalidApp'));
+		return 'invalidApp';
+	}
+	// Install New Methods
+	public function installSession()
+	{
+		/* 
+		/*	START A NEW INSTALL SESSION
+		*/
+		unset($this->appType);
+		unset($this->appVers);
+		unset($this->appHubbyVers);
+		$this->appTableField	=	array();
+		$this->appSql			=	array();
+	}
+	private $appType;
+	public function appType($type)
+	{
+		$this->appType;
+	}
+	private $appSql	=	array();
+	public function appSql($sql)
+	{
+		$this->appSql[]	=	$sql;
+	}
+	private $appVers;
+	public function appVers($version)
+	{
+		$this->appVers	=	$version;
+	}
+	private $appHubbyVers;
+	public function appHubbyVers($version)
+	{
+		$this->appHubbyVers	=	$version;
+	}
+	private $appTableField	=	array();
+	public function appTableField($fields)
+	{
+		$this->appTableField[]	=	$fields;
+	}
+	public function datas()
+	{
+		return array(
+			'appType'			=>	$this->appType, // [module or theme]
+			'appTableField'		=>	$this->appTableField, // got App infos
+			'appSql'			=>	isset($this->appSql) 		? $this->appSql 		: null, // got sql queries
+			'appVers'			=>	$this->appVers, // App version
+			'appHubbyVers'		=>	$this->appHubbyVers // hubby required version.
+		);
+	}
+	// End install methods
 	public function getSpeMod($value,$option = TRUE)
 	{
 		$this->core->db		->select('*')
