@@ -33,21 +33,5 @@
                     <?php echo $this->core->notice->parse_notice();?> </div>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-offset-4">
-            <div class="list-group m-b-sm bg-white m-b-lg">
-                <header class="panel-heading bg bg-color-red text-center">Soyez &agrave; jour</header>
-                <div class="panel-body">
-                    <p>Avez-vous la derni&egrave;re version d'Hubby ? connectez-vous au <a href="#" class="fg-color-orange">Store</a> et t&eacute;l&eacute;charger gratuitement la derni&egrave;re version d'Hubby.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-sm-offset-4">
-            <div class="list-group m-b-sm bg-white m-b-lg">
-                <header class="panel-heading bg bg-color-blue text-center">T&eacute;l&eacute;charger des applications</header>
-                <div class="panel-body">
-                    <p>Besoin de modules et de th&egrave;mes ? connectez-vous au <a href="#" class="fg-color-orange">Store</a> et t&eacute;l&eacute;charger des applications pour votre site web.</p>
-                </div>
-            </div>
-        </div>
     </div>
 </section>

@@ -14,6 +14,8 @@ class Admin
 		$this->loadLibraries();				//	Affecting Libraries */
 		$this->construct_end();				// 	Fin du constructeur
 		$this->data['pageDescription']	=	$this->core->hubby->getVersion();
+		
+		$this->hubby_admin->system_not('Modifier vos param&ecirc;tre de s&eacute;curit&eacute;', 'Mettez vous &agrave; jour avec cette version', '#', '10 mai 2013', null);
 	}
 	private function installStatus()
 	{
@@ -29,6 +31,7 @@ class Admin
 		$this->data['global_notice']	=	$this->core->hubby_admin->get_global_info();
 		foreach($this->data['global_notice'] as $gl)
 		{
+			$this->hubby_admin->system_not('Syst&egrave;me', strip_tags(notice($gl)), '#',null, null);
 			$this->notice->push_notice(notice($gl));
 		}
 		$this->loadOuputFile();
@@ -67,6 +70,7 @@ class Admin
 		$this->core->file->js_push('jquery.pjax');
 		$this->core->file->js_push('morris.min');
 		$this->core->file->js_push('raphael-min');
+		$this->core->file->js_push('bubbles');
 		$this->core->file_2->js_push('app.v2');
 		$this->core->file->js_push('hubby_app');
 	}
@@ -95,7 +99,8 @@ class Admin
 			if($e == '')
 			{
 				$this->data['get_pages']	=	$this->core->hubby_admin->get_pages();
-				$this->core->hubby->setTitle('Gestion des contr&ocirc;leurs');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+				$this->core->hubby->setTitle('Gestion des contr&ocirc;leurs');
+				$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 				$this->data['body']	=	$this->load->view('admin/pages/body',$this->data,true);
 				
 				$this->load->view('admin/header',$this->data);
@@ -169,7 +174,7 @@ class Admin
 					$this->core->notice->push_notice(notice($this->data['error']));
 				}
 				$this->data['get_mod']		=	$this->core->hubby_admin->get_bypage_module();
-				$this->core->hubby->setTitle('Cr&eacute;er un controleur - Panneau de Contr&ocirc;le - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+				$this->core->hubby->setTitle('Cr&eacute;er un contr&ocirc;leur');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 				$this->data['body']	=	$this->load->view('admin/pages/create_body',$this->data,true);
 				
 				$this->load->view('admin/header',$this->data);
@@ -540,43 +545,47 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 						include_once($library); // Include Theme internal library
 						if(array_key_exists(4,$Parameters))
 						{
-						$Method				=	$Parameters[4];
-					}
+							$Method				=	$Parameters[4];
+						}
 						else
 						{
-						$Method			=	'index';
-					}
+							$Method			=	'index';
+						}
 						for($i = 0;$i < 5;$i++)
 						{
-						array_shift($Parameters);
-					}
+							array_shift($Parameters);
+						}
 						$this->data['interpretation']	=	$this->core->hubby->interpreter($this->data['Spetheme'][0]['NAMESPACE'].'_theme_admin_controller',$Method,$Parameters,$this->data);
+						if($this->data['interpretation'] == '404')
+						{
+							$this->core->url->redirect(array('error','code','page404'));
+						}
 						if(is_array($this->data['interpretation']))
 						{
-						if(array_key_exists('MCO',$this->data['interpretation']))
-						{
-							if($this->data['interpretation']['MCO'] == TRUE)
+							if(array_key_exists('MCO',$this->data['interpretation']))
 							{
-								$this->data['body']['RETURNED']	=	array_key_exists('RETURNED',$this->data['interpretation']) ? 
-									$this->data['interpretation']['RETURNED'] : 
-									$this->core->exceptions->show_error('Interpr&eacute;tation mal d&eacute;finie','L\'interpreation renvoi un tableau qui ne contient pas la cl&eacute; "RETURNED". Le module chargé renvoi un tableau incorrect ou incomplet.'); // If array key forget, get all content as interpretation.
-								$this->data['body']['MCO']		=	$this->data['interpretation']['MCO'];
-								$this->load->view('admin/global_body',$this->data);
+								if($this->data['interpretation']['MCO'] == TRUE)
+								{
+									$this->data['body']['RETURNED']	=	array_key_exists('RETURNED',$this->data['interpretation']) ? 
+										$this->data['interpretation']['RETURNED'] : 
+										$this->core->exceptions->show_error('Interpr&eacute;tation mal d&eacute;finie','L\'interpreation renvoi un tableau qui ne contient pas la cl&eacute; "RETURNED". Le module chargé renvoi un tableau incorrect ou incomplet.'); // If array key forget, get all content as interpretation.
+									$this->data['body']['MCO']		=	$this->data['interpretation']['MCO'];
+									$this->load->view('admin/global_body',$this->data);
+								}
+							}
+							else
+							{
+								$this->core->exceptions->show_error('Interpr&eacute;tation mal d&eacute;finie','L\'interpreation renvoi un tableau qui ne contient pas la cl&eacute; "MCO". Le module chargé renvoi un tableau incorrect ou incomplet.');
 							}
 						}
 						else
 						{
-							$this->core->exceptions->show_error('Interpr&eacute;tation mal d&eacute;finie','L\'interpreation renvoi un tableau qui ne contient pas la cl&eacute; "MCO". Le module chargé renvoi un tableau incorrect ou incomplet.');
+							$this->data['body']['RETURNED']	=	$this->data['interpretation'];
+							$this->data['body']['MCO']		=	FALSE;
+							
+							$this->load->view('admin/header',$this->data);
+							$this->load->view('admin/global_body',$this->data);
 						}
-					}
-						else
-						{
-						$this->data['body']['RETURNED']	=	$this->data['interpretation'];
-						$this->data['body']['MCO']		=	FALSE;$this->data['lmenu']			=	$this->load->view('admin/left_menu',$this->data,true);
-						
-						$this->load->view('admin/header',$this->data);
-						$this->load->view('admin/global_body',$this->data);
-					}
 					}
 					else
 					{

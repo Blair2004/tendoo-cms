@@ -12,32 +12,19 @@
                 </div>
             </header>
             <section class="vbox">
-                <section class="scrollable wrapper w-f"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?>
-                    <header class="header bg-white b-b clearfix">
-                        <div class="row m-t-sm">
-                            <div class="col-sm-6 m-b-xs"> 
-                            	<a href="<?php echo $this->core->url->site_url(array('admin','menu'));?>" data-toggle="class:hide" class="btn btn-sm btn-info active"><i class="icon-caret-right text icon-large"></i><i class="icon-caret-left text-active icon-large"></i></a> 
-                                <a href="#" class="btn btn-sm btn-success"><i class="icon-plus"></i> Retour</a> 								<a href="#" class="btn btn-sm btn-danger"><i class="icon-plus"></i> Supprimer</a>
-							</div>
-                            <div class="col-sm-6 m-b-xs">
-                                <div class="input-group">
-                                    <input type="text" class="input-sm form-control" placeholder="Search">
-                                    <span class="input-group-btn">
-                                    <button class="btn btn-sm btn-white" type="button">Go!</button>
-                                    </span> </div>
-                            </div>
-                        </div>
-                    </header>
+                <section class="wrapper w-f"> 
+					<?php echo $this->core->notice->parse_notice();?> 
+					<?php echo $success;?>
                     <section class="panel">
                         <div class="table-responsive">
                             <table class="table table-striped m-b-none">
                                 <thead>
                                     <tr>
-                                        <th width="20"><input type="checkbox"></th>
-                                        <th width="20">Nom</th>
-                                        <th class="th-sortable active" data-toggle="class">Auteur <span class="th-sort"> <i class="icon-sort-down text"></i> <i class="icon-sort-up text-active"></i> <i class="icon-sort"></i> </span> </th>
+                                        <th width="200">Nom</th>
+                                        <th width="200">Auteur</th>
                                         <th>Description</th>
                                         <th>Etat</th>
+                                        <th width="200"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,11 +45,11 @@
 											}
 										?>
 									<tr>
-										<td ><a class="view" href="<?php echo $this->core->url->site_url(array('admin','themes','config',$t['ID']));?>"><?php echo $t['NAMESPACE'];?></a></td>
-										<td ><?php echo $t['AUTHOR'];?></td>
-										<td ><?php echo $t['DESCRIPTION'];?></td>
-										<td ><?php echo $t['ACTIVATED'];?></td>
-										<td ><a class="view" href="<?php echo $this->core->url->site_url(array('admin','themes','manage',$t['ID']));?>">Param&ecirc;tre avanc&eacute;</a></td>
+										<th><a class="view" href="<?php echo $this->core->url->site_url(array('admin','themes','config',$t['ID']));?>"><?php echo $t['HUMAN_NAME'];?></a></th>
+										<th ><?php echo $t['AUTHOR'];?></th>
+										<th ><?php echo $t['DESCRIPTION'];?></th>
+										<th ><?php echo $t['ACTIVATED'];?></th>
+										<th ><a class="view" href="<?php echo $this->core->url->site_url(array('admin','themes','manage',$t['ID']));?>">Param&ecirc;tre avanc&eacute;</a></th>
 									</tr>
 										<?php
 										}

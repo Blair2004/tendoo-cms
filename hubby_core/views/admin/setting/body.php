@@ -40,9 +40,18 @@
                                                 <?php $fuso		=	$this->core->hubby->getFuseau();
 												foreach($fuso as $f)
 												{
+													if($options[0]['SITE_TIMEZONE'] == $f['Code'])
+													{
 													?>
-                                                    <option value="<?php echo $f['Code'];?>"><?php echo $f['Index'].' - '.$f['States'];?></option>
+                                                    <option selected="selected" value="<?php echo $f['Code'];?>"><?php echo $f['Index'].' - '.$f['States'];?></option>
                                                     <?php
+													}
+													else
+													{
+														?>
+                                                    <option value="<?php echo $f['Code'];?>"><?php echo $f['Index'].' - '.$f['States'];?></option>
+                                                        <?php
+													}
 												}
 												?>
                                                 </select>

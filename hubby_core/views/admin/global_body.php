@@ -10,6 +10,18 @@
 	function page_bottom()
 	{
 		?>
+	<script>
+	bubblesMain(new Object({
+		type : 'radial',
+		revolve : 'center',
+		minSpeed : 100,
+		maxSpeed : 500,
+		minSize : 10,
+		maxSize : 50,
+		num : 100,
+		colors : new Array("#ff0000","#ffff00","#04ff00","#0037ff")
+	}));
+	</script>
     </body>
 </html>
 <?php

@@ -20,4 +20,10 @@ Class logoff
 		$this->core->users_global->closeUserSession();
 		$this->core->url->redirect(array('index'));
 	}
+	public function tologin()
+	{
+		$redirect	=	isset($_GET['ref']) ? $_GET['ref'] : '';
+		$this->core->users_global->closeUserSession();
+		$this->core->url->redirect(array('login','modal?ref='.$redirect));
+	}
 }

@@ -15,8 +15,8 @@
                         <th width="20"><input type="checkbox"></th>
                         <th class="th-sortable" data-toggle="class">Pseudo</th>
                         <th>Contenu</th>
-                        <th width="200">Date de publication</th>
-                        <th width="200">Date</th>
+                        <th width="200">Dernier Message</th>
+                        <th width="200">Date de cr&eacute;ation</th>
                     </tr>
                 </thead>
                 <tbody>

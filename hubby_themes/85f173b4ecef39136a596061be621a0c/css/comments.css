@@ -1,0 +1,342 @@
+/* COMMENTS ------------------------------------------------------------*/
+
+#comments-wrap a{
+	text-decoration: none;
+}
+
+.comment {
+  border-bottom: 1px #ccc solid;
+  margin: 0 0 18px;
+  padding: 0px;
+}
+
+.commentlist .odd{
+	
+}
+
+.commentlist .even{
+	
+}
+
+.v-card{ color: #ccc;}
+
+.comment .avatar {
+	float: left;
+	margin: 2px 15px 0 0;
+	height: 60px;
+	width: 60px;
+}
+
+.respond-title-wrap,
+.comment-title-wrap {
+	border-bottom: 1px solid #484848;
+	padding: 0 0 15px 0;
+	margin: 0 0 30px 0;
+}
+
+#respond-title,
+#comments,
+.add-comment-link {
+	font-size: 15px;
+	color: #2c2d31;
+	font-weight: bold;
+}
+
+.respond-caption { font-size: 11px; }
+
+.add-comment-link a {
+	font-size: 12px;
+	padding: 0 15px 0 0;
+}
+
+.commentlist {
+	margin: 0 0 30px 0;
+	list-style-type: none;
+	font-size: 13px;
+}
+
+.comment-body{
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.commentlist ul li { padding: 0 0 0px 0; }
+
+
+.commentlist ul li:first-child .comment-border {
+	 border-bottom: 1px #ccc solid;
+	margin: 18px 0 0 0;
+ 	height: 18px;
+	width: 430px;
+}
+
+/* CHILDREN ------------------------------------------------------------*/
+
+.children .comment {  
+	border-bottom: none;
+	border-top: 1px #ccc solid;
+}
+
+.children { list-style-type: none; }
+
+
+.children .comment .avatar {
+	height: 35px;
+	width: 35px;
+}
+
+.comment p:last-child { margin: 0; }
+
+.comment-author cite a {
+	padding: 0 15px 0 0;
+	color: #2C2D31;
+}
+
+
+
+.comment .children li{ background: url(../img/reply.png) no-repeat 10px 40px;  }
+
+.comment .children .comment-body { 
+	margin: 20px 0 0 50px;
+}
+
+.nocomments {
+	text-align: center;
+	padding: 20px;
+}
+
+.comment-body ul { list-style-type: disc; }
+
+.comment-body ol { list-style-type: decimal; }
+
+/* REPLY ------------------------------------------------------------*/
+
+.reply {
+	position: absolute;
+	right: 0;
+	top: -5px;
+}
+
+.comment-reply-link { 
+	display: block;
+	color: #444;
+	font-size: 11px;
+	background: #eaeaea;
+	padding: 3px 10px;
+	
+	-webkit-box-shadow: 0px 0px 2px rgba(0,0,0,.3); 
+	-moz-box-shadow: 0px 0px 2px rgba(0,0,0,.3); 
+	-o-box-shadow: 0px 0px 2px rgba(0,0,0,.3);
+	box-shadow: 0px 0px 2px rgba(0,0,0,.3);
+	
+	 -webkit-transition: all 0.3s ease;
+	 -moz-transition: all 0.3s ease;
+	 -o-transition: all 0.3s ease;
+	 transition: all 0.3s ease;
+}
+
+
+
+.comment-reply-link:hover{
+	background: #fe8300;
+	color: #fff;
+}
+
+.comment-reply-link-wrap {
+	position: absolute;
+	right: 0;
+	top: -18px;
+}
+
+/* META ------------------------------------------------------------*/
+
+.comment-meta { 
+	margin: 0 0 12px 50px; 
+	color: #a4a5aa;
+	font-size: 11px;
+	position: relative;
+}
+
+.children .comment-meta { margin-left: 40px; }
+
+
+
+.comment-author cite {
+	font-weight: bold;
+	font-style: normal;
+	color: #2C2D31;
+	margin: 0;
+	padding: 0;
+}
+
+/* COMMENTS PAGINATION ------------------------------------------------------------*/
+
+.comments-pagination {
+	clear:both;
+	overflow: hidden;
+	padding:20px 0;
+	position:relative;
+	font-size:11px;
+	line-height:13px;
+	margin-bottom: 10px;
+}
+ 
+.comments-pagination span,
+.comments-pagination a {
+	display:block;
+	float:left;
+	margin: 2px 2px 2px 0;
+	padding:6px 9px 5px 9px;
+	text-decoration:none;
+	width:auto;
+	color:#fff;
+	background: #555;
+}
+ 
+.comments-pagination a:hover{
+	color:#fff;
+	background: #000000;
+}
+ 
+.comments-pagination .current{
+	padding:6px 9px 5px 9px;
+	background: #000000;
+	color:#fff;
+}
+
+/* FORMS ------------------------------------------------------------*/
+
+#commentform,
+#contactForm{
+	margin-bottom: 18px;
+	color: #484848;
+}
+
+
+#commentform h4,
+#contactForm h4{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#contactForm input,
+#contactForm textarea,
+#commentform input,
+#commentform textarea{
+	padding: 10px 15px;
+	background: #eaeaea;
+	color: #484848;
+	border: 1px  solid #ccc;
+	font-size: 13px;
+	font-family: Helvetica, Arial;
+	line-height: 1.5em;
+	
+	overflow: auto;
+}
+
+#contactForm input:focus,
+#contactForm textarea:focus,
+#commentform input:focus,
+#commentform textarea:focus{
+	background: #fff;
+	-webkit-box-shadow: 0px 0px 3px rgba(254,131,1,.4);
+	-moz-box-shadow: 0px 0px 3px rgba(254,131,1,.4);
+	-o-box-shadow: 0px 0px 3px rgba(254,131,1,.4);
+	box-shadow: 0px 0px 3px rgba(254,131,1,.4);
+}
+
+#contactForm input[type="text"],
+#commentform input[type="text"]{
+	overflow: auto;
+	width: 200px;
+	margin-bottom: 20px;
+	
+	overflow: hidden;
+}
+
+#contactForm  textarea,
+#commentform textarea{
+	width: 90%;
+	height: 230px;
+}
+
+
+#contactForm input[type="submit"],
+#commentform input[type="submit"],
+#contactForm input[type="button"]{
+	margin: 21px 0px;
+
+	width: auto;
+	color: #444;
+	font-size: 11px;
+	background: #eaeaea;
+	padding: 3px 10px;
+	border: 1px solid #ccc;
+	
+	-webkit-box-shadow: 0px 0px 2px rgba(0,0,0,.3); 
+	-moz-box-shadow: 0px 0px 2px rgba(0,0,0,.3); 
+	-o-box-shadow: 0px 0px 2px rgba(0,0,0,.3);
+	box-shadow: 0px 0px 2px rgba(0,0,0,.3);
+	
+	 -webkit-transition: all 0.3s ease;
+	 -moz-transition: all 0.3s ease;
+	 -o-transition: all 0.3s ease;
+	 transition: all 0.3s ease;
+	 
+	 cursor: pointer;
+}
+
+#contactForm input[type="submit"]:hover,
+#commentform input[type="submit"]:hover,
+#contactForm input[type="button"]:hover{
+	background: #fe8300;
+	color: #fff;
+}
+
+#contactForm label,
+#commentform label{
+	padding-left: 7px;
+	color: #484848;
+}
+
+
+#respond{ 
+	margin: 25px 0 0px 0px;
+}
+
+#respond .cancel-comment-reply a{
+	float: right;
+	color: #444;
+	text-decoration: none;
+	background: #eaeaea;
+	padding: 3px 10px;
+	border: 1px solid #ccc;
+	
+	
+	-webkit-box-shadow: 0px 0px 2px rgba(0,0,0,.3); 
+	-moz-box-shadow: 0px 0px 2px rgba(0,0,0,.3); 
+	-o-box-shadow: 0px 0px 2px rgba(0,0,0,.3);
+	box-shadow: 0px 0px 2px rgba(0,0,0,.3);
+	
+	 -webkit-transition: all 0.3s ease;
+	 -moz-transition: all 0.3s ease;
+	 -o-transition: all 0.3s ease;
+	 transition: all 0.3s ease;
+}
+
+#respond .cancel-comment-reply a:hover{
+	background: #fe8300;
+	color: #fff	
+}
+
+#error{
+	margin-left: 10px;
+}
+
+
+#sent-form-msg{
+	padding: 5px 10px;
+	margin-bottom: 40px;
+	background: rgba(0, 0, 0, 0.1);
+	color: #444;
+}

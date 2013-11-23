@@ -337,11 +337,11 @@ class hubby_admin
 		$query				=	$this->core->db->get('hubby_modules');
 		return $query->num_rows();
 	}
-	public function menuExtendsAfter($e)
+	public function menuExtendsAfter($e) // Ajout menu après le menu systeme
 	{
 		$this->leftMenuExtentionAfter = $e;
 	}
-	public function menuExtendsBefore($e)
+	public function menuExtendsBefore($e) // Ajout avant le menu système
 	{
 		$this->leftMenuExtentionBefore = $e;
 	}
@@ -904,5 +904,21 @@ class hubby_admin
 			'ACTION_NAME'			=>	$action_name,
 			'ACTION_DESCRIPTION'	=>	$action_description
 		));
+	}
+	// 0.92
+	private $sys_not_array	=	array();
+	public function system_not($title,$content,$link,$date,$thumb)
+	{
+		$this->sys_not_array[]	=	array(
+			'TITLE'				=>	$title,
+			'CONTENT'			=>	$content,
+			'LINK'				=>	$link,
+			'DATE'				=>	$date,
+			'THUMB'				=>	$thumb
+		);
+	}
+	public function get_sys_not()
+	{
+		return $this->sys_not_array;
 	}
 }

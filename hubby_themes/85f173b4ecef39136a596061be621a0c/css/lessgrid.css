@@ -1,0 +1,571 @@
+/*	Less Framework 4
+	http://lessframework.com
+	by Joni Korpi
+	License: http://opensource.org/licenses/mit-license.php	*/
+
+
+/*	Resets
+	------	*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, 
+p, blockquote, pre, a, abbr, address, cite, code, del, dfn, em, 
+img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, hr, 
+dl, dt, dd, ol, ul, li, fieldset, form, label, legend, 
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figure, figcaption, hgroup, 
+menu, footer, header, nav, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+article, aside, canvas, figure, figure img, figcaption, hgroup,
+footer, header, nav, section, audio, video {
+	display: block;
+}
+
+a img {border: 0;}
+
+
+
+/*	Typography presets
+	------------------	*/
+
+.gigantic {
+	font-size: 110px;
+	line-height: 120px;
+	letter-spacing: -2px;
+}
+
+.huge{
+	font-size: 68px;
+	line-height: 72px;
+	letter-spacing: -1px;
+}
+
+.large {
+	font-size: 42px;
+	line-height: 48px;
+}
+
+.bigger {
+	font-size: 26px;
+	line-height: 36px;
+}
+
+.big{
+	font-size: 22px;
+	line-height: 30px;
+}
+
+body {
+	font: 13px/1.5em Helvetica, Arial, sans-serif;
+}
+
+.small, small {
+	font-size: 13px;
+	line-height: 18px;
+}
+
+/* Selection colours (easy to forget) */
+
+::selection 	 	{background: rgb(255,255,158);}
+::-moz-selection 	{background: rgb(255,255,158);}
+img::selection 		{background: transparent;}
+img::-moz-selection	{background: transparent;}
+body {-webkit-tap-highlight-color: rgb(255,255,158);}
+
+
+
+/*		Default Layout: 992px. 
+		Gutters: 24px.
+		Outer margins: 48px.
+		Leftover space for scrollbars @1024px: 32px.
+-------------------------------------------------------------------------------
+cols    1     2      3      4      5      6      7      8      9      10
+px      68    160    252    344    436    528    620    712    804    896    */
+
+body {
+	-webkit-text-size-adjust: 100%; /* Stops Mobile Safari from auto-adjusting font-sizes */
+}
+
+.wrapper{ 
+	width: 852px;	
+	padding-left: 68px;
+}
+
+#main{
+	width: 920px;
+	padding-left: 0px;	
+}
+
+#mobile-nav-holder{ display: none; }
+
+/*		Tablet Layout: 768px.
+		Gutters: 24px.
+		Outer margins: 28px.
+		Inherits styles from: Default Layout.
+-----------------------------------------------------------------
+cols    1     2      3      4      5      6      7      8
+px      68    160    252    344    436    528    620    712    */
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	
+	.wrapper,
+	#main{
+		padding-left: 0px;	 
+		width: 760px;
+	}
+	
+	#logo{ padding-left: 0px; }
+	
+	/* nav */
+	
+	nav{}
+	
+	#nav li{
+		font-size: 13px;
+		font-weight: lighter;
+	}
+	
+	#nav>li ul{
+		margin-top: -5px;
+	}
+	
+	#nav>li>a>.subheader{
+		display: none;
+	}
+	
+	#mobile-nav-holder{ display: none; }
+	
+	/* social */ 
+	
+	#social-bar{ 
+		position: absolute;
+		top: -35px;
+		right: 0px;
+		width: auto;
+		background: none;
+	}
+	
+	#social-bar ul{
+		float: right; 
+		display: block;
+		overflow: hidden;
+		margin: 0px;
+		width: auto;
+	}
+	
+	#social-bar li{	
+		display: block;
+		float: left;
+		margin: 0px 2px;
+	}
+	
+	#social-bar li img{
+		width: 16px;
+		height: 16px;
+	}
+	
+	/* main */
+	
+	#main #content{
+		width: 760px;
+		float: none;
+	}
+	
+	.shadow-main{
+		width: 760px;
+		height: 11px;
+		margin-left: 0px;
+		background: url(../img/shadow-main-tablet.png) no-repeat top center;
+	}
+	
+	/* masthead */
+	
+	#masthead .breadcrumbs{
+		display: none;
+	}
+	
+	/* slider */
+	
+	.shadow-slider{  background: url(../img/shadow-main-tablet.png) no-repeat top center ; }
+	
+	/* featured */
+	
+	.featured figure{
+		width: 344px;
+		margin-left: 24px;
+	}
+	
+	/*text posts */
+	
+	.text-posts li{
+		margin-left: 24px;
+		width: 160px;
+	}
+	
+	/* home gallery */
+
+	.home-gallery li{ 
+		margin-left: 24px;
+		width: 160px;
+	}
+	
+
+	/* aside */
+	
+	aside.retractil{
+		top: 72px;
+	}
+	
+	/* portfolio */
+	
+	.project-description{ width: 528px; }
+	
+	.project-info{ width: 160px; }
+	
+	.related-projects figure{ width: 160px; }
+	
+	/* blog */
+	
+	#posts-list,
+	#post-content,
+	#page-content{ width: 436px;}
+
+	/* footer */
+	
+	#footer-cols>li{
+		display: block;
+		float: left;
+		width: 229px;
+		margin-left: 24px;	
+	}
+	
+	/* widgets */
+	
+	.recent-post .post-head{ width: 162px; }
+}
+
+
+
+/*		Mobile Layout: 320px.
+		Gutters: 24px.
+		Outer margins: 34px.
+		Inherits styles from: Default Layout.
+---------------------------------------------
+cols    1     2      3
+px      68    160    252    */
+
+@media only screen and (max-width: 767px) {
+	
+	.wrapper,
+	#main{
+		padding-left: 0px;	
+		width: 319px;
+	}
+	
+	#logo{ 
+		float: none;
+		padding-left: 0px;
+	}
+	
+	#logo img{
+		display: block;
+		margin:  0 auto ;
+	}
+	
+	nav{ display: none; }
+	
+	#mobile-nav-holder{ display: block; }
+	
+	.home-block-heading{
+		font-size: 24px;
+		margin-left: 33px;
+		margin-right: 33px;
+	}
+	
+	/* social */
+		
+	#social-bar{ 
+		position: absolute;
+		top: -35px;
+		right: 0px;
+		width: auto;
+		background: none;
+	}
+	
+	#social-bar ul{
+		float: right; 
+		display: block;
+		overflow: hidden;
+		margin: 0px;
+		width: auto;
+	}
+	
+	#social-bar li{	
+		display: block;
+		float: left;
+		margin: 0px 2px;
+	}
+	
+	#social-bar li img{
+		width: 16px;
+		height: 16px;
+	}
+	
+	/* columns */
+	
+	.one-half,
+	.one-third{ width: 100%; margin-right: 0px; }
+	
+	/* main */
+	
+	#main #content{
+		width: 319px;
+		float: none;
+	}
+	
+	.shadow-main{
+		width: 319px;
+		height: 11px;
+		margin-left: 0px;
+		background: url(../img/shadow-main-mobile-por.png) no-repeat top center;
+	}
+	
+	/* masthead */
+	
+	#masthead .breadcrumbs{
+		display: none;
+	}
+	
+	#masthead .head{
+		font-family: helvetica, arial, sans-serif;
+		font-size: 16px;
+	}
+	
+	#masthead .subhead{
+		display: none;
+	}
+	
+	/* slider */
+	
+	.shadow-slider{  background: url(../img/shadow-main-mobile-por.png) no-repeat top center  ; }
+	
+	/* featured */
+	
+	.featured figure{ 
+		width: 252px;
+		margin-left: 33px;
+	}
+
+	/* aside */
+	
+	aside.retractil{
+		top: 69px;
+	}
+	
+	/* portfolio */
+	
+	.project-description{ width: 252px; clear: both; }
+	
+	.project-info{ width: 252px; }
+	
+	/* blog */
+	
+	#posts-list,
+	#post-content,
+	#page-content{ 
+		width: 252px;
+		margin-left: 33px;
+	}
+
+	#contactForm label,
+	#commentform label{
+		margin-top: -13px;
+		margin-bottom: 13px;
+		display: block;
+	}
+	
+	/* sidebar */
+	
+	#sidebar{ width: 252px; margin-left: 33px; }
+	
+	/* footer */
+	
+	#footer-cols>li{
+		display: block;
+		float: left;
+		width: 252px;
+		margin-left: 32px;
+	}
+	
+	footer #to-top{ display: block; }
+	
+	
+	/* widgets */
+	
+	.recent-post .post-head{ width: 185px; }
+	
+	/* slider */
+	
+	.slider-home .flex-control-nav { display: none; }
+	
+	/* headline */
+	
+	.headline{
+		font-family: Helvetica, arial, sans-serif;
+		font-size: 16px;
+	}
+	
+	/* portfolio */
+	
+	.project-heading h1{ 
+		font-family: helvetica, arial, sans-serif;
+		font-size: 16px;
+	}
+	
+	.related-projects figure{ margin-left: 33px; width: 252px; }
+	
+	/*text posts */
+	
+	.text-posts li{
+		margin-left: 33px;
+		width: 252px;
+	}
+	
+	/* home gallery */
+
+	.home-gallery li{ 
+		margin-left: 33px;
+		width: 252px;
+	}
+		
+}
+
+
+
+/*		Wide Mobile Layout: 480px.
+		Gutters: 24px.
+		Outer margins: 22px.
+		Inherits styles from: Default Layout, Mobile Layout.
+------------------------------------------------------------
+cols    1     2      3      4      5
+px      68    160    252    344    436    */
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	
+	.wrapper,
+	#main{
+		padding-left: 0px;	
+		width: 484px; 
+	}
+	
+	#main #content{
+		width: 484px;
+		float: none;
+	}
+	
+	.shadow-main{
+		width: 484px;
+		height: 11px;
+		margin-left: 0px;
+		background: url(../img/shadow-main-mobile-lan.png) no-repeat top center;
+	}
+	
+	.home-block-heading{
+		margin-left: 24px;
+		margin-right: 24px;
+	}
+	
+	
+	/* columns */
+	
+	.one-half{ 
+		width: 47.72%;
+		margin-right: 4.54%;
+	}
+
+	.one-third{ 
+		width: 30.30%;
+		margin-right: 4.54%;
+	}
+	
+	/* slider */
+	
+	.shadow-slider{  background: url(../img/shadow-main-mobile-lan.png) no-repeat top center  ; }
+	
+	/* featured */
+	
+	.featured figure{ 
+		width: 436px;
+		margin-left: 24px;
+	}
+	
+	/*text posts */
+	
+	.text-posts li{
+		margin-left: 24px;
+		width: 207px;
+	}
+	
+	/* home gallery */
+
+	.home-gallery li{ 
+		margin-left: 24px;
+		width: 206px;
+	}
+	
+	/* portfolio */
+	
+	.project-description{ width: 435px; clear: both; }
+	
+	.project-info{ width: 435px; }
+	
+	.related-projects figure{ margin-left: 24px; width: 206px; }
+	
+	/* blog */
+	
+	#posts-list,
+	#post-content,
+	#page-content{
+		width: 434px;
+		margin-left: 24px;
+	}
+	
+	#contactForm label,
+	#commentform label{
+		margin-top: auto;
+		margin-bottom: auto;
+		display: inline;
+	}
+	
+	/* sidebar */
+	
+	#sidebar{
+		width: 434px;
+		margin-left: 24px;
+	}
+	
+	/* footer */
+	
+	#footer-cols>li{
+		display: block;
+		float: left;
+		width: 207px;
+		margin-left: 24px;
+	}
+		
+	#footer-cols>li.third-col{ 
+		clear: left; 
+		width: 436px;
+		margin-right: 0px;
+	}
+	
+	/* widgets */
+	
+	.recent-post .post-head{ width: 140px; }
+	
+
+	
+}

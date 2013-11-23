@@ -133,8 +133,8 @@ class Account
 		{
 			$this->load->library('form_validation');
 			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			$this->core->form_validation->set_rules('receiver','Pseudo du correspondant','trim|required|min_length[6]|max_length[15]');
-			$this->core->form_validation->set_rules('content','Contenu du message','trim|required|min_length[6]|max_length[1200]');
+			$this->core->form_validation->set_rules('receiver','Pseudo du correspondant','trim|required|min_length[5]|max_length[15]');
+			$this->core->form_validation->set_rules('content','Contenu du message','trim|required|min_length[3]|max_length[1200]');
 			if($this->core->form_validation->run())
 			{
 				$result	=	$this->core->users_global->write(
@@ -163,7 +163,7 @@ class Account
 		{
 			$this->load->library('form_validation');
 			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			$this->core->form_validation->set_rules('reply','Contenu du message','trim|required|min_length[6]|max_length[1200]');
+			$this->core->form_validation->set_rules('reply','Contenu du message','trim|required|min_length[3]|max_length[1200]');
 			$this->core->form_validation->set_rules('convid','Identifiant de la convesation','trim|required|min_length[1]');
 			if($this->core->form_validation->run())
 			{

@@ -63,6 +63,10 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				{
 					$this->core->url->redirect(urldecode($_GET['ref']));
 				}
+				else if($this->core->input->post('redirector') != '')
+				{
+					$this->core->url->redirect(urldecode($this->core->input->post('redirector')));
+				}
 				else
 				{
 					$this->core->url->redirect(array('index'));
@@ -82,6 +86,20 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		$this->core->hubby->setTitle($this->data['pageTitle']);
 		
 		$this->data['body']	=	$this->load->view('login/connect',$this->data,true);
+		
+		$this->load->view('header',$this->data);
+		$this->load->view('global_body',$this->data);	
+	}
+	public function modal()
+	{
+		$redirect	=	isset($_GET['ref']) ? $_GET['ref'] : '';
+		// Library
+		$this->loadLibraries();
+		$this->construct_end();		
+		$this->data['options']		=	$this->core->hubby->getOptions();
+		// Method
+		$this->data['redirect']		=	$redirect;
+		$this->data['body']	=	$this->load->view('login/connect_modal',$this->data,true);
 		
 		$this->load->view('header',$this->data);
 		$this->load->view('global_body',$this->data);	

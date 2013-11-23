@@ -1,0 +1,16 @@
+/* GENERAL -------------------------------------------------------------*/
+#main #content{
+	border: 1px solid #ccc;
+}
+
+/* FEATURED ------------------------------------------------------------*/
+
+.featured figure img{
+	width: 100%;
+}
+
+/* RELATED PROJECTS ----------------------------------------------------*/
+
+.related-projects .related-list figure img{
+	width: 100%;
+}

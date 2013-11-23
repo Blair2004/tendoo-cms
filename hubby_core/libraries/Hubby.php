@@ -199,6 +199,16 @@ class Hubby
 		{
 			return false;
 		};
+		$array		=	array(
+			'NAMESPACE'		=>		'hubby_modus',
+			'HUMAN_NAME'	=>		'Hubby - Modus',
+			'AUTHOR'		=>		'Hubby Group',
+			'DESCRIPTION'	=>		'Un thème fait par adapt&eacute; par l\'equipe Hubby. Ce th&egrave;me provient du template r&eacute;alis&eacute; par Luizuno disponible sur luizuno.com',
+			'ACTIVATED'		=>		'TRUE',
+			'HUBBY_VERS'	=>		'0.92',
+			'ENCRYPTED_DIR'	=>		'85f173b4ecef39136a596061be621a0c'
+		);
+		$this->core->db->insert('hubby_themes',$array);
 		
 		return true;
 	}
@@ -552,7 +562,6 @@ class Hubby
 		}
 		$tz_object	=	new DatetimeZone($timezone);
 		$date		=	new DateTime(null,new DatetimeZone($timezone));
-		var_dump($date);
 		$timestamp	=	strtotime($date->format('Y-m-d H:i:s'));
 		return $timestamp;
 	}
