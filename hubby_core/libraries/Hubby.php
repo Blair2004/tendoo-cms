@@ -204,7 +204,8 @@ class Hubby
 		$this->hubby_admin		=&		$this->core->hubby_admin;
 		$appFile				=		array();
 		$appFile['temp_dir']	=		'85f173b4ecef39136a596061be621a0c';
-		$this->hubby_admin->coreInstall($appFile);
+		$this->hubby_admin->hubby_core_installer($appFile);
+		
 		
 		return true;
 	}
