@@ -136,16 +136,8 @@ class Exceptions {
 	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
 		/*set_status_header($status_code);*/
-		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
+		$message = '<div class="panel"><div class="wrapper">'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</div></div>';
 		$this->core->hubby->show_error($message,$heading);
-		if (ob_get_level() > $this->ob_level + 1)
-		{
-			ob_end_flush();
-		}
-		ob_start();
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		return $buffer;
 	}
 
 	// --------------------------------------------------------------------

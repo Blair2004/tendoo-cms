@@ -14,6 +14,9 @@ class hubby_modus_theme_handler
 		$this->core->load->library('file');
 		$this->data['file']					=	$this->core->file;
 		$this->themeEncrypted_dir				=	$this->data['getTheme']['ENCRYPTED_DIR'];
+		include_once(THEMES_DIR.$this->themeEncrypted_dir.'/library.php');
+		$this->modus_lib					=	new modus_lib;
+		$this->data['netWorking']			=	$this->modus_lib->getNetworking();
 		// Load Css File
 		$this->data['file']->css_url		=	$this->core->url->main_url().'hubby_themes/'.$this->themeEncrypted_dir.'/css/';
 		$this->data['file']->css_push('style');
@@ -377,13 +380,7 @@ foreach($this->onTopContent as $c)
 		?>
 <div id="main">
     <!-- social -->
-    <div id="social-bar">
-        <!--<ul>
-            <li><a href="http://www.facebook.com"  title="Become a fan"><img src=""  alt="Facebook" /></a></li>
-            <li><a href="http://www.twitter.com" title="Follow my tweets"><img src=""  alt="Facebook" /></a></li>
-            <li><a href="http://www.google.com"  title="Add to the circle"><img src="" alt="Facebook" /></a></li>
-        </ul>-->
-    </div>
+    <?php $this->socialBar();?>
     <!-- ENDS social -->
     <!-- Content -->
     <div id="content">
@@ -417,7 +414,42 @@ foreach($this->onTopContent as $c)
 	/*
 	/*	End
 	*/
-	
+	public function socialBar()
+	{
+		?>
+        <div id="social-bar">
+		<?php
+        if($this->data['netWorking']['FACEBOOK_ACCOUNT'] != '' || $this->data['netWorking']['TWITTER_ACCOUNT'] != '' || $this->data['netWorking']['GOOGLEPLUS_ACCOUNT'] != '')
+        {
+            ?>
+            <ul>
+            <?php
+            if($this->data['netWorking']['FACEBOOK_ACCOUNT'] != '')
+            {
+                ?>
+                <li><a href="<?php echo $this->data['netWorking']['FACEBOOK_ACCOUNT'];?>"  title="Become a fan"><img src="<?php echo $this->core->url->main_url().THEMES_DIR.$this->encryptedTheme_dir.'/img/social/facebook_32.png';?>"  alt="Facebook" /></a></li>
+            <?php
+            }
+            else if($this->data['netWorking']['TWITTER_ACCOUNT'] != '')
+            {
+                ?>
+                <li><a href="<?php echo $this->data['netWorking']['TWITTER_ACCOUNT'];?>"  title="Become a fan"><img src="<?php echo $this->core->url->main_url().THEMES_DIR.$this->encryptedTheme_dir.'/img/social/twitter_32.png';?>"  alt="Twitter" /></a></li>
+            <?php
+            }
+            else if($this->data['netWorking']['GOOGLEPLUS_ACCOUNT'] != '')
+            {
+                ?>
+                <li><a href="<?php echo $this->data['netWorking']['GOOGLEPLUS_ACCOUNT'];?>"  title="Become a fan"><img src="<?php echo $this->core->url->main_url().THEMES_DIR.$this->encryptedTheme_dir.'/img/social/google_plus_32.png';?>"  alt="googleplus" /></a></li>
+            <?php
+            }
+            ?>
+            </ul>
+            <?php
+        }
+        ?>
+        </div>
+        <?php
+	}
 	/*
 	/*	Parse Blogs publications
 	*/
@@ -624,13 +656,7 @@ foreach($this->onTopContent as $c)
 		<div id="main">
 				
 			<!-- social -->
-			<div id="social-bar">
-				<!--<ul>
-					<li><a href="http://www.facebook.com"  title="Become a fan"><img src=""  alt="Facebook" /></a></li>
-					<li><a href="http://www.twitter.com" title="Follow my tweets"><img src=""  alt="Facebook" /></a></li>
-					<li><a href="http://www.google.com"  title="Add to the circle"><img src="" alt="Facebook" /></a></li>
-				</ul>-->
-			</div>
+			<?php $this->socialBar();?>
 			<!-- ENDS social -->
 			
 			
@@ -763,13 +789,7 @@ foreach($this->onTopContent as $c)
 		<div id="main">
 				
 			<!-- social -->
-			<div id="social-bar">
-				<ul>
-					<li><a href="http://www.facebook.com"  title="Become a fan"><img src=""  alt="Facebook" /></a></li>
-					<li><a href="http://www.twitter.com" title="Follow my tweets"><img src=""  alt="Facebook" /></a></li>
-					<li><a href="http://www.google.com"  title="Add to the circle"><img src="" alt="Facebook" /></a></li>
-				</ul>
-			</div>
+			<?php $this->socialBar();?>
 			<!-- ENDS social -->
 			<!-- Content -->
 			<div id="content">
@@ -880,13 +900,7 @@ foreach($this->onTopContent as $c)
 		?>
         <div id="main">
 			<!-- social -->
-			<div id="social-bar">
-				<ul>
-					<li><a href="http://www.facebook.com"  title="Become a fan"><img src="img/social/facebook_32.png"  alt="Facebook" /></a></li>
-					<li><a href="http://www.twitter.com" title="Follow my tweets"><img src="img/social/twitter_32.png"  alt="Facebook" /></a></li>
-					<li><a href="http://www.google.com"  title="Add to the circle"><img src="img/social/google_plus_32.png" alt="Facebook" /></a></li>
-				</ul>
-			</div>
+			<?php $this->socialBar();?>
 			<!-- ENDS social -->
 			<!-- Content -->
 			<div id="content">

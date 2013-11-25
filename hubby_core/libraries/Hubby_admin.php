@@ -796,11 +796,12 @@ class hubby_admin
 		unset($this->appHubbyVers);
 		$this->appTableField	=	array();
 		$this->appSql			=	array();
+		$this->appAction		=	array();
 	}
 	private $appType;
 	public function appType($type)
 	{
-		$this->appType;
+		$this->appType	=	$type;
 	}
 	private $appSql	=	array();
 	public function appSql($sql)
@@ -820,17 +821,30 @@ class hubby_admin
 	private $appTableField	=	array();
 	public function appTableField($fields)
 	{
-		$this->appTableField[]	=	$fields;
+		$this->appTableField	=	$fields; // File information such as NAMESPACE, HUMAN_NAME, DESCRIPTION and others
+	}
+	private $appAction		=	array();
+	public function appAction($action)
+	{
+		$this->appAction	=	$action;
 	}
 	public function datas()
 	{
-		return array(
+		$finalArray	=	 array(
 			'appType'			=>	$this->appType, // [module or theme]
 			'appTableField'		=>	$this->appTableField, // got App infos
-			'appSql'			=>	isset($this->appSql) 		? $this->appSql 		: null, // got sql queries
 			'appVers'			=>	$this->appVers, // App version
-			'appHubbyVers'		=>	$this->appHubbyVers // hubby required version.
+			'appHubbyVers'		=>	$this->appHubbyVers, // hubby required version.
 		);
+		if($this->appAction == true)
+		{
+			$finalArray['appAction']	=	$this->appAction;
+		}
+		if($this->appSql == true)
+		{
+			$finalArray['appSql']	=	$this->appSql;
+		}
+		return $finalArray;
 	}
 	// End install methods
 	public function getSpeMod($value,$option = TRUE)

@@ -1150,7 +1150,7 @@ class DB_driver {
 		$LANG->load('db');
 
 		$heading = $LANG->line('db_error_heading');
-
+		
 		if ($native == TRUE)
 		{
 			$message = $error;
@@ -1177,7 +1177,6 @@ class DB_driver {
 				break;
 			}
 		}
-
 		$error = $this->core->exceptions;
 		echo $error->show_error($heading, $message, 'error_db');
 		exit;

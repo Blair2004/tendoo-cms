@@ -5,6 +5,7 @@ class hubby_modus_theme_admin_controller
 	{
 		$this->data				=&	$data;
 		$this->core				=	Controller::instance();
+		$this->modus_lib		=	new modus_lib;
 		$this->load				=&	$this->core->load;
 		$this->hubby			=&	$this->core->hubby;
 		$this->hubby_admin		=&	$this->core->hubby_admin;
@@ -23,7 +24,26 @@ class hubby_modus_theme_admin_controller
 	{
 		$this->data['pageTitle']		=	'Modus Gestion du th&egrave;me';
 		$this->data['pageDescription']	=	'Gesionnaire du th&egrave;me modus';
-		
+		$this->core->load->library('form_validation');
+		$this->core->form_validation->set_rules('facebook','du lien vers le compte facebook','trim|min_length[0]');
+		$this->core->form_validation->set_rules('twitter','du lien vers le compte twitter','trim|min_length[0]');
+		$this->core->form_validation->set_rules('googleplus','du lien vers le compte google+','trim|min_length[0]');
+		if($this->core->form_validation->run())
+		{
+			if($this->modus_lib->updateNetworking(
+				$this->core->input->post('facebook'),
+				$this->core->input->post('twitter'),
+				$this->core->input->post('googleplus')
+			))
+			{
+				$this->core->notice->push_notice(notice('done'));
+			}
+			else
+			{
+				$this->core->notice->push_notice(notice('error_occured'));
+			}
+		}
+		$this->data['networking']		=	$this->modus_lib->getNetworking();
 		$this->hubby->setTitle($this->data['pageTitle']);
 		$this->hubby->setDescription($this->data['pageDescription']);
 		

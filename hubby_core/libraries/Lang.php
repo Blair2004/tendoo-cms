@@ -15,6 +15,9 @@ Class Lang
 			case 'date':
 				$this->current	=	'date';
 			break;
+			case 'db':
+				$this->current	=	'db';
+			break;
 						
 			default:
 			return $mixed_library;
@@ -60,7 +63,10 @@ Class Lang
 			break;
 		}
 		}
-		else if($this->current	==	'date')
-		{}
+		else if($this->current	==	'db')
+		{
+			return 'Base de donn&eacute;e';
+		}
+		
 	}
 }

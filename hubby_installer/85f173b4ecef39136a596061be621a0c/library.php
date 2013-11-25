@@ -5,10 +5,6 @@ class modus_lib
 	{
 		$this->core	=	Controller::instance();
 	}
-	public function createCustomCss($backgrounColor)
-	{
-		
-	}
 	public function updateNetworking($facebook,$twitter,$googleplus)
 	{
 		$query	=	$this->core->db->get('hubby_theme_modus_table');
@@ -36,5 +32,11 @@ class modus_lib
 			}
 		}
 		return 'error_occured';
+	}
+	public function getNetworking()
+	{
+		$query	=	$this->core->db->get('hubby_theme_modus_table');
+		$result	=	$query->result_array();
+		return (array_key_exists(0,$result)) ? $result[0] : array('FACEBOOK_ACCOUNT'=>'','TWITTER_ACCOUNT'=>'','GOOGLEPLUS_ACCOUNT'=>'');
 	}
 }
