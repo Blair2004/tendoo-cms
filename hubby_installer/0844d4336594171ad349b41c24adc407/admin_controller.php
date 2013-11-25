@@ -27,11 +27,11 @@ class News_admin_controller
 	public function index($page	= 1)
 	{
 		$this->data['ttNews']		=	$this->news->countNews();
-		$this->data['pagination']	=	$this->core->hubby->paginate(10,$this->data['ttNews'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
-		if($this->data['pagination'][3] == FALSE): $this->core->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
+		$this->data['paginate']	=	$this->core->hubby->paginate(10,$this->data['ttNews'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
+		if($this->data['paginate'][3] == FALSE): $this->core->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
 		
-		$this->hubby->setTitle('News - Page d\'administration');
-		$this->data['getNews']		=	$this->news->getNews($this->data['pagination'][1],$this->data['pagination'][2]);
+		$this->hubby->setTitle('Blogster - Page d\'administration');
+		$this->data['getNews']		=	$this->news->getNews($this->data['paginate'][1],$this->data['paginate'][2]);
 		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/main',$this->data,true,TRUE);
 		
 		return $this->data['body'];
@@ -45,7 +45,7 @@ class News_admin_controller
 			{
 				$this->core->url->redirect(array('admin','open','modules',$this->moduleData['ID'],'category','create?notice=noCategoryCreated'));
 			}
-			$this->hubby->setTitle('News - Créer un nouvel article');
+			$this->hubby->setTitle('Blogster - Créer un nouvel article');
 			$this->core->load->library('form_validation');
 			$this->core->form_validation->set_rules('news_name','Intitulé de l\'article','trim|required|min_length[5]|max_length[200]');
 			$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[5000]');
@@ -119,7 +119,7 @@ class News_admin_controller
 		}
 		// Retreiving News Data
 		$this->data['news']		=	$this->news->getSpeNews($e);
-		$this->hubby->setTitle('News - Créer un nouvel article');
+		$this->hubby->setTitle('Blogster - Créer un nouvel article');
 		$this->hubby->loadEditor(3);
 		
 		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/edit',$this->data,true,TRUE);
@@ -133,13 +133,13 @@ class News_admin_controller
 		}
 		if($e == 'index')
 		{
-			if($i	==	null): $i	=	1;endif; // affecte un lorsque la page n\'est pas correctement défini
-			$page					=&	$i; // don't waste memory
+			if($i	==	null): $i		=	1;endif; // affecte un lorsque la page n\'est pas correctement défini
+			$page						=&	$i; // don't waste memory
 			$this->data['ttCat']		=	$this->news->countCat();
-			$this->data['pagination']	=	$this->core->hubby->paginate(10,$this->data['ttCat'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'category','index')).'/',$ajaxis_link=null);
-			if($this->data['pagination'][3] == FALSE): $this->core->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
-			$this->data['getCat']		=	$this->news->getCat($this->data['pagination'][1],$this->data['pagination'][2]);
-			$this->hubby->setTitle($this->moduleData['HUMAN_NAME'].' - Gestion des cat&eacute;gories');
+			$this->data['paginate']		=	$this->core->hubby->paginate(10,$this->data['ttCat'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'category','index')).'/',$ajaxis_link=null);
+			if($this->data['paginate'][3] == FALSE): $this->core->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
+			$this->data['getCat']		=	$this->news->getCat($this->data['paginate'][1],$this->data['paginate'][2]);
+			$this->hubby->setTitle('Blogster - Gestion des cat&eacute;gories');
 			$this->hubby->loadEditor(2);
 			
 			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/category',$this->data,true,TRUE);
@@ -159,7 +159,7 @@ class News_admin_controller
 				$this->notice->push_notice(notice($this->data['notice']));
 			}
 			$this->notice->push_notice(validation_errors('<p class="error">','</p>'));
-			$this->hubby->setTitle('News - Cr&eacute;e une categorie');
+			$this->hubby->setTitle('Blogster - Cr&eacute;e une categorie');
 			$this->hubby->loadEditor(2);
 			
 			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/create_cat',$this->data,true,TRUE);
@@ -225,8 +225,8 @@ class News_admin_controller
 		if($this->core->users_global->isSuperAdmin()	|| $this->hubby_admin->adminAccess('modules','blogster_manage_comments',$this->core->users_global->current('PRIVILEGE')))
 		{	$this->data['setting']			=	$this->news->getBlogsterSetting();
 			$this->data['ttComments']		=	$this->news->countComments();
-			$this->data['pagination']		=	$this->core->hubby->paginate(30,$this->data['ttComments'],1,'bg-color-red fg-color-white','bg-color-green fg-color-white',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'comments')).'/');
-			$this->data['getComments']		=	$this->news->getComments($this->data['pagination'][1],$this->data['pagination'][2]);
+			$this->data['paginate']		=	$this->core->hubby->paginate(30,$this->data['ttComments'],1,'bg-color-red fg-color-white','bg-color-green fg-color-white',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'comments')).'/');
+			$this->data['getComments']		=	$this->news->getComments($this->data['paginate'][1],$this->data['paginate'][2]);
 			$this->data['body']				=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/list_comments',$this->data,true,TRUE);
 			return $this->data['body'];
 		}

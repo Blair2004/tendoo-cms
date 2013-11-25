@@ -585,6 +585,13 @@ class hubby_admin
 						// -----------------------------------------------------------------------------------------
 						if($query->num_rows == 0)
 						{
+							if(is_array($appInfo['appSql']))
+							{
+								foreach($appInfo['appSql'] as $sql)
+								{
+									$this->core->db->query($sql);
+								}
+							}
 							$this->core->db->insert('hubby_themes',$appInfo['appTableField']);
 							if(is_dir($temp_dir))
 							{
@@ -759,6 +766,13 @@ class hubby_admin
 					// -----------------------------------------------------------------------------------------
 					if($query->num_rows == 0)
 					{
+						if(is_array($appInfo['appSql']))
+						{
+							foreach($appInfo['appSql'] as $sql)
+							{
+								$this->core->db->query($sql);
+							}
+						}
 						$this->core->db->insert('hubby_themes',$appInfo['appTableField']);
 						if(is_dir($temp_dir))
 						{
@@ -826,7 +840,7 @@ class hubby_admin
 	private $appAction		=	array();
 	public function appAction($action)
 	{
-		$this->appAction	=	$action;
+		$this->appAction[]	=	$action;
 	}
 	public function datas()
 	{

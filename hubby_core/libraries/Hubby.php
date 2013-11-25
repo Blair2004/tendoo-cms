@@ -204,15 +204,14 @@ class Hubby
 		$this->hubby_admin		=&		$this->core->hubby_admin;
 		$appFile				=		array();
 		$appFile['temp_dir']	=		'85f173b4ecef39136a596061be621a0c';
-		var_dump($this->hubby_admin->hubby_core_installer($appFile));
+		$this->hubby_admin->hubby_core_installer($appFile);
 		$hubby_installed_theme	=		$this->hubby_admin->getThemes();
 		// Set first Installed theme as default
 		$this->hubby_admin->setDefault($hubby_installed_theme[0]['ID']); // retreiving IDs
 		// Install "Blogster"
 		$appFile				=		array();
 		$appFile['temp_dir']	=		'0844d4336594171ad349b41c24adc407';
-		var_dump($this->hubby_admin->hubby_core_installer($appFile));
-		die();
+		$this->hubby_admin->hubby_core_installer($appFile);
 		return true;
 	}
 	public function connectToDb()

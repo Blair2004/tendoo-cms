@@ -13,32 +13,21 @@
             </header>
             <section class="vbox">
                 <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?>
-                    <header class="header bg-white b-b clearfix">
-                        <div class="row m-t-sm">
-                            <div class="col-sm-6 m-b-xs"> 
-                            	<a href="<?php echo $this->core->url->site_url(array('admin','menu'));?>" data-toggle="class:hide" class="btn btn-sm btn-info active"><i class="icon-caret-right text icon-large"></i><i class="icon-caret-left text-active icon-large"></i></a> 
-                                <a href="#" class="btn btn-sm btn-success"><i class="icon-plus"></i> Retour</a> 								<a href="#" class="btn btn-sm btn-danger"><i class="icon-plus"></i> Supprimer</a>
-							</div>
-                            <div class="col-sm-6 m-b-xs">
-                                <div class="input-group">
-                                    <input type="text" class="input-sm form-control" placeholder="Search">
-                                    <span class="input-group-btn">
-                                    <button class="btn btn-sm btn-white" type="button">Go!</button>
-                                    </span> </div>
-                            </div>
+                	<section class="panel">
+                    	<div class="panel-heading">
+                        Liste des modules installés
                         </div>
-                    </header>
-                    <section class="panel">
                         <div class="table-responsive">
                             <table class="table table-striped m-b-none">
                                 <thead>
                                     <tr>
-                                        <th width="20">Nom</th>
-                                        <th class="th-sortable active" data-toggle="class">Auteur <span class="th-sort"> <i class="icon-sort-down text"></i> <i class="icon-sort-up text-active"></i> <i class="icon-sort"></i> </span> </th>
+                                        <th width="300">Nom</th>
+                                        <th>Auteur</th>
                                         <th>Description</th>
                                         <th>Actif</th>
                                         <th>Type</th>
                                         <th>Etat</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>

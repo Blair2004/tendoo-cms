@@ -491,7 +491,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			{
 				$query	=	$this->core->db->get('hubby_news_setting');
 				$result	=	$query->result_array();
-				return $result[0];
+				return array_key_exists(0,$result) ? $result[0] : array('APPROVEBEFOREPOST'=>1,'EVERYONEPOST'=>0);
 			}
 			public function pushView($arid)
 			{

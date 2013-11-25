@@ -15,7 +15,7 @@ class Admin
 		$this->construct_end();				// 	Fin du constructeur
 		$this->data['pageDescription']	=	$this->core->hubby->getVersion();
 		
-		$this->hubby_admin->system_not('Modifier vos param&ecirc;tre de s&eacute;curit&eacute;', 'Mettez vous &agrave; jour avec cette version', '#', '10 mai 2013', null);
+		/*$this->hubby_admin->system_not('Modifier vos param&ecirc;tre de s&eacute;curit&eacute;', 'Mettez vous &agrave; jour avec cette version', '#', '10 mai 2013', null);*/
 	}
 	private function installStatus()
 	{
