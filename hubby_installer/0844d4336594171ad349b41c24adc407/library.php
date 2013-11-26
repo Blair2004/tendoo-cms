@@ -408,7 +408,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			{
 				$this->core->db			->from('hubby_news')
 										->where('ETAT',1)
-										->order_by('DATE','DESC')
+										->order_by('DATE','desc')
 										->limit($end,$start);
 				$query 					= $this->core->db->get();
 				return $query->result_array();

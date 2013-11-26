@@ -195,9 +195,9 @@ class hubby_admin
 		$Module		=	$this->getSpeMod($id,TRUE);
 		if($Module !== FALSE)
 		{
-			if(is_file(MODULES_DIR.$Module[0]['NAMESPACE'].'/uninstall.php'))
+			if(is_file(MODULES_DIR.$Module[0]['ENCRYPTED_DIR'].'/uninstall.php'))
 			{
-				include_once(MODULES_DIR.$Module[0]['NAMESPACE'].'/uninstall.php');
+				include_once(MODULES_DIR.$Module[0]['ENCRYPTED_DIR'].'/uninstall.php');
 			}
 			$this->drop(MODULES_DIR.$Module[0]['ENCRYPTED_DIR']);
 			return	$this->core->db->delete('hubby_modules',array('ID'=>$id));
@@ -325,6 +325,10 @@ class hubby_admin
 		$theme	=	$this->isTheme($id);
 		if($theme)
 		{
+			if(is_file(THEMES_DIR.$theme[0]['ENCRYPTED_DIR'].'/uninstall.php'))
+			{
+				include_once(THEMES_DIR.$Module[0]['ENCRYPTED_DIR'].'/uninstall.php');
+			}
 			$this->core->db->where('ID',$id)->delete('hubby_themes');
 			$this->drop(THEMES_DIR.$theme[0]['ENCRYPTED_DIR']);
 			return 'done';
