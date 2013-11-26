@@ -157,4 +157,10 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			$this->load->view('install/step/4/homebody',$this->data);
 		}
 	}
+	public function installApp($namespace)
+	{
+		if($namespace	==	"bloster")
+		{
+		}
+	}
 }

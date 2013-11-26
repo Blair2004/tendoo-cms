@@ -48,7 +48,7 @@
         <div class="col-lg-4">
             <section class="panel">
                 <header class="panel-heading bg bg-color-yellow text-center">Information de votre site web</header>
-                <form class="panel-body" method="post">
+                <form id="siteNameForm" class="panel-body" method="post">
                     <div class="form-group">
                         <label class="host_name">Nom du site</label>
                         <input name="site_name" type="text" placeholder="Nom de votre site" class="form-control">
@@ -56,6 +56,71 @@
                     <div class="line line-dashed"></div>
                     <button type="submit" class="btn btn-info">Continuer</button>
                 </form>
+                <div class="installingStatus">
+                </div>
+                <script>
+					function triggerInstall()
+					{
+						var installStatus		=	true;
+						var defaultsApp			=	new Array();
+							defaultsApp[0]		=	"blogster";
+							defaultsApp[1]		=	"modus";
+						var defaultsAppText		=	new Array();
+							defaultsAppText[0]	=	'Installation du module Blogster...';
+							defaultsAppText[1]	=	'Installation du th&egrave;me Modus...';
+						var defaultsAppFinish	=	new Array();
+							defaultsAppFinish[0]=	'Installation du module termin&eacute;e';
+							defaultsAppFinish[1]=	'Installation du th&egrave;me termin&eacute;e';
+							
+						var defaultsAppHtml		=	
+							"<h4>Installation des applications par d&eacute;faut</h4>"+
+							'<ul class="statusList">'+
+							'</ul>';
+						var iterator			=	0;
+						var interval			=	setInterval(function(){
+							if(installStatus == true)
+							{
+								var action		=	'';
+								if(typeof defaultsApp[iterator] == 'undefined') // Lorsqu'il ny a plus aucune application a installer :D
+								{
+									$('#siteNameForm').submit();
+									$('.statusList').append('<li class="currentInstall'+iterator+'">Installation des applications terminée...</li>');
+									clearInterval(interval);
+								}
+								else
+								{
+									switch(defaultsApp[iterator])
+									{
+										case "bloster"	:
+											action	=	"";
+										break;
+										case "modus"	:
+											action	=	"";
+										break;											
+									}
+									$.ajax({
+										beforeSend	:	function()
+										{
+											installStatus	=	false;
+											$('.statusList').append('<li class="currentInstall'+iterator+'">'+defaultsAppText[iterator]+'</li>');
+										},
+										success		:	function(data)
+										{
+											installStatus	=	true;
+											$('.statusList').find('.currentInstall'+iterator).text(defaultAppFinish[iterator]);
+										}
+									});
+								}
+								iterator++;
+							}
+						},500);
+					}
+				$(document).ready(function(){
+					$('#siteNameForm').bind('click',function(){
+						return false; // dont allow direct access :D
+					});
+				});
+				</script>
             </section>
         </div>
         <div class="col-lg-4">
