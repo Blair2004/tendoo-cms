@@ -159,8 +159,6 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 	}
 	public function installApp($namespace)
 	{
-		if($namespace	==	"bloster")
-		{
-		}
+		$this->core->hubby->defaultsApp($app);
 	}
 }

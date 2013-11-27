@@ -92,10 +92,10 @@
 									switch(defaultsApp[iterator])
 									{
 										case "bloster"	:
-											action	=	"";
+											action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/blogster";
 										break;
 										case "modus"	:
-											action	=	"";
+											action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/modus";
 										break;											
 									}
 									$.ajax({
