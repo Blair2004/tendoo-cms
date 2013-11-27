@@ -117,6 +117,7 @@
 					}
 				$(document).ready(function(){
 					$('#siteNameForm').bind('click',function(){
+						triggerInstall();
 						return false; // dont allow direct access :D
 					});
 				});
