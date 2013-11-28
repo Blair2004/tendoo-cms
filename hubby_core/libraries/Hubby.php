@@ -230,7 +230,7 @@ class Hubby
 				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
 				$lib					=	new News(null);
 				$lib->createCat('Cat&eacute;gorie sans nom','Cette cat&eacute;gorie sert d\'illustration.');
-				$lib->publish_news('Bienvenu sur Hubby '.$this->getVersId(),'Voici votre premi&egrave;re publication dans votre blog Hubby, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',1,$this->core->url->img_url('Hub_back.png'),1,TRUE);
+				$lib->publish_news('Bienvenue sur Hubby '.$this->getVersId(),'Voici votre premi&egrave;re publication dans votre blog Hubby, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',1,$this->core->url->img_url('Hub_back.png'),1,TRUE);
 			}
 		}
 	}
