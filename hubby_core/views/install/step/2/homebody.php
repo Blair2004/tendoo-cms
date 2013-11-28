@@ -59,7 +59,7 @@
                     </div>
                     <div class="form-group">
                         <label class="host_password">Mot de passe de l'utilisateur</label>
-                        <input name="host_password" type="password" placeholder="Entrez le mot de passe" class="form-control">
+                        <input name="host_password" type="text" placeholder="Entrez le mot de passe" class="form-control">
                     </div>
                     <div class="form-group">
                         <label class="db_name">Nom de la base de donn&eacute;e</label>

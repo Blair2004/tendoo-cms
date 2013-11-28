@@ -231,6 +231,7 @@ class Admin
 				$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
 				return;
 			}
+			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 			$this->load->library('form_validation');
 $this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 			$this->form_validation->set_rules('mod_id','','required|trim|alpha_dash|min_length[1]');
@@ -262,17 +263,13 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 	{
 		if($e	== 	'module')
 		{
-			$mod	=	$this->core->hubby_admin->getSpeMod($id,TRUE);
-			if($mod)
+			if($this->core->hubby_admin->moduleActivation($id))
 			{
-				$this->core->db->where('ID',$id)->update('hubby_modules',array(
-					'ACTIVE'	=>	1
-				));
-				$this->core->url->redirect(array('admin','modules'));
+				$this->core->url->redirect(array('admin','modules?notice=done'));
 				return true;
 			}
-			return false;
 		}
+		$this->core->url->redirect(array('admin','modules?notice=error_occured'));
 		return false;
 	}
 	public function unactive($e,$id)

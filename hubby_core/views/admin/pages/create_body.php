@@ -32,7 +32,7 @@
                                     </div>
                                     <div class="form-group"> 
                                         <label class="control-label">Titre du contr&ocirc;leur</label> 
-                                        <input type="text" placeholder="D&eacute;signation du contr&ocirc;leur" name="page_cname" class="form-control"> 
+                                        <input type="text" placeholder="D&eacute;signation du contr&ocirc;leur" name="page_title" class="form-control"> 
                                     </div>
                                     <div class="form-group"> 
                                         <label class="control-label">Description du contr&ocirc;leur</label> 

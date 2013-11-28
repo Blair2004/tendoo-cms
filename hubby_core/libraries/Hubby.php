@@ -220,7 +220,18 @@ class Hubby
 			// Install "Blogster"
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'0844d4336594171ad349b41c24adc407';
+			$option					=		$this->getOptions();
 			$this->hubby_admin->hubby_core_installer($appFile);
+			$module					=		$this->hubby_admin->moduleActivation('news',FALSE);
+			if($module)
+			{
+				$this->firstController('Accueil','home','news',$option[0]['SITE_NAME'].' - Accueil','Aucune description enregistr&eacute;e','TRUE','TRUE');
+				$module					=		$this->getSpeModuleByNamespace('news');
+				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
+				$lib					=	new News(null);
+				$lib->createCat('Cat&eacute;gorie sans nom','Cette cat&eacute;gorie sert d\'illustration.');
+				$lib->publish_news('Bienvenu sur Hubby '.$this->getVersId(),'Voici votre premi&egrave;re publication dans votre blog Hubby, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',1,$this->core->url->img_url('Hub_back.png'),1,TRUE);
+			}
 		}
 	}
 	public function connectToDb()
@@ -309,8 +320,7 @@ class Hubby
 		{
 			return false;
 		}
-		// CREATING FIRST CONTROLLERS
-		return $this->firstController('Accueil','home','',$value['SITE_NAME'].' - Accueil','Aucune description enregistr&eacute;e','TRUE','TRUE');
+		return true;
 	}
 	public function firstController($name,$cname,$mod,$title,$description,$main,$visible)
 	{

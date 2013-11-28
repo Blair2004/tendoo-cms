@@ -48,6 +48,7 @@ class hubby_admin
 			$this->core	->db->select('*')
 						->from('hubby_controllers');
 			$query 	=	$this->core->db->get();
+			$array		=	array();
 			foreach($query->result() as $obj)
 			{
 				$array[] = array(
@@ -92,6 +93,47 @@ class hubby_admin
 		$query	=	$this->core->db->get('hubby_controllers');
 		return $query->num_rows();
 	}
+	public function getSpeModuleByNamespace($namespace) // La même méthode pour Hubby ne recupère que ce qui est déjà activé.
+	{
+		$this->core->db		->select('*')
+							->from('hubby_modules')
+							->where('NAMESPACE',$namespace);
+		$query				= $this->core->db->get();
+		$data				= $query->result_array();
+		if(count($data) > 0)
+		{
+			return $data;
+		}
+		return false;
+	}
+	public function moduleActivation($id,$form = TRUE)
+	{
+		if($form == TRUE)
+		{
+			$mod	=	$this->core->hubby_admin->getSpeMod($id,TRUE);
+			if($mod)
+			{
+				$this->core->db->where('ID',$id)->update('hubby_modules',array(
+					'ACTIVE'	=>	1
+				));
+				$this->core->url->redirect(array('admin','modules'));
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			$mod	=	$this->getSpeModuleByNamespace($id);
+			if($mod)
+			{
+				$this->core->db->where('NAMESPACE',$id)->update('hubby_modules',array(
+					'ACTIVE'	=>	1
+				));
+				return $mod;
+			}
+			return false;
+		}
+	}
 	public function get_modules($start = NULL,$end = NULL)
 	{
 		$this->core->db		->select('*')
@@ -135,39 +177,39 @@ class hubby_admin
 								->update('hubby_controllers',$e);
 				}
 			}
-			$e['PAGE_CNAME']		=	strtolower($cname);
-			$e['PAGE_NAMES']		=	strtolower($name);
-			$e['PAGE_TITLE']		=	$title;
-			$e['PAGE_DESCRIPTION']	=	$description;
-			$e['PAGE_MAIN']			=	$main;
-			$e['PAGE_MODULES']		=	$mod;
-			$e['PAGE_VISIBLE']		=	$visible;
-			if($obj == 'create')
+		}
+		$e['PAGE_CNAME']		=	strtolower($cname);
+		$e['PAGE_NAMES']		=	strtolower($name);
+		$e['PAGE_TITLE']		=	$title;
+		$e['PAGE_DESCRIPTION']	=	$description;
+		$e['PAGE_MAIN']			=	$query->num_rows > 0 ? $main : 'TRUE';
+		$e['PAGE_MODULES']		=	$mod;
+		$e['PAGE_VISIBLE']		=	$visible;
+		if($obj == 'create')
+		{
+			if($this->core		->db->insert('hubby_controllers',$e))
 			{
-				if($this->core		->db->insert('hubby_controllers',$e))
-				{
-					return 'controler_created';
-				}
-				else
-				{
-					return 'error_occured';
-				}
+				if($query->num_rows > 0) : 		return "no_main_controller_created";endif;
+				return 'controler_created';
 			}
-			else if($obj == 'update')
+			else
 			{
-				$query = $this->core	->db->where('ID',$id)
-									->update('hubby_controllers',$e);
-				if($query)
-				{
-					return 'controler_edited';
-				}
-				else
-				{
-					return 'error_occured';
-				}
+				return 'error_occured';
 			}
 		}
-		return false;
+		else if($obj == 'update')
+		{
+			$query = $this->core	->db->where('ID',$id)
+								->update('hubby_controllers',$e);
+			if($query)
+			{
+				return 'controler_edited';
+			}
+			else
+			{
+				return 'error_occured';
+			}
+		}
 	}
 	public function delete_controler($name)
 	{
@@ -626,6 +668,7 @@ class hubby_admin
 	}
 	public function hubby_core_installer($appFile)
 	{
+		
 		include_once(INSTALLER_DIR.$appFile['temp_dir'].'/install.php');
 		$temp_dir	=	INSTALLER_DIR.$appFile['temp_dir'];
 		
@@ -654,7 +697,7 @@ class hubby_admin
 					return 'invalidApp';
 				}
 				if($appInfo['appHubbyVers'] <= $this->core->hubby->getVersId())
-				{
+				{					
 					$this->core->db		->select('*')
 										->from('hubby_modules')
 										->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);

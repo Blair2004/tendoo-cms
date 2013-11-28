@@ -21,6 +21,7 @@ class News_admin_controller
 		$this->data['news']				=&	$this->news;
 		
 		$this->hubby_admin->menuExtendsBefore($this->news->getMenu());
+		$this->data['inner_head']		=	$this->core->load->view('admin/inner_head',$this->data,true);
 		$this->data['lmenu']			=	$this->core->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 		$this->linnk					=	MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/';
 	}

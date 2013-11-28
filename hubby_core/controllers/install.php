@@ -16,7 +16,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		$this->core->file->css_push('app.v2');
 		$this->core->file->css_push('css1');
 		$this->core->file->css_push('css2');
-		$this->core->file->css_push('font');$this->core->file->css_push('hubby_global');
+		$this->core->file->css_push('hubby_global');
 
 		$this->core->file->js_push('jquery');
 		$this->core->file->js_push('app.v2');
@@ -86,35 +86,14 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			{
 				if(!isset($_SESSION['secur_access']))
 				{
-					$this->core->url->redirect('install/step/1');
+					$this->core->url->redirect('install/etape/1');
 				}
 				else
 				{
 					if($_SESSION['secur_access'] != 3)
 					{
-						$this->core->url->redirect('install/step/1');
+						$this->core->url->redirect('install/etape/1');
 					}
-				}
-				if(isset($_POST['site_name']))
-				{
-					$this->core->form_validation->set_rules('site_name','Nom du site','trim|required|min_length[4]');
-					if($this->core->form_validation->run())
-					{
-						if(!$this->core->hubby->createTables())
-						{
-							$this->core->url->redirect('error','code','tableCreationFailed'); // Table creation failed, redirect so
-						}
-						if($this->core->hubby->setOptions($this->core->input->post('site_name')))
-						{
-							$_SESSION['secur_access'] = 4;
-							$this->core->url->redirect('install/etape/'.$_SESSION['secur_access']);
-						}
-						else
-						{
-							$this->data['error'] = notice('config_2');
-						}
-					}
-					// Execute control
 				}
 				$this->core->hubby->setTitle('Hubby - Segonde etape');
 				$this->load->view('header',$this->data);
@@ -157,8 +136,42 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			$this->load->view('install/step/4/homebody',$this->data);
 		}
 	}
+	public function createTables()
+	{
+		if(isset($_POST['site_name']))
+		{
+			
+			$this->core->form_validation->set_rules('site_name','Nom du site','trim|required|min_length[4]');
+			if($this->core->form_validation->run())
+			{
+				if(!$this->core->hubby->createTables())
+				{
+					echo 'false'; // Table creation failed, redirect so
+				}
+				else
+				{
+					if($this->core->hubby->setOptions($this->core->input->post('site_name')))
+					{
+						$_SESSION['secur_access']	=	4;
+						echo 'true';
+					}
+					else
+					{
+						echo 'false';
+					}
+				}
+			}
+			// Execute control
+		}
+		else
+		{
+			echo 'false';
+		}
+	}
 	public function installApp($namespace)
 	{
-		$this->core->hubby->defaultsApp($app);
+		$server	=	$_SESSION['db_datas'];
+		$this->core->hubby->attemptConnexion($server['hostname'],$server['username'],$server['password'],$server['database'],$server['dbdriver']);
+		$this->core->hubby->defaultsApp($namespace);
 	}
 }

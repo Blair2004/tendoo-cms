@@ -369,7 +369,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 				if($this->isAdmin() || $this->isSuperAdmin())
 				{
 				?>
-                	<li><a href="<?php echo $this->core->url->site_url(array('admin','menu'));?>">Espace administration</a></li>
+                	<li><a href="<?php echo $this->core->url->site_url(array('admin','index'));?>">Espace administration</a></li>
 				<?php
 				}
 				?>

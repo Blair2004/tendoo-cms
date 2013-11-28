@@ -48,50 +48,54 @@
         <div class="col-lg-4">
             <section class="panel">
                 <header class="panel-heading bg bg-color-yellow text-center">Information de votre site web</header>
-                <form id="siteNameForm" class="panel-body" method="post">
+                <form id="siteNameForm" class="panel-body" method="post" action="<?php echo $this->core->url->site_url(array('install','etape',4));?>">
                     <div class="form-group">
                         <label class="host_name">Nom du site</label>
-                        <input name="site_name" type="text" placeholder="Nom de votre site" class="form-control">
+                        <input name="site_name" id="site_name" type="text" placeholder="Nom de votre site" class="form-control">
                     </div>
                     <div class="line line-dashed"></div>
-                    <button type="submit" class="btn btn-info">Continuer</button>
+                    <button type="submit" id="siteNameSubmiter" class="btn btn-info">Continuer</button>
                 </form>
-                <div class="installingStatus">
-                </div>
+                    <div class="line"></div>
+                    <div class="panel-body installingStatus">
+                    </div>
                 <script>
 					function triggerInstall()
 					{
+						
 						var installStatus		=	true;
 						var defaultsApp			=	new Array();
 							defaultsApp[0]		=	"blogster";
 							defaultsApp[1]		=	"modus";
 						var defaultsAppText		=	new Array();
 							defaultsAppText[0]	=	'Installation du module Blogster...';
-							defaultsAppText[1]	=	'Installation du th&egrave;me Modus...';
+							defaultsAppText[1]	=	'Installation du thème Modus...';
 						var defaultsAppFinish	=	new Array();
-							defaultsAppFinish[0]=	'Installation du module termin&eacute;e';
-							defaultsAppFinish[1]=	'Installation du th&egrave;me termin&eacute;e';
-							
+							defaultsAppFinish[0]=	'<span style="color:green">Installation du module terminée</span>';
+							defaultsAppFinish[1]=	'<span style="color:green">Installation du thème terminée</span>';
 						var defaultsAppHtml		=	
-							"<h4>Installation des applications par d&eacute;faut</h4>"+
+							"<h5>Installation des applications par d&eacute;faut</h5>"+
 							'<ul class="statusList">'+
 							'</ul>';
+						$('.installingStatus').html('');
+						$('.installingStatus').append(defaultsAppHtml);
 						var iterator			=	0;
-						var interval			=	setInterval(function(){
+						var Interval			=	setInterval(function(){
 							if(installStatus == true)
 							{
+								var curIterator	=	iterator
 								var action		=	'';
 								if(typeof defaultsApp[iterator] == 'undefined') // Lorsqu'il ny a plus aucune application a installer :D
 								{
+									clearInterval(Interval);
+									$('.statusList').append('<li class="currentInstall_'+curIterator+'">Installation des applications terminée...</li>');
 									$('#siteNameForm').submit();
-									$('.statusList').append('<li class="currentInstall'+iterator+'">Installation des applications terminée...</li>');
-									clearInterval(interval);
 								}
 								else
 								{
 									switch(defaultsApp[iterator])
 									{
-										case "bloster"	:
+										case "blogster"	:
 											action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/blogster";
 										break;
 										case "modus"	:
@@ -102,13 +106,14 @@
 										beforeSend	:	function()
 										{
 											installStatus	=	false;
-											$('.statusList').append('<li class="currentInstall'+iterator+'">'+defaultsAppText[iterator]+'</li>');
+											$('.statusList').append('<li class="currentInstall_'+curIterator+'">'+defaultsAppText[curIterator]+'</li>');
 										},
 										success		:	function(data)
 										{
 											installStatus	=	true;
-											$('.statusList').find('.currentInstall'+iterator).text(defaultAppFinish[iterator]);
-										}
+											$('.statusList').find('.currentInstall_'+curIterator).html(defaultsAppFinish[curIterator]);
+										},
+										url			:	action
 									});
 								}
 								iterator++;
@@ -116,8 +121,31 @@
 						},500);
 					}
 				$(document).ready(function(){
-					$('#siteNameForm').bind('click',function(){
-						triggerInstall();
+					$('#siteNameSubmiter').bind('click',function(){
+						$.ajax({
+							beforeSend	:	function()
+							{
+								$('.installingStatus').html('');
+								$('.installingStatus').append('<h4>Configuration du site</h4><ul class="creatingTables"><li>Cr&eacute;ation des tables...</li></ul>');
+							},
+							type		:	'POST',
+							data		:	{	'site_name'		:	$('#site_name').val()},
+							dataType	:	'script',
+							success		:	function(data)
+							{
+								if(data == 'true')
+								{
+									triggerInstall();
+									$('.installingStatus').find('.creatingTables').html('<li style="color:green">Configuration termin&eacute;e</li>');
+								}
+								else
+								{
+									alert('Une erreur s\'est produite durant la configuration du site, vérifiez que le nom du site envoyé ne soit pas vide, assurez-vous que les données de connexion soit exactes, et re-essayer');
+									$('.creatingTables').append('<li style="color:red">Erreur fatale, l\'installation &agrave; &eacute;chou&eacute;e!!!</li>');
+								}
+							},
+							url			:	'<?php echo $this->core->url->site_url(array('install','createTables'));?>'
+						});
 						return false; // dont allow direct access :D
 					});
 				});

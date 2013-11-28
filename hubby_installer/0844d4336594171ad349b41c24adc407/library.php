@@ -78,17 +78,32 @@ $NOTICE_SUPER_ARRAY = $or;
 				$query			=	$this->core->db->get();
 				return $query->result_array();
 			}
-			public function publish_news($title,$content,$state,$image,$cat)
+			public function publish_news($title,$content,$state,$image,$cat,$first_admin = FALSE)
 			{
-				$content		=	array(
-				'TITLE'			=> $title,
-				'CONTENT'		=> $content,
-				'IMAGE'			=> $image,
-				'AUTEUR'		=> $this->user->current('ID'),
-				'ETAT'			=> $state,
-				'DATE'			=> $this->datetime(),
-				'CATEGORY_ID'	=> $cat
-				);
+				if($first_admin == FALSE)
+				{
+					$content		=	array(
+					'TITLE'			=> $title,
+					'CONTENT'		=> $content,
+					'IMAGE'			=> $image,
+					'AUTEUR'		=> $this->user->current('ID'),
+					'ETAT'			=> $state,
+					'DATE'			=> $this->datetime(),
+					'CATEGORY_ID'	=> $cat
+					);
+				}
+				else
+				{
+					$content		=	array(
+					'TITLE'			=> $title,
+					'CONTENT'		=> $content,
+					'IMAGE'			=> $image,
+					'AUTEUR'		=> 1,// Usefull when no admin is created to anticipate super admin creation
+					'ETAT'			=> $state,
+					'DATE'			=> $this->datetime(),
+					'CATEGORY_ID'	=> $cat
+					);
+				}
 				return $this->core->db	->insert('hubby_news',$content);
 			}
 			public function edit($id,$title,$content,$state,$image,$cat)

@@ -75,101 +75,128 @@ if(!function_exists('img_url'))
 		return $instance->url->base_url().'assets/files/'.$e;
 	}
 }
+if(!function_exists('hubby_error'))
+{
+	function hubby_error($text)
+	{
+		return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> '.$text.'</div>';
+	}
+}
+if(!function_exists('hubby_success'))
+{
+	function hubby_success($text)
+	{
+		return '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> '.$text.'</div>';
+	}
+}
+if(!function_exists('hubby_warning'))
+{
+	function hubby_warning($text)
+	{
+		return '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> '.$text.'</div>';
+	}
+}
+if(!function_exists('hubby_info'))
+{
+	function hubby_info($text)
+	{
+		return '<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-info"></i> '.$text.'</div>';;
+	}
+}
 if(!function_exists('notice'))
 {
 	function notice($e,$sort = FALSE)
 	{
-		$array['config_1']					=	'<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-info"></i>Un fichier de configuration est d&eacute;j&agrave; existant. Si vous enregistrer de nouvelles donn&eacute;es, l\'ancien sera &eacute;cras&eacute;</div>';
-		$array['accessDenied']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Vous n\'avez pas ou plus acc&egrave;s &agrave; cette page.</div>';
+		$array['config_1']					=	hubby_info('Un fichier de configuration est d&eacute;j&agrave; existant. Si vous enregistrer de nouvelles donn&eacute;es, l\'ancien sera &eacute;cras&eacute;');
+		$array['accessDenied']				=	hubby_warning('Vous n\'avez pas ou plus acc&egrave;s &agrave; cette page.');
+		$array['config_2']					=	hubby_warning('Une erreur fatale s\'est produite durant l\'installation, veuillez re-installer Hubby.');
+		$array['noThemeInstalled']			=	hubby_warning(' Une erreur s\'est produite durant l\'acc&egrave;s au th&egrave;me. Il est possible qu\'aucun th&egrave;me ne soit install&eacute; ou d&eacute;finit comme th&egrave;me par d&eacute;faut.');
+		$array['mustCreatePrivilege']		=	hubby_warning(' Il est n&eacute;cessaire de cr&eacute;er des privil&egrave;ges avant de g&eacute;rer des administrateurs');
+		$array['controler_created']			=	hubby_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement cr&eacute;e.');		
+		$array['c_name_already_found']		=	hubby_warning('Une autre page poss&egrave;de d&eacute;j&agrave; ce nom comme contr&ocirc;leur, veuillez choisir un autre nom.');
+		$array['name_already_found']		=	hubby_warning('Une autre page poss&egrave;de d&eacute;j&agrave; ce nom, veuillez choisir un autre nom.');
+		$array['controler_deleted']			=	hubby_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
+		$array['incorrectSuperAdminPassword']	=	hubby_warning('Le mot de passe administrateur est incorrect');
+		$array['cant_delete_mainpage']		=	hubby_warning(' La page principale ne peut pas &ecirc;tre supprim&eacute;.');
+		$array['controler_edited']			=	hubby_warning(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
+		$array['db_unable_to_connect']		=	hubby_warning('Il est impossible de se connect&eacute; avec les informations fournies.');
+		$array['db_unable_to_select']		=	hubby_warning('La connexion &agrave; &eacute;t&eacute; &eacute;tablie, cependant il est impossible d\'acc&eacute;der &agrave; la base de donn&eacute;e.');
+		$array['error_occured']				=	hubby_warning(' Une erreur s\'est produite durant l\'op&eacute;ration.');
+		$array['adminDeleted']				=	hubby_success(' L\'utilisateur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
+		$array['controller_not_found']		=	hubby_warning(' Ce contr&ocirc;leur est introuvable.');
+		$array['no_main_controller_created']=	hubby_warning(' Aucun contr&ocirc;leur d&eacute;finit comme principale n\'a &eacute;t&eacute; retrouv&eacute;, le nouveau contr&ocirc;leur &agrave; &eacute;t&eacute; d&eacute;finit comme contr&ocirc;leur par d&eacute;faut.');
+		$array['no_main_page_set']			=	hubby_info(' Aucun contr&ocirc;leur n\'est d&eacute;finie par d&eacute;faut.');
+		$array['InvalidModule']				=	hubby_warning('Ce module est invalide ou incompatible.');
+		$array['CantDeleteDir']				=	hubby_warning('Une erreur s\'est produite durant la suppr&eacute;ssion d\'un dossier.');
+		$array['module_corrupted']			= 	hubby_warning('Ce module ne peut pas &ecirc;tre install&eacute;. Il est corrompu ou incompatible.');	
+		$array['errorInstallModuleFirst']	= 	hubby_warning('Vous devez installer les tables avant d\'installer le module');	
+		$array['moduleInstalled']			=	hubby_success(' L\'installation du module est termin&eacute;.');
+		$array['module_alreadyExist']		= 	hubby_info('Ce module &agrave; d&eacute;j&agrave; &eacute;t&eacute; install&eacute;.');	
+		$array['unknowModule']				=	hubby_warning(' Ce module est introuvable.');
+		$array['module_uninstalled']		=	hubby_success('Le module &agrave; &eacute;t&eacute; install&eacute;.');
+		$array['InvalidPage']				=	hubby_warning('Cette page n\'a pas pu &ecirc;tre charg&eacute; car le contr&ocirc;leur correspondant &agrave; cette adresse est introuvable ou indisponible.');
+		$array['noControllerDefined']		=	hubby_warning('Impossible d\'acc&eacute;der &agrave; cet &eacute;lement, Il ne dispose pas d\'interface embarqu&eacute;.');
+		$array['noFileUpdated']				=	hubby_warning('Aucun fichier n\'a &eacute;t&eacute; re&ccedil;u.');
+		$array['done']						=	hubby_success('L\'op&eacute;ration s\'est d&eacute;roul&eacute;e avec succ&egrave;s.');
+		$array['accessForbiden']			=	hubby_warning('Vous ne faites pas partie du privil&egrave;s qui peut acc&eacute;der &agrave; cette page.');
+		$array['userCreated']				=	hubby_success('L\'utilisateur a &eacute;t&eacute; cr&eacute;e.');
+		$array['userNotFoundOrWrongPass']	=	hubby_warning('Utilisateur introuvable ou mot de passe incorrect.');
+		$array['notForYourPriv']			=	hubby_warning('Acc&eacute;der &agrave; cet &eacute;l&eacute;ment ne fait pas partie de vos actions.');
+		$array['unknowAdmin']				=	hubby_warning('Administrateur introuvable.');
+		$array['moduleBug']					=	hubby_warning('Une erreur s\'est produite. Le module attach&eacute; &agrave; ce contr&ocirc;leur est introuvable.');
+		$array['notAllowed']				=	hubby_warning('Il ne vous est pas permis d\'effctuer cette op&eacute;ration. Soit compte tenu de votre privil&egrave;ge actuel, soit compte tenu de l\'indisponibilit&eacute; du service.');
+		$array['theme_alreadyExist']		=	hubby_info('Ce th&egrave;me avait d&eacute;j&agrave; &eacute;t&eacute; install&eacute;.');
+		$array['NoCompatibleTheme']			=	hubby_warning('Ce th&egrave;me n\'est pas compatible avec la version actuelle d\'hubby.');
+		$array['NoCompatibleModule']		=	hubby_warning('Ce module n\'est pas compatible avec la version actuelle d\'hubby.');
+		$array['SystemDirNameUsed']			=	hubby_warning('Ce th&egrave;me ne peut pas s\'installer car il &agrave; tenter d\'utiliser des ressources syst&egrave;me.');
+		$array['theme_installed']			=	hubby_success('Le th&egrave;me a &eacute;t&eacute; install&eacute; correctement.');
+		$array['no_theme_selected']			=	hubby_warning('Aucun th&egrave;me n\'a &eacute;t&eacute; choisi comme th&egrave;me par d&eacute;faut.');
+		$array['defaultThemeSet']			=	hubby_success('Le th&egrave;me &agrave; &eacute;t&eacute; correctement choisi come th&egrave;me par d&eacute;faut.');
+		$array['unknowTheme']				=	hubby_warning('Th&egrave;me inconnu ou introuvable.');
+		$array['missingArg']				=	hubby_warning('Une erreur s\'est produite. Certains &eacute;l&eacute;ment, qui permettent le traitement de votre demande, sont manquant ou incorrect.');
+		$array['page404']					=	hubby_warning('Cette page est introuvable ou indisponible. Veuillez re-&eacute;ssayer.');
+		$array['restoringDone']				=	hubby_success('La restauration s\'est correctement d&eacute;roul&eacute;.');
+		$array['cmsRestored']				=	hubby_success('La restauration s\'est correctement d&eacute;roul&eacute;.');
+		$array['creatingHiddenControllerFailure']		=	hubby_warning('La cr&eacute;ation du contr&ocirc;leur invisible &agrave; &eacute;chou&eacute;');
+		$array['installFailed']				=	hubby_warning('Une erreur s\'est produite durant l\'installtion certaines composantes n\'ont pas &eacute;t&eacute; correctement install&eacute;es');
+		$array['db_connect_error']			=	hubby_warning('Connexion impossible,int&eacute;rrompu ou le nombre limit de connexion accord&eacute; &agrave; l\'utilisateur de la base de donn&eacute; est atteinte. Veuillez re-&eacute;ssayer.');
+		$array['themeTrashed']				=	hubby_warning('Une erreur s\'est produite avec le th&egrave;me. Ce th&egrave;me ne fonctionne pas correctement.');
+		$array['noMainPage']				=	hubby_warning('Impossible d\'acc&eacute;der &agrave; la page principale du site. Aucun contr&ocirc;leur n\'a &eacute;t&eacute; d&eacute;finit comme principal');
+		$array['AdminAuthFailed']			=	hubby_warning('Mot de passe administrateur incorrect.');
 		
-		$array['config_2']					=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une erreur fatale s\'est produite durant l\'installation, veuillez re-installer Hubby.</div>';
-		$array['noThemeInstalled']			=	'<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Une erreur s\'est produite durant l\'acc&egrave;s au th&egrave;me. Il est possible qu\'aucun th&egrave;me ne soit install&eacute; ou d&eacute;finit comme th&egrave;me par d&eacute;faut.</div>';
-		$array['mustCreatePrivilege']		=	'<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Il est n&eacute;cessaire de cr&eacute;er des privil&egrave;ges avant de g&eacute;rer des administrateurs</div>';
-		$array['controler_created']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement cr&eacute;e.</div>';		
-		$array['c_name_already_found']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une autre page poss&egrave;de d&eacute;j&agrave; ce nom comme contr&ocirc;leur, veuillez choisir un autre nom.</div>';
-		$array['name_already_found']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une autre page poss&egrave;de d&eacute;j&agrave; ce nom, veuillez choisir un autre nom.</div>';
-		$array['controler_deleted']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement supprim&eacute;.</div>';
-		$array['incorrectSuperAdminPassword']	=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Le mot de passe administrateur est incorrect</div>';
-		$array['cant_delete_mainpage']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> La page principale ne peut pas &ecirc;tre supprim&eacute;.</div>';
-		$array['controler_edited']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.</div>';
-		$array['db_unable_to_connect']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Il est impossible de se connect&eacute; avec les informations fournies.</div>';
-		$array['db_unable_to_select']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>La connexion &agrave; &eacute;t&eacute; &eacute;tablie, cependant il est impossible d\'acc&eacute;der &agrave; la base de donn&eacute;e.</div>';
-		$array['error_occured']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Une erreur s\'est produite durant l\'op&eacute;ration.</div>';
-		$array['adminDeleted']				=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> L\'utilisateur &agrave; &eacute;t&eacute; correctement supprim&eacute;.</div>';
-		$array['controller_not_found']		=	'<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Ce contr&ocirc;leur est introuvable.</div>';
-		$array['no_main_page_set']			=	'<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-info"></i> Aucun contr&ocirc;leur n\'est d&eacute;finie par d&eacute;faut.</div>';
-		$array['InvalidModule']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Ce module est invalide ou incompatible.</div>';
-		$array['CantDeleteDir']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une erreur s\'est produite durant la suppr&eacute;ssion d\'un dossier.</div>';
-		$array['module_corrupted']			= '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Ce module ne peut pas &ecirc;tre install&eacute;. Il est corrompu ou incompatible.</div>';	
-		$array['errorInstallModuleFirst']	= '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Vous devez installer les tables avant d\'installer le module</div>';	
-		$array['moduleInstalled']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> L\'installation du module est termin&eacute;.</div>';
-		$array['module_alreadyExist']		= '<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-info"></i> Ce module &agrave; d&eacute;j&agrave; &eacute;t&eacute; install&eacute;.</div>';	
-		$array['unknowModule']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Ce module est introuvable.</div>';
-		$array['module_uninstalled']		=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i>Le module &agrave; &eacute;t&eacute; install&eacute;.</div>';
-		$array['InvalidPage']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Cette page n\'a pas pu &ecirc;tre charg&eacute; car le contr&ocirc;leur correspondant &agrave; cette adresse est introuvable ou indisponible.</div>';
-		$array['noControllerDefined']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Impossible d\'acc&eacute;der &agrave; cet &eacute;lement, Il ne dispose pas d\'interface embarqu&eacute;.</div>';
-		$array['noFileUpdated']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Aucun fichier n\'a &eacute;t&eacute; re&ccedil;u.</div>';
-		$array['done']						=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i>L\'op&eacute;ration s\'est d&eacute;roul&eacute;e avec succ&egrave;s.</div>';
-		$array['accessForbiden']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Vous ne faites pas partie du privil&egrave;s qui peut acc&eacute;der &agrave; cette page.</div>';
-		$array['userCreated']				=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i>L\'utilisateur a &eacute;t&eacute; cr&eacute;e.</div>';
-		$array['userNotFoundOrWrongPass']	=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Utilisateur introuvable ou mot de passe incorrect.</div>';
-		$array['notForYourPriv']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Acc&eacute;der &agrave; cet &eacute;l&eacute;ment ne fait pas partie de vos actions.</div>';
-		$array['unknowAdmin']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Administrateur introuvable.</div>';
-		$array['moduleBug']					=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une erreur s\'est produite. Le module attach&eacute; &agrave; ce contr&ocirc;leur est introuvable.</div>';
-		$array['notAllowed']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Il ne vous est pas permis d\'effctuer cette op&eacute;ration. Soit compte tenu de votre privil&egrave;ge actuel, soit compte tenu de l\'indisponibilit&eacute; du service.</div>';
-		$array['theme_alreadyExist']		=	'<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-info"></i>Ce th&egrave;me avait d&eacute;j&agrave; &eacute;t&eacute; install&eacute;.</div>';
-		$array['NoCompatibleTheme']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Ce th&egrave;me n\'est pas compatible avec la version actuelle d\'hubby.</div>';
-		$array['NoCompatibleModule']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Ce module n\'est pas compatible avec la version actuelle d\'hubby.</div>';
-		$array['SystemDirNameUsed']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Ce th&egrave;me ne peut pas s\'installer car il &agrave; tenter d\'utiliser des ressources syst&egrave;me.</div>';
-		$array['theme_installed']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i>Le th&egrave;me a &eacute;t&eacute; install&eacute; correctement.</div>';
-		$array['no_theme_selected']			=	'<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Aucun th&egrave;me n\'a &eacute;t&eacute; choisi comme th&egrave;me par d&eacute;faut.</div>';
-		$array['defaultThemeSet']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i>Le th&egrave;me &agrave; &eacute;t&eacute; correctement choisi come th&egrave;me par d&eacute;faut.</div>';
-		$array['unknowTheme']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Th&egrave;me inconnu ou introuvable.</div>';
-		$array['missingArg']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une erreur s\'est produite. Certains &eacute;l&eacute;ment, qui permettent le traitement de votre demande, sont manquant ou incorrect.</div>';
-		$array['page404']					=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Cette page est introuvable ou indisponible. Veuillez re-&eacute;ssayer.</div>';
-		$array['restoringDone']				=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i>La restauration s\'est correctement d&eacute;roul&eacute;.</div>';
-		$array['cmsRestored']				=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i>La restauration s\'est correctement d&eacute;roul&eacute;.</div>';
-		$array['creatingHiddenControllerFailure']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>La cr&eacute;ation du contr&ocirc;leur invisible &agrave; &eacute;chou&eacute;</div>';
-		$array['installFailed']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une erreur s\'est produite durant l\'installtion certaines composantes n\'ont pas &eacute;t&eacute; correctement install&eacute;es</div>';
-		$array['db_connect_error']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Connexion impossible,int&eacute;rrompu ou le nombre limit de connexion accord&eacute; &agrave; l\'utilisateur de la base de donn&eacute; est atteinte. Veuillez re-&eacute;ssayer.</div>';
-		$array['themeTrashed']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Une erreur s\'est produite avec le th&egrave;me. Ce th&egrave;me ne fonctionne pas correctement.</div>';
-		$array['noMainPage']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Impossible d\'acc&eacute;der &agrave; la page principale du site. Aucun contr&ocirc;leur n\'a &eacute;t&eacute; d&eacute;finit comme principal</div>';
-		$array['AdminAuthFailed']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Mot de passe administrateur incorrect.</div>';
-		
-		$array['SuperAdminCreationError']	=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Un erreur s\'est produite durant la cr&eacute;ation du Super-administrateur. V&eacute;fiez les informations envoy&eacute;es ou assurez vous qu\'il n\'existe pas un autre Super-administrateur pour ce site.</div>';
-		$array['adminCreated']				=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i>L\'utilisateur &agrave; &eacute;t&eacute; correctement cr&eacute;e</div>';
-		$array['no_page_set']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Aucun contr&ocirc;leur disponible.</div>';
-		$array['privilegeNotFound']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Privil&egrave;ge introuvable.</div>';
-		$array['invalidApp']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Application Hubby non valide. L\'installation &agrave; &eacute;chou&eacute;e</div>';
-		$array['adminCreationFailed']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Impossible de cr&eacute;er un administrateur, verifiez la correspondance de pseudo et vos actions.</div>';
-		$array['tableCreationFailed']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Impossible d\'installer Hubby, les informations fournies sont peut &ecirc;tre invalide. Assurez-vous de la validité de la connexion et de leur conformit&eacute; aux informations fournies.</div>';
-		$array['upload_invalid_filetype']	=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Extension du fichier non autoris&eacute;e</div>';
-		$array['themeControlerFailed']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>L\'interace embarqu&eacute; de ce th&egrave;me n\'est pas correctement d&eacute;finie.</div>';
-		$array['themeControlerNoFound']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Ce th&egrave;me ne dispose pas d\'interface embarqu&eacute;..</div>';
-		$array['registrationNotAllowed']	=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Il impossible de s\'inscrire. L\'inscription &agrave; &eacute;t&eacute; d&eacute;sactiv&eacute;e sur ce site.</div>';
-		$array['userExists']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>Un utilisateur poss&eacute;dant ce pseudo existe d&eacute;j&agrave;.</div>';
-		$array['emailUsed']					=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Cet email est d&eacute;j&agrave; utilis&eacute;, veuillez choisir un autre.</div>';
-		$array['unallowedPrivilege']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Ce privil&egrave;ge n\'est pas autoris&eacute;.</div>';
-		$array['UnactiveUser']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Cet utilisateur est inactif, veuillez consulter l\'adresse email fournie pour cet utilsateur. Si aucun mail d\'activation n\'a &eacute;t&eacute; envoy&eacute;, vous pouvez essayer &agrave; nouveau. En utilisant la proc&eacute;dure de r&eacute;cup&eacute;ration de mot de passe</div>';
-		$array['alreadyActive']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Impossible d\'envoyer le mail d\'activation car le compte attach&eacute; &agrave; cette adresse mail est d&eacute;j&agrave; actif.</div>';
-		$array['actionProhibited']			=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Il vous est interdit d\'effectuer cette op&eacute;ration.</div>';
-		$array['unknowEmail']				=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Aucun compte n\'est attach&eacute; &agrave; cette adresse mail.</div>';
-		$array['validationSended']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Un mail d\'activation &agrave; &eacute;t&eacute; envoy&eacute; &agrave; cette addresse.</div>';
-		$array['regisAndAssociatedFunLocked']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> L\'inscription et les services associ&eacute;s sont d&eacute;sactiv&eacute;s sur ce site.</div>';
-		$array['NewLinkSended']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Un nouveau lien &agrave; &eacute;t&eacute; envoy&eacute; &agrave; votre boite mail.</div>';
-		$array['timeStampExhausted']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Ce lien n\'est plus valide. La dur&eacute;e de vie de ce lien &agrave; expir&eacute;e.</div>';
-		$array['activationFailed']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Ce lien n\'est plus valide. La dur&eacute;e de vie de ce lien &agrave; expir&eacute;e.</div>';
-		$array['accountActivationDone']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Le compte est d&eacute;sormais actif.</div>';
-		$array['accountActivationFailed']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> L\'activation du compte &agrave; &eacute;chou&eacute;e.</div>';
-		$array['samePassword']					=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Le nouveau mot de passe ne peut pas &ecirc;re identique &agrave; l\'ancien.</div>';
-		$array['passwordChanged']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Le mot de passe &agrave; &eacute;t&eacute; correctement modifi&eacute;.</div>';
-		$array['upload_no_file_selected']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Aucun fichier n\'a &eacute;t&eacute; envoy&eacute;.</div>';
-		$array['cannotDeleteUsedPrivilege']		=	'<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> Vous ne pouvez pas supprimer un privil&egrave;ge en cours d\'utilisation.</div>';
-		$array['userTownUpdated']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Ville correctement mis &agrave; jour.</div>';
-		$array['userStateUpdated']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Pays correctement mis &agrave; jour.</div>';
-		$array['userSurnameUpdated']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Pr&eacute;nom correctement mis &agrave; jour.</div>';
-		$array['userNameUpdated']			=	'<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> Nom correctement mis &agrave; jour.</div>';
-		
+		$array['SuperAdminCreationError']	=	hubby_warning('Un erreur s\'est produite durant la cr&eacute;ation du Super-administrateur. V&eacute;fiez les informations envoy&eacute;es ou assurez vous qu\'il n\'existe pas un autre Super-administrateur pour ce site.');
+		$array['adminCreated']				=	hubby_success('L\'utilisateur &agrave; &eacute;t&eacute; correctement cr&eacute;e');
+		$array['no_page_set']				=	hubby_warning('Aucun contr&ocirc;leur disponible.');
+		$array['privilegeNotFound']			=	hubby_warning('Privil&egrave;ge introuvable.');
+		$array['invalidApp']				=	hubby_warning('Application Hubby non valide. L\'installation &agrave; &eacute;chou&eacute;e');
+		$array['adminCreationFailed']		=	hubby_warning('Impossible de cr&eacute;er un administrateur, verifiez la correspondance de pseudo et vos actions.');
+		$array['tableCreationFailed']		=	hubby_warning('Impossible d\'installer Hubby, les informations fournies sont peut &ecirc;tre invalide. Assurez-vous de la validité de la connexion et de leur conformit&eacute; aux informations fournies.');
+		$array['upload_invalid_filetype']	=	hubby_warning('Extension du fichier non autoris&eacute;e');
+		$array['themeControlerFailed']		=	hubby_warning('L\'interace embarqu&eacute; de ce th&egrave;me n\'est pas correctement d&eacute;finie.');
+		$array['themeControlerNoFound']		=	hubby_warning('Ce th&egrave;me ne dispose pas d\'interface embarqu&eacute;..');
+		$array['registrationNotAllowed']	=	hubby_warning('Il impossible de s\'inscrire. L\'inscription &agrave; &eacute;t&eacute; d&eacute;sactiv&eacute;e sur ce site.');
+		$array['userExists']				=	hubby_warning('Un utilisateur poss&eacute;dant ce pseudo existe d&eacute;j&agrave;.');
+		$array['emailUsed']					=	hubby_warning(' Cet email est d&eacute;j&agrave; utilis&eacute;, veuillez choisir un autre.');
+		$array['unallowedPrivilege']		=	hubby_warning(' Ce privil&egrave;ge n\'est pas autoris&eacute;.');
+		$array['UnactiveUser']				=	hubby_warning(' Cet utilisateur est inactif, veuillez consulter l\'adresse email fournie pour cet utilsateur. Si aucun mail d\'activation n\'a &eacute;t&eacute; envoy&eacute;, vous pouvez essayer &agrave; nouveau. En utilisant la proc&eacute;dure de r&eacute;cup&eacute;ration de mot de passe');
+		$array['alreadyActive']				=	hubby_warning(' Impossible d\'envoyer le mail d\'activation car le compte attach&eacute; &agrave; cette adresse mail est d&eacute;j&agrave; actif.');
+		$array['actionProhibited']			=	hubby_warning(' Il vous est interdit d\'effectuer cette op&eacute;ration.');
+		$array['unknowEmail']				=	hubby_warning(' Aucun compte n\'est attach&eacute; &agrave; cette adresse mail.');
+		$array['validationSended']			=	hubby_success(' Un mail d\'activation &agrave; &eacute;t&eacute; envoy&eacute; &agrave; cette addresse.');
+		$array['regisAndAssociatedFunLocked']	=	hubby_warning(' L\'inscription et les services associ&eacute;s sont d&eacute;sactiv&eacute;s sur ce site.');
+		$array['NewLinkSended']					=	hubby_success(' Un nouveau lien &agrave; &eacute;t&eacute; envoy&eacute; &agrave; votre boite mail.');
+		$array['timeStampExhausted']			=	hubby_warning(' Ce lien n\'est plus valide. La dur&eacute;e de vie de ce lien &agrave; expir&eacute;e.');
+		$array['activationFailed']				=	hubby_warning(' Ce lien n\'est plus valide. La dur&eacute;e de vie de ce lien &agrave; expir&eacute;e.');
+		$array['accountActivationDone']			=	hubby_success(' Le compte est d&eacute;sormais actif.');
+		$array['accountActivationFailed']		=	hubby_warning(' L\'activation du compte &agrave; &eacute;chou&eacute;e.');
+		$array['samePassword']					=	hubby_warning(' Le nouveau mot de passe ne peut pas &ecirc;re identique &agrave; l\'ancien.');
+		$array['passwordChanged']				=	hubby_success(' Le mot de passe &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
+		$array['upload_no_file_selected']		=	hubby_warning(' Aucun fichier n\'a &eacute;t&eacute; envoy&eacute;.');
+		$array['cannotDeleteUsedPrivilege']		=	hubby_warning(' Vous ne pouvez pas supprimer un privil&egrave;ge en cours d\'utilisation.');
+		$array['userTownUpdated']				=	hubby_success(' Ville correctement mis &agrave; jour.');
+		$array['userStateUpdated']				=	hubby_success(' Pays correctement mis &agrave; jour.');
+		$array['userSurnameUpdated']			=	hubby_success(' Pr&eacute;nom correctement mis &agrave; jour.');
+		$array['userNameUpdated']				=	hubby_success(' Nom correctement mis &agrave; jour.');
 		
 		
 		if($e === TRUE)
@@ -244,12 +271,12 @@ if(!function_exists('notice'))
 					}
 					else
 					{
-						return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> "'.$e.'" constitue une alerte introuvable</div>';
+						return hubby_warning(' "'.$e.'" constitue une alerte introuvable');
 					}
 				}
 				else if($e != '' && strlen($e) <= 50)
 				{
-					return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> "'.$e.'" constitue une alerte introuvable</div>';
+					return hubby_warning(' "'.$e.'" constitue une alerte introuvable');
 				}
 				else
 				{
