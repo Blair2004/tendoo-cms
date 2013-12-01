@@ -347,6 +347,7 @@ class Hubby
 			$e['PAGE_MAIN']			=	$main;
 			$e['PAGE_MODULES']		=	$mod;
 			$e['PAGE_VISIBLE']		=	$visible;
+			$e['PAGE_PARENT']		=	'none'; // Par défaut le premier lien est à la racine puisqu'il s'agit du premier contrôleur.
 			return $this->core			->db->insert('hubby_controllers',$e);			
 		}
 		return false;
