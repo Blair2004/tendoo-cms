@@ -235,6 +235,15 @@ class Hubby
 				$lib->publish_news('Bienvenu sur Hubby '.$this->getVersId(),'Voici votre premi&egrave;re publication dans votre blog Hubby, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',1,$this->core->url->img_url('Hub_back.png'),1,TRUE);
 			}
 		}
+		else if($app	==	'hubby_index_mod')
+		{
+			// Install "Hubby_index_mod"
+			$appFile				=		array();
+			$appFile['temp_dir']	=		'41dea5f466452b1555f1fa7d1930d39a';
+			$option					=		$this->getOptions();
+			$this->hubby_admin->hubby_core_installer($appFile);
+			$module					=		$this->hubby_admin->moduleActivation('hubby_index_mod',FALSE);
+		}
 	}
 	public function connectToDb()
 	{

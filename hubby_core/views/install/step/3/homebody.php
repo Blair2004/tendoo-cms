@@ -67,12 +67,15 @@
 						var defaultsApp			=	new Array();
 							defaultsApp[0]		=	"blogster";
 							defaultsApp[1]		=	"modus";
+							defaultsApp[2]		=	"hubby_index_mod";
 						var defaultsAppText		=	new Array();
 							defaultsAppText[0]	=	'Installation du module Blogster...';
 							defaultsAppText[1]	=	'Installation du thème Modus...';
+							defaultsAppText[2]	=	'Installation du module Hubby_index_mod...';
 						var defaultsAppFinish	=	new Array();
 							defaultsAppFinish[0]=	'<span style="color:green">Installation du module terminée</span>';
 							defaultsAppFinish[1]=	'<span style="color:green">Installation du thème terminée</span>';
+							defaultsAppFinish[2]=	'<span style="color:green">Installation du module Hubby_index_mod terminée</span>';
 						var defaultsAppHtml		=	
 							"<h5>Installation des applications par d&eacute;faut</h5>"+
 							'<ul class="statusList">'+
@@ -100,7 +103,10 @@
 										break;
 										case "modus"	:
 											action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/modus";
-										break;											
+										break;	
+										case "hubby_index_mod":
+											action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/hubby_index_mod";									
+										break;
 									}
 									$.ajax({
 										beforeSend	:	function()

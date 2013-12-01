@@ -41,7 +41,6 @@ class hubby_admin
 		}
 		return $array;					
 	}
-	
 	public function countPages()
 	{
 		$query	=	$this->core->db->get('hubby_controllers');
@@ -659,7 +658,6 @@ class hubby_admin
 	}
 	public function hubby_core_installer($appFile)
 	{
-		
 		include_once(INSTALLER_DIR.$appFile['temp_dir'].'/install.php');
 		$temp_dir	=	INSTALLER_DIR.$appFile['temp_dir'];
 		
