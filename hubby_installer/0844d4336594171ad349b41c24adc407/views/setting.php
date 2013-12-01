@@ -150,8 +150,6 @@
                             </form>
                             </div>
 						</section>
-						<?php	echo hubby_warning('Ce widget ne peut &ecirc;tre affich&eacute; si le module qui g&egrave;re les widgets, n\'est pas &agrave; au pr&eacute;alable install&eacute;. Assurez vous d\'avoir install&eacute; le module  Gestionnaire de widget avec pour espace nom : "hubby_widget_administrator"');?>
-
 					</div>
                     </section>
                 </section>

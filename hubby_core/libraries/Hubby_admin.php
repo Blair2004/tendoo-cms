@@ -138,6 +138,7 @@ class hubby_admin
 				
 			}
 		}
+		if($main == 'TRUE' && $childOf != 'none'):return 'cantSetChildAsMain';endif; // Il ne faut pas définir un sous menu comme page principale
 		
 		$this->core	->db->select('*')
 					->from('hubby_controllers');
@@ -166,7 +167,6 @@ class hubby_admin
 				}
 			}
 		}
-		if($main == 'TRUE' && $childOf != 'none'): $this->core->notice->push_notice(notice('cantSetChildAsMain'));endif; // Il ne faut pas définir un sous menu comme page principale
 		$e['PAGE_CNAME']		=	strtolower($cname);
 		$e['PAGE_NAMES']		=	strtolower($name);
 		$e['PAGE_TITLE']		=	$title;

@@ -2,7 +2,7 @@
 $this->installSession();
 $this->appType('MODULE');
 $this->appVers(0.1);
-$this->appHubbyVers(0.92);
+$this->appHubbyVers(0.93);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'news',
 	'HUMAN_NAME'	=> 'Bloster - Le gestionnaire d\'articles',

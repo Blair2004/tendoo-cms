@@ -47,27 +47,7 @@
 				
 			?>
 					<li class="current-menu-item"><a href="<?php echo $this->core->url->site_url(array($c['PAGE_CNAME']));?>"><?php echo ucwords($c['PAGE_NAMES']);?></a>
-                    <?php
-					for($i = 0;$i <= $this->core->hubby->get_menu_limitation();$i++)
-					{
-						if(is_array($c['PAGE_CHILDS']))
-						{
-							?>
-                            <ul>
-                            <?php
-							foreach($c['PAGE_CHILDS'] as $p)
-							{
-								?>
-                                <li class="current-menu-item"><a href="<?php echo $this->core->url->site_url(array($p['PAGE_CNAME']));?>"><?php echo ucwords($p['PAGE_NAMES']);?></a></li>
-                                <?php
-							}
-							?>
-                            </ul>
-                            <?php
-						}
-					}
-					?>
-                    
+                    <?php getSubmenu($c,$this);?>
                     </li>
 			<?php
 			}
@@ -75,26 +55,7 @@
 			{
 				?>
                 <li><a href="<?php echo $this->core->url->site_url(array($c['PAGE_CNAME']));?>"><?php echo ucwords($c['PAGE_NAMES']);?></a>
-                    <?php
-					for($i = 0;$i <= $this->core->hubby->get_menu_limitation();$i++)
-					{
-						if(is_array($c['PAGE_CHILDS']))
-						{
-							?>
-                            <ul>
-                            <?php
-							foreach($c['PAGE_CHILDS'] as $p)
-							{
-								?>
-                                <li class="current-menu-item"><a href="<?php echo $this->core->url->site_url(array($p['PAGE_CNAME']));?>"><?php echo ucwords($p['PAGE_NAMES']);?></a></li>
-                                <?php
-							}
-							?>
-                            </ul>
-                            <?php
-						}
-					}
-					?>
+                    <?php getSubmenu($c,$this);?>
                 </li>
                 <?php
 			}

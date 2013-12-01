@@ -2,7 +2,7 @@
 $this->installSession();
 $this->appType('THEME');
 $this->appVers(0.1);
-$this->appHubbyVers(0.92);
+$this->appHubbyVers(0.93);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'hubby_modus',
 	'HUMAN_NAME'	=> 'Hubby - Modus',
