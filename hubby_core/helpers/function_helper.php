@@ -117,8 +117,12 @@ if(!function_exists('notice'))
 		$array['name_already_found']		=	hubby_warning('Une autre page poss&egrave;de d&eacute;j&agrave; ce nom, veuillez choisir un autre nom.');
 		$array['controler_deleted']			=	hubby_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
 		$array['incorrectSuperAdminPassword']	=	hubby_warning('Le mot de passe administrateur est incorrect');
+		$array['cantHeritFromItSelf']		=	hubby_error('Ce contr&ocirc;leur ne peut pas &ecirc;tre un sous menu de lui m&ecirc;me. La modification de l\'emplacement &agrave; &eacute;chou&eacute;.');
+		$array['unkConSpeAsParent']			=	hubby_error('Le contr&ocirc;leur (Menu), d&eacute;finie comme parent est introuvable. La modification du contr&ocirc;leur &agrave; &eacute;chou&eacute;.');
+		$array['subMenuLevelReach']			=	hubby_error('Impossible de cr&eacute;er ou de modifier ce contr&ocirc;leur, la limitation en terme de sous menu &agrave; &eacute;t&eacute; atteinte. Veuillez choisir un autre menu ou en cr&eacute;er un nouveau.');
+		
 		$array['cant_delete_mainpage']		=	hubby_warning(' La page principale ne peut pas &ecirc;tre supprim&eacute;.');
-		$array['controler_edited']			=	hubby_warning(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
+		$array['controler_edited']			=	hubby_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
 		$array['db_unable_to_connect']		=	hubby_warning('Il est impossible de se connect&eacute; avec les informations fournies.');
 		$array['db_unable_to_select']		=	hubby_warning('La connexion &agrave; &eacute;t&eacute; &eacute;tablie, cependant il est impossible d\'acc&eacute;der &agrave; la base de donn&eacute;e.');
 		$array['error_occured']				=	hubby_warning(' Une erreur s\'est produite durant l\'op&eacute;ration.');
@@ -136,6 +140,7 @@ if(!function_exists('notice'))
 		$array['module_uninstalled']		=	hubby_success('Le module &agrave; &eacute;t&eacute; install&eacute;.');
 		$array['InvalidPage']				=	hubby_warning('Cette page n\'a pas pu &ecirc;tre charg&eacute; car le contr&ocirc;leur correspondant &agrave; cette adresse est introuvable ou indisponible.');
 		$array['noControllerDefined']		=	hubby_warning('Impossible d\'acc&eacute;der &agrave; cet &eacute;lement, Il ne dispose pas d\'interface embarqu&eacute;.');
+		$array['cantSetChildAsMain']		=	hubby_warning('Un sous menu ne peut pas &ecirc;tre d&eacute;finie comme page principale. La modification de la priorit&eacute; &agrave; &eacute;chou&eacute;e.');
 		$array['noFileUpdated']				=	hubby_warning('Aucun fichier n\'a &eacute;t&eacute; re&ccedil;u.');
 		$array['done']						=	hubby_success('L\'op&eacute;ration s\'est d&eacute;roul&eacute;e avec succ&egrave;s.');
 		$array['accessForbiden']			=	hubby_warning('Vous ne faites pas partie du privil&egrave;s qui peut acc&eacute;der &agrave; cette page.');

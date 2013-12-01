@@ -185,7 +185,7 @@ Class Controller
 				}
 				// LOAD SYSTEME VARS
 				$this->data['options']		=		$this->hubby->getOptions();
-				$this->data['controllers']	=		$this->hubby->getControllers();
+				$this->data['controllers']	=		$this->hubby->get_pages('',FALSE); // Get every page with their childrens instead of getController() who is now obsolete
 				$this->data['page'] 		=		$this->hubby->getPage($Class); // Get info from load Page
 				if(is_string($this->data['page']))
 				{

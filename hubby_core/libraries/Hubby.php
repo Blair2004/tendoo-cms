@@ -45,6 +45,7 @@ class Hubby
 		  `PAGE_DESCRIPTION` text,
 		  `PAGE_MAIN` varchar(5) DEFAULT NULL,
 		  `PAGE_VISIBLE` varchar(5) NOT NULL,
+		  `PAGE_PARENT` varchar(200) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -161,9 +162,10 @@ class Hubby
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `hubby_privileges_actions` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
-		  `TYPE_NAMESPACE` varchar(200) NOT NULL,
-		  `REF_TYPE_ACTION` varchar(100) NOT NULL,
-		  `REF_ACTION_VALUE` varchar(100) NOT NULL,
+		  `OBJECT_NAMESPACE` 	varchar(200) NOT NULL,
+		  `TYPE_NAMESPACE` 		varchar(200) NOT NULL,
+		  `REF_TYPE_ACTION` 	varchar(100) NOT NULL,
+		  `REF_ACTION_VALUE` 	varchar(100) NOT NULL,
 		  `REF_PRIVILEGE` varchar(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
@@ -230,7 +232,7 @@ class Hubby
 				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
 				$lib					=	new News(null);
 				$lib->createCat('Cat&eacute;gorie sans nom','Cette cat&eacute;gorie sert d\'illustration.');
-				$lib->publish_news('Bienvenue sur Hubby '.$this->getVersId(),'Voici votre premi&egrave;re publication dans votre blog Hubby, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',1,$this->core->url->img_url('Hub_back.png'),1,TRUE);
+				$lib->publish_news('Bienvenu sur Hubby '.$this->getVersId(),'Voici votre premi&egrave;re publication dans votre blog Hubby, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',1,$this->core->url->img_url('Hub_back.png'),1,TRUE);
 			}
 		}
 	}
@@ -399,6 +401,106 @@ class Hubby
 					->from('hubby_controllers')->where('PAGE_VISIBLE','TRUE');
 		$r			=	$this->core->db->get();
 		return $r->result_array();
+	}
+	private $levelLimit					= 4; // limitation en terme de sous menu
+	public function get_sublevel($cname,$level,$showHidden=TRUE)
+	{
+		if($level <= $this->levelLimit)
+		{
+			if($showHidden == FALSE)
+			{
+				$this->core->db->where('PAGE_VISIBLE','TRUE');
+			}
+			$this->core	->db->select('*')
+						->where('PAGE_PARENT',$cname) // On recupère le menu de base
+						->from('hubby_controllers');
+			$query 		=	$this->core->db->get();
+			if($query->num_rows > 0)
+			{
+				$array		=	array();
+				foreach($query->result() as $obj)
+				{
+					$array[] = array(
+						'ID'				=>		$obj->ID,
+						'PAGE_CNAME'		=>		$obj->PAGE_CNAME,
+						'PAGE_PARENT'		=>		$obj->PAGE_PARENT,
+						'PAGE_NAMES'		=>		$obj->PAGE_NAMES,
+						'PAGE_MODULES'		=>		$this->getSpeModuleByNamespace($obj->PAGE_MODULES),
+						'PAGE_TITLE'		=>		$obj->PAGE_TITLE,
+						'PAGE_DESCRIPTION'	=>		$obj->PAGE_DESCRIPTION,
+						'PAGE_MAIN'			=>		$obj->PAGE_MAIN,
+						'PAGE_VISIBLE'		=>		$obj->PAGE_VISIBLE,
+						'PAGE_CHILDS'		=> 		$this->get_sublevel($obj->ID,$level+1)
+					);
+				}
+				return $array;
+			}
+		}
+		return false;
+	}
+	public function get_menu_limitation()
+	{
+		return $this->levelLimit;
+	}
+	public function get_pages($page ='',$showHidden=TRUE)
+	{
+		if($page == '')
+		{
+			if($showHidden == FALSE)
+			{
+				$this->core->db->where('PAGE_VISIBLE','TRUE');
+			}
+			$this->core	->db->select('*')
+						->where('PAGE_PARENT','none') // On recupère le menu de base
+						->from('hubby_controllers');
+			$query 	=	$this->core->db->get();
+			$array		=	array();
+			foreach($query->result() as $obj)
+			{
+				$array[] = array(
+					'ID'			=>$obj->ID,
+					'PAGE_CNAME'	=>$obj->PAGE_CNAME,
+					'PAGE_PARENT'	=>$obj->PAGE_PARENT,
+					'PAGE_NAMES'	=>$obj->PAGE_NAMES,
+					'PAGE_MODULES'	=>$this->getSpeModuleByNamespace($obj->PAGE_MODULES),
+					'PAGE_TITLE'	=>$obj->PAGE_TITLE,
+					'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
+					'PAGE_MAIN'		=>$obj->PAGE_MAIN,
+					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE,
+					'PAGE_CHILDS'	=> $this->get_sublevel($obj->ID,1)
+				);
+			}
+			$this->getpages	=	$array;
+			return $array;	
+		}
+		else
+		{
+			if($showHidden == FALSE)
+			{
+				$this->core->db->where('PAGE_VISIBLE','TRUE');
+			}
+			$this->core	->db->select('*')
+						->from('hubby_controllers')
+						->where('PAGE_CNAME',$page);
+			$query 	=	$this->core->db->get();
+			foreach($query->result() as $obj)
+			{
+				$array[] = array(
+					'ID'		=>$obj->ID,
+					'PAGE_CNAME'	=>$obj->PAGE_CNAME,
+					'PAGE_PARENT'	=>$obj->PAGE_PARENT,
+					'PAGE_NAMES'	=>$obj->PAGE_NAMES,
+					'PAGE_MODULES'	=>$this->getSpeModuleByNamespace($obj->PAGE_MODULES),
+					'PAGE_TITLE'	=>$obj->PAGE_TITLE,
+					'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
+					'PAGE_MAIN'		=>$obj->PAGE_MAIN,
+					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE,
+					'PAGE_CHILDS'	=>$this->get_sublevel($obj->ID,1)
+				);
+			}
+			$this->getpages	=	$array;
+			return $array;
+		}
 	}
 	public function getControllersAttachedToModule($module) // Recupere la page qui embarque le module spécifié.
 	{

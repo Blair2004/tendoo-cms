@@ -98,10 +98,11 @@ class Admin
 			$this->data['success']			=	notice_from_url();
 			if($e == '')
 			{
-				$this->data['get_pages']	=	$this->core->hubby_admin->get_pages();
+				$this->data['get_pages']	=	$this->core->hubby->get_pages();
+
 				$this->core->hubby->setTitle('Gestion des contr&ocirc;leurs');
-				$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
-				$this->data['body']	=	$this->load->view('admin/pages/body',$this->data,true);
+				$this->data['lmenu']		=	$this->load->view('admin/left_menu',$this->data,true);
+				$this->data['body']			=	$this->load->view('admin/pages/body',$this->data,true);
 				
 				$this->load->view('admin/header',$this->data);
 				$this->load->view('admin/global_body',$this->data);
@@ -116,6 +117,7 @@ class Admin
 				$this->form_validation->set_rules('page_visible','Visibilité de la page','trim|required|min_length[4]|max_length[5]');
 				$this->form_validation->set_rules('page_description','champ description du controleur','trim|required|min_length[2]|max_length[100]');
 				$this->form_validation->set_rules('page_id','Identifiant de la page','required');
+				$this->form_validation->set_rules('page_parent','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
 				if($this->form_validation->run())
 				{
 					$this->data['notice']	=	$this->core->hubby_admin->controller(
@@ -127,14 +129,17 @@ class Admin
 						$this->input->post('page_priority'),
 						'update',
 						$this->input->post('page_id'),
-						$this->input->post('page_visible'));
+						$this->input->post('page_visible'),
+						$this->input->post('page_parent'));
+					$this->core->notice->push_notice(notice($this->data['notice']));
 					if($this->data['notice']	==	'controler_edited')
 					{
 						$this->core->url->redirect(array('admin/pages?notice='.$this->data['notice']));
 					}
 				}
+				$this->data['createC']		=	$this->core->hubby->getControllers();
 				$this->data['get_mod']		=	$this->core->hubby_admin->get_bypage_module();
-				$this->data['get_pages']	=	$this->core->hubby_admin->get_pages($f);
+				$this->data['get_pages']	=	$this->core->hubby->get_pages($f);
 				if($this->data['get_pages'] == null)
 				{
 					$this->core->url->redirect(array('admin/pages?notice=controller_not_found'));
@@ -154,6 +159,7 @@ class Admin
 				$this->form_validation->set_rules('page_priority','Definir comme page principale','trim|required|min_length[4]|max_length[5]');
 				$this->form_validation->set_rules('page_description','description de la page','trim|required|min_length[2]|max_length[100]');
 				$this->form_validation->set_rules('page_visible','Visibilité de la page','trim|required|min_length[4]|max_length[5]');
+				$this->form_validation->set_rules('page_parent','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
 	
 				if($this->form_validation->run())
 				{
@@ -166,13 +172,15 @@ class Admin
 						$this->input->post('page_priority'),
 						'create',
 						null,
-						$this->input->post('page_visible'));	
+						$this->input->post('page_visible'),
+						$this->input->post('page_parent'));	
 					if($this->data['error'] == 'controler_created')
 					{
 						$this->core->url->redirect(array('admin/pages?notice=controler_created'));
 					}
 					$this->core->notice->push_notice(notice($this->data['error']));
 				}
+				$this->data['createC']		=	$this->core->hubby->getControllers();
 				$this->data['get_mod']		=	$this->core->hubby_admin->get_bypage_module();
 				$this->core->hubby->setTitle('Cr&eacute;er un contr&ocirc;leur');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 				$this->data['body']	=	$this->load->view('admin/pages/create_body',$this->data,true);
@@ -184,6 +192,16 @@ class Admin
 			{
 				$this->data['notice']	=	$this->core->hubby_admin->delete_controler($f);
 				$this->core->url->redirect(array('admin/pages?notice='.$this->data['notice']));
+			}
+			elseif($e == 'manage')
+			{
+				$this->core->hubby->setTitle('Gestion des cont&ocirc;leurs');
+				$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+				$this->data['body']	=	$this->load->view('admin/pages/controler_manage',$this->data,true);
+				
+				$this->load->view('admin/header',$this->data);
+				$this->load->view('admin/global_body',$this->data);
+			
 			}
 		}
 		else

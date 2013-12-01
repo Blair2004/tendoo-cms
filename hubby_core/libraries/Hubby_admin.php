@@ -41,53 +41,7 @@ class hubby_admin
 		}
 		return $array;					
 	}
-	public function get_pages($page ='')
-	{
-		if($page == '')
-		{
-			$this->core	->db->select('*')
-						->from('hubby_controllers');
-			$query 	=	$this->core->db->get();
-			$array		=	array();
-			foreach($query->result() as $obj)
-			{
-				$array[] = array(
-					'ID'		=>$obj->ID,
-					'PAGE_CNAME'	=>$obj->PAGE_CNAME,
-					'PAGE_NAMES'	=>$obj->PAGE_NAMES,
-					'PAGE_MODULES'	=>$this->hubby->getSpeModuleByNamespace($obj->PAGE_MODULES),
-					'PAGE_TITLE'	=>$obj->PAGE_TITLE,
-					'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
-					'PAGE_MAIN'		=>$obj->PAGE_MAIN,
-					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE
-				);
-			}
-			$this->getpages	=	$array;
-			return $array;	
-		}
-		else
-		{
-			$this->core	->db->select('*')
-						->from('hubby_controllers')
-						->where('PAGE_CNAME',$page);
-			$query 	=	$this->core->db->get();
-			foreach($query->result() as $obj)
-			{
-				$array[] = array(
-					'ID'		=>$obj->ID,
-					'PAGE_CNAME'	=>$obj->PAGE_CNAME,
-					'PAGE_NAMES'	=>$obj->PAGE_NAMES,
-					'PAGE_MODULES'	=>$this->hubby->getSpeModuleByNamespace($obj->PAGE_MODULES),
-					'PAGE_TITLE'	=>$obj->PAGE_TITLE,
-					'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
-					'PAGE_MAIN'		=>$obj->PAGE_MAIN,
-					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE
-				);
-			}
-			$this->getpages	=	$array;
-			return $array;
-		}
-	}
+	
 	public function countPages()
 	{
 		$query	=	$this->core->db->get('hubby_controllers');
@@ -153,11 +107,42 @@ class hubby_admin
 		$query				= $this->core->db->get();
 		return $query->result_array();
 	}
-	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE')
+	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none')
 	{
+		if($childOf == strtolower($cname)) : return 'cantHeritFromItSelf' ;endif; // Ne peut être sous menu de lui même
+		$currentPosition=	$childOf;
+		if($childOf != 'none') // Si ce controleur est l'enfant d'un autre.
+		{
+			for($i=0;$i<= $this->core->hubby->get_menu_limitation();$i++)
+			{
+				$firstQuery	=	$this->core	->db->select('*')
+							->from('hubby_controllers')
+							->where('ID',$currentPosition);
+				$data		=	$firstQuery->get();
+				$result		=	$data->result_array();
+				if(count($result) > 0)
+				{
+					if($this->core->hubby->get_menu_limitation() == $i && $result[0]['PAGE_PARENT'] != 'none') // Si le dernier menu, compte tenu de la limitation en terme de sous menu est atteinte, et pourtant le menu nous dis qu'il y a encore un autre menu, nous déclarons qu'il ne peut plus y avoir de sous menu.
+					{
+						return 'subMenuLevelReach';
+					}
+					$currentPosition = $result[0]['PAGE_PARENT']; // Affecte le nouveau parent, pour remonter la source.
+				}
+				else
+				{
+					if($i == 0) // Nous sommes au premier niveau de la boucle, ici nous vérifions que le contrôleur désigné comme parent existe effectivement
+					{
+						return 'unkConSpeAsParent';
+					}
+				}
+				
+			}
+		}
+		
 		$this->core	->db->select('*')
 					->from('hubby_controllers');
 		$query		=	$this->core->db->get();
+		
 		if($query->num_rows > 0)
 		{
 			foreach($query->result_array() as $q)
@@ -172,24 +157,30 @@ class hubby_admin
 				}
 				if($q['PAGE_MAIN'] == 'TRUE' && $main == 'TRUE')
 				{
-					$e['PAGE_MAIN']	=	'FALSE';
-					$this->core 	->db->where('ID',$q['ID'])
-								->update('hubby_controllers',$e);
+					if($main == 'TRUE' && $childOf == 'none')
+					{
+						$e['PAGE_MAIN']	=	'FALSE';
+						$this->core 	->db->where('ID',$q['ID'])
+										->update('hubby_controllers',$e);
+					}
 				}
 			}
 		}
+		if($main == 'TRUE' && $childOf != 'none'): $this->core->notice->push_notice(notice('cantSetChildAsMain'));endif; // Il ne faut pas définir un sous menu comme page principale
 		$e['PAGE_CNAME']		=	strtolower($cname);
 		$e['PAGE_NAMES']		=	strtolower($name);
 		$e['PAGE_TITLE']		=	$title;
 		$e['PAGE_DESCRIPTION']	=	$description;
-		$e['PAGE_MAIN']			=	$query->num_rows > 0 ? $main : 'TRUE';
+		$e['PAGE_MAIN']			=	$query->num_rows > 0 ? $main == 'TRUE' && $childOf != 'none' ? 'FALSE' : $main : 'TRUE'; // Les sous menu ne devriat pas intervenir en tant que principale.
 		$e['PAGE_MODULES']		=	$mod;
 		$e['PAGE_VISIBLE']		=	$visible;
+		$e['PAGE_PARENT']		=	$childOf == $name ? 'none' : $childOf;
 		if($obj == 'create')
 		{
 			if($this->core		->db->insert('hubby_controllers',$e))
 			{
-				if($query->num_rows > 0) : 		return "no_main_controller_created";endif;
+				$query			=	$this->core->db->where('PAGE_MAIN','TRUE')->get('hubby_controllers');
+				if($query->num_rows == 0) : 		return "no_main_controller_created";endif;
 				return 'controler_created';
 			}
 			else

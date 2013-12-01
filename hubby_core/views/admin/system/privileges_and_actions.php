@@ -54,7 +54,7 @@
 												echo 'false';
 											}
 											?>">
-                                                <a href="#" class="<?php
+                                                <a href="javascript:void(0)" class="<?php
 											if(array_key_exists('REF_ACTION_VALUE',$values['gestpa']))
 											{
 												echo ($values['gestpa']['REF_ACTION_VALUE'] == 'true') ? 'active'	:	'';
@@ -74,7 +74,7 @@
 												echo 'false';
 											}
 											?>">
-												<a href="#" class="<?php
+												<a href="javascript:void(0)" class="<?php
 											if(array_key_exists('REF_ACTION_VALUE',$values['gestapp']))
 											{
 												echo ($values['gestapp']['REF_ACTION_VALUE'] == 'true') ? 'active'	:	'';
@@ -95,7 +95,7 @@
 												echo 'false';
 											}
 											?>">
-                                            	<a href="#" class="<?php
+                                            	<a href="javascript:void(0)" class="<?php
 											if(array_key_exists('REF_ACTION_VALUE',$values['gestheme']))
 											{
 												echo ($values['gestheme']['REF_ACTION_VALUE'] == 'true') ? 'active'	:	'';
@@ -116,7 +116,7 @@
 												echo 'false';
 											}
 											?>">
-                                            	<a href="#" class="<?php
+                                            	<a href="javascript:void(0)" class="<?php
 											if(array_key_exists('REF_ACTION_VALUE',$values['gestmo']))
 											{
 												echo ($values['gestmo']['REF_ACTION_VALUE'] == 'true') ? 'active'	:	'';
@@ -137,7 +137,7 @@
 												echo 'false';
 											}
 											?>">
-                                            	<a href="#" class="<?php
+                                            	<a href="javascript:void(0)" class="<?php
 											if(array_key_exists('REF_ACTION_VALUE',$values['gestset']))
 											{
 												echo ($values['gestset']['REF_ACTION_VALUE'] == 'true') ? 'active'	:	'';
@@ -166,86 +166,108 @@
                         		</ul>
                             </div>
                             <div class="tab-pane" id="profile">
-                                <table class="table table-hover table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <td width="200">Privil&egrave;</td>
-                                            <td>Action</td>
-                                            <td>Module</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-									if(count($getModules) > 0)
-									{
-										foreach($getModules as $g)
-										{
-											foreach($getPrivileges as $p)
-											{
-												$action	=	$this->core->hubby_admin->getModuleAction($g['NAMESPACE']);
-												if(is_array($action))
-												{
-													foreach($action as $a)
-													{
-														
-														$values		=	array();
-														$values[$a['ACTION']]	=	$this->core->hubby_admin->getValueForPrivNameAndSystem('modules',$a['ACTION'],$p['PRIV_ID']);	
-														?>
-                                        <tr class="<?php
-												if(array_key_exists('REF_ACTION_VALUE',$values[$a['ACTION']]))
-												{
-													echo ($values[$a['ACTION']]['REF_ACTION_VALUE'] == 'true') ? 'bg-success'	:	'';
-												}
-												?>" data-name="<?php echo $a['ACTION'];?>" data-value="<?php
-												if(array_key_exists('REF_ACTION_VALUE',$values[$a['ACTION']]))
-												{
-													echo ($values[$a['ACTION']]['REF_ACTION_VALUE'] == 'true') ? 'true'	:	'false';
-												}
-												else 
-												{
-													echo 'false';
-												}
-												?>">
-                                            <td><span data-form-name="<?php echo $p['PRIV_ID'];?>" data-additionnal="<?php echo $g['NAMESPACE'];?>"><?php echo $p['HUMAN_NAME'];?></span></td>
-                                            <td><?php echo $a['ACTION_DESCRIPTION'];?></td>
-                                            <td><?php echo $a['ACTION_NAME'];?></td>
-                                        </tr>
-                                        <?php
-													}
-												}
-												else
-												{
-													?>
-                                        <tr>
-                                            <td colspan="5"><?php echo $p['HUMAN_NAME'];?> Aucune action enregistré pour ce module. Ce module est ouvert &agrave; tout administrateur.</td>
-                                        </tr>
-                                        <?php
-												}
-											}
-										}
-									}
-									else
-									{
-										?>
-                                        <tr>
-                                            <td colspan="5">Aucun module installer, aucune action enregistr&eacute;e</td>
-                                        </tr>
-                                        <?php
-									}
-									?>
-                                    </tbody>
-                                </table>
-                                <?php
-                                    if(is_array($paginate[4]))
+                                <div class="common_action_list" >
+								<?php
+                                if(count($getModules) > 0)
+                                {
+                                    foreach($getModules as $g)
                                     {
-                                        foreach($paginate[4] as $p)
-                                        {
                                         ?>
-                                <input style="min-width:20px;width:auto;padding:4px;" class="<?php echo $p['state'];?>" type="button" value="<?php echo $p['text'];?>" button_ref="<?php echo $p['link'];?>" />
-                                <?php
-                                        }
-                                    }
+                                    <ul class="list-group accordion" data-role="accordion" style="float:left;width:100%;">
+                                        <?php
+                                        foreach($getPrivileges as $p)
+                                        {
+                                            $action	=	$this->core->hubby_admin->getModuleAction($g['NAMESPACE']);
+                                            if(is_array($action))
+                                            {
                                     ?>
+                                        <li class="list-group-item" data-form-name="<?php echo $p['PRIV_ID'];?>" data-additionnal="<?php echo $g['NAMESPACE'];?>">
+                                            <h4 class="panel-heading">Action du module <strong><?php echo $g['HUMAN_NAME'];?></strong> pour le privil&egrave;ge : <strong><?php echo $p['HUMAN_NAME'];?></strong></h4>
+                                            <div class="panel-body">
+                                                <ul class="nav nav-pills listview fluid">
+                                                    <?php
+                                                foreach($action as $a)
+                                                {
+                                                    $values		=	array();
+                                                    $values[$a['ACTION']]	=	$this->core->hubby_admin->getValueForPrivNameAndSystem('modules',$a['ACTION'],$p['PRIV_ID']);	
+                                                    ?>
+                                                    <li data-name="<?php echo $a['ACTION'];?>" data-value="<?php
+                                            if(array_key_exists('REF_ACTION_VALUE',$values[$a['ACTION']]))
+                                            {
+                                                echo ($values[$a['ACTION']]['REF_ACTION_VALUE'] == 'true') ? 'true'	:	'false';
+                                            }
+                                            else 
+                                            {
+                                                echo 'false';
+                                            }
+                                            ?>">
+                                                        <a href="javascript:void(0)" class="
+                                            <?php
+                                            if(array_key_exists('REF_ACTION_VALUE',$values[$a['ACTION']]))
+                                            {
+                                                echo ($values[$a['ACTION']]['REF_ACTION_VALUE'] == 'true') ? 'active'	:	'';
+                                            }
+                                            ?> list-group-item">
+                                                            <h4><?php echo $a['ACTION_NAME'];?></h4>
+                                                            <p><?php echo $a['ACTION_DESCRIPTION'];?></p>
+                                                        </a>
+                                                    </li>
+                                                    <?php
+                                                }
+                                                    ?>                                                
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    <?php
+                                            }
+                                            else
+                                            {
+                                                ?>
+                                        <li>
+                                            <a href="#"><?php echo $p['HUMAN_NAME'];?></a>
+                                            <div>
+                                                Aucune action enregistré pour ce module. Ce module est ouvert &agrave; tout administrateur.
+                                            </div>
+                                        </li>
+                                                <?php
+                                            }
+                                        }
+                                    ?>
+                                    </ul>
+                                    <?php
+                                    }
+                                }
+                                else
+                                {
+                                    ?>
+                                    <div class="no_common_action">Aucune module install&eacute;, aucune action enregistr&eacute;e.</div>
+                                    <?php
+                                }
+                                ?>
+								</div>
+                                <footer class="footer bg-white b-t">
+                                    <div class="row m-t-sm text-center-xs">
+                                        <div class="col-sm-4">
+                                            
+                                        </div>
+                                        <div class="col-sm-4 text-center">  </div>
+                                        <div class="col-sm-4 text-right text-center-xs">
+                                            <ul class="pagination pagination-sm m-t-none m-b-none">
+                                             <?php 
+                                            if(is_array($paginate[4]))
+                                            {
+                                                foreach($paginate[4] as $p)
+                                                {
+                                                    ?>
+                                                    <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
+                                                    <?php
+                                                }
+                                            }
+                                        ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </footer>
                             </div>
                         </div>
                     </div>

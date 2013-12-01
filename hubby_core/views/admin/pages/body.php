@@ -13,22 +13,6 @@
             </header>
             <section class="vbox">
                 <section class="scrollable wrapper w-f"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?>
-                    <header class="header bg-white b-b clearfix">
-                        <div class="row m-t-sm">
-                            <div class="col-sm-6 m-b-xs"> 
-                            	<a href="<?php echo $this->core->url->site_url(array('admin','menu'));?>" data-toggle="class:hide" class="btn btn-sm btn-info active"><i class="icon-caret-right text icon-large"></i><i class="icon-caret-left text-active icon-large"></i></a> 
-                                <a href="#" class="btn btn-sm btn-success"><i class="icon-plus"></i> Retour</a> 								<a href="#" class="btn btn-sm btn-danger"><i class="icon-plus"></i> Supprimer</a>
-							</div>
-                            <div class="col-sm-6 m-b-xs">
-                                <div class="input-group">
-                                    <input type="text" class="input-sm form-control" placeholder="Search">
-                                    <span class="input-group-btn">
-                                    <button class="btn btn-sm btn-white" type="button">Go!</button>
-                                    </span> 
-								</div>
-                            </div>
-                        </div>
-                    </header>
                     <section class="panel">
                         <div class="table-responsive">
                             <table class="table table-striped m-b-none">
@@ -41,6 +25,7 @@
                                         <th>Principale</th>
                                         <th>Module affect&eacute;</th>
                                         <th>Control</th>
+                                        <th title="Sous menus">Nbr Menu</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,16 +34,43 @@
                     foreach($get_pages as $g)
                     {
                         ?>
-                                    <tr>
-                                        <td><input type="checkbox" name="post[]" value="<?php echo $g['ID'];?>"></td>
+                                    <tr title="racine">
+                                        <td><em class="icon-sort-by-attributes-alt"></em></td>
                                         <td><a href="<?php echo $this->core->url->site_url('admin/pages/edit/'.$g['PAGE_CNAME']);?>" data-toggle="modal"><?php echo $g['PAGE_NAMES'];?></a></td>
                                         <td><?php echo $g['PAGE_TITLE'];?></td>
                                         <td><?php echo $g['PAGE_DESCRIPTION'];?></td>
                                         <td><?php echo ($g['PAGE_MAIN'] == 'TRUE') ? 'Oui' : 'Non';?></td>
                                         <td><?php echo $g['PAGE_MODULES'] === FALSE ? 'Aucun module' : $g['PAGE_MODULES'][0]['HUMAN_NAME'];?></td>
                                         <td></td>
+                                        <td><?php echo count($g['PAGE_CHILDS']);?></td>
 									</tr>
                                 <?php
+								$limitation		=	$this->core->hubby->get_menu_limitation();
+								for($e = 0;$e <= $limitation;$e++)
+								{
+									if(count($g['PAGE_CHILDS']) > 0) // Sous menu 1
+									{
+										if(is_array($g['PAGE_CHILDS']))
+										{
+											foreach($g['PAGE_CHILDS'] as $_g)
+											{
+												?>
+											<tr>
+												<td><?php echo $e;?></td>
+												<td><a href="<?php echo $this->core->url->site_url('admin/pages/edit/'.$_g['PAGE_CNAME']);?>" data-toggle="modal"><?php echo $_g['PAGE_NAMES'];?></a></td>
+												<td><?php echo $_g['PAGE_TITLE'];?></td>
+												<td><?php echo $_g['PAGE_DESCRIPTION'];?></td>
+												<td><?php echo ($_g['PAGE_MAIN'] == 'TRUE') ? 'Oui' : 'Non';?></td>
+												<td><?php echo $_g['PAGE_MODULES'] === FALSE ? 'Aucun module' : $_g['PAGE_MODULES'][0]['HUMAN_NAME'];?></td>
+												<td></td>
+												<td><?php echo count($_g['PAGE_CHILDS']);?></td>
+											</tr>
+												<?php
+												$g['PAGE_CHILDS'] =	$_g['PAGE_CHILDS']; // Recupère le nouvel index pour continuer le parcours.
+											}
+										}
+									}
+								}
 								$ii++;
                     }
                         ?>
@@ -84,13 +96,20 @@
                 <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small> </div>
                 <div class="col-sm-4 text-right text-center-xs">
                     <ul class="pagination pagination-sm m-t-none m-b-none">
-                        <li><a href="#"><i class="icon-chevron-left"></i></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#"><i class="icon-chevron-right"></i></a></li>
+                     <?php 
+					 if(isset($paginate))
+					 {
+					if(is_array($paginate[4]))
+					{
+						foreach($paginate[4] as $p)
+						{
+							?>
+                            <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
+							<?php
+						}
+					}
+					 }
+				?>
                     </ul>
                 </div>
             </div>
