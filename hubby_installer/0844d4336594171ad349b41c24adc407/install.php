@@ -9,6 +9,7 @@ $this->appTableField(array(
 	'AUTHOR'		=> 'Hubby Group',
 	'DESCRIPTION'	=> 'Créer, modifier et publié des articles pour votre blog.',
 	'TYPE'			=> 'BYPAGE',
+	'HAS_WIDGET'	=>	1,
 	'HUBBY_VERS'	=> 0.92
 ));
 $this->appSql(	

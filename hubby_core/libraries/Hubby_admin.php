@@ -1203,4 +1203,8 @@ class hubby_admin
 	{
 		return $this->sys_not_array;
 	}
+	// 0.93
+	public function getImageFrom()
+	{
+	}
 }

@@ -24,8 +24,6 @@
                         <ul class="dropdown-menu">
                             <li> <a href="<?php echo $this->core->url->site_url('admin/pages/create');?>">Cr&eacute;er un contr&ocirc;leur</a> </li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/pages');?>">Tous les contr&ocirc;leurs</a> </li>
-                            <li> <a href="<?php echo $this->core->url->site_url('admin/pages/manage');?>">Configuration des contrôleurs</a> </li>
-                            <!--<li> <a href="http://flatfull.com/themes/todo/icons.html"> <b class="badge pull-right">302</b>Icons </a> </li>-->
                         </ul>
                     </li>
                     <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-puzzle-piece"></i> <span>Applications</span> </a>

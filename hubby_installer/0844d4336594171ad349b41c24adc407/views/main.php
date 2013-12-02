@@ -43,7 +43,7 @@
                             <tr>
                                 <th class="action"><a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'edit',$g['ID']));?>"><?php echo $g['TITLE'];?></a></th>
                                 <th><?php echo $cat_name['CATEGORY_NAME'];?></th>
-                                <th><?php echo timespan(strtotime($g['DATE']));?></th>
+                                <th><?php echo $this->core->hubby->timespan(strtotime($g['DATE']));?></th>
                                 <th><?php echo $g['ETAT'] == '1' ? 'Publi&eacute;' : 'Brouillon';?></th>
                                 <th><?php echo $user['PSEUDO'];?></th>
                                 <th><a class="delete" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></th>

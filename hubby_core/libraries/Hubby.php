@@ -232,7 +232,7 @@ class Hubby
 				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
 				$lib					=	new News(null);
 				$lib->createCat('Cat&eacute;gorie sans nom','Cette cat&eacute;gorie sert d\'illustration.');
-				$lib->publish_news('Bienvenu sur Hubby '.$this->getVersId(),'Voici votre premi&egrave;re publication dans votre blog Hubby, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',1,$this->core->url->img_url('Hub_back.png'),1,TRUE);
+				$lib->publish_news('Bienvenue sur Hubby '.$this->getVersId(),'Voici votre premi&egrave;re publication dans votre blog Hubby, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',1,$this->core->url->img_url('Hub_back.png'),1,TRUE);
 			}
 		}
 		else if($app	==	'hubby_index_mod')
@@ -243,6 +243,26 @@ class Hubby
 			$option					=		$this->getOptions();
 			$this->hubby_admin->hubby_core_installer($appFile);
 			$module					=		$this->hubby_admin->moduleActivation('hubby_index_mod',FALSE);
+		}
+		else if($app	==	'file_manager')
+		{
+			// Install "Hubby_index_mod"
+			$appFile				=		array();
+			$appFile['temp_dir']	=		'843a279725edca537755a7aa9acd79f1';
+			$option					=		$this->getOptions();
+			$this->hubby_admin->hubby_core_installer($appFile);
+
+			$module					=		$this->hubby_admin->moduleActivation('hubby_contents',FALSE);
+		}
+		else if($app	==	'widget_admin')
+		{
+			// Install "Hubby_index_mod"
+			$appFile				=		array();
+			$appFile['temp_dir']	=		'bd3afaf409a5f9ba355e99f884cc5178';
+			$option					=		$this->getOptions();
+			$this->hubby_admin->hubby_core_installer($appFile);
+
+			$module					=		$this->hubby_admin->moduleActivation('hubby_widget_administrator',FALSE);
 		}
 	}
 	public function connectToDb()
@@ -645,7 +665,7 @@ class Hubby
 			'd'=>mdate('%d',$timestamp),
 			'y'=>mdate('%Y',$timestamp),
 			'M'=>mdate('%m',$timestamp),
-			'h'=>mdate('%h',$timestamp),
+			'h'=>mdate('%H',$timestamp),
 			'i'=>mdate('%i',$timestamp),
 			's'=>mdate('%s',$timestamp)
 		);
@@ -669,15 +689,15 @@ class Hubby
 		}
 		if($timeformat 	==	'type_1')
 		{
-			return mdate('Le %d '.$month[$timeToArray['M']].' %Y - %h:%i:%s',$timestamp);
+			return mdate('Le %d '.$month[$timeToArray['M']].' %Y - %H:%i:%s',$timestamp);
 		}
 		elseif($timeformat 	==	'type_2')
 		{
-			return mdate('%d/%m/%Y - %h:%i:%s',$timestamp);
+			return mdate('%d/%m/%Y - %H:%i:%s',$timestamp);
 		}
 		elseif($timeformat 	==	'type_3')
 		{
-			return mdate('%Y/%m/%d - %h:%i:%s',$timestamp);
+			return mdate('%Y/%m/%d - %H:%i:%s',$timestamp);
 		}
 	}
 	public function arrayToTimestamp($date)
@@ -880,7 +900,7 @@ class Hubby
 	{
 		$this->load->helper('date');
 		$timestamp			=	$this->timestamp();
-		$datetime			=	mdate('%Y-%m-%d %h:%i:%s',$timestamp);
+		$datetime			=	mdate('%Y-%m-%d %H:%i:%s',$timestamp);
 		return $datetime;
 	}
 	public function urilizeText($text)

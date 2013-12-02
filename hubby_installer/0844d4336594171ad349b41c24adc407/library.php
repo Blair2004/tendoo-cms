@@ -88,7 +88,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					'IMAGE'			=> $image,
 					'AUTEUR'		=> $this->user->current('ID'),
 					'ETAT'			=> $state,
-					'DATE'			=> $this->datetime(),
+					'DATE'			=> $this->hubby->datetime(),
 					'CATEGORY_ID'	=> $cat
 					);
 				}
@@ -100,7 +100,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					'IMAGE'			=> $image,
 					'AUTEUR'		=> 1,// Usefull when no admin is created to anticipate super admin creation
 					'ETAT'			=> $state,
-					'DATE'			=> $this->datetime(),
+					'DATE'			=> $this->hubby->datetime(),
 					'CATEGORY_ID'	=> $cat
 					);
 				}
@@ -114,7 +114,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					'ETAT'			=> $state,
 					'IMAGE'			=> $image,
 					'AUTEUR'		=> $this->user->current('ID'),
-					'DATE'			=> $this->datetime(),
+					'DATE'			=> $this->hubby->datetime(),
 					'CATEGORY_ID'	=> $cat
 				);
 				$this->core->db->where('ID',$id);
@@ -480,7 +480,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					'AUTEUR'				=> 	$user_id,
 					'OFFLINE_AUTEUR'		=>	$auteur,
 					'OFFLINE_AUTEUR_EMAIL'	=>	$email,
-					'DATE'					=> 	$this->hubby->timestamp()
+					'DATE'					=> 	$this->hubby->datetime()
 				);
 				return $this->core->db	->insert('hubby_comments',$comment);
 			}

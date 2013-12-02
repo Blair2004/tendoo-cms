@@ -28,6 +28,7 @@ class Hubby_index_mod_admin_controller
 		{
 			$this->core->url->redirect(array('admin','index?notice=access_denied'));
 		}
+		$this->data['inner_head']		=	$this->core->load->view('admin/inner_head',$this->data,true);
 		$this->data['lmenu']			=	$this->core->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 	}
 	public function index()
@@ -97,7 +98,7 @@ class Hubby_index_mod_admin_controller
 
 			
 		$this->data['loadSection']	=	'main';
-		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/admin_view',$this->data,true,TRUE);
+		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/main.php',$this->data,true,TRUE);
 		
 		return $this->data['body'];
 	}
