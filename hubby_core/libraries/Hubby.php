@@ -84,7 +84,7 @@ class Hubby
 		  `SHOW_WELCOME` varchar(10) NOT NULL,
 		  `ADMIN_THEME` int(11) NOT NULL,
 		  `ALLOW_PRIVILEGE_SELECTION` int(11) NOT NULL,
-		  `PUBLIC_PRIV_ACCESS_ADMIN` int(11) NOT NULL
+		  `PUBLIC_PRIV_ACCESS_ADMIN` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
