@@ -1,4 +1,4 @@
-<aside class="aside nav-vertical bg-primary b-r" id="nav">
+<aside class="aside nav-vertical bg-primary" id="nav">
     <section class="vbox">
         <header class="nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 
@@ -33,11 +33,11 @@
                             <li> <a href="<?php echo $this->core->url->site_url('admin/themes');?>">Th&egrave;mes install&eacute;s</a> </li>
                         </ul>
                     </li>
-                    <li> <a href="<?php echo $this->core->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="icon-cogs"></i> <span>Param&ecirc;tres</span> </a> </li>
                     <?php
 					if($this->core->users_global->current('PRIVILEGE') == 'NADIMERPUS')
 					{
 					?>
+                    <li> <a href="<?php echo $this->core->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="icon-cogs"></i> <span>Param&ecirc;tres</span> </a> </li>
                     <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-tasks"></i> <span>Syst&egrave;me</span> </a> 
                         <ul class="dropdown-menu">
                         	<li> <a href="<?php echo $this->core->url->site_url('admin/system');?>">&Agrave; propos d'Hubby</a> </li>

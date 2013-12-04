@@ -12,7 +12,7 @@
                 </div>
             </header>
             <section class="vbox">
-                <section class="scrollable wrapper w-f"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?>
+                <section class="wrapper w-f"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?>
                     <section class="panel">
                         <div class="table-responsive">
                             <table class="table table-striped m-b-none">

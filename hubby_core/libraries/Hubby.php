@@ -82,6 +82,9 @@ class Hubby
 		  `SITE_TIMEZONE` varchar(30) NOT NULL,
 		  `SITE_TIMEFORMAT` varchar(10) NOT NULL,
 		  `SHOW_WELCOME` varchar(10) NOT NULL,
+		  `ADMIN_THEME` int(11) NOT NULL,
+		  `ALLOW_PRIVILEGE_SELECTION` int(11) NOT NULL,
+		  `PUBLIC_PRIV_ACCESS_ADMIN` int(11) NOT NULL
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -151,6 +154,7 @@ class Hubby
 		  `DESCRIPTION` text NOT NULL,
 		  `DATE` datetime NOT NULL,
 		  `PRIV_ID` varchar(100) NOT NULL,
+		  `IS_SELECTABLE` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;
 		;';

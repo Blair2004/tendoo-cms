@@ -27,6 +27,14 @@
                                         <input value="<?php echo $getPriv[0]['HUMAN_NAME'];?>" class="form-control" type="text" name="priv_name" placeholder="Nom du privil&egrave;ge" title="Nom du privil&egrave;ge"/>
                                     </div>
                                     <div class="form-group">
+                                    	<label class="label-control">Acc&eacute;ssible au public</label>
+                                        <select class="form-control" type="checkbox" name="is_selectable" title="Nom du privil&egrave;ge">
+                                        	<option value="">Choisir...</option>
+                                        	<option value="0" <?php echo $getPriv[0]['IS_SELECTABLE'] == "0" ? 'selected="selected"' : '' ;?>>Indisponible pour le public</option>
+                                            <option value="1" <?php echo $getPriv[0]['IS_SELECTABLE'] == "1" ? 'selected="selected"' : '' ;?>>Disponible pour le public</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                     	<label class="label-control">Identifiant du privil&egrave;ge</label>
                                         <input class="form-control" type="text" name="priv_encoding" placeholder="Identifiant du privil&egrave;ge" title="Identifiant du privil&egrave;ge" disabled="disabled" value="<?php echo $getPriv[0]['PRIV_ID'];?>"/>
                                     </div>

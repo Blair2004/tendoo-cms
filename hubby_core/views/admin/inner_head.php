@@ -1,3 +1,7 @@
+		<?php
+		if($options[0]['ADMIN_THEME'] == 1)
+		{
+		?>
 		<div id="canvasBubbles" class="bg-light dk">           
         </div>
         <style type="text/css">
@@ -33,7 +37,10 @@
 			}
 		}
 		</style>
-		<header id="headish" class="header b-b">
+        <?php
+		}
+		?>
+		<header id="headish" class="header b-b <?php if($options[0]['ADMIN_THEME'] == 0):?> bg-primary <?php ;endif;?>">
             <div class="collapse navbar-collapse pull-in">
             	<form class="navbar-form navbar-left m-t-sm" role="search">
                     <a onclick="document.location	=	'<?php echo $this->core->url->site_url(array('admin'));?>'" type="submit" class="btn btn-sm btn-white"><i class="icon-dashboard"></i>Administration</a>

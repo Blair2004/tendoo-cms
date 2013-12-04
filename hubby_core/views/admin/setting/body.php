@@ -13,7 +13,7 @@
                 </div>
             </header>
             <section class="vbox">
-                <section class="scrollable wrapper w-f"> 
+                <section class="wrapper w-f"> 
 					<?php echo $this->core->notice->parse_notice();?> 
 					<?php echo $success;?>
                     <?php echo validation_errors('<p class="error">', '</p>');?>
@@ -99,7 +99,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="otherSetting">
-                                	<div class="wrapper">
+                                	<div class="col-lg-6">
 										<?php
                                         $checked	=	($options[0]['SHOW_WELCOME'] == "TRUE") ? 'checked="checked"' : "";
                                         ?>
@@ -109,6 +109,19 @@
                                             </div>
                                             <input name="other_setting" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
                                         </form>
+                                        <form method="post" class="panel-body">
+                                            <div class="form-group">
+                                                <label class="label-control">Modifier le thème du système</label>
+                                                <select class="form-control" name="them_style">
+                                                	<option value="">Choisir le thème</option>
+                                                    <option value="0" <?php if((int)$options[0]['ADMIN_THEME'] == 0): ?> selected="selected"<?php endif;?> >Par d&eacute;faut</option>
+                                                    <option value="1" <?php if((int)$options[0]['ADMIN_THEME'] == 1): ?> selected="selected"<?php endif;?>>Bubbles Showcase</option>
+                                                </select>
+                                            </div>
+                                            <input name="them_style_button" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+                                        </form>
+                                        </div>
+                                	<div class="col-lg-6">
                                         <form method="post" class="panel-body">
                                             <div class="form-group">
                                                 <label class="label-control">Autoriser les inscription</label>
@@ -141,6 +154,48 @@
                                             </div>
                                             <input name="autoriseRegistration" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
                                         </form>
+										<?php
+                                        $checked	=	($options[0]['ALLOW_PRIVILEGE_SELECTION'] == "1") ? 'checked="checked"' : "";
+                                        ?>
+                                        <form method="post" class="panel-body">
+                                            <div class="form-group">
+                                                <label class="label-control">Autoriser la selection des privilèges: <input class="input-control" name="allow_priv_selection" type="checkbox" value="1" style="min-width:20px;" <?php echo $checked;?> /></label>                                                <p>Vous avez la possibilité de définir parmis les privilèges que vous avez cr&eacute;e, ceux qui sont disponible d&egrave;s l'inscription par les utilisateurs. N'oubliez pas de choisir parmis les privil&egrave;ges que vous avez cr&eacute;es ceux qui seront acc&eacute;sible au public. </p>
+                                            </div>
+                                            <input name="allow_priv_selection_button" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+                                        </form>
+                                        <form method="post" class="panel-body">
+                                            <div class="form-group">
+                                                <label class="label-control">Ouvrir l'acc&egrave;s &agrave; l'administration aux privil&egrave;ges publics</label>
+                                                <p>Il est important de savoir que cette option emp&ecirc;che &agrave; tout utilisateur faitsant partie des privil&egrave;ge ouvert au public, d'acc&eacute;der &agrave; l'espace administration, sans consid&eacute;rer le fait que des actions aient &eacute;t&eacute; ajout&eacute;es aux diff&eacute;rents privil&egrave;ges acc&eacute;ssible au public. Pareillement, lorsqu'un privil&egrave;ge cesse s'&ecirc;tre acc&eacute;ssible au public, tout utilisateur faisant partie de ce privil&egrave;ge pourra d&eacute;sormais acc&eacute;der &agrave; l'espace administration.</p>
+                                                <select name="publicPrivAccessAdmin" class="form-control">
+                                                	<option value="">Choisir...</option>
+                                                    <?php
+													if($options[0]['PUBLIC_PRIV_ACCESS_ADMIN'] == 0)
+													{
+														?>
+                                                    <option value="1">Oui</option>
+                                                    <option selected="selected" value="0">Non</option>
+                                                        <?php
+													}
+													else if($options[0]['PUBLIC_PRIV_ACCESS_ADMIN'] == 1)
+													{
+														?>
+                                                    <option selected="selected" value="1">Oui</option>
+                                                    <option value="0">Non</option>
+                                                        <?php
+													}
+													else
+													{
+														?>
+                                                    <option value="1">Oui</option>
+                                                    <option value="0">Non</option>
+                                                        <?php
+													}
+													?>
+                                                </select>
+                                            </div>
+                                            <input name="publicPrivAccessAdmin_button" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -150,4 +205,4 @@
             </section>
         </section>
     </section>
-    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav">EEE</a> </section>
+    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a> </section>

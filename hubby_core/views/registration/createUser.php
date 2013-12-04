@@ -9,6 +9,7 @@
 			$field_4	=	(form_error('user_mail')) ? form_error('user_mail') : '';
 			$field_5	=	(form_error('user_sex')) ? form_error('user_sex') : '';
 			$field_6	=	(form_error('user_captcha')) ? form_error('user_captcha') : '';
+			$field_7	=	(form_error('priv_id')) ? form_error('priv_id') : '';
 			;
 			?>
             	<?php echo $this->core->notice->parse_notice();?>
@@ -31,7 +32,28 @@
                         	<label class="control-label">Email <?php echo $field_4;?></label>
                             <input class="form-control" type="text" name="user_mail" placeholder="Email"/>
                         </div>
-                        <div class="form-group select">
+                         <?php
+						if($options[0]['ALLOW_PRIVILEGE_SELECTION'] == "1")
+						{
+						?>
+                        <div class="form-group">
+                        	<label class="control-label">Choisir un privil&egrave;ge <?php echo $field_7;?></label>
+                            <select class="form-control" name="priv_id">
+                                <option value="">Choisir un privil&egrave;ge</option>
+                                <?php
+								foreach($allowPrivilege as $a)
+								{
+									?>
+                                    <option value="<?php echo $a['PRIV_ID'];?>"><?php echo $a['HUMAN_NAME'];?></option>
+                                    <?php
+								}
+								?>
+                            </select>
+                        </div>
+                        <?php
+						}
+						?>
+                        <div class="form-group">
                         	<label class="control-label">Selection du sexe <?php echo $field_5;?></label>
                             <select class="form-control" name="user_sex">
                                 <option value="">Selection du sexe</option>

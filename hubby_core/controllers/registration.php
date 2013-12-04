@@ -66,6 +66,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		$this->core->form_validation->set_rules('user_password_confirm','Confirmer le mot de passe','trim|required|min_length[6]|max_length[15]');
 		$this->core->form_validation->set_rules('user_mail','Email','trim|valid_email|required');
 		$this->core->form_validation->set_rules('user_sex','Selection du sexe','trim|required|min_length[3]|max_length[4]');
+		$this->core->form_validation->set_rules('priv_id','Selection du privil&egrave;ge','trim|min_length[11]');
 		$this->core->form_validation->set_rules('captchaCorrespondance','Code captcha','trim|required|min_length[6]');
 		$this->core->form_validation->set_rules('user_captcha',' ','matches[captchaCorrespondance]|trim|required|min_length[6]');
 		if($this->core->form_validation->run())
@@ -75,14 +76,16 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				$this->core->input->post('user_password'),
 				$this->core->input->post('user_sex'),
 				$this->core->input->post('user_mail'),
-				$active	=	'FALSE'
+				$active	=	'FALSE',
+				$this->core->input->post('priv_id')
 			);
-			if($query	==	'adminCreated')
+			if($query	==	'userCreated')
 			{
-				$this->core->url->redirect(array('login?notice=adminCreated'));
+				$this->core->url->redirect(array('login?notice='.$query));
 			}
 			$this->core->notice->push_notice(notice($query));
 		}
+		$this->data['allowPrivilege']	=	$this->core->hubby_admin->getPublicPrivilege();
 		$this->core->session->set_userdata('captcha_code',$this->core->captcha->get());
 		$this->data['captcha']	=	$this->core->session->userdata('captcha_code');
 		$this->data['pageTitle']	=	'Cr&eacute;er un compte - '.$this->data['options'][0]['SITE_NAME'];

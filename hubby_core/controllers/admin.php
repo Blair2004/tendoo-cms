@@ -41,6 +41,7 @@ class Admin
 		(!$this->core->users_global->hasAdmin()) ?  $this->core->url->redirect(array('registration','superAdmin')): FALSE;
 		(!$this->core->users_global->isConnected()) ? $this->core->url->redirect(array('login?ref='.urlencode($this->core->url->request_uri()))) : FALSE;
 		(!$this->core->users_global->isAdmin())	?	$this->core->url->redirect(array('error','code','accessDenied')) : FALSE;
+		$this->data['options']		=	$this->core->hubby->getOptions();
 	}
 	private function loadLibraries()
 	{
@@ -58,6 +59,19 @@ class Admin
 		$this->data['notice']		=	'';
 		$this->data['error']		=	'';
 		$this->data['success']		=	'';
+		if($this->data['options'][0]['PUBLIC_PRIV_ACCESS_ADMIN'] == '1') // If public priv is not allowed, not check current user priv class
+		{
+			$priv				=	$this->core->users_global->current('PRIVILEGE');
+			if(!in_array($priv,$this->core->users_global->systemPrivilege()))
+			{
+				$cur_priv			=	$this->core->hubby_admin->getPrivileges($priv);
+				var_dump($cur_priv);
+				if($cur_priv[0]['IS_SELECTABLE'] == '1') // Is selectable
+				{
+					$this->core->url->redirect(array('error','code','accessDenied')); // Access denied for public priv admins.
+				}
+			}
+		}
 	}
 	private function loadOuputFile()
 	{
@@ -78,7 +92,6 @@ class Admin
 	public function index()
 	{		
 		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true);
-		$this->data['options']		=	$this->core->hubby->getOptions();
 		$this->data['ttTheme']		=	$this->core->hubby_admin->countThemes();
 		$this->data['ttModule']		=	$this->core->hubby_admin->count_modules();
 		$this->data['ttPages']		=	$this->core->hubby_admin->countPages();
@@ -206,7 +219,7 @@ class Admin
 		}
 		else
 		{
-			$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 	}
 	public function modules($e = '',$a	=	1,$f = '')
@@ -246,7 +259,7 @@ class Admin
 		{
 			if( !$this->core->users_global->isSuperAdmin()	&& !$this->hubby_admin->adminAccess('system','gestmo',$this->core->users_global->current('PRIVILEGE')))
 			{
-				$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
+				$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 				return;
 			}
 			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
@@ -316,8 +329,6 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		else if($e == 'modules')
 		{
 			$this->data['module']	=	$this->core->hubby->getSpeModule($a);
-			$this->data['options']	=	$this->core->hubby->getOptions();
-
 			if(count($this->data['module']) > 0)
 			{
 				$this->core->hubby->setTitle('Panneau d\'administration du module - '.$this->data['module'][0]['NAMESPACE']); // DEFAULT NAME DEFINITION
@@ -380,7 +391,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 	}
 	public function setting()
 	{
-		if( !$this->core->users_global->isSuperAdmin()	|| !$this->hubby_admin->adminAccess('system','gestset',$this->core->users_global->current('PRIVILEGE')))
+		if($this->core->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 		{
 			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 			$this->load->library('form_validation');
@@ -466,7 +477,42 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 					$this->core->notice->push_notice(notice('error_occured'));
 				}
 			}
-			$this->data['options']	=	$this->core->hubby->getOptions();
+			if($this->input->post('them_style_button')) // Setting notice go here.
+			{
+				if($this->core->hubby_admin->editThemeStyle($this->input->post('them_style')))
+				{
+					$this->core->notice->push_notice(notice('done'));
+				}
+				else
+				{
+					$this->core->notice->push_notice(notice('error_occured'));
+				}
+			}
+			if($this->input->post('allow_priv_selection_button')) // Setting notice go here.
+			{
+				if($this->core->hubby_admin->editPrivilegeAccess($this->input->post('allow_priv_selection')))
+				{
+					$this->core->notice->push_notice(notice('done'));
+				}
+				else
+				{
+					$this->core->notice->push_notice(notice('error_occured'));
+				}
+			}
+			if($this->input->post('publicPrivAccessAdmin_button')) // Setting notice go here.
+			{
+				if($this->core->hubby_admin->editAllowAccessToPublicPriv($this->input->post('publicPrivAccessAdmin')))
+				{
+					$this->core->notice->push_notice(notice('done'));
+				}
+				else
+				{
+					$this->core->notice->push_notice(notice('error_occured'));
+				}
+			}
+			
+			$this->data['options']		=	$this->core->hubby->getOptions();
+			
 			$this->core->hubby->setTitle('Param&ecirc;tres - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/setting/body',$this->data,true);
 			
@@ -475,7 +521,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		}
 		else
 		{
-			$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 			return;
 		}
 	}
@@ -487,7 +533,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			if($e == 'main')
 			{
 				$page	=	$a;
-				$this->data['options']	=	$this->core->hubby->getOptions();
+				
 				$this->core->hubby->setTitle('Gestion des th&egrave;mes - Hubby');
 				$this->data['ttThemes']	=	$this->core->hubby_admin->countThemes();
 				$this->data['paginate']	=	$this->core->hubby->paginate(
@@ -533,7 +579,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				$this->data['Spetheme']	=	$this->core->hubby_admin->isTheme($a);
 				if($this->data['Spetheme'])
 				{
-					$this->data['options']	=	$this->core->hubby->getOptions();
+					
 					$this->core->hubby->setTitle('Gestion du th&egrave;me - '.$this->data['Spetheme'][0]['NAMESPACE']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 					$this->data['body']	=	$this->load->view('admin/themes/manage',$this->data,true);
 					
@@ -619,7 +665,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		}
 		else
 		{
-			$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 			return;
 		}
 	}
@@ -632,7 +678,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			{
 				$this->data['installer_file']	=	$this->core->hubby_admin->hubby_installer('installer_file');
 			}
-			$this->data['options']	=	$this->core->hubby->getOptions();
+			
 			$this->core->hubby->setTitle('Installer une application - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/installer/install',$this->data,true);
 			
@@ -641,7 +687,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		}
 		else
 		{
-			$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 			return;
 		}
 	}
@@ -649,7 +695,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 	{
 		// Is Super Admin ?
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
-		(!$this->core->users_global->isSuperAdmin()) ? $this->core->url->redirect(array('admin','menu?notice=accessDenied')) : null;
+		(!$this->core->users_global->isSuperAdmin()) ? $this->core->url->redirect(array('admin','index?notice=accessDenied')) : null;
 		// Proceed
 		if($option	==	'index')
 		{
@@ -706,12 +752,14 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			}
 			$this->core->form_validation->set_rules('priv_description','Description du privil&egrave;ge','trim|required|min_length[3]|max_length[200]');
 			$this->core->form_validation->set_rules('priv_name','Nom du privil&egrave;ge','trim|required|min_length[3]|max_length[200]');
+			$this->core->form_validation->set_rules('is_selectable','Acc&eacute;ssibilit&eacute; au public','trim|required|min_length[1]|max_length[1]');
 			if($this->core->form_validation->run())
 			{
 				$data	=	$this->core->hubby_admin->create_privilege(
 					$this->core->input->post('priv_name'),
 					$this->core->input->post('priv_description'),
-					$this->core->session->userdata('privId')
+					$this->core->session->userdata('privId'),
+					$this->core->input->post('is_selectable')
 				);
 				if($data === TRUE)
 				{
@@ -741,12 +789,14 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			}
 			$this->core->form_validation->set_rules('priv_description','Description du privil&egrave;ge','trim|required|min_length[3]|max_length[200]');
 			$this->core->form_validation->set_rules('priv_name','Nom du privil&egrave;ge','trim|required|min_length[3]|max_length[200]');
+			$this->core->form_validation->set_rules('is_selectable','Acc&eacute;ssibilit&eacute; au public','trim|required|min_length[1]|max_length[1]');
 			if($this->core->form_validation->run())
 			{
 				$data	=	$this->core->hubby_admin->edit_privilege(
 					$option_2,
 					$this->core->input->post('priv_name'),
-					$this->core->input->post('priv_description')
+					$this->core->input->post('priv_description'),
+					$this->core->input->post('is_selectable')
 				);
 				if($data === TRUE)
 				{

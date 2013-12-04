@@ -9,6 +9,7 @@ Class users_global
 	public function __construct()
 	{
 		$this->superAdmin	=	'NADIMERPUS';
+		$this->user			=	'RELPIMSUSE';
 		$this->core		=	Controller::instance();
 		$this->session	=&	$this->core->session;
 		$this->db		=&	$this->core->db;
@@ -22,6 +23,10 @@ Class users_global
 				$this->session->userdata('PASSWORD')
 			);
 		}
+	}
+	public function systemPrivilege()
+	{
+		return array($this->superAdmin,$this->user);
 	}
 	public function hasAdmin()
 	{
@@ -69,7 +74,7 @@ Class users_global
 		}
 		return 'userExists';
 	}
-	public function createUser($pseudo,$password,$sexe,$email,$active	=	'FALSE')
+	public function createUser($pseudo,$password,$sexe,$email,$active	=	'FALSE',$priv_id = 'RELPIMSUSE')
 	{
 		if(!$this->userExists($pseudo))
 		{
@@ -77,11 +82,16 @@ Class users_global
 			{
 				return 'emailUsed';
 			}
+			$this->core->load->library('hubby_admin');
+			if(!$this->core->hubby_admin->isPublicPriv($priv_id)) // Si le priv n'est pa public
+			{
+				$priv_id = 'RELPIMSUSE';
+			}
 			$array['PSEUDO']	=	strtolower($pseudo);
 			$array['PASSWORD']	=	sha1($password);
 			$array['SEX']		=	($sexe	==	'MASC') ? 'MASC' : 'FEM';
 			$array['EMAIL']		=	$email;
-			$array['PRIVILEGE']	=	'RELPIMSUSE';
+			$array['PRIVILEGE']	=	$priv_id;
 			$array['REG_DATE']	=	$this->hubby->datetime();
 			$array['ACTIVE']	=	$active;
 			$this->db->insert('hubby_users',$array);

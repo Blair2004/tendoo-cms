@@ -25,7 +25,7 @@
                                     <td width="200">Nom</td>
                                     <td>Pr&eacute;nom</td>
                                     <td>Cr&eacute;er</td>
-                                    <td>Action attach&eacute;es</td>
+                                    <td title="Acc&eacute;ssible au public">Acc. au Pub.</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,7 +40,7 @@
                                     	<td><?php echo $g['HUMAN_NAME'];?></td>
                                         <td><?php echo $g['DESCRIPTION'];?></td>
                                         <td><?php echo timespan(strtotime($g['DATE']),$this->core->hubby->timestamp());?></td>
-                                        <td></td>
+                                        <td><?php echo $g['IS_SELECTABLE'] == "1" ? "Oui" : "Non";?></td>
                                         <td><a href="<?php echo $this->core->url->site_url(array('admin','system','delete_priv',$g['PRIV_ID']));?>">Supprimer</a></td>
                                     </tr>
                                     <?php

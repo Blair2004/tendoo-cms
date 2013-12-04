@@ -126,6 +126,10 @@
                                                   <p class="list-group-item-text">Affichage et suppresion d'un module.</p>
                                                 </a>
 											</li>
+                                            <?php
+											if(false == true)
+											{
+												?>
 											<li class="
 											" data-name="gestset" data-value="<?php
 											if(array_key_exists('REF_ACTION_VALUE',$values['gestset']))
@@ -147,6 +151,9 @@
                                                   <p class="list-group-item-text">Gestion des param&egrave;tres syst&egrave;me.</p>
                                                 </a>
 											</li>
+                                            <?php
+											}
+											?>
 										</ul>
 									</div>
 								</li>

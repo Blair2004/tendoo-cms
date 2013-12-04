@@ -211,8 +211,9 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			{
 				// Library
 				$this->loadLibraries();
-				$this->construct_end();		
-				$this->data['options']		=	$this->core->hubby->getOptions();
+				$this->construct_end();	
+				$this->core->load->library('hubby_admin');	
+				$this->data['options']			=	$this->core->hubby->getOptions();
 				if($this->data['options'][0]['ALLOW_REGISTRATION'] == "0")
 				{
 					$this->core->url->redirect(array('error','code','regisAndAssociatedFunLocked'));

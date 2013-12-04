@@ -423,6 +423,21 @@ class hubby_admin
 		$bool	=	is_bool((bool)$e) ? $e : "TRUE";
 		$this->core->db->update('hubby_options',array('SHOW_WELCOME'=>$bool));
 	}
+	public function editPrivilegeAccess($e)
+	{
+		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0;
+		return $this->core->db->update('hubby_options',array('ALLOW_PRIVILEGE_SELECTION'=>$int));
+	}
+	public function editAllowAccessToPublicPriv($e)
+	{
+			$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0;
+		return $this->core->db->update('hubby_options',array('PUBLIC_PRIV_ACCESS_ADMIN'=>$int));
+	}
+	public function editThemeStyle($e)
+	{
+		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0; // If there is new theme just add it there
+		return $this->core->db->update('hubby_options',array('ADMIN_THEME'=>$int));
+	}
 	// New methods
 	private $appAllowedType					=	array('MODULE','THEME');
 	private $appModuleAllowedTableField		=	array('NAMESPACE','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','HUBBY_VERS','ENCRYPTED_DIR');
@@ -986,7 +1001,7 @@ class hubby_admin
 		$query	=	$this->core->db->get('hubby_admin_privileges');
 		return $query->result_array();
 	}
-	public function create_privilege($name,$description,$priv_id)
+	public function create_privilege($name,$description,$priv_id,$is_selectable)
 	{
 		$query	=	$this->core->db->where('HUMAN_NAME',$name)->get('hubby_admin_privileges');
 		if(count($query->result_array()) == 0)
@@ -995,20 +1010,22 @@ class hubby_admin
 				'HUMAN_NAME'	=>	$name,
 				'DESCRIPTION'	=>	$description,
 				'DATE'			=>	$this->core->hubby->datetime(),
-				'PRIV_ID'		=>	$priv_id
+				'PRIV_ID'		=>	$priv_id,
+				'IS_SELECTABLE'	=>	in_array((int)$is_selectable,array(0,1)) ? $is_selectable : 0
 			);
 			return $this->core->db->insert('hubby_admin_privileges',$array);
 		}
 		return false;
 	}
-	public function edit_privilege($priv_id,$name,$description)
+	public function edit_privilege($priv_id,$name,$description,$is_selectable)
 	{
 		$query	=	$this->core->db->where('PRIV_ID',$priv_id)->get('hubby_admin_privileges');
 		if(count($query->result_array()) > 0)
 		{
 			$array	=	array(
 				'HUMAN_NAME'	=>	$name,
-				'DESCRIPTION'	=>	$description
+				'DESCRIPTION'	=>	$description,
+				'IS_SELECTABLE'	=>	in_array((int)$is_selectable,array(0,1)) ? $is_selectable : 0
 			);
 			return $this->core->db->where('PRIV_ID',$priv_id)->update('hubby_admin_privileges',$array);
 		}
@@ -1203,8 +1220,22 @@ class hubby_admin
 	{
 		return $this->sys_not_array;
 	}
-	// 0.93
-	public function getImageFrom()
+	// 0.94
+	public function getPublicPrivilege()
 	{
+		$query	=	$this->core->db->where('IS_SELECTABLE',1)->get('hubby_admin_privileges');
+		return $query->result_array();
+	}
+	public function isPublicPriv($priv_id)
+	{
+		$priv	=	$this->getPrivileges($priv_id);
+		if($priv)
+		{
+			if($priv[0]['IS_SELECTABLE'] == "1")
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
