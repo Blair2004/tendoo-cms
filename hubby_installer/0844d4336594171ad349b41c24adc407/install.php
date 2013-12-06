@@ -2,7 +2,7 @@
 $this->installSession();
 $this->appType('MODULE');
 $this->appVers(0.1);
-$this->appHubbyVers(0.93);
+$this->appHubbyVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'news',
 	'HUMAN_NAME'	=> 'Bloster - Le gestionnaire d\'articles',
@@ -10,7 +10,7 @@ $this->appTableField(array(
 	'DESCRIPTION'	=> 'Créer, modifier et publié des articles pour votre blog.',
 	'TYPE'			=> 'BYPAGE',
 	'HAS_WIDGET'	=>	1,
-	'HUBBY_VERS'	=> 0.92
+	'HUBBY_VERS'	=> 0.94
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `hubby_comments` (

@@ -2,14 +2,14 @@
 $this->installSession();
 $this->appType('MODULE');
 $this->appVers(0.1);
-$this->appHubbyVers(0.93);
+$this->appHubbyVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'hubby_widget_administrator',
 	'HUMAN_NAME'	=> 'Gestionnaire de widgets',
 	'AUTHOR'		=> 'Hubby Group',
 	'DESCRIPTION'	=> 'Permet de créer et d\'administrer des widgets',
 	'TYPE'			=> 'GLOBAL',
-	'HUBBY_VERS'	=> 0.93
+	'HUBBY_VERS'	=> 0.94
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `hubby_mod_widgets` (

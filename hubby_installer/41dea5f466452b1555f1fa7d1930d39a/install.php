@@ -2,14 +2,14 @@
 $this->installSession();
 $this->appType('MODULE');
 $this->appVers(0.1);
-$this->appHubbyVers(0.93);
+$this->appHubbyVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'hubby_index_mod',
 	'HUMAN_NAME'	=> 'Gestion de la page d\'accueil',
 	'AUTHOR'		=> 'Hubby Group',
 	'DESCRIPTION'	=> 'Cette action permet de gerer la page d\'accueil, carrousel, publication du blog, témoignages.',
 	'TYPE'			=> 'BYPAGE',
-	'HUBBY_VERS'	=> 0.9
+	'HUBBY_VERS'	=> 0.94
 ));
 $this->appAction(array(
 	'action'				=>	'hubby_index_mod',

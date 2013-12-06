@@ -2,14 +2,14 @@
 $this->installSession();
 $this->appType('MODULE');
 $this->appVers(0.1);
-$this->appHubbyVers(0.93);
+$this->appHubbyVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'hubby_contents',
 	'HUMAN_NAME'	=> 'Gestionnaire de contenu',
 	'AUTHOR'		=> 'Hubby Group',
 	'DESCRIPTION'	=> 'Gerer vos contenus de type image, video ou musique.',
 	'TYPE'			=> 'BYPAGE',
-	'HUBBY_VERS'	=> 0.93
+	'HUBBY_VERS'	=> 0.94
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `hubby_contents` (
