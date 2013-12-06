@@ -12,3 +12,9 @@ $WIDGET_CONFIG['aflearlep']	=	array(
 	'WIDGET_FILES'			=>	'/widgets/most_readed_lister.php',
 	'MODULE_NAMESPACE'		=>	$module['NAMESPACE']
 );
+$WIDGET_CONFIG['syslink']	=	array(
+	'WIDGET_HUMAN_NAME'		=>	'Liens Syst&egrave;me',
+	'WIDGET_NAMESPACE'		=>	'syslink',
+	'WIDGET_FILES'			=>	'/widgets/sys_links.php',
+	'MODULE_NAMESPACE'		=>	$module['NAMESPACE']
+);

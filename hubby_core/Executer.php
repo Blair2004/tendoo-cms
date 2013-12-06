@@ -8,6 +8,7 @@ if(class_exists($Class))
 }
 else if(class_exists($Class.'_module_controller'))
 {
+	$this->load->library('users_global'); // 0.9.4
 	$theme			=&	$this->data['theme']; // Added - Hubby 0.9.2
 	// GLOBAL MODULES
 	$GlobalModule	=&	$this->data['GlobalModule'];
@@ -19,7 +20,6 @@ else if(class_exists($Class.'_module_controller'))
 		}
 	}
 	// BY PAGE MODULES
-	$this->load->library('users_global');
 	if(!array_key_exists('theme',$this->data))
 	{
 		$this->url->redirect(array('error','code','themeTrashed'));

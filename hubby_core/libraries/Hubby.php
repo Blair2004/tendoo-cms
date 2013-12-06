@@ -267,6 +267,17 @@ class Hubby
 			$this->hubby_admin->hubby_core_installer($appFile);
 
 			$module					=		$this->hubby_admin->moduleActivation('hubby_widget_administrator',FALSE);
+			if($module)
+			{
+				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
+				$lib					=	new widhandler_lib(null);
+				$lib->createSpecialWidget('Cat&eacute;gories','articles publi&eacute;','news/aflecatdi');
+				$lib->activateWidget(1);
+				$lib->createSpecialWidget('Au top','les articles les plus lues','news/aflearlep');
+				$lib->activateWidget(2);
+				$lib->createSpecialWidget('Liens','les syst&egrave;mes','news/syslink');
+				$lib->activateWidget(3);
+			}
 		}
 	}
 	public function connectToDb()
@@ -668,7 +679,7 @@ class Hubby
 		$timeToArray			=	array(
 			'd'=>mdate('%d',$timestamp),
 			'y'=>mdate('%Y',$timestamp),
-			'M'=>mdate('%m',$timestamp),
+			'M'=>mdate('%n',$timestamp),
 			'h'=>mdate('%H',$timestamp),
 			'i'=>mdate('%i',$timestamp),
 			's'=>mdate('%s',$timestamp)
