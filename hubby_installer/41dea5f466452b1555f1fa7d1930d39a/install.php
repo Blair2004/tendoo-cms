@@ -17,3 +17,12 @@ $this->appAction(array(
 	'action_description'	=>	'Cette action permet de gerer la page d\'accueil, carrousel, publication du blog, témoignages.',
 	'mod_namespace'			=>	'hubby_index_mod'
 ));
+$this->appSql(
+'CREATE TABLE IF NOT EXISTS `hubby_index_mod` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ONTOP_TITLE` varchar(200) NOT NULL,
+  `CAROUSSEL_TITLE` varchar(200) NOT NULL,
+  `SMALLDETAIL_TITLE` varchar(200) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;'
+);

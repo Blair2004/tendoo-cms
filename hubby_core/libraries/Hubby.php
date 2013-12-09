@@ -61,6 +61,7 @@ class Hubby
 		  `AUTHOR` varchar(100) DEFAULT NULL,
 		  `DESCRIPTION` text,
 		  `HAS_WIDGET` int(11) NOT NULL,
+		  `HAS_MENU` int(11) NOT NULL,
 		  `TYPE` varchar(50) NOT NULL,
 		  `ACTIVE` int(11) NOT NULL,
 		  `HUBBY_VERS` varchar(100) NOT NULL,
@@ -1207,6 +1208,14 @@ class Hubby
 			echo 'Current Page: '.$current_page.'<br>';
 			echo 'Last To Show: '.$lts.'<br>';*/
 			return array($content,$firstoshow,$elpp,true);
+		}
+	}
+	public function callbackLogin()
+	{
+		if(!$this->core->users_global->isConnected())
+		{
+			$this->url->redirect(array('login?ref='.urlencode($this->url->request_uri())));
+			return;
 		}
 	}
 }

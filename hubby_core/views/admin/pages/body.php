@@ -32,7 +32,7 @@
                                     <?php
 									$ii	=	0;
                     foreach($get_pages as $g)
-                    {
+                    {						
                         ?>
                                     <tr title="racine">
                                         <td><em class="icon-sort-by-attributes-alt"></em></td>
@@ -40,8 +40,8 @@
                                         <td><?php echo $g['PAGE_TITLE'];?></td>
                                         <td><?php echo $g['PAGE_DESCRIPTION'];?></td>
                                         <td><?php echo ($g['PAGE_MAIN'] == 'TRUE') ? 'Oui' : 'Non';?></td>
-                                        <td><?php echo $g['PAGE_MODULES'] === FALSE ? 'Aucun module' : $g['PAGE_MODULES'][0]['HUMAN_NAME'];?></td>
-                                        <td></td>
+                                        <td><?php echo $g['PAGE_MODULES'] === FALSE ?  'Aucun module' : $g['PAGE_MODULES'][0]['HUMAN_NAME'];?></td>
+                                        <td><a onclick="if(!confirm('voulez-vous supprimer ce contrôleur ?')){return false}" href="<?php echo $this->core->url->site_url('admin/pages/delete/'.$g['PAGE_CNAME']);?>">Supprimer</a></td>
                                         <td><?php echo count($g['PAGE_CHILDS']);?></td>
 									</tr>
                                 <?php
@@ -62,7 +62,7 @@
 												<td><?php echo $_g['PAGE_DESCRIPTION'];?></td>
 												<td><?php echo ($_g['PAGE_MAIN'] == 'TRUE') ? 'Oui' : 'Non';?></td>
 												<td><?php echo $_g['PAGE_MODULES'] === FALSE ? 'Aucun module' : $_g['PAGE_MODULES'][0]['HUMAN_NAME'];?></td>
-												<td></td>
+												<td><a onclick="if(!confirm('voulez-vous supprimer ce contrôleur ?')){return false}" href="<?php echo $this->core->url->site_url('admin/pages/delete/'.$_g['PAGE_CNAME']);?>">Supprimer</a></td>
 												<td><?php echo count($_g['PAGE_CHILDS']);?></td>
 											</tr>
 												<?php

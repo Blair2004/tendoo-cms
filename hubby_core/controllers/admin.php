@@ -59,13 +59,12 @@ class Admin
 		$this->data['notice']		=	'';
 		$this->data['error']		=	'';
 		$this->data['success']		=	'';
-		if($this->data['options'][0]['PUBLIC_PRIV_ACCESS_ADMIN'] == '1') // If public priv is not allowed, not check current user priv class
+		if($this->data['options'][0]['PUBLIC_PRIV_ACCESS_ADMIN'] == '0') // If public priv is not allowed, not check current user priv class
 		{
 			$priv				=	$this->core->users_global->current('PRIVILEGE');
 			if(!in_array($priv,$this->core->users_global->systemPrivilege()))
 			{
 				$cur_priv			=	$this->core->hubby_admin->getPrivileges($priv);
-				var_dump($cur_priv);
 				if($cur_priv[0]['IS_SELECTABLE'] == '1') // Is selectable
 				{
 					$this->core->url->redirect(array('error','code','accessDenied')); // Access denied for public priv admins.
@@ -143,7 +142,8 @@ class Admin
 						'update',
 						$this->input->post('page_id'),
 						$this->input->post('page_visible'),
-						$this->input->post('page_parent'));
+						$this->input->post('page_parent')
+					);
 					$this->core->notice->push_notice(notice($this->data['notice']));
 					if($this->data['notice']	==	'controler_edited')
 					{

@@ -171,7 +171,7 @@ class hubby_admin
 		$e['PAGE_TITLE']		=	$title;
 		$e['PAGE_DESCRIPTION']	=	$description;
 		$e['PAGE_MAIN']			=	$query->num_rows > 0 ? $main == 'TRUE' && $childOf != 'none' ? 'FALSE' : $main : 'TRUE'; // Les sous menu ne devriat pas intervenir en tant que principale.
-		$e['PAGE_MODULES']		=	$mod;
+		$e['PAGE_MODULES']		=	$mod; // SI le controleur doit rediriger vers une page, alors on enregistre la page sinon on enregistre le module.
 		$e['PAGE_VISIBLE']		=	$visible;
 		$e['PAGE_PARENT']		=	$childOf == $name ? 'none' : $childOf;
 		if($obj == 'create')
@@ -440,7 +440,7 @@ class hubby_admin
 	}
 	// New methods
 	private $appAllowedType					=	array('MODULE','THEME');
-	private $appModuleAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','HUBBY_VERS','ENCRYPTED_DIR');
+	private $appModuleAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HAS_MENU','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','HUBBY_VERS','ENCRYPTED_DIR');
 	private $appThemeAllowedTableField		=	array('NAMESPACE','HUMAN_NAME','AUTHOR','DESCRIPTION','HUBBY_VERS','ENCRYPTED_DIR');
 	public function hubby_installer($source)
 	{

@@ -456,6 +456,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 				width:100%;
 				position:fixed;
 				top:0;
+				left:0;
 				background: url(data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAGklEQVR42mMQhAEJCQkGOAtIMsBZIA6cBQQAW5wDhYzvi1MAAAAASUVORK5CYII%3D) repeat;
 				z-index:9000;
 				border:solid 1px #000;

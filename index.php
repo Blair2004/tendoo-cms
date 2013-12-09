@@ -28,9 +28,6 @@ define('THEMES_DIR','hubby_themes/');
 define('MODULES_DIR','hubby_modules/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('INSTALLER_DIR','hubby_installer/');
-/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('UPLOAD_DIR','hubby_uploads/');
-/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 
 /* =-=-=-=-=-=-=-=-=-=-=-=-= SYSTEM SCRIPT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 include_once(SYSTEM_DIR.'Controller.php');
