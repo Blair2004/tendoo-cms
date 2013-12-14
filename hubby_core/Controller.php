@@ -215,7 +215,7 @@ Class Controller
 						}
 						else // Erreur theme.
 						{
-							$this->url->redirect(array('error','code','themeTrashed'));
+							$this->url->redirect(array('error','code','themeCrashed'));
 							return;
 						}
 						if($this->data['module'] !== FALSE) // LE MODULE EST INEXISTANT OU INCORRECT

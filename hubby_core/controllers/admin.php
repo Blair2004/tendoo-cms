@@ -121,7 +121,7 @@ class Admin
 			}
 			else if($e == 'edit' && $f != '')
 			{
-				$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[30]');
+				$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[100]');
 				$this->form_validation->set_rules('page_cname','Nom du controleur','alpha_dash|trim|required|min_length[2]|max_length[30]');
 				$this->form_validation->set_rules('page_title','Titre du controleur','trim|required|min_length[2]|max_length[50]');
 				$this->form_validation->set_rules('page_module','D&eacute;finir le module','trim|required|min_length[2]|max_length[30]');
@@ -165,7 +165,7 @@ class Admin
 			}
 			else if($e == 'create')
 			{
-				$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[30]');
+				$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[100]');
 				$this->form_validation->set_rules('page_cname','Nom du contr&ocirc;leur','alpha_dash|trim|required|min_length[2]|max_length[30]');
 				$this->form_validation->set_rules('page_title','Titre du contr&ocirc;leur','trim|required|min_length[2]|max_length[50]');
 				$this->form_validation->set_rules('page_module','Affecter un module','trim|required|min_length[2]|max_length[30]');

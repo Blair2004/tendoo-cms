@@ -22,7 +22,7 @@ else if(class_exists($Class.'_module_controller'))
 	// BY PAGE MODULES
 	if(!array_key_exists('theme',$this->data))
 	{
-		$this->url->redirect(array('error','code','themeTrashed'));
+		$this->url->redirect(array('error','code','themeCrashed'));
 		return false;
 	}
 	

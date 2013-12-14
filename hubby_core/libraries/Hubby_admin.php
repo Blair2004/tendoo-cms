@@ -46,6 +46,11 @@ class hubby_admin
 		$query	=	$this->core->db->get('hubby_controllers');
 		return $query->num_rows();
 	}
+	public function get_pages($e= '')
+	{
+		return $this->core->hubby->getPage($e);
+	}
+
 	public function getSpeModuleByNamespace($namespace) // La même méthode pour Hubby ne recupère que ce qui est déjà activé.
 	{
 		$this->core->db		->select('*')
@@ -440,7 +445,7 @@ class hubby_admin
 	}
 	// New methods
 	private $appAllowedType					=	array('MODULE','THEME');
-	private $appModuleAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HAS_MENU','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','HUBBY_VERS','ENCRYPTED_DIR');
+	private $appModuleAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HAS_MENU','HAS_API','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','HUBBY_VERS','ENCRYPTED_DIR');
 	private $appThemeAllowedTableField		=	array('NAMESPACE','HUMAN_NAME','AUTHOR','DESCRIPTION','HUBBY_VERS','ENCRYPTED_DIR');
 	public function hubby_installer($source)
 	{

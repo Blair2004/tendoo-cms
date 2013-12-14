@@ -1,0 +1,19 @@
+<h1>Introduction</h1>
+
+<h2>Hubby pour les amateurs et professionnels.</h2>
+
+<p>Hubby est une application qui permet de d&eacute;ploiyer rapidement un site web. Il est con&ccedil;u de mani&egrave;re &agrave; rendre la prise en main rapide et efficace. Ses fonctionnalit&eacute;s sont &eacute;tendue par des applications qui peuvent &ecirc;tre install&eacute;s via l&#39;interface appropri&eacute; (Cf xxx). Les applications hubby sont de trois type : les <strong>th&egrave;mes</strong>, qui permettent de donner un style propre au site, les <strong>widgets </strong>qui permettent de regrouper rapidement certaines informations ou fonctionnalit&eacute;s et les <strong>modules</strong>, qui &eacute;tende consid&eacute;rablement le potentiel d&#39;hubby. A titre d&#39;exemple, nous pouvons citer le module des articles, le modules de cr&eacute;ations de page au format HTML, le module d&#39;une boutique, le module d&#39;un forum. quoi qu&#39;il en soit les modules sont les &eacute;l&eacute;ments les plus importants d&#39;hubby, dans la mesure ou ils ont un acc&egrave;s privil&eacute;gi&eacute; vers les ressources syst&ecirc;me.</p>
+
+<p>Hubby est l&#39;un des CMS les plus rapide du march&eacute; dans la mesure ou il fontionne &agrave; l&#39;aide d&#39;un framework reconnu pour sa rapidit&eacute; (Codeigniter). Les professionnelles et les amateurs peuvent faire usage d&#39;hubby afin de d&eacute;ploye rapidement leur activit&eacute;s. Les applications disponible dans la boutique sont toutes analys&eacute;es, afin de s&#39;assurer de la qualit&eacute; des applications, mais aussi de la s&eacute;curit&eacute; de l&#39;utilisateur qu&#39;elle pr&eacute;serve.</p>
+
+<h2>Hubby pour les d&eacute;veloppeurs.</h2>
+
+<p>Le public vis&eacute; par Hubby est pour l&#39;instant le public francophone, et pour cause une documentation pour le d&eacute;veloppement d&#39;application Hubby est disponible totalement en fran&ccedil;ais. Ils y retrouveront toutes les informtations sur les ressources publiques n&eacute;cessaire au d&eacute;veloppement d&#39;application. Les ressources utilis&eacute; par Hubby sont identiques &agrave; celles fournies par CodeIgniter, ce qui permet aux utilisateurs de CodeIgniter de ne pas compl&egrave;tement &ecirc;tre <u>d&eacute;phas&eacute;</u>.</p>
+
+<p>La cr&eacute;ation de th&egrave;me est simplifi&eacute; par un didacticiel qui est fournie avec un exemplaire de th&egrave;me d&eacute;j&agrave; pr&eacute;-conscruit. &agrave; travers ce didacticiel,il n&#39;est pas forc&eacute;ment n&eacute;cessaire de s&#39;y connaitre en d&eacute;veloppement PHP.</p>
+
+<h1>I - Installation d&#39;hubby</h1>
+
+<p>L&#39;installation d&#39;hubby est assez simple. une fois que vous aurez t&eacute;l&eacute;charger gratuitement l&#39;une des version de la g&eacute;n&eacute;ration 0.9.x d&#39;Hubby, qui est fournie sous forme de fichier &quot;zip&quot;, il ne vous reviendra plus qu&#39;a d&eacute;compresser Hubby dnas votre r&eacute;pertoire &quot;www/&quot; soit sur votre h&eacute;bergeur soit en local pour vos tests. Le r&eacute;pertoire peut &ecirc;tre diff&eacute;rent en fonction des h&eacute;bergeur.</p>
+
+<p>Hubby une fois d&eacute;compress&eacute; se pr&eacute;sente Ainsi :</p>

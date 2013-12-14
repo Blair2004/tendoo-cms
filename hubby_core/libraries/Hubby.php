@@ -280,6 +280,20 @@ class Hubby
 				$lib->activateWidget(3);
 			}
 		}
+		else if($app	==	'PageEditor')
+		{
+			$appFile				=		array();
+			$appFile['temp_dir']	=		'pageCreater5f9ba355e99f884cc5178';
+			$option					=		$this->getOptions();
+			$this->hubby_admin->hubby_core_installer($appFile);
+		}
+		else if($app	==	'RefToPage')
+		{
+			$appFile				=		array();
+			$appFile['temp_dir']	=		'refTopage9a5f9ba355e99f884cc5178';
+			$option					=		$this->getOptions();
+			$this->hubby_admin->hubby_core_installer($appFile);
+		}
 	}
 	public function connectToDb()
 	{
@@ -409,7 +423,7 @@ class Hubby
 		$r			=	$this->core->db->get();
 		return $r->result_array();
 	}
-	public function getPage($page = 'index')
+	public function getPage($page = 'index',$getAll = FALSE)
 	{
 		if($page == 'index')
 		{
@@ -424,7 +438,7 @@ class Hubby
 			}
 			return 'noMainPage';
 		}
-		else
+		else if($getAll == FALSE && $page != null)
 		{
 			$this->core->db->select('*')
 						->from('hubby_controllers')
@@ -439,6 +453,14 @@ class Hubby
 			{
 				return 'page404';
 			}
+		}
+		else
+		{
+			$this->core->db->select('*')
+						->from('hubby_controllers');
+			$data		= 	$this->core->db->get();
+			$value		=	$data->result_array();
+			return $value;
 		}
 	}
 	public function getControllers()
@@ -677,14 +699,6 @@ class Hubby
 		{
 			$timestamp				=	$this->timestamp();
 		}
-		$timeToArray			=	array(
-			'd'=>mdate('%d',$timestamp),
-			'y'=>mdate('%Y',$timestamp),
-			'M'=>mdate('%n',$timestamp),
-			'h'=>mdate('%H',$timestamp),
-			'i'=>mdate('%i',$timestamp),
-			's'=>mdate('%s',$timestamp)
-		);
 		$month					=	array(
 			1	=>	'Janvier',
 			2	=>	'F&eacute;vrier',
@@ -699,6 +713,16 @@ class Hubby
 			11	=>	'Novembre',
 			12	=>	'Decembre'
 		);
+		$timeToArray			=	array(
+			'd'=>mdate('%d',$timestamp),
+			'y'=>mdate('%Y',$timestamp),
+			'M'=>mdate('%n',$timestamp),
+			'h'=>mdate('%H',$timestamp),
+			'i'=>mdate('%i',$timestamp),
+			's'=>mdate('%s',$timestamp),
+			'month'	=>	$month[mdate('%n',$timestamp)]
+		);
+		
 		if($toArray	==	true)
 		{
 			return $timeToArray;
@@ -1042,6 +1066,8 @@ class Hubby
 			";
 			break;
 			case 3	:
+				if(!array_key_exists('id',$values)): $values['id']		=	'';endif;
+				if(!array_key_exists('name',$values)): $values['name']	=	'';endif;
 			return "<textarea class=\"ckeditor\" name=\"".$values['name']."\" id=\"".$values['id']."\">".$defValue."</textarea>";
 			break;
 		}
@@ -1210,12 +1236,20 @@ class Hubby
 			return array($content,$firstoshow,$elpp,true);
 		}
 	}
-	public function callbackLogin()
+	public function callbackLogin() // Renvoie vers la page de connexion lorsque l'utilisateur n'est pas connecté et le renvoir sur la dernier pas en cas de connexion
 	{
 		if(!$this->core->users_global->isConnected())
 		{
 			$this->url->redirect(array('login?ref='.urlencode($this->url->request_uri())));
 			return;
+		}
+	}
+	public function getModuleMenu($namespace)
+	{
+		$module		=	$this->getSpeModuleByNamespace($namespace);
+		if($module)
+		{
+			
 		}
 	}
 }

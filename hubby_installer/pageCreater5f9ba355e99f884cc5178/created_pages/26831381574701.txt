@@ -1,0 +1,335 @@
+<p><strong>Introduction</strong></p>
+
+<p><strong>Note du cr&eacute;ateur</strong></p>
+
+<p>&nbsp;</p>
+
+<table cellpadding="0" cellspacing="0" >
+ <tbody>
+  <tr>
+   <td>
+   <div>
+   <p><em>Ce manuel sert de r&eacute;f&eacute;rence &agrave; la version 0.9.1 d&rsquo;hubby. Pour les versions plus r&eacute;centes, il est n&eacute;cessaire de s&rsquo;approprier du guide pr&eacute;vue pour ces versions. J&rsquo;aimerais avec cet outil simplifier la cr&eacute;ation des sites web et le rendre accessible &agrave; tous.</em></p>
+
+   <p><em>Hubby est l&rsquo;&oelig;uvre de professionnel, et s&rsquo;efforce de r&eacute;pondre aux attentes des utilisateurs avanc&eacute;es. Si des erreurs surviennent durant l&rsquo;utilisation de cet outil, je vous prie de bien vouloir me signaler la source de l&rsquo;erreur.</em></p>
+
+   <p><em>Blair.</em></p>
+
+   <div>
+   <p>&nbsp;</p>
+   </div>
+   </div>
+   </td>
+  </tr>
+ </tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p><strong>Hubby pour les amateurs et professionnels.</strong></p>
+
+<p>Hubby est une application qui permet de d&eacute;ployer rapidement un site web. Il est con&ccedil;u de mani&egrave;re &agrave; rendre la prise en main rapide et efficace. Ses fonctionnalit&eacute;s sont &eacute;tendues par des applications qui peuvent &ecirc;tre install&eacute;s via l&#39;interface appropri&eacute; (<em>Cf. II &ndash; B Installer une application</em>). Les applications hubby sont de trois types : les <strong>th&egrave;mes</strong>, qui permettent de donner un style propre au site, les <strong>widgets </strong>qui permettent de regrouper rapidement certaines informations ou fonctionnalit&eacute;s et les <strong>modules</strong>, qui &eacute;tendent consid&eacute;rablement le potentiel d&#39;hubby. A titre d&#39;exemple, nous pouvons citer le module des articles, les modules de cr&eacute;ations de page au format HTML, le module d&#39;une boutique, le module d&#39;un forum. Quoi qu&#39;il en soit les modules sont les &eacute;l&eacute;ments les plus importants d&#39;hubby, dans la mesure o&ugrave; ils ont un acc&egrave;s privil&eacute;gi&eacute; vers les ressources syst&egrave;me.</p>
+
+<p>Hubby est l&#39;un des CMS les plus rapides du march&eacute; dans la mesure o&ugrave; il fonctionne &agrave; l&#39;aide d&#39;un Framework reconnu pour sa rapidit&eacute; (Codeigniter). Les professionnels et les amateurs peuvent faire usage d&#39;hubby afin de d&eacute;ployer rapidement leurs activit&eacute;s. Les applications disponibles dans la boutique sont toutes analys&eacute;es, afin de s&#39;assurer de la qualit&eacute; des applications, mais aussi de la s&eacute;curit&eacute; de l&#39;utilisateur qu&#39;elle pr&eacute;serve.</p>
+
+<p><strong>Hubby pour les d&eacute;veloppeurs.</strong></p>
+
+<p>Le public vis&eacute; par Hubby est pour l&#39;instant le public francophone, et pour cause une documentation pour le d&eacute;veloppement d&#39;application Hubby est disponible totalement en fran&ccedil;ais. Ils y retrouveront toutes les informations sur les ressources publiques n&eacute;cessaires au d&eacute;veloppement d&#39;application. Les ressources utilis&eacute;es par Hubby sont identiques &agrave; celles fournies par Codeigniter, ce qui permet aux utilisateurs de Codeigniter de ne pas compl&egrave;tement &ecirc;tre <u>d&eacute;phas&eacute;s</u>.</p>
+
+<p>La cr&eacute;ation de th&egrave;me est simplifi&eacute;e par un didacticiel qui est fournie avec un exemplaire de th&egrave;me d&eacute;j&agrave; pr&eacute;construit. &Agrave; travers ce didacticiel, il n&#39;est pas forc&eacute;ment n&eacute;cessaire de s&#39;y connaitre en d&eacute;veloppement PHP.</p>
+
+<p><strong>I - Installation d&#39;hubby</strong></p>
+
+<p>L&#39;installation d&#39;hubby est assez simple. Une fois que vous aurez t&eacute;l&eacute;charger gratuitement l&#39;une des versions de la g&eacute;n&eacute;ration 0.9.x d&#39;Hubby, qui est fournie sous forme de fichier &quot;zip&quot;, il ne vous reviendra plus qu&#39;a d&eacute;compresser Hubby dans votre r&eacute;pertoire &quot;www/&quot; soit sur votre h&eacute;bergeur soit en local pour vos tests. Le r&eacute;pertoire peut &ecirc;tre diff&eacute;rent en fonction des h&eacute;bergeurs.</p>
+
+<p><strong>I &ndash; A&nbsp;: D&eacute;compression</strong></p>
+
+<p>Hubby une fois d&eacute;compress&eacute; se pr&eacute;sente Ainsi :</p>
+
+<p>&nbsp;</p>
+
+<p>&laquo;&nbsp;hubby_assets&nbsp;&raquo;&nbsp;: comprend tous les fichiers de type images, css, JavaScript, less, flash.</p>
+
+<p>&laquo;&nbsp;hubby_core&nbsp;&raquo;&nbsp;contient tous les fichiers syst&egrave;me (librairies, fichier de vues&hellip;)</p>
+
+<p>&laquo;&nbsp;hubby_installer&nbsp;&raquo; ne contient rien, mais c&rsquo;est le r&eacute;pertoire o&ugrave; sont analys&eacute;es toutes les applications qui sont install&eacute; sur Hubby.</p>
+
+<p>&laquo;&nbsp;hubby_modules&nbsp;&raquo;, apr&egrave;s analyse, les applications de type module, sont install&eacute;s dans ce r&eacute;pertoire.</p>
+
+<p>&laquo;&nbsp;hubby_themes&nbsp;&raquo;, apr&egrave;s analyse, les applications de type th&egrave;me sont install&eacute;s dans ce r&eacute;pertoire.</p>
+
+<p>&laquo;&nbsp;hubby_widgets&nbsp;&raquo;, apr&egrave;s analyse, les applications de type widgets sont &eacute;galement install&eacute;s dans ce r&eacute;pertoire.</p>
+
+<p>&laquo;&nbsp;index.php&nbsp;&raquo; Fichier principale.</p>
+
+<p><strong>I &ndash; B&nbsp;: Proc&eacute;dure d&rsquo;installation</strong></p>
+
+<p>Pour lancer la proc&eacute;dure d&rsquo;installation, vous devez acc&eacute;der &agrave; l&rsquo;adresse <a href="http://votre_site_web/index.php">http://votre_site_web/index.php</a> . En local, l&rsquo;adresse peut &ecirc;tre <a href="http://localhost/repertoire_d_hubby/">http://localhost/repertoire_d_hubby/</a> .</p>
+
+<p><strong><u>Premi&egrave;re &eacute;tape</u></strong>&nbsp;: Lecture des informations sur l&rsquo;installation.</p>
+
+<p>&nbsp;</p>
+
+<p>Cliquer sur vivant apr&egrave;s avoir lu les indications de cette premi&egrave;re &eacute;tape.</p>
+
+<p><strong><u>Seconde &eacute;tape</u></strong>&nbsp;: Connexion &agrave; la base de donn&eacute;es. Sp&eacute;cifiez toutes les informations que vous avez sur l&rsquo;h&ocirc;te de votre site web. Ces informations doivent correspondre afin que l&rsquo;installation d&rsquo;hubby soit effective. Rapprochez-vous de votre h&eacute;bergeur pour avoir plus d&rsquo;information.</p>
+
+<p>&nbsp;</p>
+
+<p><strong><u>Troisi&egrave;me &eacute;tape</u></strong>&nbsp;: Lorsque la connexion est effective, vous devez maintenant indiquer le nom de votre site web. Remarquez qu&rsquo;en cas d&rsquo;impossibilit&eacute; de connexion &agrave; la base de donn&eacute;es, un message vous indiquera les modalit&eacute;s de cette erreur.</p>
+
+<p>&nbsp;</p>
+
+<p><strong><u>Quatri&egrave;me &eacute;tape</u></strong>&nbsp;: Apr&egrave;s avoir entrez le nom de votre site web, le hubby installera votre site web. L&rsquo;&eacute;tape suivante vous proposera de vous connectez &agrave; la page d&rsquo;administration, ou &agrave; la page d&rsquo;index. Remarque, en vous connectant &agrave; la page d&rsquo;index (page principale), Il est fort probable qu&rsquo;une erreur survient, l&rsquo;erreur concerne l&rsquo;indisponibilit&eacute; d&rsquo;un th&egrave;me install&eacute; ou choisi par d&eacute;faut. Pour corriger l&rsquo;erreur vous devez installer un th&egrave;me compatible.</p>
+
+<p>&nbsp;</p>
+
+<p><strong>II &ndash; Administration d&rsquo;hubby</strong></p>
+
+<p>Apr&egrave;s l&rsquo;installation du site, vous devez cr&eacute;er un super administrateur, ce super administrateur aura tous les privil&egrave;ges. Il pourra effectivement&nbsp;:</p>
+
+<ul>
+ <li>Cr&eacute;er des pages et affecter des modules, modifier ces pages ou les supprimer.</li>
+ <li>Installer des applications Hubby.</li>
+ <li>G&eacute;rer les widgets.</li>
+ <li>G&eacute;rer les modules.</li>
+ <li>Gerer les th&egrave;mes.</li>
+ <li>Configurer le site (Nom, Fuseau horaire, Widgets administrateur)</li>
+ <li>Restaurer le site.</li>
+ <li>Cr&eacute;er des administrateurs, modifier les administrateurs ou supprimer les administrateurs.</li>
+ <li>Cr&eacute;er des privil&egrave;ges, affecter des actions aux diff&eacute;rents privil&egrave;ges.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p>Apr&egrave;s avoir cr&eacute;&eacute; le super administrateur, connectez-vous et vous acc&eacute;derez &agrave; l&rsquo;espace d&rsquo;administration. Si le proc&eacute;d&eacute; n&rsquo;est pas automatique, acc&eacute;dez &agrave; l&rsquo;espace d&rsquo;administration via cette adresse <a href="http://votre_site_web/index.php/admin">http://votre_site_web/index.php/admin</a> .</p>
+
+<p>La page d&rsquo;accueil de l&rsquo;espace d&rsquo;administration se pr&eacute;sente ainsi&nbsp;:</p>
+
+<p>&nbsp;</p>
+
+<p>Sont encercl&eacute;&nbsp;:</p>
+
+<ul>
+ <li>En rouge en haut &agrave; droite&nbsp;: le nom de l&rsquo;utilisateur actuellement connect&eacute; &agrave; l&rsquo;espace d&rsquo;administration.</li>
+ <li>En couleur Aqua en haut &agrave; gauche&nbsp;: le nom du CMS et la version actuel du CMS.</li>
+ <li>En couleur marron plus bas en haut &agrave; gauche, le lien vers le menu de l&rsquo;espace d&rsquo;administration, et le nom actuel de la page en cours (&laquo;&nbsp;Administration&nbsp;&raquo; dans l&rsquo;image pr&eacute;c&eacute;dente).</li>
+ <li>En couleur bleu en &agrave; gauche, les liens vers les diff&eacute;rentes fonctionnalit&eacute;s de l&rsquo;espace d&rsquo;administration.</li>
+ <li>En couleur verte au milieu, le message d&rsquo;accueil, qui pr&eacute;sente les diff&eacute;rentes nouveaut&eacute;s du CMS, et les liens vers la communaut&eacute; (Peut &ecirc;tre d&eacute;sactiv&eacute; dans les param&egrave;tres et configuration).</li>
+ <li>En rose en bas, les diff&eacute;rents widgets administrateurs. Les widgets administrateurs sont en quelque sorte des mini-modules qui rendre l&rsquo;acc&egrave;s &agrave; certaines fonctionnalit&eacute;s des modules d&eacute;j&agrave; install&eacute;s plus rapide. Dans l&rsquo;image pr&eacute;c&eacute;dente, aucun widget n&rsquo;est activ&eacute;.</li>
+</ul>
+
+<p><strong>II &ndash; A &ndash; Le gestionnaire de page&nbsp;:</strong></p>
+
+<p>Avant d&rsquo;utiliser un module, tels que le module des articles, il est n&eacute;cessaire de cr&eacute;er une page. Pour &ecirc;tre plus pr&eacute;cis quant &agrave; la consistance de cette fonctionnalit&eacute;, il s&rsquo;agit plut&ocirc;t de cr&eacute;er un acc&egrave;s. En cr&eacute;ant cet acc&egrave;s, vous pourrez affecter des modules. Le gestionnaire de page vous permet &eacute;galement de modifier les pages pr&eacute;c&eacute;demment cr&eacute;&eacute;es ou de les supprimer tout simplement.</p>
+
+<p>1 &ndash; Cr&eacute;er une nouvelle page.</p>
+
+<p>&nbsp;</p>
+
+<p>Dans l&rsquo;image pr&eacute;c&eacute;dente, il vous est demand&eacute; de&nbsp;:</p>
+
+<ul>
+ <li><strong>Entrer le nom de la page</strong>, tels qu&rsquo;il sera affich&eacute; dans les liens. Les liens est beaucoup plus la barre de lien dans chaque page. La d&eacute;signation de la page est libre et peut prendre n&rsquo;importe quelle forme. Elle peut donc &ecirc;tre&nbsp;: &laquo;&nbsp;La page d&rsquo;accueil de mon site&nbsp;&raquo;, &laquo;&nbsp;Accueil&nbsp;&raquo;, &laquo;&nbsp;Mon site web&nbsp;&raquo;.</li>
+ <li><strong>Nom du contr&ocirc;leur</strong>, c&rsquo;est le nom de votre page dans la barre d&rsquo;adresse. Il est g&eacute;n&eacute;ralement admis qu&rsquo;une page se pr&eacute;sente ainsi&nbsp;: <a href="http://votre_site_web/index.php/">http://votre_site_web/index.php/</a> Le nom de votre page est ajout&eacute; juste apr&egrave;s et peut rev&ecirc;tir cette forme <a href="http://votre_site_web/index.php/le_nom_de_ma_page">http://votre_site_web/index.php/<strong>le_nom_de_ma_page</strong></a> . En r&eacute;alit&eacute;, cette d&eacute;signation n&rsquo;est pas conseill&eacute;e. La d&eacute;signation du contr&ocirc;leur doit se faire en un mot. C&rsquo;est pourquoi g&eacute;n&eacute;ralement il est conseill&eacute; de d&eacute;nomm&eacute; votre contr&ocirc;leur en fonction du module que vous allez affecter. Si le module des articles sera affect&eacute;, vous pouvez d&eacute;signer votre contr&ocirc;leur ainsi&nbsp;: <a href="http://votre_site_web/index.php/articles">http://votre_site_web/index.php/<strong>articles</strong></a> ou <a href="http://votre_site_web/index.php/news">http://votre_site_web/index.php/<strong>news</strong></a></li>
+ <li><strong>Titre de la page</strong>, comme sont nom l&rsquo;indique, il s&rsquo;agit du nom de la page en question. Tout comme le nom du contr&ocirc;leur, vous devez donner un nom en fonction du module qui sera affect&eacute;.</li>
+ <li><strong>Affecter un module</strong>. C&rsquo;est l&rsquo;&eacute;l&eacute;ment le plus essentiel dans la cr&eacute;ation d&rsquo;une page dans la mesure o&ugrave; si aucun module n&rsquo;est install&eacute;, vous ne pouvez pas cr&eacute;er de page. Il est donc n&eacute;cessaire d&rsquo;installer un module compatible et de le s&eacute;lectionner dans le menu d&eacute;roulant.</li>
+ <li><strong>D&eacute;finir comme principale,</strong> par cette option, vous d&eacute;terminer que lorsque l&rsquo;on acc&egrave;de &agrave; votre site web via une adresse simplifi&eacute; tels que <a href="http://votre_site_web">http://votre_site_web</a> , cette page soit la seule &agrave; s&rsquo;ouvrir.</li>
+ <li><strong>Description de la page, </strong>&nbsp;vous devez enregistrer une description de la page.</li>
+ <li><strong>Visibilit&eacute; de la page, </strong>par cette option, vous pouvez indiquer que cette page apparaisse dans le menu principal de votre site. Cette option ne rend pas la page indisponible, mais la rend indisponible via la page d&rsquo;accueil.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p>Consid&eacute;r&eacute; l&rsquo;image pr&eacute;c&eacute;dente d&rsquo;un th&egrave;me install&eacute; sur hubby&nbsp;:</p>
+
+<ul>
+ <li>En rouge l&rsquo;adresse vers la page cr&eacute;&eacute;e, dans cette image le nom du <strong>contr&ocirc;leur</strong> est &laquo;&nbsp;home&nbsp;&raquo;</li>
+ <li>En bleu, le th&egrave;me liste les <strong>pages visibles</strong> et affiche en grand, <strong>le nom de la page</strong> (Accueil &amp; Blog) et en petit le <strong>titre de la page</strong> (Hubby-Accueil &amp; Blog du Cms). La description de chaque page est disponible dans les balises &laquo;&nbsp;META&nbsp;&raquo;.</li>
+</ul>
+
+<p >&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>Vous pouvez d&eacute;sormais cliquer sur le bouton &laquo;&nbsp;Cr&eacute;er la page&nbsp;&raquo;.</p>
+
+<p>En ce qui concerne le titre de la page et la description, Il est possible que le module affect&eacute; modifie le titre et la description d&eacute;finit par d&eacute;faut par vous.</p>
+
+<p>2 &ndash; Liste des pages cr&eacute;&eacute;es et modification</p>
+
+<p>&nbsp;</p>
+
+<p>Dans l&rsquo;image pr&eacute;c&eacute;dente, vous pouvez distinguer 3 pages qui ont d&eacute;j&agrave; &eacute;t&eacute; cr&eacute;&eacute;es. Le tableau pr&eacute;sente toutes les informations sur chacune de ses pages. Vous pouvez les modifier en cliquant directement sur le nom, ou les supprimer en cliquant sur &laquo;&nbsp;supprimer&nbsp;&raquo;.</p>
+
+<p><strong>II &ndash; B &ndash; Installer une application.</strong></p>
+
+<p>Assurez-vous que vous avez t&eacute;l&eacute;charger l&rsquo;application Hubby depuis un emplacement s&ucirc;r&nbsp;!!!, Ceci est d&rsquo;autant plus important que chaque application donne acc&egrave;s aux informations syst&egrave;me. La communaut&eacute; hubby a mis en place un commit&eacute; charg&eacute; de v&eacute;rifier chaque application disponible sur le store.</p>
+
+<p>&nbsp;</p>
+
+<p>Qu&rsquo;il s&rsquo;agisse d&rsquo;un module, th&egrave;me ou widget, l&rsquo;interface d&rsquo;installation permet d&rsquo;installer tout type d&rsquo;application. Lorsque l&rsquo;application install&eacute; est compatible, l&rsquo;installation devra se faire a priori sans difficult&eacute;, sinon un message s&rsquo;affichera et indiquera les modalit&eacute;s de l&rsquo;&eacute;rreur.</p>
+
+<p><strong>II &ndash; C &ndash; Gestionnaire des modules</strong></p>
+
+<p>&nbsp;</p>
+
+<p>Apr&egrave;s un installation correcte d&rsquo;une application de type module, Il est d&eacute;sormais possible d&rsquo;acc&eacute;der &agrave; ce module via le &laquo;&nbsp;Gestionnaire des modules. Le tableau pr&eacute;sente les informations sur les diff&eacute;retns modules install&eacute;s. Vous pouvez y acc&eacute;der directement en cliquant sur le nom du mdule ou les supprimer en cliquant directement sur le bouton &laquo;&nbsp;D&eacute;sinstaller&nbsp;&raquo;. En cliquant sur le nom de l&rsquo;application, vous acc&egrave;derez &agrave; l&rsquo;interface cr&eacute;e par le module.</p>
+
+<p><strong>II &ndash; D &ndash; Gestionnaire de th&egrave;mes</strong></p>
+
+<p>&nbsp;</p>
+
+<p>Lorsque vous installez une application de type th&egrave;me, elle s&rsquo;affiche parmis les th&egrave;mes install&eacute;s. Le tableau affiche les informations sur les th&egrave;mes install&eacute;s. Pour d&eacute;finir un th&egrave;me par d&eacute;faut, vous devez ouvrir le th&egrave;me en cliquant sur le nom du th&egrave;me. Dans l&rsquo;image qui pr&eacute;c&egrave;de, un th&egrave;me (hubby_modus) est install&eacute;.</p>
+
+<p>&nbsp;</p>
+
+<p>En ouvrant un th&egrave;me, vous acc&eacute;dez au panel du th&egrave;me. Dans ce panel, vous pouvez activer un th&egrave;me par d&eacute;faut ou supprimer le th&egrave;me. Lorsque vous activez un th&egrave;me par d&eacute;faut, le nouveau style s&rsquo;appliquera au site et remplacera l&rsquo;ancien th&egrave;me. En supprimant le th&egrave;me, tous les fichiers li&eacute;es aux th&egrave;mes seront supprim&eacute;s</p>
+
+<p><strong>II &ndash; E &ndash; Gestionnaire des widgets</strong></p>
+
+<p>&nbsp;</p>
+
+<p>Widget est une micro application qui reunis un ensemble de fonctionnalit&eacute;s dans un emplacement et le rend disponible dans plusieurs pages dans le site. Les widgets peuvent &ecirc;tre install&eacute;s manuellement ou peuvent l&rsquo;&ecirc;tre via certains modules qui viennent avec leur propres module. Dans l&rsquo;image qui pr&eacute;c&egrave;de, deux widgets sont install&eacute;s, le premier pr&eacute;sente toutes les cat&eacute;gories cr&eacute;er dans le module des articles, et le segond pr&eacute;sente des liens utilisateurs. Chaque module peut directement via cet interface &ecirc;tre supprim&eacute;. Les r&egrave;glages avanc&eacute;es permettent de d&eacute;terminer, la priorit&eacute; des widgets les un sur les autres, la disponibilit&eacute; dans une page (Dans le panel &agrave; gauche, En bas ou &laquo;&nbsp;footer&nbsp;&raquo;).</p>
+
+<p>Dans la pluspart des cas, les widgets ne propose pas d&rsquo;interface utilisateur, ainsi lors de l&rsquo;ouverture il peut refuser un acc&egrave;s direct. Mais cela n&rsquo;emp&ecirc;che que d&rsquo;autres peuvent &ecirc;tre fournie avec un interface utilisateur.</p>
+
+<p><strong>II &ndash; F &ndash; Param&ecirc;tres et configurations</strong></p>
+
+<p>&nbsp;</p>
+
+<p>L&rsquo;emplacement des param&ecirc;tres et configurations est divis&eacute; en deux partie, d&rsquo;une part les configurations dans lequel il est possible de :</p>
+
+<ul>
+ <li>Modifier le nom de votre site web,</li>
+ <li>Le lien vers le logo de votre site web,</li>
+ <li>D&eacute;finir le r&eacute;seau horaire</li>
+ <li>D&eacute;finir le format de l&rsquo;heure affich&eacute;, il est important de remarquer que le th&egrave;me peut d&eacute;finir un format autre que celui d&eacute;finit dans les <strong>configurations</strong>, cette nouvelle d&eacute;finition &eacute;crasera cette d&eacute;finit par l&rsquo;utilisateur.</li>
+</ul>
+
+<p >Dans l&rsquo;espace <strong>param&ecirc;tres</strong>, vous pouvez&nbsp;:</p>
+
+<ul>
+ <li>Activer ou d&eacute;sactiv&eacute; les widgets administrateurs lorsque ceux-ci sont install&eacute;s.</li>
+ <li>Afficher ou non les informations relatives &agrave; la version d&rsquo;hubby et les informations sur la communaut&eacute;s hubby.</li>
+</ul>
+
+<p><strong>II &ndash; G &ndash; Syst&ecirc;me et restauration.</strong></p>
+
+<p>&nbsp;</p>
+
+<p>L&rsquo;emplacement du syst&ecirc;me et restauration est un emplacement reserv&eacute; au super administrateur. Cet ici qu&rsquo;il g&egrave;re&nbsp;:</p>
+
+<ul>
+ <li>La cr&eacute;ation des autres administrateurs.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<ul>
+ <li>La cr&eacute;ation des privil&egrave;ges.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<ul>
+ <li>La gestion des administrateur.</li>
+ <li>La gestion des privil&egrave;ges.</li>
+ <li>La gestion des actions syst&ecirc;mes et communes.</li>
+ <li>La restauration d&rsquo;hubby.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p>Cette fonctionnalit&eacute; permet de cr&eacute;er d&rsquo;autres utilisateurs qui ne pourront effectuer des actions autres que ceux qui sont ajout&eacute;es &agrave; leur privil&egrave;ge. Le privil&egrave;ge est un grade sp&eacute;cifique, qui conf&egrave;re &agrave; son titulaire la possibilit&eacute; d&rsquo;effectuer certaines actions d&eacute;finies&nbsp; au pr&eacute;alable. Les privil&egrave;ges ne sont pas li&eacute;s entre eux, il n&rsquo;y a pas d&rsquo;hierarchie. Chaque privil&egrave;ge peut avoir les m&ecirc;mes actions que les autres. Toute fois, il existe une hierarchie entre le super administrateur et les autres utilisateurs. Ce dernier b&eacute;n&eacute;ficie de toutes les actions (syst&ecirc;me &amp; communes).</p>
+
+<p>&nbsp;</p>
+
+<p>Dans l&rsquo;image qui pr&eacute;c&egrave;dent&nbsp;:</p>
+
+<ul>
+ <li>En bleu, la liste des privil&egrave;ges cr&eacute;er jusque l&agrave;. Noter de la d&eacute;nomination est libre, Il est possible de cr&eacute;er des privil&egrave;ges tels que &laquo;&nbsp;Police&hellip;&nbsp;&raquo;.</li>
+ <li>En rose, l&rsquo;ensemble des actions. En haut les actions syst&egrave;me en bas les actions communues.</li>
+ <li>En rouge, la page dans laquelle nous nous trouvons.</li>
+</ul>
+
+<p><strong>Les actions syst&egrave;mes</strong> sont des fonctionnalit&eacute;s syst&egrave;me tels que&nbsp;:</p>
+
+<ul>
+ <li>Cr&eacute;er une page.</li>
+ <li>Installer une application.</li>
+ <li>Supprimer une application.</li>
+ <li>Acc&eacute;der aux param&ecirc;tres et configuration.</li>
+ <li>Gerer les th&egrave;mes, widgets et modules.</li>
+</ul>
+
+<p><strong>Les actions communes</strong> sont des actions ajout&eacute;e &agrave; hubby par certains modules. Cette fonctionnalit&eacute;s permet de faire un v&eacute;ritable r&eacute;partition de t&acirc;che entre administrateur (<strong>Remarque&nbsp;: <em>le super administrateur est l&rsquo;utilisateur supr&ecirc;me qui administre hubby. Il y a une diff&eacute;rence entre administrateur et super administrateur.</em></strong>). Parmi ces actions l&rsquo;on peut retrouver des actions tels que&nbsp;:</p>
+
+<ul>
+ <li>Cr&eacute;er, modifier ou supprimer un article.</li>
+ <li>Cr&eacute;er, modifier ou supprimer un portofolio.</li>
+ <li>Cr&eacute;er, modifier ou supprimer une page HTML</li>
+ <li>Cr&eacute;er, modifier ou supprimer un produit</li>
+ <li>&hellip;</li>
+</ul>
+
+<p>Les actions d&eacute;pendent des modules auxquelles ils sont attach&eacute;s. Les modules peuvent ne pas &ecirc;tre fournie avec des actions. L&rsquo;acc&egrave;s &agrave; leur fonctionnalit&eacute;s sera ouverte &agrave; tous.</p>
+
+<p>La restauration est une fonctionnalit&eacute; qui permet de reinitialiser hubby. Cette fonctionnalit&eacute; doit &ecirc;tre utilis&eacute; lorsque des erreurs surviennent dans le cadre de l&rsquo;utilisation des fonctionnalit&eacute;s d&rsquo;hubby. Remarquer que des erreurs peuvent survenir durant l&rsquo;utilisation d&rsquo;un module, th&egrave;me ou widget, cela ne voudra pas forc&eacute;ment signifier qu&rsquo;hubby est compromis. En effet la restauration est utilis&eacute; lorsque hubby est compromis. Mais &eacute;galement peut &ecirc;tre utilis&eacute; si certains modules n&rsquo;arrivent pas &agrave; se d&eacute;sintaller correctement.</p>
+
+<p>&nbsp;</p>
+
+<p>Pour la version 0.9.1 d&rsquo;hubby seul la restauration souple est disponible. Afin de s&rsquo;assurer que la restauration est faite par le super administrateur, ce dernier doit confirmer l&rsquo;op&eacute;ration &agrave; entrant son mot de passe.</p>
+
+<p><strong>III &ndash; Espace Utilisateur</strong></p>
+
+<p>&nbsp;</p>
+
+<p><strong>III &ndash; A - pr&eacute;sentation</strong></p>
+
+<p>L&rsquo;espace utilisateur est l&rsquo;emplacement reserv&eacute; aux diff&eacute;rents utilisateurs inscrit ou cr&eacute;e sur Hubby. Chaque utilisateur dispose d&rsquo;un emplacement priv&eacute; o&ugrave; ils peuvent g&eacute;rer leurs informations personnelles.</p>
+
+<p>Lorsque l&rsquo;utilisateur n&rsquo;est pas connect&eacute;, il ne peut pas voir la barre d&rsquo;utilisateur et par cons&eacute;quent ne peut pas acc&eacute;der &agrave; l&rsquo;interface utilisateur.</p>
+
+<p>&nbsp;</p>
+
+<p>Dans l&rsquo;image pr&eacute;c&eacute;dente, la barre d&rsquo;utilisateur est encercl&eacute; d&rsquo;une ligne rouge. Lorsque l&rsquo;utilisateur est un administrateur certains liens peuvent &ecirc;tre ajout&eacute;, ici il s&rsquo;agit du lien &laquo;&nbsp;Espace administration&nbsp;&raquo;. Les liens &laquo;&nbsp;Mon profil&nbsp;&raquo; et &laquo;&nbsp;Messagerie&nbsp;&raquo; donne acc&egrave;s &agrave; l&rsquo;espace utilisateur. L&rsquo;espace utilisateur est dot&eacute;&nbsp;:</p>
+
+<ul>
+ <li>D&rsquo;un syst&egrave;me de messagerie, avec envoi, reception suppression de message.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<ul>
+ <li>D&rsquo;un syst&egrave;me qui permet d&rsquo;ajuster des informations personnelles (mot de passe, nom, pr&eacute;nom, localisation).</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p><strong>III &ndash; B &ndash; Utilisation de la m&eacute;ssagerie</strong></p>
+
+<p>Dans la messagerie, l&rsquo;utilisateur a acc&egrave;s &agrave; tous les messages qui ont &eacute;t&eacute; post&eacute; par lui ou qui lui concerne directement.</p>
+
+<p>&nbsp;</p>
+
+<p>Dans l&rsquo;image pr&eacute;c&eacute;dente, le tableau ci-dessus pr&eacute;sente l&rsquo;ensemble des conversations disponibles pour l&rsquo;utilisateur connect&eacute;. Cliquez une fois pour selectionner la conversation, double-cliquez pour ouvrir la conversation.</p>
+
+<p>&nbsp;</p>
+
+<p>L&rsquo;image pr&eacute;c&eacute;dent pr&eacute;sente une d&eacute;monstration de conversation sur l&rsquo;espace utilisateur. Sont encercl&eacute;s&nbsp;:</p>
+
+<ul>
+ <li>En vert, la touche qui redirige vers l&rsquo;accueil de la messagerie.</li>
+ <li>En marron, la touche qui redirige vers la cr&eacute;ation d&rsquo;un nouveau message, ou vers la continuation d&rsquo;une discussion d&eacute;j&agrave; d&eacute;marr&eacute; lorsqu&rsquo;il existe une discussion entre les deux utilisateurs.</li>
+ <li>En bleu, la touche qui permet de supprimer la conversation d&eacute;marr&eacute;. Cette actions supprime du c&ocirc;t&eacute; de l&rsquo;initiateur de la conversation et du suivant les messages &eacute;chang&eacute;s entre eux.</li>
+ <li>En rouge, la touche qui permet d&rsquo;ajouter un commentaire &agrave; la conversation.</li>
+ <li>En jaune, le pseudo de l&rsquo;auteur du message.</li>
+ <li>En violet, il s&rsquo;agit d&rsquo;une d&eacute;monstration du syst&egrave;me de s&eacute;curit&eacute; embarqu&eacute; dans hubby. Certaines balises sont interdites afin de garantir la s&eacute;curit&eacute; des utilisateurs.</li>
+</ul>

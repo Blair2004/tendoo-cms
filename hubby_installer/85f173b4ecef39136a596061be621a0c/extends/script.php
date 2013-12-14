@@ -273,11 +273,11 @@ foreach($this->onTopContent as $c)
 		if(isset($this->indexAboutUs))
 		{
 		?>
-<div class="featured-title">
-    <div class="ribbon"><span><?php echo $this->indexAboutUsTitle;?></span></div>
-</div>
-<p><?php echo strip_tags($this->indexAboutUs);?></p>
-<?php
+        <h1 class="home-block-heading"><?php echo $this->indexAboutUsTitle;?></h1>
+        <div class="text-posts" style="margin-left:24px;">
+            <p><?php echo strip_tags($this->indexAboutUs);?></p>
+        </div>
+		<?php
 		}
 	}
 	/*
@@ -373,6 +373,107 @@ foreach($this->onTopContent as $c)
 		}
 	}
 	/*
+	/*	Featured products index // NEW
+	*/
+	private $featuredProductTitle	=	'Featured Product';
+	private $featuredProduct		=	array();
+	private $featuredProductDevise	=	'€';
+	public function defineFeaturedProductTitle($title)
+	{
+		$this->featuredProductTitle	=	strlen($title) > 0 ? $title : "Featured Product";
+	}
+	public function defineFeaturedProductDevice($devise)
+	{
+		$this->featuredProductDevise	=	$devise;
+	}
+	public function defineFeaturedProducts($title,$content,$thumb,$price,$link)
+	{
+		$this->featuredProduct[]		=	array(
+			'TITLE'			=>	$title,
+			'CONTENT'		=>	$content,
+			'THUMB'			=>	$thumb,
+			'PRICE'			=>	$price,
+			'LINK'			=>	$link
+		);
+	}
+	private function parseFeaturedProducts()
+	{
+		if(count($this->featuredProduct) > 0)
+		{
+		?>
+        <h1 class="home-block-heading"><?php echo $this->featuredProductTitle;?></h1>
+        <div class="featured">
+        <?php 
+		foreach($this->featuredProduct as $p)
+		{
+		?>
+            <figure>
+                <a href="<?php echo $p['THUMB'];?>" data-rel="prettyPhoto" class="thumb"><img src="<?php echo $p['THUMB'];?>" alt="<?php echo $p['TITLE'];?>"></a>
+                <div>
+                    <a href="<?php echo $p['LINK'];?>" class="heading"><?php echo $p['TITLE'];?></a>
+                    <?php echo word_limiter(strip_tags($p['CONTENT']),100);?>
+                    <div style="line-height:20px;background:#002191;color:#EEE;padding:0 5px;">Prix : <?php echo $p['PRICE'];?> <?php echo $this->featuredProductDevise;?></div>
+                </div>
+                <a class="link" href="<?php echo $p['LINK'];?>"></a>
+            </figure>
+		<?php
+		}
+		?>
+            <div class="clearfix"></div>
+        </div>
+        <?php
+		}
+	}
+	/*
+	/* Products listing + Single view
+	*/
+	private $productListingDevise		=	'€';
+	public function defineProductListingDevice($device)
+	{
+		$this->productListingDevise		=	$device;
+	}
+	private $productListingCaroussel	=	array();
+	public function defineProductListingCaroussel($title,$description,$thumb,$date,$link,$price)
+	{
+		$this->productListingCaroussel[]	=	array(
+			'TITLE'						=>	$title,
+			'CONTENT'					=>	$description,
+			'THUMB'						=>	$thumb,
+			'DATE'						=>	$date,
+			'LINK'						=>	$link,
+			'PRICE'						=>	$price
+		);
+	}
+	private function parseProductListingCaroussel()
+	{
+		if(count($this->productListingCaroussel) > 0)
+		{
+				?>
+<div class="flexslider home-slider">
+  <ul class="slides">
+ <?php
+	foreach($this->productListingCaroussel as $c)
+	{
+?>
+    <li>
+    
+      <a href="<?php echo $c['LINK'];?>"><img src="<?php echo $c['THUMB'];?>"  alt="<?php echo $c['TITLE'];?>"  /></a>
+      <div style="padding:20px 20px;background:rgba(0, 0, 0, 0.8);position:absolute;top:0;color:white;"><?php echo $c['TITLE'];?></div>
+      <p class="flex-caption">
+	  	<?php echo word_limiter(strip_tags($c['CONTENT']),20);?>
+        <div style="padding:10 20px;background:#FFF;opacity:0.8;float:right"><?php echo $this->productListingDevise;?> <?php echo $c['PRICE'];?></div></p>
+      
+    </li>
+<?php
+	}
+			?>
+  </ul>
+</div>
+<div class="shadow-slider"></div>
+<?php
+		}
+	}
+	/*
 	/*	Page index Parser
 	*/
 	public function parseIndex()
@@ -386,14 +487,17 @@ foreach($this->onTopContent as $c)
     <div id="content">
         <!-- slider -->
         <?php $this->parseCaroussel();?>
+		<?php $this->parseProductListingCaroussel();?>
         <!-- ENDS slider -->
         <!-- Headline -->
-
+		<?php $this->parseIndexAboutUs();?>
         <!-- ENDS Headline -->
         <!-- featured -->
         <?php $this->parseOnTopContent();?>
         <!-- ENDS featured -->
-        
+        <!-- Features Products -->
+        <?php $this->parseFeaturedProducts();?>
+        <!-- ENDS Features Products -->
         <?php $this->parseTabShowCase();?>
         <!-- text-posts -->
         <?php $this->parseTextList();?>
@@ -401,14 +505,11 @@ foreach($this->onTopContent as $c)
         <!-- home-gallery -->
         <?php $this->parseGalleryShowCase();?>
         <!-- ENDS home-gallery -->
-        
-        
-    
-			</div>
-			<!-- ENDS content -->
-			<div class="clearfix"></div>
-			<div class="shadow-main"></div>
-		</div>
+    </div>
+    <!-- ENDS content -->
+    <div class="clearfix"></div>
+    <div class="shadow-main"></div>
+</div>
 <?php
 	}
 	/*
@@ -459,7 +560,7 @@ foreach($this->onTopContent as $c)
 	{
 		$this->blogPostTitle	=	$title;
 	}
-	public function defineBlogPost($title,$content,$thumb,$full,$author,$link,$timestamp,$category,$categoryLink)
+	public function defineBlogPost($title,$content,$thumb,$full,$author,$link,$timestamp,$category,$category_link)
 	{
 		$this->blogPost[]		=	array(
 			'AUTHOR'			=>	$author,
@@ -470,7 +571,7 @@ foreach($this->onTopContent as $c)
 			'TITLE'				=>	$title,
 			'TIMESTAMP'			=>	$timestamp,
 			'CATEGORY'			=>	$category,
-			'CATEGORYLINK'		=>	$categoryLink
+			'CATEGORY_LINK'		=>	$category_link
 		);
 	}
 	private function parseBlogPost()
@@ -493,7 +594,7 @@ foreach($this->onTopContent as $c)
                 <h1><a href="<?php echo $p['LINK'];?>" class="post-heading"><?php echo $p['TITLE'];?></a></h1>
                 <div class="meta">
                     <span class="entry-date"><?php echo $this->core->hubby->time(strtotime($p['TIMESTAMP']));?></span>
-                    dans <span class="categories"><a href="<?php echo $p['CATEGORYLINK'];?>"><?php echo $p['CATEGORY'];?></a></span>
+                    dans <span class="categories"><a href="<?php echo $p['CATEGORY_LINK'];?>"><?php echo $p['CATEGORY'];?></a></span>
                 </div>
                 <div class="excerpt"><?php echo word_limiter(strip_tags($p['CONTENT']),50);?>
                 </div>
@@ -522,7 +623,7 @@ foreach($this->onTopContent as $c)
 	private $singleBlogPostComments	=	array();
 	private $replyForms				=	array();
 	private $replyFormTitle			=	'R&eacute;pondre';
-	public function defineSingleBlogPost($title,$content,$thumb,$full,$author,$timestamp,$category,$categoryLink)
+	public function defineSingleBlogPost($title,$content,$thumb,$full,$author,$timestamp,$category,$category_link)
 	{
 		$this->singleBlogPost		=	array(
 			'TITLE'					=>	$title,
@@ -532,7 +633,7 @@ foreach($this->onTopContent as $c)
 			'AUTHOR'				=>	$author,
 			'TIMESTAMP'				=>	$timestamp,
 			'CATEGORY'				=>	$category,
-			'CATEGORYLINK'			=>	$categoryLink
+			'CATEGORY_LINK'			=>	$category_link
 		);
 	}
 	private $SBP_comments			=	array();
@@ -582,7 +683,7 @@ foreach($this->onTopContent as $c)
 	<h1 class="post-heading"><?php echo $this->singleBlogPost['TITLE'];?></h1>
 	<div class="meta">
 		<span class="entry-date"><?php echo $this->core->hubby->time(strtotime($this->singleBlogPost['TIMESTAMP']));?></span>
-		dans <span class="categories"><a href="<?php echo $this->singleBlogPost['CATEGORYLINK'];?>"><?php echo $this->singleBlogPost['CATEGORY'];?></a></span>
+		dans <span class="categories"><a href="<?php echo $this->singleBlogPost['CATEGORY_LINK'];?>"><?php echo $this->singleBlogPost['CATEGORY'];?></a></span>
 	</div>
 	
 	<div class="content-area"><?php echo $this->singleBlogPost['CONTENT'];?></div>
@@ -647,8 +748,236 @@ foreach($this->onTopContent as $c)
 		}
 	}
 	/*
+	/*	Multilple Product view
+	*/
+	private $productView	=	array();
+	public function defineProductView($title,$content,$thumb,$full,$author,$timestamp,$link,$link_text,$category,$category_link,$price,$add_button_text = 'Ajouter au panier',$add_button_link = '#',$remove_button_text= "Retirer du panier", $remove_button_link = '#',$login_button_text = 'Connectez-vous',$login_button_link	=	'#')
+	{
+		$this->productView[]	=	array(
+			'TITLE'				=>	$title,
+			'CONTENT'			=>	$content,
+			'THUMB'				=>	$thumb,
+			'FULL'				=>	$full,
+			'AUTHOR'			=>	$author,
+			'TIMESTAMP'			=>	$timestamp,
+			'LINK'				=>	$link,
+			'LINK_TEXT'			=>	$link_text,
+			'CATEGORY'			=>	$category,
+			'CATEGORY_LINK'		=>	$category_link,
+			'PRICE'				=>	$price,
+			'ADD_TEXT'	=>	$add_button_text,
+			'ADD_LINK'	=>	$add_button_link,
+			'REMOVE_LINK'=>	$remove_button_link,
+			'REMOVE_TEXT'=>	$remove_button_text,
+			'LOGIN_TEXT'	=>	$login_button_text,
+			'LOGIN_LINK'	=>	$login_button_link
+		);
+	}
+	private function parseProductView()
+	{
+		if(count($this->productView) > 0)
+		{
+		?>
+        <div id="posts-list">
+        	<?php
+			foreach($this->productView as $p)
+			{
+				$global	=	$this->core->hubby->time($p['TIMESTAMP'],TRUE);
+			?>
+            <article class="format-standard">
+                
+                <div class="feature-image">
+                    <a href="<?php echo $p['FULL'];?>" data-rel="prettyPhoto"><img src="<?php echo $p['THUMB'];?>" alt="<?php echo $p['TITLE'];?>" /></a>
+                </div>
+                
+                <h1><a href="<?php echo $p['LINK'];?>" class="post-heading"><?php echo $p['TITLE'];?></a></h1>
+                <div class="meta">
+                	<?php
+					if(is_numeric($p['PRICE']))
+					{
+					?>
+                	<span>Prix : <?php echo $this->productListingDevise;?> <?php echo $p['PRICE'];?></span> - 
+                    <?php
+					}
+					else
+					{
+						?>
+                	<span><?php echo $p['PRICE'];?></span>
+                        <?php
+					}
+					?>
+                    <span class="entry-date"><?php echo $this->core->hubby->time(strtotime($p['TIMESTAMP']));?></span>
+                    dans <span class="categories"><a href="<?php echo $p['CATEGORY_LINK'];?>"><?php echo $p['CATEGORY'];?></a></span>
+                </div>
+                <div class="excerpt"><?php echo word_limiter(strip_tags($p['CONTENT']),50);?>
+                </div>
+                <a href="<?php echo $p['LINK'];?>" class="read-more"><?php echo $p['LINK_TEXT'];?></a>
+                <?php
+				if($p['ADD_LINK'] != '#')
+				{
+				?>
+                <a href="<?php echo $p['ADD_LINK'];?>" class="read-more"><?php echo $p['ADD_TEXT'];?></a>
+                <?php
+				}
+				if($p['REMOVE_LINK'] != '#')
+				{
+				?>
+                <a href="<?php echo $p['REMOVE_LINK'];?>" class="read-more"><?php echo $p['REMOVE_TEXT'];?></a>
+                <?php
+				}
+				if($p['LOGIN_LINK'] != '#')
+				{
+				?>
+                <a href="<?php echo $p['LOGIN_LINK'];?>" class="read-more"><?php echo $p['LOGIN_TEXT'];?></a>
+                <?php
+				}
+				?>
+            </article>
+                <?php
+			}
+				?>
+        </div>
+        <?php
+		}
+		else if($this->blogPost === FALSE)
+		{
+			var_dump($this->blogPost);
+			?>
+		<div id="posts-list">
+        	<pre>Aucun article disponible</pre>
+        </div>
+            <?php
+		}
+	
+	}
+	/*
+	/*	Single Product view
+	*/
+	private $singleProductView		=	array();
+	public function defineSingleProductView($title,$content,$thumb,$full,$author,$timestamp,$category,$category_link,$price,$other_preview = array(),$add_button_text = 'Ajouter au panier',$add_button_link = '#',$remove_button_text = 'Retirer du panier', $remove_button_link = '#',$check_button_text	=	'Consulter mon panier',$check_button_link	=	'#',$login_button_text = 'Connectez-vous', $login_button_link = '#')
+	{
+		$this->singleProductView[]	=	array(
+			'TITLE'					=>	$title,
+			'CONTENT'				=>	$content,
+			'THUMB'					=>	$thumb,
+			'FULL'					=>	$full,
+			'AUTHOR'				=>	$author,
+			'TIMESTAMP'				=>	$timestamp,
+			'CATEGORY'				=>	$category,
+			'CATEGORY_LINK'			=>	$category_link,
+			'PRICE'					=>	$price,
+			'OTHERS_PICS'			=>	$other_preview,
+			'ADD_TEXT'				=>	$add_button_text,
+			'ADD_LINK'				=>	$add_button_link,
+			'REMOVE_TEXT'			=>	$remove_button_text,
+			'REMOVE_LINK'			=>	$remove_button_link,
+			'CHECK_TEXT'			=>	$check_button_text,
+			'CHECK_LINK'			=>	$check_button_link,
+			'LOGIN_TEXT'			=>	$login_button_text,
+			'LOGIN_LINK'			=>	$login_button_link
+		);
+	}
+	private function parseSingleProductView()
+	{
+		if(count($this->singleProductView) > 0)
+		{
+			$this->singleProductView	=&	$this->singleProductView[0];
+	?>
+	<div id="post-content">
+	<div class="feature-image">
+		<a href="<?php echo $this->singleProductView['FULL'];?>" data-rel="prettyPhoto"><img src="<?php echo $this->singleProductView['THUMB'];?>" alt="<?php echo $this->singleProductView['TITLE'];?> text" /></a>
+	</div>
+	<h1 class="post-heading"><?php echo $this->singleProductView['TITLE'];?> - <?php echo $this->productListingDevise;?> <?php echo $this->singleProductView['PRICE'];?></h1>
+    <div class="content-area"><?php echo $this->singleProductView['CONTENT'];?></div>
+    <div style="float:left;padding:10px 20px;background:#0C6;font-weight:600;margin-right:5px;"><a href="<?php echo $this->singleProductView['ADD_LINK'];?>"><?php echo $this->singleProductView['ADD_TEXT'];?></a></div>
+    <div style="float:left;padding:10px 20px;background:#000;font-weight:600;margin-right:5px;"><a style="color:#FFF" href="<?php echo $this->singleProductView['REMOVE_LINK'];?>"><?php echo $this->singleProductView['REMOVE_TEXT'];?></a></div>
+    <div style="float:left;padding:10px 20px;background:#09C;font-weight:600;margin-right:5px;"><a href="<?php echo $this->singleProductView['CHECK_LINK'];?>"><?php echo $this->singleProductView['CHECK_TEXT'];?></a></div>
+		
+	<div class="clearfix"></div>
+    </div>
+        <?php
+		}
+	}
+	/*
+	/* Cart List
+	*/
+	private $cartListTitle				=	'Our products';
+	private $cartListElements			=	array();
+	private $cartListDevise				=	'€';
+	private $cartListPanelButton		=	array();
+	public function defineCartListDevise($devise)
+	{
+		$this->cartListDevise	=	strlen($devise) > 0 ? $devise : "€";
+	}
+	public function defineCartListPanelButton($text,$link)
+	{
+		$this->cartListPanelButton[]	=	array(
+			'LINK'			=>	$link,
+			'TEXT'			=>	$text
+		);
+	}
+	public function defineCartListTitle($title)
+	{
+		$this->cartTitle	=	strlen($title) > 0 ? $title : "Our products";
+	}
+	public function defineCartListElement($title,$content,$thumb,$price,$link,$cancel_link)
+	{
+		$this->cartListElements[]		=	array(
+			'TITLE'			=>	$title,
+			'CONTENT'		=>	$content,
+			'THUMB'			=>	$thumb,
+			'PRICE'			=>	$price,
+			'LINK'			=>	$link,
+			'CANCEL_LINK'	=>	$cancel_link
+		);
+	}
+	private function parseCartList() // this include widget side panel
+	{
+		if(count($this->cartListElements) > 0 )
+		{
+			?>
+			<div id="post-content">
+			<?php
+            if(is_array($this->cartListPanelButton) && count($this->cartListPanelButton) > 0)
+            {
+            ?>
+            <ul class="list-buttons">
+                <?php
+                foreach($this->cartListPanelButton as $p)
+                {
+                    // red green blue
+                ?>
+                <li><a href="<?php echo $p['LINK'];?>" class="link-button"><?php echo $p['TEXT'];?></a></li>
+                <?php
+                }
+                ?>
+            </ul>
+            <div class="clearfix"></div>
+            <?php
+            }
+			foreach($this->cartListElements as $c)
+			{
+				?>
+				<div class="toggle-trigger"><?php echo $c['TITLE'];?> - <?php echo $c['PRICE'];?> <?php echo $this->cartListDevise;?><span style="float:right"><a href="<?php echo $c['CANCEL_LINK'];?>">Retirer
+				 le produit</a></span></div>
+				<div class="toggle-container" style="display: none;min-height:120px;">
+					
+				<p><a href="<?php $c['LINK'];?>"><img src="<?php echo $c['THUMB'];?>" alt="<?php echo $c['TITLE'];?>" style="float:left;width:200px;display:inline-block;margin-right:10px;" /></a><?php echo $c['CONTENT'];?></p>
+				</div>
+				<?php
+			}
+			?>
+			</div>
+			<?php
+		}
+	}
+	/*
 	/*	Parse Blog page
-	*/	
+	*/
+	public function parseListing() // ParseBlog Will be deprecated
+	{
+		$this->parseBlog();
+	}
 	public function parseBlog()
 	{
 		?>
@@ -677,6 +1006,9 @@ foreach($this->onTopContent as $c)
 	        	
 	        	
 	        	<!-- posts list -->
+                <?php $this->parseProductView();?>
+                <?php $this->parseSingleProductView();?>
+                <?php $this->parseCartList();?>
 				<?php $this->parseSingleBlogPost();?>
 	        	<?php $this->parseBlogPost();?>
 	        	<!-- ENDS posts list -->
@@ -983,8 +1315,6 @@ foreach($this->onTopContent as $c)
         <?php
 		}
 	}
-	
-		
 }
 
 

@@ -10,6 +10,7 @@ $this->appTableField(array(
 	'DESCRIPTION'	=> 'Créer, modifier et publié des articles pour votre blog.',
 	'TYPE'			=> 'BYPAGE',
 	'HAS_WIDGET'	=>	1,
+	'HAS_MENU'		=>	1,
 	'HUBBY_VERS'	=> 0.94
 ));
 $this->appSql(	

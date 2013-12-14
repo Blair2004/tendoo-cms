@@ -165,7 +165,7 @@ if(!function_exists('notice'))
 		$array['creatingHiddenControllerFailure']		=	hubby_warning('La cr&eacute;ation du contr&ocirc;leur invisible &agrave; &eacute;chou&eacute;');
 		$array['installFailed']				=	hubby_warning('Une erreur s\'est produite durant l\'installtion certaines composantes n\'ont pas &eacute;t&eacute; correctement install&eacute;es');
 		$array['db_connect_error']			=	hubby_warning('Connexion impossible,int&eacute;rrompu ou le nombre limit de connexion accord&eacute; &agrave; l\'utilisateur de la base de donn&eacute; est atteinte. Veuillez re-&eacute;ssayer.');
-		$array['themeTrashed']				=	hubby_warning('Une erreur s\'est produite avec le th&egrave;me. Ce th&egrave;me ne fonctionne pas correctement.');
+		$array['themeCrashed']				=	hubby_warning('Une erreur s\'est produite avec le th&egrave;me. Ce th&egrave;me ne fonctionne pas correctement.');
 		$array['noMainPage']				=	hubby_warning('Impossible d\'acc&eacute;der &agrave; la page principale du site. Aucun contr&ocirc;leur n\'a &eacute;t&eacute; d&eacute;finit comme principal');
 		$array['AdminAuthFailed']			=	hubby_warning('Mot de passe administrateur incorrect.');
 		
@@ -379,6 +379,20 @@ if(!function_exists('is_compatible'))
 		{
 			?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Erreur - Serveur incompatible</title><body><p>Le serveur sous lequel tourne ce site ne supporte pas certaines fonctionnalité. Hubby ne peut pas correctement s'ex&eacute;cuter</p></body></html><?php
 		}
+	}
+}
+if(!function_exists('__extends'))
+{
+	function __extends(&$object)
+	{
+		$Controller				=	Controller::instance();
+		$object->load			=&	$Controller->load;
+		$object->hubby			=&	$Controller->hubby;
+		$object->db				=	$Controller->db; // Il est mieux de faire une copie afin d'eviter le conflit de requêtes
+		$object->url			=&	$Controller->url;
+		$object->input			=&	$Controller->input;
+		$object->users_global	=&	$Controller->users_global;
+		$object->notice			=&	$Controller->notice;
 	}
 }
 ?>
