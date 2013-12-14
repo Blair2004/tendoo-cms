@@ -5,7 +5,7 @@ class hubby_index_manager_module_controller
 	{
 		__extends($this);
 		$this->data		=&		$data;
-		include_once(__DIR__.'/library.php');
+		include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library.php');
 		$this->lib					=	new hubby_index_manager_library;
 		$this->data['lib_options']	=	$this->lib->getOptions();
 	}
