@@ -12,205 +12,896 @@
                 </div>
             </header>
             <section class="vbox">
-                <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
-                    <div class="col-lg-12">
+                <section class="wrapper"> 
+				<?php echo $this->core->notice->parse_notice();?> 
+				<?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
+                    <div class="col-lg-2">
                         <section class="panel">
-                            <div class="panel-heading"> Param&ecirc;tres avanc&eacute;s </div>
+                            <div class="panel-heading"> Afficher : </div>
                             <div class="panel-body">
-                            	<p class="paragraph">Avec la gestion de la vitrine, personnaliser votre page d'accueil. D&eacute;finissez les &eacute;l&eacute;ments qui apparaissent et leur quantit&eacute;. La vitrine est divis&eacute;e en plusieurs parties, dans chaque partie, veuillez choisir les informations qui doivent &ecirc;tre affich&eacute;ees.</p>
-                                    <div class="span8">
-                                        <form method="post">
-                                            <div class="checkbox"> 
-                                                <label class="checkbox-custom"> 
-                                                	<input type="checkbox" name="allowPublicComment" checked="checked"> 
-                                                    <i class="icon-unchecked"></i>
-                                                    Carroussel et &eacute;l&eacute;ments assimil&eacute;s 
-                                                    <input class="btn btn-sm btn-info" type="submit" value="<?php
-                        echo $element	=	($elementOptions['CAROUSSEL']	=== TRUE) ? 'Retirer de la vitrine' : 'Ajouter &agrave; la vitrine';?>" name="toggle_carroussel" style="margin-left:10px;" />
-                        						</label> 
-                        					</div>
-                                        </form>
+                            	<form method="post" class="form">
+                                	<div class="form-group">
+                                    	<label class="label-control">Le caroussel</label>
+                                        <select name="showCarrousel" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <option 
+											<?php 
+											if(array_key_exists('SHOW_CAROUSSEL',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_CAROUSSEL'] == "0")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="0">Non</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_CAROUSSEL',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_CAROUSSEL'] == "1")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="1">Oui</option>
+                                        </select>
                                     </div>
-                                    <div class="span8">
-                                        <form method="post">
-                                            <?php
-                        		if(is_array($newsModule) && count($newsModule) > 0)
-                        		{
-									?>
-                                            <div class="bg-primary" style="padding:10px">
-                                                <h4 class="fg-color-white">Gestionnaire d'articles ou publications</h4>
-                                                <div class="checkbox">
-                                                <label class="checkbox-custom"> 
-                                                	<input type="checkbox" name="allowPublicComment" checked="checked"> 
-                                                    <i class="icon-unchecked"></i>
-                                                    Afficher les articles ou publications
-                                                    <input class="form-control" type="checkbox" name="on_caroussel" <?php
-                                        echo $response	=	((bool)$newsOptions['CAROUSSEL']['SHOW'] === TRUE) ? 'checked="checked"' : ''
-                                        ;?> value="TRUE"/>
-                        						</label>
-                                                </div>
-                                                    
-                                                <label>Nombre total des articles ou publications	:
-                                                    <select name="caroussel_art_limit">
-                                                        <?php
-                                            for($i = 1;$i <= 20;$i++)
-                                            {
-                                                if($i == $newsOptions['CAROUSSEL']['LIMIT'])
-                                                {
-                                                    ?>
-                                                        <option value="<?php echo $i;?>" selected="selected"><?php echo $i;?></option>
-                                                        <?php
-                                                }
-                                                else
-                                                {
-                                                    ?>
-                                                        <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                                        <?php
-                                                }
-                                            }
-                                            ?>
-                                                    </select>
-                                                </label>
-                                                <?php
-                                        echo $newsOptionNotice->parse_notice();
-                                        ?>
-                                                <p>
-                                                    <input type="submit" value="Enregistrer" />
-                                                </p>
-                                            </div>
-                                            <?php
-								}
-                        		else
-                        		{
-								?>
-                                            <p class="paragraph">Le gestionnaire d'article et de publication n'est pas install&eacute;, il ne peut pas figurer parmis les &eacute;l&eacute;ment de la vitrine</p>
-                                            <?php
-								};
-                        		?>
-                                        </form>
+                                    <div class="form-group">
+                                    	<label class="label-control">Eléments r&eacute;cents</label>
+                                        <select name="showLastest" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_LASTEST',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_LASTEST'] == "0")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="0">Non</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_LASTEST',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_LASTEST'] == "1")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="1">Oui</option>
+                                        </select>
                                     </div>
-                                    <div class="span8" style="margin-top:10px;">
-                                        <form method="post" class="panel-body">
-                                        	<div class="form-group"> 
-                                                <label class="checkbox-custom">A la une et &eacute;l&eacute;ments assimil&eacute;s</label>
-                                                <input class="btn btn-info btn-sm" type="submit" value="<?php
-                                echo $element	=	($elementOptions['ONTOP']	=== TRUE) ? 'Retirer de la vitrine' : 'Ajouter &agrave; la vitrine';?>" name="toggle_ontop" />
-											</div>
-                                        </form>
+                                    <div class="form-group">
+                                    	<label class="label-control">Eléments au top</label>
+                                        <select name="showFeatured" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_FEATURED',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_FEATURED'] == "0")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="0">Non</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_FEATURED',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_FEATURED'] == "1")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="1">Oui</option>
+                                        </select>
                                     </div>
-                                    <div class="span8">
-                                        <form method="post">
-                                            <?php
-                                    if(is_array($newsModule) && count($newsModule) > 0)
-                                    {
-                                        ?>
-                                            <div class="bg-color-darken fg-color-white" style="padding:10px;">
-                                                <h4 class="fg-color-white">Gestionnaire d'articles ou publications</h4>
-                                                <label>Afficher les articles ou publications	:
-                                                    <input type="checkbox" name="news_showed_ontop" <?php
-                                        echo $response	=	((bool)$newsOptions['ONTOP']['SHOW'] === TRUE) ? 'checked="checked"' : ''
-                                        ;?> value="TRUE"/>
-                                                </label>
-                                                <label>Nombre total des articles ou publications	:
-                                                    <select name="news_showed_ontop_limit">
-                                                        <?php
-                    for($i = 1;$i <= 20;$i++)
-                    {
-                        if($i == $newsOptions['ONTOP']['LIMIT'])
-                        {
-						?>
-                                                        <option value="<?php echo $i;?>" selected="selected"><?php echo $i;?></option>
-                                                        <?php
-						}
-						else
-						{
-							?>
-                                                        <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                                        <?php
-						}
-					}
-					?>
-                                                    </select>
-                                                </label>
-                                                <br />
-                                                <?php echo $onTopNewsNotice->parse_notice();?>
-                                                <p>
-                                                    <input type="submit" value="Enregistrer" />
-                                                </p>
-                                            </div>
-                                            <?php
-				}
-				else
-				{
-					?>
-                                            <p class="paragraph">Le gestionnaire d'article et de publication n'est pas install&eacute;, il ne peut pas figurer parmis les &eacute;l&eacute;ment de la vitrine</p>
-                                            <?php
-				};
-				?>
-                                        </form>
+                                    <div class="form-group">
+                                    	<label class="label-control">Dossier d'&eacute;l&eacute;ments</label>
+                                        <select name="showTabShowCase" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_TABSHOWCASE',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_TABSHOWCASE'] == "0")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="0">Non</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_TABSHOWCASE',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_TABSHOWCASE'] == "1")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="1">Oui</option>
+                                        </select>
                                     </div>
-                                    <div class="span8" style="margin-top:10px;">
-                                        <form method="post">
-                                            <h5 class="float_box">Bloc d'information et &eacute;l&eacute;ments assimil&eacute;s<span class="floatR">
-                                                <input type="submit" style="margin-left:10px;" value="<?php
-                                echo $element	=	($elementOptions['INFOSMALLDETAILS']	=== TRUE) ? 'Retirer de la vitrine' : 'Ajouter &agrave; la vitrine';?>" name="toogle_infosmalldetails" />
-                                                </span></h5>
-                                        </form>
+                                    <div class="form-group">
+                                    	<label class="label-control">Liste d'info.</label>
+                                        <select name="showSmallDetails" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_SMALLDETAILS',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_SMALLDETAILS'] == "0")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="0">Non</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_SMALLDETAILS',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_SMALLDETAILS'] == "1")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="1">Oui</option>
+                                        </select>
                                     </div>
-                                    <div class="span8" style="margin-top:10px;">
-                                        <form method="post">
-                                            <?php
-                            if(is_array($newsModule) && count($newsModule) > 0)
-                            {
-                                ?>
-                                            <div class="bg-color-blue fg-color-white" style="padding:10px;">
-                                                <h4 class="fg-color-white">Gestionnaire d'articles ou publications</h4>
-                                                <label>Afficher les articles ou publications	:
-                                                    <input type="checkbox" name="news_on_infodetails" <?php
-                                echo $response	=	((bool)$newsOptions['INFOSMALLDETAILS']['SHOW'] === TRUE) ? 'checked="checked"' : ''
-                                ;?> value="TRUE"/>
-                                                </label>
-                                                <label>Nombre total des articles ou publications	:
-                                                    <select name="infodetails_art_limit">
-                                                        <?php
-                                            for($i = 1;$i <= 20;$i++)
-                                            {
-                                                if($i == $newsOptions['INFOSMALLDETAILS']['LIMIT'])
-                                                {
-                                                    ?>
-                                                        <option value="<?php echo $i;?>" selected="selected"><?php echo $i;?></option>
-                                                        <?php
-                                                }
-                                                else
-                                                {
-                                                    ?>
-                                                        <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                                        <?php
-                                                }
-                                            }
-                                            ?>
-                                                    </select>
-                                                </label>
-                                                <br />
-                                                <?php echo $Sf_newsNotice->parse_notice();?>
-                                                <p>
-                                                    <input type="submit" value="Enregistrer" />
-                                                </p>
-                                            </div>
-                                            <?php
-                            }
-                            else
-                            {
-                                ?>
-                                            <p class="paragraph">Le gestionnaire d'article et de publication n'est pas install&eacute;, il ne peut pas figurer parmis les &eacute;l&eacute;ment de la vitrine</p>
-                                            <?php
-                            };
-                            ?>
-                                        </form>
+                                    <div class="form-group">
+                                    	<label class="label-control">Gallerie d'image</label>
+                                        <select name="showGallery" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_GALLERY',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_GALLERY'] == "0")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="0">Non</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_GALLERY',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_GALLERY'] == "1")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="1">Oui</option>
+                                        </select>
                                     </div>
+                                    <div class="form-group">
+                                    	<label class="label-control">"&agrave; propos de nous"</label>
+                                        <select name="showAboutUs" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_ABOUTUS',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_ABOUTUS'] == "0")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="0">Non</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_ABOUTUS',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_ABOUTUS'] == "1")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="1">Oui</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                    	<label class="label-control">"nos partenaires"</label>
+                                        <select name="showPartner" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_PARTNERS',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_PARTNERS'] == "0")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="0">Non</option>
+                                            <option <?php 
+											if(array_key_exists('SHOW_PARTNERS',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SHOW_PARTNERS'] == "1")
+												{
+													?> selected="selected" <?php
+												}
+											};
+											?> value="1">Oui</option>
+                                        </select>
+                                    </div>
+                                    <input name="section1" type="submit" value="Enregistrer" class="btn btn-info" />
+                                </form>
                             </div>
                         </section>
                     </div>
+                    <div class="col-lg-4">
+                        <section class="panel">
+                            <div class="panel-heading"> Param&ecirc;tres des titres </div>
+                            <div class="panel-body">
+                            	<form class="form" method="post">
+                                	<div class="form-group">
+                                    	<label class="label-control">Titre Caroussel</label>
+                                        <input name="carousselTitle" class="form-control" placeholder="Exemple : Acualit&eacute;" value="<?php 
+											if(array_key_exists('CAROUSSEL_TITLE',$lib_options[0]))
+											{ 
+												if($lib_options[0]['CAROUSSEL_TITLE'] != "")
+												{
+													echo $lib_options[0]['CAROUSSEL_TITLE'];
+												}
+											};
+											?>" />
+                                    </div>
+                                	<div class="form-group">
+                                    	<label class="label-control">Titre &eacute;l&eacute;ments r&eacute;cents</label>
+                                        <input name="lastestTitle" class="form-control" placeholder="Exemple : Acualit&eacute;" value="<?php 
+											if(array_key_exists('LASTEST_TITLE',$lib_options[0]))
+											{ 
+												if($lib_options[0]['LASTEST_TITLE'] != "")
+												{
+													echo $lib_options[0]['LASTEST_TITLE'];
+												}
+											};
+											?>" />
+                                    </div>
+                                	<div class="form-group">
+                                    	<label class="label-control">Titre &eacute;l&eacute;ments en avant</label>
+                                        <input name="featuredTitle" class="form-control" placeholder="Exemple : Au top" value="<?php 
+											if(array_key_exists('FEATURED_TITLE',$lib_options[0]))
+											{ 
+												if($lib_options[0]['FEATURED_TITLE'] != "")
+												{
+													echo $lib_options[0]['FEATURED_TITLE'];
+												}
+											};
+											?>" />
+                                    </div>
+                                	<div class="form-group">
+                                    	<label class="label-control">Titre dossier d'&eacute;l&eacute;ments</label>
+                                        <input name="tabShowCaseTitle" class="form-control" placeholder="Exemple : Nos informations" value="<?php 
+											if(array_key_exists('TABSHOWCASE_TITLE	',$lib_options[0]))
+											{ 
+												if($lib_options[0]['TABSHOWCASE_TITLE	'] != "")
+												{
+													echo $lib_options[0]['TABSHOWCASE_TITLE	'];
+												}
+											};
+											?>" />
+                                    </div>
+                                	<div class="form-group">
+                                    	<label class="label-control">Titre Liste d'information textuelle</label>
+                                        <input name="smarTitle" class="form-control" placeholder="Exemple : Nos services" value="<?php 
+											if(array_key_exists('SMALLDETAIL_TITLE',$lib_options[0]))
+											{ 
+												if($lib_options[0]['SMALLDETAIL_TITLE'] != "")
+												{
+													echo $lib_options[0]['SMALLDETAIL_TITLE'];
+												}
+											};
+											?>" />
+                                    </div>
+                                	<div class="form-group">
+                                    	<label class="label-control">Titre Gallerie</label>
+                                        <input name="galleryTitle" class="form-control" placeholder="Exemple : Gallerie photo" value="<?php 
+											if(array_key_exists('GALSHOWCASE_TITLE',$lib_options[0]))
+											{ 
+												if($lib_options[0]['GALSHOWCASE_TITLE'] != "")
+												{
+													echo $lib_options[0]['GALSHOWCASE_TITLE'];
+												}
+											};
+											?>" />
+                                    </div>
+                                	<div class="form-group">
+                                    	<label class="label-control">Titre "&agrave; propos de nous"</label>
+                                        <input name="aboutUsTitle" class="form-control" placeholder="Exemple : A propos de nous" value="<?php 
+											if(array_key_exists('ABOUTUS_TITLE',$lib_options[0]))
+											{ 
+												if($lib_options[0]['ABOUTUS_TITLE'] != "")
+												{
+													echo $lib_options[0]['ABOUTUS_TITLE'];
+												}
+											};
+											?>" />
+                                    </div>
+                                	<div class="form-group">
+                                    	<label class="label-control">Titre "nos partenaire"</label>
+                                        <input name="partnerTitle" class="form-control" placeholder="Exemple : Nos partenaires" value="<?php 
+											if(array_key_exists('PARTNER_TITLE',$lib_options[0]))
+											{ 
+												if($lib_options[0]['PARTNER_TITLE'] != "")
+												{
+													echo $lib_options[0]['PARTNER_TITLE'];
+												}
+											};
+											?>" />
+                                    </div>
+                                    <input type="submit" name="section2" value="Enregistrer" class="btn btn-info" />
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-lg-3">
+                        <section class="panel">
+                            <div class="panel-heading"> Que faut-il afficher dans :</div>
+                            <div class="panel-body">
+                                <form method="post" class="form">
+                                	<div class="form-group">
+                                    	<label class="label-control">Le caroussel</label>
+                                        <select name="CarousselmoduleExtension" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <?php
+											if(is_array($apizedMod))
+											{
+												foreach($apizedMod as $a)
+												{
+													if(is_array($lib_options))
+													{
+														if(array_key_exists('ON_CAROUSSEL',$lib_options[0]))
+														{
+															if($lib_options[0]['ON_CAROUSSEL'] == $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'])
+															{
+												?>
+                                                <option selected="selected" value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+															else
+															{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+														}
+														else
+														{
+													?>
+													<option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+													<?php
+														}
+													}
+													else
+													{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+													}
+												}
+											}
+											?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                    	<label class="label-control">Les éléments r&eacute;cents</label>
+                                        <select name="LastestExtension" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <?php
+											if(is_array($apizedMod))
+											{
+												foreach($apizedMod as $a)
+												{
+													if(is_array($lib_options))
+													{
+														if(array_key_exists('ON_LASTEST',$lib_options[0]))
+														{
+															if($lib_options[0]['ON_LASTEST'] == $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'])
+															{
+												?>
+                                                <option selected="selected" value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+															else
+															{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+														}
+														else
+														{
+													?>
+													<option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+													<?php
+														}
+													}
+													else
+													{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+													}
+												}
+											}
+											?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                    	<label class="label-control">Les éléments au top</label>
+                                        <select name="FeaturedExtension" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <?php
+											if(is_array($apizedMod))
+											{
+												foreach($apizedMod as $a)
+												{
+													if(is_array($lib_options))
+													{
+														if(array_key_exists('ON_FEATURED',$lib_options[0]))
+														{
+															if($lib_options[0]['ON_FEATURED'] == $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'])
+															{
+												?>
+                                                <option selected="selected" value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+															else
+															{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+														}
+														else
+														{
+													?>
+													<option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+													<?php
+														}
+													}
+													else
+													{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+													}
+												}
+											}
+											?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                    	<label class="label-control">Le dossier d'&eacute;l&eacute;ments</label>
+                                        <select name="TabShowCaseExtension" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <?php
+											if(is_array($apizedMod))
+											{
+												foreach($apizedMod as $a)
+												{
+													if(is_array($lib_options))
+													{
+														if(array_key_exists('ON_TABSHOWCASE',$lib_options[0]))
+														{
+															if($lib_options[0]['ON_TABSHOWCASE'] == $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'])
+															{
+												?>
+                                                <option selected="selected" value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+															else
+															{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+														}
+														else
+														{
+													?>
+													<option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+													<?php
+														}
+													}
+													else
+													{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+													}
+												}
+											}
+											?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                    	<label class="label-control">La liste d'information textuelle</label>
+                                        <select name="SmallDetailsExtension" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <?php
+											if(is_array($apizedMod))
+											{
+												foreach($apizedMod as $a)
+												{
+													if(is_array($lib_options))
+													{
+														if(array_key_exists('ON_SMALLDETAILS',$lib_options[0]))
+														{
+															if($lib_options[0]['ON_SMALLDETAILS'] == $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'])
+															{
+												?>
+                                                <option selected="selected" value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+															else
+															{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+														}
+														else
+														{
+													?>
+													<option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+													<?php
+														}
+													}
+													else
+													{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+													}
+												}
+											}
+											?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                    	<label class="label-control">La gallerie d'image</label>
+                                        <select name="GalleryExtension" class="form-control">
+                                        	<option value="">Choisir...</option>
+                                            <?php
+											if(is_array($apizedMod))
+											{
+												foreach($apizedMod as $a)
+												{
+													if(is_array($lib_options))
+													{
+														if(array_key_exists('ON_GALLERY',$lib_options[0]))
+														{
+															if($lib_options[0]['ON_GALLERY'] == $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'])
+															{
+												?>
+                                                <option selected="selected" value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+															else
+															{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+															}
+														}
+														else
+														{
+													?>
+													<option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+													<?php
+														}
+													}
+													else
+													{
+												?>
+                                                <option value="<?php echo $a['API_MODULE_NAMESPACE'].'/'.$a['API_NAMESPACE'];?>"><?php echo $a['API_HUMAN_NAME'];?></option>
+                                                <?php
+													}
+												}
+											}
+											?>
+                                        </select>
+                                    </div>
+                                    <input type="submit" name="section3" value="Enregistrer" class="btn btn-info" />
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-sm-3">
+                        <section class="panel">
+                            <div class="panel-heading"> Limite des &eacute;l&eacute;ments &agrave; afficher dans :</div>
+                            <div class="panel-body">
+                                <form method="post" class="form">
+                                    <div class="form-group">
+                                        <label class="label-control">Le caroussel</label>
+                                        <select name="carousselLimit" class="form-control">
+                                            <option value="">Choisir...</option>
+                                            <?php
+                                            for($i = 1;$i<= 30;$i++)
+                                            {
+												if(is_array($lib_options))
+												{
+													if(array_key_exists('CAROUSSEL_LIMIT',$lib_options[0]))
+													{
+														if((int)$lib_options[0]['CAROUSSEL_LIMIT'] == $i)
+														{
+														?>
+                                            <option selected="selected" value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+														else
+														{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+													}
+													else
+													{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+													}
+												}
+												else
+												{
+                                                ?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                <?php
+												}
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-control">Les éléments r&eacute;cents</label>
+                                        <select name="lastestLimit" class="form-control">
+                                            <option value="">Choisir...</option>
+                                            <?php
+                                            for($i = 1;$i<= 30;$i++)
+                                            {
+												if(is_array($lib_options))
+												{
+													if(array_key_exists('LASTEST_LIMIT',$lib_options[0]))
+													{
+														if((int)$lib_options[0]['LASTEST_LIMIT'] == $i)
+														{
+														?>
+                                            <option selected="selected" value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+														else
+														{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+													}
+													else
+													{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+													}
+												}
+												else
+												{
+                                                ?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                <?php
+												}
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-control">Les éléments au top</label>
+                                        <select name="featuredLimit" class="form-control">
+                                            <option value="">Choisir...</option>
+                                            <?php
+                                            for($i = 1;$i<= 30;$i++)
+                                            {
+												if(is_array($lib_options))
+												{
+													if(array_key_exists('FEATURED_LIMIT',$lib_options[0]))
+													{
+														if((int)$lib_options[0]['FEATURED_LIMIT'] == $i)
+														{
+														?>
+                                            <option selected="selected" value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+														else
+														{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+													}
+													else
+													{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+													}
+												}
+												else
+												{
+                                                ?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                <?php
+												}
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-control">Le dossier d'&eacute;l&eacute;ments</label>
+                                        <select name="tabShowCaseLimit" class="form-control">
+                                            <option value="">Choisir...</option>
+                                            <?php
+                                            for($i = 1;$i<= 30;$i++)
+                                            {
+												if(is_array($lib_options))
+												{
+													if(array_key_exists('TABSHOWCASE_LIMIT',$lib_options[0]))
+													{
+														if((int)$lib_options[0]['TABSHOWCASE_LIMIT'] == $i)
+														{
+														?>
+                                            <option selected="selected" value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+														else
+														{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+													}
+													else
+													{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+													}
+												}
+												else
+												{
+                                                ?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                <?php
+												}
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-control">La liste d'information textuelle</label>
+                                        <select name="smartLimit" class="form-control">
+                                            <option value="">Choisir...</option>
+                                            <?php
+                                            for($i = 1;$i<= 30;$i++)
+                                            {
+												if(is_array($lib_options))
+												{
+													if(array_key_exists('SMALLDETAILS_LIMIT',$lib_options[0]))
+													{
+														if((int)$lib_options[0]['SMALLDETAILS_LIMIT'] == $i)
+														{
+														?>
+                                            <option selected="selected" value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+														else
+														{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+													}
+													else
+													{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+													}
+												}
+												else
+												{
+                                                ?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                <?php
+												}
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-control">La gallerie d'image</label>
+                                        <select name="galleryLimit" class="form-control">
+                                            <option value="">Choisir...</option>
+                                            <?php
+                                            for($i = 1;$i<= 30;$i++)
+                                            {
+												if(is_array($lib_options))
+												{
+													if(array_key_exists('GALLERY_LIMIT',$lib_options[0]))
+													{
+														if((int)$lib_options[0]['GALLERY_LIMIT'] == $i)
+														{
+														?>
+                                            <option selected="selected" value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+														else
+														{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+														}
+													}
+													else
+													{
+														?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                        <?php
+													}
+												}
+												else
+												{
+                                                ?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                                <?php
+												}
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <input name="section4" type="submit" value="Enregistrer" class="btn btn-info" />
+                                </form>
+                            </div>
+                        </section>
+</div>
+					<br />
+                    <div class="col-lg-11">
+                        <section class="panel">
+                            <div class="panel-heading"> Param&ecirc;tres du contenu statique </div>
+                            <div class="panel-body">
+                                <div class="col-lg-12">
+                                    <form method="post" class="form">
+                                        <div class="form-group">
+                                        <?php
+										$default1	=	'';
+										if(is_array($lib_options))
+										{
+											if(array_key_exists('ABOUTUS_CONTENT',$lib_options[0]))
+											{
+												$default1	=	$lib_options[0]['ABOUTUS_CONTENT'];
+											}
+										}
+										?>
+                                            <label class="label-control">A propos de nous</label>
+                                            <?php echo $this->core->hubby->getEditor(array('name'=>'aboutUsContent','defaultValue'	=>	$default1));?>
+                                        </div>
+                                        <input name="section5" type="submit" value="Enregistrer" class="btn btn-info" />
+                                    </form>
+                                </div>
+                                <div class="col-lg-12">
+                                    <form method="post" class="form">
+                                    	<?php
+										$default2	=	'';
+										if(is_array($lib_options))
+										{
+											if(array_key_exists('PARTNERS_CONTENT',$lib_options[0]))
+											{
+												$defaul2	=	$lib_options[0]['PARTNERS_CONTENT'];
+											}
+										}
+										?>
+                                        <div class="form-group">
+                                            <label class="label-control">Nos partenaires</label>
+                                            <?php echo $this->core->hubby->getEditor(array('name'=>'ourPartner','defaultValue'	=>	$default2));?>
+                                        </div>
+                                        <input  name="section6" type="submit" value="Enregistrer" class="btn btn-info" />
+                                    </form>
+                                </div>
+							</div>
+                        </section>
+                    </div>
+                </section>
+                <secttion class="wrapper">
                 </section>
             </section>
         </section>

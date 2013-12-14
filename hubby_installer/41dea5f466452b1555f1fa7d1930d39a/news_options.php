@@ -1,1 +1,0 @@
-<?php  $OPTIONS["CAROUSSEL"]	=	array("LIMIT" => 4,"SHOW" => TRUE); $OPTIONS["INFOSMALLDETAILS"]	=	array("LIMIT" => 3,"SHOW" => TRUE); $OPTIONS["ONTOP"]	=	array("LIMIT" => 13,"SHOW" => TRUE);

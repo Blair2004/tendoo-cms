@@ -1,167 +1,152 @@
 <?php
-	if(class_exists('hubby_admin'))
+class Hubby_index_manager_library
+{
+	public function __construct()
 	{
-		class Index_mod_admin
+		__extends($this);
+	}
+	public function getOptions()
+	{
+		$query	=	$this->db->get('hubby_index_manager');
+		return $query->result_array();
+	}
+	public function setFirstOptions($showCarroussel,$showAboutUs,$showFeatures,$showGallery,$showLastest,$showPartners,$showSmallDetails,$showTabShowCase)
+	{
+		$options	=	$this->getOptions();
+		$value		=	array(
+				'SHOW_CAROUSSEL'		=>		in_array((int)$showCarroussel,array(1,0)) 	? $showCarroussel 	: 0,
+				'SHOW_FEATURED'			=>		in_array((int)$showFeatures,array(1,0)) 	? $showFeatures 	: 0,
+				'SHOW_GALLERY'			=>		in_array((int)$showGallery,array(1,0)) 		? $showGallery 		: 0,
+				'SHOW_LASTEST'			=>		in_array((int)$showLastest,array(1,0)) 		? $showLastest 		: 0,
+				'SHOW_PARTNERS'			=>		in_array((int)$showPartners,array(1,0)) 	? $showPartners 	: 0,
+				'SHOW_SMALLDETAILS'		=>		in_array((int)$showSmallDetails,array(1,0)) ? $showSmallDetails	: 0,
+				'SHOW_TABSHOWCASE'		=>		in_array((int)$showTabShowCase,array(1,0)) 	? $showTabShowCase 	: 0,
+				'SHOW_ABOUTUS'			=>		in_array((int)$showAboutUs,array(1,0)) 	? $showAboutUs 	: 0,
+		);
+		if(count($options) > 0)
 		{
-			private $data;
-			private $core;
-			private $newsModule;
-			private $newsOptFile;
-			private $elementOptFile;
-			private $newsOpt;
-			private $elementOpt;
-			private $access;
-			public function __construct($data)
-			{
-				$this->newsOptFile		=	MODULES_DIR.$data['module'][0]['ENCRYPTED_DIR'].'/news_options.php';
-				$this->elementOptFile	=	MODULES_DIR.$data['module'][0]['ENCRYPTED_DIR'].'/element_options.php';
-				if(!is_file($this->newsOptFile) && !is_file($this->elementOptFile))
-				{
-					$this->access  	= FALSE;
-				}
-				else
-				{
-					include_once($this->newsOptFile);
-					include_once($this->elementOptFile);
-					$this->newsOpt		=&	$OPTIONS;
-					$this->elementOpt	=&	$ELEMENT_OPTIONS;
-					$this->access		= 	TRUE;
-				}
-				$this->data				= 	$data;
-				$this->core				=	$this->data['core'];
-				$this->newsModule		=	$this->core->hubby_admin->getSpeMod('news',FALSE);
-			}
-			public function &getNewsOpt()
-			{
-				return $this->newsOpt;
-			}
-			public function &getElementOpt()
-			{
-				return $this->elementOpt;
-			}
-			public function getAccess()
-			{
-				return $this->access;
-			}
-			public function getMenu()
-			{
-			}
-			public function setNewsOpt($NEW_OPTIONS)
-			{
-				$file	=	fopen($this->newsOptFile,'w+');
-				$options_string	=	'<?php ';
-				foreach($NEW_OPTIONS as $k => $val)
-				{
-					$options_string	.= ' $OPTIONS["'.$k.'"]	=	';
-					if(is_array($val))
-					{
-						$start	=	0;
-						$options_string	.= 'array(';
-						foreach($val as $_k => $v)
-						{
-							if(is_bool($v))
-							{
-								$str_v	=	($v === TRUE) ? 'TRUE' : 'FALSE';
-							}
-							else
-							{
-								$str_v	=	$v;
-							}
-							if($start == (count($val) -1))
-							{
-								$options_string	.=	'"'.$_k.'" => '.$str_v;
-							}
-							else
-							{
-								$options_string	.=	'"'.$_k.'" => '.$str_v.',';
-							}
-							$start++;
-						}
-						$options_string	.= ');';
-					}
-					else
-					{
-						$options_string	.= $val.';';
-					}
-				}
-				fwrite($file,$options_string);
-				fclose($file);
-				eval(substr($options_string,5));
-				$this->newsOpt	=	$OPTIONS;
-			}
-			public function toggleElement($element)
-			{
-				switch($element)
-				{
-					case 'CAROUSSEL'			:	$this->elementOpt['CAROUSSEL']				= ($this->elementOpt['CAROUSSEL'] === TRUE) ? FALSE : TRUE;break;
-					case 'ONTOP'				:	$this->elementOpt['ONTOP']					= ($this->elementOpt['ONTOP'] === TRUE) 	? FALSE : TRUE;break;
-					case 'INFOSMALLDETAILS'		:	$this->elementOpt['INFOSMALLDETAILS']		= ($this->elementOpt['INFOSMALLDETAILS'] === TRUE) 	? FALSE : TRUE;break;
-				}
-				$file	=	fopen($this->elementOptFile,'w+');
-				fwrite($file,$this->sprawnElementCode($this->elementOpt));
-				fclose($file);
-			}
-			private function sprawnElementCode($array)
-			{
-				$options_string	=	'<?php ';
-				foreach($this->elementOpt as $k => $val)
-				{
-					$options_string	.= ' $ELEMENT_OPTIONS["'.$k.'"]	=	';
-					if(is_array($val))
-					{
-						$options_string	.= 'array(';
-						foreach($val as $_k => $v)
-						{
-							if(next($val) === FALSE)
-							{
-								$options_string	.=	'"'.$_k.'" => '.$v;
-							}
-							else
-							{
-								$options_string	.=	'"'.$_k.'" => '.$v.',';
-							}
-						}
-						$options_string	.= ');';
-					}
-					else
-					{
-						$final_value	=	'';
-						if(is_bool($val))
-						{
-							$final_value	=	 ($val === TRUE) ? 'TRUE' : 'FALSE';
-						}
-						$options_string	.= $final_value.';';
-					}
-				}
-				return $options_string;
-			}
-			public function getNewsModule()
-			{
-				return $this->newsModule;
-			}
-			public function setNewsOptions($options)
-			{
-			}
+			return	$this->db->update('hubby_index_manager',$value);
+		}
+		else
+		{
+			return	$this->db->insert('hubby_index_manager',$value);
+		}
+		return false;
+	}
+	public function setSecondOptions($aboutUsTitle,$partnersTitle,$galshowCaseTitle,$featuredTitle,$carousselTitle,$smallDetailsTItle,$tabShowCaseTitle,$lastestTitle)
+	{
+		$options	=	$this->getOptions();
+		$values		=	array(
+			'ABOUTUS_TITLE'				=>		$aboutUsTitle,
+			'PARTNER_TITLE'				=>		$partnersTitle,
+			'GALSHOWCASE_TITLE'			=>		$galshowCaseTitle,
+			'FEATURED_TITLE'			=>		$featuredTitle,
+			'LASTEST_TITLE'				=>		$lastestTitle,
+			'CAROUSSEL_TITLE'			=>		$carousselTitle,
+			'SMALLDETAIL_TITLE'			=>		$smallDetailsTItle,
+			'TABSHOWCASE_TITLE'			=>		$tabShowCaseTitle
+		);
+		if(count($options) > 0)
+		{
+			return $this->db->update('hubby_index_manager',$values);
+		}
+		else
+		{
+			return $this->db->insert('hubby_index_manager',$values);
+		}
+		return false;
+	}
+	public function setThridOptions($onCaroussel,$onFeatured,$onGallery,$onLastest,$smallDetails,$onTabShowCase)
+	{
+		$options	=	$this->getOptions();
+		$values		=	array(
+			'ON_CAROUSSEL'		=>	$onCaroussel,
+			'ON_FEATURED'		=>	$onFeatured,
+			'ON_GALLERY'		=>	$onGallery,
+			'ON_LASTEST'		=>	$onLastest,
+			'ON_SMALLDETAILS'	=>	$smallDetails,
+			'ON_TABSHOWCASE'	=>	$onTabShowCase
+		);
+		if(count($options) > 0)
+		{
+			return $this->db->update('hubby_index_manager',$values);
+		}
+		else
+		{
+			return $this->db->insert('hubby_index_manager',$values);
 		}
 	}
-	if(class_exists('hubby'))
+	public function setQuadOptions($abousUsText)
 	{
-		class Index_mod_user
+		$options	=	$this->getOptions();
+		$values		=	array(
+			'ABOUTUS_CONTENT'		=>	$abousUsText
+		);
+		if(count($options) > 0)
 		{
-			private $core;
-			public function __construct()
-			{
-				$this->core	=	Controller::instance();
-			}
-			public function getNews($start,$end)
-			{
-				$query	=	$this->core->db->limit($end,$start)->where('ETAT','1')->order_by('ID','desc')->get('hubby_news');
-				return $query->result_array();
-			}
-			public function getControllerNameAttachedToNewsMod()
-			{
-				$query	=	$this->core->db->where('PAGE_MODULES','news')->get('hubby_controllers');
-				return $query->result_array();
-			}
-		}	
+			return $this->db->update('hubby_index_manager',$values);
+		}
+		else
+		{
+			return $this->db->insert('hubby_index_manager',$values);
+		}
 	}
+	public function setSixOptions($partnersText)
+	{
+		$options	=	$this->getOptions();
+		$values		=	array(
+			'PARTNERS_CONTENT'		=>	$partnersText
+		);
+		if(count($options) > 0)
+		{
+			return $this->db->update('hubby_index_manager',$values);
+		}
+		else
+		{
+			return $this->db->insert('hubby_index_manager',$values);
+		}
+	}
+	public function setFiftOptions($carousselLimit,$featuredLimit,$lastestLimit,$galleryLimit,$tabShowCaseLimit,$smallDetailsLimit)
+	{
+		$options	=	$this->db->get('hubby_index_manager');
+		$values		=	array(
+			'CAROUSSEL_LIMIT'		=>		$carousselLimit,
+			'FEATURED_LIMIT'		=>		$featuredLimit,
+			'GALLERY_LIMIT'			=>		$galleryLimit,
+			'LASTEST_LIMIT'			=>		$lastestLimit,
+			'SMALLDETAILS_LIMIT'	=>		$smallDetailsLimit,
+			'TABSHOWCASE_LIMIT'		=>		$tabShowCaseLimit
+		);
+		if(count($options) > 0)
+		{
+			return $this->db->update('hubby_index_manager',$values);
+		}
+		else
+		{
+			return $this->db->insert('hubby_index_manager',$values);
+		}
+	}
+	public function getApiModules() // permet la récupération de certains éléments d'un module.
+	{
+		$query	=	$this->db->where('HAS_API',1)->get('hubby_modules');
+		$result	=	$query->result_array();
+		if($result)
+		{
+			$final	=	array();
+			foreach($result as $module)
+			{
+				$file	=	MODULES_DIR.$module['ENCRYPTED_DIR'].'/config/api_config.php';
+				if(is_file($file))
+				{
+					include($file);
+					foreach($API_CONFIG as $api)
+					{
+						$final[]	=	$api;
+					}
+				}
+			}
+			return $final;
+		}
+		return false;
+	}
+}
