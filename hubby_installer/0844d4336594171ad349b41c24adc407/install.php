@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 $this->installSession();
 $this->appType('MODULE');
 $this->appVers(0.1);
@@ -11,6 +11,7 @@ $this->appTableField(array(
 	'TYPE'			=> 'BYPAGE',
 	'HAS_WIDGET'	=>	1,
 	'HAS_MENU'		=>	1,
+	'HAS_API'	=>	1,
 	'HUBBY_VERS'	=> 0.94
 ));
 $this->appSql(	
