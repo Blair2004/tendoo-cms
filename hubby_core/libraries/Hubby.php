@@ -291,7 +291,9 @@ class Hubby
 			if($module)
 			{
 				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
-				$lib					=	new widhandler_lib(null);
+				$lib					=	new widhandler_lib(array(
+					'module_dir'		=>	MODULES_DIR.$module[0]['ENCRYPTED_DIR']
+				));
 				$lib->createSpecialWidget('Cat&eacute;gories','articles publi&eacute;','news/aflecatdi');
 				$lib->activateWidget(1);
 				$lib->createSpecialWidget('Au top','les articles les plus lues','news/aflearlep');
