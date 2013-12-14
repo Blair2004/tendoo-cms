@@ -137,7 +137,7 @@ class Input {
 			return $this->security->xss_clean($array[$index]);
 		}
 
-		return stripslashes($array[$index]); // For server that allow slashes on post datas
+		return $array[$index];
 	}
 
 	// --------------------------------------------------------------------
