@@ -105,7 +105,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		
 		$this->core->form_validation->set_rules('super_admin_pseudo','Pseudo','trim|required|min_length[5]|max_length[15]');
 		$this->core->form_validation->set_rules('super_admin_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
-		$this->core->form_validation->set_rules('super_admin_password_confirm','Confirmer le mot de passe','trim|required|min_length[6]|max_length[15]');
+		$this->core->form_validation->set_rules('super_admin_password_confirm','Confirmer le mot de passe','trim|required|min_length[6]|matches[super_admin_password]');
 		$this->core->form_validation->set_rules('super_admin_mail','Email','trim|valid_email|required');
 		$this->core->form_validation->set_rules('super_admin_sex','Selection du sexe','trim|required|min_length[3]|max_length[4]');
 		if($this->core->form_validation->run())
