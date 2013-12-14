@@ -52,6 +52,24 @@ class Hubby
 		{
 			return false;
 		};
+		/* CREATE hubby_controllers_stats */
+		$sql = 
+		'CREATE TABLE IF NOT EXISTS `hubby_controllers_stats` (
+		  `ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+		  `CONTROLER_ID` int(11) NOT NULL,
+		  `ACCESS_DATE` datetime NOT NULL,
+		  `VISITORS_IP` varchar(200) NOT NULL,
+		  `VISITORS_USERAGENT` varchar(40) NOT NULL,
+		  `PAGE_DESCRIPTION` text,
+		  `PAGE_MAIN` varchar(5) DEFAULT NULL,
+		  `PAGE_VISIBLE` varchar(5) NOT NULL,
+		  `PAGE_PARENT` varchar(200) NOT NULL,
+		  PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB;';
+		if(!$this->core->db->query($sql))
+		{
+			return false;
+		};
 		/* CREATE hubby_modules */
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `hubby_modules` (
@@ -62,6 +80,7 @@ class Hubby
 		  `DESCRIPTION` text,
 		  `HAS_WIDGET` int(11) NOT NULL,
 		  `HAS_MENU` int(11) NOT NULL,
+		  `HAS_API`	int(11) NOT NULL,
 		  `TYPE` varchar(50) NOT NULL,
 		  `ACTIVE` int(11) NOT NULL,
 		  `HUBBY_VERS` varchar(100) NOT NULL,
@@ -86,6 +105,7 @@ class Hubby
 		  `ADMIN_THEME` int(11) NOT NULL,
 		  `ALLOW_PRIVILEGE_SELECTION` int(11) NOT NULL,
 		  `PUBLIC_PRIV_ACCESS_ADMIN` int(11) NOT NULL,
+		  `ACITAVE_STATS` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -247,7 +267,7 @@ class Hubby
 			$appFile['temp_dir']	=		'41dea5f466452b1555f1fa7d1930d39a';
 			$option					=		$this->getOptions();
 			$this->hubby_admin->hubby_core_installer($appFile);
-			$module					=		$this->hubby_admin->moduleActivation('hubby_index_mod',FALSE);
+			$module					=		$this->hubby_admin->moduleActivation('hubby_index_manager',FALSE);
 		}
 		else if($app	==	'file_manager')
 		{
@@ -286,6 +306,7 @@ class Hubby
 			$appFile['temp_dir']	=		'pageCreater5f9ba355e99f884cc5178';
 			$option					=		$this->getOptions();
 			$this->hubby_admin->hubby_core_installer($appFile);
+			$this->hubby_admin->moduleActivation('Pages_editor',FALSE);
 		}
 		else if($app	==	'RefToPage')
 		{
@@ -293,6 +314,7 @@ class Hubby
 			$appFile['temp_dir']	=		'refTopage9a5f9ba355e99f884cc5178';
 			$option					=		$this->getOptions();
 			$this->hubby_admin->hubby_core_installer($appFile);
+			$this->hubby_admin->moduleActivation('hubby_refToPage',FALSE);
 		}
 	}
 	public function connectToDb()
