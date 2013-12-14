@@ -26,6 +26,8 @@
                                         	<option value="">Choisir...</option>
                                             <option 
 											<?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_CAROUSSEL',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_CAROUSSEL'] == "0")
@@ -33,8 +35,11 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="0">Non</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_CAROUSSEL',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_CAROUSSEL'] == "1")
@@ -42,6 +47,7 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="1">Oui</option>
                                         </select>
                                     </div>
@@ -50,6 +56,8 @@
                                         <select name="showLastest" class="form-control">
                                         	<option value="">Choisir...</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_LASTEST',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_LASTEST'] == "0")
@@ -57,8 +65,11 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="0">Non</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_LASTEST',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_LASTEST'] == "1")
@@ -66,6 +77,7 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="1">Oui</option>
                                         </select>
                                     </div>
@@ -73,7 +85,9 @@
                                     	<label class="label-control">Eléments au top</label>
                                         <select name="showFeatured" class="form-control">
                                         	<option value="">Choisir...</option>
-                                            <option <?php 
+                                            <option <?php
+										if(is_array($lib_options))
+										{ 
 											if(array_key_exists('SHOW_FEATURED',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_FEATURED'] == "0")
@@ -81,8 +95,11 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="0">Non</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_FEATURED',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_FEATURED'] == "1")
@@ -90,6 +107,7 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="1">Oui</option>
                                         </select>
                                     </div>
@@ -97,7 +115,9 @@
                                     	<label class="label-control">Dossier d'&eacute;l&eacute;ments</label>
                                         <select name="showTabShowCase" class="form-control">
                                         	<option value="">Choisir...</option>
-                                            <option <?php 
+                                            <option <?php
+										if(is_array($lib_options))
+										{ 
 											if(array_key_exists('SHOW_TABSHOWCASE',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_TABSHOWCASE'] == "0")
@@ -105,8 +125,11 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="0">Non</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_TABSHOWCASE',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_TABSHOWCASE'] == "1")
@@ -114,6 +137,7 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="1">Oui</option>
                                         </select>
                                     </div>
@@ -122,6 +146,8 @@
                                         <select name="showSmallDetails" class="form-control">
                                         	<option value="">Choisir...</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_SMALLDETAILS',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_SMALLDETAILS'] == "0")
@@ -129,8 +155,11 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="0">Non</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_SMALLDETAILS',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_SMALLDETAILS'] == "1")
@@ -138,6 +167,7 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="1">Oui</option>
                                         </select>
                                     </div>
@@ -146,6 +176,8 @@
                                         <select name="showGallery" class="form-control">
                                         	<option value="">Choisir...</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_GALLERY',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_GALLERY'] == "0")
@@ -153,8 +185,11 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="0">Non</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_GALLERY',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_GALLERY'] == "1")
@@ -162,6 +197,7 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="1">Oui</option>
                                         </select>
                                     </div>
@@ -170,6 +206,8 @@
                                         <select name="showAboutUs" class="form-control">
                                         	<option value="">Choisir...</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_ABOUTUS',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_ABOUTUS'] == "0")
@@ -177,8 +215,11 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="0">Non</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_ABOUTUS',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_ABOUTUS'] == "1")
@@ -186,6 +227,7 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="1">Oui</option>
                                         </select>
                                     </div>
@@ -193,7 +235,9 @@
                                     	<label class="label-control">"nos partenaires"</label>
                                         <select name="showPartner" class="form-control">
                                         	<option value="">Choisir...</option>
-                                            <option <?php 
+                                            <option <?php
+										if(is_array($lib_options))
+										{ 
 											if(array_key_exists('SHOW_PARTNERS',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_PARTNERS'] == "0")
@@ -201,8 +245,11 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="0">Non</option>
                                             <option <?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SHOW_PARTNERS',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SHOW_PARTNERS'] == "1")
@@ -210,6 +257,7 @@
 													?> selected="selected" <?php
 												}
 											};
+										}
 											?> value="1">Oui</option>
                                         </select>
                                     </div>
@@ -226,6 +274,8 @@
                                 	<div class="form-group">
                                     	<label class="label-control">Titre Caroussel</label>
                                         <input name="carousselTitle" class="form-control" placeholder="Exemple : Acualit&eacute;" value="<?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('CAROUSSEL_TITLE',$lib_options[0]))
 											{ 
 												if($lib_options[0]['CAROUSSEL_TITLE'] != "")
@@ -233,11 +283,14 @@
 													echo $lib_options[0]['CAROUSSEL_TITLE'];
 												}
 											};
+										}
 											?>" />
                                     </div>
                                 	<div class="form-group">
                                     	<label class="label-control">Titre &eacute;l&eacute;ments r&eacute;cents</label>
                                         <input name="lastestTitle" class="form-control" placeholder="Exemple : Acualit&eacute;" value="<?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('LASTEST_TITLE',$lib_options[0]))
 											{ 
 												if($lib_options[0]['LASTEST_TITLE'] != "")
@@ -245,11 +298,14 @@
 													echo $lib_options[0]['LASTEST_TITLE'];
 												}
 											};
+										}
 											?>" />
                                     </div>
                                 	<div class="form-group">
                                     	<label class="label-control">Titre &eacute;l&eacute;ments en avant</label>
                                         <input name="featuredTitle" class="form-control" placeholder="Exemple : Au top" value="<?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('FEATURED_TITLE',$lib_options[0]))
 											{ 
 												if($lib_options[0]['FEATURED_TITLE'] != "")
@@ -257,11 +313,14 @@
 													echo $lib_options[0]['FEATURED_TITLE'];
 												}
 											};
+										}
 											?>" />
                                     </div>
                                 	<div class="form-group">
                                     	<label class="label-control">Titre dossier d'&eacute;l&eacute;ments</label>
                                         <input name="tabShowCaseTitle" class="form-control" placeholder="Exemple : Nos informations" value="<?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('TABSHOWCASE_TITLE	',$lib_options[0]))
 											{ 
 												if($lib_options[0]['TABSHOWCASE_TITLE	'] != "")
@@ -269,11 +328,14 @@
 													echo $lib_options[0]['TABSHOWCASE_TITLE	'];
 												}
 											};
+										}
 											?>" />
                                     </div>
                                 	<div class="form-group">
                                     	<label class="label-control">Titre Liste d'information textuelle</label>
                                         <input name="smarTitle" class="form-control" placeholder="Exemple : Nos services" value="<?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('SMALLDETAIL_TITLE',$lib_options[0]))
 											{ 
 												if($lib_options[0]['SMALLDETAIL_TITLE'] != "")
@@ -281,11 +343,14 @@
 													echo $lib_options[0]['SMALLDETAIL_TITLE'];
 												}
 											};
+										}
 											?>" />
                                     </div>
                                 	<div class="form-group">
                                     	<label class="label-control">Titre Gallerie</label>
                                         <input name="galleryTitle" class="form-control" placeholder="Exemple : Gallerie photo" value="<?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('GALSHOWCASE_TITLE',$lib_options[0]))
 											{ 
 												if($lib_options[0]['GALSHOWCASE_TITLE'] != "")
@@ -293,11 +358,14 @@
 													echo $lib_options[0]['GALSHOWCASE_TITLE'];
 												}
 											};
+										}
 											?>" />
                                     </div>
                                 	<div class="form-group">
                                     	<label class="label-control">Titre "&agrave; propos de nous"</label>
                                         <input name="aboutUsTitle" class="form-control" placeholder="Exemple : A propos de nous" value="<?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('ABOUTUS_TITLE',$lib_options[0]))
 											{ 
 												if($lib_options[0]['ABOUTUS_TITLE'] != "")
@@ -305,11 +373,14 @@
 													echo $lib_options[0]['ABOUTUS_TITLE'];
 												}
 											};
+										}
 											?>" />
                                     </div>
                                 	<div class="form-group">
                                     	<label class="label-control">Titre "nos partenaire"</label>
                                         <input name="partnerTitle" class="form-control" placeholder="Exemple : Nos partenaires" value="<?php 
+										if(is_array($lib_options))
+										{
 											if(array_key_exists('PARTNER_TITLE',$lib_options[0]))
 											{ 
 												if($lib_options[0]['PARTNER_TITLE'] != "")
@@ -317,6 +388,7 @@
 													echo $lib_options[0]['PARTNER_TITLE'];
 												}
 											};
+										}
 											?>" />
                                     </div>
                                     <input type="submit" name="section2" value="Enregistrer" class="btn btn-info" />
