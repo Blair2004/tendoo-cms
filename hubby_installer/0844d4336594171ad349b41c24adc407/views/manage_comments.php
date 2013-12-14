@@ -1,69 +1,64 @@
-<div id="body">
-    <div class="page secondary with-sidebar">
-        <div id="canvasBubbles" style="position:absolute; top:0; height:100px; width:100%;float:left;"></div>
-        <div class="page-header" style="position:relative;">
-            <div class="page-header-content">
-                <h1><?php echo $module[0]['HUMAN_NAME'];?><small></small></h1>
-            <a class="back-button big page-back" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'comments'));?>"></a></div>
-        </div>
-        <?php echo $lmenu;?>          
-        <div class="page-region">
-            <div class="page-region-content">
-                <div class="hub_table">
-                	<h2>Gestion d'un commentaire</h2>
-                    <div>
-						<?php echo notice_from_url();?>
-					</div>
-                    <div class="grid">
-                    	<div class="row">
-                        	<div class="span6">
-                                <form method="post">
-                                	<h3>Auteur</h3>
-                                    <div class="input-control text">
-                                        <input type="text" disabled="disabled" value="<?php echo $speComment['AUTEUR'] == '' ? 'Valeur non d&eacute;finie' : $speComment['AUTEUR'];?>" />
-                                        <button class="btn-clear"></button>
-                                    </div>
-                                    <h3>Article concern&eacute;</h3>
-                                    <div class="input-control text">
-                                        <input type="text" disabled="disabled" value="<?php echo $speComment['ARTICLE_TITLE'];?>" />
-                                        <button class="btn-clear"></button>
-                                    </div>
-                                    <h3>Etat actuel</h3>
-                                    <div class="input-control text">
-                                        <?php echo $speComment['SHOW'] == '0'	? 'Non approuv&eacute;' : 'Approuv&eacute;';?>
-                                    </div>
-                                    <h3>Commentaire</h3>
-                                    <div class="input-control textarea">
-                                        <textarea disabled="disabled" name="currentComment" placeholder="Entrez un commentaire"><?php echo $speComment['CONTENT'];?></textarea>
-                                    </div>
-                                    <p>
-                                    <input name="hiddenId" value="<?php echo $speComment['ID'];?>" type="hidden" />
-                                    <?php
-									if($speComment['SHOW'] == '0')
-									{
-										?>
-                                    <input name="approve" value="Approuver" type="submit" />
-                                    	<?php
-									}
-									else
-									{
-										?>
-                                    <input name="disapprove" value="D&eacute;sapprouver" type="submit" />
-                                    	<?php
-									}
-										?>
-                                        <input type="submit" value="Supprimer" class="bg-color-red" name="delete" />
-									</p>
-                                </form>
-							</div>
-						</div>
-                    <br />
-					<div>
-                        <?php echo $this->core->notice->parse_notice();?>
+<?php echo $lmenu;?>
+<section id="content">
+    <section class="vbox">
+        <?php echo $inner_head;?>
+        <section class="scrollable" id="pjax-container">
+            <header>
+                <div class="row b-b m-l-none m-r-none">
+                    <div class="col-sm-4">
+                        <h4 class="m-t m-b-none"><?php echo $this->core->hubby->getTitle();?></h4>
+                        <p class="block text-muted"><?php echo $pageDescription;?></p>
                     </div>
-                    <br />
                 </div>
-			</div>
-		</div>
-	</div>
-</div>
+            </header>
+            <section class="vbox">
+                <section class="wrapper"> 
+					<?php echo $this->core->notice->parse_notice();?> 
+					<?php echo $success;?>
+                    <?php echo notice_from_url();?>
+                	<section class="panel">
+                    	<div class="panel-heading">
+                        G&eacute;rer un commentaire
+                        </div>
+                        <div class="table-responsive">
+                            <form method="post" class="panel-body">
+                                <div class="form-group">
+                                	<label class="control-label">Auteur</label>
+                                    <input class="form-control" type="text" disabled="disabled" value="<?php echo $speComment['AUTEUR'] == '' ? 'Valeur non d&eacute;finie' : $speComment['AUTEUR'];?>" />
+                                </div>
+                                <div class="form-group">
+                                	<label class="control-label">Article concern&eacute;</label>
+                                    <input class="form-control" type="text" disabled="disabled" value="<?php echo $speComment['ARTICLE_TITLE'];?>" />
+                                </div>
+                                <div class="form-group">
+                                	<label class="control-label">Etat actuel</label>
+                                    <?php echo $speComment['SHOW'] == '0'	? 'Non approuv&eacute;' : 'Approuv&eacute;';?>
+                                </div>
+                                <div class="form-group">
+                                	<label class="control-label">Commentaire</label>
+                                    <textarea class="form-control" disabled="disabled" name="currentComment" placeholder="Entrez un commentaire"><?php echo $speComment['CONTENT'];?></textarea>
+                                </div>
+                                <input name="hiddenId" value="<?php echo $speComment['ID'];?>" type="hidden" />
+                                <?php
+                                if($speComment['SHOW'] == '0')
+                                {
+                                    ?>
+                                <input class="btn btn-success" name="approve" value="Approuver" type="submit" />
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                <input class="btn btn-warning" name="disapprove" value="D&eacute;sapprouver" type="submit" />
+                                    <?php
+                                }
+                                    ?>
+                                    <input class="btn btn-danger" type="submit" value="Supprimer" name="delete" />
+                            </form>
+                        </div>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a> </section>

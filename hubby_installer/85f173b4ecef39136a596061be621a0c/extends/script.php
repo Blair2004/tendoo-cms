@@ -174,6 +174,11 @@ class hubby_modus_theme_handler
 	/*	Carousel Element
 	*/
 	private $carousselElement	=	array();
+	private $carousselTitle		=	'';
+	public function defineCarousselTitle($title)
+	{
+		$this->carousselTitle	=	$title;
+	}
 	public function defineCaroussel($title,$content,$image,$link,$timestamp) // Ok
 	{
 		$this->carousselElement[]	=	array(
@@ -196,7 +201,7 @@ class hubby_modus_theme_handler
 	{
 ?>
     <li>
-      <a href="<?php echo $c['LINK'];?>"><img src="<?php echo $c['IMAGE'];?>"  alt="<?php echo $c['TITLE'];?>"  /></a>
+      <a href="<?php echo $c['LINK'];?>"><img src="<?php echo $c['IMAGE'];?>"  alt="<?php echo $c['TITLE'];?>" style="width:100%;"  /></a>
       <p class="flex-caption"><?php echo word_limiter(strip_tags($c['CONTENT']),20);?></p>
     </li>
 <?php
@@ -256,6 +261,53 @@ foreach($this->onTopContent as $c)
 		}
 	}
 	/*
+	/* Lastest content new (0.9.4)
+	*/
+	private $lastestElementsTitle	=	'Lastest';
+	private $lastestElements		=	array();
+	public function defineLastestElementsTitle($title)
+	{
+		$this->lastestElementsTitle	=	$title;
+	}
+	public function defineLastestElements($thumb,$title,$content,$link,$timestamp)
+	{
+		$this->lastestElements[]	=	array(
+			'THUMB'				=>	$thumb,
+			'TITLE'				=>	$title,
+			'CONTENT'			=>	$content,
+			'LINK'				=>	$link,
+			'DATETIME'			=>	$timestamp
+		);
+	}
+	private function parseLastestElements()
+	{
+		if(count($this->lastestElements) > 0)
+		{
+		?>
+<h1 class="home-block-heading"><?php echo $this->lastestElementsTitle;?></h1>
+<div class="featured masonry" style="position: relative; height: 759px;">
+<?php
+foreach($this->lastestElements as $c)
+	{
+	?>
+    <figure class="masonry-brick">
+        <a href="<?php echo $c['THUMB'];?>" data-rel="prettyPhoto" class="thumb" rel="prettyPhoto"><img src="<?php echo $c['THUMB'];?>" alt="<?php echo $c['TITLE'];?>"></a>
+        <div>
+            <a href="<?php echo $c['LINK'];?>" class="heading"><?php echo $c['TITLE'];?></a>
+             <?php echo word_limiter(strip_tags($c['CONTENT']),50);?>
+        </div>
+        <a class="link" href="<?php echo $c['LINK'];?>"></a>
+    </figure>
+	<?php
+	}
+			?>
+    <div class="clearfix"></div>
+</div>
+<!-- ENDS Featured -->
+<?php
+		}
+	}
+	/*
 	/*	Signature element	
 	*/
 	private $indexAboutUs;
@@ -277,6 +329,7 @@ foreach($this->onTopContent as $c)
         <div class="text-posts" style="margin-left:24px;">
             <p><?php echo strip_tags($this->indexAboutUs);?></p>
         </div>
+        <div class="clearfix"></div>
 		<?php
 		}
 	}
@@ -373,7 +426,7 @@ foreach($this->onTopContent as $c)
 		}
 	}
 	/*
-	/*	Featured products index // NEW
+	/*	Featured products index 
 	*/
 	private $featuredProductTitle	=	'Featured Product';
 	private $featuredProduct		=	array();
@@ -497,6 +550,7 @@ foreach($this->onTopContent as $c)
         <!-- ENDS featured -->
         <!-- Features Products -->
         <?php $this->parseFeaturedProducts();?>
+        <?php $this->parseLastestElements();?>
         <!-- ENDS Features Products -->
         <?php $this->parseTabShowCase();?>
         <!-- text-posts -->
@@ -1314,6 +1368,91 @@ foreach($this->onTopContent as $c)
         </div>
         <?php
 		}
+	}
+	/*
+	/* Cart element
+	*/
+	private $currentCartContent			=	array();
+	public function defineCurrentCartContent($total_items,$total_prices,$cart_link,$cart_text,$item_shotElement,$devise)
+	{
+		$this->currentCartContent		=	array(
+			'TOTAL_ITEMS'				=>	$total_items,
+			'TOTAL_PRICES'				=>	$total_prices,
+			'CART_LINK'					=>	$cart_link,
+			'CART_TEXT'					=>	$cart_text,
+			'ITEM_LIST'					=>	$item_shotElement,
+			'DEVISE'					=>	$devise
+		);
+	}
+	public function parseCurrentCartContent() // of for entiri
+	{
+		$c	=&	$this->currentCartContent;
+		if(count($c) == 0): return false;endif;
+		?>
+        <div class="basket">
+            <div class="textbox basket-text float-r" style="padding-right:20px;width:200px;">
+                <label><?php echo $c['TOTAL_ITEMS'];?> Produits</label>: <label class="hl-text">
+                <?php
+				if(is_numeric($c['TOTAL_PRICES']))
+				{
+					 echo $c['TOTAL_PRICES'].' '.$c['DEVISE'];
+				};
+				?></label>
+                <a href="javascript:;" class="drop-arrow">&nbsp;</a>
+            </div>
+            <a href="javascript:;" class="button has-icon basket-button border float-r"><span>&nbsp;</span></a>
+            <div class="clearfix"></div>
+            <?php
+            if(count($c['ITEM_LIST']))
+            {
+            ?>
+            <ul class="basket-dropdown">
+                <li class="dropdown-header overlay">
+                    <span class="basket-arrow">&nbsp;</span>
+                    <label class="item"><strong>Produit</strong></label>
+                    <label class="price-each"><strong>Prix Unitaire</strong></label>
+                    <label class="price"><strong>Prix total</strong></label>
+                </li>
+                <?php
+				if(is_array($c['ITEM_LIST']))
+				{
+				foreach($c['ITEM_LIST'] as $i)
+				{
+				?>
+                <li class="dropdown-line clearfix">
+                    <div class="line-col media">
+                        <img src="http://localhost/hub_ex/hubby_themes/d27449fc84378e9b444ed37254315173/img/basket-item-1.jpg" alt="">
+                    </div>
+                    <div class="line-col desc">
+                        <strong><a href="details.html"><?php echo $i['TITLE'];?></a></strong><br>
+                        Quantit&eacute; : <?php echo $i['QUANTITY'];?>
+                    </div>
+                    <div class="line-col price-each">
+                        <?php echo $i['UNIQUE_PRICE'];?> <?php echo $c['DEVISE'];?>
+                    </div>
+                    
+                    <div class="line-col price">
+                        <?php echo $i['GLOBAL_PRICE'];?> <?php echo $c['DEVISE'];?>
+                        <a href="<?php echo $i['REMOVE_LINK'];?>"><?php echo $i['REMOVE_TEXT'];?></a>
+                    </div>
+                </li>
+                <?php
+				}
+				}
+				?>
+                <li class="dropdown-total">
+                    <strong>Total</strong>: <span class="hl-text"><?php echo $c['TOTAL_PRICES'];?></span>
+                </li>
+                <li class="dropdown-footer clearfix">
+                    <a href="<?php echo $c['CART_LINK'];?>" class="button dark shadow"><?php echo $c['CART_TEXT'];?></a>
+                </li>
+                
+            </ul>
+            <?php
+            }
+            ?>
+        </div>
+        <?php
 	}
 }
 

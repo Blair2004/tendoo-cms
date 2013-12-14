@@ -61,22 +61,9 @@
 				return $this->core->db		->where('ID',$id)
 											->update('hubby_pages',$datas);
 			}
-			public function getMenu()
-			{
-				return '
-					<div id="sidebar">
-						<ul class="sideNav">
-							<li><a href="#"><strong>Module Menu</strong></a></li>
-							<li><a href="'.$this->core->url->site_url('admin/open/modules/'.$this->data['module'][0]['ID']).'">Accueil</a></li>
-							<li><a href="'.$this->core->url->site_url('admin/open/modules/'.$this->data['module'][0]['ID'].'/create').'">Créer une page</a></li>
-						</ul>
-						<!-- // .sideNav -->
-					</div>
-				';
-			}
 			public function getPages($start = '',$end = '')
 			{
-				if($start ==! TRUE && $end != '')
+				if(is_numeric($start) && is_numeric($end))
 				{
 					$this->core->db->limit($end,$start);
 				}
