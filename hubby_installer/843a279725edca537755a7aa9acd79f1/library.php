@@ -30,7 +30,7 @@
 			}
 			public function getName()
 			{
-				return 'hubby_content_'.rand(0,9).date('Y').date('m').date('d').date('H').date('i').date('s').rand(0,9).rand(0,9).rand(0,9);
+				return 'hubby_content_'.rand(0,9).date('Y').date('m').date('d').date('H').date('i').date('s').rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
 			}
 			public function uploadFile($file,$title,$description)
 			{
@@ -61,11 +61,11 @@
 			}
 			public function getUploadedFiles($start	='',$end	='')
 			{
-				if($start == '' && $end  == '')
+				if(is_numeric($start) && is_numeric($end))
 				{
 					$this->core->db->limit($end,$start);
 				}
-				if($start != '' && $end == '')
+				if(is_numeric($start ) && !is_numeric($end))
 				{
 					$this->core->db->where('ID',$start);
 				}
@@ -96,6 +96,27 @@
 					return $this->core->db->update('hubby_contents',$array);
 				}
 				return false;
+			}
+			public function overwrite_image($image_id,$x1,$y1,$x2,$y2,$w,$h)
+			{
+				$image	=	$this->getUploadedFiles($image_id);
+				if($image)
+				{
+					var_dump($_POST);
+					$config['image_library'] 	= 'gd2';
+					$config['source_image']		= $this->cp_dir.'/'.$image[0]['FILE_NAME'];
+					$config['create_thumb'] 	= TRUE;
+					$config['maintain_ratio'] 	= TRUE;
+					$config['width']	 		= $w;
+					$config['height']			= $h;
+					$config['quality']			=	'100%';
+					
+					$this->core->load->library('image_lib', $config); 
+				}
+				return false;
+			}
+			public function create_new_image($image_id,$image_name,$x1,$y1,$x2,$y2,$w,$h)
+			{
 			}
 		}
 	}

@@ -31,6 +31,7 @@
                                 <tbody>
                                     <?php
 									$ii	=	0;
+									
                     foreach($get_pages as $g)
                     {						
                         ?>
@@ -45,32 +46,7 @@
                                         <td><?php echo count($g['PAGE_CHILDS']);?></td>
 									</tr>
                                 <?php
-								$limitation		=	$this->core->hubby->get_menu_limitation();
-								for($e = 0;$e <= $limitation;$e++)
-								{
-									if(count($g['PAGE_CHILDS']) > 0) // Sous menu 1
-									{
-										if(is_array($g['PAGE_CHILDS']))
-										{
-											foreach($g['PAGE_CHILDS'] as $_g)
-											{
-												?>
-											<tr>
-												<td><?php echo $e;?></td>
-												<td><a href="<?php echo $this->core->url->site_url('admin/pages/edit/'.$_g['PAGE_CNAME']);?>" data-toggle="modal"><?php echo $_g['PAGE_NAMES'];?></a></td>
-												<td><?php echo $_g['PAGE_TITLE'];?></td>
-												<td><?php echo $_g['PAGE_DESCRIPTION'];?></td>
-												<td><?php echo ($_g['PAGE_MAIN'] == 'TRUE') ? 'Oui' : 'Non';?></td>
-												<td><?php echo $_g['PAGE_MODULES'] === FALSE ? 'Aucun module' : $_g['PAGE_MODULES'][0]['HUMAN_NAME'];?></td>
-												<td><a onclick="if(!confirm('voulez-vous supprimer ce contrôleur ?')){return false}" href="<?php echo $this->core->url->site_url('admin/pages/delete/'.$_g['PAGE_CNAME']);?>">Supprimer</a></td>
-												<td><?php echo count($_g['PAGE_CHILDS']);?></td>
-											</tr>
-												<?php
-												$g['PAGE_CHILDS'] =	$_g['PAGE_CHILDS']; // Recupère le nouvel index pour continuer le parcours.
-											}
-										}
-									}
-								}
+								$this->core->hubby_admin->getChildren($ii,$g['PAGE_CHILDS']);
 								$ii++;
                     }
                         ?>

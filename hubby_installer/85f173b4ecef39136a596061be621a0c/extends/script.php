@@ -334,6 +334,36 @@ foreach($this->lastestElements as $c)
 		}
 	}
 	/*
+	/*	Partner about us
+	*/
+	private $partners_title		=	'Our Partners';
+	private $partners_content;
+	public function definePartnersTitle($title)
+	{
+		$this->partners_title	=	$title;
+	}
+	public function definePartnersContent($content)
+	{
+		$this->partners_content	=	$content;
+	}
+	private function parsePartners()
+	{
+		if(isset($this->partners_content))
+		{
+		?>
+        <div class="page-content">
+        <h2 class="page-title"><?php echo $this->partners_title;?></h2>
+        <div class="shadow-wrapper margin1">
+            <div class="left-shadow"></div>
+            <div class="mid-shadow"></div>
+            <div class="right-shadow"></div>
+        </div>
+        <p style="margin-bottom:20px;"><?php echo strip_tags($this->partners_content);?></p>
+        </div>
+<?php
+		}
+	}
+	/*
 	/*	Text List Showcase
 	*/
 	private $listText		=	array();
@@ -647,7 +677,7 @@ foreach($this->lastestElements as $c)
                 
                 <h1><a href="<?php echo $p['LINK'];?>" class="post-heading"><?php echo $p['TITLE'];?></a></h1>
                 <div class="meta">
-                    <span class="entry-date"><?php echo $this->core->hubby->time(strtotime($p['TIMESTAMP']));?></span>
+                    <span class="entry-date"><?php echo $this->core->hubby->time($p['TIMESTAMP']);?></span>
                     dans <span class="categories"><a href="<?php echo $p['CATEGORY_LINK'];?>"><?php echo $p['CATEGORY'];?></a></span>
                 </div>
                 <div class="excerpt"><?php echo word_limiter(strip_tags($p['CONTENT']),50);?>
@@ -736,7 +766,7 @@ foreach($this->lastestElements as $c)
 	</div>
 	<h1 class="post-heading"><?php echo $this->singleBlogPost['TITLE'];?></h1>
 	<div class="meta">
-		<span class="entry-date"><?php echo $this->core->hubby->time(strtotime($this->singleBlogPost['TIMESTAMP']));?></span>
+		<span class="entry-date"><?php echo $this->core->hubby->time($this->singleBlogPost['TIMESTAMP']);?></span>
 		dans <span class="categories"><a href="<?php echo $this->singleBlogPost['CATEGORY_LINK'];?>"><?php echo $this->singleBlogPost['CATEGORY'];?></a></span>
 	</div>
 	
@@ -860,7 +890,7 @@ foreach($this->lastestElements as $c)
                         <?php
 					}
 					?>
-                    <span class="entry-date"><?php echo $this->core->hubby->time(strtotime($p['TIMESTAMP']));?></span>
+                    <span class="entry-date"><?php echo $this->core->hubby->time($p['TIMESTAMP']);?></span>
                     dans <span class="categories"><a href="<?php echo $p['CATEGORY_LINK'];?>"><?php echo $p['CATEGORY'];?></a></span>
                 </div>
                 <div class="excerpt"><?php echo word_limiter(strip_tags($p['CONTENT']),50);?>

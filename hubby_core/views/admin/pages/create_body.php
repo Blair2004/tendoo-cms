@@ -54,6 +54,10 @@
                                         </select>
                                     </div>
                                     <div class="form-group"> 
+                                        <label class="control-label">Lien vers une page</label> 
+                                        <input name="page_link" class="form-control" placeholder="Lien vers une page" />
+                                    </div>
+                                    <div class="form-group"> 
                                         <select class="input-sm form-control inline" name="page_visible">
                                             <option value="">Visibilit&eacute; de la page</option>
                                             <option value="TRUE">Visible</option>
@@ -63,6 +67,7 @@
                                     <div class="form-group"> 
                                         <select class="input-sm form-control inline" name="page_module">
                                             <option value="">Affecter un module</option>
+                                            <option value="#LINK#">Attacher un lien</option>
                                             <?php
                                             foreach($get_mod as $g) 
                                             {

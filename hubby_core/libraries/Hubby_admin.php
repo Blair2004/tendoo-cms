@@ -8,7 +8,7 @@ class hubby_admin
 	public function __construct()
 	{
 		$this->core				=	Controller::instance();
-		$this->hubby			=	$this->core->hubby;
+		$this->hubby			=&	$this->core->hubby;
 	}
 	public function get_global_info()
 	{
@@ -50,7 +50,48 @@ class hubby_admin
 	{
 		return $this->core->hubby->getPage($e);
 	}
-
+	private $statsLimitation	=	5;
+	public function getStatLimitation()
+	{
+		return $this->statsLimitation;
+	}
+	public function hubby_visit_stats()
+	{
+		$month_limit	=	$this->statsLimitation;
+		$currentDate	=	$this->hubby->global_date('month_current_date');
+		$time			=	new DateTime($currentDate);
+		$time->modify('- '.$month_limit.' months');
+		$ts_global		=	$time->format('Y-m-d H:i:s');
+		$te_this_month	=	$this->hubby->global_date('month_end_date');
+		$uniqueVisits	=	$this->core->db->where('DATE >=',$ts_global)->order_by('DATE','asc')->get('hubby_visit_stats');
+		$uniqueResult	=	$uniqueVisits->result_array();
+		$array			=	array();
+		foreach($uniqueResult as $u)
+		{
+			$currentDate	=	$u['DATE'];
+			$timeDecompose	=	$this->core->hubby->time($currentDate,TRUE);
+			if(!isset($array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']))
+			{
+				$array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	0;
+			}
+			$array['ordered'][$timeDecompose['y']][$timeDecompose['M']][]	=	$u;
+			$array['listed'][]	=	$u;
+			$array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	+=	(int)$u['GLOBAL_VISIT'];
+			$sumQuery		=	$this->core->db->select('COUNT(DISTINCT VISITORS_IP) as `UNIQUE_VISIT`')->where('DATE >=',$timeDecompose['y'].'-'.$timeDecompose['M'].'-'.(1))->where('DATE <=',$timeDecompose['y'].'-'.$timeDecompose['M'].'-'.$timeDecompose['t'])->get('hubby_visit_stats');
+			$sumResult		=	$sumQuery->result_array();
+			$array['statistics']['unique'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	$sumResult[0]['UNIQUE_VISIT'];
+		}
+		// Recupère information globales
+		$overAllUniqueQuery		=	$this->core->db->select('COUNT(DISTINCT VISITORS_IP) as `UNIQUE_GLOBAL`')->where('DATE >=',$ts_global)->get('hubby_visit_stats');
+		$overAllUniqueResult	=	$overAllUniqueQuery->result_array();
+		
+		$array['statistics']['overAll']['unique']['totalVisits']	=	$overAllUniqueResult[0]['UNIQUE_GLOBAL'];
+		$overAllGlobalQuery		=	$this->core->db->select('SUM(GLOBAL_VISIT) as `MULTIPLE_GLOBAL`')->where('DATE >=',$ts_global)->get('hubby_visit_stats');
+		$overAllGlobalResult	=	$overAllGlobalQuery->result_array();
+		$array['statistics']['overAll']['global']['totalVisits']	=	$overAllGlobalResult[0]['MULTIPLE_GLOBAL'];
+		return $array;
+		//	$array['CURRENT_MONTH']['VISITS']['GLOBAL']	=	$visitGlobal;
+	}
 	public function getSpeModuleByNamespace($namespace) // La même méthode pour Hubby ne recupère que ce qui est déjà activé.
 	{
 		$this->core->db		->select('*')
@@ -111,7 +152,7 @@ class hubby_admin
 		$query				= $this->core->db->get();
 		return $query->result_array();
 	}
-	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none')
+	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'')
 	{
 		if($childOf == strtolower($cname)) : return 'cantHeritFromItSelf' ;endif; // Ne peut être sous menu de lui même
 		$currentPosition=	$childOf;
@@ -179,6 +220,7 @@ class hubby_admin
 		$e['PAGE_MODULES']		=	$mod; // SI le controleur doit rediriger vers une page, alors on enregistre la page sinon on enregistre le module.
 		$e['PAGE_VISIBLE']		=	$visible;
 		$e['PAGE_PARENT']		=	$childOf == $name ? 'none' : $childOf;
+		$e['PAGE_LINK']			=	$page_link;
 		if($obj == 'create')
 		{
 			if($this->core		->db->insert('hubby_controllers',$e))
@@ -1246,5 +1288,27 @@ class hubby_admin
 			}
 		}
 		return false;
+	}
+	public function getChildren($curent_level,$child)
+	{
+		if(is_array($child))
+		{
+			foreach($child as $_g)
+			{
+				?>
+			<tr>
+				<td><?php echo $curent_level;?></td>
+				<td><a href="<?php echo $this->core->url->site_url('admin/pages/edit/'.$_g['PAGE_CNAME']);?>" data-toggle="modal"><?php echo $_g['PAGE_NAMES'];?></a></td>
+				<td><?php echo $_g['PAGE_TITLE'];?></td>
+				<td><?php echo $_g['PAGE_DESCRIPTION'];?></td>
+				<td><?php echo ($_g['PAGE_MAIN'] == 'TRUE') ? 'Oui' : 'Non';?></td>
+				<td><?php echo $_g['PAGE_MODULES'] === FALSE ? 'Aucun module' : is_string($_g['PAGE_MODULES']) ? $_g['PAGE_MODULES'] : $_g['PAGE_MODULES'][0]['HUMAN_NAME'];?></td>
+				<td><a onclick="if(!confirm('voulez-vous supprimer ce contrôleur ?')){return false}" href="<?php echo $this->core->url->site_url('admin/pages/delete/'.$_g['PAGE_CNAME']);?>">Supprimer</a></td>
+				<td><?php echo count($_g['PAGE_CHILDS']);?></td>
+			</tr>
+				<?php
+				$this->getChildren($curent_level+1,$_g['PAGE_CHILDS']);
+			}
+		}
 	}
 }

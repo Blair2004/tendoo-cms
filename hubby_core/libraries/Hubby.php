@@ -25,6 +25,96 @@ class Hubby
 			$this->isInstalled = false;
 		}
 	}
+	public function addVisit()
+	{
+		
+		$ts_this_month	=	$this->global_date('month_start_date');
+		$te_this_month	=	$this->global_date('month_end_date');
+		$query	=	$this->core->db->where('DATE >=',$ts_this_month)->where('DATE <=',$te_this_month)->where('VISITORS_IP',$_SERVER['REMOTE_ADDR'])->get('hubby_visit_stats');
+		$result	=	$query->result_array();
+		if(!$result)
+		{
+			$datetime	=	$this->datetime();
+			$this->core->db->insert('hubby_visit_stats',array(
+				'DATE'					=>	$datetime,
+				'VISITORS_IP'			=>	$_SERVER['REMOTE_ADDR'],
+				'VISITORS_USERAGENT'	=>	$_SERVER['HTTP_USER_AGENT'],
+				'GLOBAL_VISIT'			=>	1
+			));
+		}
+		else
+		{
+			$datetime	=	$this->datetime();
+			$this->core->db->where('DATE >=',$ts_this_month)
+				->where('DATE <=',$te_this_month)
+				->where('VISITORS_IP',$_SERVER['REMOTE_ADDR'])
+				->update('hubby_visit_stats',array(
+				'DATE'					=>	$datetime,
+				'VISITORS_IP'			=>	$_SERVER['REMOTE_ADDR'],
+				'VISITORS_USERAGENT'	=>	$_SERVER['HTTP_USER_AGENT'],
+				'GLOBAL_VISIT'			=>	(int)$result[0]['GLOBAL_VISIT'] + 1
+			));
+		}
+	}
+	public function global_date($request = NULL,$type = 'default')
+	{
+		$currentTime	=	$this->datetime();
+		$currentTimeTS	=	strtotime($currentTime);
+		$nbrDays		=	date('t',$currentTimeTS);
+		$dateArray		=	$this->time($currentTimeTS,TRUE);
+		
+		$elapsedTS		=	(int)$dateArray['d'] * 86400; // 86400 seconde par jour
+		$TS_start_month	=	$currentTimeTS - $elapsedTS; // timestamp for the start of this month
+		$ti_start_month	=	date('c',$TS_start_month); // date "c" format for the start of this month
+		$TS_end_month	=	((int)$nbrDays * 86400) + $TS_start_month;
+		$ti_end_month	=	date('c',$TS_end_month); // Date "c" format fot the end of this month
+		$time_start_month=	$this->time($ti_start_month,TRUE);
+		
+		$time_start_month=	$time_start_month['y'].'-'.$time_start_month['M'].'-'.$time_start_month['d'].' '.$time_start_month['h'].':'.$time_start_month['i'].':'.$time_start_month['s'];
+		$time_end_month	=	$this->time($ti_end_month,TRUE);
+		$time_end_month	=	$time_end_month['y'].'-'.$time_end_month['M'].'-'.$time_end_month['d'].' '.$time_end_month['h'].':'.$time_end_month['i'].':'.$time_end_month['s'];
+		if($request == 'month_start_date')
+		{
+			if($type == 'default')
+			{
+				return $time_start_month;
+			}
+			else if($type == 'timestamp')
+			{
+				return $TS_start_month;
+			}
+		}
+		if($request == 'month_end_date')
+		{
+			if($type == 'default')
+			{
+				return $time_end_month;
+			}
+			else if($type == 'timestamp')
+			{
+				return $TS_end_month;
+			}
+		}
+		if($request	==	'current_day')
+		{
+			return $dateArray['d'];
+		}
+		if($request == 'day_this_month')
+		{
+			return $nbrDays;
+		}
+		if($request == 'month_current_date')
+		{
+			if($type == 'default')
+			{
+				return $currentTime;
+			}
+			else if($type == 'timestamp')
+			{
+				return $currentTimeTS;
+			}
+		}
+	}
 	public function isInstalled()
 	{
 		return $this->isInstalled;
@@ -46,24 +136,21 @@ class Hubby
 		  `PAGE_MAIN` varchar(5) DEFAULT NULL,
 		  `PAGE_VISIBLE` varchar(5) NOT NULL,
 		  `PAGE_PARENT` varchar(200) NOT NULL,
+		  `PAGE_LINK` text,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
 		{
 			return false;
 		};
-		/* CREATE hubby_controllers_stats */
+		/* CREATE hubby_visit_stats */
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `hubby_controllers_stats` (
+		'CREATE TABLE IF NOT EXISTS `hubby_visit_stats` (
 		  `ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-		  `CONTROLER_ID` int(11) NOT NULL,
-		  `ACCESS_DATE` datetime NOT NULL,
+		  `DATE` datetime NOT NULL,
 		  `VISITORS_IP` varchar(200) NOT NULL,
 		  `VISITORS_USERAGENT` varchar(40) NOT NULL,
-		  `PAGE_DESCRIPTION` text,
-		  `PAGE_MAIN` varchar(5) DEFAULT NULL,
-		  `PAGE_VISIBLE` varchar(5) NOT NULL,
-		  `PAGE_PARENT` varchar(200) NOT NULL,
+		  `GLOBAL_VISIT` int(50) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -81,6 +168,8 @@ class Hubby
 		  `HAS_WIDGET` int(11) NOT NULL,
 		  `HAS_MENU` int(11) NOT NULL,
 		  `HAS_API`	int(11) NOT NULL,
+          `HAS_ADMIN_WIDGET` int(11) NOT NULL,
+          `HAS_ADMIN_API` int(11) NOT NULL,
 		  `TYPE` varchar(50) NOT NULL,
 		  `ACTIVE` int(11) NOT NULL,
 		  `HUBBY_VERS` varchar(100) NOT NULL,
@@ -494,7 +583,7 @@ class Hubby
 		$r			=	$this->core->db->get();
 		return $r->result_array();
 	}
-	private $levelLimit					= 4; // limitation en terme de sous menu
+	private $levelLimit					= 20; // limitation en terme de sous menu
 	public function get_sublevel($cname,$level,$showHidden=TRUE)
 	{
 		if($level <= $this->levelLimit)
@@ -517,12 +606,13 @@ class Hubby
 						'PAGE_CNAME'		=>		$obj->PAGE_CNAME,
 						'PAGE_PARENT'		=>		$obj->PAGE_PARENT,
 						'PAGE_NAMES'		=>		$obj->PAGE_NAMES,
-						'PAGE_MODULES'		=>		$this->getSpeModuleByNamespace($obj->PAGE_MODULES),
+						'PAGE_MODULES'		=>		$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : $this->getSpeModuleByNamespace($obj->PAGE_MODULES),
 						'PAGE_TITLE'		=>		$obj->PAGE_TITLE,
 						'PAGE_DESCRIPTION'	=>		$obj->PAGE_DESCRIPTION,
 						'PAGE_MAIN'			=>		$obj->PAGE_MAIN,
 						'PAGE_VISIBLE'		=>		$obj->PAGE_VISIBLE,
-						'PAGE_CHILDS'		=> 		$this->get_sublevel($obj->ID,$level+1)
+						'PAGE_CHILDS'		=> 		$this->get_sublevel($obj->ID,$level+1),
+						'PAGE_LINK'			=>		$obj->PAGE_LINK
 					);
 				}
 				return $array;
@@ -554,12 +644,13 @@ class Hubby
 					'PAGE_CNAME'	=>$obj->PAGE_CNAME,
 					'PAGE_PARENT'	=>$obj->PAGE_PARENT,
 					'PAGE_NAMES'	=>$obj->PAGE_NAMES,
-					'PAGE_MODULES'	=>$this->getSpeModuleByNamespace($obj->PAGE_MODULES),
+					'PAGE_MODULES'	=>$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : $this->getSpeModuleByNamespace($obj->PAGE_MODULES),
 					'PAGE_TITLE'	=>$obj->PAGE_TITLE,
 					'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
 					'PAGE_MAIN'		=>$obj->PAGE_MAIN,
 					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE,
-					'PAGE_CHILDS'	=> $this->get_sublevel($obj->ID,1)
+					'PAGE_CHILDS'	=> $this->get_sublevel($obj->ID,1),
+					'PAGE_LINK'		=>$obj->PAGE_LINK // new added 0.9.4
 				);
 			}
 			$this->getpages	=	$array;
@@ -582,12 +673,13 @@ class Hubby
 					'PAGE_CNAME'	=>$obj->PAGE_CNAME,
 					'PAGE_PARENT'	=>$obj->PAGE_PARENT,
 					'PAGE_NAMES'	=>$obj->PAGE_NAMES,
-					'PAGE_MODULES'	=>$this->getSpeModuleByNamespace($obj->PAGE_MODULES),
+					'PAGE_MODULES'	=>$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : $this->getSpeModuleByNamespace($obj->PAGE_MODULES),
 					'PAGE_TITLE'	=>$obj->PAGE_TITLE,
 					'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
 					'PAGE_MAIN'		=>$obj->PAGE_MAIN,
 					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE,
-					'PAGE_CHILDS'	=>$this->get_sublevel($obj->ID,1)
+					'PAGE_CHILDS'	=>$this->get_sublevel($obj->ID,1),
+					'PAGE_LINK'		=>	$obj->PAGE_LINK // New added 0.9.4
 				);
 			}
 			$this->getpages	=	$array;
@@ -744,6 +836,7 @@ class Hubby
 			'h'=>mdate('%H',$timestamp),
 			'i'=>mdate('%i',$timestamp),
 			's'=>mdate('%s',$timestamp),
+			't'=>mdate('%t',$timestamp),
 			'month'	=>	$month[mdate('%n',$timestamp)]
 		);
 		
@@ -1264,7 +1357,7 @@ class Hubby
 	{
 		if(!$this->core->users_global->isConnected())
 		{
-			$this->url->redirect(array('login?ref='.urlencode($this->url->request_uri())));
+			$this->core->url->redirect(array('login?ref='.urlencode($this->core->url->request_uri())));
 			return;
 		}
 	}

@@ -17,7 +17,8 @@ class Pages_editor_admin_controller
 		$this->page_handler				=	new Pages_admin($this->data);
 		$this->hubby					=	$this->core->hubby;
 		$this->hubby_admin				=	$this->core->hubby_admin;
-		$this->hubby_admin->menuExtendsBefore($this->core->load->view(__DIR__.'/views/menu',$this->data,TRUE,TRUE));
+		$this->dir						=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
+		$this->hubby_admin->menuExtendsBefore($this->core->load->view($this->dir.'/views/menu',$this->data,TRUE,TRUE));
 		$this->notice					=	$this->core->notice;
 		$this->data['lmenu']			=	$this->core->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 		$this->data['inner_head']		=	$this->core->load->view('admin/inner_head',$this->data,true);

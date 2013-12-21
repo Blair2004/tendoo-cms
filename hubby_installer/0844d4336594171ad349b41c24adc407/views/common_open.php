@@ -1,7 +1,7 @@
 <?php
 // ARTICLE SECTION
 $userdata				=	$userUtil->getUser($GetNews[0]['AUTEUR']);
-$date					=	$this->core->hubby->time($GetNews[0]['DATE'],true);
+$date					=	$GetNews[0]['DATE'];
 $Ccategory				=	$news->retreiveCat($GetNews[0]['CATEGORY_ID']);
 // COMMENT SECTION
 $theme->defineSingleBlogPost(
@@ -10,7 +10,7 @@ $theme->defineSingleBlogPost(
 	$thumb				=	$GetNews[0]['IMAGE'],
 	$full				=	$GetNews[0]['IMAGE'],
 	$author				=	$userdata['PSEUDO'],
-	$timestamp			=	strtotime($GetNews[0]['DATE']),
+	$timestamp			=	$GetNews[0]['DATE'],
 	$category			=	$Ccategory['name'],
 	$categoryLink		=	$this->core->url->site_url($Ccategory['url'])
 );

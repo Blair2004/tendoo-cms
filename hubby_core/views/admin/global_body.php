@@ -7,8 +7,10 @@
 <!-- .aside -->
 <?php
     }
-	function page_bottom()
+	function page_bottom($options)
 	{
+		if($options[0]['ADMIN_THEME'] == 1)
+		{
 		?>
 	<script>
 	bubblesMain(new Object({
@@ -25,6 +27,7 @@
     </body>
 </html>
 <?php
+		}
 	}
 	if(is_array($body))
 	{
@@ -52,7 +55,7 @@
 			if($body['MCO'] == FALSE)
 			{
 				echo $this->core->file_2->js_load();
-				page_bottom();
+				page_bottom($options);
 			}
 		}
 		else
@@ -63,5 +66,5 @@
 	else
 	{
 		echo $this->core->file_2->js_load();
-		page_bottom();
+		page_bottom($options);
 	}

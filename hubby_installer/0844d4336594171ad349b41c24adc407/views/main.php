@@ -20,48 +20,47 @@
                     	<div class="panel-heading">
                         Liste des articles
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-striped m-b-none">
-                                <thead>
-                                    <tr>
-                                        <th>Intitué</th>
-                                        <th>Cat&eacute;gorie</th>
-                                        <th>Date de creation</th>
-                                        <th>Accéssibilité</th>
-                                        <th>Auteur</th>
-                                    </tr>
-                                </thead>
-                        <tbody>
-                        <?php
-                        if(count($getNews) > 0)
+                        <table class="table table-striped m-b-none">
+                            <thead>
+                                <tr>
+                                    <th>Intitué</th>
+                                    <th>Cat&eacute;gorie</th>
+                                    <th>Date de creation</th>
+                                    <th>Accéssibilité</th>
+                                    <th>Auteur</th>
+                                </tr>
+                            </thead>
+                    <tbody>
+                    <?php
+                    if(count($getNews) > 0)
+                    {
+                        foreach($getNews as $g)
                         {
-                            foreach($getNews as $g)
-                            {
-								$cat_name	=	$news->getSpeCat($g['CATEGORY_ID']);
-								$user		=	$this->core->users_global->getUser($g['AUTEUR']);
+                            $cat_name	=	$news->getSpeCat($g['CATEGORY_ID']);
+                            $user		=	$this->core->users_global->getUser($g['AUTEUR']);
+                    ?>
+                        <tr>
+                            <th class="action"><a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'edit',$g['ID']));?>"><?php echo $g['TITLE'];?></a></th>
+                            <th><?php echo $cat_name['CATEGORY_NAME'];?></th>
+                            <th><?php echo $this->core->hubby->timespan(strtotime($g['DATE']));?></th>
+                            <th><?php echo $g['ETAT'] == '1' ? 'Publi&eacute;' : 'Brouillon';?></th>
+                            <th><?php echo $user['PSEUDO'];?></th>
+                            <th><a class="delete" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></th>
+                        </tr>
+                    <?php
+                        }
+                    }
+                    else
+                    {
                         ?>
-                            <tr>
-                                <th class="action"><a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'edit',$g['ID']));?>"><?php echo $g['TITLE'];?></a></th>
-                                <th><?php echo $cat_name['CATEGORY_NAME'];?></th>
-                                <th><?php echo $this->core->hubby->timespan(strtotime($g['DATE']));?></th>
-                                <th><?php echo $g['ETAT'] == '1' ? 'Publi&eacute;' : 'Brouillon';?></th>
-                                <th><?php echo $user['PSEUDO'];?></th>
-                                <th><a class="delete" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></th>
-                            </tr>
+                        <tr>
+                            <td colspan="5">Aucun article publié ou dans les brouillons</td>
+                        </tr>
                         <?php
-                            }
-                        }
-                        else
-                        {
-                            ?>
-                            <tr>
-                                <td colspan="5">Aucun article publié ou dans les brouillons</td>
-                            </tr>
-                            <?php
-                        }
-                        ?>
-                        </tbody>
-                            </table>
+                    }
+                    ?>
+                    </tbody>
+                        </table>
                         <script>
 						$(document).ready(function(){
 							$('table .delete').bind('click',function(){
@@ -86,7 +85,6 @@
 							});
 						});
 						</script>
-                        </div>
                     </section>
                 </section>
             </section>

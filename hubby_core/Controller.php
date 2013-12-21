@@ -196,6 +196,7 @@ Class Controller
 					$this->data['getTheme']		=		$this->hubby->getSiteTheme();
 					$this->data['hubby']		=		$this->hubby;
 					$this->data['module_url']	=		$this->hubby->retreiveControlerUrl();
+					$this->hubby->addVisit(); // Add visit to global stats
 					if($this->data['module_url']	==	'noMainPage')
 					{
 						$this->url->redirect(array('error','code','noMainPage'));

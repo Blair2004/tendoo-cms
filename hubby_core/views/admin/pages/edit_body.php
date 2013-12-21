@@ -91,14 +91,24 @@
                                     	<label class="control-label">Choisir un module</label> 
                                         <select class="input-sm form-control inline" name="page_module">
                                             <option value="">Affecter un module</option>
+                                            <option value="#LINK#">Attacher un lien</option>
                                             <?php
                                             foreach($get_mod as $g) 
                                             {
-												if($g['NAMESPACE']	==	$get_pages[0]['PAGE_MODULES'][0]['NAMESPACE'])
-                                                {
-                                                ?>
-                                                <option selected="selected" value="<?php echo $g['NAMESPACE'];?>"><?php echo $g['HUMAN_NAME'];?></option>
-                                                <?php
+												if(is_array($get_pages[0]['PAGE_MODULES']))
+												{
+													if($g['NAMESPACE']	==	$get_pages[0]['PAGE_MODULES'][0]['NAMESPACE'])
+													{
+													?>
+													<option selected="selected" value="<?php echo $g['NAMESPACE'];?>"><?php echo $g['HUMAN_NAME'];?></option>
+													<?php
+													}
+													else
+													{
+													?>
+                                                    <option value="<?php echo $g['NAMESPACE'];?>"><?php echo $g['HUMAN_NAME'];?></option>
+                                                    <?php
+													}
 												}
 												else 
 												{
@@ -109,6 +119,10 @@
                                             }
                                             ?>
                                         </select>
+                                    </div>
+                                    <div class="form-group"> 
+                                        <label class="control-label">Lien vers une page</label> 
+                                        <input name="page_link" class="form-control" value="<?php echo $get_pages[0]['PAGE_LINK'];?>" placeholder="Lien vers une page">
                                     </div>
                                     <div class="form-group"> 
                                     	<label class="control-label">D&eacute;finir comme principale</label> 

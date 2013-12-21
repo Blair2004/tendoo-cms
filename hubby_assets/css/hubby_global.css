@@ -70,3 +70,15 @@
 	padding:1%;
 	color:#666;
 }
+.slider_panel
+{
+	background:rgba(0,0,0,0.5);
+	font-size:12px;
+	color:#EEE;
+	margin-bottom:0;
+	position:absolute;
+	width:100%;
+	bottom:0px;
+	height:80px;
+	padding:10px;
+}

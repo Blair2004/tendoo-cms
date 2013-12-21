@@ -89,12 +89,16 @@ class Admin
 	}
 	// Public functions
 	public function index()
-	{		
+	{
+		$this->core->file_2->js_push('jquery.gridster');
+		$this->core->file->css_push('jquery.gridster.min');
+		$this->core->file->css_push('demo');
 		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->data['ttTheme']		=	$this->core->hubby_admin->countThemes();
 		$this->data['ttModule']		=	$this->core->hubby_admin->count_modules();
 		$this->data['ttPages']		=	$this->core->hubby_admin->countPages();
 		$this->data['ttPrivileges']	=	$this->core->hubby_admin->countPrivileges();
+		$this->data['Stats']		=	$this->core->hubby_admin->hubby_visit_stats();
 
 		$this->core->hubby->setTitle('Panneau de Contr&ocirc;le - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 		$this->data['body']	=	$this->load->view('admin/index/body',$this->data,true);
@@ -142,7 +146,8 @@ class Admin
 						'update',
 						$this->input->post('page_id'),
 						$this->input->post('page_visible'),
-						$this->input->post('page_parent')
+						$this->input->post('page_parent'),
+						$this->input->post('page_link')
 					);
 					$this->core->notice->push_notice(notice($this->data['notice']));
 					if($this->data['notice']	==	'controler_edited')
@@ -186,7 +191,10 @@ class Admin
 						'create',
 						null,
 						$this->input->post('page_visible'),
-						$this->input->post('page_parent'));	
+						$this->input->post('page_parent'),
+						$this->input->post('page_link')
+						
+					);	
 					if($this->data['error'] == 'controler_created')
 					{
 						$this->core->url->redirect(array('admin/pages?notice=controler_created'));
