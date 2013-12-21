@@ -137,7 +137,7 @@ class Input {
 			return $this->security->xss_clean($array[$index]);
 		}
 
-		return $array[$index];
+		return stripslashes($array[$index]);
 	}
 
 	// --------------------------------------------------------------------
