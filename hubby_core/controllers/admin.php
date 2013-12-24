@@ -684,10 +684,15 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 			if(isset($_FILES['installer_file']))
 			{
-				$this->data['installer_file']	=	$this->core->hubby_admin->hubby_installer('installer_file');
+				$query	=	$this->core->hubby_admin->hubby_installer('installer_file');
 			}
-			
-			$this->core->hubby->setTitle('Installer une application - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+			if(isset($_POST['installer_link']))
+			{
+				$query	=	$this->core->hubby_admin->hubby_url_installer($this->core->input->post('installer_link'));
+			}
+			$this->core->notice->push_notice(notice($query));
+			$this->core->hubby->setTitle('Installer une application - Hubby');
+			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/installer/install',$this->data,true);
 			
 			$this->load->view('admin/header',$this->data);

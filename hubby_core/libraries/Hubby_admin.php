@@ -485,6 +485,12 @@ class hubby_admin
 		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0; // If there is new theme just add it there
 		return $this->core->db->update('hubby_options',array('ADMIN_THEME'=>$int));
 	}
+	public function encrypted_name()
+	{
+		$alphabet	=	array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','W','X','Y','Z','1','2','3','4','5','6','7','8','9');
+		$index		=	count($alphabet)-1;
+		return 'hubby_app_'.rand(0,9).date('Y').date('m').date('d').date('H').date('i').date('s').$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)];
+	}
 	// New methods
 	private $appAllowedType					=	array('MODULE','THEME');
 	private $appModuleAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HAS_MENU','HAS_API','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','HUBBY_VERS','ENCRYPTED_DIR');
@@ -711,7 +717,6 @@ class hubby_admin
 					return 'NoCompatibleTheme';
 				}
 			}
-			
 			$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 			$this->core->notice->push_notice(notice('invalidApp'));
 			return 'invalidApp';
@@ -721,10 +726,13 @@ class hubby_admin
 	public function hubby_core_installer($appFile)
 	{
 		include_once(INSTALLER_DIR.$appFile['temp_dir'].'/install.php');
+		ob_clean();
+		
 		$temp_dir	=	INSTALLER_DIR.$appFile['temp_dir'];
 		
 		$appInfo	=	$this->datas(); // got declared info datas
 		$appInfo['appTableField']['ENCRYPTED_DIR']	=	$appFile['temp_dir'];
+		
 		if(in_array($appInfo['appType'],$this->appAllowedType))
 		{
 			if($appInfo['appType'] == 'MODULE')
@@ -736,7 +744,6 @@ class hubby_admin
 						if(!in_array($_appTableField,$this->appModuleAllowedTableField))
 						{
 							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-							$this->core->notice->push_notice(notice('invalidApp'));
 							return 'invalidApp';
 						}
 					}
@@ -744,7 +751,6 @@ class hubby_admin
 				else
 				{
 					$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-					$this->core->notice->push_notice(notice('invalidApp'));
 					return 'invalidApp';
 				}
 				if($appInfo['appHubbyVers'] <= $this->core->hubby->getVersId())
@@ -769,7 +775,6 @@ class hubby_admin
 							$this->extractor($temp_dir,MODULES_DIR.$appFile['temp_dir']);
 							$this->core->notice->push_notice(notice('moduleInstalled'));
 							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-							
 							if(array_key_exists('appAction',$appInfo)) // If this app allow action for privileges
 							{
 								for($i = 0;$i < count($appInfo['appAction']);$i++)
@@ -796,28 +801,28 @@ class hubby_admin
 							{
 								if(is_array($appInfo['appHiddenController']))
 								{
-								if(
-									!array_key_exists('NAME',$appInfo['appHiddenController']) ||
-									!array_key_exists('CNAME',$appInfo['appHiddenController']) ||
-									!array_key_exists('ATTACHED_MODULE',$appInfo['appHiddenController']) ||
-									!array_key_exists('TITLE',$appInfo['appHiddenController']) ||
-									!array_key_exists('DESCRIPTION',$appInfo['appHiddenController'])
-									)
+									if(
+										!array_key_exists('NAME',$appInfo['appHiddenController']) ||
+										!array_key_exists('CNAME',$appInfo['appHiddenController']) ||
+										!array_key_exists('ATTACHED_MODULE',$appInfo['appHiddenController']) ||
+										!array_key_exists('TITLE',$appInfo['appHiddenController']) ||
+										!array_key_exists('DESCRIPTION',$appInfo['appHiddenController'])
+										)
 									{
 										$this->core->notice->push_notice(notice('creatingHiddenControllerFailure'));
 										return 'installFailed';
 									}
-								$this->controller(
-									$appInfo['appHiddenController']['NAME'],
-									$appInfo['appHiddenController']['CNAME'],
-									$appInfo['appHiddenController']['ATTACHED_MODULE'],
-									$appInfo['appHiddenController']['TITLE'],
-									$appInfo['appHiddenController']['DESCRIPTION'],
-									FALSE,
-									'create',
-									null,
-									'FALSE'
-								); // Creating hidden Controller
+									$this->controller(
+										$appInfo['appHiddenController']['NAME'],
+										$appInfo['appHiddenController']['CNAME'],
+										$appInfo['appHiddenController']['ATTACHED_MODULE'],
+										$appInfo['appHiddenController']['TITLE'],
+										$appInfo['appHiddenController']['DESCRIPTION'],
+										FALSE,
+										'create',
+										null,
+										'FALSE'
+									); // Creating hidden Controller
 							}
 							}
 							return 'moduleInstalled';
@@ -825,12 +830,10 @@ class hubby_admin
 					}
 					else
 					{
-						$this->core->notice->push_notice(notice('module_alreadyExist'));
 						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 						return 'module_alreadyExist';
 					}
 				}
-				$this->core->notice->push_notice(notice('NoCompatibleModule'));
 				$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 				return 'NoCompatibleModule';
 			}
@@ -844,7 +847,6 @@ class hubby_admin
 						{
 							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 							$this->core->notice->push_notice(notice('invalidApp'));
-							
 							return 'invalidApp';
 						}
 					}
@@ -896,6 +898,27 @@ class hubby_admin
 		$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 		$this->core->notice->push_notice(notice('invalidApp'));
 		return 'invalidApp';
+	}
+	public function hubby_url_installer($link) // install through a link
+	{
+		$zip	=	new ZipArchive;
+		$encryptedName		=	$this->encrypted_name();
+		$fileTemporaryName	=	INSTALLER_DIR.$encryptedName.'.zip';
+		$file	=	file_get_contents($link);
+		$new	=	fopen($fileTemporaryName,'a+');
+		fwrite($new,$file);
+		fclose($new);
+		$file		=	$zip->open($fileTemporaryName);
+		if($file)
+		{
+			mkdir(INSTALLER_DIR.$encryptedName);
+			$zip->extractTo(INSTALLER_DIR.$encryptedName);
+			$zip->close();
+			unlink($fileTemporaryName);
+		}
+		$appFile				=		array();
+		$appFile['temp_dir']	=		$encryptedName;
+		return $this->hubby_core_installer($appFile);
 	}
 	// Install New Methods
 	public function installSession()

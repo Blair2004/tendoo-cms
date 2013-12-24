@@ -20,11 +20,25 @@
                     <div class="row">
                     	<div class="col-lg-6">
                         	<section class="panel">
+                            	<div class="panel-heading">Envoyer un fichier</div>
                                 <form method="post" class="panel-body" enctype="multipart/form-data">
                                 	<div class="form-group">
                                     	<p>Installer une application. Le fichier doit n&eacute;cessairement est constitu&eacute; sous forme de fichier zip. Cette application doit &ecirc;tre compatible avec la verison actuelle du CMS. la version actuelle est : <strong><?php echo $this->core->hubby->getVersion();?></strong>. Assurez-vous d'avoir t&eacute;l&eacute;charger cette application depuis un emplacement s&ucirc;r.</p>
                                         <label class="control-label">Application Hubby</label>
                                         <input name="installer_file" type="file" class="form-control">
+                                    </div>
+                                    <input type="submit" class="btn btn-info" value="Installer" />
+                                </form>
+                            </section>
+                        </div>
+                        <div class="col-lg-6">
+                        	<section class="panel">
+                            	<div class="panel-heading">Depuis une adresse url</div>
+                                <form method="post" class="panel-body" enctype="multipart/form-data">
+                                	<div class="form-group">
+                                    	<p>L'adresse vers laquelle le fichier d'installation de l'application hubby sera t&eacute;l&eacute;charger doit être une adresse valide, Assurez-vous que le fichier &agrave; t&eacute;l&eacute;charger soit un fichier compatible &agrave; la version actuelle d'hubby. La version actuelle est : <strong><?php echo $this->core->hubby->getVersion();?></strong>. </p>
+                                        <label class="control-label">Application Hubby</label>
+                                        <input name="installer_link" type="text" placeholder="Lien, exemple : https://codeload.github.com/Blair2004/hubby-cms/zip/master" class="form-control">
                                     </div>
                                     <input type="submit" class="btn btn-info" value="Installer" />
                                 </form>
