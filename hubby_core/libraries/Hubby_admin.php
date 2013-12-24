@@ -786,8 +786,7 @@ class hubby_admin
 									!array_key_exists('action_description',$appInfo['appAction'][$i])
 									)
 									{
-										$this->core->notice->push_notice(notice('creatingHiddenControllerFailure'));
-										return 'installFailed';
+										return 'addingActionFailure';
 									}
 									$this->createModuleAction(
 										$appInfo['appAction'][$i]['mod_namespace'],
@@ -810,7 +809,6 @@ class hubby_admin
 										)
 									{
 										$this->core->notice->push_notice(notice('creatingHiddenControllerFailure'));
-										return 'installFailed';
 									}
 									$this->controller(
 										$appInfo['appHiddenController']['NAME'],
@@ -846,7 +844,6 @@ class hubby_admin
 						if(!in_array($_appTableField,$this->appThemeAllowedTableField))
 						{
 							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-							$this->core->notice->push_notice(notice('invalidApp'));
 							return 'invalidApp';
 						}
 					}
@@ -854,7 +851,6 @@ class hubby_admin
 				else
 				{
 					$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-					$this->core->notice->push_notice(notice('invalidApp'));
 					return 'invalidApp';
 				}
 				if($appInfo['appHubbyVers'] <= $this->core->hubby->getVersId())
@@ -877,26 +873,21 @@ class hubby_admin
 						if(is_dir($temp_dir))
 						{
 							$this->extractor($temp_dir,THEMES_DIR.$appFile['temp_dir']);
-							$this->core->notice->push_notice(notice('theme_installed'));
 							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 							return 'theme_installed';
 						}
 					}
 					else
 					{
-						$this->core->notice->push_notice(notice('theme_alreadyExist'));
 						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 						return 'theme_alreadyExist';
 					}
 				}
-				$this->core->notice->push_notice(notice('NoCompatibleTheme'));
 				$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 				return 'NoCompatibleTheme';
 			}
 		}
-			
 		$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-		$this->core->notice->push_notice(notice('invalidApp'));
 		return 'invalidApp';
 	}
 	public function hubby_url_installer($link) // install through a link
