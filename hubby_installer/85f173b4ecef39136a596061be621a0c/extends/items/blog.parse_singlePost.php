@@ -2,19 +2,19 @@
 		if(count($this->singleBlogPost) > 0)
 		{
 	?>
-	<div id="post-content">
+	<div id="post-content" itemscope itemptype="http://schema.org/articleBody">
 
 	<div class="feature-image">
-		<a href="<?php echo $this->singleBlogPost['FULL'];?>" data-rel="prettyPhoto"><img src="<?php echo $this->singleBlogPost['THUMB'];?>" alt="<?php echo $this->singleBlogPost['TITLE'];?> text" /></a>
+		<a href="<?php echo $this->singleBlogPost['FULL'];?>" data-rel="prettyPhoto"><img itemprop="image" src="<?php echo $this->singleBlogPost['THUMB'];?>" alt="<?php echo $this->singleBlogPost['TITLE'];?> text" /></a>
 	</div>
-	<h1 class="post-heading"><?php echo $this->singleBlogPost['TITLE'];?></h1>
-	<div class="meta">
+	<h1 class="post-heading" itemprop="name"><?php echo $this->singleBlogPost['TITLE'];?></h1>
+	<div class="meta" itemprop="dateCreated">
 		<span class="entry-date"><?php echo $this->core->hubby->time($this->singleBlogPost['TIMESTAMP']);?></span>
-		dans <span class="categories"><a href="<?php echo $this->singleBlogPost['CATEGORY_LINK'];?>"><?php echo $this->singleBlogPost['CATEGORY'];?></a></span>
+		dans <span class="categories"><a href="<?php echo $this->singleBlogPost['CATEGORY_LINK'];?>"><?php echo $this->singleBlogPost['CATEGORY'];?></a><br />par <span itempprop="author"><?php echo $this->incleBlogPost['AUTHOR'];?></span></span>
 	</div>
 	
-	<div class="content-area"><?php echo $this->singleBlogPost['CONTENT'];?></div>
-		
+	<div class="content-area" itemprop="description"><?php echo $this->singleBlogPost['CONTENT'];?></div>
+    <meta itemprop="datePublished" content="<?php echo  $this->singleBlogPost['DATE'];?>"/>
 	<div class="clearfix"></div>
 	<!-- comments list -->
 	<div id="comments-wrap">
@@ -27,18 +27,18 @@
 				foreach($this->SBP_comments as $s)
 				{
 			?>	   
-			<li class="comment even thread-even depth-1" id="li-comment-<?php echo $commentID;?>">
+			<li itemscope itemtype="http://schema.org/UserComments" class="comment even thread-even depth-1" id="li-comment-<?php echo $commentID;?>">
 				
 				<div id="comment-1" class="comment-body clearfix">
 					<img alt='' src='http://0.gravatar.com/avatar/4f64c9f81bb0d4ee969aaf7b4a5a6f40?s=35&amp;d=&amp;r=G' class='avatar avatar-35 photo' height='35' width='35' />      
-					<div class="comment-author vcard"><?php echo $s['AUTHOR'];?></div>
+					<div itemprop="creator" class="comment-author vcard"><?php echo $s['AUTHOR'];?></div>
 					<div class="comment-meta commentmetadata">
-						<span class="comment-date"><?php echo $s['TIMESTAMP'];?></span>
+						<span class="comment-date" itemprop="dateCreated"><?php echo $s['TIMESTAMP'];?></span>
 						<span class="comment-reply-link-wrap"><a class='comment-reply-link' href='replytocom=23#respond' onclick='return addComment.moveForm("comment-1", "1", "respond", "432")'>R&eacute;pondre</a></span>
 						
 					</div>
 					<div class="comment-inner">
-						<p><?php echo $s['CONTENT'];?></p>
+						<p itemprop="commentText"><?php echo $s['CONTENT'];?></p>
 					</div>
 				</div>
 			</li>
