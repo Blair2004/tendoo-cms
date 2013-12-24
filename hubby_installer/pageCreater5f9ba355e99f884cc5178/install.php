@@ -29,6 +29,21 @@ $this->appAction(array(
 	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de modifier des articles',
 	'mod_namespace'			=>	$this->appTableField['NAMESPACE']
 ));
+$this->appAction(array(
+	'action'				=>	'attachPageTo',
+	'action_name'			=>	'Liée une page',
+	'action_description'	=>	'Cette action permet de lier une page à un contenu HTML cr&eacute;e.',
+	'mod_namespace'			=>	$this->appTableField['NAMESPACE']
+));
+$this->appSql(	
+	'CREATE TABLE IF NOT EXISTS `hubby_refTopage` (
+	  `ID` int(11) NOT NULL AUTO_INCREMENT,
+	  `PAGE_CONTROLEUR` varchar(200) NOT NULL,
+	  `PAGE_HTML` varchar(200) NOT NULL,
+	  `DATE` varchar(200) NOT NULL,
+	  `AUTEUR` int(11) NOT NULL,
+	  PRIMARY KEY (`ID`)
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `hubby_pages` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,

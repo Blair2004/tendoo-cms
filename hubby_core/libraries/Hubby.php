@@ -399,14 +399,6 @@ class Hubby
 			$this->hubby_admin->hubby_core_installer($appFile);
 			$this->hubby_admin->moduleActivation('Pages_editor',FALSE);
 		}
-		else if($app	==	'RefToPage')
-		{
-			$appFile				=		array();
-			$appFile['temp_dir']	=		'refTopage9a5f9ba355e99f884cc5178';
-			$option					=		$this->getOptions();
-			$this->hubby_admin->hubby_core_installer($appFile);
-			$this->hubby_admin->moduleActivation('hubby_refToPage',FALSE);
-		}
 	}
 	public function connectToDb()
 	{
@@ -689,7 +681,7 @@ class Hubby
 	public function getControllersAttachedToModule($module) // Recupere la page qui embarque le module spécifié.
 	{
 		$this->core->db->select('*')
-					->from('hubby_controllers')->where('PAGE_VISIBLE','TRUE')->where('PAGE_MODULES',$module);
+					->from('hubby_controllers')->where('PAGE_MODULES',$module); // Nous avons choisi de ne pas exiger la selection des controleur visible "->where('PAGE_VISIBLE','TRUE')"
 		$r			=	$this->core->db->get();
 		return $r->result_array();
 	}

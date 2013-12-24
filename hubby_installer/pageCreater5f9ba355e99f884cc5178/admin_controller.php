@@ -17,6 +17,12 @@ class Pages_editor_admin_controller
 		$this->page_handler				=	new Pages_admin($this->data);
 		$this->hubby					=	$this->core->hubby;
 		$this->hubby_admin				=	$this->core->hubby_admin;
+		
+		$this->moduleData				=	$this->data['module'][0];
+		$this->moduleNamespace			=&	$this->data['module'][0]['NAMESPACE'];
+		include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library_2.php');
+		$this->rtp_lib					=	new refToPage_lib($this->data);
+		$this->data['rtp_lib']			=&	$this->rtp_lib;
 		$this->dir						=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
 		$this->hubby_admin->menuExtendsBefore($this->core->load->view($this->dir.'/views/menu',$this->data,TRUE,TRUE));
 		$this->notice					=	$this->core->notice;
@@ -118,5 +124,53 @@ class Pages_editor_admin_controller
 		}
 		redirect(array('admin','open','modules',$this->moduleData['ID'].'?notice=error_occured'));
 		return false;
+	}
+	public function page_linker()
+	{
+		$this->hubby->setTitle('Attributeur de contenu - Page d\'administration');
+				
+		$this->data['supportedPages']	=	array();
+		$pages			=	$this->hubby_admin->get_pages(null,TRUE);	
+		foreach($pages as $p)
+		{
+			
+			if($p['PAGE_MODULES'] 	==	$this->moduleNamespace)
+			{
+				$this->data['supportedPages'][]	=	$p;
+			}
+		}
+		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/page_linker_main',$this->data,true,TRUE);
+		
+		return $this->data['body'];
+	}
+	public function page_edit($page)
+	{
+		$this->hubby->setTitle('Attributeur de contenu - Page d\'administration');
+		
+		$this->data['control']		=	$this->core->hubby_admin->get_pages($page);
+		if($this->data['control'] == false)
+		{
+			$this->core->url->redirect(array('error','code','page404'));
+		}
+		$this->core->load->library('form_validation');
+		$this->core->form_validation->set_rules('content_id','Contenu','trim|required|min_length[1]');
+		$this->core->form_validation->set_rules('page_id','Identifiant du contr&ocirc;leur','trim|required|min_length[1]');
+		if($this->core->form_validation->run())
+		{
+			$query	=	$this->rtp_lib->attach($this->core->input->post('page_id'),$this->core->input->post('content_id'));
+			if($query)
+			{
+				$this->notice->push_notice(notice('done'));
+			}
+			else
+			{
+				$this->notice->push_notice(notice('error_occured'));
+			}
+		}
+		$this->data['attachement']	=	$this->rtp_lib->isAttached($this->data['control'][0]['ID']);
+		$this->data['pageList']		=	$this->rtp_lib->getContentList();
+		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/page_linker_edit',$this->data,true,TRUE);
+		
+		return $this->data['body'];
 	}
 }

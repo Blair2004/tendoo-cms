@@ -2,6 +2,38 @@
 <section id="content">
     <section class="vbox">
         <?php echo $inner_head;?>
+        <footer class="footer bg-white b-t">
+            <div class="row m-t-sm text-center-xs">
+                <div class="col-sm-4">
+                    <select class="input-sm form-control input-s-sm inline">
+                        <option value="0">Bulk action</option>
+                        <option value="1">Delete selected</option>
+                        <option value="2">Bulk edit</option>
+                        <option value="3">Export</option>
+                    </select>
+                    <button class="btn btn-sm btn-white">Apply</button>
+                </div>
+                <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small> </div>
+                <div class="col-sm-4 text-right text-center-xs">
+                    <ul class="pagination pagination-sm m-t-none m-b-none">
+                     <?php 
+					 if(isset($paginate))
+					 {
+					if(is_array($paginate[4]))
+					{
+						foreach($paginate[4] as $p)
+						{
+							?>
+                            <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
+							<?php
+						}
+					}
+					 }
+				?>
+                    </ul>
+                </div>
+            </div>
+        </footer>
         <section class="scrollable" id="pjax-container">
             <header>
                 <div class="row b-b m-l-none m-r-none">
@@ -58,37 +90,5 @@
                 </section>
             </section>
         </section>
-        <footer class="footer bg-white b-t">
-            <div class="row m-t-sm text-center-xs">
-                <div class="col-sm-4">
-                    <select class="input-sm form-control input-s-sm inline">
-                        <option value="0">Bulk action</option>
-                        <option value="1">Delete selected</option>
-                        <option value="2">Bulk edit</option>
-                        <option value="3">Export</option>
-                    </select>
-                    <button class="btn btn-sm btn-white">Apply</button>
-                </div>
-                <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small> </div>
-                <div class="col-sm-4 text-right text-center-xs">
-                    <ul class="pagination pagination-sm m-t-none m-b-none">
-                     <?php 
-					 if(isset($paginate))
-					 {
-					if(is_array($paginate[4]))
-					{
-						foreach($paginate[4] as $p)
-						{
-							?>
-                            <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
-							<?php
-						}
-					}
-					 }
-				?>
-                    </ul>
-                </div>
-            </div>
-        </footer>
     </section>
     <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a> </section>

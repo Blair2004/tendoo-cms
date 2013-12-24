@@ -1,12 +1,17 @@
-<div style="min-height:500px;padding:1%;">
-<?php 
-	if($section == 'loadPage')
+<?php
+	if($section == 'main')
 	{
-		echo html_entity_decode($retreive[0]['CONTENT']);
+		if($fileContent)
+		{
+			$theme->definePageTitle($fileContent[0]['TITLE']);
+			$theme->definePageDescription($fileContent[0]['DESCRIPTION']);
+			$theme->defineUnique($fileContent[0]['CONTENT']);
+		}
+		else
+		{
+			$theme->definePageTitle('Erreur');
+			$theme->definePageDescription('Le contenu attach&eacute; &agrave; cette page est introuvable !!!');
+			$theme->defineUnique('Le contenu attach&eacute; &agrave; cette page est introuvable !!!<br>Connectez-vous &agrave; l\'espace administrateur pour attribuer &agrave; ce contr&ocirc;leur un contenu valide.');
+		}
+		$theme->parseUnique();
 	}
-	else
-	{
-		echo 'Unknow Section / Section inconnue';
-	}
-?>
-</div>

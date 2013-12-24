@@ -18,19 +18,19 @@
 					<?php echo notice_from_url();?>
 					<?php echo validation_errors(); ?> 
                     <section class="panel">
-                        <div class="panel-heading"> Cr&eacute;er une cat&eacute;gogrie </div>
+                        <div class="panel-heading"> Cr&eacute;er une nouvelle page </div>
                         <div class="span8"> 
-                            <form method="post" action="">
-                                <div class="input-control text">
-                                    <input type="text" name="page_title" placeholder="Titre">
+                            <form method="post" class="panel-body">
+                                <div class="form-group text">
+                                    <input class="form-control" type="text" name="page_title" placeholder="Titre">
                                 </div>
-                                <div class="input-control text">
-                                    <input type="text" name="page_description" placeholder="Description">
+                                <div class="form-group text">
+                                    <input class="form-control" type="text" name="page_description" placeholder="Description">
                                 </div>
-                                <div class="input-control textarea">
+                                <div class="form-group textarea">
                                     <?php echo $this->core->hubby->getEditor(array('name'=>'page_content','id'=>'editor'));?>
                                 </div>
-                                <input type="submit" value="Cr&eacute;er la page">
+                                <input class="btn btn-info btn-sm" type="submit" value="Cr&eacute;er la page">
                             </form>
                         </div>
                     </section>

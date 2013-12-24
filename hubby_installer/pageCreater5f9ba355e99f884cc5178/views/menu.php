@@ -2,5 +2,6 @@
     <ul class="dropdown-menu">
         <li><a href="<?php echo $this->core->url->site_url('admin/open/modules/'.$module[0]['ID']);?>">Accueil</a></li>
         <li><a href="<?php echo $this->core->url->site_url('admin/open/modules/'.$module[0]['ID'].'/create');?>">Créer une page</a></li>    
+        <li><a href="<?php echo $this->core->url->site_url('admin/open/modules/'.$module[0]['ID'].'/page_linker');?>">Li&eacute;er &agrave; un contr&ocirc;leur</a></li>
     </ul>
 </li>
