@@ -546,6 +546,7 @@ class hubby_admin
 		{
 			$appFile	=	Unzip(INSTALLER_DIR.$this->core->upload->file_name);
 			include_once(INSTALLER_DIR.$appFile['temp_dir'].'/install.php');
+			ob_clean(); // remove outputform install.php
 			$temp_dir	=	INSTALLER_DIR.$appFile['temp_dir'];
 			
 			$appInfo	=	$this->datas(); // got declared info datas
@@ -893,6 +894,10 @@ class hubby_admin
 	public function hubby_url_installer($link) // install through a link
 	{
 		$zip	=	new ZipArchive;
+		$file	=	file($link);
+		var_dump(is_file($link));
+		var_dump($file);
+		return ;
 		$encryptedName		=	$this->encrypted_name();
 		$fileTemporaryName	=	INSTALLER_DIR.$encryptedName.'.zip';
 		$file	=	file_get_contents($link);
