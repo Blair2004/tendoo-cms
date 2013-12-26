@@ -895,9 +895,6 @@ class hubby_admin
 	{
 		$zip	=	new ZipArchive;
 		$file	=	file($link);
-		var_dump(is_file($link));
-		var_dump($file);
-		return ;
 		$encryptedName		=	$this->encrypted_name();
 		$fileTemporaryName	=	INSTALLER_DIR.$encryptedName.'.zip';
 		$file	=	file_get_contents($link);
