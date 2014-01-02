@@ -10,6 +10,6 @@ Try it and please don't forget to report us a bug, you can join us to make hubby
 
 Install
 ----------
-To make hubby work easyly on your evaluation server, make sure that the way you access your server is http://localhost/ and not http://127.0.0.1/ otherwise hubby will crash... we're fixing that issue.
+To make hubby work easyly on your evaluation server, we recommend you to your server using http://localhost/ and not http://127.0.0.1/ otherwise hubby may have some unexpected behaviour... we're fixing that issue(fixed).
 
 Blair
