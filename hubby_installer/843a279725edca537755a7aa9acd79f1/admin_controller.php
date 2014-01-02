@@ -80,39 +80,45 @@ class Hubby_contents_admin_controller
 		$this->core->file->js_push('jquery.Jcrop.min');
 		$this->core->file->css_push('jquery.Jcrop.min');
 		$this->core->load->library('form_validation');
-		$this->core->form_validation->set_rules('delete_file','','trim|required');
-		$this->core->form_validation->set_rules('content_id','','trim|required|is_numeric');
-		if($this->core->form_validation->run())
+		if($this->core->input->post('delete_file'))
 		{
-			$query	=	$this->file_contentAdmin->fileDrop($this->core->input->post('content_id'));
-			if($query)
+			$this->core->form_validation->set_rules('delete_file','','trim|required');
+			$this->core->form_validation->set_rules('content_id','','trim|required|is_numeric');
+			if($this->core->form_validation->run()) // File drop
 			{
-				$this->core->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
-			}
-			else
-			{
-				$this->core->notice->push_notice(notice('errorOccured'));
+				$query	=	$this->file_contentAdmin->fileDrop($this->core->input->post('content_id'));
+				if($query)
+				{
+					$this->core->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
+				}
+				else
+				{
+					$this->core->notice->push_notice(notice('error_occured'));
+				}
 			}
 		}
-		$this->core->load->library('form_validation');
-		$this->core->form_validation->set_rules('file_name','Le nom du fichier','trim|required|min_length[5]|max_length[40]');
-		$this->core->form_validation->set_rules('file_description','La description du fichier','trim|required|min_length[5]|max_length[200]');
-		$this->core->form_validation->set_rules('content_id','','trim|required|min_length[1]');
-		$this->core->form_validation->set_rules('edit_file','','trim|required|min_length[1]');
-		if($this->core->form_validation->run())
+		if($this->core->input->post('edit_file'))
 		{
-			$query	=	$this->file_contentAdmin->editFile(
-				$this->core->input->post('content_id'),
-				$this->core->input->post('file_name'),
-				$this->core->input->post('file_description')
-			);
-			if($query)
+			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_rules('file_name','Le nom du fichier','trim|required|min_length[5]|max_length[40]');
+			$this->core->form_validation->set_rules('file_description','La description du fichier','trim|required|min_length[5]|max_length[200]');
+			$this->core->form_validation->set_rules('content_id','','trim|required|min_length[1]');
+			$this->core->form_validation->set_rules('edit_file','','trim|required|min_length[1]');
+			if($this->core->form_validation->run()) // edit file
 			{
-				$this->core->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
-			}
-			else
-			{
-				$this->core->notiec->push_notice(notice('error_occured'));				
+				$query	=	$this->file_contentAdmin->editFile(
+					$this->core->input->post('content_id'),
+					$this->core->input->post('file_name'),
+					$this->core->input->post('file_description')
+				);
+				if($query)
+				{
+					$this->core->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
+				}
+				else
+				{
+					$this->core->notiec->push_notice(notice('error_occured'));				
+				}
 			}
 		}
 		if($this->core->input->post('overwrite_file'))
@@ -137,12 +143,56 @@ class Hubby_contents_admin_controller
 					$this->core->input->post('w'),
 					$this->core->input->post('h')
 				);
+				if($query)
+				{
+					$this->core->notice->push_notice(notice('done'));
+				}
+				else
+				{
+					$this->core->notice->push_notice(notice('error_occured'));
+				}
+			}
+		}
+		if($this->core->input->post('change_file'))
+		{
+			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_rules('content_id','cordonn&eacute;e','trim|required|min_length[1]');
+			if($this->core->form_validation->run())
+			{
+				$query	=	$this->lib->fileReplace($this->core->input->post('content_id'),'new_file');
+				$this->core->notice->push_notice(notice($query));
+			}
+		}
+		if($this->core->input->post('create_new_file'))
+		{
+			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_rules('create_new_file','Ecraser l\'image','trim|required|min_length[5]|max_length[40]');
+			$this->core->form_validation->set_rules('x1','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->core->form_validation->set_rules('y1','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->core->form_validation->set_rules('x2','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->core->form_validation->set_rules('y2','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->core->form_validation->set_rules('w','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->core->form_validation->set_rules('h','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->core->form_validation->set_rules('image_id','Index de l\'image','trim|required|min_length[1]');
+			if($this->core->form_validation->run())
+			{
+				$query	=	$this->lib->create_new_image(
+					$this->core->input->post('image_id'),
+					$this->core->session->userdata('fileNewName'),
+					$this->core->input->post('x1'),
+					$this->core->input->post('y1'),
+					$this->core->input->post('x2'),
+					$this->core->input->post('y2'),
+					$this->core->input->post('w'),
+					$this->core->input->post('h')
+				);
+				$this->core->notice->push_notice(notice($query));
 			}
 		}
 		
-		
 		$this->hubby->setTitle('Gestionnaire de contenu - Edition d\'un fichier');
-		
+		$this->data['fileNewName']	=	$this->lib->getName();
+		$this->core->session->set_userdata('fileNewName',$this->data['fileNewName']);
 		$this->data['getFile']		=	$this->file_contentAdmin->getUploadedFiles($id);
 		if(count($this->data['getFile']) == 0)
 		{

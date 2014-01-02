@@ -5,7 +5,7 @@ $this->appVers(0.1);
 $this->appHubbyVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'news',
-	'HUMAN_NAME'	=> 'Bloster - Le gestionnaire d\'articles',
+	'HUMAN_NAME'	=> 'Blogster - Le gestionnaire d\'articles',
 	'AUTHOR'		=> 'Hubby Group',
 	'DESCRIPTION'	=> 'Créer, modifier et publié des articles pour votre blog.',
 	'TYPE'			=> 'BYPAGE',

@@ -25,7 +25,7 @@ if(count($Comments) >0)
 			$author			=	$userdata == FALSE ? $c['OFFLINE_AUTEUR'] : $userdata['PSEUDO'],
 			$authorLink		=	'#',
 			$content		=	$c['CONTENT'],
-			$timestamp		=	$this->core->hubby->timespan($c['DATE'])
+			$timestamp		=	$c['DATE']
 		);
 	}
 }

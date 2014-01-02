@@ -149,6 +149,10 @@ if ( ! function_exists('timespan'))
 {
 	function timespan($seconds = 1, $time = '')
 	{
+		if(!preg_match('#[0-9]{10,}#',$seconds))
+		{
+			$seconds	=	 strtotime($seconds);
+		}
 		if ( ! is_numeric($seconds))
 		{
 			$seconds = 1;

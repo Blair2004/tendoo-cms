@@ -1,4 +1,10 @@
 <?php
+global $NOTICE_SUPER_ARRAY;
+/// -------------------------------------------------------------------------------------------------------------------///
+$or['fileReplaced']			=	hubby_success('Le fichier &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
+
+/// -------------------------------------------------------------------------------------------------------------------///
+$NOTICE_SUPER_ARRAY = $or;
 	if(class_exists('hubby_admin'))
 	{
 		class file_contentAdmin
@@ -72,6 +78,36 @@
 				$query	=	$this->core->db->order_by("ID", "desc")->get('hubby_contents');
 				return	$query->result_array();
 			}
+			public function fileReplace($image_id,$uploaded_file)
+			{
+				$file	=	$this->getUploadedFiles($image_id);
+				$file_l	=	$this->cp_dir.'/'.$file[0]['FILE_NAME'];
+				if(file_exists($file_l))
+				{
+					unlink($file_l);
+				}
+				$namesansext				=	explode('.',$file[0]['FILE_NAME']);
+				$namesansext				=	$namesansext[0];
+				$config['upload_path'] 		= $this->cp_dir;
+				$config['allowed_types'] 	= 'gif|jpg|png|avi|mp3|mp4|ogg|zip|rar|docx|doc|pdf';
+				$config['max_size'] 		= '500000';
+				$config['file_name']		= $namesansext;
+				$config['overwrite']		=	TRUE;
+				$this->core->load->library('upload',$config);
+				if($this->core->upload->do_upload($uploaded_file))
+				{
+					$file_data				=	$this->core->upload->data();
+					$this->core->db->where('ID',$image_id)->update('hubby_contents',
+						array(
+							'FILE_NAME'	=>	$file_data['file_name'],
+							'FILE_TYPE'	=>	substr($file_data['file_ext'],1),
+							'AUTHOR'	=>	$this->core->users_global->current('ID')
+						)
+					); // un finished
+					return 'fileReplaced';
+				}
+				return 'error_occured';
+			}
 			public function fileDrop($id)
 			{
 				$f		=	$this->getUploadedFiles($id);
@@ -93,7 +129,7 @@
 						'DATE'			=>	$this->core->hubby->datetime(),
 						'AUTHOR'		=>	$this->core->users_global->current('ID')
 					);
-					return $this->core->db->update('hubby_contents',$array);
+					return $this->core->db->where('ID',$thefile[0]['ID'])->update('hubby_contents',$array);
 				}
 				return false;
 			}
@@ -102,21 +138,63 @@
 				$image	=	$this->getUploadedFiles($image_id);
 				if($image)
 				{
-					var_dump($_POST);
 					$config['image_library'] 	= 'gd2';
 					$config['source_image']		= $this->cp_dir.'/'.$image[0]['FILE_NAME'];
-					$config['create_thumb'] 	= TRUE;
-					$config['maintain_ratio'] 	= TRUE;
+					$config['create_thumb'] 	= FALSE;
+					$config['maintain_ratio'] 	= FALSE;
 					$config['width']	 		= $w;
 					$config['height']			= $h;
 					$config['quality']			=	'100%';
+					$config['x_axis'] 			= $x1;
+					$config['y_axis'] 			= $y1;
 					
-					$this->core->load->library('image_lib', $config); 
+					$this->core->load->library('image_lib');
+					$this->core->image_lib->initialize($config); 
+					$this->core->image_lib->crop();
+					$notice						=	$this->core->image_lib->display_errors();
+					if($notice != '')
+					{
+					$this->core->notice->push_notice(hubby_notice($notice));
+					}
+					return true;
 				}
 				return false;
 			}
 			public function create_new_image($image_id,$image_name,$x1,$y1,$x2,$y2,$w,$h)
 			{
+				$image	=	$this->getUploadedFiles($image_id);
+				if($image)
+				{
+					$config['image_library'] 	= 'gd2';
+					$config['source_image']		= $this->cp_dir.'/'.$image[0]['FILE_NAME'];
+					$config['new_image']		= $this->cp_dir.'/'.$image_name.'.'.strtolower($image[0]['FILE_TYPE']);
+					$config['create_thumb'] 	= FALSE;
+					$config['maintain_ratio'] 	= FALSE;
+					$config['width']	 		= $w;
+					$config['height']			= $h;
+					$config['quality']			=	'100%';
+					$config['x_axis'] 			= $x1;
+					$config['y_axis'] 			= $y1;
+					$this->core->load->library('image_lib');
+					$this->core->image_lib->initialize($config); 
+					$this->core->image_lib->crop();
+					$notice						=	$this->core->image_lib->display_errors();
+					if($notice == '')
+					{
+						$date					=	$this->core->hubby->datetime();
+						$array	=	array(
+							'FILE_NAME'			=>		$image_name.'.'.strtolower($image[0]['FILE_TYPE']),
+							'FILE_TYPE'			=>		$image[0]['FILE_TYPE'],
+							'DATE'				=>		$date,
+							'TITLE'				=>		$image[0]['TITLE'],
+							'DESCRIPTION'		=>		$image[0]['DESCRIPTION'],
+							'AUTHOR'			=>		$this->users_global->current('ID')
+						);
+						$this->core->db->insert('hubby_contents',$array);
+						return 'done';
+					}
+				}
+				return 'error_occured';
 			}
 		}
 	}

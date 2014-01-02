@@ -15,14 +15,8 @@ class aflecatdi_news_common_widget
 		}
 		$this->news		=	new News_smart;
 		$setting		=	$this->news->getBlogsterSetting();
-		if(is_array($setting))
-		{
-			$LIMITCAT	=	$setting['WIDGET_CATEGORY_LIMIT'];
-		}
-		else
-		{
-			$LIMITCAT	=	5; // default value.
-		}
+		$LIMITCAT		=	$setting['WIDGET_CATEGORY_LIMIT'];
+		
 		$this->data['ttCat']	=	$this->news->getCat(0,$LIMITCAT);
 		$end			=	'<ul>';
 		$controller		=	$this->core->hubby->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['NAMESPACE']);

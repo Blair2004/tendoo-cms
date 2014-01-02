@@ -12,6 +12,7 @@ $or['noCategoryCreated']		=	'<span class="hubby_error"><i class="icon-warning"><
 $or['connectToComment']			=	'<span class="hubby_error"><i class="icon-warning"></i> Vous devez &ecirc;tre connect&eacute; pour commenter.</span>';
 $or['unknowComments']			=	'<span class="hubby_error"><i class="icon-warning"></i> Commentaire introuvable.</span>';
 $or['commentDeleted']			=	'<span class="hubby_success"><i class="icon-checkmark"></i> Commentaire supprim&eacute;.</span>';
+$or['submitedForApproval']			=	'<span class="hubby_success"><i class="icon-checkmark"></i> Votre commentaire &agrave; &eacute;t&eacute; soumis pour une examination.</span>';
 
 /// -------------------------------------------------------------------------------------------------------------------///
 $NOTICE_SUPER_ARRAY = $or;
@@ -284,6 +285,15 @@ $NOTICE_SUPER_ARRAY = $or;
 			{
 				$query	=	$this->core->db->get('hubby_news_setting');
 				$result	=	$query->result_array();
+				if(!$result)
+				{
+					return 	array(
+						'WIDGET_CATEGORY_LIMIT'		=>	10,
+						'EVERYONEPOST'				=>	1,
+						'APPROVEBEFOREPOST'			=>	1,
+						'WIDGET_MOSTREADED_LIMIT'	=>	10
+					);
+				}
 				return array_key_exists(0,$result) ? $result[0] : false;
 			}
 			public function getSpeComment($id)
@@ -474,13 +484,18 @@ $NOTICE_SUPER_ARRAY = $or;
 					$auteur				=	'';
 					$email				=	$this->users->current('EMAIL');
 				}
+				$option			=	$this->getBlogsterSetting();
+
+				$autoApprove	= (int)$option['APPROVEBEFOREPOST'] == 1 ? 	0 : 1;
+				
 				$comment					=	array(
 					'REF_ART'				=> 	$id,
 					'CONTENT'				=> 	$content,
 					'AUTEUR'				=> 	$user_id,
 					'OFFLINE_AUTEUR'		=>	$auteur,
 					'OFFLINE_AUTEUR_EMAIL'	=>	$email,
-					'DATE'					=> 	$this->hubby->datetime()
+					'DATE'					=> 	$this->hubby->datetime(),
+					'SHOW'					=>	$autoApprove
 				);
 				return $this->core->db	->insert('hubby_comments',$comment);
 			}
@@ -506,7 +521,16 @@ $NOTICE_SUPER_ARRAY = $or;
 			{
 				$query	=	$this->core->db->get('hubby_news_setting');
 				$result	=	$query->result_array();
-				return array_key_exists(0,$result) ? $result[0] : array('APPROVEBEFOREPOST'=>1,'EVERYONEPOST'=>0);
+				if(!$result)
+				{
+					return 	array(
+						'WIDGET_CATEGORY_LIMIT'		=>	10,
+						'EVERYONEPOST'				=>	1,
+						'APPROVEBEFOREPOST'			=>	1,
+						'WIDGET_MOSTREADED_LIMIT'	=>	10
+					);
+				}
+				return array_key_exists(0,$result) ? $result[0] : false;
 			}
 			public function pushView($arid)
 			{

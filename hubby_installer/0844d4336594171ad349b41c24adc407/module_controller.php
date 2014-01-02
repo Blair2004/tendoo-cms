@@ -43,7 +43,14 @@ class News_module_controller
 			$result	=	$this->data['news']->postComment($id,$this->core->input->post('content'),$this->core->input->post('pseudo'),$this->core->input->post('email'));
 			if($result)
 			{
-				$this->core->notice->push_notice(notice('done'));
+				if($this->data['setting']['APPROVEBEFOREPOST'] == 0)
+				{
+					$this->core->notice->push_notice(notice('done'));
+				}
+				else
+				{
+					$this->core->notice->push_notice(notice('submitedForApproval'));
+				}
 			}
 		}
 		$this->data['ttNews']		=		$this->data['news']->countNews();

@@ -1327,4 +1327,21 @@ class hubby_admin
 			}
 		}
 	}
+	// new
+	public function getAppIcon($appNameSpace)
+	{
+		$app	=	$this->getSpeModuleByNamespace($appNameSpace);
+		if($app)
+		{
+			$file	=	MODULES_DIR.$app[0]['ENCRYPTED_DIR'].'/app_icon.';
+			foreach(array('png','jpg','gif') as $g)
+			{
+				if(is_file($file.$g))
+				{
+					return $this->core->url->main_url().$file.$g;
+				}
+			}
+		}
+		return false;
+	}
 }

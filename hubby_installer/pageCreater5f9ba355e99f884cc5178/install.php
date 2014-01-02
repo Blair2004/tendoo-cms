@@ -1,7 +1,7 @@
 <?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.1);
+$this->appVers(0.2);
 $this->appHubbyVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'Pages_editor',
@@ -9,7 +9,7 @@ $this->appTableField(array(
 	'AUTHOR'		=> 'Hubby Group',
 	'DESCRIPTION'	=> 'Créer une page HTML.',
 	'TYPE'			=> 'BYPAGE',
-	'HUBBY_VERS'	=> 0.9
+	'HUBBY_VERS'	=> 0.94
 ));
 $this->appAction(array(
 	'action'				=>	'create_page',

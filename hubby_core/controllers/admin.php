@@ -102,7 +102,6 @@ class Admin
 
 		$this->core->hubby->setTitle('Panneau de Contr&ocirc;le - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 		$this->data['body']	=	$this->load->view('admin/index/body',$this->data,true);
-		
 		$this->load->view('admin/header',$this->data);
 		$this->load->view('admin/global_body',$this->data);
 	}

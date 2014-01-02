@@ -341,7 +341,7 @@ class Hubby
 			$module					=		$this->hubby_admin->moduleActivation('news',FALSE);
 			if($module)
 			{
-				$this->firstController('Accueil','home','news',$option[0]['SITE_NAME'].' - Accueil','Aucune description enregistr&eacute;e','TRUE','TRUE');
+				$this->firstController('Blog','blog','news',$option[0]['SITE_NAME'].' - Blog','Aucune description enregistr&eacute;e','TRUE','TRUE');
 				$module					=		$this->getSpeModuleByNamespace('news');
 				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
 				$lib					=	new News(null);
@@ -1352,7 +1352,7 @@ class Hubby
 			$this->core->url->redirect(array('login?ref='.urlencode($this->core->url->request_uri())));
 			return;
 		}
-	}
+	}	
 	public function getModuleMenu($namespace)
 	{
 		$module		=	$this->getSpeModuleByNamespace($namespace);
