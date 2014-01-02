@@ -5,15 +5,9 @@
         <footer class="footer bg-white b-t">
             <div class="row m-t-sm text-center-xs">
                 <div class="col-sm-4">
-                    <select class="input-sm form-control input-s-sm inline">
-                        <option value="0">Bulk action</option>
-                        <option value="1">Delete selected</option>
-                        <option value="2">Bulk edit</option>
-                        <option value="3">Export</option>
-                    </select>
-                    <button class="btn btn-sm btn-white">Apply</button>
+                    
                 </div>
-                <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small> </div>
+                <div class="col-sm-4 text-center">  </div>
                 <div class="col-sm-4 text-right text-center-xs">
                     <ul class="pagination pagination-sm m-t-none m-b-none">
                         <?php 
@@ -56,7 +50,9 @@
                                                     $appIcon	=	$this->core->hubby_admin->getAppIcon($mod['NAMESPACE']);
                                                     ?>
                                         <tr>
-                                            <td><?php
+                                            <td>
+                                            <a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$mod['ID']));?>">
+											<?php
                                                     if($appIcon)
                                                     {
                                                     ?>
@@ -69,7 +65,8 @@
                                                 <i class="icon-puzzle-piece" style="font-size:70px;float:left;height:70px;width:70px;"></i>
                                                 <?php
                                                     }
-                                                    ?></td>
+                                                    ?>
+                                                    </a></td>
                                             <td class="action"><strong> <a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$mod['ID']));?>"><?php echo $mod['HUMAN_NAME'];?></a> </strong> <br>
                                                 <em><small><?php echo $mod['AUTHOR'];?></small></em> <br>
                                                 <?php echo $mod['DESCRIPTION'];?> <br>

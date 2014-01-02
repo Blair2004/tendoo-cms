@@ -11,13 +11,13 @@ Class Url
 
 	public function __construct()
 	{
-		$host	=	($_SERVER['HTTP_HOST'] == 'localhost') ? 'localhost/' : $_SERVER['HTTP_HOST'].'/';
+		$host	=	(in_array($_SERVER['HTTP_HOST'],array('localhost','127.0.0.1'))) ? $_SERVER['HTTP_HOST'] == 'localhost' ? 'localhost/' : '127.0.0.1' : $_SERVER['HTTP_HOST'].'/';
 		$this->request_uri	=	'http://'.$host.substr($_SERVER['REQUEST_URI'],1);
 		$this->explode_get	=	explode('?',$this->request_uri);
 		$this->splited_url	=	explode('/',substr($this->explode_get[0],7));
 
 		$this->site_name	=	$_SERVER['HTTP_HOST'];
-		if($this->splited_url[0] == 'localhost')
+		if(in_array($this->splited_url[0],array('localhost','127.0.0.1')))
 		{
 			if(array_key_exists(2,$this->splited_url)) // Si n'existe pas, nous ne somme pas censé nous trouver sous un environnement local.
 			{

@@ -1,8 +1,8 @@
 <section id="content" class="m-t-lg wrapper-md animated fadeInDown scrollable wrapper">
     <div class="row">
         <div class="col-lg-4 col-sm-offset-4">
-            <div class="list-group m-b-sm bg-white m-b-lg">
-                <header class="panel-heading bg bg-color-green text-center">Connexion</header>
+            <div class="panel">
+                <header class="panel-heading bg-primary text-center">Connexion</header>
                 <div class="panel-body">
                     <form method="post" class="panel-body">
                         <div class="form-group">
