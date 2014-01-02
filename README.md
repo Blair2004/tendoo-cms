@@ -8,4 +8,8 @@ At this time Hubby is builded only in french, very soon, update will be added to
 Actually hubby is on his 0.9.4 version, and is provided with some defaults app which allow to create a almost complete blog.
 Try it and please don't forget to report us a bug, you can join us to make hubby get a higher development state.
 
+Install
+----------
+To make hubby work easyly on your evaluation server, make sure that the way you access your server is http://localhost/ and not http://127.0.0.1/ otherwise hubby will crash... we're fixing that issue.
+
 Blair
