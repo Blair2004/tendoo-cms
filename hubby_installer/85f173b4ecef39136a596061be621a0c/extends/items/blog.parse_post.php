@@ -20,7 +20,7 @@
                 </div>
                 <div class="excerpt" itemprop="description"><?php echo word_limiter(strip_tags($p['CONTENT']),50);?>
                 </div>
-                <meta itemprop="datePublished" content="<?php echo $p['DATE'];?>"/>
+                <meta itemprop="datePublished" content="<?php echo $p['TIMESTAMP'];?>"/>
                 <a href="<?php echo $p['LINK'];?>" class="read-more">Lire la suite</a>
             </article>
                 <?php
