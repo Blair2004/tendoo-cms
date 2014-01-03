@@ -36,6 +36,7 @@ $this->appSql(
   `AUTEUR` int(11) NOT NULL,
   `ETAT` varchar(5) NOT NULL,
   `IMAGE` varchar(200) NOT NULL,
+  `THUMB` varchar(200) NOT NULL,
   `VIEWED` int(11),
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

@@ -958,7 +958,7 @@
 										{
 											if(array_key_exists('PARTNERS_CONTENT',$lib_options[0]))
 											{
-												$defaul2	=	$lib_options[0]['PARTNERS_CONTENT'];
+												$default2	=	$lib_options[0]['PARTNERS_CONTENT'];
 											}
 										}
 										?>

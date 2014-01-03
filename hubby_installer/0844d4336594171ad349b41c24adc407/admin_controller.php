@@ -48,6 +48,8 @@ class News_admin_controller
 			}
 			$this->hubby->setTitle('Blogster - Créer un nouvel article');
 			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+
 			$this->core->form_validation->set_rules('news_name','Intitulé de l\'article','trim|required|min_length[5]|max_length[200]');
 			$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[5000]');
 			$this->core->form_validation->set_rules('push_directly','Choix de l\'action','trim|required|min_length[1]|max_length[10]');		
@@ -93,6 +95,8 @@ class News_admin_controller
 		}
 		// Control Sended Form Datas
 		$this->core->load->library('form_validation');
+		$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+
 		$this->core->form_validation->set_rules('news_name','Intitulé de l\'article','trim|required|min_length[5]|max_length[200]');
 		$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[5000]');
 		$this->core->form_validation->set_rules('push_directly','Choix de l\'action','trim|required|min_length[1]|max_length[1000]');		
@@ -149,6 +153,8 @@ class News_admin_controller
 		else if($e == 'create')
 		{
 			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+
 			$this->core->form_validation->set_rules('cat_name','Nom de la cat&eacute;gorie','required|min_length[3]|max_length[50]');
 			$this->core->form_validation->set_rules('cat_description','Description de la cat&eacute;gorie','required|min_length[3]|max_length[200]');
 			if($this->core->form_validation->run())
@@ -169,6 +175,8 @@ class News_admin_controller
 		else if($e == 'manage' && $i != null)
 		{
 			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+
 			if($this->core->input->post('allower') == 'ALLOWEDITCAT')
 			{
 				$this->core->form_validation->set_rules('cat_name','Nom de la cat&eacute;gorie','required|min_length[3]|max_length[50]');
@@ -241,6 +249,8 @@ class News_admin_controller
 		if($this->core->users_global->isSuperAdmin()	|| $this->hubby_admin->adminAccess('modules','blogster_manage_comments',$this->core->users_global->current('PRIVILEGE')))
 		{
 			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+
 			if(isset($_POST['approve']))
 			{
 				$this->core->form_validation->set_rules('hiddenId','Identifiant du commentaire','trim|required|min_length[1]');
@@ -300,6 +310,8 @@ class News_admin_controller
 			if(isset($_POST['update']))
 			{
 				$this->core->load->library('form_validation');
+				$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+
 				$this->core->form_validation->set_rules('validateall','','');
 				$this->core->form_validation->set_rules('allowPublicComment','','');
 				$this->core->form_validation->set_rules('update','','');

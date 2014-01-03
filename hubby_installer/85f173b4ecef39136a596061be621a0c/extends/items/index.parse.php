@@ -8,9 +8,6 @@
         <?php $this->parseCaroussel();?>
 		<?php $this->parseProductListingCaroussel();?>
         <!-- ENDS slider -->
-        <!-- Headline -->
-		<?php $this->parseIndexAboutUs();?>
-        <!-- ENDS Headline -->
         <!-- featured -->
         <?php $this->parseOnTopContent();?>
         <!-- ENDS featured -->
@@ -24,6 +21,9 @@
         <!-- ENDS text-posts -->
         <!-- home-gallery -->
         <?php $this->parseGalleryShowCase();?>
+        <!-- Headline -->
+		<?php $this->parseIndexAboutUs();?>
+        <!-- ENDS Headline -->
         <!-- ENDS home-gallery -->
     </div>
     <!-- ENDS content -->

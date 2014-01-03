@@ -2,7 +2,7 @@
 		if(count($this->currentForm) > 0)
 		{
 		?>
-        <form method="<?php echo $type;?>" enctype="<?php echo $enctype;?>" action="<?php echo $action;?>" id="commentform">
+        <form method="<?php echo $this->formType;?>" enctype="<?php echo $this->formEnctype;?>" action="<?php echo $this->formAction;?>" id="commentform">
         	<?php
 			foreach($this->currentForm as $c)
 			{

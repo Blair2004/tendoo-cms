@@ -327,9 +327,9 @@ class Hubby
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'85f173b4ecef39136a596061be621a0c';
 			$this->hubby_admin->hubby_core_installer($appFile);
-			$hubby_installed_theme	=		$this->hubby_admin->getThemes();
+			$installed_theme		=		$this->hubby_admin->getThemes();
 			// Set first Installed theme as default
-			$this->hubby_admin->setDefault($hubby_installed_theme[0]['ID']); // retreiving IDs
+			$this->hubby_admin->setDefault($installed_theme[0]['ID']); // retreiving IDs
 		}
 		else if($app	==	'blogster')
 		{
@@ -341,7 +341,7 @@ class Hubby
 			$module					=		$this->hubby_admin->moduleActivation('news',FALSE);
 			if($module)
 			{
-				$this->firstController('Blog','blog','news',$option[0]['SITE_NAME'].' - Blog','Aucune description enregistr&eacute;e','TRUE','TRUE');
+				$this->hubby_admin->controller('Blog','blog','news',$option[0]['SITE_NAME'].' - Blog','Aucune description enregistr&eacute;e','FALSE');
 				$module					=		$this->getSpeModuleByNamespace('news');
 				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
 				$lib					=	new News(null);
@@ -357,6 +357,10 @@ class Hubby
 			$option					=		$this->getOptions();
 			$this->hubby_admin->hubby_core_installer($appFile);
 			$module					=		$this->hubby_admin->moduleActivation('hubby_index_manager',FALSE);
+			if($module)
+			{
+				$this->hubby_admin->controller('Accueil','home','hubby_index_manager',$option[0]['SITE_NAME'].' - Accueil','Aucune description enregistr&eacute;e','TRUE',$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'');
+			}
 		}
 		else if($app	==	'file_manager')
 		{
@@ -383,11 +387,11 @@ class Hubby
 				$lib					=	new widhandler_lib(array(
 					'module_dir'		=>	MODULES_DIR.$module[0]['ENCRYPTED_DIR']
 				));
-				$lib->createSpecialWidget('Cat&eacute;gories','articles publi&eacute;','news/aflecatdi');
+				$lib->createSpecialWidget('Cat&eacute;gories','articles publi&eacute;','news/aflecatdi',TRUE);
 				$lib->activateWidget(1);
-				$lib->createSpecialWidget('Au top','les articles les plus lues','news/aflearlep');
+				$lib->createSpecialWidget('Au top','les articles les plus lues','news/aflearlep',TRUE);
 				$lib->activateWidget(2);
-				$lib->createSpecialWidget('Liens','les syst&egrave;mes','news/syslink');
+				$lib->createSpecialWidget('Liens','les syst&egrave;mes','news/syslink',TRUE);
 				$lib->activateWidget(3);
 			}
 		}

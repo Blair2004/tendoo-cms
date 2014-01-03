@@ -14,17 +14,18 @@
 		{
 			$modules	=	$this->core->hubby_admin->get_modules();
 		}
-		public function createWidget($title,$description,$contenu)
+		public function createWidget($title,$description,$contenu,$first_creation= FALSE)
 		{
 			$query	=	$this->core->db->where('WIDGET_HEAD',$title)->get('hubby_mod_widgets');
 			$result	=	$query->result_array();
 			if(count($result) == 0)
 			{
+				$user	=	$first_creation == FALSE ? $this->core->users_global->current('ID') : 1; // en cas d'installation par défaut.
 				$array	=	array(
 					'WIDGET_HEAD'				=>	$title,
 					'WIDGET_DESCRIPTION'		=>	$description,
 					'WIDGET_CONTENT'			=>	$contenu,
-					'AUTEUR'					=>	$this->core->users_global->current('ID'),
+					'AUTEUR'					=>	$user,
 					'DATE'						=>	$this->core->hubby->datetime(),
 					'WIDGET_ORDER'				=>	$this->countWidgets()
 				);
@@ -36,11 +37,12 @@
 			}
 			return 'widgetAlreadyExists';
 		}
-		public function createSpecialWidget($title,$description,$widget_ref)
+		public function createSpecialWidget($title,$description,$widget_ref,$first_creation= FALSE)
 		{
 			$data	=	explode('/',$widget_ref);
 			$module_namespace	=	$data[0];
 			$widget_namespace	=	$data[1];
+			$user	=	$first_creation == FALSE ? $this->core->users_global->current('ID') : 1; // en cas d'installation par défaut.
 			$query	=	$this->core->db->where('WIDGET_HEAD',$title)->get('hubby_mod_widgets');
 			$result	=	$query->result_array();
 			if(count($result) == 0)
@@ -50,7 +52,7 @@
 					'WIDGET_REFERING_OBJ_NAMESPACE'		=>	$module_namespace,
 					'WIDGET_REFERING_NAME'				=>	$widget_namespace,
 					'WIDGET_DESCRIPTION'				=>	$description,
-					'AUTEUR'							=>	$this->core->users_global->current('ID'),
+					'AUTEUR'							=>	$user,
 					'DATE'								=>	$this->core->hubby->datetime(),
 					'WIDGET_ORDER'						=>	$this->countWidgets()
 				);

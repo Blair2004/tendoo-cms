@@ -10,11 +10,11 @@
 	<h1 class="post-heading" itemprop="name"><?php echo $this->singleBlogPost['TITLE'];?></h1>
 	<div class="meta" itemprop="dateCreated">
 		<span class="entry-date"><?php echo $this->core->hubby->time($this->singleBlogPost['TIMESTAMP']);?></span>
-		dans <span class="categories"><a href="<?php echo $this->singleBlogPost['CATEGORY_LINK'];?>"><?php echo $this->singleBlogPost['CATEGORY'];?></a><br />par <span itempprop="author"><?php echo $this->incleBlogPost['AUTHOR'];?></span></span>
+		dans <span class="categories"><a href="<?php echo $this->singleBlogPost['CATEGORY_LINK'];?>"><?php echo $this->singleBlogPost['CATEGORY'];?></a><br />par <span itempprop="author"><?php echo $this->singleBlogPost['AUTHOR'];?></span></span>
 	</div>
 	
 	<div class="content-area" itemprop="description"><?php echo $this->singleBlogPost['CONTENT'];?></div>
-    <meta itemprop="datePublished" content="<?php echo  $this->singleBlogPost['DATE'];?>"/>
+    <meta itemprop="datePublished" content="<?php echo  $this->singleBlogPost['TIMESTAMP'];?>"/>
 	<div class="clearfix"></div>
 	<!-- comments list -->
 	<div id="comments-wrap">

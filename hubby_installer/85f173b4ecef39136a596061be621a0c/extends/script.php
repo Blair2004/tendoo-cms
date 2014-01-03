@@ -591,6 +591,10 @@ class hubby_modus_theme_handler
 	}
 	private function parseForm($action	=	"",$enctype	=	"multipart/form-data",$type 	=	"POST")
 	{
+		$this->formAction	=	$action;
+		$this->formEnctype	=	$enctype;
+		$this->formType		=	$type;
+		
 		$this->include_item('blog.parse_form');
 	}
 	/*
