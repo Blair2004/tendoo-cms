@@ -37,10 +37,23 @@
                                 <form method="post" class="panel-body" enctype="multipart/form-data">
                                 	<div class="form-group">
                                     	<p>L'adresse vers laquelle le fichier d'installation de l'application hubby sera t&eacute;l&eacute;charger doit être une adresse valide, Assurez-vous que le fichier &agrave; t&eacute;l&eacute;charger soit un fichier compatible &agrave; la version actuelle d'hubby. La version actuelle est : <strong><?php echo $this->core->hubby->getVersion();?></strong>. </p>
-                                        <label class="control-label">Application Hubby</label>
-                                        <input name="installer_link" type="text" placeholder="Lien, exemple : https://codeload.github.com/Blair2004/hubby-cms/zip/master" class="form-control">
+                                        <p class="control-label"><strong>Application Hubby</strong></p>
+                                        <div class="row">
+                                            <div class="col-lg-7">
+                                                <input  class="form-control" name="installer_link" type="text" placeholder="Lien, exemple : https://codeload.github.com/Blair2004/hubby-cms/zip/master">
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <select name="downloadType" class="form-control">
+                                                    <option value="">Proc&eacute;d&eacute; de d&eacute;compression</option>
+                                                    <option value="github">Utiliser le dossier de la racine</option>
+                                                    <option value="default">Normale</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <input type="submit" class="btn btn-info" value="Installer" />
+                                    <hr class="line line-dashed">
+                                        <p>Le proc&eacute;d&eacute; de d&eacute;compression permet d'indiquer que le fichier zip qui sera t&eacute;l&eacute;charg&eacute; peut contenir un dossier &agrave; la racine qui est inexploitable par hubby, mais qui contient l'application. En choissant <strong>"Utiliser le dossier de la racine"</strong> Hubby utilisera le permier dossier de la racine comme dossier de l'application. En revanche en selectionant <strong>"Normale"</strong> Hubby considè&egrave;rera que le fichier zip contient tout l'application.</p>
                                 </form>
                             </section>
                         </div>

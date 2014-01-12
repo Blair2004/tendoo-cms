@@ -698,9 +698,12 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				$query	=	$this->core->hubby_admin->hubby_installer('installer_file');
 				$this->core->notice->push_notice(notice($query));
 			}
-			if(isset($_POST['installer_link']))
+			if(isset($_POST['installer_link'],$_POST['downloadType']))
 			{
-				$query	=	$this->core->hubby_admin->hubby_url_installer($this->core->input->post('installer_link'));
+				$query	=	$this->core->hubby_admin->hubby_url_installer(
+					$this->core->input->post('installer_link'),
+					$this->core->input->post('downloadType')
+				);
 				$this->core->notice->push_notice(notice($query));
 			}
 			$this->core->hubby->setTitle('Installer une application - Hubby');

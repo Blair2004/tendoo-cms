@@ -327,6 +327,11 @@ class hubby_admin
 		{
 			mkdir($destination);
 		}
+		if(is_file($source))
+		{
+			copy($source,$destination);
+			unlink($source);
+		}
 		if(is_dir($source))
 		{
 			if($open	=	opendir($source))
@@ -902,7 +907,7 @@ class hubby_admin
 		$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 		return 'invalidApp';
 	}
-	public function hubby_url_installer($link) // install through a link
+	public function hubby_url_installer($link,$type = 'default') // install through a link
 	{
 		$zip	=	new ZipArchive;
 		$file	=	file($link);
@@ -918,6 +923,21 @@ class hubby_admin
 			mkdir(INSTALLER_DIR.$encryptedName);
 			$zip->extractTo(INSTALLER_DIR.$encryptedName);
 			$zip->close();
+			if($type == 'github')
+			{
+				while(false !==($file	=	readdir(INSTALLER_DIR.$encryptedName)))
+				{
+					if(is_dir($file))
+					{
+						while(false !== ($_file = readdir(INSTALLER_DIR.$encryptedName.'/'.$file)))
+						{
+							$this->extractor(INSTALLER_DIR.$encryptedName.'/'.$file.'/'.$_file,INSTALLER_DIR.$encryptedName);
+						}
+					}
+					break;
+				}
+				$this->drop($file);
+			}
 			unlink($fileTemporaryName);
 		}
 		$appFile				=		array();
