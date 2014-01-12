@@ -66,20 +66,31 @@ class hubby_admin
 		$uniqueVisits	=	$this->core->db->where('DATE >=',$ts_global)->order_by('DATE','asc')->get('hubby_visit_stats');
 		$uniqueResult	=	$uniqueVisits->result_array();
 		$array			=	array();
-		foreach($uniqueResult as $u)
+		if(count($uniqueResult) > 0)
 		{
-			$currentDate	=	$u['DATE'];
-			$timeDecompose	=	$this->core->hubby->time($currentDate,TRUE);
-			if(!isset($array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']))
+			foreach($uniqueResult as $u)
 			{
-				$array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	0;
+				$currentDate	=	$u['DATE'];
+				$timeDecompose	=	$this->core->hubby->time($currentDate,TRUE);
+				if(!isset($array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']))
+				{
+					$array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	0;
+				}
+				$array['ordered'][$timeDecompose['y']][$timeDecompose['M']][]	=	$u;
+				$array['listed'][]	=	$u;
+				$array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	+=	(int)$u['GLOBAL_VISIT'];
+				$sumQuery		=	$this->core->db->select('COUNT(DISTINCT VISITORS_IP) as `UNIQUE_VISIT`')->where('DATE >=',$timeDecompose['y'].'-'.$timeDecompose['M'].'-'.(1))->where('DATE <=',$timeDecompose['y'].'-'.$timeDecompose['M'].'-'.$timeDecompose['t'])->get('hubby_visit_stats');
+				$sumResult		=	$sumQuery->result_array();
+				$array['statistics']['unique'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	$sumResult[0]['UNIQUE_VISIT'];
 			}
-			$array['ordered'][$timeDecompose['y']][$timeDecompose['M']][]	=	$u;
-			$array['listed'][]	=	$u;
-			$array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	+=	(int)$u['GLOBAL_VISIT'];
-			$sumQuery		=	$this->core->db->select('COUNT(DISTINCT VISITORS_IP) as `UNIQUE_VISIT`')->where('DATE >=',$timeDecompose['y'].'-'.$timeDecompose['M'].'-'.(1))->where('DATE <=',$timeDecompose['y'].'-'.$timeDecompose['M'].'-'.$timeDecompose['t'])->get('hubby_visit_stats');
-			$sumResult		=	$sumQuery->result_array();
-			$array['statistics']['unique'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	$sumResult[0]['UNIQUE_VISIT'];
+		}
+		else
+		{
+			$currentDate	=	$this->core->hubby->datetime();
+			$timeDecompose	=	$this->core->hubby->time($currentDate,TRUE);
+			$array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	0;
+			$array['statistics']['unique'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	0;
+			$array['ordered']	=	null;
 		}
 		// Recupère information globales
 		$overAllUniqueQuery		=	$this->core->db->select('COUNT(DISTINCT VISITORS_IP) as `UNIQUE_GLOBAL`')->where('DATE >=',$ts_global)->get('hubby_visit_stats');
@@ -1343,5 +1354,54 @@ class hubby_admin
 			}
 		}
 		return false;
+	}
+	public function getAppAdminWidgets()
+	{
+		$query	=	$this->core->db->where('HAS_ADMIN_WIDGET',1)->get('hubby_modules');
+		$result	=	$query->result_array();
+		$validApps	=	array();
+		foreach($result as $module)
+		{
+			$appDir	=	MODULES_DIR.$module['ENCRYPTED_DIR'];
+			if(is_file($appDir.'/config/admin_widget_config.php'))
+			{
+				include($appDir.'/config/admin_widget_config.php');
+				foreach($ADMIN_WIDGET_CONFIG as $w)
+				{
+					$validApps[]	=	$w;
+				}
+			}
+		}
+		return $validApps;
+	}
+	public function activateAppAdminWidgets($elements)
+	{
+		if(is_array($elements))
+		{
+			$finalQ	=	'$ACTIVATED_WIDGET	=	array();';
+			foreach($elements as $e)
+			{
+				$wid	=	explode('/',$e);
+				$moduleN=	$wid[0];
+				$widgetN=	$wid[1];
+				$finalQ	.=	'$ACTIVATED_WIDGET[]	=	array("'.$moduleN.'","'.$widgetN.'");';
+			}
+			return $this->core->db->where('ID',1)->update('hubby_options',array('ADMIN_WIDGET_CONFIG'=>$finalQ));
+		}
+		else
+		{
+			return $this->core->db->where('ID',1)->update('hubby_options',array('ADMIN_WIDGET_CONFIG'=>$elements));
+		}
+		return false;
+	}
+	private $gridId	=	-1; // For gridster
+	public function getGridId()
+	{
+		$this->gridId++;
+		return $this->gridId;
+	}
+	public function saveGridPosition($e)
+	{
+		return $this->core->db->where('ID',1)->update('hubby_options',array('GRID_POSITION'=>	$e));
 	}
 }

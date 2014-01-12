@@ -194,7 +194,9 @@ class Hubby
 		  `ADMIN_THEME` int(11) NOT NULL,
 		  `ALLOW_PRIVILEGE_SELECTION` int(11) NOT NULL,
 		  `PUBLIC_PRIV_ACCESS_ADMIN` int(11) NOT NULL,
-		  `ACITAVE_STATS` int(11) NOT NULL,
+		  `ACTIVATE_STATS` int(11) NOT NULL,
+		  `ADMIN_WIDGET_CONFIG` text NOT NULL,
+		  `GRID_POSITION` text NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -1202,11 +1204,27 @@ class Hubby
 	{
 		if($Init == NULL)
 		{
-			eval('$objet	= new '.$Class.'();'); // Création de l'objet
+            if(class_exists($Class))
+            {
+			     eval('$objet	= new '.$Class.'();'); // Création de l'objet
+            }
+            else
+            {
+                $this->error('themeControlerFailed');
+                die();
+            }
 		}
 		else
 		{
-			eval('$objet	= new '.$Class.'($Init);'); // Création de l'objet
+            if(class_exists($Class))
+            {
+			     eval('$objet	= new '.$Class.'($Init);'); // Création de l'objet
+            }
+            else
+            {
+                $this->error('themeControlerFailed');
+                die();
+            }
 		}
 		if(method_exists($objet,$Method))
 		{

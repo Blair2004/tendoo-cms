@@ -214,27 +214,56 @@ Class Url
 				}
 				else
 				{
-					$this->controller	=	$this->splited_url[2];
-					if(array_key_exists(3,$this->splited_url))
+					if($this->splited_url[2] == 'index.php')
 					{
-						if($this->splited_url[3] != '')
+						$this->controller	=	$this->splited_url[3];
+						if(array_key_exists(4,$this->splited_url))
 						{
-							$this->method	=	$this->splited_url[3];
+							if(!in_array($this->splited_url[4],array('','index.php')))
+							{
+								$this->method	=	$this->splited_url[4];
+							}
+							else
+							{
+								$this->method	=	'index';
+							}
 						}
 						else
 						{
-							$this->method	=	'index';
+							$this->method		=	'index';
+						}
+						for($i=5;$i<count($this->splited_url);$i++)
+						{
+							if($this->splited_url[$i] != '')
+							{
+								array_push($this->parameters,$this->splited_url[$i]);
+							}
 						}
 					}
 					else
 					{
-						$this->method		=	'index';
-					}
-					for($i=4;$i<count($this->splited_url);$i++)
-					{
-						if($this->splited_url[$i] != '')
+						$this->controller	=	$this->splited_url[2];
+						if(array_key_exists(3,$this->splited_url))
 						{
-							array_push($this->parameters,$this->splited_url[$i]);
+							if(!in_array($this->splited_url[3],array('','index.php')))
+							{
+								$this->method	=	$this->splited_url[3];
+							}
+							else
+							{
+								$this->method	=	'index';
+							}
+						}
+						else
+						{
+							$this->method		=	'index';
+						}
+						for($i=4;$i<count($this->splited_url);$i++)
+						{
+							if($this->splited_url[$i] != '')
+							{
+								array_push($this->parameters,$this->splited_url[$i]);
+							}
 						}
 					}
 				}
@@ -244,6 +273,7 @@ Class Url
 				$this->controller		=	'index';
 			}
 		}
+		//			var_dump($this->controller(),$this->method(),$this->parameters());
 	}
 	public function http_request($ARRAY_TYPE	=	FALSE)
 	{
@@ -366,7 +396,7 @@ Class Url
 	}
 	public function index_page()
 	{
-		return $this->core->url->base_url($uri);
+		return $this->core->url->base_url();
 	}
 	public function redirect($uri,$method	=	'location')
 	{

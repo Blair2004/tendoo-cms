@@ -12,7 +12,8 @@ $this->appTableField(array(
 	'HAS_WIDGET'	=>	1,
 	'HAS_MENU'		=>	1,
 	'HAS_API'	=>	1,
-	'HUBBY_VERS'	=> 0.94
+	'HUBBY_VERS'	=> 0.94,
+	'HAS_ADMIN_WIDGET'	=>	1
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `hubby_comments` (

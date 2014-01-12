@@ -23,6 +23,16 @@
                         <br />
                         <p>Hubby est un produit d&eacute;velopp&eacute; par EBENE VOUNDI Herv&eacute; Anthony, et ouvert au public (Open Source) afin de faciliter l'am&eacute;lioration de son fonctionnement et de proposer aux utilisateurs un outil simple, reconnu pour ses perfomances et la facilit&eacute; resentie par les utilisateurs dans sa prise en main.</p>
                         <br />
+                        <h4>Licence</h4>
+                        <p>Un bon nombre de produits sont utilisé afin de permettre &ag hubby de fonctionner correctement : 
+                        	<ul>
+	                        	<li>TODO interface administration</li>
+    	                        <li>Jquery</li>
+                                <li>Tiny MCE</li>
+                                <li>CK Editor</li>
+                                <li>Bootstrap</li>
+                                <li></li>
+                        </p>
                         <p><small>Ubber Enterprises 2013. <br />Tous droits reserv&eacute;s.</small></p>
                     </div>
                 </div>

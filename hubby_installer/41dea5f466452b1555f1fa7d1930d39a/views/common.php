@@ -139,6 +139,25 @@ if(is_array($lib_options) && count($lib_options) > 0)
 			}
 		}
 	}
+	if($o['SHOW_GALLERY'] == '1')
+	{
+		if($o['ON_GALLERY'] != '')
+		{
+			$datas				=	explode('/',$o['ON_GALLERY']);
+			$mod_namespace		=	$datas[0];
+			$api_namespace		=	$datas[1];
+			$mod_namespace_data	=	$this->core->hubby->getSpeModuleByNamespace($mod_namespace);
+			$api_data			=	api_retreiver($mod_namespace,$api_namespace,$mod_namespace_data,$o['GALLERY_LIMIT']);
+			if(is_array($api_data))
+			{
+				$theme->defineGalleryShowCaseTitle($o['GALSHOWCASE_TITLE']);
+				foreach($api_data as $a)
+				{
+					$theme->defineGalleryShowCase($a['TITLE'],$a['CONTENT'],$a['THUMB'],$a['THUMB'],$a['LINK'],$a['DATE']);
+				}
+			}
+		}
+	}
 	if($o['SHOW_PARTNERS'] == '1')
 	{
 		$theme->definePartnersTitle($o['PARTNER_TITLE']);
@@ -146,69 +165,3 @@ if(is_array($lib_options) && count($lib_options) > 0)
 	}
 	$theme->parseIndex();
 }
-return;		
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-
-if($elementOpt['INFOSMALLDETAILS'] ===TRUE)
-{
-	if($newsOpt['INFOSMALLDETAILS']['SHOW'] === TRUE)
-	{
-		if(count($news_2) > 0)
-		{
-			foreach($news_2 as $n)
-			{
-				$theme->defineOnTopContent(
-					$n['IMAGE'],
-					$n['TITLE'],
-					$n['CONTENT'],
-					$this->core->url->site_url(array($Ctrl_2[0]['PAGE_CNAME'],'read',$n['ID'],$this->core->hubby->urilizeText($n['TITLE']))),
-					$n['DATE']
-				);
-			}
-		}
-		else
-		{
-			$theme->defineOnTopContent(
-				'',
-				'Aucun element disponible',
-				'...',
-				'#',
-				''
-			);
-		}
-	}
-}
-/*if($elementOpt['ONTOP'] === TRUE)
-{
-	if($newsOpt['ONTOP']['SHOW'] === TRUE)
-	{
-		if(count($news_3) > 0)
-		{
-			foreach($news_3 as $v)
-			{
-				$theme->defineBlogRetreival(
-					$v['IMAGE'],
-					$v['IMAGE'],
-					$v['TITLE'],
-					$v['CONTENT'],
-					$this->core->url->site_url(array($Ctrl_3[0]['PAGE_CNAME'],'read',$v['ID'],$this->core->hubby->urilizeText($v['TITLE']))),
-					$n['DATE']
-				);
-			}
-		}
-	}
-}*/
-$theme->parseIndex();

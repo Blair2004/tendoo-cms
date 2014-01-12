@@ -120,6 +120,70 @@
                                             </div>
                                             <input name="them_style_button" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
                                         </form>
+                                        <form method="post" class="panel-body">
+                                            <div class="form-group">
+                                                <label class="label-control">Afficher les widgets</label>
+                                                <p>Il s'agit ici des widgets qui s'afficheront à la d'accueil du panneau de contr&ocirc;le de votre site web.</p>
+                                                <?php
+												if(is_array($getAppAdminWidgets))
+												{
+													foreach($getAppAdminWidgets as $wid)
+													{
+														eval($options[0]['ADMIN_WIDGET_CONFIG']);
+														if(isset($ACTIVATED_WIDGET))
+														{
+															foreach($ACTIVATED_WIDGET as $ac_wid)
+															{
+																if($ac_wid[0]	==	$wid['MODULE_NAMESPACE'] && $ac_wid[1] == $wid['WIDGET_NAMESPACE'])
+																{
+														?>
+                                                        <div class="input-group">
+                                                          <span class="input-group-addon">
+                                                            <input checked="checked" type="checkbox" name="validWidget[]" value="<?php echo $wid['MODULE_NAMESPACE'].'/'.$wid['WIDGET_NAMESPACE'];?>" />
+                                                          </span>
+                                                          <?php
+														  $module	=	$this->core->hubby_admin->getSpeModuleByNamespace($wid['MODULE_NAMESPACE']);
+														  ?>
+                                                          <div class="form-control"><h4><?php echo $wid['WIDGET_HUMAN_NAME'];?> - [<?php echo $module[0]['HUMAN_NAME'];?>]</h4><br /><p><?php echo $wid['WIDGET_DESCRIPTION'];?></p></div>
+                                                        </div>
+                                                        <?php
+																}
+																else
+																{
+																	?>
+                                                        <div class="input-group">
+                                                          <span class="input-group-addon">
+                                                            <input type="checkbox" name="validWidget[]" value="<?php echo $wid['MODULE_NAMESPACE'].'/'.$wid['WIDGET_NAMESPACE'];?>" />
+                                                          </span>
+                                                          <?php
+														  $module	=	$this->core->hubby_admin->getSpeModuleByNamespace($wid['MODULE_NAMESPACE']);
+														  ?>
+                                                          <div class="form-control"><h4><?php echo $wid['WIDGET_HUMAN_NAME'];?> - [<?php echo $module[0]['HUMAN_NAME'];?>]</h4><br /><p><?php echo $wid['WIDGET_DESCRIPTION'];?></p></div>
+                                                        </div>
+                                                        <?php
+																}
+															}
+														}
+														else
+														{
+														?>
+                                                        <div class="input-group">
+                                                          <span class="input-group-addon">
+                                                            <input type="checkbox" name="validWidget[]" value="<?php echo $wid['MODULE_NAMESPACE'].'/'.$wid['WIDGET_NAMESPACE'];?>" />
+                                                          </span>
+                                                          <?php
+														  $module	=	$this->core->hubby_admin->getSpeModuleByNamespace($wid['MODULE_NAMESPACE']);
+														  ?>
+                                                          <div class="form-control"><h4><?php echo $wid['WIDGET_HUMAN_NAME'];?> - [<?php echo $module[0]['HUMAN_NAME'];?>]</h4><br /><p><?php echo $wid['WIDGET_DESCRIPTION'];?></p></div>
+                                                        </div>
+                                                        <?php
+														}
+													}
+												}
+												?>
+                                            </div>
+                                            <input name="admin_widgets" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+                                        </form>
                                         </div>
                                 	<div class="col-lg-6">
                                         <form method="post" class="panel-body">

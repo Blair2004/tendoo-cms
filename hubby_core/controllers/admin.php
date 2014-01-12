@@ -84,14 +84,12 @@ class Admin
 		$this->core->file->js_push('morris.min');
 		$this->core->file->js_push('raphael-min');
 		$this->core->file->js_push('bubbles');
-		$this->core->file_2->js_push('app.v2');
+		$this->core->file->js_push('app.v2'); // _2
 		$this->core->file->js_push('hubby_app');
 	}
 	// Public functions
 	public function index()
 	{
-		$this->core->file_2->js_push('jquery.gridster');
-		$this->core->file->css_push('jquery.gridster.min');
 		$this->core->file->css_push('demo');
 		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->data['ttTheme']		=	$this->core->hubby_admin->countThemes();
@@ -99,6 +97,7 @@ class Admin
 		$this->data['ttPages']		=	$this->core->hubby_admin->countPages();
 		$this->data['ttPrivileges']	=	$this->core->hubby_admin->countPrivileges();
 		$this->data['Stats']		=	$this->core->hubby_admin->hubby_visit_stats();
+		$this->data['widgets']		=	$this->core->hubby_admin->getAppAdminWidgets();
 
 		$this->core->hubby->setTitle('Panneau de Contr&ocirc;le - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 		$this->data['body']	=	$this->load->view('admin/index/body',$this->data,true);
@@ -517,8 +516,21 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 					$this->core->notice->push_notice(notice('error_occured'));
 				}
 			}
+			if($this->input->post('admin_widgets')) // Setting notice go here.
+			{
+				$wid_activ	=	isset($_POST['validWidget']) ? $_POST['validWidget'] : '';
+				if($this->core->hubby_admin->activateAppAdminWidgets($wid_activ))
+				{
+					$this->core->notice->push_notice(notice('done'));
+				}
+				else
+				{
+					$this->core->notice->push_notice(notice('error_occured'));
+				}
+			}
 			
 			$this->data['options']		=	$this->core->hubby->getOptions();
+			$this->data['getAppAdminWidgets']	=	$this->core->hubby_admin->getAppAdminWidgets();
 			
 			$this->core->hubby->setTitle('Param&ecirc;tres - Hubby');$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('admin/setting/body',$this->data,true);
@@ -998,5 +1010,9 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			$this->core->url->redirect(array('page404'));
 		}
 		
+	}
+	public function gridsave()
+	{
+		$this->core->hubby_admin->saveGridPosition($this->input->post('products'));
 	}
 }
