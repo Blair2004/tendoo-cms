@@ -700,7 +700,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			}
 			if(isset($_POST['installer_link'],$_POST['downloadType']))
 			{
-				$query	=	$this->core->hubby_admin->hubby_url_installer(
+				$query	=	$this->core->hubby_admin->hubby_url_installer( 
 					$this->core->input->post('installer_link'),
 					$this->core->input->post('downloadType')
 				);

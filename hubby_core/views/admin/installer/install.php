@@ -46,14 +46,14 @@
                                                 <select name="downloadType" class="form-control">
                                                     <option value="">Proc&eacute;d&eacute; de d&eacute;compression</option>
                                                     <option value="github">Utiliser le dossier de la racine</option>
-                                                    <option value="default">Normale</option>
+                                                    <option value="default">Normal</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <input type="submit" class="btn btn-info" value="Installer" />
                                     <hr class="line line-dashed">
-                                        <p>Le proc&eacute;d&eacute; de d&eacute;compression permet d'indiquer que le fichier zip qui sera t&eacute;l&eacute;charg&eacute; peut contenir un dossier &agrave; la racine qui est inexploitable par hubby, mais qui contient l'application. En choissant <strong>"Utiliser le dossier de la racine"</strong> Hubby utilisera le permier dossier de la racine comme dossier de l'application. En revanche en selectionant <strong>"Normale"</strong> Hubby considè&egrave;rera que le fichier zip contient tout l'application.</p>
+                                        <p>Le proc&eacute;d&eacute; de d&eacute;compression permet d'indiquer que le fichier zip qui sera t&eacute;l&eacute;charg&eacute; peut contenir un dossier &agrave; la racine qui est inexploitable par hubby, mais qui contient l'application. En choissant <strong>"Utiliser le dossier de la racine"</strong> Hubby utilisera le permier dossier de la racine comme dossier de l'application. En revanche en selectionant <strong>"Normal"</strong> Hubby consid&egrave;rera que le fichier zip contient toute l'application.</p> 
                                 </form>
                             </section>
                         </div>

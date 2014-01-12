@@ -925,18 +925,19 @@ class hubby_admin
 			$zip->close();
 			if($type == 'github')
 			{
-				while(false !==($file	=	readdir(INSTALLER_DIR.$encryptedName)))
+				$parcour				=	0;
+				$openDir_1				=	opendir(INSTALLER_DIR.$encryptedName);
+				while(false !==($file	=	readdir($openDir_1)))
 				{
-					if(is_dir($file))
+					if(is_dir(INSTALLER_DIR.$encryptedName.'/'.$file) && !in_array($file,array('.','..')))
 					{
-						while(false !== ($_file = readdir(INSTALLER_DIR.$encryptedName.'/'.$file)))
-						{
-							$this->extractor(INSTALLER_DIR.$encryptedName.'/'.$file.'/'.$_file,INSTALLER_DIR.$encryptedName);
-						}
+						$this->extractor(INSTALLER_DIR.$encryptedName.'/'.$file,INSTALLER_DIR.$encryptedName);
 					}
-					break;
+					if($parcour == 2){
+						break;
+					}
+					$parcour++;
 				}
-				$this->drop($file);
 			}
 			unlink($fileTemporaryName);
 		}
