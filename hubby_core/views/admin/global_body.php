@@ -68,3 +68,4 @@
 		echo $this->core->file_2->js_load();
 		page_bottom($options);
 	}
+	

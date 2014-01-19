@@ -47,7 +47,7 @@
                                             {
                                                 foreach($modules as $mod)
                                                 {
-                                                    $appIcon	=	$this->core->hubby_admin->getAppIcon($mod['NAMESPACE']);
+                                                    $appIcon	=	$this->core->hubby_admin->getAppImgIco($mod['NAMESPACE']);
                                                     ?>
                                         <tr>
                                             <td>

@@ -168,7 +168,7 @@ class Hubby
 		  `HAS_WIDGET` int(11) NOT NULL,
 		  `HAS_MENU` int(11) NOT NULL,
 		  `HAS_API`	int(11) NOT NULL,
-          `HAS_ADMIN_WIDGET` int(11) NOT NULL,
+          `HAS_ICON` int(11) NOT NULL,
           `HAS_ADMIN_API` int(11) NOT NULL,
 		  `TYPE` varchar(50) NOT NULL,
 		  `ACTIVE` int(11) NOT NULL,
@@ -195,8 +195,8 @@ class Hubby
 		  `ALLOW_PRIVILEGE_SELECTION` int(11) NOT NULL,
 		  `PUBLIC_PRIV_ACCESS_ADMIN` int(11) NOT NULL,
 		  `ACTIVATE_STATS` int(11) NOT NULL,
-		  `ADMIN_WIDGET_CONFIG` text NOT NULL,
-		  `GRID_POSITION` text NOT NULL,
+		  `SHOW_ADMIN_INDEX_STATS` int(11) NOT NULL,
+		  `ADMIN_ICONS` text NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -1383,4 +1383,31 @@ class Hubby
 			
 		}
 	}
+	public function getControllerSubmenu($element,$ulclass="",$liclass="")
+	{
+		if(is_array($element))
+		{
+			if(array_key_exists('PAGE_CHILDS',$element))
+			{
+				if(is_array($element['PAGE_CHILDS']))
+				{
+					?>
+	
+	<ul class="<?php echo $ulclass;?>">
+		<?php
+					foreach($element['PAGE_CHILDS'] as $p)
+					{
+						?>
+		<li class="<?php echo $liclass;?>"><a href="<?php echo $this->core->url->site_url(array($p['PAGE_CNAME']));?>"><?php echo ucwords($p['PAGE_NAMES']);?></a>
+			<?php $this->getControllerSubmenu($p);?>
+		</li>
+		<?php
+					}
+					?>
+	</ul>
+	<?php
+				}
+			}
+		}}
+	
 }

@@ -105,7 +105,7 @@ if(!function_exists('hubby_info'))
 }
 if(!function_exists('notice'))
 {
-	function notice($e,$sort = FALSE)
+	function notice($e,$extends_msg= '',$sort = FALSE)
 	{
 		$array['config_1']					=	hubby_info('Un fichier de configuration est d&eacute;j&agrave; existant. Si vous enregistrer de nouvelles donn&eacute;es, l\'ancien sera &eacute;cras&eacute;');
 		$array['accessDenied']				=	hubby_warning('Vous n\'avez pas ou plus acc&egrave;s &agrave; cette page.');
@@ -121,6 +121,7 @@ if(!function_exists('notice'))
 		$array['unkConSpeAsParent']			=	hubby_error('Le contr&ocirc;leur (Menu), d&eacute;finie comme parent est introuvable. La modification du contr&ocirc;leur &agrave; &eacute;chou&eacute;.');
 		$array['addingActionFailure']		=	hubby_error('La cr&eacute;ation d\'action pour ce module &agrave; &eacute;chou&eacute;.');
 		$array['subMenuLevelReach']			=	hubby_error('Impossible de cr&eacute;er ou de modifier ce contr&ocirc;leur, la limitation en terme de sous menu &agrave; &eacute;t&eacute; atteinte. Veuillez choisir un autre menu ou en cr&eacute;er un nouveau.');
+		$array['cantUserReservedCNames']	=	hubby_error('Ce code du contr&ocirc;leur est un code reserv&eacute;, vous ne pouvez pas l\'utiliser.');
 		
 		$array['cant_delete_mainpage']		=	hubby_warning(' La page principale ne peut pas &ecirc;tre supprim&eacute;.');
 		$array['controler_edited']			=	hubby_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
@@ -131,6 +132,7 @@ if(!function_exists('notice'))
 		$array['controller_not_found']		=	hubby_warning(' Ce contr&ocirc;leur est introuvable.');
 		$array['no_main_controller_created']=	hubby_warning(' Aucun contr&ocirc;leur d&eacute;finit comme principale n\'a &eacute;t&eacute; retrouv&eacute;, le nouveau contr&ocirc;leur &agrave; &eacute;t&eacute; d&eacute;finit comme contr&ocirc;leur par d&eacute;faut.');
 		$array['no_main_page_set']			=	hubby_info(' Aucun contr&ocirc;leur n\'est d&eacute;finie par d&eacute;faut.');
+		$array['no_priv_created']			=	hubby_info(' Aucun privil&egrave;ge n\'a &eacute;t&eacute; cr&eacute;e, Avatn de g&eacute;rer des actions, cr&eacute;er un privil&egrave;.');
 		$array['InvalidModule']				=	hubby_warning('Ce module est invalide ou incompatible.');
 		$array['CantDeleteDir']				=	hubby_warning('Une erreur s\'est produite durant la suppr&eacute;ssion d\'un dossier.');
 		$array['module_corrupted']			= 	hubby_warning('Ce module ne peut pas &ecirc;tre install&eacute;. Il est corrompu ou incompatible.');	

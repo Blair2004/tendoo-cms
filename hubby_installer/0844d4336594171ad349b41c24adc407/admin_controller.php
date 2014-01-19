@@ -22,20 +22,33 @@ class News_admin_controller
 		
 		$this->hubby_admin->menuExtendsBefore($this->news->getMenu());
 		$this->data['inner_head']		=	$this->core->load->view('admin/inner_head',$this->data,true);
+		$this->data['ajaxMenu']	=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_menu',$this->data,true,TRUE);
 		$this->data['lmenu']			=	$this->core->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 		$this->linnk					=	MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/';
 	}
 	public function index($page	= 1)
 	{
+		
 		$this->data['ttNews']		=	$this->news->countNews();
-		$this->data['paginate']	=	$this->core->hubby->paginate(10,$this->data['ttNews'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
+		$this->data['paginate']	=	$this->core->hubby->paginate(1,$this->data['ttNews'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
 		if($this->data['paginate'][3] == FALSE): $this->core->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
 		
 		$this->hubby->setTitle('Blogster - Page d\'administration');
 		$this->data['getNews']		=	$this->news->getNews($this->data['paginate'][1],$this->data['paginate'][2]);
-		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/main',$this->data,true,TRUE);
 		
-		return $this->data['body'];
+		if(isset($_GET['ajax']))
+		{
+			$this->data['body']	=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_main',$this->data,true,TRUE);
+			return array(
+				'MCO'		=>		TRUE,
+				'RETURNED'	=>		$this->data['body']
+			);
+		}
+		else
+		{
+			$this->data['body']	=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/main',$this->data,true,TRUE);
+			return $this->data['body'];
+		}
 	}
 	public function publish()
 	{
@@ -74,12 +87,46 @@ class News_admin_controller
 				
 			}
 			$this->hubby->loadEditor(3);
-			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/publish',$this->data,true,TRUE);
-			return $this->data['body'];
+			if(isset($_GET['ajax']))
+			{
+				return array(
+					'MCO'		=>	TRUE,
+					'RETURNED'	=>	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_publish',$this->data,true,TRUE)
+				);
+			}
+			else
+			{
+			return $this->data['body']	=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/publish',$this->data,true,TRUE);
+			}
 		}
 		else
 		{
 			$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
+		}
+	}
+	public function ajax_publish()
+	{
+		$this->core->form_validation->set_rules('news_name','Intitulé de l\'article','trim|required|min_length[5]|max_length[200]');
+		$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[5000]');
+		$this->core->form_validation->set_rules('push_directly','Choix de l\'action','trim|required|min_length[1]|max_length[10]');		
+		$this->core->form_validation->set_rules('image_link','Lien de l\'image','trim|required|min_length[5]|max_length[1000]');		
+		if($this->core->form_validation->run())
+		{
+			$this->data['result']	=	$this->news->publish_news(
+				$this->core->input->post('news_name'),
+				$this->core->input->post('news_content'),
+				$this->core->input->post('push_directly'),
+				$this->core->input->post('image_link'),
+				$this->core->input->post('category')
+			);
+			if($this->data['result'])
+			{
+				return 'true';
+			}
+			else
+			{
+				return 'false';
+			}
 		}
 	}
 	public function edit($e)
@@ -145,10 +192,19 @@ class News_admin_controller
 			if($this->data['paginate'][3] == FALSE): $this->core->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
 			$this->data['getCat']		=	$this->news->getCat($this->data['paginate'][1],$this->data['paginate'][2]);
 			$this->hubby->setTitle('Blogster - Gestion des cat&eacute;gories');
-			$this->hubby->loadEditor(2);
-			
-			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/category',$this->data,true,TRUE);
-			return $this->data['body'];
+			if(isset($_GET['ajax']))
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_category',$this->data,true,TRUE);
+				return array(
+					'RETURNED'			=>	$this->data['body'],
+					'MCO'				=>	TRUE
+				);
+			}
+			else
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/category',$this->data,true,TRUE);
+				return $this->data['body'];
+			}
 		}
 		else if($e == 'create')
 		{
@@ -169,8 +225,19 @@ class News_admin_controller
 			$this->hubby->setTitle('Blogster - Cr&eacute;e une categorie');
 			$this->hubby->loadEditor(2);
 			
-			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/create_cat',$this->data,true,TRUE);
-			return $this->data['body'];
+			if(isset($_GET['ajax']))
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_manage_cat',$this->data,true,TRUE);
+				return array(
+					'RETURNED'			=>	$this->data['body'],
+					'MCO'				=>	TRUE
+				);
+			}
+			else
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/manage_cat',$this->data,true,TRUE);
+				return $this->data['body'];
+			}
 		}
 		else if($e == 'manage' && $i != null)
 		{

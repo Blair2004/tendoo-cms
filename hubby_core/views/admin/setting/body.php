@@ -26,6 +26,7 @@
                                 <li><a href="#logo" data-toggle="tab">Logo</a></li>
                                 <li><a href="#dateformat" data-toggle="tab">Format de l'heure</a></li>
                                 <li><a href="#otherSetting" data-toggle="tab">Autres param&ecirc;tres</a></li>
+                                <li><a href="#icons" data-toggle="tab">Applications & Raccourcis</a></li>
                             </ul>
                         </header>
                         <div class="panel-body">
@@ -109,6 +110,27 @@
                                             </div>
                                             <input name="other_setting" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
                                         </form>
+                                        <?php
+                                        $checked	=	($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1") ? 'checked="checked"' : "";
+                                        ?>
+                                        <form method="post" class="panel-body submitHomeStats">
+                                            <div class="form-group">
+                                                
+                                                <label class="label-control switch">
+                                                	<p style="margin:0;padding:0;line-height:30px;">Afficher les statistiques &agrave; l'accueil : </p>
+                                                	<input type="checkbox" <?php echo $checked;?> value="true"  />
+                                                    <span></span>
+                                                    <input type="hidden" name="show_index_stats" value="true" />
+                                                </label>                                                
+                                            </div>
+                                            <script>
+											$(document).ready(function(){
+												$('.submitHomeStats .switch input[type="checkbox"]').bind('change',function(){
+													$('.submitHomeStats').submit();
+												});
+											});
+											</script>
+                                        </form>
                                         <form method="post" class="panel-body">
                                             <div class="form-group">
                                                 <label class="label-control">Modifier le thème du système</label>
@@ -119,70 +141,6 @@
                                                 </select>
                                             </div>
                                             <input name="them_style_button" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
-                                        </form>
-                                        <form method="post" class="panel-body">
-                                            <div class="form-group">
-                                                <label class="label-control">Afficher les widgets</label>
-                                                <p>Il s'agit ici des widgets qui s'afficheront à la d'accueil du panneau de contr&ocirc;le de votre site web.</p>
-                                                <?php
-												if(is_array($getAppAdminWidgets))
-												{
-													foreach($getAppAdminWidgets as $wid)
-													{
-														eval($options[0]['ADMIN_WIDGET_CONFIG']);
-														if(isset($ACTIVATED_WIDGET))
-														{
-															foreach($ACTIVATED_WIDGET as $ac_wid)
-															{
-																if($ac_wid[0]	==	$wid['MODULE_NAMESPACE'] && $ac_wid[1] == $wid['WIDGET_NAMESPACE'])
-																{
-														?>
-                                                        <div class="input-group">
-                                                          <span class="input-group-addon">
-                                                            <input checked="checked" type="checkbox" name="validWidget[]" value="<?php echo $wid['MODULE_NAMESPACE'].'/'.$wid['WIDGET_NAMESPACE'];?>" />
-                                                          </span>
-                                                          <?php
-														  $module	=	$this->core->hubby_admin->getSpeModuleByNamespace($wid['MODULE_NAMESPACE']);
-														  ?>
-                                                          <div class="form-control"><h4><?php echo $wid['WIDGET_HUMAN_NAME'];?> - [<?php echo $module[0]['HUMAN_NAME'];?>]</h4><br /><p><?php echo $wid['WIDGET_DESCRIPTION'];?></p></div>
-                                                        </div>
-                                                        <?php
-																}
-																else
-																{
-																	?>
-                                                        <div class="input-group">
-                                                          <span class="input-group-addon">
-                                                            <input type="checkbox" name="validWidget[]" value="<?php echo $wid['MODULE_NAMESPACE'].'/'.$wid['WIDGET_NAMESPACE'];?>" />
-                                                          </span>
-                                                          <?php
-														  $module	=	$this->core->hubby_admin->getSpeModuleByNamespace($wid['MODULE_NAMESPACE']);
-														  ?>
-                                                          <div class="form-control"><h4><?php echo $wid['WIDGET_HUMAN_NAME'];?> - [<?php echo $module[0]['HUMAN_NAME'];?>]</h4><br /><p><?php echo $wid['WIDGET_DESCRIPTION'];?></p></div>
-                                                        </div>
-                                                        <?php
-																}
-															}
-														}
-														else
-														{
-														?>
-                                                        <div class="input-group">
-                                                          <span class="input-group-addon">
-                                                            <input type="checkbox" name="validWidget[]" value="<?php echo $wid['MODULE_NAMESPACE'].'/'.$wid['WIDGET_NAMESPACE'];?>" />
-                                                          </span>
-                                                          <?php
-														  $module	=	$this->core->hubby_admin->getSpeModuleByNamespace($wid['MODULE_NAMESPACE']);
-														  ?>
-                                                          <div class="form-control"><h4><?php echo $wid['WIDGET_HUMAN_NAME'];?> - [<?php echo $module[0]['HUMAN_NAME'];?>]</h4><br /><p><?php echo $wid['WIDGET_DESCRIPTION'];?></p></div>
-                                                        </div>
-                                                        <?php
-														}
-													}
-												}
-												?>
-                                            </div>
-                                            <input name="admin_widgets" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
                                         </form>
                                         </div>
                                 	<div class="col-lg-6">
@@ -262,6 +220,62 @@
                                         </form>
                                     </div>
                                 </div>
+                               <div class="tab-pane" id="icons">
+                                	<div class="wrapper">
+                                    	<form method="post" class="panel-body">
+                                            <div class="form-group">
+                                                <label class="control-label">Liste d'icone disponibles</label>
+                                                <div class="panel">
+                                                	<table class="table">
+                                                    	<thead>
+                                                        	<th>Module</th>
+                                                            <th>Nom de l'icone</th>
+                                                            <th width="180">Afficher à l'accueil</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <input type="hidden" name="showIcon[]" value="" />
+                                                        	<?php
+															if(is_array($appIconApi))
+															{
+																foreach($appIconApi as $_a)
+																{
+																	
+																		eval($options[0]['ADMIN_ICONS']);
+																		if(!isset($icons))
+																		{
+																			$icons	=	array(0);
+																		}
+																		$visibleIcons	=	$icons;
+																		$val	=	'';
+																		foreach($visibleIcons as $s)
+																		{
+																			if($s	===	$_a['ICON_MODULE']['NAMESPACE'].'/'.$_a['ICON_NAMESPACE'])
+																			{
+																				$val	=	'checked="checked"';
+																				break;
+																			}
+																		}
+																			
+																	?>
+                                                                    <td><?php echo $_a['ICON_HUMAN_NAME'];?></td>
+                                                                    <td><?php echo $_a['ICON_MODULE']['HUMAN_NAME'];?></td>
+                                                <td><label class="label-control switch">
+                                                	<input type="checkbox" name="showIcon[]" <?php echo $val;?>  value="<?php echo $_a['ICON_MODULE']['NAMESPACE'].'/'.$_a['ICON_NAMESPACE'];?>"  />
+                                                    <span style="height:20px;"></span>
+                                                </label></td>
+                                                <?php
+																	
+																}
+															}
+															?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <input name="appicons" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+                                        </form>
+                                    </div>
+                                </div> 
                             </div>
                         </div>
                     </section>

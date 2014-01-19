@@ -12,10 +12,33 @@ Class Url
 	public function __construct()
 	{
 		$host	=	(in_array($_SERVER['HTTP_HOST'],array('localhost','127.0.0.1'))) ? $_SERVER['HTTP_HOST'] == 'localhost' ? 'localhost/' : '127.0.0.1' : $_SERVER['HTTP_HOST'].'/';
-		$this->request_uri	=	'http://'.$host.substr($_SERVER['REQUEST_URI'],1);
+		$this->request_uri	=	'http://'.$host.'/'.substr($_SERVER['REQUEST_URI'],1);
 		$this->explode_get	=	explode('?',$this->request_uri);
 		$this->splited_url	=	explode('/',substr($this->explode_get[0],7));
-
+		$this->execution_dir=	getcwd();
+		$this->projet_dir	=	'';
+		if(preg_match("#\\\#",$this->execution_dir))
+		{
+			$splitDir		=	explode('\\',$this->execution_dir);
+			$this->projet_dir	=	$splitDir[count($splitDir) -1];
+		}
+		else
+		{
+			$splitDir		=	explode('/',$this->execution_dir);
+			$this->projet_dir	=	$splitDir[count($splitDir) -1];
+		}
+		$rootKey			=	0;
+		$newSpliterUrl		=	array();
+		$copy_new_url		=	false;
+		foreach($this->splited_url as $p)
+		{
+			if($p	==	 $this->projet_dir || $copy_new_url == true)
+			{
+				$newSpliterUrl[]	=	$p;
+				$copy_new_url		= 	TRUE;
+			}
+		}
+		$this->splited_url	=		$newSpliterUrl;
 		$this->site_name	=	$_SERVER['HTTP_HOST'];
 		if(in_array($this->splited_url[0],array('localhost','127.0.0.1')))
 		{
@@ -273,7 +296,7 @@ Class Url
 				$this->controller		=	'index';
 			}
 		}
-		//			var_dump($this->controller(),$this->method(),$this->parameters());
+		// var_dump($this->controller(),$this->method(),$this->parameters());
 	}
 	public function http_request($ARRAY_TYPE	=	FALSE)
 	{

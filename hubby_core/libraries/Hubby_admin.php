@@ -5,6 +5,7 @@ class hubby_admin
 	private $leftMenuExtentionBefore 	= '';
 	private $leftMenuExtentionAfter 	= '';
 	private $core;
+	private $reservedControllers		=	array('admin','install','login','logoff','account','registration','error');
 	public function __construct()
 	{
 		$this->core				=	Controller::instance();
@@ -38,6 +39,11 @@ class hubby_admin
 			{
 				$array[]	=	'no_main_page_set';
 			}
+		}
+		$priv	=	$this->getPrivileges();
+		if(count($priv) == 0)
+		{
+			$array[]		=	'no_priv_created';
 		}
 		return $array;					
 	}
@@ -165,6 +171,7 @@ class hubby_admin
 	}
 	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'')
 	{
+		if(in_array($cname,$this->reservedControllers)): return 'cantUserReservedCNames'; endif; // ne peut utiliser les cname reservés.
 		if($childOf == strtolower($cname)) : return 'cantHeritFromItSelf' ;endif; // Ne peut être sous menu de lui même
 		$currentPosition=	$childOf;
 		if($childOf != 'none') // Si ce controleur est l'enfant d'un autre.
@@ -485,6 +492,19 @@ class hubby_admin
 	{
 		$bool	=	is_bool((bool)$e) ? $e : "TRUE";
 		$this->core->db->update('hubby_options',array('SHOW_WELCOME'=>$bool));
+	}
+	public function switchShowAdminIndex()
+	{
+		$options	=	$this->core->hubby->getOptions();
+		if($options[0]['SHOW_ADMIN_INDEX_STATS'] ==  '1')
+		{
+			$int	=	0;
+		}
+		else
+		{
+			$int	=	1;
+		}
+		$this->core->db->update('hubby_options',array('SHOW_ADMIN_INDEX_STATS'=>$int));
 	}
 	public function editPrivilegeAccess($e)
 	{
@@ -1360,7 +1380,7 @@ class hubby_admin
 		}
 	}
 	// new
-	public function getAppIcon($appNameSpace)
+	public function getAppImgIco($appNameSpace)
 	{
 		$app	=	$this->getSpeModuleByNamespace($appNameSpace);
 		if($app)
@@ -1376,42 +1396,28 @@ class hubby_admin
 		}
 		return false;
 	}
-	public function getAppAdminWidgets()
+	public function getAppIcon()
 	{
-		$query	=	$this->core->db->where('HAS_ADMIN_WIDGET',1)->get('hubby_modules');
-		$result	=	$query->result_array();
-		$validApps	=	array();
-		foreach($result as $module)
+		$globalMod	=	$this->get_modules();
+		$finalIcons	=	array();
+		if(is_array($globalMod))
 		{
-			$appDir	=	MODULES_DIR.$module['ENCRYPTED_DIR'];
-			if(is_file($appDir.'/config/admin_widget_config.php'))
+			foreach($globalMod as $modules)
 			{
-				include($appDir.'/config/admin_widget_config.php');
-				foreach($ADMIN_WIDGET_CONFIG as $w)
+				if($modules['HAS_ICON'] == "1")
 				{
-					$validApps[]	=	$w;
+					$files	=	MODULES_DIR.$modules['ENCRYPTED_DIR'].'/config/icon_config.php';
+					if(is_file($files))
+					{
+						include($files);
+						if(isset($ICON_CONFIG))
+						{
+							$finalIcons[]	=	$ICON_CONFIG;
+						}
+					}
 				}
 			}
-		}
-		return $validApps;
-	}
-	public function activateAppAdminWidgets($elements)
-	{
-		if(is_array($elements))
-		{
-			$finalQ	=	'$ACTIVATED_WIDGET	=	array();';
-			foreach($elements as $e)
-			{
-				$wid	=	explode('/',$e);
-				$moduleN=	$wid[0];
-				$widgetN=	$wid[1];
-				$finalQ	.=	'$ACTIVATED_WIDGET[]	=	array("'.$moduleN.'","'.$widgetN.'");';
-			}
-			return $this->core->db->where('ID',1)->update('hubby_options',array('ADMIN_WIDGET_CONFIG'=>$finalQ));
-		}
-		else
-		{
-			return $this->core->db->where('ID',1)->update('hubby_options',array('ADMIN_WIDGET_CONFIG'=>$elements));
+			return $finalIcons;
 		}
 		return false;
 	}
@@ -1421,8 +1427,18 @@ class hubby_admin
 		$this->gridId++;
 		return $this->gridId;
 	}
-	public function saveGridPosition($e)
+	//
+	public function saveVisibleIcons($availableIcons)
 	{
-		return $this->core->db->where('ID',1)->update('hubby_options',array('GRID_POSITION'=>	$e));
+		$content	=	'$icons	=	array();';
+		if(is_array($availableIcons))
+		{
+			foreach($availableIcons as $a)
+			{
+				$content	.=	'$icons[]	=	"'.$a.'";';
+			}
+			return $this->core->db->update('hubby_options',array('ADMIN_ICONS'=>$content));
+		}
+		return false;
 	}
 }

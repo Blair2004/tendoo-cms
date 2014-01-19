@@ -14,6 +14,8 @@
 </header>
 <section class="scrollable wrapper">
 <?php
+if($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1")
+{
 		$currentTime	=	$this->core->hubby->datetime();
 		$dateArray		=	$this->core->hubby->time(strtotime($currentTime),TRUE);
 		$stats			=	$this->core->hubby_admin->hubby_visit_stats();
@@ -50,11 +52,39 @@
 		{
 			$visitLine	=	'';
 		}
+}
 		?>
 <!-- data-toggle="tooltip" data-placement="right" title="" data-original-title="Statistiques sur le traffic de votre site." -->
 <div class="row">
 <div class="col-lg-9">
+	<div class="icon-grid">
+    <?php
+	if(is_array($appIconApi))
+	{
+		foreach($appIconApi as $a)
+		{
+			eval($options[0]['ADMIN_ICONS']);
+			if(isset($icons))
+			{
+				foreach($icons as $i)
+				{
+					if($i	==	$a['ICON_MODULE_NAMESPACE'].'/'.$a['ICON_NAMESPACE'])
+					{
+			?>
+		<img data-toggle="tooltip" data-placement="right" title="<?php echo $a['ICON_HUMAN_NAME'];?>" data-original-title="Statistiques sur le traffic de votre site." class="G-icon" data-url="<?php echo $this->core->url->site_url(array('admin','open','modules',$a['ICON_MODULE']['ID'].'?ajax=true'));?>" src="<?php echo $this->core->url->main_url().MODULES_DIR.$a['ICON_MODULE']['ENCRYPTED_DIR'].$a['ICON'];?>">
+            <?php
+					}
+				}
+			}
+		}
+	}
+	?>
+    </div>
     <ul class="list-group gutter list-group-lg list-group-sp sortable">
+    <?php
+	if($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1")
+	{
+	?>
         <li class="list-group-item" draggable="true" style="padding:0px;" data-id="<?php echo $this->core->hubby_admin->getGridId();?>">
             <header class="panel-heading bg-success lter"> <span class="pull-right"><?php echo $dateArray['month'];?></span> <span class="h4">Stats. sur <?php echo $this->core->hubby_admin->getStatLimitation();?> mois<br>
                 <small class="text-muted"></small> </span>
@@ -70,6 +100,9 @@
                 <div><small>Visites r&eacute;guli&egrave;res</small> : <span><?php echo $overAllGlobal;?></span></div>
             </div>
         </li>
+        <?php
+	}
+		?>
         <li class="list-group-item" draggable="true" style="padding:0px;" data-id="<?php echo $this->core->hubby_admin->getGridId();?>">
         	<?php
 					if($options[0]['SHOW_WELCOME'] == 'TRUE')
@@ -102,52 +135,8 @@
 					}
 					?>
         </li>
-        <?php
-		if(is_array($widgets))
-		{
-			foreach($widgets as $wid)
-			{
-				eval($options[0]['ADMIN_WIDGET_CONFIG']);
-				if(isset($ACTIVATED_WIDGET))
-				{
-					foreach($ACTIVATED_WIDGET as $ac_wid)
-					{
-						if($ac_wid[0]	==	$wid['MODULE_NAMESPACE'] && $ac_wid[1] == $wid['WIDGET_NAMESPACE'])
-						{
-							$module		=	$this->core->hubby_admin->getSpeModuleByNamespace($wid['MODULE_NAMESPACE']);
-							$module		=	$module[0];
-							$appDir		=	MODULES_DIR.$module['ENCRYPTED_DIR'];
-							if(is_file($appDir.'/config/admin_widget_config.php'))
-							{
-								include($appDir.'/config/admin_widget_config.php');
-								if(isset($ADMIN_WIDGET_CONFIG))
-								{
-									$fileLocation	=	$appDir.$ADMIN_WIDGET_CONFIG[$wid['WIDGET_NAMESPACE']]['WIDGET_FILES'];
-									if(is_file($fileLocation))
-									{
-										?>
-                                        <li class="list-group-item" draggable="true" style="padding:0;" data-id="<?php echo $this->core->hubby_admin->getGridId();?>">
-                                        <?php
-										include($fileLocation);
-										?>
-                                        </li>
-                                        <?php
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		?>
     </ul>
-    
-    
     <!-- <?php echo $this->core->hubby_admin->getGridId();?>--> 
-    <script type="text/javascript" id="code">
-		var object	=	$.parseJSON('<?php echo $options[0]['GRID_POSITION'];?>');
-    </script> 
 </div>
 <div class="col-lg-3">
     <section class="panel">
