@@ -296,7 +296,7 @@ Class Url
 				$this->controller		=	'index';
 			}
 		}
-		// var_dump($this->controller(),$this->method(),$this->parameters());
+		 var_dump($this->controller(),$this->method(),$this->parameters()); die(à;
 	}
 	public function http_request($ARRAY_TYPE	=	FALSE)
 	{

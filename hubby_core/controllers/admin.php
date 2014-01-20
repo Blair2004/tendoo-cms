@@ -104,6 +104,7 @@ class Admin
 		$this->core->file->js_push('raphael-min');
 		$this->core->file->js_push('bubbles');
 		$this->core->file->js_push('app.v2'); // _2
+		$this->core->file->js_push('tendoo_loader');
 		$this->core->file->js_push('hubby_app');
 	}
 	// Public functions
