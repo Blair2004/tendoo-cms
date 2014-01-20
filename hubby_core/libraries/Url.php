@@ -150,6 +150,7 @@ Class Url
 		{
 			if(array_key_exists(1,$this->splited_url))
 			{
+				echo 'OK<br>';
 				if($this->splited_url[1] == '')
 				{
 					$this->controller	=	'index';
