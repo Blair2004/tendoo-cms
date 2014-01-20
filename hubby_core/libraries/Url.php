@@ -11,8 +11,8 @@ Class Url
 
 	public function __construct()
 	{
-		$host	=	(in_array($_SERVER['HTTP_HOST'],array('localhost','127.0.0.1'))) ? $_SERVER['HTTP_HOST'] == 'localhost' ? 'localhost/' : '127.0.0.1' : $_SERVER['HTTP_HOST'].'/';
-		$this->request_uri	=	'http://'.$host.'/'.substr($_SERVER['REQUEST_URI'],1);
+		$host	=	(in_array($_SERVER['HTTP_HOST'],array('localhost','127.0.0.1'))) ? $_SERVER['HTTP_HOST'] == 'localhost' ? 'localhost/' : '127.0.0.1/' : $_SERVER['HTTP_HOST'].'/';
+		$this->request_uri	=	'http://'.$host.substr($_SERVER['REQUEST_URI'],1);
 		$this->explode_get	=	explode('?',$this->request_uri);
 		$this->splited_url	=	explode('/',substr($this->explode_get[0],7));
 		$this->execution_dir=	getcwd();
@@ -296,8 +296,7 @@ Class Url
 				$this->controller		=	'index';
 			}
 		}
-		echo '<pre>'.print_r($this,TRUE).'</pre>';
-		die();
+		// echo '<pre>'.print_r($this,TRUE).'</pre>';
 	}
 	public function http_request($ARRAY_TYPE	=	FALSE)
 	{
