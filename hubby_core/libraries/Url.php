@@ -150,7 +150,6 @@ Class Url
 		{
 			if(array_key_exists(1,$this->splited_url))
 			{
-				echo 'OK<br>';
 				if($this->splited_url[1] == '')
 				{
 					$this->controller	=	'index';
@@ -297,7 +296,8 @@ Class Url
 				$this->controller		=	'index';
 			}
 		}
-		 var_dump($this->controller(),$this->method(),$this->parameters()); die();
+		echo '<pre>'.print_r($this,TRUE).'</pre>';
+		die();
 	}
 	public function http_request($ARRAY_TYPE	=	FALSE)
 	{
