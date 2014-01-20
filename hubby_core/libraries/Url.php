@@ -38,7 +38,10 @@ Class Url
 				$copy_new_url		= 	TRUE;
 			}
 		}
-		$this->splited_url	=		$newSpliterUrl;
+		if(in_array($this->projet_dir,$this->splited_url))
+		{
+			$this->splited_url	=		$newSpliterUrl;
+		}
 		$this->site_name	=	$_SERVER['HTTP_HOST'];
 		if(in_array($this->splited_url[0],array('localhost','127.0.0.1')))
 		{

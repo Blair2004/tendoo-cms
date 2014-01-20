@@ -132,7 +132,7 @@ if(!function_exists('notice'))
 		$array['controller_not_found']		=	hubby_warning(' Ce contr&ocirc;leur est introuvable.');
 		$array['no_main_controller_created']=	hubby_warning(' Aucun contr&ocirc;leur d&eacute;finit comme principale n\'a &eacute;t&eacute; retrouv&eacute;, le nouveau contr&ocirc;leur &agrave; &eacute;t&eacute; d&eacute;finit comme contr&ocirc;leur par d&eacute;faut.');
 		$array['no_main_page_set']			=	hubby_info(' Aucun contr&ocirc;leur n\'est d&eacute;finie par d&eacute;faut.');
-		$array['no_priv_created']			=	hubby_info(' Aucun privil&egrave;ge n\'a &eacute;t&eacute; cr&eacute;e, Avatn de g&eacute;rer des actions, cr&eacute;er un privil&egrave;.');
+		$array['no_priv_created']			=	hubby_info(' Aucun privil&egrave;ge n\'a &eacute;t&eacute; cr&eacute;e, Les action ne peuvent &ecirc;tre administr&eacute;es qu\'apr&egrave;s la cr&eacute;ation d\'un privil&egrave;ge au moins.');
 		$array['InvalidModule']				=	hubby_warning('Ce module est invalide ou incompatible.');
 		$array['CantDeleteDir']				=	hubby_warning('Une erreur s\'est produite durant la suppr&eacute;ssion d\'un dossier.');
 		$array['module_corrupted']			= 	hubby_warning('Ce module ne peut pas &ecirc;tre install&eacute;. Il est corrompu ou incompatible.');	
