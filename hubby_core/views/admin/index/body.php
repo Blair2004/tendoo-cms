@@ -71,7 +71,7 @@ if($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1")
 					if($i	==	$a['ICON_MODULE_NAMESPACE'].'/'.$a['ICON_NAMESPACE'])
 					{
 			?>
-		<img data-toggle="tooltip" data-placement="right" title="<?php echo $a['ICON_HUMAN_NAME'];?>" data-original-title="Statistiques sur le traffic de votre site." class="G-icon" data-url="<?php echo $this->core->url->site_url(array('admin','open','modules',$a['ICON_MODULE']['ID'].'?ajax=true'));?>" src="<?php echo $this->core->url->main_url().MODULES_DIR.$a['ICON_MODULE']['ENCRYPTED_DIR'].$a['ICON'];?>">
+		<img data-toggle="tooltip" data-placement="right" title="<?php echo $a['ICON_HUMAN_NAME'];?>" data-original-title="Statistiques sur le traffic de votre site." class="G-icon" data-url="<?php echo $this->core->url->site_url(array('admin','open','modules',$a['ICON_MODULE']['ID'].'?ajax=true'));?>" src="<?php echo $this->core->hubby_admin->getAppImgIco($a['ICON_MODULE']['NAMESPACE']);?>">
             <?php
 					}
 				}

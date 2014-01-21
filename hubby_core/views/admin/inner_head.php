@@ -46,7 +46,7 @@
                     <a onclick="document.location	=	'<?php echo $this->core->url->site_url(array('admin'));?>'" type="submit" class="btn btn-sm btn-white"><i class="icon-dashboard"></i>Administration</a>
                 </form>
                 <form class="navbar-form navbar-left m-t-sm" role="search">
-                    <a href="javascript:hubby.window.show()" type="submit" class="btn btn-sm btn-white"><i class="icon-shopping-cart"></i>Magasin d'application</a>
+                    <a href="javascript:void(0)" id="tendooAppStore" class="btn btn-sm btn-white"><i class="icon-shopping-cart"></i>Magasin d'application</a>
                 </form>
                 <ul class="nav navbar-nav m-l-n" style="margin-left:10px;">
                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistiques <b class="caret"></b></a>
