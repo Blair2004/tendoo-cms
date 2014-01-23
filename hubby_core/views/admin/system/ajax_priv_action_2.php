@@ -2,7 +2,7 @@
 if($state === true)
 {
 	?>
-   hubby.notice.alert('Les privil&egrave;ges communes ont &eacute;t&eacute; correctement mis &agrave; jour.');
+   hubby.notice.alert('Les privil&egrave;ges communs ont &eacute;t&eacute; correctement mis &agrave; jour.');
     <?php
 }
 else

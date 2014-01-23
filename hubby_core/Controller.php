@@ -13,7 +13,7 @@ Class Controller
 	public 	$notice;
 	public 	$exceptions;
 	public	$session;
-	public 	$user_global;
+	public 	$users_global;
 	// other vars
 	protected static $instance;
 	public function __construct()

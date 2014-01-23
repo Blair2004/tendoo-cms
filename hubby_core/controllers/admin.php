@@ -32,7 +32,7 @@ class Admin
 		foreach($this->data['global_notice'] as $gl)
 		{
 			$notice_s	=	strip_tags(notice($gl));
-			switch($notice_s)
+			switch($gl)
 			{
 				case 'no_theme_selected' :
 				$link	=	$this->core->url->site_url(array('admin','themes'));
@@ -727,7 +727,6 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			if(isset($_FILES['installer_file']))
 			{
 				$query	=	$this->core->hubby_admin->hubby_installer('installer_file');
-				$this->core->notice->push_notice(notice($query));
 			}
 			if(isset($_POST['installer_link'],$_POST['downloadType']))
 			{

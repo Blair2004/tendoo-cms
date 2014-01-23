@@ -30,7 +30,7 @@ class News_admin_controller
 	{
 		
 		$this->data['ttNews']		=	$this->news->countNews();
-		$this->data['paginate']	=	$this->core->hubby->paginate(1,$this->data['ttNews'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
+		$this->data['paginate']	=	$this->core->hubby->paginate(10,$this->data['ttNews'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
 		if($this->data['paginate'][3] == FALSE): $this->core->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
 		
 		$this->hubby->setTitle('Blogster - Page d\'administration');
@@ -52,7 +52,7 @@ class News_admin_controller
 	}
 	public function publish()
 	{
-		if($this->core->users_global->isSuperAdmin()	|| $this->hubby_admin->adminAccess('modules','publish_news',$this->core->users_global->current('PRIVILEGE')))
+		if($this->hubby_admin->actionAccess('publish_news','news'))
 		{
 			$this->data['categories']	=	$this->news->getCat();
 			if(count($this->data['categories']) == 0)
@@ -76,13 +76,27 @@ class News_admin_controller
 					$this->core->input->post('image_link'),
 					$this->core->input->post('category')
 				);
-				if($this->data['result'])
+				if(isset($_GET['ajax']))
 				{
-					$this->notice->push_notice(notice('done'));
+					if($this->data['result'])
+					{
+						echo '<script>hubby.notice.alert("'.strip_tags(notice('done')).'","success");</script>';
+					}
+					else
+					{
+						echo '<script>hubby.notice.alert("'.strip_tags(notice('error')).'","warning");</script>';
+					}
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error'));
+					if($this->data['result'])
+					{
+						$this->notice->push_notice(notice('done'));
+					}
+					else
+					{
+						$this->notice->push_notice(notice('error'));
+					}
 				}
 				
 			}
@@ -101,37 +115,12 @@ class News_admin_controller
 		}
 		else
 		{
-			$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
-		}
-	}
-	public function ajax_publish()
-	{
-		$this->core->form_validation->set_rules('news_name','Intitulé de l\'article','trim|required|min_length[5]|max_length[200]');
-		$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[5000]');
-		$this->core->form_validation->set_rules('push_directly','Choix de l\'action','trim|required|min_length[1]|max_length[10]');		
-		$this->core->form_validation->set_rules('image_link','Lien de l\'image','trim|required|min_length[5]|max_length[1000]');		
-		if($this->core->form_validation->run())
-		{
-			$this->data['result']	=	$this->news->publish_news(
-				$this->core->input->post('news_name'),
-				$this->core->input->post('news_content'),
-				$this->core->input->post('push_directly'),
-				$this->core->input->post('image_link'),
-				$this->core->input->post('category')
-			);
-			if($this->data['result'])
-			{
-				return 'true';
-			}
-			else
-			{
-				return 'false';
-			}
+			$this->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 	}
 	public function edit($e)
 	{
-		if(!$this->core->users_global->isSuperAdmin()	&& !$this->hubby_admin->adminAccess('modules','edit_news',$this->core->users_global->current('PRIVILEGE')))
+		if(!$this->hubby_admin->actionAccess('edit_news','news'))
 		{
 			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
@@ -174,12 +163,23 @@ class News_admin_controller
 		$this->hubby->setTitle('Blogster - Créer un nouvel article');
 		$this->hubby->loadEditor(3);
 		
-		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/edit',$this->data,true,TRUE);
-		return $this->data['body'];
+		if(isset($_GET['ajax']))
+		{
+			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_edit',$this->data,true,TRUE);
+			return array(
+				'RETURNED'			=>	$this->data['body'],
+				'MCO'				=>	TRUE
+			);
+		}
+		else
+		{
+			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/edit',$this->data,true,TRUE);
+			return $this->data['body'];
+		}
 	}
 	public function category($e = 'index',$i = null)
 	{
-		if(!$this->core->users_global->isSuperAdmin()	&& !$this->hubby_admin->adminAccess('modules','category_manage',$this->core->users_global->current('PRIVILEGE')))
+		if(!$this->hubby_admin->actionAccess('category_manage','news'))
 		{
 			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
@@ -227,7 +227,7 @@ class News_admin_controller
 			
 			if(isset($_GET['ajax']))
 			{
-				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_manage_cat',$this->data,true,TRUE);
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_create_cat',$this->data,true,TRUE);
 				return array(
 					'RETURNED'			=>	$this->data['body'],
 					'MCO'				=>	TRUE
@@ -235,7 +235,7 @@ class News_admin_controller
 			}
 			else
 			{
-				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/manage_cat',$this->data,true,TRUE);
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/create_cat',$this->data,true,TRUE);
 				return $this->data['body'];
 			}
 		}
@@ -274,13 +274,24 @@ class News_admin_controller
 				}
 			}
 			$this->data['cat']			=	$this->news->retreiveCat($i);
-			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/manage_cat',$this->data,true,TRUE);
-			return $this->data['body'];
+			if(isset($_GET['ajax']))
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_manage_cat',$this->data,true,TRUE);
+				return array(
+					'RETURNED'			=>	$this->data['body'],
+					'MCO'				=>	TRUE
+				);
+			}
+			else
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/manage_cat',$this->data,true,TRUE);
+				return $this->data['body'];
+			}
 		}
 	}
 	public function delete($se)
 	{
-		if(!$this->core->users_global->isSuperAdmin()	&& !$this->hubby_admin->adminAccess('modules','delete_news',$this->core->users_global->current('PRIVILEGE')))
+		if(!$this->hubby_admin->actionAccess('delete_news','news'))
 		{
 			$this->data['delete']	=	false;
 			$this->data['body']		=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/delete_news',$this->data,true,TRUE);
@@ -289,31 +300,48 @@ class News_admin_controller
 				'MCO'		=>	TRUE
 			);
 		}
-		$this->data['delete']		=	$this->news->deleteSpeNews((int)$se);
-		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/delete_news',$this->data,true,TRUE);
-		return array(
-			'RETURNED'	=>	$this->data['body'],
-			'MCO'		=>	TRUE
-		);
+		else
+		{
+			$this->data['delete']		=	$this->news->deleteSpeNews((int)$se);
+			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/delete_news',$this->data,true,TRUE);
+			return array(
+				'RETURNED'	=>	$this->data['body'],
+				'MCO'		=>	TRUE
+			);
+		}
 	}
 	public function comments($page	=	1)
 	{
-		if($this->core->users_global->isSuperAdmin()	|| $this->hubby_admin->adminAccess('modules','blogster_manage_comments',$this->core->users_global->current('PRIVILEGE')))
-		{	$this->data['setting']			=	$this->news->getBlogsterSetting();
+		if($this->hubby_admin->actionAccess('blogster_manage_comments','news'))
+		{	
+			$this->data['setting']			=	$this->news->getBlogsterSetting();
 			$this->data['ttComments']		=	$this->news->countComments();
 			$this->data['paginate']		=	$this->core->hubby->paginate(30,$this->data['ttComments'],1,'bg-color-red fg-color-white','bg-color-green fg-color-white',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'comments')).'/');
 			$this->data['getComments']		=	$this->news->getComments($this->data['paginate'][1],$this->data['paginate'][2]);
+			if(isset($_GET['ajax']))
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_list_comments',$this->data,true,TRUE);
+				return array(
+					'RETURNED'			=>	$this->data['body'],
+					'MCO'				=>	TRUE
+				);
+			}
+			else
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/list_comments',$this->data,true,TRUE);
+				return $this->data['body'];
+			}
 			$this->data['body']				=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/list_comments',$this->data,true,TRUE);
 			return $this->data['body'];
 		}
 		else
 		{
-			$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 	}
 	public function comments_manage($id)
 	{
-		if($this->core->users_global->isSuperAdmin()	|| $this->hubby_admin->adminAccess('modules','blogster_manage_comments',$this->core->users_global->current('PRIVILEGE')))
+		if($this->hubby_admin->actionAccess('blogster_manage_comments','news'))
 		{
 			$this->core->load->library('form_validation');
 			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
@@ -362,17 +390,28 @@ class News_admin_controller
 			$this->data['speComment']	=	$this->news->getSpeComment($id);
 			if(!$this->data['speComment']): $this->core->url->redirect(array('admin','open','modules',$this->moduleData['ID'],'comments?notice=unknowComments'));endif; // redirect if comment doesn't exist.
 			$this->hubby->setTitle('Blogster - Gestion de commentaire');
-			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/manage_comments',$this->data,true,TRUE);
-			return $this->data['body'];
+			if(isset($_GET['ajax']))
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_manage_comments',$this->data,true,TRUE);
+				return array(
+					'RETURNED'			=>	$this->data['body'],
+					'MCO'				=>	TRUE
+				);
+			}
+			else
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/manage_comments',$this->data,true,TRUE);
+				return $this->data['body'];
+			}
 		}
 		else
 		{
-			$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 	}
 	public function setting()
 	{
-		if($this->core->users_global->isSuperAdmin()	|| $this->hubby_admin->adminAccess('modules','blogster_setting',$this->core->users_global->current('PRIVILEGE')))
+		if($this->hubby_admin->actionAccess('blogster_setting','news'))
 		{
 			if(isset($_POST['update']))
 			{
@@ -418,13 +457,23 @@ class News_admin_controller
 			}
 			$this->data['setting']		=	$this->news->getBlogsterSetting();
 			$this->hubby->setTitle('Blogster - Param&ecirc;tres avanc&eacute;');
-				
-			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/setting',$this->data,true,TRUE);
-			return $this->data['body'];
+			if(isset($_GET['ajax']))
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_setting',$this->data,true,TRUE);
+				return array(
+					'RETURNED'			=>	$this->data['body'],
+					'MCO'				=>	TRUE
+				);
+			}
+			else
+			{
+				$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/setting',$this->data,true,TRUE);
+				return $this->data['body'];
+			}
 		}
 		else
 		{
-			$this->core->url->redirect(array('admin','menu?notice=accessDenied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 	}
 }

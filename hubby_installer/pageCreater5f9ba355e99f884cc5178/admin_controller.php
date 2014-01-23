@@ -44,9 +44,9 @@ class Pages_editor_admin_controller
 	}
 	public function create()
 	{
-		if(!$this->core->users_global->isSuperAdmin()	&& !$this->hubby_admin->adminAccess('modules','create_page',$this->core->users_global->current('PRIVILEGE')))
+		if($this->hubby_admin->actionAccess('create_page','pages_editor') === FALSE)
 		{
-			$this->core->url->redirect(array('admin','index?notice=access_denied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 		$this->hubby->setTitle('Page Editor - Créer une nouvelle page');
 		$this->core->load->library('form_validation');
@@ -75,9 +75,9 @@ class Pages_editor_admin_controller
 	}
 	public function edit($e)
 	{
-		if(!$this->core->users_global->isSuperAdmin()	&& !$this->hubby_admin->adminAccess('modules','edit_pages',$this->core->users_global->current('PRIVILEGE')))
+		if($this->hubby_admin->actionAccess('edit_pages','pages_editor') === FALSE)
 		{
-			$this->core->url->redirect(array('admin','index?notice=access_denied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 		// Control Sended Form Datas
 		$this->core->load->library('form_validation');
@@ -112,7 +112,7 @@ class Pages_editor_admin_controller
 	}
 	public function delete($e)
 	{
-		if(!$this->core->users_global->isSuperAdmin()	&& !$this->hubby_admin->adminAccess('modules','delete_page',$this->core->users_global->current('PRIVILEGE')))
+		if($this->hubby_admin->actionAccess('delete_page','pages_editor') === FALSE)
 		{
 			$this->core->url->redirect(array('admin','index?notice=access_denied'));
 		}

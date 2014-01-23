@@ -13,6 +13,7 @@
     </div>
 </header>
 <section class="scrollable wrapper">
+<?php echo notice_from_url();?>
 <?php
 if($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1")
 {

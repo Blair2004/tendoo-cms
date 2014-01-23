@@ -1266,9 +1266,9 @@ class hubby_admin
 		}
 		return false;
 	}
-	public function adminAccess($action_namespace,$action,$privilege)
+	public function adminAccess($action_namespace,$action,$privilege,$object_namespace)
 	{
-		$query	=	$this->core->db->where('TYPE_NAMESPACE',$action_namespace)->where('REF_TYPE_ACTION',$action)->where('REF_PRIVILEGE',$privilege)->get('hubby_privileges_actions');
+		$query	=	$this->core->db->where('OBJECT_NAMESPACE',$object_namespace)->where('TYPE_NAMESPACE',$action_namespace)->where('REF_TYPE_ACTION',$action)->where('REF_PRIVILEGE',$privilege)->get('hubby_privileges_actions');
 		$result = $query->result_array();
 		if(count($result) > 0)
 		{
@@ -1440,5 +1440,13 @@ class hubby_admin
 			return $this->core->db->update('hubby_options',array('ADMIN_ICONS'=>$content));
 		}
 		return false;
+	}
+	public function actionAccess($action,$module_namespace) // Vérifie si l'utilisateur actuel peut acceder au module par l'action
+	{
+		if(!$this->core->users_global->isSuperAdmin()	&& !$this->adminAccess('modules',$action,$this->core->users_global->current('PRIVILEGE'),$module_namespace))
+		{
+			return false;
+		}
+		return true;
 	}
 }

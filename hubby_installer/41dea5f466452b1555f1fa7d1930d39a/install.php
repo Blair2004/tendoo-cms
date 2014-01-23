@@ -15,7 +15,7 @@ $this->appAction(array(
 	'action'				=>	'hubby_index_manager',
 	'action_name'			=>	'Gestion de la page d\'accueil',
 	'action_description'	=>	'Cette action permet de gerer la page d\'accueil, carrousel, publication du blog, témoignages.',
-	'mod_namespace'			=>	'hubby_index_mod'
+	'mod_namespace'			=>	'hubby_index_manager'
 ));
 $this->appSql(
 'CREATE TABLE IF NOT EXISTS `hubby_index_manager` (

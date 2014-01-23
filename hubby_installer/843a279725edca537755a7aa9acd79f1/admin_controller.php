@@ -59,9 +59,9 @@ class Hubby_contents_admin_controller
 				}
 			}
 		}
-		if(!$this->core->users_global->isSuperAdmin()	&& !$this->hubby_admin->adminAccess('modules','hubby_contents_upload',$this->core->users_global->current('PRIVILEGE')))
+		if(!$this->hubby_admin->actionAccess('hubby_contents_upload','hubby_contents'))
 		{
-			$this->core->url->redirect(array('admin','index?notice=access_denied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 		$this->hubby->setTitle('Gestionnaire de contenu - Envoyer un fichier');
 		
@@ -71,9 +71,9 @@ class Hubby_contents_admin_controller
 	}
 	public function manage($id)
 	{
-		if(!$this->core->users_global->isSuperAdmin()	&& !$this->hubby_admin->adminAccess('modules','hubby_contents_upload',$this->core->users_global->current('PRIVILEGE')))
+		if(!$this->hubby_admin->actionAccess('hubby_contents_upload','hubby_contents'))
 		{
-			$this->core->url->redirect(array('admin','index?notice=access_denied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 		$this->core->file->js_url	=	$this->core->url->main_url().$this->data['module_dir'].'/js/';
 		$this->core->file->css_url	=	$this->core->url->main_url().$this->data['module_dir'].'/css/';
@@ -82,6 +82,10 @@ class Hubby_contents_admin_controller
 		$this->core->load->library('form_validation');
 		if($this->core->input->post('delete_file'))
 		{
+			if(!$this->hubby_admin->actionAccess('hubby_contents_delete','hubby_contents'))
+			{
+				$this->core->url->redirect(array('admin','index?notice=accessDenied'));
+			}
 			$this->core->form_validation->set_rules('delete_file','','trim|required');
 			$this->core->form_validation->set_rules('content_id','','trim|required|is_numeric');
 			if($this->core->form_validation->run()) // File drop

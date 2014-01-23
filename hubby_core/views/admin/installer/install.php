@@ -16,7 +16,6 @@
                 	<?php echo validation_errors('<p class="error">', '</p>');?>
 					<?php echo notice_from_url();?>
 					<?php echo $this->core->notice->parse_notice();?>
-                    <?php echo $success;?>
                     <div class="row">
                     	<div class="col-lg-6">
                         	<section class="panel">

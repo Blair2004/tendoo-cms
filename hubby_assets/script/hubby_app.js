@@ -321,7 +321,7 @@ $(document).ready(function(){
 		hubby.boot			=	new function(){
 			var tASE	=	'#tendooAppStore'; // TENDOO APP STORE DOM BUTTON ELEMENT
 			$(tASE).bind('click',function(){
-				hubby.notice.alert('BOnjour','success');
+				hubby.notice.alert('Indisponible pour le moment.','info');
 			});
 		};
 	}

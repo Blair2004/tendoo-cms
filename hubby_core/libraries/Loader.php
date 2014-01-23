@@ -22,6 +22,7 @@ class Loader
 	}
 	public function view($path,$array = NULL,$return = false, $load_from_main_dir = FALSE)
 	{
+		__extends($this);
 		if($load_from_main_dir == FALSE)
 		{
 			return $this->load_ext(array('_hubby_view' => $path, '_hubby_vars' => $this->object_to_array($array), '_hubby_return' => $return),FALSE);

@@ -118,6 +118,7 @@ if(!function_exists('notice'))
 		$array['controler_deleted']			=	hubby_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
 		$array['incorrectSuperAdminPassword']	=	hubby_warning('Le mot de passe administrateur est incorrect');
 		$array['cantHeritFromItSelf']		=	hubby_error('Ce contr&ocirc;leur ne peut pas &ecirc;tre un sous menu de lui m&ecirc;me. La modification de l\'emplacement &agrave; &eacute;chou&eacute;.');
+		$array['cantSendMsgToYou']			=	hubby_error('Une erreur s\'est produite, vous ne pouvez pas vous envoyer un message.');
 		$array['unkConSpeAsParent']			=	hubby_error('Le contr&ocirc;leur (Menu), d&eacute;finie comme parent est introuvable. La modification du contr&ocirc;leur &agrave; &eacute;chou&eacute;.');
 		$array['addingActionFailure']		=	hubby_error('La cr&eacute;ation d\'action pour ce module &agrave; &eacute;chou&eacute;.');
 		$array['subMenuLevelReach']			=	hubby_error('Impossible de cr&eacute;er ou de modifier ce contr&ocirc;leur, la limitation en terme de sous menu &agrave; &eacute;t&eacute; atteinte. Veuillez choisir un autre menu ou en cr&eacute;er un nouveau.');
@@ -386,16 +387,29 @@ if(!function_exists('is_compatible'))
 }
 if(!function_exists('__extends'))
 {
-	function __extends(&$object)
+	function __extends(&$obj)
 	{
 		$Controller				=	Controller::instance();
-		$object->load			=&	$Controller->load;
-		$object->hubby			=&	$Controller->hubby;
-		$object->db				=	$Controller->db; // Il est mieux de faire une copie afin d'eviter le conflit de requêtes
-		$object->url			=&	$Controller->url;
-		$object->input			=&	$Controller->input;
-		$object->users_global	=&	$Controller->users_global;
-		$object->notice			=&	$Controller->notice;
+		$obj->url				=&	$Controller->url;
+		$obj->input				=&	$Controller->input;
+		$obj->notice			=&	$Controller->notice;
+		$obj->hubby				=&	$Controller->hubby;
+		$obj->db				=&	$Controller->db;
+		$obj->session			=&	$Controller->session;
+		$obj->users_global		=&	$Controller->users_global;
+		$obj->load				=&	$Controller->load;
+		if(isset($Controller->hubby_admin))
+		{
+			$obj->hubby_admin	=&	$Controller->hubby_admin;
+		}
+		if(isset($Controller->file))
+		{
+			$obj->file	=&	$Controller->file;
+		}
+		if(isset($Controller->form_validation))
+		{
+			$obj->form_validation	=&	$Controller->form_validation;
+		}
 	}
 }
 ?>

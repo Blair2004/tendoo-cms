@@ -71,6 +71,7 @@
 							defaultsApp[3]		=	"file_manager";
 							defaultsApp[4]		=	"widget_admin";
 							defaultsApp[5]		=	"PageEditor";
+							defaultsApp[6]		=	"Contact_manager";
 						var defaultsAppText		=	new Array();
 							defaultsAppText[0]	=	'Installation du module Index Manager...';
 							defaultsAppText[1]	=	'Installation du thème Modus...';
@@ -78,6 +79,7 @@
 							defaultsAppText[3]	=	'Installation du module Gestionnaire de fichiers...';
 							defaultsAppText[4]	=	'Installation du module Gestionnaire de widgets...';
 							defaultsAppText[5]	=	'Installation du module Page Editor...';
+							defaultsAppText[6]	=	'Installation du module Hubby Contact Manager...';
 						var defaultsAppFinish	=	new Array();
 							defaultsAppFinish[0]=	'<span style="color:green">Installation du module terminée</span>';
 							defaultsAppFinish[1]=	'<span style="color:green">Installation du thème terminée</span>';
@@ -85,6 +87,7 @@
 							defaultsAppFinish[3]=	'<span style="color:green">Installation du Gestionnaire de fichier terminée</span>';
 							defaultsAppFinish[4]=	'<span style="color:green">Installation du Gestionnaire de widget terminée</span>';
 							defaultsAppFinish[5]=	'<span style="color:green">Installation du module Page Editor terminée</span>';
+							defaultsAppFinish[6]=	'<span style="color:green">Installation du module Hubby Contact Manager terminée</span>';
 						var defaultsAppHtml		=	
 							"<h5>Installation des applications par d&eacute;faut</h5>"+
 							'<ul class="statusList">'+
@@ -124,6 +127,9 @@
 										break;
 										case "PageEditor":
 											action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/PageEditor";									
+										break;
+										case "Contact_manager":
+											action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/Contact_manager";									
 										break;
 									}
 									$.ajax({

@@ -405,6 +405,23 @@ class Hubby
 			$this->hubby_admin->hubby_core_installer($appFile);
 			$this->hubby_admin->moduleActivation('Pages_editor',FALSE);
 		}
+		else if($app	==	'Contact_manager')
+		{
+			$appFile				=		array();
+			$appFile['temp_dir']	=		'hubby_app_6201401230210406wgIlkG5CkcJT7u3DKMOO';
+			$option					=		$this->getOptions();
+			$this->hubby_admin->hubby_core_installer($appFile);
+			$module				=	$this->hubby_admin->moduleActivation('hubby_contact_handler',FALSE);
+			if($module)
+			{
+				$this->hubby_admin->controller('Accueil','home','hubby_contact_handler',$option[0]['SITE_NAME'].' - Accueil','Aucune description enregistr&eacute;e','TRUE',$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'');
+				$this->core->db->insert('hubby_contact_handler_option',array(
+					'SHOW_NAME'			=>		1,
+					'SHOW_MAIL'			=>		1
+				));
+			}
+
+		}
 	}
 	public function connectToDb()
 	{
@@ -1408,6 +1425,5 @@ class Hubby
 	<?php
 				}
 			}
-		}}
-	
+		}}	
 }
