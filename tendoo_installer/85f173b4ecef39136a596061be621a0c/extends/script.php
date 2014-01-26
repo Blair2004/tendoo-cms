@@ -18,7 +18,7 @@ class Tendoo_modus_theme_handler
 		$this->modus_lib					=	new modus_lib;
 		$this->data['netWorking']			=	$this->modus_lib->getNetworking();
 		// Load Css File
-		$this->data['file']->css_url		=	$this->core->url->main_url().'Tendoo_themes/'.$this->themeEncrypted_dir.'/css/';
+		$this->data['file']->css_url		=	$this->core->url->main_url().'tendoo_themes/'.$this->themeEncrypted_dir.'/css/';
 		$this->data['file']->css_push('style');
 		$this->data['file']->css_push('jquery.tweet');	
 		$this->data['file']->css_push('superfish');	
@@ -32,7 +32,7 @@ class Tendoo_modus_theme_handler
 		// Load Js
 		$this->data['file']->js_url			=	$this->core->url->main_url().'tendoo_assets/script/';
 		$this->data['file']->js_push('jquery');
-		$this->data['file']->js_url			=	$this->core->url->main_url().'Tendoo_themes/'.$this->themeEncrypted_dir.'/js/';
+		$this->data['file']->js_url			=	$this->core->url->main_url().'tendoo_themes/'.$this->themeEncrypted_dir.'/js/';
 		$this->data['file']->js_push('moveForm');
 		$this->data['file']->js_push('tabs');
 		$this->data['file']->js_push('masonry.min');
@@ -51,24 +51,24 @@ class Tendoo_modus_theme_handler
 	public function header($data)
 	{
 		$this->data	=	array_merge($this->data,$data);
-		$this->core->load->view('Tendoo_themes/'.$this->themeEncrypted_dir.'/default/header',$this->data,FALSE,TRUE);
+		$this->core->load->view('tendoo_themes/'.$this->themeEncrypted_dir.'/default/header',$this->data,FALSE,TRUE);
 	}
 	public function head($data)
 	{
 		$this->data	=	array_merge($this->data,$data);
-		return $this->core->load->view('Tendoo_themes/'.$this->themeEncrypted_dir.'/default/head',$this->data,true,TRUE);
+		return $this->core->load->view('tendoo_themes/'.$this->themeEncrypted_dir.'/default/head',$this->data,true,TRUE);
 	}
 	public function footer($data)
 	{
 		$this->data	=	array_merge($this->data,$data);
-		return $this->core->load->view('Tendoo_themes/'.$this->themeEncrypted_dir.'/default/footer',$this->data,true,TRUE);
+		return $this->core->load->view('tendoo_themes/'.$this->themeEncrypted_dir.'/default/footer',$this->data,true,TRUE);
 	}
 	public function body($data)
 	{
 		$this->data					=	array_merge($this->data,$data);
 		$this->data['head']			=	$this->head($this->data);
 		$this->data['footer']		=	$this->footer($this->data);
-		$this->core->load->view('Tendoo_themes/'.$this->themeEncrypted_dir.'/default/body',$this->data,FALSE,TRUE);
+		$this->core->load->view('tendoo_themes/'.$this->themeEncrypted_dir.'/default/body',$this->data,FALSE,TRUE);
 	}
 	private $pagination_datas;
 	public function set_pagination_datas($data)

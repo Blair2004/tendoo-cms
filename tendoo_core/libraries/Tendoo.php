@@ -16,7 +16,7 @@ class Tendoo
 		$this->load			=	$this->core->load;
 		$this->defaultTitle = 'Page Sans Titre - Tendoo';
 		$this->defaultDesc	= 'Page sans description - Tendoo';
-		if(is_file('Tendoo_core/config/tendoo_config.php'))
+		if(is_file('tendoo_core/config/tendoo_config.php'))
 		{
 			$this->isInstalled =  true;
 		}
@@ -203,9 +203,9 @@ class Tendoo
 		{
 			return false;
 		};
-		/* CREATE Tendoo_themes */
+		/* CREATE tendoo_themes */
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_themes` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_themes` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `NAMESPACE` varchar(100) NOT NULL,
 		  `HUMAN_NAME` varchar(200) NOT NULL,
@@ -462,7 +462,7 @@ class Tendoo
 			define('DB_ROOT',\$db['dbprefix']);
 		}
 		";
-		$file = fopen('Tendoo_core/config/tendoo_config.php','w+');
+		$file = fopen('tendoo_core/config/tendoo_config.php','w+');
 		fwrite($file,$string_config);
 		fclose($file);		
 	}
@@ -541,7 +541,7 @@ class Tendoo
 	}
 	public function getSiteTheme()
 	{
-		$query	=	$this->core->db->where('ACTIVATED','TRUE')->get('Tendoo_themes');
+		$query	=	$this->core->db->where('ACTIVATED','TRUE')->get('tendoo_themes');
 		$data	=	$query->result_array();
 		if(array_key_exists(0,$data))
 		{

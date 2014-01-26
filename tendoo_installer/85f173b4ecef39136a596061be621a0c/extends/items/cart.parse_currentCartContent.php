@@ -35,7 +35,7 @@
 				?>
                 <li class="dropdown-line clearfix">
                     <div class="line-col media">
-                        <img src="http://localhost/hub_ex/Tendoo_themes/d27449fc84378e9b444ed37254315173/img/basket-item-1.jpg" alt="">
+                        <img src="http://localhost/hub_ex/tendoo_themes/d27449fc84378e9b444ed37254315173/img/basket-item-1.jpg" alt="">
                     </div>
                     <div class="line-col desc">
                         <strong><a href="details.html"><?php echo $i['TITLE'];?></a></strong><br>

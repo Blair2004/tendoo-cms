@@ -12,7 +12,7 @@ $this->appTableField(array(
 	'HAS_WIDGET'	=>	1,
 	'HAS_MENU'		=>	1,
 	'HAS_API'	=>	1,
-	'Tendoo_VERS'	=> 0.94
+	'TENDOO_VERS'	=> 0.94
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_comments` (

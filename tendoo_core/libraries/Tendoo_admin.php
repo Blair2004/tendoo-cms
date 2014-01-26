@@ -18,10 +18,10 @@ class Tendoo_admin
 					->from('Tendoo_controllers');
 		$query = $this->core->db->get();
 		// About Themes
-		$Tendoo_themes_request		=	$this->core->db->where('ACTIVATED','TRUE')->get('Tendoo_themes');
+		$tendoo_themes_request		=	$this->core->db->where('ACTIVATED','TRUE')->get('tendoo_themes');
 		// Array Error Contener
 		$array	=	array();
-		if(count($Tendoo_themes_request->result_array()) == 0)
+		if(count($tendoo_themes_request->result_array()) == 0)
 		{
 			$array[]	= 'no_theme_selected';
 		}
@@ -377,7 +377,7 @@ class Tendoo_admin
 	// THEMING FUNCTIONS
 	public function countThemes()
 	{
-		$query	=	$this->core->db->get('Tendoo_themes');
+		$query	=	$this->core->db->get('tendoo_themes');
 		return count($query->result_array());
 	}
 	public function getThemes($start = NULL,$end = NULL)
@@ -386,12 +386,12 @@ class Tendoo_admin
 		{
 			$this->core->db->limit($end,$start);
 		}
-		$query	=	$this->core->db->get('Tendoo_themes');
+		$query	=	$this->core->db->get('tendoo_themes');
 		return $query->result_array();
 	}
 	public function isTheme($id)
 	{
-		$query	=	$this->core->db->where('ID',$id)->get('Tendoo_themes');
+		$query	=	$this->core->db->where('ID',$id)->get('tendoo_themes');
 		if(count($query->result_array()) > 0)
 		{
 			$data	=	$query->result_array();
@@ -416,8 +416,8 @@ class Tendoo_admin
 		$theme	=	$this->isTheme($id);
 		if($theme)
 		{
-			$this->core->db->update('Tendoo_themes',array('ACTIVATED'=>''));
-			$this->core->db->where('ID',$id)->update('Tendoo_themes',array('ACTIVATED'=>'TRUE'));
+			$this->core->db->update('tendoo_themes',array('ACTIVATED'=>''));
+			$this->core->db->where('ID',$id)->update('tendoo_themes',array('ACTIVATED'=>'TRUE'));
 			return 'defaultThemeSet';
 		}
 		return 'unknowTheme';
@@ -431,7 +431,7 @@ class Tendoo_admin
 			{
 				include_once(THEMES_DIR.$Module[0]['ENCRYPTED_DIR'].'/uninstall.php');
 			}
-			$this->core->db->where('ID',$id)->delete('Tendoo_themes');
+			$this->core->db->where('ID',$id)->delete('tendoo_themes');
 			$this->drop(THEMES_DIR.$theme[0]['ENCRYPTED_DIR']);
 			return 'done';
 		}
@@ -720,7 +720,7 @@ class Tendoo_admin
 					if($appInfo['appTendooVers'] <= $this->core->tendoo->getVersId())
 					{
 						$this->core->db		->select('*')
-											->from('Tendoo_themes')
+											->from('tendoo_themes')
 											->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
 						$query = $this->core->db->get();
 						// -----------------------------------------------------------------------------------------
@@ -733,7 +733,7 @@ class Tendoo_admin
 									$this->core->db->query($sql);
 								}
 							}
-							$this->core->db->insert('Tendoo_themes',$appInfo['appTableField']);
+							$this->core->db->insert('tendoo_themes',$appInfo['appTableField']);
 							if(is_dir($temp_dir))
 							{
 								$this->extractor($temp_dir,THEMES_DIR.$appFile['temp_dir']);
@@ -760,7 +760,7 @@ class Tendoo_admin
 		}
 		return 'errorOccured';
 	}
-	public function Tendoo_core_installer($appFile)
+	public function tendoo_core_installer($appFile)
 	{
 		include_once(INSTALLER_DIR.$appFile['temp_dir'].'/install.php');
 		ob_clean();
@@ -893,7 +893,7 @@ class Tendoo_admin
 				if($appInfo['appTendooVers'] <= $this->core->tendoo->getVersId())
 				{
 					$this->core->db		->select('*')
-										->from('Tendoo_themes')
+										->from('tendoo_themes')
 										->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
 					$query = $this->core->db->get();
 					// -----------------------------------------------------------------------------------------
@@ -906,7 +906,7 @@ class Tendoo_admin
 								$this->core->db->query($sql);
 							}
 						}
-						$this->core->db->insert('Tendoo_themes',$appInfo['appTableField']);
+						$this->core->db->insert('tendoo_themes',$appInfo['appTableField']);
 						if(is_dir($temp_dir))
 						{
 							$this->extractor($temp_dir,THEMES_DIR.$appFile['temp_dir']);
@@ -1086,7 +1086,7 @@ class Tendoo_admin
 				$this->uninstall_theme($t['ID']);
 			}
 		}
-		$this->core->db->query('TRUNCATE `Tendoo_themes`');
+		$this->core->db->query('TRUNCATE `tendoo_themes`');
 		return true;
 	}
 	public function cmsHardRestore()
@@ -1097,7 +1097,7 @@ class Tendoo_admin
 		mkdir(MODULES_DIR);
 		mkdir(MODULES_DIR.'Tendoo_mod_install');
 		// Removing Themes
-		$this->core->db->query('TRUNCATE `Tendoo_themes`');
+		$this->core->db->query('TRUNCATE `tendoo_themes`');
 		$this->drop(THEMES_DIR);
 		mkdir(THEMES_DIR);
 		mkdir(THEMES_DIR.'temp');
