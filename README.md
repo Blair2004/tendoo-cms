@@ -1,10 +1,8 @@
 Tendoo-cms
 =========
 v.0.9.5
+	-	Ajout des prefix afin de permettre l'installation de plusieurs sites dans une même base de donnée.
 ---------
-Nouveauté :
--	Ajout des prefix afin de permettre l'installation de plusieurs sites dans une même base de donnée.
-
 Quels sont les raisons pour lesquelles vous pouvez adopter Tendoo ?
 Tout d'abord deux personnes sont concernées par Tendoo : les non développeurs et les développeurs. 
 Pour les premiers, Tendoo est fourni avec l'essentiel pour faire un blog complet avec prise en charge de plusieurs fonctionnalités avancées, Il est notamment possible :
