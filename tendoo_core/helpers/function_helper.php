@@ -4,7 +4,7 @@ if(!function_exists('css_url'))
 	function css_url($e)
 	{
 		$instance	=	Controller::instance();
-		return $instance->url->main_url().'Tendoo_assets/css/'.$e.'.css';
+		return $instance->url->main_url().'tendoo_assets/css/'.$e.'.css';
 	}
 }
 if(!function_exists('is_php'))
@@ -64,7 +64,7 @@ if(!function_exists('js_url'))
 	function js_url($e="")
 	{
 		$instance	=	Controller::instance();
-		return $instance->url->main_url().'Tendoo_assets/script/'.$e.'.js';
+		return $instance->url->main_url().'tendoo_assets/script/'.$e.'.js';
 	}
 }
 if(!function_exists('img_url'))
@@ -133,7 +133,7 @@ if(!function_exists('notice'))
 		$array['controller_not_found']		=	Tendoo_warning(' Ce contr&ocirc;leur est introuvable.');
 		$array['no_main_controller_created']=	Tendoo_warning(' Aucun contr&ocirc;leur d&eacute;finit comme principale n\'a &eacute;t&eacute; retrouv&eacute;, le nouveau contr&ocirc;leur &agrave; &eacute;t&eacute; d&eacute;finit comme contr&ocirc;leur par d&eacute;faut.');
 		$array['no_main_page_set']			=	Tendoo_info(' Aucun contr&ocirc;leur n\'est d&eacute;finie par d&eacute;faut.');
-		$array['no_priv_created']			=	Tendoo_info(' Aucun privil&egrave;ge n\'a &eacute;t&eacute; cr&eacute;e, Les action ne peuvent &ecirc;tre administr&eacute;es qu\'apr&egrave;s la cr&eacute;ation d\'un privil&egrave;ge au moins.');
+		$array['no_priv_created']			=	Tendoo_info(' Aucun privil&egrave;ge n\'a &eacute;t&eacute; cr&eacute;e, Pour administrer les actions, il est indispensable de cr&eacute;er un privil&egrave;ge au moins.');
 		$array['InvalidModule']				=	Tendoo_warning('Ce module est invalide ou incompatible.');
 		$array['CantDeleteDir']				=	Tendoo_warning('Une erreur s\'est produite durant la suppr&eacute;ssion d\'un dossier.');
 		$array['module_corrupted']			= 	Tendoo_warning('Ce module ne peut pas &ecirc;tre install&eacute;. Il est corrompu ou incompatible.');	

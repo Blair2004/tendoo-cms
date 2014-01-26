@@ -172,7 +172,7 @@ class Tendoo
           `HAS_ADMIN_API` int(11) NOT NULL,
 		  `TYPE` varchar(50) NOT NULL,
 		  `ACTIVE` int(11) NOT NULL,
-		  `Tendoo_VERS` varchar(100) NOT NULL,
+		  `TENDOO_VERS` varchar(100) NOT NULL,
 		  `ENCRYPTED_DIR` text,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
@@ -212,7 +212,7 @@ class Tendoo
 		  `AUTHOR` varchar(100) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
 		  `ACTIVATED` varchar(20) NOT NULL,
-		  `Tendoo_VERS` varchar(100) NOT NULL,
+		  `TENDOO_VERS` varchar(100) NOT NULL,
 		  `ENCRYPTED_DIR` text NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
@@ -408,7 +408,7 @@ class Tendoo
 		else if($app	==	'Contact_manager')
 		{
 			$appFile				=		array();
-			$appFile['temp_dir']	=		'Tendoo_app_6201401230210406wgIlkG5CkcJT7u3DKMOO';
+			$appFile['temp_dir']	=		'tendoo_app_6201401230210406wgIlkG5CkcJT7u3DKMOO';
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 			$module				=	$this->tendoo_admin->moduleActivation('Tendoo_contact_handler',FALSE);
@@ -1213,7 +1213,7 @@ class Tendoo
 			break;
 		}
 	}
-	// Tendoo_VERSION
+	// TENDOO_VERSION
 	public function getVersion()
 	{
 		return 'Tendoo - CMS('.$this->getVersId().')';

@@ -9,7 +9,7 @@ $this->appTableField(array(
 	'AUTHOR'		=> 'Tendoo Group',
 	'DESCRIPTION'	=> 'Gerer vos contenus de type image, video ou musique.',
 	'TYPE'			=> 'BYPAGE',
-	'Tendoo_VERS'	=> 0.94
+	'TENDOO_VERS'	=> 0.94
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_contents` (

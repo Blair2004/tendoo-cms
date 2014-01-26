@@ -13,10 +13,10 @@
             </header>
             <section class="vbox">
                 <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
+                	<div class="row">
                     <div class="col-lg-12">
                         <section class="panel">
                             <div class="panel-heading"> Ajouter un nouveau fichier </div>
-                            <?php echo $this->core->notice->parse_notice();?> <?php echo notice_from_url();?>
                             <div class="panel-body" style="padding:10px;">
                                 <p>Vous avez la possibilité d'envoyer des fichiers vidéos, audio et même des images, sous reserve du respect de la limite en taille qui est autorisé par votre serveur.</p>
                                 <br />
@@ -31,14 +31,14 @@
                                       <textarea style="height:200px;" name="file_description" placeholder="Description du fichier" type="text" class="form-control"></textarea>
                                     </div>
                                     <br />
+                                    <div class="form-group">
                                     <input class="form-control" type="file" name="file" />
-                                    <br />
+                                    </div>
                                     <input class="btn btn-info" type="submit" value="Envoyer le fichier" />
                                 </form>
-                                <?php echo validation_errors();?>
-                                <?php echo $this->core->notice->parse_notice();?>
                             </div>
                         </section>
+                    </div>
                     </div>
                 </section>
             </section>

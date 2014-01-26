@@ -9,7 +9,7 @@ $this->appTableField(array(
 	'AUTHOR'		=> 'Tendoo Group',
 	'DESCRIPTION'	=> 'Permet de créer et d\'administrer des widgets',
 	'TYPE'			=> 'GLOBAL',
-	'Tendoo_VERS'	=> 0.94
+	'TENDOO_VERS'	=> 0.94
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_mod_widgets` (

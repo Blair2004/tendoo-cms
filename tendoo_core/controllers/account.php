@@ -30,7 +30,7 @@ class Account
 		$this->core->file->js_push('morris.min');
 		$this->core->file->js_push('raphael-min');
 		$this->core->file_2->js_push('app.v2');
-		$this->core->file->js_push('Tendoo_app');
+		$this->core->file->js_push('tendoo_app');
 		
 		if(!$this->core->users_global->isConnected())
 		{

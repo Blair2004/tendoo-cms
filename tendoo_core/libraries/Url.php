@@ -458,7 +458,7 @@ Class Url
 	}
 	public function img_url($img)
 	{
-		return $this->main_url().'Tendoo_assets/img/'.$img;
+		return $this->main_url().'tendoo_assets/img/'.$img;
 	}
 	public function segment($segment)
 	{
@@ -470,6 +470,6 @@ Class Url
 	}
 	public function font_url($font)
 	{
-		return $this->main_url().'Tendoo_assets/font/'.$font;
+		return $this->main_url().'tendoo_assets/font/'.$font;
 	}
 }

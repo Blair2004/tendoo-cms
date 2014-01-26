@@ -17,7 +17,7 @@
                     	<h5>D&eacute;tails sur le syst&egrave;me</h5>
                     </div>
                     <div class="wrapper">
-                    	<h4>Tendoo CMS <small>Version : <?php echo Tendoo_VERSION;?></small></h4>
+                    	<h4>Tendoo CMS <small>Version : <?php echo TENDOO_VERSION;?></small></h4>
                         <p><i>Un cms conçu dans l'optique d'am&eacute;liorer la cr&eacute;ation de site web et d'application web. Exc&egrave;le dans la rapidit&eacute;, l'ergonomie, la prise en main et la maintenance.</i>
                         </p>
                         <br />

@@ -30,7 +30,7 @@ class Tendoo_modus_theme_handler
 
 
 		// Load Js
-		$this->data['file']->js_url			=	$this->core->url->main_url().'Tendoo_assets/script/';
+		$this->data['file']->js_url			=	$this->core->url->main_url().'tendoo_assets/script/';
 		$this->data['file']->js_push('jquery');
 		$this->data['file']->js_url			=	$this->core->url->main_url().'Tendoo_themes/'.$this->themeEncrypted_dir.'/js/';
 		$this->data['file']->js_push('moveForm');

@@ -9,7 +9,7 @@ $this->appTableField(array(
 	'AUTHOR'		=> 'Tendoo Group',
 	'DESCRIPTION'	=> 'Créer une page HTML.',
 	'TYPE'			=> 'BYPAGE',
-	'Tendoo_VERS'	=> 0.94
+	'TENDOO_VERS'	=> 0.94
 ));
 $this->appAction(array(
 	'action'				=>	'create_page',
