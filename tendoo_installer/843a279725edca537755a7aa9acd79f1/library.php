@@ -23,7 +23,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				$this->tendoo		=&	$this->core->tendoo;
 				$this->tendoo_admin	=&	$this->core->tendoo_admin;
 				$this->users_global	=&	$this->core->users_global;
-				$this->dir			=	'Tendoo_modules/'.$this->data['module'][0]['ENCRYPTED_DIR'];
+				$this->dir			=	'tendoo_modules/'.$this->data['module'][0]['ENCRYPTED_DIR'];
 				if(!is_dir($this->dir.'/content_repository'))
 				{
 					mkdir($this->dir.'/content_repository');

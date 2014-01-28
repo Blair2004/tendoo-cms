@@ -15,7 +15,7 @@ class Tendoo_admin
 	{
 		// About Controllers;
 		$this->core	->db->select('*')
-					->from('Tendoo_controllers');
+					->from('tendoo_controllers');
 		$query = $this->core->db->get();
 		// About Themes
 		$tendoo_themes_request		=	$this->core->db->where('ACTIVATED','TRUE')->get('tendoo_themes');
@@ -49,7 +49,7 @@ class Tendoo_admin
 	}
 	public function countPages()
 	{
-		$query	=	$this->core->db->get('Tendoo_controllers');
+		$query	=	$this->core->db->get('tendoo_controllers');
 		return $query->num_rows();
 	}
 	public function get_pages($e= '')
@@ -61,7 +61,7 @@ class Tendoo_admin
 	{
 		return $this->statsLimitation;
 	}
-	public function Tendoo_visit_stats()
+	public function tendoo_visit_stats()
 	{
 		$month_limit	=	$this->statsLimitation;
 		$currentDate	=	$this->tendoo->global_date('month_current_date');
@@ -69,7 +69,7 @@ class Tendoo_admin
 		$time->modify('- '.$month_limit.' months');
 		$ts_global		=	$time->format('Y-m-d H:i:s');
 		$te_this_month	=	$this->tendoo->global_date('month_end_date');
-		$uniqueVisits	=	$this->core->db->where('DATE >=',$ts_global)->order_by('DATE','asc')->get('Tendoo_visit_stats');
+		$uniqueVisits	=	$this->core->db->where('DATE >=',$ts_global)->order_by('DATE','asc')->get('tendoo_visit_stats');
 		$uniqueResult	=	$uniqueVisits->result_array();
 		$array			=	array();
 		if(count($uniqueResult) > 0)
@@ -85,7 +85,7 @@ class Tendoo_admin
 				$array['ordered'][$timeDecompose['y']][$timeDecompose['M']][]	=	$u;
 				$array['listed'][]	=	$u;
 				$array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	+=	(int)$u['GLOBAL_VISIT'];
-				$sumQuery		=	$this->core->db->select('COUNT(DISTINCT VISITORS_IP) as `UNIQUE_VISIT`')->where('DATE >=',$timeDecompose['y'].'-'.$timeDecompose['M'].'-'.(1))->where('DATE <=',$timeDecompose['y'].'-'.$timeDecompose['M'].'-'.$timeDecompose['t'])->get('Tendoo_visit_stats');
+				$sumQuery		=	$this->core->db->select('COUNT(DISTINCT VISITORS_IP) as `UNIQUE_VISIT`')->where('DATE >=',$timeDecompose['y'].'-'.$timeDecompose['M'].'-'.(1))->where('DATE <=',$timeDecompose['y'].'-'.$timeDecompose['M'].'-'.$timeDecompose['t'])->get('tendoo_visit_stats');
 				$sumResult		=	$sumQuery->result_array();
 				$array['statistics']['unique'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	$sumResult[0]['UNIQUE_VISIT'];
 			}
@@ -99,11 +99,11 @@ class Tendoo_admin
 			$array['ordered']	=	null;
 		}
 		// Recupère information globales
-		$overAllUniqueQuery		=	$this->core->db->select('COUNT(DISTINCT VISITORS_IP) as `UNIQUE_GLOBAL`')->where('DATE >=',$ts_global)->get('Tendoo_visit_stats');
+		$overAllUniqueQuery		=	$this->core->db->select('COUNT(DISTINCT VISITORS_IP) as `UNIQUE_GLOBAL`')->where('DATE >=',$ts_global)->get('tendoo_visit_stats');
 		$overAllUniqueResult	=	$overAllUniqueQuery->result_array();
 		
 		$array['statistics']['overAll']['unique']['totalVisits']	=	$overAllUniqueResult[0]['UNIQUE_GLOBAL'];
-		$overAllGlobalQuery		=	$this->core->db->select('SUM(GLOBAL_VISIT) as `MULTIPLE_GLOBAL`')->where('DATE >=',$ts_global)->get('Tendoo_visit_stats');
+		$overAllGlobalQuery		=	$this->core->db->select('SUM(GLOBAL_VISIT) as `MULTIPLE_GLOBAL`')->where('DATE >=',$ts_global)->get('tendoo_visit_stats');
 		$overAllGlobalResult	=	$overAllGlobalQuery->result_array();
 		$array['statistics']['overAll']['global']['totalVisits']	=	$overAllGlobalResult[0]['MULTIPLE_GLOBAL'];
 		return $array;
@@ -112,7 +112,7 @@ class Tendoo_admin
 	public function getSpeModuleByNamespace($namespace) // La même méthode pour Tendoo ne recupère que ce qui est déjà activé.
 	{
 		$this->core->db		->select('*')
-							->from('Tendoo_modules')
+							->from('tendoo_modules')
 							->where('NAMESPACE',$namespace);
 		$query				= $this->core->db->get();
 		$data				= $query->result_array();
@@ -129,7 +129,7 @@ class Tendoo_admin
 			$mod	=	$this->core->tendoo_admin->getSpeMod($id,TRUE);
 			if($mod)
 			{
-				$this->core->db->where('ID',$id)->update('Tendoo_modules',array(
+				$this->core->db->where('ID',$id)->update('tendoo_modules',array(
 					'ACTIVE'	=>	1
 				));
 				$this->core->url->redirect(array('admin','modules'));
@@ -142,7 +142,7 @@ class Tendoo_admin
 			$mod	=	$this->getSpeModuleByNamespace($id);
 			if($mod)
 			{
-				$this->core->db->where('NAMESPACE',$id)->update('Tendoo_modules',array(
+				$this->core->db->where('NAMESPACE',$id)->update('tendoo_modules',array(
 					'ACTIVE'	=>	1
 				));
 				return $mod;
@@ -153,7 +153,7 @@ class Tendoo_admin
 	public function get_modules($start = NULL,$end = NULL)
 	{
 		$this->core->db		->select('*')
-							->from('Tendoo_modules');
+							->from('tendoo_modules');
 		if(is_numeric($start) && is_numeric($end))
 		{
 			$this->core->db	->limit($end,$start);	
@@ -165,7 +165,7 @@ class Tendoo_admin
 	{
 		$this->core->db		->select('*')
 							->where('TYPE','BYPAGE')
-							->from('Tendoo_modules');
+							->from('tendoo_modules');
 		$query				= $this->core->db->get();
 		return $query->result_array();
 	}
@@ -179,7 +179,7 @@ class Tendoo_admin
 			for($i=0;$i<= $this->core->tendoo->get_menu_limitation();$i++)
 			{
 				$firstQuery	=	$this->core	->db->select('*')
-							->from('Tendoo_controllers')
+							->from('tendoo_controllers')
 							->where('ID',$currentPosition);
 				$data		=	$firstQuery->get();
 				$result		=	$data->result_array();
@@ -204,7 +204,7 @@ class Tendoo_admin
 		if($main == 'TRUE' && $childOf != 'none'):return 'cantSetChildAsMain';endif; // Il ne faut pas définir un sous menu comme page principale
 		
 		$this->core	->db->select('*')
-					->from('Tendoo_controllers');
+					->from('tendoo_controllers');
 		$query		=	$this->core->db->get();
 		
 		if($query->num_rows > 0)
@@ -225,7 +225,7 @@ class Tendoo_admin
 					{
 						$e['PAGE_MAIN']	=	'FALSE';
 						$this->core 	->db->where('ID',$q['ID'])
-										->update('Tendoo_controllers',$e);
+										->update('tendoo_controllers',$e);
 					}
 				}
 			}
@@ -241,9 +241,9 @@ class Tendoo_admin
 		$e['PAGE_LINK']			=	$page_link;
 		if($obj == 'create')
 		{
-			if($this->core		->db->insert('Tendoo_controllers',$e))
+			if($this->core		->db->insert('tendoo_controllers',$e))
 			{
-				$query			=	$this->core->db->where('PAGE_MAIN','TRUE')->get('Tendoo_controllers');
+				$query			=	$this->core->db->where('PAGE_MAIN','TRUE')->get('tendoo_controllers');
 				if($query->num_rows == 0) : 		return "no_main_controller_created";endif;
 				return 'controler_created';
 			}
@@ -255,7 +255,7 @@ class Tendoo_admin
 		else if($obj == 'update')
 		{
 			$query = $this->core	->db->where('ID',$id)
-								->update('Tendoo_controllers',$e);
+								->update('tendoo_controllers',$e);
 			if($query)
 			{
 				return 'controler_edited';
@@ -269,7 +269,7 @@ class Tendoo_admin
 	public function delete_controler($name)
 	{
 		$this->core	->db->select('*')
-					->from('Tendoo_controllers')
+					->from('tendoo_controllers')
 					->where('PAGE_CNAME',$name);
 		$query 		= $this->core->db->get();
 		$result 	= $query->result_array();
@@ -279,7 +279,7 @@ class Tendoo_admin
 		}
 		else
 		{
-			if($this->core->db->where('PAGE_CNAME',$name)->delete('Tendoo_controllers'))
+			if($this->core->db->where('PAGE_CNAME',$name)->delete('tendoo_controllers'))
 			{
 				return 'controler_deleted';
 			}
@@ -297,7 +297,7 @@ class Tendoo_admin
 				include_once(MODULES_DIR.$Module[0]['ENCRYPTED_DIR'].'/uninstall.php');
 			}
 			$this->drop(MODULES_DIR.$Module[0]['ENCRYPTED_DIR']);
-			return	$this->core->db->delete('Tendoo_modules',array('ID'=>$id));
+			return	$this->core->db->delete('tendoo_modules',array('ID'=>$id));
 		}
 	}
 	// FILE HELPERS
@@ -440,7 +440,7 @@ class Tendoo_admin
 	// ---
 	public function count_modules()
 	{
-		$query				=	$this->core->db->get('Tendoo_modules');
+		$query				=	$this->core->db->get('tendoo_modules');
 		return $query->num_rows();
 	}
 	public function menuExtendsAfter($e) // Ajout menu après le menu systeme
@@ -462,7 +462,7 @@ class Tendoo_admin
 	/// SETTING FUNCTIONS
 	public function editSiteName($e)
 	{
-		return $this->core->db->update('Tendoo_options',array('SITE_NAME'=>$e));
+		return $this->core->db->update('tendoo_options',array('SITE_NAME'=>$e));
 	}
 	public function editRegistration($e)
 	{
@@ -474,24 +474,24 @@ class Tendoo_admin
 		{
 			$e	=	0;
 		}
-		return $this->core->db->update('Tendoo_options',array('ALLOW_REGISTRATION'=>$e));
+		return $this->core->db->update('tendoo_options',array('ALLOW_REGISTRATION'=>$e));
 	}
 	public function editLogoUrl($e)
 	{
-		return $this->core->db->update('Tendoo_options',array('SITE_LOGO'=>$e));
+		return $this->core->db->update('tendoo_options',array('SITE_LOGO'=>$e));
 	}
 	public function editTimeZone($e)
 	{
-		return $this->core->db->update('Tendoo_options',array('SITE_TIMEZONE'=>$e));
+		return $this->core->db->update('tendoo_options',array('SITE_TIMEZONE'=>$e));
 	}
 	public function editTimeFormat($e)
 	{
-		return $this->core->db->update('Tendoo_options',array('SITE_TIMEFORMAT'=>$e));
+		return $this->core->db->update('tendoo_options',array('SITE_TIMEFORMAT'=>$e));
 	}
 	public function editShowMessage($e)
 	{
 		$bool	=	is_bool((bool)$e) ? $e : "TRUE";
-		$this->core->db->update('Tendoo_options',array('SHOW_WELCOME'=>$bool));
+		$this->core->db->update('tendoo_options',array('SHOW_WELCOME'=>$bool));
 	}
 	public function switchShowAdminIndex()
 	{
@@ -504,22 +504,22 @@ class Tendoo_admin
 		{
 			$int	=	1;
 		}
-		$this->core->db->update('Tendoo_options',array('SHOW_ADMIN_INDEX_STATS'=>$int));
+		$this->core->db->update('tendoo_options',array('SHOW_ADMIN_INDEX_STATS'=>$int));
 	}
 	public function editPrivilegeAccess($e)
 	{
 		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0;
-		return $this->core->db->update('Tendoo_options',array('ALLOW_PRIVILEGE_SELECTION'=>$int));
+		return $this->core->db->update('tendoo_options',array('ALLOW_PRIVILEGE_SELECTION'=>$int));
 	}
 	public function editAllowAccessToPublicPriv($e)
 	{
 			$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0;
-		return $this->core->db->update('Tendoo_options',array('PUBLIC_PRIV_ACCESS_ADMIN'=>$int));
+		return $this->core->db->update('tendoo_options',array('PUBLIC_PRIV_ACCESS_ADMIN'=>$int));
 	}
 	public function editThemeStyle($e)
 	{
 		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0; // If there is new theme just add it there
-		return $this->core->db->update('Tendoo_options',array('ADMIN_THEME'=>$int));
+		return $this->core->db->update('tendoo_options',array('ADMIN_THEME'=>$int));
 	}
 	public function encrypted_name()
 	{
@@ -612,7 +612,7 @@ class Tendoo_admin
 					if($appInfo['appTendooVers'] <= $this->core->tendoo->getVersId())
 					{
 						$this->core->db		->select('*')
-											->from('Tendoo_modules')
+											->from('tendoo_modules')
 											->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
 						$query = $this->core->db->get();
 						// -----------------------------------------------------------------------------------------
@@ -625,7 +625,7 @@ class Tendoo_admin
 									$this->core->db->query($sql);
 								}
 							}
-							$this->core->db->insert('Tendoo_modules',$appInfo['appTableField']);
+							$this->core->db->insert('tendoo_modules',$appInfo['appTableField']);
 							if(is_dir($temp_dir))
 							{
 								$this->extractor($temp_dir,MODULES_DIR.$appFile['temp_dir']);
@@ -793,7 +793,7 @@ class Tendoo_admin
 				if($appInfo['appTendooVers'] <= $this->core->tendoo->getVersId())
 				{					
 					$this->core->db		->select('*')
-										->from('Tendoo_modules')
+										->from('tendoo_modules')
 										->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
 					$query = $this->core->db->get();
 					// -----------------------------------------------------------------------------------------
@@ -806,7 +806,7 @@ class Tendoo_admin
 								$this->core->db->query($sql);
 							}
 						}
-						$this->core->db->insert('Tendoo_modules',$appInfo['appTableField']);
+						$this->core->db->insert('tendoo_modules',$appInfo['appTableField']);
 						if(is_dir($temp_dir))
 						{
 							$this->extractor($temp_dir,MODULES_DIR.$appFile['temp_dir']);
@@ -1034,7 +1034,7 @@ class Tendoo_admin
 	public function getSpeMod($value,$option = TRUE)
 	{
 		$this->core->db		->select('*')
-							->from('Tendoo_modules');
+							->from('tendoo_modules');
 		if($option == TRUE)
 		{
 			$this->core->db->where('ID',$value);
@@ -1054,7 +1054,7 @@ class Tendoo_admin
 	}
 	public function cmsRestore($password)
 	{
-		$query		=	$this->core->db->where('PRIVILEGE','NADIMERPUS')->get('Tendoo_users');
+		$query		=	$this->core->db->where('PRIVILEGE','NADIMERPUS')->get('tendoo_users');
 		$result	=	$query->result_array();
 		if(count($result) > 0)
 		{
@@ -1076,7 +1076,7 @@ class Tendoo_admin
 				$this->uninstall_module($m['ID']);
 			}
 		}
-		$this->core->db->query('TRUNCATE `Tendoo_modules`');
+		$this->core->db->query('TRUNCATE `tendoo_modules`');
 		// Removing Themes
 		$themes		=	$this->getThemes();
 		if(count($themes) > 0)
@@ -1092,7 +1092,7 @@ class Tendoo_admin
 	public function cmsHardRestore()
 	{
 		// Removing modules
-		$this->core->db->query('TRUNCATE `Tendoo_modules`');
+		$this->core->db->query('TRUNCATE `tendoo_modules`');
 		$this->drop(MODULES_DIR);
 		mkdir(MODULES_DIR);
 		mkdir(MODULES_DIR.'Tendoo_mod_install');
@@ -1152,7 +1152,7 @@ class Tendoo_admin
 	}
 	public function deletePrivilege($privid)
 	{
-		$query	=	$this->core->db->where('PRIVILEGE',$privid)->get('Tendoo_users');
+		$query	=	$this->core->db->where('PRIVILEGE',$privid)->get('tendoo_users');
 		if(count($query->result_array()) == 0)
 		{
 			if($this->core->db->where('PRIV_ID',$privid)->delete('Tendoo_admin_privileges'))
@@ -1168,7 +1168,7 @@ class Tendoo_admin
 		while(true)
 		{
 			$id	=	rand(0,9).rand(0,9).'-'.rand(0,9).rand(0,9).rand(0,9).rand(0,9).'-'.rand(0,9).rand(0,9).rand(0,9);
-			$query	=	$this->core->db->where('PRIVILEGE',$id)->get('Tendoo_users');
+			$query	=	$this->core->db->where('PRIVILEGE',$id)->get('tendoo_users');
 			if(count($query->result_array()) == 0)
 			{
 				break;
@@ -1291,7 +1291,7 @@ class Tendoo_admin
 	}
 	public function getModuleAction($mod_namespace)
 	{
-		$query	=	$this->core->db->where('MOD_NAMESPACE',$mod_namespace)->get('Tendoo_modules_actions');
+		$query	=	$this->core->db->where('MOD_NAMESPACE',$mod_namespace)->get('tendoo_modules_actions');
 		$result	=	$query->result_array();
 		if(count($result) > 0)
 		{
@@ -1304,19 +1304,19 @@ class Tendoo_admin
 		$query	=	$this->core->db
 			->where('MOD_NAMESPACE',$mod_namespace)
 			->where('ACTION',$action)
-			->get('Tendoo_modules_actions');
+			->get('tendoo_modules_actions');
 		$result	=	$query->result_array();
 		if(count($result) > 0)
 		{
 			return $this->core->db
 			->where('MOD_NAMESPACE',$mod_namespace)
 			->where('ACTION',$action)
-			->update('Tendoo_modules_actions',array(
+			->update('tendoo_modules_actions',array(
 				'ACTION_NAME'			=>	$action_name,
 				'ACTION_DESCRIPTION'	=>	$action_description
 			));
 		}
-		return $this->core->db->insert('Tendoo_modules_actions',array(
+		return $this->core->db->insert('tendoo_modules_actions',array(
 			'MOD_NAMESPACE'			=>	$mod_namespace,
 			'ACTION'				=>	$action,
 			'ACTION_NAME'			=>	$action_name,
@@ -1437,7 +1437,7 @@ class Tendoo_admin
 			{
 				$content	.=	'$icons[]	=	"'.$a.'";';
 			}
-			return $this->core->db->update('Tendoo_options',array('ADMIN_ICONS'=>$content));
+			return $this->core->db->update('tendoo_options',array('ADMIN_ICONS'=>$content));
 		}
 		return false;
 	}

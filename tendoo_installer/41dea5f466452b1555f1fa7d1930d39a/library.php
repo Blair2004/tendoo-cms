@@ -128,7 +128,7 @@ class Tendoo_index_manager_library
 	}
 	public function getApiModules() // permet la récupération de certains éléments d'un module.
 	{
-		$query	=	$this->db->where('HAS_API',1)->get('Tendoo_modules');
+		$query	=	$this->db->where('HAS_API',1)->get('tendoo_modules');
 		$result	=	$query->result_array();
 		if($result)
 		{

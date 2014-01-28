@@ -30,7 +30,7 @@ Class users_global
 	}
 	public function hasAdmin()
 	{
-		$query	=	$this->db->where('PRIVILEGE','NADIMERPUS')->get('Tendoo_users');
+		$query	=	$this->db->where('PRIVILEGE','NADIMERPUS')->get('tendoo_users');
 		$array	=	$query->result_array();
 		if(count($array) > 0)
 		{
@@ -40,7 +40,7 @@ Class users_global
 	}
 	public function userExists($pseudo)
 	{
-		$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->get('Tendoo_users');
+		$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->get('tendoo_users');
 		$array	=	$query->result_array();
 		if(count($array) > 0)
 		{
@@ -50,7 +50,7 @@ Class users_global
 	}
 	public function getUserByPseudo($pseudo)
 	{
-		$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->get('Tendoo_users');
+		$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->get('tendoo_users');
 		$array	=	$query->result_array();
 		if(count($array) > 0)
 		{
@@ -69,7 +69,7 @@ Class users_global
 			$array['PRIVILEGE']	=	'NADIMERPUS';
 			$array['REG_DATE']	=	$this->tendoo->datetime();
 			$array['ACTIVE']	=	'TRUE';
-			$this->db->insert('Tendoo_users',$array);
+			$this->db->insert('tendoo_users',$array);
 			return 'userCreated';
 		}
 		return 'userExists';
@@ -94,7 +94,7 @@ Class users_global
 			$array['PRIVILEGE']	=	$priv_id;
 			$array['REG_DATE']	=	$this->tendoo->datetime();
 			$array['ACTIVE']	=	$active;
-			$this->db->insert('Tendoo_users',$array);
+			$this->db->insert('tendoo_users',$array);
 			$this->sendValidationMail($array['EMAIL']);
 			return 'userCreated';
 		}
@@ -119,14 +119,14 @@ Class users_global
 			$array['PRIVILEGE']	=	($privilege == 'NADIMERPUS') ? 'RELPIMSUSE' : $privilege;
 			$array['REG_DATE']	=	$this->tendoo->datetime();
 			$array['ACTIVE']	=	$active;
-			$this->db->insert('Tendoo_users',$array);
+			$this->db->insert('tendoo_users',$array);
 			return 'adminCreated';
 		}
 		return 'adminCreationFailed';	
 	}
 	public function emailExist($email)
 	{
-		$query	=	$this->db->where('EMAIL',$email)->get('Tendoo_users');
+		$query	=	$this->db->where('EMAIL',$email)->get('tendoo_users');
 		$array	=	$query->result_array();
 		if(count($array) > 0)
 		{
@@ -136,7 +136,7 @@ Class users_global
 	}
 	public function emailConnect($email,$password)
 	{
-		$query	=	$this->db->where('EMAIL',strtolower($email))->where('PASSWORD',$password)->get('Tendoo_users');
+		$query	=	$this->db->where('EMAIL',strtolower($email))->where('PASSWORD',$password)->get('tendoo_users');
 		$data	=	$query->result_array();
 		if($data)
 		{
@@ -146,11 +146,11 @@ Class users_global
 	}
 	public function activateUser($id)
 	{
-		return $this->core->db->where('ID',$id)->update('Tendoo_users',array('ACTIVE'=>'TRUE'));
+		return $this->core->db->where('ID',$id)->update('tendoo_users',array('ACTIVE'=>'TRUE'));
 	}
 	public function authUser($pseudo,$password)
 	{
-		$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->where('PASSWORD',sha1($password))->get('Tendoo_users');
+		$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->where('PASSWORD',sha1($password))->get('tendoo_users');
 		$data	=	$query->result_array();
 		if(count($data) > 0)
 		{
@@ -329,13 +329,13 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		{
 			$this->db->limit($end,$start);
 		}
-		$query	=	$this->db->get('Tendoo_users');
+		$query	=	$this->db->get('tendoo_users');
 		return $query->result_array();
 	}
 	public function getSpeAdmin($id)
 	{
 		$this->db->where('ID',$id);
-		$query	=	$this->db->get('Tendoo_users');
+		$query	=	$this->db->get('tendoo_users');
 		$array	=	$query->result_array();
 		if(count($array) > 0)
 		{
@@ -348,7 +348,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		if($this->userExists($pseudo))
 		{
 			$this->db->where('PSEUDO',strtolower($pseudo));
-			$query	=	$this->db->get('Tendoo_users');
+			$query	=	$this->db->get('tendoo_users');
 			$array	=	$query->result_array();
 			return $array[0];
 		}
@@ -357,7 +357,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	public function getUser($id)
 	{
 		$this->db->where('ID',$id);
-		$query	=	$this->db->get('Tendoo_users');
+		$query	=	$this->db->get('tendoo_users');
 		$array	=	$query->result_array();
 		if(count($array) > 0)
 		{
@@ -499,7 +499,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	{
 		if($this->isSuperAdmin())
 		{
-			return $this->db->where('PSEUDO',strtolower($pseudo))->delete('Tendoo_users');
+			return $this->db->where('PSEUDO',strtolower($pseudo))->delete('tendoo_users');
 		}
 		return false;
 	}
@@ -514,7 +514,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			}
 			if($this->isAllowedPrivilege($priv) || $priv 	==	'RELPIMSUSE')
 			{
-				if($this->db->where('PSEUDO',strtolower($pseudo))->update('Tendoo_users',
+				if($this->db->where('PSEUDO',strtolower($pseudo))->update('tendoo_users',
 					array('EMAIL'	=>	$email,'PRIVILEGE'=>$priv)
 				))
 				{
@@ -529,7 +529,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	{
 		if($this->current($element))
 		{
-			return $this->db->where('ID',$this->current('ID'))->update('Tendoo_users',array($element=>$value));
+			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array($element=>$value));
 		}
 		return false;
 	}
@@ -537,7 +537,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	{
 		if($this->current('PASSWORD')	==	sha1($old))
 		{
-			return $this->db->where('ID',$this->current('ID'))->update('Tendoo_users',array('PASSWORD'=>sha1($new)));
+			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('PASSWORD'=>sha1($new)));
 		}
 		return false;
 	}
@@ -546,7 +546,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		$user							=	$this->getUser($account);
 		if($user['PASSWORD']	==	$old)
 		{
-			if($this->db->where('ID',$user['ID'])->update('Tendoo_users',array('PASSWORD'=>sha1($new))))
+			if($this->db->where('ID',$user['ID'])->update('tendoo_users',array('PASSWORD'=>sha1($new))))
 			{
 				return 'passwordChanged';
 			}
@@ -556,30 +556,30 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function countMessage()
 	{
-		$query_string	=	'SELECT * FROM '.DB_ROOT.'Tendoo_users_messaging_title WHERE AUTHOR = '.$this->db->escape($this->current('ID')).' OR RECEIVER =	'.$this->db->escape($this->current('ID')).'';
+		$query_string	=	'SELECT * FROM '.DB_ROOT.'tendoo_users_messaging_title WHERE AUTHOR = '.$this->db->escape($this->current('ID')).' OR RECEIVER =	'.$this->db->escape($this->current('ID')).'';
 		$query	=	$this->db->query($query_string);
 		return count($query->result_array());
 	}
 	public function getMessage($start,$end)
 	{
-		$query_string	=	'SELECT * FROM '.DB_ROOT.'Tendoo_users_messaging_title WHERE (AUTHOR = '.$this->db->escape($this->current('ID')).') OR (RECEIVER	= '.$this->db->escape($this->current('ID')).') ORDER BY ID DESC LIMIT '.$start.', '.$end;
+		$query_string	=	'SELECT * FROM '.DB_ROOT.'tendoo_users_messaging_title WHERE (AUTHOR = '.$this->db->escape($this->current('ID')).') OR (RECEIVER	= '.$this->db->escape($this->current('ID')).') ORDER BY ID DESC LIMIT '.$start.', '.$end;
 		$query	=	$this->db->query($query_string);
 		$result	=	$query->result_array();
 		return $result;
 	}
 	public function getMsgPreview($ref_id)
 	{
-		$query			=	$this->db->where('MESG_TITLE_REF',$ref_id)->limit(1,0)->order_by('ID','desc')->get('Tendoo_users_messaging_content');
+		$query			=	$this->db->where('MESG_TITLE_REF',$ref_id)->limit(1,0)->order_by('ID','desc')->get('tendoo_users_messaging_content');
 		return $query->result_array();
 	}
 	public function deleteConversation($id)
 	{
-		$query	=	$this->db->where('ID',$id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('Tendoo_users_messaging_title');
+		$query	=	$this->db->where('ID',$id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('tendoo_users_messaging_title');
 		$result	=	$query->result_array();
 		if(count($result) > 0)
 		{
-			$this->db->where('ID',$id)->delete('Tendoo_users_messaging_title');
-			$this->db->where('MESG_TITLE_REF',$id)->delete('Tendoo_users_messaging_content');
+			$this->db->where('ID',$id)->delete('tendoo_users_messaging_title');
+			$this->db->where('MESG_TITLE_REF',$id)->delete('tendoo_users_messaging_content');
 			return true;
 		}
 		return false;
@@ -602,7 +602,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 				'AUTHOR'			=>	$this->current('ID'),
 				'RECEIVER'			=>	$users[0]['ID']
 			);
-			$string_query			=	'SELECT * FROM '.DB_ROOT.'Tendoo_users_messaging_title WHERE (AUTHOR	=	'.$this->db->escape($this->current('ID')).' AND  RECEIVER='.$this->db->escape($users[0]['ID']).') OR (AUTHOR = '.$this->db->escape($users[0]['ID']).' AND RECEIVER = '.$this->db->escape($this->current('ID')).')';
+			$string_query			=	'SELECT * FROM '.DB_ROOT.'tendoo_users_messaging_title WHERE (AUTHOR	=	'.$this->db->escape($this->current('ID')).' AND  RECEIVER='.$this->db->escape($users[0]['ID']).') OR (AUTHOR = '.$this->db->escape($users[0]['ID']).' AND RECEIVER = '.$this->db->escape($this->current('ID')).')';
 			$query	=	$this->db->query($string_query);
 			$result	=	$query->result_array();
 			if(count($result) > 0)
@@ -613,7 +613,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 					'AUTHOR'			=>	$this->current('ID'),
 					'DATE'				=>	$post_date
 				);
-				$this->db->insert('Tendoo_users_messaging_content',$data);
+				$this->db->insert('tendoo_users_messaging_content',$data);
 				return 'posted';
 			}
 			else
@@ -624,8 +624,8 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 					'CREATION_DATE'		=>	$post_date,
 					'STATE'				=>	0
 				);
-				$this->db->insert('Tendoo_users_messaging_title',$data);
-				$query				=	$this->db->where('AUTHOR',$this->current('ID'))->order_by('ID','desc')->get('Tendoo_users_messaging_title');
+				$this->db->insert('tendoo_users_messaging_title',$data);
+				$query				=	$this->db->where('AUTHOR',$this->current('ID'))->order_by('ID','desc')->get('tendoo_users_messaging_title');
 				$last_id			=	$query->result_array();
 				$data					=	array(
 					'MESG_TITLE_REF'	=>	$last_id[0]['ID'],
@@ -633,7 +633,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 					'AUTHOR'			=>	$this->current('ID'),
 					'DATE'				=>	$post_date
 				);
-				$this->db->insert('Tendoo_users_messaging_content',$data);
+				$this->db->insert('tendoo_users_messaging_content',$data);
 				return 'posted';
 			}
 		}
@@ -641,22 +641,22 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function countMsgContent($ref_id)
 	{
-		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('Tendoo_users_messaging_title');
+		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('tendoo_users_messaging_title');
 		$result	=	$query->result_array();
 		if(count($result) > 0)
 		{
-			$query	=	$this->db->where('MESG_TITLE_REF',$ref_id)->order_by('ID','desc')->get('Tendoo_users_messaging_content');
+			$query	=	$this->db->where('MESG_TITLE_REF',$ref_id)->order_by('ID','desc')->get('tendoo_users_messaging_content');
 			return count($query->result_array());
 		}
 		return 0;
 	}
 	public function getMsgContent($ref_id,$start,$end)
 	{
-		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('Tendoo_users_messaging_title');
+		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('tendoo_users_messaging_title');
 		$result	=	$query->result_array();
 		if(count($result) > 0)
 		{
-			$query	=	$this->db->where('MESG_TITLE_REF',$ref_id)->order_by('ID','desc')->limit($end,$start)->get('Tendoo_users_messaging_content');
+			$query	=	$this->db->where('MESG_TITLE_REF',$ref_id)->order_by('ID','desc')->limit($end,$start)->get('tendoo_users_messaging_content');
 			return array(
 				'title'		=>	$result,
 				'content'	=>	$query->result_array()
@@ -666,12 +666,12 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function addPost($ref_id,$content)
 	{
-		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('Tendoo_users_messaging_title');
+		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('tendoo_users_messaging_title');
 		$result	=	$query->result_array();
 		if(count($result) > 0)
 		{
-			$this->db->where('ID',$ref_id)->update('Tendoo_users_messaging_title',array('STATE'=>0));
-			return $this->db->insert('Tendoo_users_messaging_content',array(
+			$this->db->where('ID',$ref_id)->update('tendoo_users_messaging_title',array('STATE'=>0));
+			return $this->db->insert('tendoo_users_messaging_content',array(
 				'CONTENT'			=>	$content,
 				'AUTHOR'			=>	$this->current('ID'),
 				'DATE'				=>	$this->tendoo->datetime(),
@@ -683,7 +683,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function getUnreadMsg()
 	{
-		$query_string	=	'SELECT * FROM '.DB_ROOT.'Tendoo_users_messaging_title WHERE (AUTHOR = '.$this->db->escape($this->current('ID')).') OR (RECEIVER	= '.$this->db->escape($this->current('ID')).') ORDER BY ID DESC ';
+		$query_string	=	'SELECT * FROM '.DB_ROOT.'tendoo_users_messaging_title WHERE (AUTHOR = '.$this->db->escape($this->current('ID')).') OR (RECEIVER	= '.$this->db->escape($this->current('ID')).') ORDER BY ID DESC ';
 		$query	=	$this->db->query($query_string);
 		$result	=	$query->result_array();
 		$unread	=	0;
@@ -699,7 +699,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	private function hasAccessToConv($ref_id)
 	{
-		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('Tendoo_users_messaging_title');
+		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('tendoo_users_messaging_title');
 		$result	=	$query->result_array();
 		if(count($result) > 0)
 		{
@@ -714,7 +714,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			$lastMsg	=	$this->getMsgPreview($ref_id);
 			if($lastMsg[0]['AUTHOR'] != $this->current('ID'))
 			{
-				return $this->db->where('ID',$ref_id)->update('Tendoo_users_messaging_title',array('STATE'=>1));
+				return $this->db->where('ID',$ref_id)->update('tendoo_users_messaging_title',array('STATE'=>1));
 			}
 			return false;
 		}

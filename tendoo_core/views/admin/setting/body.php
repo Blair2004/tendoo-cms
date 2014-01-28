@@ -235,7 +235,7 @@
                                                         <tbody>
                                                         <input type="hidden" name="showIcon[]" value="" />
                                                         	<?php
-															if(is_array($appIconApi))
+															if($appIconApi)
 															{
 																foreach($appIconApi as $_a)
 																{
@@ -266,6 +266,12 @@
                                                 <?php
 																	
 																}
+															}
+															else
+															{
+																?>
+                                                <td colspan="2">Aucune icone disponible</td>
+                                                <?php
 															}
 															?>
                                                         </tbody>

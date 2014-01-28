@@ -63,10 +63,10 @@
                             $user	=	$this->core->users_global->getUser($t['AUTHOR']);
                     ?>
                                 <tr>
-                                    <td><img style="width:50px;height:50px;" src="<?php echo $this->core->url->main_url().'Tendoo_modules/'.$data['_Tendoo_vars']['module'][0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>" alt="<?php echo $t['FILE_NAME'];?>"></td>
+                                    <td><img style="width:50px;height:50px;" src="<?php echo $this->core->url->main_url().'tendoo_modules/'.$data['_Tendoo_vars']['module'][0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>" alt="<?php echo $t['FILE_NAME'];?>"></td>
                                     <td><a href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'manage',$t['ID']));?>"><?php echo $t['TITLE'];?></a></td>
                                     <td><?php echo word_limiter($t['DESCRIPTION'],200);?></td>
-                                    <td><a href="<?php echo $this->core->url->main_url().'Tendoo_modules/'.$data['_Tendoo_vars']['module'][0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>"><?php echo $t['FILE_NAME'];?></a></td>
+                                    <td><a href="<?php echo $this->core->url->main_url().'tendoo_modules/'.$data['_Tendoo_vars']['module'][0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>"><?php echo $t['FILE_NAME'];?></a></td>
                                     <td><?php echo $t['FILE_TYPE'];?></td>
                                     <td><?php echo $user == true ? $user['PSEUDO'] : "Utilisateur Introuvable";?></td>
                                 </tr>

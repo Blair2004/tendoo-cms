@@ -29,12 +29,12 @@ class Tendoo
 	{
 		$ts_this_month	=	$this->global_date('month_start_date');
 		$te_this_month	=	$this->global_date('month_end_date');
-		$query	=	$this->core->db->where('DATE >=',$ts_this_month)->where('DATE <=',$te_this_month)->where('VISITORS_IP',$_SERVER['REMOTE_ADDR'])->get('Tendoo_visit_stats');
+		$query	=	$this->core->db->where('DATE >=',$ts_this_month)->where('DATE <=',$te_this_month)->where('VISITORS_IP',$_SERVER['REMOTE_ADDR'])->get('tendoo_visit_stats');
 		$result	=	$query->result_array();
 		if(!$result)
 		{
 			$datetime	=	$this->datetime();
-			$this->core->db->insert('Tendoo_visit_stats',array(
+			$this->core->db->insert('tendoo_visit_stats',array(
 				'DATE'					=>	$datetime,
 				'VISITORS_IP'			=>	$_SERVER['REMOTE_ADDR'],
 				'VISITORS_USERAGENT'	=>	$_SERVER['HTTP_USER_AGENT'],
@@ -47,7 +47,7 @@ class Tendoo
 			$this->core->db->where('DATE >=',$ts_this_month)
 				->where('DATE <=',$te_this_month)
 				->where('VISITORS_IP',$_SERVER['REMOTE_ADDR'])
-				->update('Tendoo_visit_stats',array(
+				->update('tendoo_visit_stats',array(
 				'DATE'					=>	$datetime,
 				'VISITORS_IP'			=>	$_SERVER['REMOTE_ADDR'],
 				'VISITORS_USERAGENT'	=>	$_SERVER['HTTP_USER_AGENT'],
@@ -124,9 +124,9 @@ class Tendoo
 		$config			=	$_SESSION['db_datas'];
 		$DB_ROOT			=	$config['dbprefix'];
 		$this->core->db	=	DB($config,TRUE);
-		/* CREATE Tendoo_controllers */
+		/* CREATE tendoo_controllers */
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_controllers` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_controllers` (
 		  `ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 		  `PAGE_NAMES` varchar(40) NOT NULL,
 		  `PAGE_CNAME` varchar(40) NOT NULL,
@@ -143,9 +143,9 @@ class Tendoo
 		{
 			return false;
 		};
-		/* CREATE Tendoo_visit_stats */
+		/* CREATE tendoo_visit_stats */
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_visit_stats` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_visit_stats` (
 		  `ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 		  `DATE` datetime NOT NULL,
 		  `VISITORS_IP` varchar(200) NOT NULL,
@@ -157,9 +157,9 @@ class Tendoo
 		{
 			return false;
 		};
-		/* CREATE Tendoo_modules */
+		/* CREATE tendoo_modules */
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_modules` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_modules` (
 		  `ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 		  `NAMESPACE` varchar(40) NOT NULL,
 		  `HUMAN_NAME` varchar(100) NOT NULL,
@@ -180,9 +180,9 @@ class Tendoo
 		{
 			return false;
 		};
-		/* CREATE Tendoo_options */
+		/* CREATE tendoo_options */
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_options` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_options` (
 		  `ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 		  `SITE_NAME` varchar(40) NOT NULL,
 		  `SITE_TYPE` varchar(40) NOT NULL,
@@ -220,9 +220,9 @@ class Tendoo
 		{
 			return false;
 		};
-		/* CREATE Tendoo_users */
+		/* CREATE tendoo_users */
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_users` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_users` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `PSEUDO` varchar(100) NOT NULL,
 		  `PASSWORD` varchar(100) NOT NULL,
@@ -243,9 +243,9 @@ class Tendoo
 		{
 			return false;
 		};
-		/// MESSAGING TABLE create `Tendoo_users_messaging_content`
+		/// MESSAGING TABLE create `tendoo_users_messaging_content`
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_users_messaging_content` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_users_messaging_content` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `MESG_TITLE_REF` int(11) NOT NULL,
 		  `CONTENT` text NOT NULL,
@@ -289,9 +289,9 @@ class Tendoo
 		{
 			return false;
 		};
-		// Create `Tendoo_modules_actions`
+		// Create `tendoo_modules_actions`
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_modules_actions` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_modules_actions` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `MOD_NAMESPACE` varchar(200) NOT NULL,
 		  `ACTION` varchar(100) NOT NULL,
@@ -303,9 +303,9 @@ class Tendoo
 		{
 			return false;
 		};
-		// Create `Tendoo_modules_actions`
+		// Create `tendoo_modules_actions`
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_users_messaging_title` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_users_messaging_title` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `AUTHOR` int(11) NOT NULL,
 		  `RECEIVER` int(11) NOT NULL,
@@ -499,20 +499,20 @@ class Tendoo
 	}
 	public function setOptions($name)
 	{
-		$q = $this->core->db->get('Tendoo_options');
+		$q = $this->core->db->get('tendoo_options');
 		$r = $q->result();
 		if(count($r) == 1)
 		{	
 			$value['SITE_NAME'] 			= $name;
 			$value['SHOW_WELCOME']			=	'TRUE';
 			$this->core->db->where('ID',1);
-			$result = $this->core->db->update('Tendoo_options',$value);
+			$result = $this->core->db->update('tendoo_options',$value);
 		}
 		else if(count($r) == 0)
 		{
 			$value['SITE_NAME'] 			= 	$name;
 			$value['SHOW_WELCOME']			=	'TRUE';
-			$result = $this->core->db->insert('Tendoo_options',$value);
+			$result = $this->core->db->insert('tendoo_options',$value);
 		}
 		if($result == false)
 		{
@@ -523,7 +523,7 @@ class Tendoo
 	public function firstController($name,$cname,$mod,$title,$description,$main,$visible)
 	{
 		$this->core	->db->select('*')
-					->from('Tendoo_controllers');
+					->from('tendoo_controllers');
 		$query		=	$this->core->db->get();
 		if($query->num_rows == 0)
 		{
@@ -535,7 +535,7 @@ class Tendoo
 			$e['PAGE_MODULES']		=	$mod;
 			$e['PAGE_VISIBLE']		=	$visible;
 			$e['PAGE_PARENT']		=	'none'; // Par défaut le premier lien est à la racine puisqu'il s'agit du premier contrôleur.
-			return $this->core			->db->insert('Tendoo_controllers',$e);			
+			return $this->core			->db->insert('tendoo_controllers',$e);			
 		}
 		return false;
 	}
@@ -555,7 +555,7 @@ class Tendoo
 	public function getOptions()
 	{
 		$this->core->db->select('*')
-					->from('Tendoo_options')
+					->from('tendoo_options')
 					->limit(1,0);
 		$r			=	$this->core->db->get();
 		return $r->result_array();
@@ -565,7 +565,7 @@ class Tendoo
 		if($page == 'index')
 		{
 			$this->core->db->select('*')
-						->from('Tendoo_controllers')
+						->from('tendoo_controllers')
 						->where('PAGE_MAIN','TRUE');
 			$data 		=	$this->core->db->get();
 			$value		=	$data->result_array();
@@ -578,7 +578,7 @@ class Tendoo
 		else if($getAll == FALSE && $page != null)
 		{
 			$this->core->db->select('*')
-						->from('Tendoo_controllers')
+						->from('tendoo_controllers')
 						->where('PAGE_CNAME',$page);
 			$data		= 	$this->core->db->get();
 			$value		=	$data->result_array();
@@ -594,7 +594,7 @@ class Tendoo
 		else
 		{
 			$this->core->db->select('*')
-						->from('Tendoo_controllers');
+						->from('tendoo_controllers');
 			$data		= 	$this->core->db->get();
 			$value		=	$data->result_array();
 			return $value;
@@ -603,7 +603,7 @@ class Tendoo
 	public function getControllers()
 	{
 		$this->core->db->select('*')
-					->from('Tendoo_controllers')->where('PAGE_VISIBLE','TRUE');
+					->from('tendoo_controllers')->where('PAGE_VISIBLE','TRUE');
 		$r			=	$this->core->db->get();
 		return $r->result_array();
 	}
@@ -618,7 +618,7 @@ class Tendoo
 			}
 			$this->core	->db->select('*')
 						->where('PAGE_PARENT',$cname) // On recupère le menu de base
-						->from('Tendoo_controllers');
+						->from('tendoo_controllers');
 			$query 		=	$this->core->db->get();
 			if($query->num_rows > 0)
 			{
@@ -658,7 +658,7 @@ class Tendoo
 			}
 			$this->core	->db->select('*')
 						->where('PAGE_PARENT','none') // On recupère le menu de base
-						->from('Tendoo_controllers');
+						->from('tendoo_controllers');
 			$query 	=	$this->core->db->get();
 			$array		=	array();
 			foreach($query->result() as $obj)
@@ -687,7 +687,7 @@ class Tendoo
 				$this->core->db->where('PAGE_VISIBLE','TRUE');
 			}
 			$this->core	->db->select('*')
-						->from('Tendoo_controllers')
+						->from('tendoo_controllers')
 						->where('PAGE_CNAME',$page);
 			$query 	=	$this->core->db->get();
 			foreach($query->result() as $obj)
@@ -713,7 +713,7 @@ class Tendoo
 	public function getControllersAttachedToModule($module) // Recupere la page qui embarque le module spécifié.
 	{
 		$this->core->db->select('*')
-					->from('Tendoo_controllers')->where('PAGE_MODULES',$module); // Nous avons choisi de ne pas exiger la selection des controleur visible "->where('PAGE_VISIBLE','TRUE')"
+					->from('tendoo_controllers')->where('PAGE_MODULES',$module); // Nous avons choisi de ne pas exiger la selection des controleur visible "->where('PAGE_VISIBLE','TRUE')"
 		$r			=	$this->core->db->get();
 		return $r->result_array();
 	}
@@ -722,7 +722,7 @@ class Tendoo
 	{
 		$query	=	$this->core->db	->where('TYPE','GLOBAL')
 									->where('ACTIVE','1')
-									->get('Tendoo_modules');
+									->get('tendoo_modules');
 		$data	=	$query->result_array();
 		if(count($data) > 0)
 		{
@@ -737,7 +737,7 @@ class Tendoo
 	public function getSpeMod($value,$option = TRUE)
 	{
 		$this->core->db		->select('*')
-							->from('Tendoo_modules');
+							->from('tendoo_modules');
 		if($option == TRUE)
 		{
 			$this->core->db->where('ID',$value);
@@ -758,7 +758,7 @@ class Tendoo
 	public function getSpeModuleByNamespace($namespace)
 	{
 		$this->core->db		->select('*')
-							->from('Tendoo_modules')
+							->from('tendoo_modules')
 							->where('NAMESPACE',$namespace)
 							->where('ACTIVE','1');
 		$query				= $this->core->db->get();

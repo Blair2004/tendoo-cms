@@ -337,7 +337,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			$mod	=	$this->core->tendoo_admin->getSpeMod($id,TRUE);
 			if($mod)
 			{
-				$this->core->db->where('ID',$id)->update('Tendoo_modules',array(
+				$this->core->db->where('ID',$id)->update('tendoo_modules',array(
 					'ACTIVE'	=>	0
 				));
 				$this->core->url->redirect(array('admin','modules'));

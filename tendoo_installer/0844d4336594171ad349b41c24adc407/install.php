@@ -12,6 +12,7 @@ $this->appTableField(array(
 	'HAS_WIDGET'	=>	1,
 	'HAS_MENU'		=>	1,
 	'HAS_API'	=>	1,
+	'HAS_ICON'		=>	1,
 	'TENDOO_VERS'	=> 0.94
 ));
 $this->appSql(	
