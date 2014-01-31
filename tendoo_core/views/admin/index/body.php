@@ -118,19 +118,20 @@ if($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1")
                 </ol>
                 <div class="carousel-inner" style="min-height:180px;" >
                     <div class="item">
-                        <p class="text-center" style="padding:10px;"> <em class="h4 text-mute">B&acirc;tir une application web</em><br>
-                            <small class="text-muted">Faites vos Premiers pas en tant que <a href="#">développeurs</a> ou en tant que <a href="#">simple utilisateur</a>, vous y trouverez un manuel adapt&eacute; &agrave; vos demandes. Si c'est votre premiere connexion, vous pouvez modifier les <a href="<?php echo $this->core->url->site_url('admin/setting');?>">param&ecirc;tres</a> de votre site web. D&eacute;counvrez toujours plus d'astuces sur la cr&eacute;ation d'application web dans le manuel d'instruction.</small> </p>
+                        <p class="text-center"> <em class="h4 text-mute">Premier pas sur Tendoo</em><br><br/>
+						D&eacute;couvrer comment publier votre premier article en suivant <a href="<?php echo $this->core->url->site_url(array('admin','discover','firstSteps'));?>"><strong>ces instructions</strong></a>. Vous pouvez aussi apprendre &agrave; configurer votre site web en suivant <a href="<?php echo $this->core->url->site_url(array('admin','discover','firstSettings'));?>"><strong>ces instructions</strong></a>. Apprenez &eacute;galement &agrave; g&eacute;rer le fonctionnement de votre site web dans la section <a href="<?php echo $this->core->url->site_url(array('admin','system'));?>"><strong>Syst&egrave;me</strong> et dans la section <a href="<?php echo $this->core->url->site_url(array('admin','discover','aboutSecurity'));?>"><strong>S&eacute;curit&eacute;</strong></a>
+</p>
                     </div>
                     <div class="item">
-                        <p class="text-center"> <em class="h4 text-mute">C'est quoi Tendoo ?</em><br>
-                            <small class="text-muted">Tendoo vous permet de rapidement cr&eacute;er votre site web, sans avoir n&eacute;cessairement besoin d'un expert. La cr&eacute;ation et la gestion d'un site web ne pourra pas &ecirc;tre plus facile. Si vous d&eacute;butez, <a href="#">vous devez savoir ceci</a>, cependant si vous &ecirc;tes un habitu&eacute; de CMS, ce petit aperçu vous sera utile.</small> </p>
+                        <p class="text-center"> <em class="h4 text-mute">C'est quoi Tendoo ?</em><br><br/>
+                            <small class="text-muted">Tendoo vous permet de rapidement cr&eacute;er votre site web, sans avoir n&eacute;cessairement besoin d'un expert. La cr&eacute;ation et la gestion d'un site web ne pourra pas &ecirc;tre plus facile. Si vous d&eacute;butez, <a href="#">vous devez savoir ceci</a>, cependant si vous &ecirc;tes un habitu&eacute; de CMS, ce petit aper&ccedil;u vous sera utile.</small> </p>
                     </div>
                     <div class="item active">
-                        <p class="text-center"> <em class="h4 text-mute">Bienvenue sur <strong><?php echo $this->core->tendoo->getVersion();?></strong></em><br>
-                            <small class="text-muted">L'&eacute;quipe vous remercie d'avoir choisi Tendoo comme application pour la cr&eacute;ation de votre site web / application web. Si vous demarrez sur Tendoo, consultez la <a href="http://Tendoo.site90.com/index.php/firstSteps/" target="_blank">documentation</a> sur les premiers pas, et commercez &agrave; personnaliser Tendoo.</small> </p>
+                        <p class="text-center"> <em class="h4 text-mute">Bienvenue sur <strong><?php echo $this->core->tendoo->getVersion();?></strong></em><br><br/>
+                            <small class="text-muted">L'&eacute;quipe vous remercie d'avoir choisi Tendoo comme application pour la cr&eacute;ation de votre site web / application web. Si vous demarrez sur Tendoo, consultez <a href="<?php echo $this->core->url->site_url(array('admin','discover'));?>">le guide d'utilisation</a> sur les premiers pas, et commercez &agrave; personnaliser tendoo.</small> </p>
                     </div>
                 </div>
-                <a class="left carousel-control" href="http://flatfull.com/themes/todo/components.html#c-slide" data-slide="prev"> <i class="icon-angle-left"></i> </a> <a class="right carousel-control" href="http://flatfull.com/themes/todo/components.html#c-slide" data-slide="next"> <i class="icon-angle-right"></i> </a> </div>
+                <a class="left carousel-control" href="#c-slide" data-slide="prev"> <i class="icon-angle-left"></i> </a> <a class="right carousel-control" href="#c-slide" data-slide="next"> <i class="icon-angle-right"></i> </a> </div>
         </div>
     <?php
 					}
@@ -145,7 +146,7 @@ if($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1")
         <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
             <li class="list-group-item">Modules install&eacute;s <span class="badge bg-success"><?php echo $ttModule;?></span></li>
             <li class="list-group-item">Th&egrave;mes install&eacute;s <span class="badge bg-success"><?php echo $ttTheme;?></span></li>
-            <li class="list-group-item">Pages cr&eacute;ées <span class="badge bg-success"><?php echo $ttPages;?></span></li>
+            <li class="list-group-item">Pages cr&eacute&eacute;es <span class="badge bg-success"><?php echo $ttPages;?></span></li>
             <li class="list-group-item">Privil&egrave;ges cr&eacute;es <span class="badge bg-success"><?php echo $ttPrivileges;?></span></li>
         </ul>
     </section>

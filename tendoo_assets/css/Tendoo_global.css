@@ -18,7 +18,7 @@
 	background:#0061C1;
 	color:#FFF;
 }
-.Tendoo_success
+.tendoo_success
 {
 	padding:1%;
 	width:98%;
@@ -27,7 +27,7 @@
 	color:#EEE;
 	margin-bottom:10px;
 }
-.Tendoo_notice
+.tendoo_notice
 {
 	padding:1%;
 	width:98%;
@@ -36,7 +36,7 @@
 	color:#FFF;
 	margin-bottom:10px;
 }
-.Tendoo_error, .Tendoo_warning
+.tendoo_error, .tendoo_warning
 {
 	padding:1%;
 	width:98%;

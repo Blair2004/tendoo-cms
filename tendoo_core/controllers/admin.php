@@ -96,7 +96,7 @@ class Admin
 		$this->core->file->css_push('app.v2');
 		$this->core->file->css_push('css1');
 		$this->core->file->css_push('css2');
-		$this->core->file->css_push('Tendoo_global');
+		$this->core->file->css_push('tendoo_global');
 
 		$this->core->file->js_push('jquery');
 		$this->core->file->js_push('jquery.pjax');
@@ -1043,5 +1043,30 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			$this->core->url->redirect(array('page404'));
 		}
 		
+	}
+	public function discover($option	=	'index')
+	{
+		if($option	==	'index')
+		{
+			$this->data['inner_head']			=	$this->load->view('admin/inner_head',$this->data,true);
+			$this->data['pageDescription']	=	$this->core->tendoo->getVersion();
+			
+			$this->core->tendoo->setTitle('D&eacute;couvrir Tendoo - Tendoo');
+			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+			$this->data['body']	=	$this->load->view('admin/discover/body',$this->data,true);
+			$this->load->view('admin/header',$this->data);
+			$this->load->view('admin/global_body',$this->data);
+		}
+		else if($option == 'firstSteps')
+		{
+			$this->data['inner_head']			=	$this->load->view('admin/inner_head',$this->data,true);
+			$this->data['pageDescription']	=	$this->core->tendoo->getVersion();
+			
+			$this->core->tendoo->setTitle('Vos premiers pas sur Tendoo - Tendoo');
+			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+			$this->data['body']	=	$this->load->view('admin/discover/firstSteps',$this->data,true);
+			$this->load->view('admin/header',$this->data);
+			$this->load->view('admin/global_body',$this->data);
+		}
 	}
 }

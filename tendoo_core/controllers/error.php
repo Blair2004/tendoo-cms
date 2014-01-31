@@ -36,7 +36,7 @@ class error
 		$this->core->file->css_push('app.v2');
 		$this->core->file->css_push('css1');
 		$this->core->file->css_push('css2');
-		$this->core->file->css_push('font');$this->core->file->css_push('Tendoo_global');
+		$this->core->file->css_push('font');$this->core->file->css_push('tendoo_global');
 		$this->core->load->view('header',$this->data);
 		$this->core->load->view('error/global_body',$this->data);
 	}

@@ -8,7 +8,7 @@
 <title><?php echo $this->core->tendoo->getTitle();?></title>
 <script>
 var Tendoo				=	new Object();
-	Tendoo.url			=	new function(){
+	tendoo.url			=	new function(){
 		this.main		=	function(){
 			return '<?php echo $this->core->url->main_url();?>';
 		};

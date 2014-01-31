@@ -1284,7 +1284,7 @@ class Tendoo
 		$this->setTitle('Erreur');
 		$this->core->load->library('file');
 		$this->core->file->css_push('app.v2');
-		$this->core->file->css_push('Tendoo_global');
+		$this->core->file->css_push('tendoo_global');
 		$error	=	notice($array);
 		
 		include_once(VIEWS_DIR.'warning.php');
@@ -1294,7 +1294,7 @@ class Tendoo
 		$this->setTitle('Erreur - '.$heading);
 		$this->core->load->library('file');
 		$this->core->file->css_push('app.v2');
-		$this->core->file->css_push('Tendoo_global');
+		$this->core->file->css_push('tendoo_global');
 		include_once(VIEWS_DIR.'warning.php');
 	}
 	public function paginate($elpp,$ttel,$pagestyle,$classOn,$classOff,$current_page,$baselink,$ajaxis_link=null)

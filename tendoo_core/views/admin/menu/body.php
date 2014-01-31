@@ -106,7 +106,7 @@
         	<div class="tile-content" data-url="<?php echo $this->core->url->site_url('learning');?>">
                 <h4>Manuel d'utilisation</h4>
                 <br />
-                <p>Nouveau ou ancien ? apprennez &agrave; utiliser Tendoo.</p>
+                <p>Nouveau ou ancien ? apprennez &agrave; utiliser tendoo.</p>
                 <div class="brand">
                 	<div class="padding10">
                     	<i class="icon-eye font-30"></i>

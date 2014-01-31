@@ -35,7 +35,7 @@
                             	<div class="panel-heading">Depuis une adresse url</div>
                                 <form method="post" class="panel-body" enctype="multipart/form-data">
                                 	<div class="form-group">
-                                    	<p>L'adresse vers laquelle le fichier d'installation de l'application Tendoo sera t&eacute;l&eacute;charger doit être une adresse valide, Assurez-vous que le fichier &agrave; t&eacute;l&eacute;charger soit un fichier compatible &agrave; la version actuelle de Tendoo. La version actuelle est : <strong><?php echo $this->core->tendoo->getVersion();?></strong>. </p>
+                                    	<p>L'adresse vers laquelle le fichier d'installation de l'application Tendoo sera t&eacute;l&eacute;charger doit être une adresse valide, Assurez-vous que le fichier &agrave; t&eacute;l&eacute;charger soit un fichier compatible &agrave; la version actuelle de tendoo. La version actuelle est : <strong><?php echo $this->core->tendoo->getVersion();?></strong>. </p>
                                         <p class="control-label"><strong>Application Tendoo</strong></p>
                                         <div class="row">
                                             <div class="col-lg-7">

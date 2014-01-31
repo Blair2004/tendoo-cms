@@ -58,7 +58,7 @@
                 </section>
             </section>
         </section>
-<script>
+		<script>
 		$(document).ready(function(){
 			CKEDITOR.inline('editor');
 			$('.submit_article').bind('click',function(){

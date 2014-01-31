@@ -2,17 +2,17 @@
 /// -------------------------------------------------------------------------------------------------------------------///
 global $NOTICE_SUPER_ARRAY;
 /// -------------------------------------------------------------------------------------------------------------------///
-$or['categoryCreated']			=	'<span class="Tendoo_success">La cat&eacute;gorie &agrave; &eacute;t&eacute; correctement cr&eacute;e</span>';
-$or['categoryAldreadyCreated']	=	'<span class="Tendoo_error">Cette cat&eacute;gorie existe d&eacute;j&agrave;</span>';
-$or['unknowCat']				=	'<span class="Tendoo_error">Cette cat&eacute;gorie est inexistante</span>';
-$or['categoryUpdated']			=	'<span class="Tendoo_success">La mise &agrave; jour &agrave; r&eacute;ussie</span>';
-$or['CatDeleted']				=	'<span class="Tendoo_success">La cat&eacute;gorie &agrave; &eacute;t&eacute; supprim&eacute; avec succ&egrave;s</span>';
-$or['CatNotEmpty']				=	'<span class="Tendoo_error">Cette cat&eacute;gorie ne peut pas &ecirc;tre supprim&eacute;e, car il existe des publications qui y sont rattach&eacute;es. Changez la cat&eacute;gorie de ces publications avant de supprimer cette cat&eacute;gorie.</span>';
-$or['noCategoryCreated']		=	'<span class="Tendoo_error"><i class="icon-warning"></i> Avant de publier un article, vous devez cr&eacute;er une cat&eacute;gorie.</span>';
-$or['connectToComment']			=	'<span class="Tendoo_error"><i class="icon-warning"></i> Vous devez &ecirc;tre connect&eacute; pour commenter.</span>';
-$or['unknowComments']			=	'<span class="Tendoo_error"><i class="icon-warning"></i> Commentaire introuvable.</span>';
-$or['commentDeleted']			=	'<span class="Tendoo_success"><i class="icon-checkmark"></i> Commentaire supprim&eacute;.</span>';
-$or['submitedForApproval']			=	'<span class="Tendoo_success"><i class="icon-checkmark"></i> Votre commentaire &agrave; &eacute;t&eacute; soumis pour une examination.</span>';
+$or['categoryCreated']			=	'<span class="tendoo_success">La cat&eacute;gorie &agrave; &eacute;t&eacute; correctement cr&eacute;e</span>';
+$or['categoryAldreadyCreated']	=	'<span class="tendoo_error">Cette cat&eacute;gorie existe d&eacute;j&agrave;</span>';
+$or['unknowCat']				=	'<span class="tendoo_error">Cette cat&eacute;gorie est inexistante</span>';
+$or['categoryUpdated']			=	'<span class="tendoo_success">La mise &agrave; jour &agrave; r&eacute;ussie</span>';
+$or['CatDeleted']				=	'<span class="tendoo_success">La cat&eacute;gorie &agrave; &eacute;t&eacute; supprim&eacute; avec succ&egrave;s</span>';
+$or['CatNotEmpty']				=	'<span class="tendoo_error">Cette cat&eacute;gorie ne peut pas &ecirc;tre supprim&eacute;e, car il existe des publications qui y sont rattach&eacute;es. Changez la cat&eacute;gorie de ces publications avant de supprimer cette cat&eacute;gorie.</span>';
+$or['noCategoryCreated']		=	'<span class="tendoo_error"><i class="icon-warning"></i> Avant de publier un article, vous devez cr&eacute;er une cat&eacute;gorie.</span>';
+$or['connectToComment']			=	'<span class="tendoo_error"><i class="icon-warning"></i> Vous devez &ecirc;tre connect&eacute; pour commenter.</span>';
+$or['unknowComments']			=	'<span class="tendoo_error"><i class="icon-warning"></i> Commentaire introuvable.</span>';
+$or['commentDeleted']			=	'<span class="tendoo_success"><i class="icon-checkmark"></i> Commentaire supprim&eacute;.</span>';
+$or['submitedForApproval']			=	'<span class="tendoo_success"><i class="icon-checkmark"></i> Votre commentaire &agrave; &eacute;t&eacute; soumis pour une examination.</span>';
 
 /// -------------------------------------------------------------------------------------------------------------------///
 $NOTICE_SUPER_ARRAY = $or;

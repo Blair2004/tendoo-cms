@@ -1,7 +1,7 @@
 <?php
 global $NOTICE_SUPER_ARRAY;
 /// -------------------------------------------------------------------------------------------------------------------///
-$or['fileReplaced']			=	Tendoo_success('Le fichier &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
+$or['fileReplaced']			=	tendoo_success('Le fichier &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
 
 /// -------------------------------------------------------------------------------------------------------------------///
 $NOTICE_SUPER_ARRAY = $or;
@@ -154,7 +154,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					$notice						=	$this->core->image_lib->display_errors();
 					if($notice != '')
 					{
-					$this->core->notice->push_notice(Tendoo_notice($notice));
+					$this->core->notice->push_notice(notice($notice));
 					}
 					return true;
 				}

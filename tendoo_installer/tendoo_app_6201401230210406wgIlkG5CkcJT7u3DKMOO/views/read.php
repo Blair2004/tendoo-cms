@@ -72,7 +72,7 @@
                         <section class="panel">
                         <div class="panel-heading">Erreur</div>
                         <div class="panel-body">
-                        	<?php echo Tendoo_warning('Vous ne pouvez faire vous faire un message &agrave; vous m&ecirc;me..');?>
+                        	<?php echo tendoo_warning('Vous ne pouvez faire vous faire un message &agrave; vous m&ecirc;me..');?>
                         </div>
                      </section>
                         <?php
@@ -84,7 +84,7 @@
                      <section class="panel">
                         <div class="panel-heading">Erreur</div>
                         <div class="panel-body">
-                        	<?php echo Tendoo_warning('Cet utilisateur n\'est pas inscrit pour recevoir une r&eacute;ponse.');?>
+                        	<?php echo tendoo_warning('Cet utilisateur n\'est pas inscrit pour recevoir une r&eacute;ponse.');?>
                         </div>
                      </section>
                      <?php

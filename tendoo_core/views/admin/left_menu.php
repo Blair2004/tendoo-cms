@@ -19,7 +19,15 @@
             <nav class="nav-primary">
                 <ul class="nav">
 					<?php echo $this->core->tendoo_admin->parseMenuBefore();?>
-                    <li> <a href="#"> <i class="icon-eye-open"></i> <span>D&eacute;couvrir</span> </a> </li>
+                    <li class="dropdown-submenu"> <a href="<?php echo $this->url->site_url(array('admin','discover'));?>"> <i class="icon-eye-open"></i> <span>D&eacute;couvrir</span> </a>
+						<ul class="dropdown-menu">
+                            <li> <a href="<?php echo $this->core->url->site_url('admin/discover/firstSteps');?>">Premiers pas</a> </li>
+                            <li> <a href="<?php echo $this->core->url->site_url('admin/discover/firstSettings');?>">Premi&egrave;res configurations</a> </li>
+							<li> <a href="<?php echo $this->core->url->site_url('admin/discover/aboutSystem');?>">Gestion du syst&ecirc;me</a> </li>
+							<li> <a href="<?php echo $this->core->url->site_url('admin/discover/aboutSecurity');?>">S&eacute;curit&eacute;</a> </li>
+
+                        </ul>
+					</li>
                     <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-bookmark-empty"></i> <span>Contr&ocirc;leur</span> </a>
                         <ul class="dropdown-menu">
                             <li> <a href="<?php echo $this->core->url->site_url('admin/pages/create');?>">Cr&eacute;er un contr&ocirc;leur</a> </li>

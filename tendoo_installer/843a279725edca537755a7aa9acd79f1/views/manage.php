@@ -167,6 +167,6 @@
 			$('*[name="overwrite_file"]').trigger('click');
 		});
 		$('.showALook').bind('click',function(){
-			Tendoo.modal.show('<img src="<?php echo $this->core->url->main_url().'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$getFile[0]['FILE_NAME'];?>" alt="<?php echo $getFile[0]['FILE_NAME'];?>">');
+			tendoo.modal.show('<img src="<?php echo $this->core->url->main_url().'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$getFile[0]['FILE_NAME'];?>" alt="<?php echo $getFile[0]['FILE_NAME'];?>">');
 		});
 		</script>

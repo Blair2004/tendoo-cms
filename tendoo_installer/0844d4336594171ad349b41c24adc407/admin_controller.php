@@ -80,11 +80,11 @@ class News_admin_controller
 				{
 					if($this->data['result'])
 					{
-						echo '<script>Tendoo.notice.alert("'.strip_tags(notice('done')).'","success");</script>';
+						echo '<script>tendoo.notice.alert("'.strip_tags(notice('done')).'","success");</script>';
 					}
 					else
 					{
-						echo '<script>Tendoo.notice.alert("'.strip_tags(notice('error')).'","warning");</script>';
+						echo '<script>tendoo.notice.alert("'.strip_tags(notice('error')).'","warning");</script>';
 					}
 				}
 				else
