@@ -200,7 +200,7 @@ class Tendoo
 		  `OPEN_APP_TAB` int(11) NOT NULL,
 		  `ADMIN_ICONS` text NOT NULL,
 		  `FIRST_VISIT` int(11) NOT NULL,
-		  `CONNECT_TO_STORE` int(11) NOT NULL
+		  `CONNECT_TO_STORE` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))

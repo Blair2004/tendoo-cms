@@ -22,7 +22,7 @@
             ?>
         <div class="col-lg-13">
             <section class="panel">
-                <header class="panel-heading bg bg-color-green text-center">Erreur sur le formulaire</header>
+                <header class="panel-heading bg bg-danger text-center">Erreur sur le formulaire</header>
                     <div class="panel-body">
                         <?php echo $form_response;?>
                     </div>
@@ -35,7 +35,7 @@
             ?>
         <div class="col-lg-13">
             <section class="panel">
-                <header class="panel-heading bg bg-color-red text-center">Erreur sur le formulaire</header>
+                <header class="panel-heading bg bg-danger text-center">Erreur sur le formulaire</header>
                     <div class="panel-body">
                         <?php echo $query_error;?>
                     </div>

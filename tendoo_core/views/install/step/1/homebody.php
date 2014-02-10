@@ -31,16 +31,16 @@
         </div>
         <div class="col-lg-2">
             <section class="panel">
-                <header class="panel-heading bg bg-color-yellow text-center">Tendoo Community</header>
-                <div action="http://flatfull.com/themes/todo/index.html" class="panel-body">
+                <header class="panel-heading bg bg-success text-center">Tendoo Community</header>
+                <div class="panel-body">
                     Besoin d'aide et d'assitance ? connectez-vous &agrave; la communaut&eacute; et exposer vos probl&egrave;mes li&eacute; &agrave; l'utilisation du CMS Tendoo.
                 </div>
             </section>
         </div>
         <div class="col-lg-3">
             <section class="panel">
-                <header class="panel-heading bg bg-color-green text-center">Tendoo e-commerce</header>
-                <div action="http://flatfull.com/themes/todo/index.html" class="panel-body">
+                <header class="panel-heading bg bg-info text-center">Tendoo e-commerce</header>
+                <div class="panel-body">
                     Tendoo simplifie votre espace administration et par cons&eacute;quent l'administration des produits que vous souhaitez commercialiser.
                 </div>
             </section>

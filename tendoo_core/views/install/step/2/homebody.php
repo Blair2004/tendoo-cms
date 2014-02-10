@@ -1,4 +1,4 @@
-﻿<body cz-shortcut-listen="true">
+<body cz-shortcut-listen="true">
 <header class="header bg-primary"> <p><a href="<?php echo $this->core->url->main_url();?>"><img style="height:30px;vertical-align:middle;margin-top:-3px;" src="<?php echo $this->core->url->img_url("logo_4.png");?>"> <?php echo $this->core->tendoo->getVersion();?></a></p></header>
 <section id="content" class="m-t-lg wrapper-md animated fadeInDown scrollable wrapper"> 
     <div class="row">
@@ -22,7 +22,7 @@
             ?>
         <div class="col-lg-13">
             <section class="panel">
-                <header class="panel-heading bg bg-color-green text-center">Erreur sur le formulaire</header>
+                <header class="panel-heading bg bg-danger text-center">Erreur sur le formulaire</header>
                     <div class="panel-body">
                         <?php echo $form_response;?>
                     </div>
@@ -35,7 +35,7 @@
             ?>
         <div class="col-lg-13">
             <section class="panel">
-                <header class="panel-heading bg bg-color-red text-center">Erreur est survenue</header>
+                <header class="panel-heading bg bg-danger text-center">Erreur est survenue</header>
                     <div class="panel-body">
                         <?php echo $query_error;?>
                     </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="col-lg-4">
             <section class="panel">
-                <header class="panel-heading bg bg-danger text-center">Information de connexion</header>
+                <header class="panel-heading bg bg-success text-center">Information de connexion</header>
                 <form class="panel-body" method="post">
                     <div class="form-group">
                         <label class="host_name">Identifiant de l'h&ocirc;te</label>
@@ -84,15 +84,15 @@
         </div>
         <div class="col-lg-3">
             <section class="panel">
-                <header class="panel-heading bg bg-color-yellow text-center">Tendoo Community</header>
-                <div action="http://flatfull.com/themes/todo/index.html" class="panel-body">
+                <header class="panel-heading bg bg-info text-center">Tendoo Community</header>
+                <div class="panel-body">
                     Besoin d'aide et d'assitance ? connectez-vous &agrave; la communaut&eacute; et exposer vos probl&egrave;mes li&eacute; &agrave; l'utilisation du CMS Tendoo.
                 </div>
             </section>
         </div>
         <div class="col-lg-3">
             <section class="panel">
-                <header class="panel-heading bg bg-color-green text-center">Tendoo e-commerce</header>
+                <header class="panel-heading bg bg-success text-center">Tendoo e-commerce</header>
                 <div class="panel-body">
                     Tendoo simplifie votre espace administration et par cons&eacute;quent l'administration des produits que vous souhaitez commercialiser.
                 </div>
