@@ -49,6 +49,7 @@ include_once(LIBRARIES_DIR.'Notice.php');
 include_once(HELPERS_DIR.'function_helper.php');
 include_once(HELPERS_DIR.'date.php');
 include_once(HELPERS_DIR.'text.php');
+include_once(HELPERS_DIR.'cookie_helper.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LAUNCH TENDOO -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 $OUTPUT				=	new Output;
 $INSTANCE			=	new Controller;
