@@ -5,8 +5,8 @@ class News_admin_controller
 	private $data;
 	private $news;
 	private $news_smart;
-	private $Tendoo_admin;
-	private $Tendoo;
+	private $tendoo_admin;
+	private $tendoo;
 	private $notice;
 	public function __construct($data)
 	{
@@ -28,7 +28,6 @@ class News_admin_controller
 	}
 	public function index($page	= 1)
 	{
-		
 		$this->data['ttNews']		=	$this->news->countNews();
 		$this->data['paginate']	=	$this->core->tendoo->paginate(10,$this->data['ttNews'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
 		if($this->data['paginate'][3] == FALSE): $this->core->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
@@ -64,7 +63,7 @@ class News_admin_controller
 			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 
 			$this->core->form_validation->set_rules('news_name','Intitulé de l\'article','trim|required|min_length[5]|max_length[200]');
-			$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[5000]');
+			$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[20000]');
 			$this->core->form_validation->set_rules('push_directly','Choix de l\'action','trim|required|min_length[1]|max_length[10]');		
 			$this->core->form_validation->set_rules('image_link','Lien de l\'image','trim|required|min_length[5]|max_length[1000]');		
 			if($this->core->form_validation->run())
@@ -100,9 +99,11 @@ class News_admin_controller
 				}
 				
 			}
-			$this->tendoo->loadEditor(3);
 			if(isset($_GET['ajax']))
 			{
+				$this->core->file->js_clear(); // clearing Js listed file
+				$this->core->file->css_clear();
+				$this->tendoo->loadEditor(3);
 				return array(
 					'MCO'		=>	TRUE,
 					'RETURNED'	=>	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_publish',$this->data,true,TRUE)
@@ -110,6 +111,7 @@ class News_admin_controller
 			}
 			else
 			{
+				$this->tendoo->loadEditor(3);
 			return $this->data['body']	=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/publish',$this->data,true,TRUE);
 			}
 		}
@@ -134,7 +136,7 @@ class News_admin_controller
 		$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 
 		$this->core->form_validation->set_rules('news_name','Intitulé de l\'article','trim|required|min_length[5]|max_length[200]');
-		$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[5000]');
+		$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[20000]');
 		$this->core->form_validation->set_rules('push_directly','Choix de l\'action','trim|required|min_length[1]|max_length[1000]');		
 		$this->core->form_validation->set_rules('image_link','Lien de l\'image','trim|required|min_length[5]|max_length[1000]');	
 		$this->core->form_validation->set_rules('category','Cat&eacute;gorie','trim|required|min_length[1]|max_length[200]');	
@@ -165,6 +167,9 @@ class News_admin_controller
 		
 		if(isset($_GET['ajax']))
 		{
+			$this->core->file->js_clear(); // clearing Js listed file
+			$this->core->file->css_clear();
+			$this->tendoo->loadEditor(3);
 			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_edit',$this->data,true,TRUE);
 			return array(
 				'RETURNED'			=>	$this->data['body'],
@@ -223,7 +228,6 @@ class News_admin_controller
 			}
 			$this->notice->push_notice(validation_errors('<p class="error">','</p>'));
 			$this->tendoo->setTitle('Blogster - Cr&eacute;e une categorie');
-			$this->tendoo->loadEditor(2);
 			
 			if(isset($_GET['ajax']))
 			{

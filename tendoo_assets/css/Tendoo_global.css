@@ -131,10 +131,32 @@
 {
 	width:64px;
 	height:64px;
-	margin:0 20px 20px 0;
 	display:inline-block;
+	margin-bottom:5px;
+	margin-top:5px;
 }
-.icon-grid .G-icon:hover
+.tendoo-icon-set
+{
+	width:100px;
+	height:120px;
+	border:solid 1px #DDD;
+	border-right:solid 3px #DDD;
+	border-bottom:solid 3px #DDD;
+	border-radius:5px;
+	text-align:center;
+	box-shadow: linear-gradient(top #EEE #333);
+	float:left;
+	margin: 0 20px 20px 0;
+}
+.tendoo-icon-set .badge
+{
+	position:relative;
+	float:right;
+	right:-8px;
+	top:-8px;
+}
+.tendoo-icon-set:hover
 {
 	cursor:pointer;
+	background:#F2F2F2;
 }

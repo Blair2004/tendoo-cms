@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if(!function_exists('css_url'))
 {
 	function css_url($e)

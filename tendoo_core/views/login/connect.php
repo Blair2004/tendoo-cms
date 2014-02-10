@@ -1,21 +1,26 @@
-<section id="content" class="m-t-lg wrapper-md animated fadeInDown scrollable wrapper">
-    <div class="row">
-        <div class="col-lg-4 col-sm-offset-4">
-            <div class="panel">
-                <header class="panel-heading bg-primary text-center">Connexion</header>
-                <div class="panel-body">
-                    <form method="post" class="panel-body">
-                        <div class="form-group">
-                            <label class="control-label">Pseudo</label>
-                            <input type="text" name="admin_pseudo" placeholder="Pseudo" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Mot de passe</label>
-                            <input type="password" name="admin_password" placeholder="Mot de passe" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-info">Connexion</button>
-                        <input type="reset" class="btn btn-danger" value="Annuler" />
-                        <?php
+<div class="row m-n"> 
+    <div class="col-md-4 col-md-offset-4 m-t-lg"> 
+        <section class="panel"> 
+            <header class="panel-heading text-center"> Connexion </header> 
+            <form method="POST" class="panel-body"> 
+                <div class="form-group"> 
+                    <label class="control-label">Pseudo</label> 
+                    <input type="text" name="admin_pseudo" placeholder="Pseudo" class="form-control"> 
+                    <?php echo form_error('admin_pseudo');?>
+                </div> 
+                <div class="form-group"> 
+                    <label class="control-label">Mot de passe</label> 
+                    <input type="password" id="inputPassword" name="admin_password" placeholder="Mot de passe" class="form-control"> 
+                    <?php echo form_error('admin_password');?>
+                </div> 
+                <div class="checkbox"> 
+                    <label> 
+                        <input type="checkbox" name="stayLoggedIn"> Rester connect&eacute; 
+                    </label> 
+                </div>
+                <button type="submit" class="form-control btn btn-info"><i class="icon-signin"></i>Connexion</button>
+                <br>
+                <?php
 						if($options[0]['ALLOW_REGISTRATION'] == '1')
 						{
 							?>
@@ -26,12 +31,11 @@
                         <?php
 						}
 						?>
-                    </form>
-                    <?php echo notice_from_url();?>
-                    <?php echo form_error('admin_pseudo');?><br />
-                    <?php echo form_error('admin_password');?><br />
-                    <?php echo $this->core->notice->parse_notice();?> </div>
-            </div>
-        </div>
-    </div>
-</section>
+                <br>
+                <?php echo notice_from_url();?>
+                <?php echo $this->core->notice->parse_notice();?>
+                
+            </form> 
+        </section> 
+    </div> 
+</div>

@@ -16,13 +16,62 @@ Class users_global
 		$this->tendoo	=&	$this->core->tendoo;
 
 		$this->connection_status	=	FALSE;
-		if($this->session->started())
+		if($this->cookiesLogin() == FALSE) // in case there is no cookies created else autUser will be called with encrypt process disabled.
+		{
+			// log user if not yet connected
+			if($this->session->started())
+			{
+				$this->authUser(
+					$this->session->userdata('PSEUDO'),
+					$this->session->userdata('PASSWORD')
+				);
+			}
+		}
+		
+	}
+	public function cookiesLogin()
+	{
+		$UPDO	=	get_cookie('UPDO');
+		$UPSW	=	get_cookie('UPSW');
+		if($UPDO && $UPSW)
 		{
 			$this->authUser(
-				$this->session->userdata('PSEUDO'),
-				$this->session->userdata('PASSWORD')
+				$UPDO,
+				$UPSW,
+				TRUE,
+				FALSE // Encrypt Password False cause, it's already encrypted
 			);
+			return true;
 		}
+		return false;
+	}
+	public function destroyLoginCookies()
+	{
+		delete_cookie('UPDO');
+		delete_cookie('UPSW');
+	}
+	public function keepConnected($pseudo,$password)
+	{
+		$cookie_pseudo	=	array(
+		    'name'   => 'UPDO',
+		    'value'  => $pseudo,
+		    'expire' => '86500',
+		    'domain' => '',
+		    'path'   => '/',
+		    'prefix' => '',
+		    'secure' => FALSE
+		);
+		$this->core->input->set_cookie($cookie_pseudo);
+		$cookie_password	=	array(
+		    'name'   => 'UPSW',
+		    'value'  => $password,
+		    'expire' => '86500',
+		    'domain' => '',
+		    'path'   => '/',
+		    'prefix' => '',
+		    'secure' => FALSE
+		);
+		$this->core->input->set_cookie($cookie_password);
 	}
 	public function systemPrivilege()
 	{
@@ -148,9 +197,17 @@ Class users_global
 	{
 		return $this->core->db->where('ID',$id)->update('tendoo_users',array('ACTIVE'=>'TRUE'));
 	}
-	public function authUser($pseudo,$password)
+	public function authUser($pseudo,$password,$stay = FALSE,$encrypt_password = TRUE)
 	{
-		$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->where('PASSWORD',sha1($password))->get('tendoo_users');
+
+		if($encrypt_password == TRUE)
+		{
+			$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->where('PASSWORD',sha1($password))->get('tendoo_users');
+		}
+		else
+		{
+			$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->where('PASSWORD',$password)->get('tendoo_users'); // If password is already encrypted
+		}
 		$data	=	$query->result_array();
 		if(count($data) > 0)
 		{
@@ -172,6 +229,17 @@ Class users_global
 				$this->current['STATE']			=	($data[0]['STATE'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['STATE'];
 				$this->current['TOWN']			=	($data[0]['TOWN'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['TOWN'];
 				$this->current['PHONE']			=	($data[0]['PHONE'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['PHONE'];
+				if($stay == TRUE)
+				{
+					if($encrypt_password == TRUE)
+					{
+						$this->keepConnected(strtolower($pseudo),sha1($password));
+					}
+					else
+					{
+						$this->keepConnected(strtolower($pseudo),$password);	
+					}
+				}
 				$this->session->set_userdata(array('PSEUDO'		=>$data[0]['PSEUDO']));
 				$this->session->set_userdata(array('PASSWORD'	=>$password));
 				$this->connection_status	=	TRUE;
@@ -280,11 +348,12 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function closeUserSession()
 	{
+		$this->destroyLoginCookies();
 		$this->session->close();
 	}
 	public function allowedAdminPrivilege()
 	{
-		$query	=	$this->core->db->select('PRIV_ID')->from('Tendoo_admin_privileges')->get();
+		$query	=	$this->core->db->select('PRIV_ID')->from('tendoo_admin_privileges')->get();
 		$result	=	$query->result_array();
 		if(count($result)> 0)
 		{

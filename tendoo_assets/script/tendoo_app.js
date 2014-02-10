@@ -8,6 +8,20 @@ var device 								= {};
 		}
     };
 var tools				=	new Object();
+    tools.isDefined     =   function(e){
+        return typeof e == 'undefined' ? true : false;
+    };
+	tools.isDefinedOrLike=	function(e,f){
+		if(tools.isDefined(e))
+		{
+			if(e == f)
+			{
+				return true;
+			}
+			return false;
+		}
+		return false
+	};
 	tools.centerThis 	= function(concerned, parent, toScreen) {
 			if (tools.isDefined(toScreen)) {
 				var parentWidth = device.width;
@@ -27,6 +41,16 @@ var tools				=	new Object();
 				$(concerned).css({"position": "absolute","left": leftPosition + "px","top": topPosition + "px"})
 			}
 		};
+	tools.inArray		= function(e,array){
+		for(i=0;i<array.length;i++)
+		{
+			if(e == array[i])
+			{
+				return true;
+			}
+		}
+		return false;
+	};
 // 	Tendoo has already beend declared
 $(document).ready(function(){
 	if(typeof tendoo.app  ==  'undefined'){ // Pour évider le conflict d'un double appel via AJAX
@@ -94,7 +118,7 @@ $(document).ready(function(){
 				launchTimeOut();
 			}
 		};
-		tendoo.modal			=	new function(){
+		tendoo.modal		=	new function(){
 			this.show		=	function(){
 				var modal	=	'<div style="z-index:'+tendoo.zIndex.modal+';display:block;width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(76,85,102,0.5)">'+
 									'<div class="modal-dialog">'+
@@ -142,10 +166,10 @@ $(document).ready(function(){
 					$(this).bind('click',function(){
 						$.ajax({
 							beforeSend	:	function(){
-								tendoo.loader.show($('#loadingStatus'));
+								tendoo.loader.display();
 							},
 							success	:	function(data){
-								tendoo.loader.remove($('#loadingStatus'));
+								tendoo.loader.hide();
 								$(this).css({'visibility':'hidden'}).show(0);
 								$(currentE).find('.modal-body').html(data);
 								ajaxBinder(currentId);
@@ -171,10 +195,10 @@ $(document).ready(function(){
 							}
 							$.ajax({
 								beforeSend	:	function(){
-									tendoo.loader.show($('#loadingStatus'));
+									tendoo.loader.display();
 								},
 								success	:	function(returned){
-									tendoo.loader.remove($('#loadingStatus'));
+									tendoo.loader.hide();
 									if(returned != '')
 									{
 										$(currentE).find('.modal-body').html(returned);
@@ -232,7 +256,7 @@ $(document).ready(function(){
 		};
 		tendoo.app			=	new function(){
 				$(document).ready(function(){
-					$('.icon-grid .G-icon').each(function(){
+					$('.icon-grid .tendoo-icon-set').each(function(){
 					$(this).bind('click',function(){
 						if(typeof $(this).attr('data-status') == 'undefined' || $(this).attr('data-status') == 'clickable')
 						{
@@ -240,27 +264,19 @@ $(document).ready(function(){
 							var $this		=	$(this);
 							var iconRef		=	$(this).attr('data-icon-url');
 							var windowRef	=	$(this).attr('data-url');
-							var loadingStatus	=	
-							'<div id="loadingStatus" style="z-index:'+tendoo.zIndex.loader+';position:fixed;right:15px;bottom:10px;">'+
-							'</div>';
+							var title		=	$(this).attr('modal-title') ? $(this).attr('modal-title') : "Page Sans Titre";
 							var object;
 							$.ajax({
 								beforeSend		:	function(jqXHR, settings){
-									if($('#loadingStatus').length == 0)
-									{
-										$('body').append(loadingStatus);
-									}
-									object	=	tendoo.loader.show($('#loadingStatus'));
-									 $('#loadingStatus').hide().fadeIn(500);
+									tendoo.loader.display();
 								},
 								complete		:	function(jqXHR, textStatus){
-									
 								},
 								cache			:	false,
 								success			:	function(data, textStatus, jqXHR){
-									tendoo.loader.remove($('#loadingStatus'));
+									tendoo.loader.hide();
 									object		=	void(0);
-									tendoo.window.ajax(true).title('Nouvelle page').show(data);
+									tendoo.window.ajax(true).title(title).show(data);
 									$this.attr('data-status','clickable');
 								},
 								dataType		:	'html',
@@ -276,7 +292,7 @@ $(document).ready(function(){
 			});
 		};
 		tendoo.loader		=	new function(){
-			this.show		=	function(x){
+			this.show		=	function(x,obj){
 				var cSpeed=9;
 				var cWidth=50;
 				var cHeight=50;
@@ -284,7 +300,16 @@ $(document).ready(function(){
 				var cFrameWidth=50;
 				var cImageSrc=	tendoo.url.main()+'tendoo_assets/img/images/sprites.png';
 				var cImageTimeout=false;
-				
+				if(typeof obj != 'undefined')
+				{
+					var cSpeed			=	obj.cSpeed 			? obj.cSpeed : 9
+					var cWidth			=	obj.cWidth 			? obj.cWidth : 50
+					var cHeight			=	obj.cHeight 		? obj.cHeight : 50
+					var cTotalFrames	=	obj.cTotalFrames 	? obj.cTotalFrames : 32
+					var cFrameWidth		=	obj.cFrameWidth 	? obj.cFrameWidth : 50
+					var cImageSrc		=	obj.cImageSrc 		? obj.cImageSrc : tendoo.url.main()+'tendoo_assets/img/images/sprites.png';
+					var cImageTimeout	=	obj.cImageTimeout 	? obj.cImageTimeout : 50
+				}
 				function startAnimation(){
 					
 					$(x).html('<canvas id="canvas" width="'+cWidth+'" height="'+cHeight+'"><p>Your browser does not support the canvas element.</p></canvas>');
@@ -298,8 +323,6 @@ $(document).ready(function(){
 					genImage.onload=function (){cImageTimeout=setTimeout(fun, 0)};
 					initCanvas(cTotalFrames);
 				}
-				
-				
 				function imageLoader(s, fun)//Pre-loads the sprites image
 				{
 					clearTimeout(cImageTimeout);
@@ -317,11 +340,49 @@ $(document).ready(function(){
 					$(this).remove();
 				});
 			};
+			this.display	=	function(){
+				$('#ajaxLoading').fadeIn(500);
+			};
+			this.hide		=	function(){
+				$('#ajaxLoading').fadeOut(500);
+			};
+			// By default.
+			this.show('#ajaxLoading',{
+				cHeight		:	30,
+				cWidth		:	30,
+				cFrameWidth	:	30
+			});
+			this.hide();
 		};
 		tendoo.boot			=	new function(){
 			var tASE	=	'#tendooAppStore'; // TENDOO APP STORE DOM BUTTON ELEMENT
 			$(tASE).bind('click',function(){
 				tendoo.notice.alert('Indisponible pour le moment.','info');
+				tendoo.loader.display();
+				setTimeout(function(){
+					tendoo.loader.hide();
+				},2000);
+			});
+			$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
+		};
+		tendoo.silentAjax	=	new function(){
+			$('[data-requestType="silent"]').each(function(){
+				$(this).bind('click',function(){
+					if(typeof $(this).attr('data-url') != 'undefined')
+					{
+						if(typeof $(this).attr('silent-ajax-event') == 'undefined')
+						{
+							$.ajax($(this).attr('data-url'),{
+								beforeSend	:	function(){
+									tendoo.loader.display();
+								},
+								complete	:	function(){
+									tendoo.loader.hide();
+								}
+							});
+						}
+					}
+				});
 			});
 		};
 	}

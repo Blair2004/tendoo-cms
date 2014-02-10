@@ -1,4 +1,4 @@
-<body cz-shortcut-listen="true">
+﻿<body cz-shortcut-listen="true">
 <header class="header bg-primary"> <p><a href="<?php echo $this->core->url->main_url();?>"><img style="height:30px;vertical-align:middle;margin-top:-3px;" src="<?php echo $this->core->url->img_url("logo_4.png");?>"> <?php echo $this->core->tendoo->getVersion();?></a></p></header>
 <section id="content" class="m-t-lg wrapper-md animated fadeInDown scrollable wrapper"> 
     <div class="row">
@@ -35,7 +35,7 @@
             ?>
         <div class="col-lg-13">
             <section class="panel">
-                <header class="panel-heading bg bg-color-red text-center">Erreur sur le formulaire</header>
+                <header class="panel-heading bg bg-color-red text-center">Erreur est survenue</header>
                     <div class="panel-body">
                         <?php echo $query_error;?>
                     </div>

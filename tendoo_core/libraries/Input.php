@@ -266,23 +266,6 @@ class Input {
 			}
 		}
 
-		if ($prefix == '' AND config_item('cookie_prefix') != '')
-		{
-			$prefix = config_item('cookie_prefix');
-		}
-		if ($domain == '' AND config_item('cookie_domain') != '')
-		{
-			$domain = config_item('cookie_domain');
-		}
-		if ($path == '/' AND config_item('cookie_path') != '/')
-		{
-			$path = config_item('cookie_path');
-		}
-		if ($secure == FALSE AND config_item('cookie_secure') != FALSE)
-		{
-			$secure = config_item('cookie_secure');
-		}
-
 		if ( ! is_numeric($expire))
 		{
 			$expire = time() - 86500;

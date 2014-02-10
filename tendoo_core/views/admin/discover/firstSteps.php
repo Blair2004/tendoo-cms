@@ -19,13 +19,17 @@
       <div class="panel">
       	<div class="panel-body">
               <h1>Vos premiers pas sur <?php echo $this->tendoo->getVersion();?></h1>
+			  <br/>
               <div class="row">
-            	<div class="col-lg-5">
+            	<div class="col-lg-2">
                   <img style="width:100%;" src="http://farm6.staticflickr.com/5539/12218242505_43a4a36478_o_d.jpg" />
                </div>
-            	<div class="col-lg-7">
+            	<div class="col-lg-10">
                  <h2>I - Le menu</h2>
-                 <p>Un contr&ocirc;leur est une adresse que vous rendez disponible sur le site. Cette adresse s'appuie sur l'adresse de base et ajoute le code du contr&ocirc;leur que vous avez sp&eacute;cifi&eacute;.</p>
+                 <p>&agrave; gauche de votre &eacute;cran se trouve le menu principal de votre espace administration Tendoo, ce dernier peut être &eacute;tendue par des modules. <br/>Tous les diff&eacute;rents liens vers les fonctionnalit&eacute;s les plus importantes sont affich&eacute;. Vous pourrez par cons&eacute;quent :</p>
+				 <ul>
+				 	<li>Cr&eacute;er des contr&ocirc;leurs</li>
+				 </ul>
 				 <br>
                </div>
             </div>

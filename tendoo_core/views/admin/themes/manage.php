@@ -16,8 +16,8 @@
 			<?php echo $this->core->notice->parse_notice();?> 
 			<?php echo $success;?>
             <?php echo validation_errors('<p class="error">', '</p>');?>
-			<?php $this->core->notice->parse_notice();?>
             <?php echo notice_from_url();?>
+            <div class="row">
             	<div class="col-lg-3">
                     <div class="panel">
                         <div class="panel-heading">
@@ -56,6 +56,7 @@
                         </div>
                     </div>
                 </div>
+			</div>
             </section>
         </section>
     </section>

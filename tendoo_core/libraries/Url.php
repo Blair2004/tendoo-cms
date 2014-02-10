@@ -349,9 +349,31 @@ Class Url
 	{
 		return $this->method;
 	}
-	public function parameters()
+	public function parameters($startFromIndex= 0)
 	{
-		return $this->parameters;
+		if($startFromIndex != 0 && is_numeric($startFromIndex))
+		{
+			$startCopy	=	false;
+			$index		=	0;
+			$newArray	=	array();
+			foreach($this->parameters as $p)
+			{
+				if($index == $startFromIndex)
+				{
+					$startCopy = TRUE;
+				}
+				if($startCopy == true)
+				{
+					$newArray[]	=	$p;
+				}
+				$index++;
+			}
+			return $newArray;
+		}
+		else
+		{
+			return $this->parameters;
+		}
 	}
 	public function site_name()
 	{

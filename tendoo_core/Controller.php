@@ -48,6 +48,7 @@ Class Controller
 		$Class		=	$this->url->controller();	
 		$Method		=	$this->url->method();
 		$Parameters	=	$this->url->parameters();
+		$Teurmola	=	explode('@',$this->url->controller());
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		is_compatible();
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -168,6 +169,81 @@ Class Controller
 			include_once(CONTROLLERS_DIR.'error.php');
 			include_once(SYSTEM_DIR.'Executer.php');
 		}
+		else if(strtolower($Teurmola[0]) == 'tendoo') // TENDOO URL MODULE LAUNCHER : teurmola
+		{
+			if(!$this->tendoo->isInstalled())
+			{
+				include_once(CONTROLLERS_DIR.'tendoo_index.php');
+				include_once(SYSTEM_DIR.'Executer.php');
+			}
+			else
+			{
+				// Connexion a la base de donnée avec le fichier de configuration.
+				if(!$this->tendoo->connectToDb())
+				{
+					$this->tendoo->error('db_connect_error');
+					die();
+				}
+				// LOAD SYSTEME VARS
+				$this->data['url_module']	=		$Teurmola[1];
+				
+				$this->data['options']		=		$this->tendoo->getOptions();
+				$this->data['controllers']	=		$this->tendoo->get_pages('',FALSE); // Get every page with their childrens instead of getController() who is now obsolete
+				$this->data['getTheme']		=		$this->tendoo->getSiteTheme();
+				$this->data['Tendoo']		=		$this->tendoo;
+				$this->data['module_url']	=		$this->url->site_url(array('tendoo@'.$Teurmola[1]));
+				$this->tendoo->addVisit(); // Add visit to global stats
+
+				$this->data['module']		=		$this->tendoo->getSpeModuleByNamespace($this->data['url_module']);
+				if($this->data['getTheme'] === FALSE)
+				{
+					$this->url->redirect(array('error','code','noThemeInstalled'));
+				}
+				else
+				{
+					// LOAD THEME HANDLER
+					include_once(THEMES_DIR.$this->data['getTheme']['ENCRYPTED_DIR'].'/extends/script.php');
+					if(class_exists($this->data['getTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
+					{
+						eval('$this->data["theme"] = new '.$this->data['getTheme']['NAMESPACE'].'_theme_handler($this->data);'); // Initialize Theme handler;
+					}
+					else // Erreur theme.
+					{
+						$this->url->redirect(array('error','code','themeCrashed'));
+						return;
+					}
+					if($this->data['module'] !== FALSE) // LE MODULE EST INEXISTANT OU INCORRECT
+					{
+						// La priorité n'est plus prise en charge
+						$this->data['GlobalModule']	=		$this->tendoo->getGlobalModules(1);   // Chargement des modules de type GLOBAL
+						if(is_array($this->data['GlobalModule']))
+						{
+							foreach($this->data['GlobalModule'] as $r)
+							{
+								$TENDOO_MODULE	=	$r;
+								include_once(MODULES_DIR.$r['ENCRYPTED_DIR'].'/library.php');
+								include_once(MODULES_DIR.$r['ENCRYPTED_DIR'].'/module_controller.php');
+							}
+						}
+						// $this->SAG has been removed, ever used
+						// LOAD ON PAGE MODULE
+						$TENDOO_MODULE	=	$this->data['module'][0];
+						include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library.php');
+						include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/module_controller.php');
+						$Class	=	$this->data['module'][0]['NAMESPACE']; // REAFFECT CLASS VALUE DUE TO EXISTENT MODULE CLASS
+					}
+					else
+					{
+						$this->url->redirect(array('error','code','InvalidPage'));
+						return;
+					}
+				}
+				if(TRUE) // $this->SAG == FALSE had beend removed, ever used.
+				{
+					include_once(SYSTEM_DIR.'Executer.php'); /// MODULE EXECUTER
+				}
+			}
+		}
 		else
 		{
 			if(!$this->tendoo->isInstalled())
@@ -227,14 +303,14 @@ Class Controller
 							{
 								foreach($this->data['GlobalModule'] as $r)
 								{
-									$Tendoo_MODULE	=	$r;
+									$TENDOO_MODULE	=	$r;
 									include_once(MODULES_DIR.$r['ENCRYPTED_DIR'].'/library.php');
 									include_once(MODULES_DIR.$r['ENCRYPTED_DIR'].'/module_controller.php');
 								}
 							}
 							// $this->SAG has been removed, ever used
 							// LOAD ON PAGE MODULE
-							$Tendoo_MODULE	=	$this->data['module'][0];
+							$TENDOO_MODULE	=	$this->data['module'][0];
 							include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library.php');
 							include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/module_controller.php');
 							$Class	=	$this->data['module'][0]['NAMESPACE']; // REAFFECT CLASS VALUE DUE TO EXISTENT MODULE CLASS

@@ -56,7 +56,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		$this->core->form_validation->set_rules('admin_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
 		if($this->core->form_validation->run())
 		{			
-			$login_status	=	$this->core->users_global->authUser($this->core->input->post('admin_pseudo'),$this->core->input->post('admin_password'));
+			$login_status	=	$this->core->users_global->authUser($this->core->input->post('admin_pseudo'),$this->core->input->post('admin_password'),$this->core->input->post('stayLoggedIn'));
 			if($login_status ===	'userLoggedIn')
 			{
 				if(isset($_GET['ref']))

@@ -98,7 +98,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				if($pageEditor)
 				{
 					$prequery	=	$this->core->tendoo->getPage($controller);
-					$query		=	$this->core->db->where('PAGE_CONTROLEUR',$prequery[0]['ID'])->get('Tendoo_refTopage');
+					$query		=	$this->core->db->where('PAGE_CONTROLEUR',$prequery[0]['ID'])->get('tendoo_refTopage');
 					$result		=	$query->result_array();
 					if(count($result) > 0)
 					{

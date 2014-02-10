@@ -36,7 +36,7 @@ $this->appAction(array(
 	'mod_namespace'			=>	$this->appTableField['NAMESPACE']
 ));
 $this->appSql(	
-	'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_refTopage` (
+	'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_refTopage` (
 	  `ID` int(11) NOT NULL AUTO_INCREMENT,
 	  `PAGE_CONTROLEUR` varchar(200) NOT NULL,
 	  `PAGE_HTML` varchar(200) NOT NULL,

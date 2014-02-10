@@ -23,10 +23,7 @@ class Session
 		{
 			foreach($array as $k => $v)
 			{
-				if(!array_key_exists($k,$this->_user_data))
-				{
-					$this->_user_data[$k]	=	$v;
-				}
+				$this->_user_data[$k]	=	$v;
 			}
 			return true;
 		}

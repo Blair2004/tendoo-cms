@@ -7,7 +7,7 @@
 <link rel="stylesheet" media="all" href="<?php echo $this->core->url->font_url('fontawesome-webfont.woff');?>">
 <title><?php echo $this->core->tendoo->getTitle();?></title>
 <script>
-var Tendoo				=	new Object();
+var tendoo				=	new Object();
 	tendoo.url			=	new function(){
 		this.main		=	function(){
 			return '<?php echo $this->core->url->main_url();?>';

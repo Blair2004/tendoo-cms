@@ -15,12 +15,12 @@
 				$this->data			=	$data;
 				$this->tendoo		=&	$this->core->tendoo;
 				$this->tendoo_admin	=&	$this->core->tendoo_admin;
-				$this->dir			=	__DIR__;
-				if(!is_dir($this->dir.'\created_pages'))
+				$this->dir			=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
+				if(!is_dir($this->dir.'/created_pages'))
 				{
-					mkdir($this->dir.'\created_pages');
+					mkdir($this->dir.'/created_pages');
 				}
-				$this->cp_dir = $this->dir.'\created_pages';
+				$this->cp_dir = $this->dir.'/created_pages';
 			}
 			public function datetime()
 			{
@@ -106,12 +106,12 @@
 			{
 				$this->data	=	$data;
 				$this->core	=	Controller::instance();
-				$this->dir	=	__DIR__;
-				if(!is_dir($this->dir.'\created_pages'))
+				$this->dir	=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
+				if(!is_dir($this->dir.'/created_pages'))
 				{
-					mkdir($this->dir.'\created_pages');
+					mkdir($this->dir.'/created_pages');
 				}
-				$this->cp_dir = $this->dir.'\created_pages';
+				$this->cp_dir = $this->dir.'/created_pages';
 			}
 			public function getPage($id)
 			{
@@ -124,9 +124,9 @@
 						$ar[]			=	array('TITLE'=>'Page Introuvable','DESCRIPTION'=>'','FILE_NAME'=>'');
 					}
 					$dos	=	opendir($this->cp_dir);
-					if(is_file($this->cp_dir.'\\'.$ar[0]['FILE_NAME']))
+					if(is_file($this->cp_dir.'/'.$ar[0]['FILE_NAME']))
 					{
-						$file	=	fopen($this->cp_dir.'\\'.$ar[0]['FILE_NAME'],'r');
+						$file	=	fopen($this->cp_dir.'/'.$ar[0]['FILE_NAME'],'r');
 						$content=	fread($file,filesize($this->cp_dir.'/'.$ar[0]['FILE_NAME']));
 						fclose($file);
 						closedir($dos);

@@ -49,3 +49,4 @@
         </section>
     </section>
 </section>
+<?php echo $this->core->file->js_load();?>

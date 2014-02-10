@@ -230,6 +230,7 @@ class Tendoo_admin
 				}
 			}
 		}
+		$options				=	$this->tendoo->getOptions();
 		$e['PAGE_CNAME']		=	strtolower($cname);
 		$e['PAGE_NAMES']		=	strtolower($name);
 		$e['PAGE_TITLE']		=	$title;
@@ -239,6 +240,18 @@ class Tendoo_admin
 		$e['PAGE_VISIBLE']		=	$visible;
 		$e['PAGE_PARENT']		=	$childOf == $name ? 'none' : $childOf;
 		$e['PAGE_LINK']			=	$page_link;
+		if($childOf == 'none')
+		{
+			$sub_query	=	$this->core->db->where('PAGE_PARENT','none')->get('tendoo_controllers');
+			$result		=	$sub_query->result_array();
+			$e['PAGE_POSITION']		=	count($result);
+		}
+		else
+		{
+			$sub_query	=	$this->core->db->where('PAGE_PARENT',$e['PAGE_PARENT'])->get('tendoo_controllers');
+			$result		=	$sub_query->result_array();
+			$e['PAGE_POSITION']		=	count($result);
+		}
 		if($obj == 'create')
 		{
 			if($this->core		->db->insert('tendoo_controllers',$e))
@@ -264,6 +277,31 @@ class Tendoo_admin
 			{
 				return 'error_occured';
 			}
+		}
+	}
+	public function upController($id) // Change l'emplacement d'un menu et le poussant vers le haut.
+	{
+		$query	=	$this->core->db->where('ID',$id)->get('tendoo_controllers');
+		$result	=	$query->result_array();
+		if($result)
+		{
+			$parent	=	$result[0]['PAGE_PARENT'];
+			if($parent == 'none')
+			{
+				if($result[0]['PAGE_POSITION'] != '0')
+				{
+					$this->core->db->where('PAGE_PARENT','none')->where('PAGE_POSITION',$result[0]['PAGE_POSITION']-1)->update('tendoo_controllers',array(
+						'PAGE_POSITION'			=>		$result[0]['PAGE_POSITION'] // Mise à jour du controlleur précédent.
+					));
+					return $this->core->db->where('ID',$id)->where('PAGE_PARENT','none')->update('tendoo_controllers',array(
+						'PAGE_POSITION'			=>		(int) $result[0]['PAGE_POSITION'] - 1
+					));
+				}
+			}
+		}
+		else
+		{
+			echo '<script>tendoo.notice.alert("Une erreur est survenue durant la modification de l\'ordre des contr&ocirc;leurs","danger");</script>';
 		}
 	}
 	public function delete_controler($name)
@@ -521,6 +559,23 @@ class Tendoo_admin
 		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0; // If there is new theme just add it there
 		return $this->core->db->update('tendoo_options',array('ADMIN_THEME'=>$int));
 	}
+	public function toggleAppTab()
+	{
+		$option =	$this->core->db->get('tendoo_options');
+		$result	=	$option->result_array();
+		if($result[0]['OPEN_APP_TAB'] == '0')
+		{
+			$this->core->db->update('tendoo_options',array(
+				'OPEN_APP_TAB'			=>		'1'
+			));
+		}
+		else
+		{
+			$this->core->db->update('tendoo_options',array(
+				'OPEN_APP_TAB'			=>		'0'
+			));
+		}
+	}
 	public function encrypted_name()
 	{
 		$alphabet	=	array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','W','X','Y','Z','1','2','3','4','5','6','7','8','9');
@@ -531,7 +586,7 @@ class Tendoo_admin
 	private $appAllowedType					=	array('MODULE','THEME');
 	private $appModuleAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HAS_MENU','HAS_API','HAS_ICON','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','TENDOO_VERS','ENCRYPTED_DIR');
 	private $appThemeAllowedTableField		=	array('NAMESPACE','HUMAN_NAME','AUTHOR','DESCRIPTION','TENDOO_VERS','ENCRYPTED_DIR');
-	public function Tendoo_installer($source)
+	public function tendoo_installer($source)
 	{
 		function Unzip($zip)
 		{
@@ -927,7 +982,7 @@ class Tendoo_admin
 		$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 		return 'invalidApp';
 	}
-	public function Tendoo_url_installer($link,$type = 'default') // install through a link
+	public function tendoo_url_installer($link,$type = 'default') // install through a link
 	{
 		$zip	=	new ZipArchive;
 		$file	=	file($link);
@@ -1117,12 +1172,12 @@ class Tendoo_admin
 		{
 			$this->core->db->where('PRIV_ID',$start);
 		}
-		$query	=	$this->core->db->get('Tendoo_admin_privileges');
+		$query	=	$this->core->db->get('tendoo_admin_privileges');
 		return $query->result_array();
 	}
 	public function create_privilege($name,$description,$priv_id,$is_selectable)
 	{
-		$query	=	$this->core->db->where('HUMAN_NAME',$name)->get('Tendoo_admin_privileges');
+		$query	=	$this->core->db->where('HUMAN_NAME',$name)->get('tendoo_admin_privileges');
 		if(count($query->result_array()) == 0)
 		{
 			$array	=	array(
@@ -1132,13 +1187,13 @@ class Tendoo_admin
 				'PRIV_ID'		=>	$priv_id,
 				'IS_SELECTABLE'	=>	in_array((int)$is_selectable,array(0,1)) ? $is_selectable : 0
 			);
-			return $this->core->db->insert('Tendoo_admin_privileges',$array);
+			return $this->core->db->insert('tendoo_admin_privileges',$array);
 		}
 		return false;
 	}
 	public function edit_privilege($priv_id,$name,$description,$is_selectable)
 	{
-		$query	=	$this->core->db->where('PRIV_ID',$priv_id)->get('Tendoo_admin_privileges');
+		$query	=	$this->core->db->where('PRIV_ID',$priv_id)->get('tendoo_admin_privileges');
 		if(count($query->result_array()) > 0)
 		{
 			$array	=	array(
@@ -1146,7 +1201,7 @@ class Tendoo_admin
 				'DESCRIPTION'	=>	$description,
 				'IS_SELECTABLE'	=>	in_array((int)$is_selectable,array(0,1)) ? $is_selectable : 0
 			);
-			return $this->core->db->where('PRIV_ID',$priv_id)->update('Tendoo_admin_privileges',$array);
+			return $this->core->db->where('PRIV_ID',$priv_id)->update('tendoo_admin_privileges',$array);
 		}
 		return false;
 	}
@@ -1155,7 +1210,7 @@ class Tendoo_admin
 		$query	=	$this->core->db->where('PRIVILEGE',$privid)->get('tendoo_users');
 		if(count($query->result_array()) == 0)
 		{
-			if($this->core->db->where('PRIV_ID',$privid)->delete('Tendoo_admin_privileges'))
+			if($this->core->db->where('PRIV_ID',$privid)->delete('tendoo_admin_privileges'))
 			{
 				return 'done';
 			}
@@ -1198,10 +1253,10 @@ class Tendoo_admin
 				{
 					$type_action	=	$_key;
 					$type_action_v	=	$value;
-					$query	=	$this->core->db->where('TYPE_NAMESPACE',$type_namespace)->where('REF_TYPE_ACTION',$type_action)->where('REF_PRIVILEGE',$type_ref_priv)->get('Tendoo_privileges_actions');
+					$query	=	$this->core->db->where('TYPE_NAMESPACE',$type_namespace)->where('REF_TYPE_ACTION',$type_action)->where('REF_PRIVILEGE',$type_ref_priv)->get('tendoo_privileges_actions');
 					if(count($query->result_array()) > 0)
 					{
-						$this->core->db->where('TYPE_NAMESPACE',$type_namespace)->where('REF_TYPE_ACTION',$type_action)->where('REF_PRIVILEGE',$type_ref_priv)->update('Tendoo_privileges_actions',array(
+						$this->core->db->where('TYPE_NAMESPACE',$type_namespace)->where('REF_TYPE_ACTION',$type_action)->where('REF_PRIVILEGE',$type_ref_priv)->update('tendoo_privileges_actions',array(
 							'TYPE_NAMESPACE'	=>	$type_namespace,
 							'REF_TYPE_ACTION'	=>	$_key,
 							'REF_ACTION_VALUE'	=>	$_value,
@@ -1210,7 +1265,7 @@ class Tendoo_admin
 					}
 					else
 					{
-						$this->core->db->insert('Tendoo_privileges_actions',array(
+						$this->core->db->insert('tendoo_privileges_actions',array(
 							'TYPE_NAMESPACE'	=>	$type_namespace,
 							'REF_TYPE_ACTION'	=>	$_key,
 							'REF_ACTION_VALUE'	=>	$_value,
@@ -1238,10 +1293,10 @@ class Tendoo_admin
 					{
 						$type_action	=	$_key;
 						$type_action_v	=	$value;
-						$query	=	$this->core->db->where('TYPE_NAMESPACE',$type_namespace)->where('REF_TYPE_ACTION',$type_action)->where('REF_PRIVILEGE',$type_ref_priv)->where('OBJECT_NAMESPACE',$__key)->get('Tendoo_privileges_actions');
+						$query	=	$this->core->db->where('TYPE_NAMESPACE',$type_namespace)->where('REF_TYPE_ACTION',$type_action)->where('REF_PRIVILEGE',$type_ref_priv)->where('OBJECT_NAMESPACE',$__key)->get('tendoo_privileges_actions');
 						if(count($query->result_array()) > 0)
 						{
-							$this->core->db->where('TYPE_NAMESPACE',$type_namespace)->where('REF_TYPE_ACTION',$type_action)->where('REF_PRIVILEGE',$type_ref_priv)->update('Tendoo_privileges_actions',array(
+							$this->core->db->where('TYPE_NAMESPACE',$type_namespace)->where('REF_TYPE_ACTION',$type_action)->where('REF_PRIVILEGE',$type_ref_priv)->update('tendoo_privileges_actions',array(
 								'TYPE_NAMESPACE'	=>	$type_namespace,
 								'REF_TYPE_ACTION'	=>	$_key,
 								'REF_ACTION_VALUE'	=>	$_value,
@@ -1251,7 +1306,7 @@ class Tendoo_admin
 						}
 						else
 						{
-							$this->core->db->insert('Tendoo_privileges_actions',array(
+							$this->core->db->insert('tendoo_privileges_actions',array(
 								'TYPE_NAMESPACE'	=>	$type_namespace,
 								'REF_TYPE_ACTION'	=>	$_key,
 								'REF_ACTION_VALUE'	=>	$_value,
@@ -1268,7 +1323,7 @@ class Tendoo_admin
 	}
 	public function adminAccess($action_namespace,$action,$privilege,$object_namespace)
 	{
-		$query	=	$this->core->db->where('OBJECT_NAMESPACE',$object_namespace)->where('TYPE_NAMESPACE',$action_namespace)->where('REF_TYPE_ACTION',$action)->where('REF_PRIVILEGE',$privilege)->get('Tendoo_privileges_actions');
+		$query	=	$this->core->db->where('OBJECT_NAMESPACE',$object_namespace)->where('TYPE_NAMESPACE',$action_namespace)->where('REF_TYPE_ACTION',$action)->where('REF_PRIVILEGE',$privilege)->get('tendoo_privileges_actions');
 		$result = $query->result_array();
 		if(count($result) > 0)
 		{
@@ -1281,7 +1336,7 @@ class Tendoo_admin
 	}
 	public function getValueForPrivNameAndSystem($system,$action,$priv)
 	{
-		$query	=	$this->core->db->where('TYPE_NAMESPACE',$system)->where('REF_TYPE_ACTION',$action)->where('REF_PRIVILEGE',$priv)->get('Tendoo_privileges_actions');
+		$query	=	$this->core->db->where('TYPE_NAMESPACE',$system)->where('REF_TYPE_ACTION',$action)->where('REF_PRIVILEGE',$priv)->get('tendoo_privileges_actions');
 		$result	=	$query->result_array();
 		if(count($result) > 0)
 		{
@@ -1342,7 +1397,7 @@ class Tendoo_admin
 	// 0.94
 	public function getPublicPrivilege()
 	{
-		$query	=	$this->core->db->where('IS_SELECTABLE',1)->get('Tendoo_admin_privileges');
+		$query	=	$this->core->db->where('IS_SELECTABLE',1)->get('tendoo_admin_privileges');
 		return $query->result_array();
 	}
 	public function isPublicPriv($priv_id)
@@ -1421,7 +1476,7 @@ class Tendoo_admin
 		}
 		return false;
 	}
-	private $gridId	=	-1; // For gridster
+	private $gridId	=	-1; // For gridster deprecated
 	public function getGridId()
 	{
 		$this->gridId++;

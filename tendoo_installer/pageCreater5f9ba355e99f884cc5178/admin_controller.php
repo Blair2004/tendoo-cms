@@ -18,10 +18,10 @@ class Pages_editor_admin_controller
 		$this->tendoo					=	$this->core->tendoo;
 		$this->tendoo_admin				=	$this->core->tendoo_admin;
 		
-		$this->moduleData				=	$this->data['module'][0];
+		$this->moduleData					=	$this->data['module'][0];
 		$this->moduleNamespace			=&	$this->data['module'][0]['NAMESPACE'];
 		include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library_2.php');
-		$this->rtp_lib					=	new refToPage_lib($this->data);
+		$this->rtp_lib						=	new refToPage_lib($this->data);
 		$this->data['rtp_lib']			=&	$this->rtp_lib;
 		$this->dir						=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
 		$this->tendoo_admin->menuExtendsBefore($this->core->load->view($this->dir.'/views/menu',$this->data,TRUE,TRUE));
@@ -87,7 +87,6 @@ class Pages_editor_admin_controller
 		$this->core->form_validation->set_rules('page_id','Identifiant de la page','required|min_lenght[1]');	
 		if($this->core->form_validation->run())
 		{
-			echo $this->core->input->post('page_description');
 			$this->data['result']	=	$this->page_handler->edit(
 				$this->core->input->post('page_id'),
 				$this->core->input->post('page_title'),
@@ -119,10 +118,10 @@ class Pages_editor_admin_controller
 		$code	=	$this->page_handler->deletePage($e);
 		if($code)
 		{
-			redirect(array('admin','open','modules',$this->moduleData['ID'].'?notice=done'));
+			$this->core->url->redirect(array('admin','open','modules',$this->moduleData['ID'].'?notice=done'));
 			return true;
 		}
-		redirect(array('admin','open','modules',$this->moduleData['ID'].'?notice=error_occured'));
+		$this->core->url->redirect(array('admin','open','modules',$this->moduleData['ID'].'?notice=error_occured'));
 		return false;
 	}
 	public function page_linker()

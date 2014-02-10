@@ -3,9 +3,7 @@
 	{
 	?>
 <body style="" cz-shortcut-listen="true">
-    <section class="hbox stretch">
-<!-- .aside -->
-<?php
+    <section class="hbox stretch"><?php
     }
 	function page_bottom($options)
 	{
@@ -47,7 +45,7 @@
 	{
 		page_header();
 	}
-	echo is_array($body) ? $body['RETURNED'] : $body;
+	 echo is_array($body) ? $body['RETURNED'] : $body;
 	if(is_array($body))
 	{
 		if(array_key_exists('MCO',$body))

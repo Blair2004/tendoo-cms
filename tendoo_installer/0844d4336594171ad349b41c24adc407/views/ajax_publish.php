@@ -58,11 +58,4 @@
                 </section>
             </section>
         </section>
-		<script>
-		$(document).ready(function(){
-			CKEDITOR.inline('editor');
-			$('.submit_article').bind('click',function(){
-				$('.submitForm').submit();
-			});
-		});
-		</script>
+		<?php echo $this->core->file->js_load();?>

@@ -27,6 +27,10 @@ class File
 			array_push($this->jsfiles,js_url($e));
 		}
 	}
+	public function js_clear()
+	{
+		$this->jsfiles	=	array();
+	}
 	public function css_load()
 	{
 		if(is_array($this->cssfiles))
@@ -50,6 +54,10 @@ class File
 			}
 			return $val;
 		}
+	}
+	public function css_clear()
+	{
+		$this->cssfiles	=	array();
 	}
 }
 ?>

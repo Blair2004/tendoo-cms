@@ -39,6 +39,7 @@
                             <li> <a href="<?php echo $this->core->url->site_url('admin/installer');?>">Installer une application</a> </li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/modules');?>">Modules install&eacute;es</a> </li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/themes');?>">Th&egrave;mes install&eacute;s</a> </li>
+                            <li> <a href="<?php echo $this->core->url->site_url('admin/tools');?>">Utilitaires</a> </li>
                         </ul>
                     </li>
                     <?php

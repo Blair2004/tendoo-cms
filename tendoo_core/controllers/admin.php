@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 class Admin
 {
 	private $data;
@@ -102,7 +102,11 @@ class Admin
 		$this->core->file->js_push('jquery.pjax');
 		$this->core->file->js_push('morris.min');
 		$this->core->file->js_push('raphael-min');
-		$this->core->file->js_push('bubbles');
+		if($this->data['options'][0]['ADMIN_THEME'] == 1)
+		{
+			$this->core->file->js_push('bubbles');
+		}
+		
 		$this->core->file->js_push('app.v2'); // _2
 		$this->core->file->js_push('tendoo_loader');
 		$this->core->file->js_push('tendoo_app');
@@ -129,6 +133,7 @@ class Admin
 	{
 		if($this->core->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestpa',$this->core->users_global->current('PRIVILEGE')))
 		{
+			$this->core->file->js_push('tendoo_controllersScripts'); // ControllersSripts
 			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 			$this->data['success']			=	notice_from_url();
 			if($e == '')
@@ -361,7 +366,6 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				$this->core->tendoo->setTitle('Panneau d\'administration du module - '.$this->data['module'][0]['NAMESPACE']); // DEFAULT NAME DEFINITION
 				/* 	$baseUrl	= 	$this->core->url->site_url(array('admin','open','modules',$this->data['module'][0]['ID'])); */
 				$detailsUri	=	$this->core->url->http_request(TRUE);
-				
 				include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library.php');
 				include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/admin_controller.php');
 				
@@ -1067,6 +1071,32 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			$this->data['body']	=	$this->load->view('admin/discover/firstSteps',$this->data,true);
 			$this->load->view('admin/header',$this->data);
 			$this->load->view('admin/global_body',$this->data);
+		}
+	}
+    public function tools()
+    {
+        $this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
+        $this->data['pageDescription']	=	$this->core->tendoo->getVersion();
+        
+        $this->core->tendoo->setTitle('Utilitaires - Tendoo');
+        $this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+        $this->data['body']	=	$this->load->view('admin/tools/body',$this->data,true);
+        $this->load->view('admin/header',$this->data);
+        $this->load->view('admin/global_body',$this->data);
+    }
+	public function ajax($option,$x	=	'',$y = '',$z = '')
+	{
+		if($option == 'toogle_app_tab')
+		{
+			$this->tendoo_admin->toggleAppTab();
+		}
+		else if($option	==	'upController')
+		{
+			$this->tendoo_admin->upController($x);
+		}
+		else if($option	== 'store_connect')
+		{
+			$this->core->tendoo->store_connect();
 		}
 	}
 }
