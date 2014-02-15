@@ -155,7 +155,7 @@ class Admin
 				$this->form_validation->set_rules('page_module','D&eacute;finir le module','trim|required|min_length[2]|max_length[30]');
 				$this->form_validation->set_rules('page_priority','Definir comme page principale','trim|required|min_length[4]|max_length[5]');
 				$this->form_validation->set_rules('page_visible','Visibilité de la page','trim|required|min_length[4]|max_length[5]');
-				$this->form_validation->set_rules('page_description','champ description du controleur','trim|required|min_length[2]|max_length[100]');
+				$this->form_validation->set_rules('page_description','champ description du controleur','trim|required|min_length[2]|max_length[2000]');
 				$this->form_validation->set_rules('page_id','Identifiant de la page','required');
 				$this->form_validation->set_rules('page_parent','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
 				if($this->form_validation->run())
@@ -199,7 +199,7 @@ class Admin
 				$this->form_validation->set_rules('page_title','Titre du contr&ocirc;leur','trim|required|min_length[2]|max_length[50]');
 				$this->form_validation->set_rules('page_module','Affecter un module','trim|required|min_length[2]|max_length[30]');
 				$this->form_validation->set_rules('page_priority','Definir comme page principale','trim|required|min_length[4]|max_length[5]');
-				$this->form_validation->set_rules('page_description','description de la page','trim|required|min_length[2]|max_length[100]');
+				$this->form_validation->set_rules('page_description','description de la page','trim|required|min_length[2]|max_length[2000]');
 				$this->form_validation->set_rules('page_visible','Visibilité de la page','trim|required|min_length[4]|max_length[5]');
 				$this->form_validation->set_rules('page_parent','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
 	
@@ -246,7 +246,6 @@ class Admin
 				
 				$this->load->view('admin/header',$this->data);
 				$this->load->view('admin/global_body',$this->data);
-			
 			}
 		}
 		else
