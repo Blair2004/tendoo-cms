@@ -2,7 +2,7 @@
         <div class="row">
             <div class="col-lg-4 col-sm-offset-2">
             	<section class="panel">
-                	<header class="panel-heading bg bg-color-green text-center">Cr&eacute;er un super administrateur</header>
+                	<header class="panel-heading bg bg-danger text-center">Cr&eacute;er un super administrateur</header>
                 	<form method="post" class="panel-body">
                         <div class="form-group text">
                         	<label class="control-label">Pseudo</label>
@@ -35,7 +35,7 @@
             </div>
             <div class="col-lg-4">
             	<section class="panel">
-                    <header class="panel-heading bg bg-color-blue text-center">Pourquoi cette page ?</header>
+                    <header class="panel-heading bg bg-info text-center">Pourquoi cette page ?</header>
                     <div class="panel-body">Aucun super-administrateur n'a &eacute;t&eacute; trouver pour ce site.
                     Le super-administrateur est l'utilisateur ayant le maximum de privil&egrave;ges. Il a des attributs illimités et peut effectuer plusieurs opérations qui lui sont propre
                     </div>

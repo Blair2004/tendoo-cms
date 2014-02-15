@@ -226,19 +226,17 @@ $(document).ready(function(){
 				var currentId	=	this.getId();
 				var currentE	=	'[data-modal-id="'+currentId+'"]';
 				var modal	=	'<div data-modal-id="'+currentId+'" style="z-index:'+tendoo.zIndex.window+';display:block;width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(76,85,102,0.5);overflow:hidden">'+
-									'<div class="modal-dialog" id="modalBox" style="width:'+parseInt(device.width-100)+'px;">'+
+									'<div class="modal-dialog" id="modalBox" style="width:'+parseInt(device.width-50)+'px;">'+
 										'<div class="modal-content" style="-webkit-border-radius:2px;-moz-border-radius:2px;-ms-border-radius:2px">'+
 											'<div class="modal-header bg-primary" style="border-bottom:solid 0px;">'+
 												'<div type="button" style="opacity:1" class="close" data-dismiss="modal" aria-hidden="true">'+
-													'<span type="button" class="btn btn-info btn-sm" data-reduce="modal" style="margin-right:10px;"><i class="icon-chevron-down"></i></span>'+
+													/* '<span type="button" class="btn btn-info btn-sm" data-reduce="modal" style="margin-right:10px;"><i class="icon-chevron-down"></i></span>'+ */
 													'<span type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="icon-remove"></i></span>'+
 												'</div>'+
 												'<h4 class="modal-title">'+title+'</h4>'+
 											'</div>'+
-											'<div class="modal-body" style="height:'+parseInt(device.height-200)+'px;padding:0px;overflow:auto;width:100%;">'+
+											'<div class="modal-body" style="height:'+parseInt(device.height-120)+'px;padding:0px;overflow:auto;width:100%;">'+
 												e+
-											'</div>'+
-											'<div class="modal-footer bg-primary" style="margin-top:0;border-top:solid 0px;">'+
 											'</div>'+
 										'</div>'+
 									'</div>'+
@@ -248,7 +246,7 @@ $(document).ready(function(){
 					ajaxBinder(currentId);
 				};
 				$('[data-modal-id="'+currentId+'"]').find('[data-dismiss="modal"] [data-dismiss="modal"]').bind('click',function(){
-					$('#modalBox').fadeOut(0,function(){
+					$('*[data-modal-id="'+currentId+'"] #modalBox').fadeOut(0,function(){
 						$('[data-modal-id="'+currentId+'"]').remove();
 					})
 				});

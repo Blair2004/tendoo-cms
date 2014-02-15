@@ -21,7 +21,9 @@ Pour les premiers, Tendoo est fourni avec l'essentiel pour faire un blog complet
 - Gérer la page d'accueil en choisissant la quantité et la qualité des informations, ainsi que la manière dont ces informations se présentent.
 - Gérer les informations système du site (nom, logo, format de l'heure, Afficher les icônes des applications à l'accueil de l'espace administration,le décalage horaire)
 - Afficher les statistiques sur les visites, ce qui vous permet de mieux gérer votre traffic et l'évolution de votre site web
-- Restauré le site web, supprime tous les fichiers installés par les modules & thème et re-installe le site web.
+- Restaurer le site web, supprime tous les fichiers installés par les modules & thème et re-installe le site web.
+- Connexion au Store qui pourra être désactivé dans la version 0.9.6
+- Possibilité d'ouvrir les modules directement depuis la page d'accueil, lorsque les icones ont été activé dans les paramètres.
 
 Il s'agit bien sur la des fonctionnalités simplifiées et les plus utilisées par les non développeurs.
 

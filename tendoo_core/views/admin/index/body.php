@@ -88,12 +88,12 @@
               <div class="panel-body clearfix <?php echo $collapse;?>">
                 <div class="icon-grid">
                   <?php
-                if(is_array($appIconApi))
+                if($appIconApi)
                 {
                     foreach($appIconApi as $a)
                     {
                         eval($options[0]['ADMIN_ICONS']);
-                        if(isset($icons))
+                        if(isset($icons) && count($icons) > 1)
                         {
                             foreach($icons as $i)
                             {
@@ -110,8 +110,16 @@
                                 }
                             }
                         }
+						else
+						{
+							echo tendoo_info('Aucune icone disponible. Activez les icones depuis <a href="'.$this->core->url->site_url(array('admin','setting')).'"><strong>les param&egrave;tres</strong></a>.');
+						}
                     }
                 }
+				else
+				{
+					echo tendoo_info('Aucune icone disponible. Activez les icones depuis <a href="'.$this->core->url->site_url(array('admin','setting')).'"><strong>les param&egrave;tres</strong></a>.');
+				}
                 ?>
                 </div>
               </div>

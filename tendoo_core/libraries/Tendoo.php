@@ -1466,23 +1466,30 @@ class Tendoo
 	}
 	public function store_connect() // must create interface to disable this.
 	{
-		$platform	=	'http://tendoo.tk/';
-		
-		$option	=	$this->core->db->get('tendoo_options');
-		$result	=	$option->result_array();
-		if($result[0]['CONNECT_TO_STORE'] == '1')
+		if(!isset($_SESSION['HAS_LOGGED_TO_STORE']))
 		{
-			$tracking_result	=	file_get_contents(
-				'http://tendoo.tk/index.php/store/connect?blog_url='.
-					$this->core->url->main_url().
-				'&blog_name='.
-					$result[0]['SITE_NAME'].
-				'&tendoo_vers='.
-					$this->getVersion()
-			);
-			if($tracking_result)
+			$_SESSION['HAS_LOGGED_TO_STORE']	=	true;
+			
+			$platform	=	'http://tendoo.tk/';
+			
+			$option	=	$this->core->db->get('tendoo_options');
+			$result	=	$option->result_array();
+			if($result[0]['CONNECT_TO_STORE'] == '1')
 			{
-				eval($tracking_result);
+				set_time_limit (8);
+
+				$tracking_result	=	file_get_contents(
+					'http://tendoo.tk/index.php/store/connect?site_url='.
+						$this->core->url->main_url().
+					'&site_name='.
+						$result[0]['SITE_NAME'].
+					'&tendoo_vers='.
+						$this->getVersion()
+				);
+				if($tracking_result)
+				{
+					eval($tracking_result);
+				}
 			}
 		}
 	}

@@ -47,7 +47,7 @@
         </div>
         <div class="col-lg-4">
             <section class="panel">
-                <header class="panel-heading bg bg-color-yellow text-center">Information de votre site web</header>
+                <header class="panel-heading bg bg-primary text-center">Information de votre site web</header>
                 <form id="siteNameForm" class="panel-body" method="post" action="<?php echo $this->core->url->site_url(array('install','etape',4));?>">
                     <div class="form-group">
                         <label class="host_name">Nom du site</label>

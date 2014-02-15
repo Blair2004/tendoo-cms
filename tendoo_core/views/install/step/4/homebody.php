@@ -3,7 +3,7 @@
 <section id="content" class="m-t-lg wrapper-md animated fadeInDown scrollable wrapper"> 
     <div class="row">
     	<div class="col-lg-6 col-sm-offset-3">
-        	<header class="panel-heading bg bg-color-green text-center">Installation termin&eacute;e</header>
+        	<header class="panel-heading bg bg-success text-center">Installation termin&eacute;e</header>
             <div class="panel-body">
             	<p>En d&eacute;cidant de continuer, il ne sera plus possible de d'acc&eacute;der &agrave; cette page d'installation, par cons&eacute;quent de modifier les informations peronnelles de votre site web. En cas d'irr&eacute;gularité dans votre site web, vous ne pourrez faire des modifications qu'&agrave; partir de la <cite><strong>page d'administration</strong></cite>. En ce qui concerne les informations de connexion &agrave; la base de donn&eacute;e, compte tenu de l'importance de ces informations, leurs modifications est impossible. Seul la re-installation du site corrigera le probl&egrave;me.</p>
             </div>
