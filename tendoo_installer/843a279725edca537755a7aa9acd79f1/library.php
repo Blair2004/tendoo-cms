@@ -236,8 +236,8 @@ $NOTICE_SUPER_ARRAY = $or;
 							'DESCRIPTION'		=>		$image[0]['DESCRIPTION'],
 							'AUTHOR'			=>		$this->users_global->current('ID')
 						);
-						$this->_createThumb($ids);
 						$this->core->db->insert('Tendoo_contents',$array);
+						$this->_createThumb($ids);
 						return 'done';
 					}
 				}
