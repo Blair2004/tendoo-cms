@@ -179,7 +179,7 @@ class Tendoo_index_manager_admin_controller
 		}
 		$this->data['lib_options']		=	$this->lib->getOptions();
 		$this->tendoo->setTitle('Tendoo Index Manager');
-		$this->tendoo->loadEditor(3);
+		$this->tendoo->loadEditor(1);
 		
 		return $this->data['body']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/main.php',$this->data,TRUE,TRUE);
 	}

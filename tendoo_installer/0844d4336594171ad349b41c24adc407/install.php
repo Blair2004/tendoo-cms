@@ -7,7 +7,7 @@ $this->appTableField(array(
 	'NAMESPACE'		=> 'news',
 	'HUMAN_NAME'	=> 'Blogster - Le gestionnaire d\'articles',
 	'AUTHOR'		=> 'Tendoo Group',
-	'DESCRIPTION'	=> 'Créer, modifier et publié des articles pour votre blog.',
+	'DESCRIPTION'	=> 'Créez, modifiez et publiez des articles pour votre blog.',
 	'TYPE'			=> 'BYPAGE',
 	'HAS_WIDGET'	=>	1,
 	'HAS_MENU'		=>	1,

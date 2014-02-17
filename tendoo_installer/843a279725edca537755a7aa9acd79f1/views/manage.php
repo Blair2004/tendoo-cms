@@ -77,12 +77,16 @@
                                 <section class="panel">
                                     <div class="panel-heading"> Editer l'image </div>
                                     <div class="panel-body">
+                                    	
                                         <?php
 							if(in_array(strtolower($getFile[0]['FILE_TYPE']),array('jpg','png')))
 							{
 							?>
                                         <form method="post" class="" action="" id="coords">
-                                            <img id="target" style="max-width:100%;" src="<?php echo $this->core->url->main_url().$repository_dir.'/'.$getFile[0]['FILE_NAME'];?>" />
+                                        	
+                                            <div style="width:100%;overflow:scroll">
+                                            <img id="target" src="<?php echo $this->core->url->main_url().$repository_dir.'/'.$getFile[0]['FILE_NAME'];?>" />
+                                            </div>
                                             <hr class="line line-dashed">
                                             <input type="hidden" size="4" id="x1" name="x1" />
                                             <input type="hidden" size="4" id="y1" name="y1" />

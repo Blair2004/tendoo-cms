@@ -37,7 +37,7 @@
                         <div class="panel-heading">Supprimer la cat&eacute;gorie</div>
                         <form action="" class="panel-body" method="post">
                             <div class="form-group">
-                                <span class="notice">Une cat&eacute;gorie ne peut &ecirc;tre supprim&eacute;e si certaines publications y sont encore attach&eacute;s. Rassurez-vous qu'aucun article n'est rattach&eacute; &agrave; cette cat&eacute;gorie avant de la supprimer</span>
+                                <span class="notice">Une cat&eacute;gorie ne peut &ecirc;tre supprim&eacute;e si certaines publications y sont encore attach&eacute;es. Rassurez-vous qu'aucun article n'est rattach&eacute; &agrave; cette cat&eacute;gorie avant de la supprimer</span>
                             </div>
                             <input type="hidden" value="<?php echo $cat['id'];?>" name="cat_id_for_deletion">
                             <input type="hidden" value="ALLOWCATDELETION" name="allower">

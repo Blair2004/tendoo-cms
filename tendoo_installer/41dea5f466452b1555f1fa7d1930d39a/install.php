@@ -7,7 +7,7 @@ $this->appTableField(array(
 	'NAMESPACE'		=> 'Tendoo_index_manager',
 	'HUMAN_NAME'	=> 'Gestionnaire de la page d\'accueil',
 	'AUTHOR'		=> 'Tendoo Group',
-	'DESCRIPTION'	=> 'Personnaliser une page d\'accueil qui fl&egrave;te votre blog, forum, boutique ou vos services. Ajuster les informations qui s\'affichent, ainsi que leur quantité.',
+	'DESCRIPTION'	=> 'Personnalisez une page d\'accueil qui refl&egrave;te votre blog, forum, boutique ou vos services. Ajuster les informations qui s\'affichent, ainsi que leur quantité.',
 	'TYPE'			=> 'BYPAGE',
 	'TENDOO_VERS'	=> 0.94
 ));

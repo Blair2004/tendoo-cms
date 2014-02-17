@@ -7,7 +7,7 @@ $this->appTableField(array(
 	'NAMESPACE'		=> 'Tendoo_contents',
 	'HUMAN_NAME'	=> 'Gestionnaire de contenu',
 	'AUTHOR'		=> 'Tendoo Group',
-	'DESCRIPTION'	=> 'Gerer vos contenus de type image, video ou musique.',
+	'DESCRIPTION'	=> 'G&eacute;rer vos contenus de type image, video ou musique.',
 	'TYPE'			=> 'BYPAGE',
 	'TENDOO_VERS'	=> 0.94
 ));

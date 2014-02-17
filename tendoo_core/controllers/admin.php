@@ -99,9 +99,6 @@ class Admin
 		$this->core->file->css_push('tendoo_global');
 
 		$this->core->file->js_push('jquery');
-		$this->core->file->js_push('jquery.pjax');
-		$this->core->file->js_push('morris.min');
-		$this->core->file->js_push('raphael-min');
 		if($this->data['options'][0]['ADMIN_THEME'] == 1)
 		{
 			$this->core->file->js_push('bubbles');
@@ -114,7 +111,6 @@ class Admin
 	// Public functions
 	public function index()
 	{
-		$this->core->file->css_push('demo');
 		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->data['ttTheme']		=	$this->core->tendoo_admin->countThemes();
 		$this->data['ttModule']		=	$this->core->tendoo_admin->count_modules();

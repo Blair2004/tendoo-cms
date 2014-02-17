@@ -75,11 +75,12 @@ $NOTICE_SUPER_ARRAY = $or;
 			{
 				$this->core->db	->select('*')
 								->from('Tendoo_news')
+								->order_by('id','desc')
 								->limit($end,$start);
 				$query			=	$this->core->db->get();
 				return $query->result_array();
 			}
-			public function publish_news($title,$content,$state,$image,$cat,$first_admin = FALSE)
+			public function publish_news($title,$content,$state,$image,$thumb,$cat,$first_admin = FALSE)
 			{
 				if($first_admin == FALSE)
 				{
@@ -87,6 +88,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					'TITLE'			=> $title,
 					'CONTENT'		=> $content,
 					'IMAGE'			=> $image,
+					'THUMB'			=>	$thumb,
 					'AUTEUR'		=> $this->user->current('ID'),
 					'ETAT'			=> $state,
 					'DATE'			=> $this->tendoo->datetime(),
@@ -99,6 +101,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					'TITLE'			=> $title,
 					'CONTENT'		=> $content,
 					'IMAGE'			=> $image,
+					'THUMB'			=>	$thumb,
 					'AUTEUR'		=> 1,// Usefull when no admin is created to anticipate super admin creation
 					'ETAT'			=> $state,
 					'DATE'			=> $this->tendoo->datetime(),
@@ -107,13 +110,14 @@ $NOTICE_SUPER_ARRAY = $or;
 				}
 				return $this->core->db	->insert('Tendoo_news',$content);
 			}
-			public function edit($id,$title,$content,$state,$image,$cat)
+			public function edit($id,$title,$content,$state,$image,$thumb,$cat)
 			{
 				$content	=	array(
 					'TITlE'			=> $title,
 					'CONTENT'		=> $content,
 					'ETAT'			=> $state,
 					'IMAGE'			=> $image,
+					'THUMB'			=>	$thumb,
 					'AUTEUR'		=> $this->user->current('ID'),
 					'DATE'			=> $this->tendoo->datetime(),
 					'CATEGORY_ID'	=> $cat

@@ -69,7 +69,7 @@ class Pages_editor_admin_controller
 				$this->notice->push_notice(notice('error'));
 			}
 		}
-		$this->tendoo->loadEditor(3);
+		$this->tendoo->loadEditor(1);
 		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/create',$this->data,true,TRUE);
 		return $this->data['body'];
 	}
@@ -105,7 +105,7 @@ class Pages_editor_admin_controller
 		// Retreiving News Data
 		$this->data['pageInfo']		=	$this->page_handler->getSpePage($e);
 		$this->tendoo->setTitle('Page Editor - Modifier une page');
-		$this->tendoo->loadEditor(3);		
+		$this->tendoo->loadEditor(1);		
 		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/edit',$this->data,true,TRUE);
 		return $this->data['body'];
 	}

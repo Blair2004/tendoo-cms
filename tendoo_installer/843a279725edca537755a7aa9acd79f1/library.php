@@ -36,7 +36,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function getName()
 			{
-				return 'Tendoo_content_'.rand(0,9).date('Y').date('m').date('d').date('H').date('i').date('s').rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
+				return 'tendoo_content_'.rand(0,9).date('Y').date('m').date('d').date('H').date('i').date('s').rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
 			}
 			public function uploadFile($file,$title,$description)
 			{
@@ -47,8 +47,13 @@ $NOTICE_SUPER_ARRAY = $or;
 				$this->core->load->library('upload',$config);
 				if($this->core->upload->do_upload($file))
 				{
+					$_query					=	$this->core->db->get('Tendoo_contents');
+					$_result				=	$_query->result_array(); // Counting uploaded files
+					$ids					=	count($_result)+1;
+					
 					$result	= $this->core->upload->data();
 					$array	=	array(
+						'ID'				=>		$ids,
 						'FILE_NAME'			=>		$result['file_name'],
 						'FILE_TYPE'			=>		substr($result['file_ext'],1),
 						'DATE'				=>		$this->core->tendoo->datetime(),
@@ -56,9 +61,40 @@ $NOTICE_SUPER_ARRAY = $or;
 						'DESCRIPTION'		=>		$description,
 						'AUTHOR'			=>		$this->users_global->current('ID')
 					);
-					return $this->core->db->insert('Tendoo_contents',$array);
+					$this->core->db->insert('Tendoo_contents',$array);
+					return $this->_createThumb($ids);
 				}
 				return false;				
+			}
+			public function _createThumb($image_id)
+			{
+				$image 	=	$this->getUploadedFiles($image_id);
+				$percent	=	0.5;
+				if(strtolower($image[0]['FILE_TYPE']) == 'png')
+				{
+					list($width,$height) =	getimagesize($this->cp_dir.'/'.$image[0]['FILE_NAME']);
+					$newWidth			=	$width * $percent;
+					$newHeight			=	$height * $percent;
+					
+					$source_ressource	=	imagecreatefrompng($this->cp_dir.'/'.$image[0]['FILE_NAME']);
+					$thumb				=	imagecreatetruecolor($newWidth,$newHeight);
+					
+					imagecopyresized($thumb, $source_ressource, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+					return imagepng($thumb,$this->cp_dir.'/small_'.$image[0]['FILE_NAME']);
+				}
+				else if(strtolower($image[0]['FILE_TYPE']) == 'jpg')
+				{
+					list($width,$height) =	getimagesize($this->cp_dir.'/'.$image[0]['FILE_NAME']);
+					$newWidth			=	$width * $percent;
+					$newHeight			=	$height * $percent;
+					
+					$source_ressource	=	imagecreatefromjpeg($this->cp_dir.'/'.$image[0]['FILE_NAME']);
+					$thumb				=	imagecreatetruecolor($newWidth,$newHeight);
+					
+					imagecopyresized($thumb, $source_ressource, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+					return imagejpeg($thumb,$this->cp_dir.'/small_'.$image[0]['FILE_NAME']);
+				}
+				return false;
 			}
 			public function countUploadedFiles()
 			{
@@ -82,9 +118,11 @@ $NOTICE_SUPER_ARRAY = $or;
 			{
 				$file	=	$this->getUploadedFiles($image_id);
 				$file_l	=	$this->cp_dir.'/'.$file[0]['FILE_NAME'];
+				$file_1_thumb	=	$this->cp_dir.'/small_'.$file[0]['FILE_NAME'];
 				if(file_exists($file_l))
 				{
 					unlink($file_l);
+					unlink($file_1_thumb);
 				}
 				$namesansext				=	explode('.',$file[0]['FILE_NAME']);
 				$namesansext				=	$namesansext[0];
@@ -104,6 +142,7 @@ $NOTICE_SUPER_ARRAY = $or;
 							'AUTHOR'	=>	$this->core->users_global->current('ID')
 						)
 					); // un finished
+					$this->_createThumb($image_id);
 					return 'fileReplaced';
 				}
 				return 'error_occured';
@@ -114,6 +153,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				if(count($f) > 0)
 				{
 					$this->core->db->where('ID',$id)->delete('Tendoo_contents');
+					file_exists($this->cp_dir.'/small_'.$f[0]['FILE_NAME']) == TRUE ? unlink($this->cp_dir.'/small_'.$f[0]['FILE_NAME']) : false;
 					return unlink($this->cp_dir.'/'.$f[0]['FILE_NAME']);
 				}
 				return false;
@@ -152,6 +192,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					$this->core->image_lib->initialize($config); 
 					$this->core->image_lib->crop();
 					$notice						=	$this->core->image_lib->display_errors();
+					$this->_createThumb($image_id);
 					if($notice != '')
 					{
 					$this->core->notice->push_notice(notice($notice));
@@ -181,8 +222,13 @@ $NOTICE_SUPER_ARRAY = $or;
 					$notice						=	$this->core->image_lib->display_errors();
 					if($notice == '')
 					{
+						$_query					=	$this->core->db->get('Tendoo_contents');
+						$_result				=	$_query->result_array(); // Counting uploaded files
+						$ids					=	count($_result)+1;
+						
 						$date					=	$this->core->tendoo->datetime();
 						$array	=	array(
+							'ID'				=>		$ids,
 							'FILE_NAME'			=>		$image_name.'.'.strtolower($image[0]['FILE_TYPE']),
 							'FILE_TYPE'			=>		$image[0]['FILE_TYPE'],
 							'DATE'				=>		$date,
@@ -190,6 +236,7 @@ $NOTICE_SUPER_ARRAY = $or;
 							'DESCRIPTION'		=>		$image[0]['DESCRIPTION'],
 							'AUTHOR'			=>		$this->users_global->current('ID')
 						);
+						$this->_createThumb($ids);
 						$this->core->db->insert('Tendoo_contents',$array);
 						return 'done';
 					}

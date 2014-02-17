@@ -7,7 +7,7 @@ $this->appTableField(array(
 	'NAMESPACE'		=> 'Pages_editor',
 	'HUMAN_NAME'	=> 'Editeur de page HTML',
 	'AUTHOR'		=> 'Tendoo Group',
-	'DESCRIPTION'	=> 'Créer une page HTML.',
+	'DESCRIPTION'	=> 'Créez une page HTML.',
 	'TYPE'			=> 'BYPAGE',
 	'TENDOO_VERS'	=> 0.94
 ));

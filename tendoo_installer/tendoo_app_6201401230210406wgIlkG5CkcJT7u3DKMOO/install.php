@@ -7,7 +7,7 @@ $this->appTableField(array(
 	'NAMESPACE'		=> 'Tendoo_contact_handler',
 	'HUMAN_NAME'	=> 'Gestionnaire de contact',
 	'AUTHOR'		=> 'Tendoo Group',
-	'DESCRIPTION'	=> 'Recever les messages envoy&eacute;s par les utilisateurs via l\'interface de contact.',
+	'DESCRIPTION'	=> 'Recevez les messages envoy&eacute;s par les utilisateurs via l\'interface de contact.',
 	'TYPE'			=> 'BYPAGE',
 	'TENDOO_VERS'	=> 0.94
 ));

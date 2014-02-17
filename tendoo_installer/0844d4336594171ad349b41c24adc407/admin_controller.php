@@ -25,6 +25,12 @@ class News_admin_controller
 		$this->data['ajaxMenu']	=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_menu',$this->data,true,TRUE);
 		$this->data['lmenu']			=	$this->core->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 		$this->linnk					=	MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/';
+		$fileManager	=	$this->tendoo_admin->getSpeModuleByNamespace('Tendoo_contents');
+		if($fileManager)
+		{
+			include_once(MODULES_DIR.$fileManager[0]['ENCRYPTED_DIR'].'/utilities.php');
+			$this->data['fmlib']	=	new Tendoo_contents_utility(); // Loading library
+		}
 	}
 	public function index($page	= 1)
 	{
@@ -66,6 +72,7 @@ class News_admin_controller
 			$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[20000]');
 			$this->core->form_validation->set_rules('push_directly','Choix de l\'action','trim|required|min_length[1]|max_length[10]');		
 			$this->core->form_validation->set_rules('image_link','Lien de l\'image','trim|required|min_length[5]|max_length[1000]');		
+			$this->core->form_validation->set_rules('thumb_link','Lien de l\'image','trim|required|min_length[5]|max_length[1000]');		
 			if($this->core->form_validation->run())
 			{
 				$this->data['result']	=	$this->news->publish_news(
@@ -73,6 +80,7 @@ class News_admin_controller
 					$this->core->input->post('news_content'),
 					$this->core->input->post('push_directly'),
 					$this->core->input->post('image_link'),
+					$this->core->input->post('thumb_link'),
 					$this->core->input->post('category')
 				);
 				if(isset($_GET['ajax']))
@@ -103,7 +111,7 @@ class News_admin_controller
 			{
 				$this->core->file->js_clear(); // clearing Js listed file
 				$this->core->file->css_clear();
-				$this->tendoo->loadEditor(3);
+				$this->tendoo->loadEditor(1);
 				return array(
 					'MCO'		=>	TRUE,
 					'RETURNED'	=>	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_publish',$this->data,true,TRUE)
@@ -111,7 +119,7 @@ class News_admin_controller
 			}
 			else
 			{
-				$this->tendoo->loadEditor(3);
+				$this->tendoo->loadEditor(1);
 			return $this->data['body']	=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/publish',$this->data,true,TRUE);
 			}
 		}
@@ -139,6 +147,7 @@ class News_admin_controller
 		$this->core->form_validation->set_rules('news_content','Contenu de l\'article','trim|required|min_length[5]|max_length[20000]');
 		$this->core->form_validation->set_rules('push_directly','Choix de l\'action','trim|required|min_length[1]|max_length[1000]');		
 		$this->core->form_validation->set_rules('image_link','Lien de l\'image','trim|required|min_length[5]|max_length[1000]');	
+		$this->core->form_validation->set_rules('thumb_link','Lien de l\'image','trim|required|min_length[5]|max_length[1000]');	
 		$this->core->form_validation->set_rules('category','Cat&eacute;gorie','trim|required|min_length[1]|max_length[200]');	
 		$this->core->form_validation->set_rules('article_id','Identifiant de l\'article','required|min_length[1]');	
 		if($this->core->form_validation->run())
@@ -149,6 +158,7 @@ class News_admin_controller
 				$this->core->input->post('news_content'),
 				$this->core->input->post('push_directly'),
 				$this->core->input->post('image_link'),
+				$this->core->input->post('thumb_link'),
 				$this->core->input->post('category')
 			);
 			if($this->data['result'])
@@ -163,13 +173,13 @@ class News_admin_controller
 		// Retreiving News Data
 		$this->data['news']		=	$this->news->getSpeNews($e);
 		$this->tendoo->setTitle('Blogster - Créer un nouvel article');
-		$this->tendoo->loadEditor(3);
+		$this->tendoo->loadEditor(1);
 		
 		if(isset($_GET['ajax']))
 		{
 			$this->core->file->js_clear(); // clearing Js listed file
 			$this->core->file->css_clear();
-			$this->tendoo->loadEditor(3);
+			$this->tendoo->loadEditor(1);
 			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_edit',$this->data,true,TRUE);
 			return array(
 				'RETURNED'			=>	$this->data['body'],

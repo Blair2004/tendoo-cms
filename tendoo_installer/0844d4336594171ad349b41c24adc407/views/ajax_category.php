@@ -3,11 +3,9 @@
     <section id="content">
         <section class="vbox">
             <section class="scrollable wrapper">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4>Liste des cat&eacute;gories</h4>
-                        <div class="panel">
-                            <table class="table table-striped m-b-none">
+            	<h3 style="margin-top:0">Cat&eacute;gories disponibles</h3>
+                <div class="panel">
+                <table class="table table-striped m-b-none">
                                 <thead>
                                     <tr>
                                         <th width="300">Nom</th>
@@ -41,8 +39,8 @@
                 ?>
                                 </tbody>
                             </table>
-                        </div>
-                        <ul class="pagination pagination-sm m-t-none m-b-none">
+				</div>
+                            <ul class="pagination pagination-sm m-t-none m-b-none">
                             <?php 
             if(is_array($paginate[4]))
             {
@@ -55,8 +53,6 @@
             }
             ?>
                         </ul>
-                    </div>
-                </div>
             </section>
         </section>
     </section>

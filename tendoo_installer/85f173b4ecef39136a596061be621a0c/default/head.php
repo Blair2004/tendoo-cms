@@ -69,7 +69,7 @@
 			
 		<header>
 			<div class="wrapper">
-				<a title="<?php echo $options[0]['SITE_NAME'];?>" href="<?php echo $this->core->url->base_url();?>" id="logo"><img src="http://localhost/templates/modus-files/HTML/img/logo.png" alt="<?php echo $options[0]['SITE_NAME'];?>"></a>
+				<a title="<?php echo $options[0]['SITE_NAME'];?>" href="<?php echo $this->core->url->base_url();?>" id="logo"><img src="<?php echo $options[0]['SITE_LOGO'];?>" alt="<?php echo $options[0]['SITE_NAME'];?>"></a>
 				
 				<nav>
 					<ul id="nav" class="sf-menu">

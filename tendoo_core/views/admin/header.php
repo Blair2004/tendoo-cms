@@ -16,7 +16,23 @@ var tendoo				=	new Object();
 			return '<?php echo $this->core->url->base_url();?>';
 		};
 		this.site_url	=	function(e){
-			return '<?php echo $this->core->url->site_url();?>'+e;
+			if(typeof e == 'object')
+			{
+				var completed	=	'';
+				for($i = 0;$i< e.length;$i ++)
+				{
+					if($i == 0)
+					{
+						completed	+= e[$i];
+					}
+					else
+					{
+						completed	+= '/'+e[$i];
+					}
+				}
+				return '<?php echo $this->core->url->main_url();?>index.php/'+completed;
+			}
+			return '<?php echo $this->core->url->main_url();?>index.php/'+e;
 		};
 	};
 </script>

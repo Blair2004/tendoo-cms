@@ -39,6 +39,28 @@ class Tendoo_contents_admin_controller
 		
 		return $this->data['body'];
 	}
+	public function ajax($x = '',$y = 1,$z = '')
+	{
+		if($x == 'selection')
+		{
+			$this->data['ttFiles']		=	$this->file_contentAdmin->countUploadedFiles();
+			$this->data['paginate']		=	$this->core->tendoo->paginate(12,$this->data['ttFiles'],1,'on','off',$y,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'ajax','selection')).'/',$ajaxis_link=null);
+			$this->data['files']		=	$this->file_contentAdmin->getUploadedFiles($this->data['paginate'][1],$this->data['paginate'][2]);
+			
+			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_load_files',$this->data,true,TRUE);
+			return array(
+				'MCO'		=>		TRUE,
+				'RETURNED'	=>		$this->data['body']
+			);
+		}
+		else if($x == 'upload')
+		{
+			if(isset($_FILES['file']))
+			{
+				$this->file_contentAdmin->uploadFile('file',$_FILES['file']['name'],$_FILES['file']['name']);
+			}
+		}
+	}
 	public function upload()
 	{
 		$this->core->load->library('form_validation');

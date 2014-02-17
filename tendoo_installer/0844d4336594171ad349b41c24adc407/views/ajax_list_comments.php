@@ -3,9 +3,7 @@
     <section id="content">
         <section class="vbox">
             <section class="scrollable wrapper">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4>Liste des commentaires</h4>
+            	<h3 style="margin-top:0">Commentaires disponibles</h3>
                         <section class="scrollable">
                             <div class="panel">
                                 <table class="table table-striped m-b-none">
@@ -82,8 +80,6 @@
 					}
 				?>
                         </ul>
-                    </div>
-                </div>
             </section>
         </section>
     </section>

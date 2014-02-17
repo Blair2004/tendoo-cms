@@ -9,7 +9,7 @@
 				$theme->defineBlogPost(
 					$title		=	$g['TITLE'],
 					$content	=	$g['CONTENT'],
-					$thumb		=	$g['IMAGE'],
+					$thumb		=	$g['THUMB'],
 					$full		=	$g['IMAGE'],
 					$author		=	$userdata['PSEUDO'],
 					$link		=	$this->core->url->site_url(array($page[0]['PAGE_CNAME'],'read',$g['ID'],$this->core->tendoo->urilizeText($g['TITLE']))),

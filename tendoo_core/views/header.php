@@ -16,11 +16,19 @@ var tendoo				=	new Object();
 			return '<?php echo $this->core->url->base_url();?>';
 		};
 		this.site_url	=	function(e){
-			return '<?php echo $this->core->url->site_url();?>'+e;
+			if(typeof e == 'object')
+			{
+				var completed	=	'';
+				for($i = 0;$i< e.length;$i ++)
+				{
+					completed	+=	e+'/';
+				}
+				return '<?php echo $this->core->url->base_url();?>index.php/'+completed;
+			}
+			return '<?php echo $this->core->url->base_url();?>index.php/'+e;
 		};
 	};
 </script>
-
 <?php echo $this->core->file->css_load();?>
 <?php echo $this->core->file->js_load();?>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">

@@ -1141,19 +1141,6 @@ class Tendoo
 		$this->loaded_editor	=	$id;
 		if($id == 1)
 		{
-			$this->core->file->js_push('tiny_mce/tiny_mce');
-		}
-		else if($id == 2)
-		{
-			$this->core->file->css_push('elrte/css/elrte.full');
-			$this->core->file->css_push('elrte/css/elrte-inner');
-			$this->core->file->css_push('elrte/jquery-ui-1.8.13.custom');
-			/*-------------------------------------------------------------*/
-			$this->core->file->js_push('elrte/js/jquery-ui-1.8.13.custom.min');
-			$this->core->file->js_push('elrte/js/elrte.min');
-		}
-		else if($id	==	3)
-		{
 			$this->core->file->js_push('ckeditor/ckeditor');
 		}
 	}
@@ -1192,43 +1179,7 @@ class Tendoo
 		}
 		switch($this->loaded_editor)
 		{
-			case 1 :
-			return "
-			<textarea name=".$default['name']." id=".$default['id']." style=\"width:".$default['width']."px;height:".$default['height']."px;\">".$default['defaultValue']."</textarea>
-			<script type=\"text/javascript\">
-			tinyMCE.init({
-					mode : 'textareas',
-					theme:'advanced',
-					plugins : 'autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,iespell,inlinepopups,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,xhtmlxtras,template,advlist',
-					theme_advanced_buttons1 : 'save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect',
-					theme_advanced_buttons3_add:'emotions',
-					theme_advanced_buttons2 : 'cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor',
-					theme_advanced_buttons3 : 'tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,iespell,advhr,|,print,|,ltr,rtl,|,fullscreen',
-					theme_advanced_buttons4 : '|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak',
-					theme_advanced_toolbar_location : 'top',
-					theme_advanced_toolbar_align : 'left',
-					theme_advanced_statusbar_location : 'bottom'
-			});
-			</script>";;
-			case 2 :
-			return "
-			<script type=\"text/javascript\">
-				$().ready(function() {
-					var opts = {
-					cssClass : 'el-rte',
-					//lang     : 'en',
-					height   : 350,
-	
-					toolbar  : 'maxi', // custom
-					cssfiles : ['elrte/css/elrte-inner.css', 'elrte/css/inner-example.css']
-					}
-					$('#editor').elrte(opts);
-				})
-			</script>
-			<textarea name=\"".$values['name']."\" id=\"".$values['id']."\">".$defValue."</textarea>
-			";
-			break;
-			case 3	:
+			case 1	:
 				if(!array_key_exists('id',$values)): $values['id']		=	'';endif;
 				if(!array_key_exists('name',$values)): $values['name']	=	'';endif;
 			return "<textarea class=\"ckeditor\" name=\"".$values['name']."\" id=\"".$values['id']."\">".$defValue."</textarea>";
@@ -1292,7 +1243,7 @@ class Tendoo
 					}
 				}
 				$i++;
-			}			
+			}		
 			eval('$BODY 	=	$objet->'.$Method.'('.$param_text.');'); // exécution du controller.
 			return $BODY;
 		}

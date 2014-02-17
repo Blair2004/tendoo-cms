@@ -128,7 +128,7 @@ class Tendoo_widget_administrator_admin_controller
 				}
 			}
 		}
-		$this->tendoo->loadEditor(3);
+		$this->tendoo->loadEditor(1);
 		$this->tendoo->setTitle('Gestionnaire de widget - Cr&eacute;er un widget');
 		
 		$this->data['body']			=	$this->core->load->view($this->data['module_dir'].'/views/create',$this->data,true,TRUE);
@@ -136,7 +136,7 @@ class Tendoo_widget_administrator_admin_controller
 	}
 	public function edit($we)
 	{
-		$this->tendoo->loadEditor(3);
+		$this->tendoo->loadEditor(1);
 		$this->core->load->library('form_validation');
 		$this->core->form_validation->set_rules('widget_id','Intitulé du widget','trim|required|min_length[1]|max_length[11]');
 		$this->core->form_validation->set_rules('widget_title','Intitulé du widget','trim|required|min_length[5]|max_length[50]');

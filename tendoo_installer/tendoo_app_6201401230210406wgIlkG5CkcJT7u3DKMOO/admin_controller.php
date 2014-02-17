@@ -114,7 +114,7 @@ class Tendoo_contact_handler_admin_controller
 		$this->data['getContact']	=	$this->lib->getContact();
 		
 		$this->tendoo->setTitle($this->data['module'][0]['HUMAN_NAME'].' - Param&ecirc;tres');
-		$this->tendoo->loadEditor(3);
+		$this->tendoo->loadEditor(1);
 		$this->data['body']			=	$this->load->view($this->module_dir.'/views/setting',$this->data,true,TRUE);
 		return $this->data['body'];
 	}

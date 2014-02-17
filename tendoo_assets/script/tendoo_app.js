@@ -162,7 +162,9 @@ $(document).ready(function(){
 			};
 			var	ajaxBinder	=	function(currentId){
 				var currentE	=	'[data-modal-id="'+currentId+'"]';
-				$('[data-modal-id="'+currentId+'"]').find('a[href]').each(function(){
+				$('[data-modal-id="'+currentId+'"]').find('a[href!="#"]').each(function(){
+					if(typeof $(this).attr('ajax_binder_escapeThis') === 'undefined')
+					{
 					$(this).bind('click',function(){
 						$.ajax({
 							beforeSend	:	function(){
@@ -181,6 +183,7 @@ $(document).ready(function(){
 						});
 						return false;
 					});
+					}
 				});
 				$('[data-modal-id="'+currentId+'"]').find('form[action]').each(function(){
 					if(typeof $(this).attr('event-binded') == 'undefined')

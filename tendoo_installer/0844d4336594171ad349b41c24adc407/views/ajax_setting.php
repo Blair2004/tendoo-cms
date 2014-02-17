@@ -3,13 +3,15 @@
     <section id="content">
         <section class="vbox">
             <section class="scrollable wrapper">
+            	<h3 style="margin-top:0;">Param&egrave;tres avanc&eacute;es</h3>
                 <div class="row">
                     <div class="col-lg-12">
-                    	<h4>Publier des articles</h4>
+                    	
                         <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
+                        	<div class="row">
                             <div class="col-lg-6">
                                 <section class="panel">
-                                    <div class="panel-heading"> Param&ecirc;tres avanc&eacute;s </div>
+                                    <div class="panel-heading"> Acc&eacute;ssibilit&eacute; </div>
                                     <div class="span8">
                                         <form method="post" class="panel-body" action="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'setting')).'?ajax=true';?>">
                                             <label  class="label-control switch" >
@@ -143,6 +145,7 @@
                                         </form>
                                     </div>
                                 </section>
+                            </div>
                             </div>
                         </section>
                     </div>
