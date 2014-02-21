@@ -18,10 +18,10 @@
                     <?php echo notice_from_url();?>
                     <div class="row">
                     	<div class="col-lg-8">
-                        	<header class="panel-heading text-center">
+                        	<section class="panel">
+                            	<header class="panel-heading text-center">
                                 Cr&eacute;er un utilisateur
                             </header>
-                        	<section class="panel">
                                 <form method="post" class="panel-body">
                                         <div class="form-group">
                                         	<label class="label-control">Pseudo</label>
@@ -64,9 +64,6 @@
                             </section>
                         </div>
                         <div class="col-lg-4">
-                        	<header class="panel-heading text-center">
-                                Plus d'information
-                            </header>
 <?php
 $field_1	=	(form_error('admin_pseudo')) ? form_error('admin_pseudo') : 'L\'utilisateur doit avoir un pseudo unique';
 $field_2	=	(form_error('admin_password')) ? form_error('admin_password') : 'L\'email de l\'utilisateur sera utilis&eacute; pour la récupération du mot de passe.';
@@ -76,6 +73,9 @@ $field_4	=	(form_error('admin_sex')) ? form_error('admin_sex') : '';
 $field_5	=	(form_error('admin_privilege')) ? form_error('admin_privilege') : '';
 ?>
     						<section class="panel">
+                            	<header class="panel-heading text-center">
+                                Plus d'information
+                            </header>
                             	<div class="wrapper">
 									<?php if(strlen($field_1) > 0):;?><?php echo $field_1; ?><?php endif;?>
                                     <?php if(strlen($field_2) > 0):;?><?php echo $field_2; ?><?php endif;?>

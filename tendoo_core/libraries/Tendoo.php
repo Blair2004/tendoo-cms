@@ -174,6 +174,7 @@ class Tendoo
 		  `TYPE` varchar(50) NOT NULL,
 		  `ACTIVE` int(11) NOT NULL,
 		  `TENDOO_VERS` varchar(100) NOT NULL,
+		  `APP_VERS` varchar(100) NOT NULL,
 		  `ENCRYPTED_DIR` text,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
@@ -1132,6 +1133,7 @@ class Tendoo
 		$newtext	=	convert_accented_characters($text);
 		$newtext	=	stripThing('\'',$newtext);
 		$newtext	=	stripThing(' ',$newtext);
+		$newtext	=	stripThing('.',$newtext);
 		return $newtext;
 	}
 	// HTML FUNCTION
@@ -1396,11 +1398,22 @@ class Tendoo
 		<?php
 					foreach($element['PAGE_CHILDS'] as $p)
 					{
+						if($p['PAGE_MODULES'] == '#LINK#')
+						{
 						?>
+		<li class="<?php echo $liclass;?>"><a href="<?php echo $p['PAGE_LINK'];?>"><?php echo ucwords($p['PAGE_NAMES']);?></a>
+			<?php $this->getControllerSubmenu($p);?>
+		</li>
+		<?php
+						}
+						else
+						{
+							?>
 		<li class="<?php echo $liclass;?>"><a href="<?php echo $this->core->url->site_url(array($p['PAGE_CNAME']));?>"><?php echo ucwords($p['PAGE_NAMES']);?></a>
 			<?php $this->getControllerSubmenu($p);?>
 		</li>
 		<?php
+						}
 					}
 					?>
 	</ul>

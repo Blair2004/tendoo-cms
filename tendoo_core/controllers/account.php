@@ -194,4 +194,26 @@ class Account
 			$this->load->view('account/global_body',$this->data);
 		}
 	}
+	public function profile($userPseudo)
+	{
+		if($this->core->users_global->current('PSEUDO') == $userPseudo)
+		{
+			$this->core->url->redirect(array('account'));
+		}
+		$user	=	$this->core->users_global->getUserByPseudo($userPseudo);
+		if($user)
+		{
+			$this->data['user'] =& $user;
+			$this->tendoo->setTitle($user[0]['PSEUDO'].' - Profil');
+			$this->tendoo->setDescription($user[0]['PSEUDO'].' - Profil');
+			$this->data['body']			=	$this->load->view('account/profile/user_profil_body',$this->data,true);
+			
+			$this->load->view('account/header',$this->data);
+			$this->load->view('account/user_profile_global_body',$this->data);
+		}
+		else
+		{
+			$this->core->url->redirect(array('error','code','unknowProfil'));
+		}
+	}
 }

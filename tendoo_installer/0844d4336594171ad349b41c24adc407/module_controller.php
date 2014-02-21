@@ -93,6 +93,20 @@ class News_module_controller
 		$this->data['pagination'][3]=== false ? $this->core->url->redirect(array('error','code','page404')) : null;
 		$this->data['currentPage']	=	$page;
 		$this->data['getNews']	=	$this->data['news']->getArtFromCat($catid,$this->data['pagination'][1],$this->data['pagination'][2]);
+		if($this->data['getNews']== false)
+		{
+			$this->data['getNews']	=	array(
+				array(
+					'TITLE'			=>	'Aucune publication disponible',
+					'CONTENT'		=>	'Aucune publication n\'est disponible dans cette cat&eacute;gorie',
+					'AUTEUR'		=>	'1',
+					'DATE'			=>	$this->core->tendoo->datetime(),
+					'THUMB'			=>	$this->core->url->img_url('hub_back.png'),
+					'IMAGE'			=>	$this->core->url->img_url('hub_back.png'),
+					'ID'			=>	0
+				)
+			);
+		}
 		
 		$this->data['section']	=		'category';
 		$this->data['module_content']		=	$this->core->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_category',$this->data,true,TRUE);

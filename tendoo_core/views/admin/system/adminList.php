@@ -56,7 +56,7 @@
 								{
 								?>
                                 <tr>
-                                    <td colspan="3">Aucun administrateur cr&eacute;e.</td>
+                                    <td colspan="5">Aucun administrateur cr&eacute;e.</td>
                                 </tr>
                                 <?php
 								}

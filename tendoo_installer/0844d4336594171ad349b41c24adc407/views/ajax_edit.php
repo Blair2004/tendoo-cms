@@ -3,7 +3,6 @@
   <section id="content">
     <section class="vbox">
       <section class="scrollable wrapper">
-      	<?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
         <h3 style="margin-top:0;">Modifier un article</h3>
         <form action="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'edit',$news[0]['ID'])).'?ajax=true';?>" method="post">
           <div class="row">

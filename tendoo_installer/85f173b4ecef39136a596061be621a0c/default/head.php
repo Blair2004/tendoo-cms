@@ -1,6 +1,9 @@
 		<?php echo $this->core->users_global->getUserMenu();?>
 		<!-- mobile-nav -->
         <?php
+		//echo '<pre>';
+		//echo print_r($controllers,TRUE);
+		//echo '</pre>';
 		if($this->core->users_global->isConnected())
 		{
 			$margin	=	'style="margin-top:30px"';
@@ -8,32 +11,6 @@
 		else
 		{
 			$margin	=	"";
-		}
-		function getSubmenu($element,$obj)
-		{
-			if(is_array($element))
-			{
-				if(array_key_exists('PAGE_CHILDS',$element))
-				{
-					if(is_array($element['PAGE_CHILDS']))
-					{
-						?>
-						<ul>
-						<?php
-						foreach($element['PAGE_CHILDS'] as $p)
-						{
-							?>
-							<li><a href="<?php echo $obj->core->url->site_url(array($p['PAGE_CNAME']));?>"><?php echo ucwords($p['PAGE_NAMES']);?></a>
-								<?php getSubmenu($p,$obj);?>
-							</li>
-							<?php
-						}
-						?>
-					</ul>
-					<?php
-                    }
-				}
-			}
 		}
 		?>
 		<div id="mobile-nav-holder" <?php echo $margin;?>>
@@ -47,7 +24,7 @@
 				
 			?>
 					<li class="current-menu-item"><a href="<?php echo $this->core->url->site_url(array($c['PAGE_CNAME']));?>"><?php echo ucwords($c['PAGE_NAMES']);?></a>
-                    <?php getSubmenu($c,$this);?>
+                    <?php $this->core->tendoo->getControllerSubmenu($c);?>
                     </li>
 			<?php
 			}
@@ -55,7 +32,7 @@
 			{
 				?>
                 <li><a href="<?php echo $this->core->url->site_url(array($c['PAGE_CNAME']));?>"><?php echo ucwords($c['PAGE_NAMES']);?></a>
-                    <?php getSubmenu($c,$this);?>
+                    <?php $this->core->tendoo->getControllerSubmenu($c);?>
                 </li>
                 <?php
 			}
@@ -78,20 +55,41 @@
 		{
 			if($c['PAGE_CNAME'] == $this->core->url->controller())
 			{
-				
+				if($c['PAGE_MODULES'] == '#LINK#')
+				{				
 			?>
-            <li class="current-menu-item"><a href="<?php echo $this->core->url->site_url(array($c['PAGE_CNAME']));?>"><?php echo ucwords($c['PAGE_NAMES']);?><span class="subheader"><?php echo $c['PAGE_TITLE'];?></span></a>
-            <?php getSubmenu($c,$this);?>
+            <li class="current-menu-item"><a href="<?php echo $c['PAGE_LINK'];?>"><?php echo ucwords($c['PAGE_NAMES']);?><span class="subheader"><?php echo $c['PAGE_TITLE'];?></span></a>
+            <?php $this->core->tendoo->getControllerSubmenu($c);?>
             </li>
 			<?php
+				}
+				else
+				{
+			?>
+            <li class="current-menu-item"><a href="<?php echo $this->core->url->site_url(array($c['PAGE_CNAME']));?>"><?php echo ucwords($c['PAGE_NAMES']);?><span class="subheader"><?php echo $c['PAGE_TITLE'];?></span></a>
+            <?php $this->core->tendoo->getControllerSubmenu($c);?>
+            </li>
+			<?php	
+				}
 			}
 			else
 			{
+				if($c['PAGE_MODULES'] == '#LINK#')
+				{				
 			?>
-            <li><a href="<?php echo $this->core->url->site_url(array($c['PAGE_CNAME']));?>"><?php echo ucwords($c['PAGE_NAMES']);?><span class="subheader"><?php echo $c['PAGE_TITLE'];?></span></a>
-            <?php getSubmenu($c,$this);?>
+            <li><a href="<?php echo $c['PAGE_LINK'];?>"><?php echo ucwords($c['PAGE_NAMES']);?><span class="subheader"><?php echo $c['PAGE_TITLE'];?></span></a>
+            <?php $this->core->tendoo->getControllerSubmenu($c);?>
             </li>
 			<?php
+				}
+				else
+				{
+			?>
+            <li><a href="<?php echo $this->core->url->site_url(array($c['PAGE_CNAME']));?>"><?php echo ucwords($c['PAGE_NAMES']);?><span class="subheader"><?php echo $c['PAGE_TITLE'];?></span></a>
+            <?php $this->core->tendoo->getControllerSubmenu($c);?>
+            </li>
+			<?php	
+				}
 			}
 		}
 		?>

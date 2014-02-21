@@ -30,6 +30,7 @@
                             <li> <a href="<?php echo $this->core->url->site_url('admin/pages');?>">Tous les contr&ocirc;leurs</a> </li>
                         </ul>
                     </li>
+                    
                     <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-puzzle-piece"></i> <span>Applications</span> </a>
                         <ul class="dropdown-menu">
                             <li> <a href="<?php echo $this->core->url->site_url('admin/installer');?>">Installer une application</a> </li>
@@ -58,6 +59,7 @@
 					}
 					?>
                     <li> <a href="<?php echo $this->core->url->site_url('index');?>"> <i class="icon-signout"></i> <span>Retour</span> </a> </li>
+                    
 					<?php $this->core->tendoo_admin->parseMenuAfter();?>
                 </ul>
             </nav>

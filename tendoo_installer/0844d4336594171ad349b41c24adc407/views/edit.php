@@ -19,10 +19,6 @@
 			<?php echo validation_errors(); ?>
           <form method="post">
           <div class="row">
-            <div class="col-lg-12">
-                
-                <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
-            </div>
             <div class="col-lg-9">
                 <input type="hidden" value="<?php echo $news[0]['ID'];?>" name="article_id">
                 <input class="form-control" value="<?php echo $news[0]['TITLE'];?>" type="text" name="news_name" placeholder="Titre de l'article">
@@ -78,6 +74,10 @@
                         <?php
                         $fmlib->mediaLib_load();
                         ?>
+                        <hr class="line line-dashed" />
+                        <div class="form-group">
+                        	<input type="submit" value="Enregistrer les modifications" class="btn btn-info" />
+                        </div>
                     </div>
                 </section>
             </div>

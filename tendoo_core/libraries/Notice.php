@@ -10,15 +10,23 @@ class notice
 	{
 		$this->notice[]	=	$e;
 	}
-	public function parse_notice()
+	public function parse_notice($return = FALSE)
 	{
 		if(is_array($this->notice))
 		{
+			$final		=	'';
 			foreach($this->notice as $n)
 			{
-				echo $n;
+				if($return == FALSE)
+				{
+					echo $n;
+				}
+				else
+				{
+					$final	.=	$n;
+				}
 			}
-			return;
+			return $final;
 		}
 		else
 		{

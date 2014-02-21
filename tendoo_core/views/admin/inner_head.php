@@ -49,24 +49,28 @@ if($options[0]['ADMIN_THEME'] == 1)
                     <a href="javascript:void(0)" id="tendooAppStore" class="btn btn-sm btn-white"><i class="icon-shopping-cart"></i>Magasin d'application</a>
                 </form>
                 <ul class="nav navbar-nav m-l-n" style="margin-left:10px;">
-                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistiques <b class="caret"></b></a>
+                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-plus-sign-alt"></i> Outils <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Pages consult&eacute;s</a></li>
-                            <li><a href="#">Module utilis&eacute;s</a></li>
-                            <li><a href="#">Commentaires</a></li>
+                            <li> <a href="<?php echo $this->core->url->site_url('admin/tools/stats');?>">Statistiques</a> </li>
+                            <li> <a href="<?php echo $this->core->url->site_url('admin/tools/calendar');?>">Calendrier</a> </li>
                         </ul>
                     </li>
                 </ul>
-                <!--<form class="navbar-form navbar-left m-t-sm" role="search">
+                <form class="navbar-form navbar-left m-t-sm" role="search">
                     <div class="form-group">
                         <div class="input-group input-s">
-                            <input type="text" class="form-control input-sm no-border bg-dark" placeholder="Rechercher">
+                            <input type="text" class="form-control input-sm no-border bg-white" placeholder="Rechercher">
                             <span class="input-group-btn">
-                            <button type="submit" class="btn btn-sm btn-success btn-icon"><i class="icon-search"></i></button>
+                            <button type="button" class="btn btn-sm btn-info btn-icon" id="toolbarSearch"><i class="icon-search"></i></button>
                             </span> 
 						</div>
                     </div>
-                </form>-->
+                </form>
+                <script>
+				$('#toolbarSearch').bind('click',function(){
+					tendoo.notice.alert('Indisponible pour cette version de tendoo','info');
+				});
+				</script>
                 <ul class="nav navbar-nav navbar-right">
 					<?php
                     $sysNot			=	$this->core->tendoo_admin->get_sys_not();

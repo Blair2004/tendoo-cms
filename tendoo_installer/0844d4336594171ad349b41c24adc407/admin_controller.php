@@ -125,7 +125,7 @@ class News_admin_controller
 		}
 		else
 		{
-			$this->url->redirect(array('admin','index?notice=accessDenied'));
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 	}
 	public function edit($e)

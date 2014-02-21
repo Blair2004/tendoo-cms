@@ -94,7 +94,7 @@ class Admin
 	private function loadOuputFile()
 	{
 		$this->core->file->css_push('app.v2');
-		$this->core->file->css_push('css1');
+		 $this->core->file->css_push('css1');
 		$this->core->file->css_push('css2');
 		$this->core->file->css_push('tendoo_global');
 
@@ -780,6 +780,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 					$this->core->input->post('admin_privilege'),
 					$this->core->input->post('admin_password_email')
 				);
+				echo '????';
 				switch($creation_status)
 				{
 					case 'notAllowedPrivilege'	:
@@ -1068,8 +1069,10 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			$this->load->view('admin/global_body',$this->data);
 		}
 	}
-    public function tools()
+    public function tools($action	=	'index')
     {
+		if($action == 'index')
+		{
         $this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
         $this->data['pageDescription']	=	$this->core->tendoo->getVersion();
         
@@ -1078,6 +1081,35 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
         $this->data['body']	=	$this->load->view('admin/tools/body',$this->data,true);
         $this->load->view('admin/header',$this->data);
         $this->load->view('admin/global_body',$this->data);
+		}
+		else if($action == 'calendar')
+		{
+			 $this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
+        $this->data['pageDescription']	=	$this->core->tendoo->getVersion();
+        
+        $this->core->tendoo->setTitle('Utilitaires - Tendoo');
+        $this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+        $this->data['body']	=	$this->load->view('admin/tools/calendar',$this->data,true);
+        $this->load->view('admin/header',$this->data);
+        $this->load->view('admin/global_body',$this->data);
+		}
+		else if($action == 'stats')
+		{
+			$this->data['Stats']			=	$this->core->tendoo_admin->tendoo_visit_stats();
+			$this->data['priv_stats']		=	$this->core->tendoo_admin->privilegeStats();
+			 $this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
+			$this->data['pageDescription']	=	$this->core->tendoo->getVersion();
+			
+			$this->core->tendoo->setTitle('Utilitaires &raquo; Statistiques - Tendoo');
+			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+			$this->data['body']	=	$this->load->view('admin/tools/stats',$this->data,true);
+			$this->load->view('admin/header',$this->data);
+			$this->load->view('admin/global_body',$this->data);
+		}
+		else
+		{
+			$this->core->url->redirect(array('error','code','page404'));
+		}
     }
 	public function ajax($option,$x	=	'',$y = '',$z = '')
 	{

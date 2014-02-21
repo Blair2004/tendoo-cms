@@ -58,14 +58,14 @@ if($setting['EVERYONEPOST'] == 0)
 			'type'			=>	'input'
 		));
 		$theme->defineForm(array(
-			'text'			=>	'Entrer votre mail',
+			'text'			=>	'Entrez votre email',
 			'name'			=>	'mail',
 			'value'			=>	$email,
 			'subtype'		=>	'text',
 			'type'			=>	'input'
 		));
 		$theme->defineForm(array(
-			'text'			=>	'Entrer votre commentaire',
+			'text'			=>	'Entrez votre commentaire',
 			'name'			=>	'content',
 			'subtype'		=>	'text',
 			'type'			=>	'textarea'
@@ -92,14 +92,14 @@ else
 			'type'			=>	'input'
 		));
 		$theme->defineForm(array(
-			'text'			=>	'Entrer votre mail',
+			'text'			=>	'Entrez votre email',
 			'name'			=>	'mail',
 			'value'			=>	$email,
 			'subtype'		=>	'text',
 			'type'			=>	'input'
 		));
 		$theme->defineForm(array(
-			'text'			=>	'Entrer votre commentaire',
+			'text'			=>	'Entrez votre commentaire',
 			'name'			=>	'content',
 			'subtype'		=>	'text',
 			'type'			=>	'textarea'

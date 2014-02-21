@@ -70,7 +70,8 @@
                                             <td class="action"><strong> <a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$mod['ID']));?>"><?php echo $mod['HUMAN_NAME'];?></a> </strong> <br>
                                                 <em><small><?php echo $mod['AUTHOR'];?></small></em> <br>
                                                 <?php echo $mod['DESCRIPTION'];?> <br>
-                                                <small title="Unique : S'applique à un contr&ocirc;leur uniquement. Globale : S'applique &agrave; tous les contr&ocirc;leurs" style="font-size:10px;"><?php echo ($mod['TYPE'] == 'GLOBAL') ? 'Globale' : 'Unique';?></small></td>
+                                                <small title="Unique : S'applique à un contr&ocirc;leur uniquement. Globale : S'applique &agrave; tous les contr&ocirc;leurs" style="font-size:10px;"><?php echo ($mod['TYPE'] == 'GLOBAL') ? 'Globale' : 'Unique';?></small>
+                                                <strong><small style="float:right;font-size:10px;"><?php echo ($mod['APP_VERS'] == '') ? 'Version Inconnue' : 'v.'.$mod['APP_VERS'];?></small></strong></td>
                                             <td class="action"><a class="delete" href="<?php echo $this->core->url->site_url(array('admin','uninstall','module',$mod['ID']));?>"><i style="font-size:25px;" class="icon-trash" title="D&eacute;sintaller"></i></a></td>
                                             <td><?php
                                                     if($mod['ACTIVE'] == '0')

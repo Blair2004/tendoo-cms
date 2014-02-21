@@ -9,6 +9,13 @@ Quels sont les raisons pour lesquelles vous pouvez adopter Tendoo ?
 Tout d'abord deux personnes sont concernées par Tendoo : les non développeurs et les développeurs. 
 Pour les premiers, Tendoo est fourni avec l'essentiel pour faire un blog complet avec prise en charge de plusieurs fonctionnalités avancées, Il est notamment possible :
 
+- Amélioration de l'interface d'accueil avec un panel "togglelable" (afficher / cacher) avec les icones des modules correctement installés.
+- Mise à jour du thème "Modus"
+- Simplification de l'interface Tendoo News.
+- Ajout d'un guide "Premiers pas" disponible dans toutes les versions.
+- Suppression des WYSIWYG non utilisé pour une réduction considérable de la taille du CMS.
+- Introduction du File Manager, Tendoo Content passe à la version 0.2.
+- Tendoo Url Module Launcher (TEURMOLA), permet de lancer un module spécifique depuis l'adresse URL sans passer par un interface, pourra être désactivé dans les version ultérieures. le lancement se présente sous la forme "http://www.monsite.com/index.php/tendoo@news" ou "http://www.monsite.com/index.php/tendoo@promoshop"
 - Gérer les publications (écrire un article, modifier, supprimer)
 - Gérer les commentaires (Supprimer, valider)
 - Autoriser les commentaires

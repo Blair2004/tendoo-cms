@@ -10,6 +10,7 @@ class Tendoo_admin
 	{
 		$this->core				=	Controller::instance();
 		$this->tendoo			=&	$this->core->tendoo;
+		$this->sitemapgenerator();
 	}
 	public function get_global_info()
 	{
@@ -709,7 +710,7 @@ class Tendoo_admin
 										);
 									}
 								}
-								if(array_key_exists('appHiddenController',$appInfo))
+								if(array_key_exists('appHiddenController',$appInfo)) // Créer un controlleur pendant l'installation
 								{
 									if(is_array($appInfo['appHiddenController']))
 									{
@@ -1057,6 +1058,7 @@ class Tendoo_admin
 	public function appTableField($fields)
 	{
 		$this->appTableField	=	$fields; // File information such as NAMESPACE, HUMAN_NAME, DESCRIPTION and others
+		$this->appTableField['APP_VERS']	=	$this->appVers; // ajoute la version de l'app.
 	}
 	private $appAction		=	array();
 	public function appAction($action)
@@ -1503,5 +1505,34 @@ class Tendoo_admin
 			return false;
 		}
 		return true;
+	}
+	public function sitemapgenerator() // Not Finish
+	{
+		$menu	=	$this->core->tendoo->get_pages();
+		foreach($menu as $m)
+		{
+		}
+	}
+	public function privilegeStats()
+	{
+		$_privilege	=	array();
+		$query		=	$this->core->db->get('tendoo_admin_privileges');
+		$result		=	$query->result_array();
+		if(count($result[0]) > 0)
+		{
+			foreach($result as $r) // Parcours les privileges
+			{
+				$_query		=	$this->core->db->where('PRIVILEGE',$r['PRIV_ID'])->get('tendoo_users');
+				$_result	=	$_query->result_array();
+				$__query	=	$this->core->db->get('tendoo_users');
+				$__result	=	$__query->result_array();
+				$_privilege[]	=	array(
+					'TOTALUSER'		=>		count($_result),
+					'POURCENTAGE'	=>		count($_result) / count($__result) * 100,
+					'PRIV_NAME'		=>		$r['HUMAN_NAME']
+				);
+			}
+		}
+		return $_privilege;
 	}
 }
