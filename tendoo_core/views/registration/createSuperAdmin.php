@@ -1,4 +1,4 @@
-    <section id="content" class="m-t-lg wrapper-md animated fadeInUp scrollable wrapper"> 
+﻿    <section id="content" class="m-t-lg wrapper-md animated fadeInUp scrollable wrapper"> 
         <div class="row">
             <div class="col-lg-4 col-sm-offset-2">
             	<section class="panel">
@@ -36,7 +36,7 @@
             <div class="col-lg-4">
             	<section class="panel">
                     <header class="panel-heading bg bg-info text-center">Pourquoi cette page ?</header>
-                    <div class="panel-body">Aucun super-administrateur n'a &eacute;t&eacute; trouver pour ce site.
+                    <div class="panel-body">Aucun super-administrateur n'a &eacute;t&eacute; trouvé pour ce site.
                     Le super-administrateur est l'utilisateur ayant le maximum de privil&egrave;ges. Il a des attributs illimités et peut effectuer plusieurs opérations qui lui sont propre
                     </div>
                 </section>

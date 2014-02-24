@@ -6,13 +6,15 @@ Class login
 	private $load;
 	public function __construct()
 	{
+		
 		$this->core			=	Controller::instance();
 		$this->core->load->library('session');
 		$this->core->load->library('users_global');
 		$this->users_global	=&	$this->core->users_global;
 		$this->load			=&	$this->core->load;
+
 		// Has admin ?
-		($this->users_global->hasAdmin()=== FALSE) ? $this->core->url->redirect(array('resgistration','superAdmin')) : false;
+		($this->users_global->hasAdmin()=== FALSE) ? $this->core->url->redirect(array('registration','superAdmin')) : false;
 		// is Connected ?
 		($this->users_global->isConnected()=== TRUE) ? $this->core->url->redirect(array('index')) : false;
 	}
