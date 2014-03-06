@@ -84,7 +84,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				$this->core->notice->push_notice(notice($login_status));
 			}
 		}
-		$this->data['pageTitle']	=	'Connexion';
+		$this->data['pageTitle']	=	'Connexion - '.$this->data['options'][0]['SITE_NAME'];
 		$this->core->tendoo->setTitle($this->data['pageTitle']);
 		
 		$this->data['body']	=	$this->load->view('login/connect',$this->data,true);

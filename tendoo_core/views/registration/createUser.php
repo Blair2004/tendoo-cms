@@ -1,4 +1,4 @@
-    <section id="content" class="m-t-lg wrapper-md animated fadeInUp scrollable wrapper"> 
+    <section id="content" class="wrapper-md animated fadeInUp scrollable wrapper"> 
         <div class="row">
             <div class="col-lg-6 col-sm-offset-3">
                     <?php
@@ -14,7 +14,7 @@
 			?>
             	<?php echo $this->core->notice->parse_notice();?>
             	<section class="panel">
-                	<header class="panel-heading bg bg-color-green text-center"><?php echo $pageTitle;?></header>
+                	<header class="panel-heading bg-primary text-center"><?php echo $pageTitle;?></header>
                 	<form method="post" class="panel-body">
                         <div class="form-group text">
                         	<label class="control-label">Pseudo <?php echo $field_1;?></label>

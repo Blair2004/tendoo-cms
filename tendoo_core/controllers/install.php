@@ -20,6 +20,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 
 		$this->core->file->js_push('jquery');
 		$this->core->file->js_push('app.v2');
+		$this->core->file->js_push('tendoo_app');
 	}
 	public function index($i = 1,$e = '')
 	{
@@ -27,6 +28,10 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 	}
 	public function etape($i = 1,$e = '')
 	{
+		if($this->core->tendoo->isLangSelected())
+		{
+			$this->core->url->redirect(array('install','defineLang'));
+		}
 		$this->data['etape']	=	$i;
 		$this->data['InstallError'] = '';
 		if($i == 1)
@@ -49,7 +54,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			}
 			else
 			{
-				if(!in_array($_SESSION['secur_access'],array(2)))
+				if(!in_array($_SESSION['secur_access'],array(1,2)))
 				{
 					$this->core->url->redirect(array('install','etape',1));
 				}
@@ -93,7 +98,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				}
 				else
 				{
-					if($_SESSION['secur_access'] != 3)
+					if(!in_array($_SESSION['secur_access'],array(1,2,3)))
 					{
 						$this->core->url->redirect('install/etape/1');
 					}
@@ -115,6 +120,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			}
 			else
 			{
+			
 				if($_SESSION['secur_access'] != 4)
 				{
 					$this->core->url->redirect('install/etape/1');
@@ -143,32 +149,33 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 	{
 		if(isset($_POST['site_name']))
 		{
-			
 			$this->core->form_validation->set_rules('site_name','Nom du site','trim|required|min_length[4]');
 			if($this->core->form_validation->run())
 			{
 				if(!$this->core->tendoo->createTables())
 				{
 					echo 'false'; // Table creation failed, redirect so
+					return false;
+				}
+				if($this->core->tendoo->setOptions($this->core->input->post('site_name')))
+				{
+					$_SESSION['secur_access']	=	4;
+					echo 'true';
 				}
 				else
 				{
-					if($this->core->tendoo->setOptions($this->core->input->post('site_name')))
-					{
-						$_SESSION['secur_access']	=	4;
-						echo 'true';
-					}
-					else
-					{
-						echo 'false';
-					}
+					echo 'false';
 				}
+			}
+			else
+			{
+				echo 'invalidesitename';
 			}
 			// Execute control
 		}
 		else
 		{
-			echo 'false';
+			echo 'nositename';
 		}
 	}
 	public function installApp($namespace)
@@ -176,5 +183,18 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		$server	=	$_SESSION['db_datas'];
 		$this->core->tendoo->attemptConnexion($server['hostname'],$server['username'],$server['password'],$server['database'],$server['dbdriver'],$server['dbprefix']);
 		$this->core->tendoo->defaultsApp($namespace);
+	}
+	public function defineLang()
+	{
+		$this->core->load->library('form_validation');
+		$this->core->form_validation->set_rules('lang','Selection de la langue / Lang selection','trim|required|min_length[3]');
+		if($this->core->form_validation->run())
+		{
+			$this->core->tendoo->defineLang('FRE'); // $this->core->input->post('lang')
+			$this->core->url->redirect(array('install','etape','1'));
+		}
+		$this->core->tendoo->setTitle('Tendoo &raquo; Choose installation language, Choissisez la langue d\'installation');
+		$this->load->view('header',$this->data);
+		$this->load->view('install/lang/body',$this->data);
 	}
 }

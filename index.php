@@ -1,9 +1,9 @@
 <?php
 session_start();
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-/* =-=-=-=-=-=-Tendoo SCRIPT DU NOYAU(2013)-=-=-=-=-=-=-=-= */
+/* =-=-=-=-=-=-Tendoo SCRIPT DU NOYAU(2014)-=-=-=-=-=-=-=-= */
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('TENDOO_VERSION','0.95');
+define('TENDOO_VERSION','0.96');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('Tendoo_SIGNATURE','Tendoo - CMS('.TENDOO_VERSION.')');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -51,6 +51,5 @@ include_once(HELPERS_DIR.'date.php');
 include_once(HELPERS_DIR.'text.php');
 include_once(HELPERS_DIR.'cookie_helper.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LAUNCH TENDOO -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-$OUTPUT				=	new Output;
-$INSTANCE			=	new Controller;
+new Controller;
 /* =-=-=-=-=-=-=-=-=-=-=-=-= UBBER ENTERPRISE 2014 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */

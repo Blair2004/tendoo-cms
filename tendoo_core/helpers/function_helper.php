@@ -127,7 +127,7 @@ if(!function_exists('notice'))
 		
 		$array['cant_delete_mainpage']		=	tendoo_warning(' La page principale ne peut pas &ecirc;tre supprim&eacute;.');
 		$array['controler_edited']			=	tendoo_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
-		$array['db_unable_to_connect']		=	tendoo_warning('Il est impossible de se connect&eacute; avec les informations fournies.');
+		$array['db_unable_to_connect']		=	tendoo_warning('Il est impossible de se connecter &agrave; la base de donn&eacute;es avec les informations fournies.');
 		$array['db_unable_to_select']		=	tendoo_warning('La connexion &agrave; &eacute;t&eacute; &eacute;tablie, cependant il est impossible d\'acc&eacute;der &agrave; la base de donn&eacute;e.');
 		$array['error_occured']				=	tendoo_warning(' Une erreur s\'est produite durant l\'op&eacute;ration.');
 		$array['adminDeleted']				=	tendoo_success(' L\'utilisateur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
@@ -410,6 +410,31 @@ if(!function_exists('__extends'))
 		if(isset($Controller->form_validation))
 		{
 			$obj->form_validation	=&	$Controller->form_validation;
+		}
+	}
+}
+if(!function_exists('gt')) // gt = Get Text
+{
+	function gt($code)
+	{
+		$e;
+		__extends($e);
+		if($e->tendoo->getSystemLang() == 'ENG')
+		{
+			// not yet
+		}
+		else if($e->tendoo->getSystemLang() == 'FRE')
+		{
+			$text	=	file_get_contents(SYSTEM_DIR.'/config/french.tlf');
+			eval($text);
+			if(array_key_exists($code,$Lang))
+			{
+				return $Lang[$code];
+			}
+			else
+			{
+				return '<strong>'.$code.'</strong> does\'nt match any lang code';
+			}
 		}
 	}
 }

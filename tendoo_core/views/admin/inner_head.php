@@ -53,6 +53,8 @@ if($options[0]['ADMIN_THEME'] == 1)
                         <ul class="dropdown-menu">
                             <li> <a href="<?php echo $this->core->url->site_url('admin/tools/stats');?>">Statistiques</a> </li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/tools/calendar');?>">Calendrier</a> </li>
+							<li> <a href="<?php echo $this->core->url->site_url('admin/tools/seo');?>">Outils SEO</a> </li>
+							<!--<li> <a href="<?php echo $this->core->url->site_url('admin/tools/filExplorer');?>">Explorateur de fichiers</a> </li>-->
                         </ul>
                     </li>
                 </ul>

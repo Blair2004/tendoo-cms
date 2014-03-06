@@ -170,11 +170,32 @@ class Tendoo_admin
 		$query				= $this->core->db->get();
 		return $query->result_array();
 	}
-	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'')
+	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'',$keywords = '')
 	{
 		if(in_array($cname,$this->reservedControllers)): return 'cantUserReservedCNames'; endif; // ne peut utiliser les cname reservés.
 		if($childOf == strtolower($cname)) : return 'cantHeritFromItSelf' ;endif; // Ne peut être sous menu de lui même
 		$currentPosition=	$childOf;
+		if($obj == 'update')
+		{
+			$_xquery	=	$this->core->db->where('PAGE_CNAME',$cname)->get('tendoo_controllers');
+			$_xresult	=	$_xquery->result_array();
+			if(count($_xresult) > 0)
+			{
+				if($_xresult[0]['ID'] != $id)
+				{
+					return 'c_name_already_found';
+				}
+			}
+			$_xquery	=	$this->core->db->where('PAGE_NAMES',$name)->get('tendoo_controllers');
+			$_xresult	=	$_xquery->result_array();
+			if(count($_xresult) > 0)
+			{
+				if($_xresult[0]['ID'] != $id)
+				{
+					return 'name_already_found';
+				}
+			}
+		}
 		if($childOf != 'none') // Si ce controleur est l'enfant d'un autre.
 		{
 			for($i=0;$i<= $this->core->tendoo->get_menu_limitation();$i++)
@@ -241,6 +262,7 @@ class Tendoo_admin
 		$e['PAGE_VISIBLE']		=	$visible;
 		$e['PAGE_PARENT']		=	$childOf == $name ? 'none' : $childOf;
 		$e['PAGE_LINK']			=	$page_link;
+		$e['PAGE_KEYWORDS']		=	$keywords;
 		if($childOf == 'none')
 		{
 			$sub_query	=	$this->core->db->where('PAGE_PARENT','none')->get('tendoo_controllers');
@@ -527,10 +549,18 @@ class Tendoo_admin
 	{
 		return $this->core->db->update('tendoo_options',array('SITE_TIMEFORMAT'=>$e));
 	}
-	public function editShowMessage($e)
+	public function toggleWelcomeMessage()
 	{
-		$bool	=	is_bool((bool)$e) ? $e : "TRUE";
-		$this->core->db->update('tendoo_options',array('SHOW_WELCOME'=>$bool));
+		$options	=	$this->core->tendoo->getOptions();
+		if($options[0]['SHOW_WELCOME'] ==  '1')
+		{
+			$int	=	'FALSE';
+		}
+		else
+		{
+			$int	=	'TRUE';
+		}
+		$this->core->db->update('tendoo_options',array('SHOW_WELCOME'=>$int));
 	}
 	public function switchShowAdminIndex()
 	{
@@ -577,6 +607,41 @@ class Tendoo_admin
 			));
 		}
 	}
+	public function toggleFirstVisit()
+	{
+		$option =	$this->core->db->get('tendoo_options');
+		$result	=	$option->result_array();
+		if($result[0]['FIRST_VISIT'] == '0')
+		{
+			$this->core->db->update('tendoo_options',array(
+				'FIRST_VISIT'			=>		'1'
+			));
+		}
+		else
+		{
+			$this->core->db->update('tendoo_options',array(
+				'FIRST_VISIT'			=>		'0'
+			));
+		}
+	}
+	public function toogleStoreConnexion()
+	{
+		$option =	$this->core->db->get('tendoo_options');
+		$result	=	$option->result_array();
+		if($result[0]['CONNECT_TO_STORE'] == '0')
+		{
+			$this->core->db->update('tendoo_options',array(
+				'CONNECT_TO_STORE'			=>		'1'
+			));
+		}
+		else
+		{
+			$this->core->db->update('tendoo_options',array(
+				'CONNECT_TO_STORE'			=>		'0'
+			));
+		}
+	}
+	// End
 	public function encrypted_name()
 	{
 		$alphabet	=	array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','W','X','Y','Z','1','2','3','4','5','6','7','8','9');
@@ -1323,7 +1388,7 @@ class Tendoo_admin
 		}
 		return false;
 	}
-	public function adminAccess($action_namespace,$action,$privilege,$object_namespace)
+	public function adminAccess($action_namespace,$action,$privilege,$object_namespace = '')
 	{
 		$query	=	$this->core->db->where('OBJECT_NAMESPACE',$object_namespace)->where('TYPE_NAMESPACE',$action_namespace)->where('REF_TYPE_ACTION',$action)->where('REF_PRIVILEGE',$privilege)->get('tendoo_privileges_actions');
 		$result = $query->result_array();

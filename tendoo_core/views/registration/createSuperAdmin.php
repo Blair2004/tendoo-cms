@@ -1,8 +1,8 @@
-﻿    <section id="content" class="m-t-lg wrapper-md animated fadeInUp scrollable wrapper"> 
+﻿    <section id="content" class="wrapper-md animated fadeInUp scrollable wrapper"> 
         <div class="row">
             <div class="col-lg-4 col-sm-offset-2">
             	<section class="panel">
-                	<header class="panel-heading bg bg-danger text-center">Cr&eacute;er un super administrateur</header>
+                	<div class="panel-heading bg-danger text-center">Cr&eacute;er un super administrateur</div>
                 	<form method="post" class="panel-body">
                         <div class="form-group text">
                         	<label class="control-label">Pseudo</label>
@@ -29,15 +29,15 @@
                             </select>
                         </div>
                         <input class="btn btn-info" type="submit" value="Cr&eacute;er" />
-                        <input class="btn btn-info" type="reset" value="Annuler" />
+                        <input class="btn btn-darken" type="reset" value="Annuler" />
                     </form>
                 </section>                
             </div>
             <div class="col-lg-4">
             	<section class="panel">
-                    <header class="panel-heading bg bg-info text-center">Pourquoi cette page ?</header>
+                    <header class="panel-heading bg-info text-center">Pourquoi cette page ?</header>
                     <div class="panel-body">Aucun super-administrateur n'a &eacute;t&eacute; trouvé pour ce site.
-                    Le super-administrateur est l'utilisateur ayant le maximum de privil&egrave;ges. Il a des attributs illimités et peut effectuer plusieurs opérations qui lui sont propre
+                    Le super-administrateur est l'utilisateur ayant le maximum de privil&egrave;ges. Il a des attributs illimités et peut effectuer plusieurs opérations qui lui sont propre.
                     </div>
                 </section>
             </div>

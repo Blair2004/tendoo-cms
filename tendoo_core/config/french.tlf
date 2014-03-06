@@ -1,0 +1,20 @@
+/*
+/*	Tendoo 0.9.6 French Lang File
+*/
+$Lang	=	array(
+	'home'			=>		'Accueil',
+	'database'		=>		'Base de donn&eacute;es',
+	'options'		=>		'Options',
+	'install_end'	=>		'Fin de l\'installation',
+	'tendoo_community'	=>	'Tendoo Community',
+	'tendoo_for_mobile'	=>	'Tendoo pour appareil mobile',
+	'install_details'	=>	'D&eacute;tails de l\'installation',
+	'install_step_1_text_1'=>	"Besoin d'aide et d'assitance ? connectez-vous &agrave; la communaut&eacute; et exposer vos probl&egrave;mes li&eacute;s &agrave; l'utilisation du CMS Tendoo.<br>T&eacute;l&eacute;charger des applications depuis le Store et augmentez consid&eacute;rablement le potentiel de Tendoo.",
+	'install_step_1_text_2'=>	"Tendoo offre un espace d'administration qui est compatible avec la plus part des supports mobiles. L'interface intuitif vous permet de g&eacute;rer votre site web depuis un terminal mobile. Cet interface s'apadapte correctement aux dimensions de votre appareil, pour que le plaisir de naviguer sur votre appareil mobile soit identique &agrave; celui ressenti depuis un ordinateur.",
+	'install_step_1_text_3'=>	"Cette installation se fera en 3 étapes, vous avez donc au moins 4 minutes pour créer votre site web.",
+	'install_step_1_text_4'=>	"Premi&egrave;re &eacute;tape : Information sur la base de donn&eacute;e",
+	'install_step_1_text_5'=>	"Deuxi&egrave;me &eacute;tape : Nom du site",
+	'install_step_1_text_6'=>	"Troisi&egrave;me &eacute;tape : Fin de l'installation",
+	'install_step_1_text_7'=>	"Connectez vous &agrave; l'espace administrateur pour modifier les informations de votre site, cr&eacute;er des administrateurs, installer les th&egrave;mes et modules.",
+	'continue'				=>	"Continuer"
+);

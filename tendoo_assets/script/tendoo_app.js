@@ -342,18 +342,28 @@ $(document).ready(function(){
 				});
 			};
 			this.display	=	function(){
-				$('#ajaxLoading').fadeIn(500);
+				$('#ajaxLoading').css({'visibility':'visible','opacity':1}).fadeIn(500);
+			};
+			this.dontdisplay=	function(){
+				$('#ajaxLoading').css({
+					'visibility'	:	'hidden'
+				});
 			};
 			this.hide		=	function(){
-				$('#ajaxLoading').fadeOut(500);
+				$('#ajaxLoading').animate({
+					'opacity'	:	0
+				});
 			};
 			// By default.
-			this.show('#ajaxLoading',{
-				cHeight		:	30,
-				cWidth		:	30,
-				cFrameWidth	:	30
-			});
-			this.hide();
+			if($('#ajaxLoading').length > 0)
+			{
+				this.show('#ajaxLoading',{
+					cHeight		:	30,
+					cWidth		:	30,
+					cFrameWidth	:	30
+				});
+				this.dontdisplay();
+			}
 		};
 		tendoo.boot			=	new function(){
 			var tASE	=	'#tendooAppStore'; // TENDOO APP STORE DOM BUTTON ELEMENT
@@ -364,27 +374,70 @@ $(document).ready(function(){
 					tendoo.loader.hide();
 				},2000);
 			});
-			$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
+			if($(tASE).length > 0)
+			{
+				$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
+			}
+			var interval	=	setInterval(function(){
+				tendoo.popoverDismiss.bind();
+			},500);
 		};
-		tendoo.silentAjax	=	new function(){
-			$('[data-requestType="silent"]').each(function(){
-				$(this).bind('click',function(){
-					if(typeof $(this).attr('data-url') != 'undefined')
-					{
-						if(typeof $(this).attr('silent-ajax-event') == 'undefined')
+		tendoo.formAjax		=	new function(){
+			this.bind		=	function(){
+				$('form[fjax=""]').each(function(){
+					$(this).attr('fjax','true');
+					$(this).bind('submit',function(){
+						if($(this).attr('method') == 'post' || $(this).attr('method') == 'POST')
 						{
-							$.ajax($(this).attr('data-url'),{
+							var finalQuery = {};
+							var datas = $(this).serializeArray();
+							for (i = 0; i < datas.length; i++)
+							{
+								eval("finalQuery." + datas[i].name + ' = "' + datas[i].value + '"');
+							}
+							$.ajax($(this).attr('action'),{
 								beforeSend	:	function(){
 									tendoo.loader.display();
 								},
 								complete	:	function(){
 									tendoo.loader.hide();
-								}
+								},
+								type		:	'POST',
+								data		:	finalQuery,
+								dataType	:	'script'
 							});
 						}
-					}
+						else
+						{
+						}
+						return false;
+					});
 				});
-			});
+			}
+			this.bind();
 		};
+		tendoo.silentAjax	=	new function(){
+			this.bind		=	function(){
+				$('[data-requestType="silent"]').each(function(){
+					$(this).bind('click',function(){
+						if(typeof $(this).attr('data-url') != 'undefined')
+						{
+							if(typeof $(this).attr('silent-ajax-event') == 'undefined')
+							{
+								$.ajax($(this).attr('data-url'),{
+									beforeSend	:	function(){
+										tendoo.loader.display();
+									},
+									complete	:	function(){
+										tendoo.loader.hide();
+									}
+								});
+							}
+						}
+					});
+				});
+			}
+			this.bind();
+		}
 	}
 });

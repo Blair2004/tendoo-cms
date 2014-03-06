@@ -1,0 +1,1 @@
+tendoo.notice.alert('L\'op&eacute;ration a r&eacute;ussie','success');

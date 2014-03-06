@@ -183,7 +183,7 @@
                     }
                     ?>
               </li>
-            </ul>
+            </ul>									
           </div>
           <div class="col-lg-3">
             <section class="panel">

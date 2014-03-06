@@ -1,13 +1,27 @@
 <?php
-
+	
 	$currentTime	=	$this->core->tendoo->datetime();
 	$dateArray		=	$this->core->tendoo->time(strtotime($currentTime),TRUE);
-	$stats		=	$this->core->tendoo_admin->tendoo_visit_stats();
+	$stats			=	$this->core->tendoo_admin->tendoo_visit_stats();
 	$visitLine		=	'';
-	$totalUnique	=	$stats['statistics']['unique'][$dateArray['y']][$dateArray['M']]['totalVisits'];
-	$totalGlobal	=	$stats['statistics']['global'][$dateArray['y']][$dateArray['M']]['totalVisits'];
+	//echo '<pre>';
+	//echo print_r($stats,TRUE);
+	//echo '</pre>';
+	if(array_key_exists($dateArray['M'],$stats['statistics']['unique'][$dateArray['y']]))
+	{
+		$totalUnique	=	$stats['statistics']['unique'][$dateArray['y']][$dateArray['M']]['totalVisits'];
+		$totalGlobal	=	$stats['statistics']['global'][$dateArray['y']][$dateArray['M']]['totalVisits'];
+	}
+	else
+	{
+		$totalUnique	=	0;
+		$totalGlobal	=	0;
+		$this->core->notice->push_notice(tendoo_info('Aucune visite n\'a &eacute;t&eacute; &eacute;ffectu&eacute;e ce mois'));
+	}
+	
 	$overAllUnique	=	$stats['statistics']['overAll']['unique']['totalVisits'];
 	$overAllGlobal	=	$stats['statistics']['overAll']['global']['totalVisits'];
+	
 	//echo '<pre>';
 	//print_r();
 	//echo '</pre>';
@@ -62,6 +76,7 @@
 			{
 				echo tendoo_warning('Si aucun graphisme ne s\'affiche, c\'est certainement parce qu\'il n\'y a pas beaucoup de donn&eacute;e &agrave; traiter');
 			}
+			$this->core->notice->parse_notice();
 			?>
 			</div>
           	<div class="col-lg-4">

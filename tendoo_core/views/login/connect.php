@@ -1,7 +1,7 @@
 <div class="row m-n"> 
     <div class="col-md-4 col-md-offset-4 m-t-lg"> 
         <section class="panel"> 
-            <header class="panel-heading text-center"> Connexion </header> 
+            <header class="panel-heading text-center"> <?php echo $pageTitle;?> </header> 
             <form method="POST" class="panel-body"> 
                 <div class="form-group"> 
                     <label class="control-label">Pseudo</label> 

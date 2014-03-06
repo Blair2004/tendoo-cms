@@ -122,7 +122,7 @@ class Tendoo
 	{
 		$this->core		=	Controller::instance();
 		$config			=	$_SESSION['db_datas'];
-		$DB_ROOT			=	$config['dbprefix'];
+		$DB_ROOT		=	$config['dbprefix'];
 		$this->core->db	=	DB($config,TRUE);
 		/* CREATE tendoo_controllers */
 		$sql = 
@@ -138,6 +138,7 @@ class Tendoo
 		  `PAGE_PARENT` varchar(200) NOT NULL,
 		  `PAGE_LINK` text,
 		  `PAGE_POSITION` int(11) NOT NULL,
+		  `PAGE_KEYWORDS` varchar(200) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -189,6 +190,7 @@ class Tendoo
 		  `SITE_NAME` varchar(40) NOT NULL,
 		  `SITE_TYPE` varchar(40) NOT NULL,
 		  `SITE_LOGO` varchar(200) NOT NULL,
+		  `SITE_LANG` varchar(200) NOT NULL,
 		  `ALLOW_REGISTRATION` int(11) NOT NULL,
 		  `SITE_TIMEZONE` varchar(30) NOT NULL,
 		  `SITE_TIMEFORMAT` varchar(10) NOT NULL,
@@ -705,7 +707,8 @@ class Tendoo
 					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE,
 					'PAGE_CHILDS'	=> $this->get_sublevel($obj->ID,1),
 					'PAGE_LINK'		=>$obj->PAGE_LINK, // new added 0.9.4
-					'PAGE_POSITION'	=>	$obj->PAGE_POSITION
+					'PAGE_POSITION'	=>	$obj->PAGE_POSITION,
+					'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
 				);
 			}
 			$this->getpages	=	$array;
@@ -735,7 +738,8 @@ class Tendoo
 					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE,
 					'PAGE_CHILDS'	=>$this->get_sublevel($obj->ID,1),
 					'PAGE_LINK'		=>	$obj->PAGE_LINK, // New added 0.9.4
-					'PAGE_POSITION'	=>	$obj->PAGE_POSITION // added 0.9.5
+					'PAGE_POSITION'	=>	$obj->PAGE_POSITION, // added 0.9.5,
+					'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
 				);
 			}
 			$this->getpages	=	$array;
@@ -1449,15 +1453,14 @@ class Tendoo
 			$result	=	$option->result_array();
 			if($result[0]['CONNECT_TO_STORE'] == '1')
 			{
-				set_time_limit (8);
-
 				$tracking_result	=	file_get_contents(
-					'http://tendoo.tk/index.php/store/connect?site_url='.
-						$this->core->url->main_url().
-					'&site_name='.
+					'http://tendoo.tk/index.php/store/connect/'.
 						$result[0]['SITE_NAME'].
-					'&tendoo_vers='.
-						$this->getVersion()
+					'/'.
+						$this->getVersion().
+					'/'.
+						urlencode($this->core->url->main_url())
+					
 				);
 				if($tracking_result)
 				{
@@ -1465,5 +1468,38 @@ class Tendoo
 				}
 			}
 		}
+	}
+	/*
+	/*	To know if there is any lang selection done and saved on a file named lang.php.
+	/*	TFC	=	Tendoo File Code;
+	*/
+	private $supportedLang	=	array('ENG','FRE');
+	public function isLangSelected()
+	{
+		if(is_file(SYSTEM_DIR.'/config/lang.tfc'))
+		{
+			return false;
+		}
+		return true;
+	}
+	public function defineLang($lang)
+	{
+		if(in_array($lang,$this->supportedLang))
+		{
+			$langDefined	=	$lang;
+		}
+		else
+		{
+			$langDefined	=	'ENG';
+		}
+		file_put_contents(SYSTEM_DIR.'/config/lang.tfc',$langDefined);
+	}
+	public function getSystemLang()
+	{
+		if(is_file(SYSTEM_DIR.'/config/lang.tfc'))
+		{
+			return file_get_contents(SYSTEM_DIR.'/config/lang.tfc');
+		}
+		return 'ENG';
 	}
 }

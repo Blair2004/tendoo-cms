@@ -69,6 +69,7 @@ class Admin
 		$this->load->library('file');
 		$this->load->library('file',null,'file_2');
 		$this->load->library('form_validation');
+		$this->load->library('tendoo_sitemap');
 		$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 		$this->input				=&	$this->core->input;
 		$this->notice				=&	$this->core->notice;
@@ -154,6 +155,7 @@ class Admin
 				$this->form_validation->set_rules('page_description','champ description du controleur','trim|required|min_length[2]|max_length[2000]');
 				$this->form_validation->set_rules('page_id','Identifiant de la page','required');
 				$this->form_validation->set_rules('page_parent','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
+				$this->form_validation->set_rules('page_keywords','Mots cl&eacute;s du cont&ocirc;leur','trim|required|min_length[1]');
 				if($this->form_validation->run())
 				{
 					$this->data['notice']	=	$this->core->tendoo_admin->controller(
@@ -167,7 +169,8 @@ class Admin
 						$this->input->post('page_id'),
 						$this->input->post('page_visible'),
 						$this->input->post('page_parent'),
-						$this->input->post('page_link')
+						$this->input->post('page_link'),
+						$this->input->post('page_keywords')
 					);
 					$this->core->notice->push_notice(notice($this->data['notice']));
 					if($this->data['notice']	==	'controler_edited')
@@ -198,6 +201,7 @@ class Admin
 				$this->form_validation->set_rules('page_description','description de la page','trim|required|min_length[2]|max_length[2000]');
 				$this->form_validation->set_rules('page_visible','Visibilité de la page','trim|required|min_length[4]|max_length[5]');
 				$this->form_validation->set_rules('page_parent','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
+				$this->form_validation->set_rules('page_keywords','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
 	
 				if($this->form_validation->run())
 				{
@@ -212,7 +216,8 @@ class Admin
 						null,
 						$this->input->post('page_visible'),
 						$this->input->post('page_parent'),
-						$this->input->post('page_link')
+						$this->input->post('page_link'),
+						$this->input->post('page_keywords')
 						
 					);	
 					if($this->data['error'] == 'controler_created')
@@ -426,81 +431,50 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			$this->load->library('form_validation');
 $this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 			$this->load->helper('date');
-			if($this->input->post('newName'))
+			if($this->input->post('theme_style') !== FALSE && $this->input->post('newName') && $this->input->post('newLogo') !== FALSE  && $this->input->post('newHoraire') && $this->input->post('newFormat'))
 			{
+				
+				$themeName	=	$newName = $newLogo = $newHoraire = $newFormat = '';
 				$this->form_validation->set_rules('newName','"Du nom du site"','required|min_length[4]|max_length[15]');
 				if($this->form_validation->run())
 				{
-					if($this->core->tendoo_admin->editSiteName($this->input->post('newName')))
-					{
-						$this->notice->push_notice(notice('done'));
-					}
-					else
-					{
-						$this->notice->push_notice(notice('error'));
-					}
+					$newName	=	$this->core->tendoo_admin->editSiteName($this->input->post('newName'));
 				}
-			}
-			if($this->input->post('newLogo'))
-			{
-				$this->form_validation->set_rules('newLogo','"De l\'url du logo du site"','required|min_length[4]|max_length[200]');
+				$this->core->load->library('form_validation');
+				$this->form_validation->set_rules('theme_style','"Nom du thème"','required|min_length[1]|max_length[15]');
+				
 				if($this->form_validation->run())
 				{
-					if($this->core->tendoo_admin->editLogoUrl($this->input->post('newLogo')))
-					{
-						$this->notice->push_notice(notice('done'));
-					}
-					else
-					{
-						$this->notice->push_notice(notice('error'));
-					}
+					$themeName	=	$this->core->tendoo_admin->editThemeStyle($this->input->post('theme_style'));
 				}
-			}
-			if($this->input->post('newHoraire'))
-			{
+				$this->core->load->library('form_validation');
+				$this->form_validation->set_rules('newLogo','"De l\'url du logo du site"','max_length[200]');
+				if($this->form_validation->run())
+				{
+					$newLogo	=	$this->core->tendoo_admin->editLogoUrl($this->input->post('newLogo'));
+				}
+				$this->core->load->library('form_validation');
 				$this->form_validation->set_rules('newHoraire','"Du fuseau horaire"','required|min_length[1]|max_length[20]');
 				if($this->form_validation->run())
 				{
-					if($this->core->tendoo_admin->editTimeZone($this->input->post('newHoraire')))
-					{
-						$this->notice->push_notice(notice('done'));
-					}
-					else
-					{
-						$this->notice->push_notice(notice('error'));
-					}
+					$newHoraire	=	$this->core->tendoo_admin->editTimeZone($this->input->post('newHoraire'));
 				}
-			}
-			if($this->input->post('newFormat'))
-			{
+				$this->core->load->library('form_validation');
 				$this->form_validation->set_rules('newFormat','"Du format horaire"','required|min_length[6]|max_length[10]');
 				if($this->form_validation->run())
 				{
-					if($this->core->tendoo_admin->editTimeFormat($this->input->post('newFormat')))
-					{
-						$this->notice->push_notice(notice('done'));
-					}
-					else
-					{
-						$this->notice->push_notice(notice('error'));
-					}
+					$newFormat	=	$this->core->tendoo_admin->editTimeFormat($this->input->post('newFormat'));
+				}
+				if($newName && $newLogo && $newHoraire && $newFormat && $themeName)
+				{
+					$this->notice->push_notice(notice('done'));
+				}
+				else
+				{
+					$this->notice->push_notice(notice('error_occured'));
 				}
 			}
 			$this->data['result']	=	'';
-			if($this->input->post('other_setting')) // Setting notice go here.
-			{
-				if($this->core->tendoo_admin->editShowMessage($this->input->post('show_welcome_msg')))
-				{
-					$this->core->notice->push_notice(notice('done'));
-				}
-			}
-			if($this->input->post('show_index_stats'))
-			{
-				if($this->core->tendoo_admin->switchShowAdminIndex())
-				{
-					$this->core->notice->push_notice(notice('done'));
-				}
-			}
 			if($this->input->post('autoriseRegistration')) // Setting notice go here.
 			{
 				if($this->core->tendoo_admin->editRegistration($this->input->post('allowRegistration')))
@@ -1071,6 +1045,10 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 	}
     public function tools($action	=	'index')
     {
+		if(!$this->core->users_global->isSuperAdmin())
+		{
+			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
+		}
 		if($action == 'index')
 		{
         $this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
@@ -1085,13 +1063,13 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		else if($action == 'calendar')
 		{
 			 $this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
-        $this->data['pageDescription']	=	$this->core->tendoo->getVersion();
-        
-        $this->core->tendoo->setTitle('Utilitaires - Tendoo');
-        $this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
-        $this->data['body']	=	$this->load->view('admin/tools/calendar',$this->data,true);
-        $this->load->view('admin/header',$this->data);
-        $this->load->view('admin/global_body',$this->data);
+			$this->data['pageDescription']	=	$this->core->tendoo->getVersion();
+			
+			$this->core->tendoo->setTitle('Utilitaires - Tendoo');
+			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+			$this->data['body']	=	$this->load->view('admin/tools/calendar',$this->data,true);
+			$this->load->view('admin/header',$this->data);
+			$this->load->view('admin/global_body',$this->data);
 		}
 		else if($action == 'stats')
 		{
@@ -1106,6 +1084,24 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			$this->load->view('admin/header',$this->data);
 			$this->load->view('admin/global_body',$this->data);
 		}
+		else if($action == 'seo')
+		{
+			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_rules('autoGenerate','Générer automatiquement un sitemap','required');
+			if($this->core->form_validation->run())
+			{
+				$this->core->tendoo_sitemap->create_sitemap_automatically();
+			}
+			$this->data['getSitemap']		=	$this->core->tendoo_sitemap->getSitemap();
+			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
+			$this->data['pageDescription']	=	$this->core->tendoo->getVersion();
+			
+			$this->core->tendoo->setTitle('Utilitaires &raquo; Outils SEO - Tendoo');
+			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true);
+			$this->data['body']	=	$this->load->view('admin/tools/seo',$this->data,true);
+			$this->load->view('admin/header',$this->data);
+			$this->load->view('admin/global_body',$this->data);
+		}
 		else
 		{
 			$this->core->url->redirect(array('error','code','page404'));
@@ -1115,15 +1111,162 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 	{
 		if($option == 'toogle_app_tab')
 		{
+			echo (!$this->core->users_global->isSuperAdmin()) ?  'tendoo.notice.alert("Accès refusé","danger")': null;
 			$this->tendoo_admin->toggleAppTab();
 		}
 		else if($option	==	'upController')
 		{
+			echo (!$this->core->users_global->isSuperAdmin()) ?  'tendoo.notice.alert("Accès refusé","danger")': null;
 			$this->tendoo_admin->upController($x);
 		}
 		else if($option	== 'store_connect')
 		{
+			echo (!$this->core->users_global->isSuperAdmin()) ?  'tendoo.notice.alert("Accès refusé","danger")': null;
 			$this->core->tendoo->store_connect();
+		}
+		else if($option	==	'toggleFirstVisit')
+		{
+			echo (!$this->core->users_global->isSuperAdmin()) ?  'tendoo.notice.alert("Accès refusé","danger")': null;
+			$this->core->tendoo_admin->toggleFirstVisit();
+			$this->core->load->view('admin/ajax/done',$this->data);
+		}
+		else if($option	==	'toogleStoreAccess')
+		{
+			echo (!$this->core->users_global->isSuperAdmin()) ?  'tendoo.notice.alert("Accès refusé","danger")': null;
+			$this->core->tendoo_admin->toogleStoreConnexion();
+			$this->core->load->view('admin/ajax/done',$this->data);
+		}
+		else if($option	==	'toggleWelcomeMessage')
+		{
+			echo (!$this->core->users_global->isSuperAdmin()) ?  'tendoo.notice.alert("Accès refusé","danger")': null;
+			$this->core->tendoo_admin->toggleWelcomeMessage();
+			$this->core->load->view('admin/ajax/done',$this->data);
+		}
+		else if($option	==	'toggleAdminStats')
+		{
+			echo (!$this->core->users_global->isSuperAdmin()) ?  'tendoo.notice.alert("Accès refusé","danger")': null;
+			$this->core->tendoo_admin->switchShowAdminIndex();
+			$this->core->load->view('admin/ajax/done',$this->data);
+		}
+		else if($option == 'sm_manual')
+		{
+			echo (!$this->core->users_global->isSuperAdmin()) ?  'tendoo.notice.alert("Accès refusé","danger")': null;
+			$this->core->tendoo_sitemap->create_sitemap_manually($this->input->post('sitemap'));
+			$this->core->load->view('admin/ajax/done',$this->data);
+		}
+		else if($option == 'sm_remove')
+		{
+			echo (!$this->core->users_global->isSuperAdmin()) ?  'tendoo.notice.alert("Accès refusé","danger")': null;
+			if($this->core->input->post('sm_remove'))
+			{
+				$this->data['type'] =	'success';
+				$this->data['notice'] =	notice('done');
+				$this->core->tendoo_sitemap->remove_sitemap();
+				$this->core->load->view('admin/ajax/notice',$this->data);
+			}
+			else
+			{
+				$this->data['type'] =	'danger';
+				$this->data['notice'] =	notice('error_occured');
+				$this->core->tendoo_sitemap->remove_sitemap();
+				$this->core->load->view('admin/ajax/notice',$this->data);
+			}
+		}
+		else if($option	== 'create_controller')
+		{
+			if($this->core->users_global->isSuperAdmin() === FALSE	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->core->users_global->current('PRIVILEGE')))
+			{
+				echo 'tendoo.notice.alert("Accès refusé","danger")';return;
+			}
+			$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[100]');
+			$this->form_validation->set_rules('page_cname','Nom du contr&ocirc;leur','alpha_dash|trim|required|min_length[2]|max_length[30]');
+			$this->form_validation->set_rules('page_title','Titre du contr&ocirc;leur','trim|required|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('page_module','Affecter un module','trim|required|min_length[2]|max_length[30]');
+			$this->form_validation->set_rules('page_priority','Definir comme page principale','trim|required|min_length[4]|max_length[5]');
+			$this->form_validation->set_rules('page_description','description de la page','trim|required|min_length[2]|max_length[2000]');
+			$this->form_validation->set_rules('page_visible','Visibilité de la page','trim|required|min_length[4]|max_length[5]');
+			$this->form_validation->set_rules('page_parent','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
+			$this->form_validation->set_rules('page_keywords','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
+
+			if($this->form_validation->run())
+			{
+				$this->data['error']	=	$this->core->tendoo_admin->controller(
+					$this->input->post('page_name'),
+					$this->input->post('page_cname'),
+					$this->input->post('page_module'),
+					$this->input->post('page_title'),
+					$this->input->post('page_description'),
+					$this->input->post('page_priority'),
+					'create',
+					null,
+					$this->input->post('page_visible'),
+					$this->input->post('page_parent'),
+					$this->input->post('page_link'),
+					$this->input->post('page_keywords')
+					
+				);	
+				if($this->data['error'] == 'controler_created')
+				{
+					$this->core->load->view('admin/ajax/controller_create_success',$this->data);
+					// $this->core->url->redirect(array('admin/pages?notice=controler_created'));
+				}
+				else
+				{
+					$this->core->load->view('admin/ajax/controller_create_fail_2',$this->data);
+					//$this->core->notice->push_notice(notice($this->data['error']));
+				}
+			}
+			else
+			{
+				$this->core->load->view('admin/ajax/controller_create_fail');
+			}
+		}
+		else if($option == "edit_controller")
+		{
+			if(!$this->core->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->core->users_global->current('PRIVILEGE')))
+			{
+				echo 'tendoo.notice.alert("Accès refusé","error")';return;
+			}
+			$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[100]');
+			$this->form_validation->set_rules('page_cname','Code du controleur','alpha_dash|trim|required|min_length[2]|max_length[30]');
+			$this->form_validation->set_rules('page_title','Titre du controleur','trim|required|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('page_module','D&eacute;finir le module','trim|required|min_length[2]|max_length[30]');
+			$this->form_validation->set_rules('page_priority','Definir comme page principale','trim|required|min_length[4]|max_length[5]');
+			$this->form_validation->set_rules('page_visible','Visibilité de la page','trim|required|min_length[4]|max_length[5]');
+			$this->form_validation->set_rules('page_description','champ description du controleur','trim|required|min_length[2]|max_length[2000]');
+			$this->form_validation->set_rules('page_id','Identifiant de la page','required');
+			$this->form_validation->set_rules('page_parent','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
+			$this->form_validation->set_rules('page_keywords','Mots cl&eacute;s du cont&ocirc;leur','trim|required|min_length[1]');
+			if($this->form_validation->run())
+			{
+				$this->data['notice']	=	$this->core->tendoo_admin->controller(
+					$this->input->post('page_name'),
+					$this->input->post('page_cname'),
+					$this->input->post('page_module'),
+					$this->input->post('page_title'),
+					$this->input->post('page_description'),
+					$this->input->post('page_priority'),
+					'update',
+					$this->input->post('page_id'),
+					$this->input->post('page_visible'),
+					$this->input->post('page_parent'),
+					$this->input->post('page_link'),
+					$this->input->post('page_keywords')
+				);
+				$this->core->notice->push_notice(notice($this->data['notice']));
+				if($this->data['notice']	==	'controler_edited')
+				{
+					$this->core->load->view('admin/ajax/controller_edit_success',$this->data);
+				}
+				else
+				{
+					$this->core->load->view('admin/ajax/controller_edit_fail_2',$this->data);
+				}
+			}
+			else
+			{
+				$this->core->load->view('admin/ajax/controller_edit_fail',$this->data);
+			}
 		}
 	}
 }
