@@ -469,6 +469,17 @@ class News_admin_controller
 					$this->core->notice->push_notice(notice('error_occured'));
 				}
 			}
+			else if(isset($_POST['commentslimit_submiter']))
+			{
+				if($this->news->updateWidgetSetting('COMMENTS',$this->core->input->post('comments')))
+				{
+					$this->core->notice->push_notice(notice('done'));
+				}
+				else
+				{
+					$this->core->notice->push_notice(notice('error_occured'));
+				}
+			}
 			$this->data['setting']		=	$this->news->getBlogsterSetting();
 			$this->tendoo->setTitle('Blogster - Param&ecirc;tres avanc&eacute;');
 			if(isset($_GET['ajax']))

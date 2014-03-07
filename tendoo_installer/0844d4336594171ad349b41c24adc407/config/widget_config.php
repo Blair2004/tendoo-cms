@@ -18,3 +18,9 @@ $WIDGET_CONFIG['syslink']	=	array(
 	'WIDGET_FILES'			=>	'/widgets/sys_links.php',
 	'MODULE_NAMESPACE'		=>	$module['NAMESPACE']
 );
+$WIDGET_CONFIG['comments']	=	array(
+	'WIDGET_HUMAN_NAME'		=>	'Afficher les commentaires',
+	'WIDGET_NAMESPACE'		=>	'comments',
+	'WIDGET_FILES'			=>	'/widgets/comments.php',
+	'MODULE_NAMESPACE'		=>	$module['NAMESPACE']
+);

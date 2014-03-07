@@ -149,6 +149,47 @@
                                 <input name="mostreaded_submiter" type="submit" value="Enregistrer" class="btn btn-sm btn-info" />
                             </form>
                             </div>
+							<div class="panel-body">
+                            	<h5>Widget - Les commentaires récents</h5>
+                            	<form method="post">
+                                <div class="form-group">
+                                    <select class="form-control" name="comments">
+                                        <option value="">Nombre total d'affichage</option>
+                                        <?php
+                                        for($i=1;$i<=50;$i++)
+                                        {
+                                            if($setting)
+                                            {
+                                                if(array_key_exists('WIDGET_COMMENTS_LIMIT',$setting))
+                                                {
+                                                    if($setting['WIDGET_COMMENTS_LIMIT']	==	$i)
+                                                    {
+                                                        ?>
+                                            <option selected="selected" value="<?php echo $i;?>"><?php echo $i;?></option>
+                                            <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                            <?php
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                            ?>
+                                        <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <input name="commentslimit_submiter" type="submit" value="Enregistrer" class="btn btn-sm btn-info" />
+                            </form>
+                            </div>
+						
 						</section>
 					</div>
                     </section>

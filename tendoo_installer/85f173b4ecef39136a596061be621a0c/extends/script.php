@@ -6,6 +6,10 @@ class Tendoo_modus_theme_handler
 	private $data;
 	private $core;
 	private $prototypeList;
+	private $itemSupported	=	array('UNIQUE','BLOG','404','INDEX','CONTACT');
+	/*
+	Item Supporté par le thème
+	*/
 	public function __construct($data)
 	{
 		$this->data							=	$data;
@@ -47,6 +51,14 @@ class Tendoo_modus_theme_handler
 		$this->data['file']->js_push('modernizr');
 		$this->data['file']->js_push('custom');
 		
+	}
+	public function support($element) // Pour savoir si un item existe dans le thème.
+	{
+		if(in_array($element,$this->itemSupported))
+		{
+			return true;
+		}
+		return false;
 	}
 	public function header($data)
 	{

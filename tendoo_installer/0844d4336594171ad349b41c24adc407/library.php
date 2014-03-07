@@ -373,6 +373,23 @@ $NOTICE_SUPER_ARRAY = $or;
 						));	
 					}
 				}
+				else if($option	==	'COMMENTS')
+				{
+					$query		=	$this->core->db->get('Tendoo_news_setting');
+					$result		=	$query->result_array();
+					if($result)
+					{
+						return	$this->core->db->update('Tendoo_news_setting',array(
+							'WIDGET_COMMENTS_LIMIT'		=>	$value,
+						));	
+					}
+					else
+					{
+						return $this->core->db->insert('Tendoo_news_setting',array(
+							'WIDGET_COMMENTS_LIMIT'		=>	$value,
+						));	
+					}
+				}
 				return false;
 			}
 		}
@@ -465,16 +482,20 @@ $NOTICE_SUPER_ARRAY = $or;
 				$query = $this->core->db	->get('Tendoo_comments');
 				return count($query->result_array());
 			}
-			public function getComments($id,$start,$end)
+			public function getComments($id,$start,$end,$order = "asc")
 			{
-				$option			=	$this->getBlogsterSetting();
-				if($option['APPROVEBEFOREPOST'] == 1) // Get only approuved comments
+				if($id != FALSE)
 				{
-					$this->core->db->where('SHOW',1);
+					$option			=	$this->getBlogsterSetting();
+					if($option['APPROVEBEFOREPOST'] == 1) // Get only approuved comments
+					{
+						$this->core->db->where('SHOW',1);
+					}
+					$this->core->db			->where(array('REF_ART'=>$id));
 				}
-				$this->core->db			->where(array('REF_ART'=>$id));
-				$query = $this->core->db->limit($end,$start)->get('Tendoo_comments');
+				$query = $this->core->db->order_by('ID',$order)->limit($end,$start)->get('Tendoo_comments');
 				return $query->result_array();
+				
 			}
 			public function postComment($id,$content,$auteur,$email)
 			{

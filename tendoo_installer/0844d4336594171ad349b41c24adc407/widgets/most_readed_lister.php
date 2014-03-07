@@ -13,7 +13,9 @@ class aflearlep_news_common_widget
 			include_once($this->location.'/library.php');
 		}
 		$this->news		=	new News_smart;
-		$this->data['mostViewed']	=	$this->news->getMostViewed(0,10);
+		$setting		=	$this->news->getBlogsterSetting();
+		$LIMIT			=	$setting['WIDGET_MOSTREADED_LIMIT'];
+		$this->data['mostViewed']	=	$this->news->getMostViewed(0,$LIMIT);
 		$end			=	'<ul>';
 		$controller		=	$this->core->tendoo->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['NAMESPACE']);
 		foreach($this->data['mostViewed'] as $t)

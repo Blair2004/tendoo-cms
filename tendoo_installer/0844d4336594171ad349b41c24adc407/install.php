@@ -1,7 +1,7 @@
 <?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.2);
+$this->appVers(0.3);
 $this->appTendooVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'news',
@@ -49,6 +49,7 @@ $this->appSql(
   `APPROVEBEFOREPOST` int(11) NOT NULL,
   `WIDGET_CATEGORY_LIMIT` int(11) NOT NULL,
   `WIDGET_MOSTREADED_LIMIT` int(11) NOT NULL,
+  `WIDGET_COMMENT_LIMIT` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 ');
