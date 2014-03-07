@@ -552,7 +552,7 @@ class Tendoo_admin
 	public function toggleWelcomeMessage()
 	{
 		$options	=	$this->core->tendoo->getOptions();
-		if($options[0]['SHOW_WELCOME'] ==  '1')
+		if(in_array($options[0]['SHOW_WELCOME'],array('1','TRUE')))
 		{
 			$int	=	'FALSE';
 		}

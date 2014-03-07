@@ -95,9 +95,10 @@ class Admin
 	private function loadOuputFile()
 	{
 		$this->core->file->css_push('app.v2');
-		 $this->core->file->css_push('css1');
+		$this->core->file->css_push('css1');
 		$this->core->file->css_push('css2');
 		$this->core->file->css_push('tendoo_global');
+		$this->core->file->css_push('fuelux');
 
 		$this->core->file->js_push('jquery');
 		if($this->data['options'][0]['ADMIN_THEME'] == 1)

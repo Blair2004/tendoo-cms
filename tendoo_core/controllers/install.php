@@ -14,6 +14,7 @@ class Install
 		$this->load->library('form_validation');
 $this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 		$this->core->file->css_push('app.v2');
+		$this->core->file->css_push('fuelux');
 		$this->core->file->css_push('css1');
 		$this->core->file->css_push('css2');
 		$this->core->file->css_push('tendoo_global');
