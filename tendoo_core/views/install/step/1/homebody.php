@@ -27,7 +27,7 @@
 							<div class="step-pane active" id="step1">
 								<div class="row">
 									<div class="col-lg-4">
-										<h4><i class="icon-group"></i> Tendoo Community</h4>
+										<h4><i class="fa fa-group"></i> Tendoo Community</h4>
 										<div>
 											Besoin d'aide et d'assitance ? connectez-vous &agrave; la communaut&eacute; et exposer vos probl&egrave;mes li&eacute;s &agrave; l'utilisation du CMS Tendoo.<br>
 											T&eacute;l&eacute;charger des applications depuis le Store et augmentez consid&eacute;rablement le potentiel de Tendoo.
@@ -35,13 +35,13 @@
 										
 									</div>
 									<div class="col-lg-4">
-										<h4><i class="icon-mobile-phone"></i> Tendoo pour appareil mobile</h4>
+										<h4><i class="fa fa-mobile-phone"></i> Tendoo pour appareil mobile</h4>
 										<div>
 											<span>Tendoo offre un espace d'administration qui est compatible avec la plus part des supports mobiles. L'interface intuitif vous permet de g&eacute;rer votre site web depuis un terminal mobile. Cet interface s'apadapte correctement aux dimensions de votre appareil, pour que le plaisir de naviguer sur votre appareil mobile soit identique &agrave; celui ressenti depuis un ordinateur.</span>
 										</div>
 									</div>
 									<div class="col-lg-4">
-										<h4><i class="icon-list"></i> D&eacute;tails de l'installation</h4>
+										<h4><i class="fa fa-list"></i> D&eacute;tails de l'installation</h4>
 										<div>
 											<span>Cette installation se fera en 3 étapes, vous avez donc au moins 4 minutes pour créer votre site web.</span> <br>
 											<br>

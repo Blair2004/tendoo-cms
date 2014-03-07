@@ -2,7 +2,7 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="fa fa-bar"></span> <span class="fa fa-bar"></span> <span class="fa fa-bar"></span> </button>
             <a class="navbar-brand" href="<?php echo $this->core->url->site_url(array('login','recovery','home'));?>">Syst&egrave;me de r&eacute;cup&eacute;ration des comptes</a> </div>
         
         <!-- Collect the nav links, forms, and other content for toggling -->

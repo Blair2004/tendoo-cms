@@ -79,35 +79,35 @@ if(!function_exists('tendoo_error'))
 {
 	function tendoo_error($text)
 	{
-		return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> '.$text.'</div>';
+		return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-warning"></i> '.$text.'</div>';
 	}
 }
 if(!function_exists('tendoo_success'))
 {
 	function tendoo_success($text)
 	{
-		return '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-thumbs-up-alt"></i> '.$text.'</div>';
+		return '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-thumbs-o-up"></i> '.$text.'</div>';
 	}
 }
 if(!function_exists('tendoo_warning'))
 {
 	function tendoo_warning($text)
 	{
-		return '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i> '.$text.'</div>';
+		return '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-warning"></i> '.$text.'</div>';
 	}
 }
-if(!function_exists('Tendoo_info'))
+if(!function_exists('tendoo_info'))
 {
 	function tendoo_info($text)
 	{
-		return '<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-info"></i> '.$text.'</div>';;
+		return '<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-info"></i> '.$text.'</div>';;
 	}
 }
 if(!function_exists('notice'))
 {
 	function notice($e,$extends_msg= '',$sort = FALSE)
 	{
-		$array['config_1']					=	Tendoo_info('Un fichier de configuration est d&eacute;j&agrave; existant. Si vous enregistrer de nouvelles donn&eacute;es, l\'ancien sera &eacute;cras&eacute;');
+		$array['config_1']					=	tendoo_info('Un fichier de configuration est d&eacute;j&agrave; existant. Si vous enregistrer de nouvelles donn&eacute;es, l\'ancien sera &eacute;cras&eacute;');
 		$array['accessDenied']				=	tendoo_warning('Vous n\'avez pas ou plus acc&egrave;s &agrave; cette page.');
 		$array['config_2']					=	tendoo_warning('Une erreur fatale s\'est produite durant l\'installation, veuillez re-installer tendoo.');
 		$array['noThemeInstalled']			=	tendoo_warning(' Une erreur s\'est produite durant l\'acc&egrave;s au th&egrave;me. Il est possible qu\'aucun th&egrave;me ne soit install&eacute; ou d&eacute;finit comme th&egrave;me par d&eacute;faut.');
@@ -133,8 +133,8 @@ if(!function_exists('notice'))
 		$array['adminDeleted']				=	tendoo_success(' L\'utilisateur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
 		$array['controller_not_found']		=	tendoo_warning(' Ce contr&ocirc;leur est introuvable.');
 		$array['no_main_controller_created']=	tendoo_warning(' Aucun contr&ocirc;leur d&eacute;finit comme principale n\'a &eacute;t&eacute; retrouv&eacute;, le nouveau contr&ocirc;leur &agrave; &eacute;t&eacute; d&eacute;finit comme contr&ocirc;leur par d&eacute;faut.');
-		$array['no_main_page_set']			=	Tendoo_info(' Aucun contr&ocirc;leur n\'est d&eacute;finie par d&eacute;faut.');
-		$array['no_priv_created']			=	Tendoo_info(' Aucun privil&egrave;ge n\'a &eacute;t&eacute; cr&eacute;e, Pour administrer les actions, il est indispensable de cr&eacute;er un privil&egrave;ge au moins.');
+		$array['no_main_page_set']			=	tendoo_info(' Aucun contr&ocirc;leur n\'est d&eacute;finie par d&eacute;faut.');
+		$array['no_priv_created']			=	tendoo_info(' Aucun privil&egrave;ge n\'a &eacute;t&eacute; cr&eacute;e, Pour administrer les actions, il est indispensable de cr&eacute;er un privil&egrave;ge au moins.');
 		$array['InvalidModule']				=	tendoo_warning('Ce module est invalide ou incompatible.');
 		$array['CantDeleteDir']				=	tendoo_warning('Une erreur s\'est produite durant la suppr&eacute;ssion d\'un dossier.');
 		$array['module_corrupted']			= 	tendoo_warning('Ce module ne peut pas &ecirc;tre install&eacute;. Il est corrompu ou incompatible.');	
@@ -155,7 +155,7 @@ if(!function_exists('notice'))
 		$array['unknowAdmin']				=	tendoo_warning('Administrateur introuvable.');
 		$array['moduleBug']					=	tendoo_warning('Une erreur s\'est produite. Le module attach&eacute; &agrave; ce contr&ocirc;leur est introuvable.');
 		$array['notAllowed']				=	tendoo_warning('Il ne vous est pas permis d\'effctuer cette op&eacute;ration. Soit compte tenu de votre privil&egrave;ge actuel, soit compte tenu de l\'indisponibilit&eacute; du service.');
-		$array['theme_alreadyExist']		=	Tendoo_info('Ce th&egrave;me avait d&eacute;j&agrave; &eacute;t&eacute; install&eacute;.');
+		$array['theme_alreadyExist']		=	tendoo_info('Ce th&egrave;me avait d&eacute;j&agrave; &eacute;t&eacute; install&eacute;.');
 		$array['NoCompatibleTheme']			=	tendoo_warning('Ce th&egrave;me n\'est pas compatible avec la version actuelle d\'tendoo.');
 		$array['NoCompatibleModule']		=	tendoo_warning('Ce module n\'est pas compatible avec la version actuelle d\'tendoo.');
 		$array['SystemDirNameUsed']			=	tendoo_warning('Ce th&egrave;me ne peut pas s\'installer car il &agrave; tenter d\'utiliser des ressources syst&egrave;me.');

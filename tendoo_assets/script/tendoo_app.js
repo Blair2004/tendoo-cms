@@ -74,26 +74,26 @@ $(document).ready(function(){
 				if(type	==	'success') 
 				{
 					title	=	'Effectu&eacute;';
-					icon	=	'ok-sign';
+					icon	=	'check';
 				}
 				else if(type	==	'warning')
 				{
 					title	=	'Attention';
-					icon	=	'warning-sign';
+					icon	=	'warning';
 				}
 				else if(type	==	'danger')
 				{
 					title	=	'Erreur';
-					icon	=	'remove-sign';
+					icon	=	'remove';
 				}
 				else
 				{
 					title	=	'Notification';
-					icon	=	'eye-open';
+					icon	=	'eye';
 				}
 				var element	=	typeof type	==	'undefined' ? 'info' : type;
 				var index	=	getNewId();
-				$(parent).prepend('<div style="width:100%;float:right" data-notice-index="'+index+'" class="alert alert-'+element+' alert-block"> <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button> <h4><i class="icon-'+icon+'"></i>'+title+'</h4> <p>'+showMsg+'</p> </div>');
+				$(parent).prepend('<div style="width:100%;float:right" data-notice-index="'+index+'" class="alert alert-'+element+' alert-block"> <button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button> <h4><i class="fa fa-'+icon+'"></i>'+title+'</h4> <p>'+showMsg+'</p> </div>');
 				$('[data-notice-index="'+index+'"]').hide().css({
 					'margin-right'	:	- ($('[data-notice-index="'+index+'"]').width()+100)+'px',
 					'opacity'		:	0
@@ -234,7 +234,7 @@ $(document).ready(function(){
 											'<div class="modal-header bg-primary" style="border-bottom:solid 0px;">'+
 												'<div type="button" style="opacity:1" class="close" data-dismiss="modal" aria-hidden="true">'+
 													/* '<span type="button" class="btn btn-info btn-sm" data-reduce="modal" style="margin-right:10px;"><i class="icon-chevron-down"></i></span>'+ */
-													'<span type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="icon-remove"></i></span>'+
+													'<span type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-times"></i></span>'+
 												'</div>'+
 												'<h4 class="modal-title">'+title+'</h4>'+
 											'</div>'+
@@ -329,7 +329,9 @@ $(document).ready(function(){
 					clearTimeout(cImageTimeout);
 					cImageTimeout=0;
 					genImage = new Image();
-					genImage.onload=function (){cImageTimeout=setTimeout(fun(), 0)};
+					genImage.onload=function (){cImageTimeout=setTimeout(function(){
+					fun()
+					}, 0)};
 					genImage.onerror=new Function('alert(\'Could not load the image\')');
 					genImage.src=s;
 				}
@@ -378,9 +380,6 @@ $(document).ready(function(){
 			{
 				$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
 			}
-			var interval	=	setInterval(function(){
-				tendoo.popoverDismiss.bind();
-			},500);
 		};
 		tendoo.formAjax		=	new function(){
 			this.bind		=	function(){

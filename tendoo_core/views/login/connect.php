@@ -18,16 +18,16 @@
                         <input type="checkbox" name="stayLoggedIn"> Rester connect&eacute; 
                     </label> 
                 </div>
-                <button type="submit" class="form-control btn btn-info"><i class="icon-signin"></i>Connexion</button>
+                <button type="submit" class="form-control btn btn-info"><i class="fa fa-signin"></i>Connexion</button>
                 <br>
                 <?php
 						if($options[0]['ALLOW_REGISTRATION'] == '1')
 						{
 							?>
                         <div class="line line-dashed"></div>
-                        <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('registration'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="icon-group text"></i> <span class="text">Cr&eacute;er un nouveau compte</span> <i class="icon-ok text-active"></i></a>
+                        <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('registration'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="fa fa-group text"></i> <span class="text">Cr&eacute;er un nouveau compte</span> <i class="fa fa-ok text-active"></i></a>
                         <div class="line line-dashed"></div>
-                        <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('login','recovery'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="icon-share text"></i> <span class="text">R&eacute;cup&eacute;rer un compte</span> <i class="icon-ok text-active"></i></a>
+                        <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('login','recovery'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="fa fa-share text"></i> <span class="text">R&eacute;cup&eacute;rer un compte</span> <i class="fa fa-ok text-active"></i></a>
                         <?php
 						}
 						?>

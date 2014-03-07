@@ -10,7 +10,7 @@
                             <div class="clearfix m-b"> <a href="#" class="pull-left thumb m-r"> <img src="images/avatar.jpg" class="img-circle"> </a>
                                 <div class="clear">
                                     <div class="h3 m-t-xs m-b-xs">John.Smith</div>
-                                    <small class="text-muted"><i class="icon-map-marker"></i> London, UK</small> </div>
+                                    <small class="text-muted"><i class="fa fa-map-marker"></i> London, UK</small> </div>
                             </div>
                             <div class="panel wrapper">
                                 <div class="row">
@@ -19,14 +19,14 @@
                                     <div class="col-xs-4"> <a href="#"> <span class="m-b-xs h4 block">2,035</span> <small class="text-muted">Tweets</small> </a> </div>
                                 </div>
                             </div>
-                            <div class="btn-group btn-group-justified m-b"> <a class="btn btn-success btn-rounded" data-toggle="button"> <span class="text"> <i class="icon-eye-open"></i> Follow </span> <span class="text-active"> <i class="icon-eye-open"></i> Following </span> </a> <a class="btn btn-info btn-rounded"> <i class="icon-comment-alt"></i> Chat </a> </div>
+                            <div class="btn-group btn-group-justified m-b"> <a class="btn btn-success btn-rounded" data-toggle="button"> <span class="text"> <i class="fa fa-eye-open"></i> Follow </span> <span class="text-active"> <i class="fa fa-eye-open"></i> Following </span> </a> <a class="btn btn-info btn-rounded"> <i class="fa fa-comment-alt"></i> Chat </a> </div>
                             <div> <small class="text-uc text-xs text-muted">about me</small>
                                 <p>Artist</p>
                                 <small class="text-uc text-xs text-muted">info</small>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.</p>
                                 <div class="line"></div>
                                 <small class="text-uc text-xs text-muted">connection</small>
-                                <p class="m-t-sm"> <a href="#" class="btn btn-rounded btn-twitter btn-icon"><i class="icon-twitter"></i></a> <a href="#" class="btn btn-rounded btn-facebook btn-icon"><i class="icon-facebook"></i></a> <a href="#" class="btn btn-rounded btn-gplus btn-icon"><i class="icon-google-plus"></i></a> </p>
+                                <p class="m-t-sm"> <a href="#" class="btn btn-rounded btn-twitter btn-icon"><i class="fa fa-twitter"></i></a> <a href="#" class="btn btn-rounded btn-facebook btn-icon"><i class="fa fa-facebook"></i></a> <a href="#" class="btn btn-rounded btn-gplus btn-icon"><i class="fa fa-google-plus"></i></a> </p>
                             </div>
                         </div>
                     </section>

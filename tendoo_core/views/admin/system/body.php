@@ -23,15 +23,15 @@
                         </p>
                         <br />
                         <h4>Licence</h4>
-                        <p>Un bon nombre de produits sont utilisé afin de permettre &ag Tendoo de fonctionner correctement : 
+                        <p>Un bon nombre de produits sont utilisés afin de permettre &agrave; Tendoo de fonctionner correctement : 
                         	<ul>
-	                        	<li>TODO interface administration</li>
+	                        	<li>TODO interface administration 1.2.1 (2014)</li>
     	                        <li>Jquery</li>
                                 <li>CK Editor</li>
-                                <li>Bootstrap</li>
+                                <li>Bootstrap (3.1)</li>
 							</ul>
                         </p>
-                        <p><small>Ubber Enterprises 2013. <br />Tous droits reserv&eacute;s.</small></p>
+                        <p><small>Ubber Enterprises 2014. <br />Tous droits reserv&eacute;s.</small></p>
                     </div>
                 </div>
             </div>

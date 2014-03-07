@@ -169,7 +169,7 @@
                            <section class="panel pos-rlt clearfix">
                               <header class="panel-heading">
                                  <ul class="nav nav-pills pull-right">
-                                    <li> <a href="#" class="panel-toggle text-muted active"><i class="icon-caret-down text-active"></i><i class="icon-caret-up text"></i></a> </li>
+                                    <li> <a href="#" class="panel-toggle text-muted active"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
                                  </ul>
                                  Action du module <strong><?php echo $g['HUMAN_NAME'];?></strong></header>
                               <div class="panel-body clearfix collapse">

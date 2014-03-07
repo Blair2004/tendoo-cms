@@ -62,7 +62,7 @@
                                                     else
                                                     {
                                                         ?>
-                                                <i class="icon-puzzle-piece" style="font-size:70px;float:left;height:70px;width:70px;"></i>
+                                                <i class="fa fa-puzzle-piece" style="font-size:70px;float:left;height:70px;width:70px;"></i>
                                                 <?php
                                                     }
                                                     ?>
@@ -72,18 +72,18 @@
                                                 <?php echo $mod['DESCRIPTION'];?> <br>
                                                 <small title="Unique : S'applique à un contr&ocirc;leur uniquement. Globale : S'applique &agrave; tous les contr&ocirc;leurs" style="font-size:10px;"><?php echo ($mod['TYPE'] == 'GLOBAL') ? 'Globale' : 'Unique';?></small>
                                                 <strong><small style="float:right;font-size:10px;"><?php echo ($mod['APP_VERS'] == '') ? 'Version Inconnue' : 'v.'.$mod['APP_VERS'];?></small></strong></td>
-                                            <td class="action"><a class="delete" href="<?php echo $this->core->url->site_url(array('admin','uninstall','module',$mod['ID']));?>"><i style="font-size:25px;" class="icon-trash" title="D&eacute;sintaller"></i></a></td>
+                                            <td class="action"><a class="delete" href="<?php echo $this->core->url->site_url(array('admin','uninstall','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-trash" title="D&eacute;sintaller"></i></a></td>
                                             <td><?php
                                                     if($mod['ACTIVE'] == '0')
                                                     {
                                                         ?>
-                                                <a class="delete" href="<?php echo $this->core->url->site_url(array('admin','active','module',$mod['ID']));?>"><i style="font-size:25px;" class="icon-remove-sign" title="Clickez pour activer"></i></a>
+                                                <a class="delete" href="<?php echo $this->core->url->site_url(array('admin','active','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-remove-sign" title="Clickez pour activer"></i></a>
                                                 <?php
                                                     }
                                                     else
                                                     {
                                                         ?>
-                                                <a class="delete" href="<?php echo $this->core->url->site_url(array('admin','unactive','module',$mod['ID']));?>"><i style="font-size:25px;" class="icon-ok-sign" title="Clickez pour d&eacute;sactiver"></i></a>
+                                                <a class="delete" href="<?php echo $this->core->url->site_url(array('admin','unactive','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-ok-sign" title="Clickez pour d&eacute;sactiver"></i></a>
                                                 <?php
                                                     }
                                                     ?></td>

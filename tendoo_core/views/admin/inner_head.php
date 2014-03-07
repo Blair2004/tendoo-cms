@@ -43,13 +43,13 @@ if($options[0]['ADMIN_THEME'] == 1)
 <header id="headish" class="header b-b <?php if($options[0]['ADMIN_THEME'] == 0):?> bg-primary <?php ;endif;?>">
             <div class="collapse navbar-collapse pull-in">
             	<form class="navbar-form navbar-left m-t-sm" role="search">
-                    <a onclick="document.location	=	'<?php echo $this->core->url->site_url(array('admin'));?>'" type="submit" class="btn btn-sm btn-white"><i class="icon-dashboard"></i>Administration</a>
+                    <a onclick="document.location	=	'<?php echo $this->core->url->site_url(array('admin'));?>'" type="submit" class="btn btn-sm btn-white"><i class="fa fa-dashboard"></i>Administration</a>
                 </form>
                 <form class="navbar-form navbar-left m-t-sm" role="search">
-                    <a href="javascript:void(0)" id="tendooAppStore" class="btn btn-sm btn-white"><i class="icon-shopping-cart"></i>Magasin d'application</a>
+                    <a href="javascript:void(0)" id="tendooAppStore" class="btn btn-sm btn-white"><i class="fa fa-shopping-cart"></i>Magasin d'application</a>
                 </form>
                 <ul class="nav navbar-nav m-l-n" style="margin-left:10px;">
-                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-plus-sign-alt"></i> Outils <b class="caret"></b></a>
+                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus-sign-alt"></i> Outils <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li> <a href="<?php echo $this->core->url->site_url('admin/tools/stats');?>">Statistiques</a> </li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/tools/calendar');?>">Calendrier</a> </li>
@@ -63,7 +63,7 @@ if($options[0]['ADMIN_THEME'] == 1)
                         <div class="input-group input-s">
                             <input type="text" class="form-control input-sm no-border bg-white" placeholder="Rechercher">
                             <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-info btn-icon" id="toolbarSearch"><i class="icon-search"></i></button>
+                            <button type="button" class="btn btn-sm btn-info btn-icon" id="toolbarSearch"><i class="fa fa-search"></i></button>
                             </span> 
 						</div>
                     </div>
@@ -78,7 +78,7 @@ if($options[0]['ADMIN_THEME'] == 1)
                     $sysNot			=	$this->core->tendoo_admin->get_sys_not();
                     $ttSystNot		=	count($sysNot);
                     ?>
-                    <li class="hidden-xs"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-bell-alt text-white"></i> 
+                    <li class="hidden-xs"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell text-white"></i> 
                     	<?php 
 						if($ttSystNot > 0)
 						{
@@ -118,7 +118,7 @@ if($options[0]['ADMIN_THEME'] == 1)
                                 <?php
 									}
 								?>
-                                <footer class="panel-footer text-sm"> <a href="#" class="pull-right"><i class="icon-cog"></i></a> <a href="#">See all the notifications</a> </footer>
+                                <footer class="panel-footer text-sm"> <a href="#" class="pull-right"><i class="fa fa-cog"></i></a> <a href="#">See all the notifications</a> </footer>
                                 <?php
 								}
 								else

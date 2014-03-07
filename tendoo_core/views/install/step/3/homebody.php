@@ -28,7 +28,7 @@
 								<div class="row">
 									<div class="col-lg-4">
 										<div class="col-lg-13">
-											<h4><i class="icon-check-sign"></i> Connexion etablie</h4>
+											<h4><i class="fa fa-check-sign"></i> Connexion etablie</h4>
 													<p>Tendoo peut maintenant se connecter à votre base de donnée. Maintenant vous devez indiquez certaines inforamtions concernant votre nouveau site web.</p>
 											
 										</div>
@@ -67,7 +67,7 @@
 									?>
 									</div>
 									<div class="col-lg-4">
-										<h4><i class="icon-tasks"></i> Information de votre site web</h4>
+										<h4><i class="fa fa-tasks"></i> Information de votre site web</h4>
 										<form id="siteNameForm" method="post" action="<?php echo $this->core->url->site_url(array('install','etape',4));?>">
 											<div class="form-group">
 												<label class="host_name">Nom du site</label>
@@ -108,7 +108,7 @@
 													defaultsAppFinish[5]=	'<span style="color:green">Installation du module Page Editor terminée</span>';
 													defaultsAppFinish[6]=	'<span style="color:green">Instal... du module Tendoo Contact Manager terminée</span>';
 												var defaultsAppHtml		=	
-													'<h4><i class="icon-star"></i> Installation des applications par d&eacute;faut</h5>'+
+													'<h4><i class="fa fa-star"></i> Installation des applications par d&eacute;faut</h5>'+
 													'<ul class="list-group bg-white statusList">'+
 													'</ul>';
 												$('.installingStatus').html('');
@@ -155,12 +155,12 @@
 																beforeSend	:	function()
 																{
 																	installStatus	=	false;
-																	$('.statusList').append('<a href="#" class="currentInstall_'+curIterator+' list-group-item"><i class="icon-time"></i> '+defaultsAppText[curIterator]+'</a>');
+																	$('.statusList').append('<a href="#" class="currentInstall_'+curIterator+' list-group-item"><i class="fa fa-time"></i> '+defaultsAppText[curIterator]+'</a>');
 																},
 																success		:	function(data)
 																{
 																	installStatus	=	true;
-																	$('.statusList').find('.currentInstall_'+curIterator).html('<i class="icon-thumbs-up-alt"></i> '+defaultsAppFinish[curIterator]+'');
+																	$('.statusList').find('.currentInstall_'+curIterator).html('<i class="fa fa-thumbs-up-alt"></i> '+defaultsAppFinish[curIterator]+'');
 																},
 																url			:	action
 															});
@@ -177,7 +177,7 @@
 													beforeSend	:	function()
 													{
 														$('.installingStatus').html('');
-														$('.installingStatus').append('<h4><i class="icon-cogs"></i> Configuration du site</h4><ul class="creatingTables" style="margin:0;padding:0;list-style:none"><li><?php echo tendoo_info("Cr&eacute;ation des tables...");?></li></ul>');
+														$('.installingStatus').append('<h4><i class="fa fa-cogs"></i> Configuration du site</h4><ul class="creatingTables" style="margin:0;padding:0;list-style:none"><li><?php echo tendoo_info("Cr&eacute;ation des tables...");?></li></ul>');
 													},
 													type		:	'POST',
 													data		:	{	'site_name'		:	$('#site_name').val()},
@@ -215,7 +215,7 @@
 									
 									</div>
 									<div class="col-lg-4">
-										<h4><i class="icon-info-sign"></i> Information</h4>
+										<h4><i class="fa fa-info-sign"></i> Information</h4>
 										<form method="post">
 											Si vous rencontrez des difficult&eacute;s avec votre site, vous pouvez faire la restauration via l'espace administration.
 										</form>

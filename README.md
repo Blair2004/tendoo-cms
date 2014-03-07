@@ -1,5 +1,16 @@
 Tendoo-cms
 =========
+v.0.9.6
+---------
+- Nouvel interface d'installation.
+- Compression des fichiers CSS et Javascript.
+- Mise à jour du bootstrap 3.1
+- Mise à jour de l'interface administration. (1.2.1 TODO)
+- Ajout Sitemap generator.
+- Simplification interface paramètres.
+- Simplification interface création de contrôleur et mise à jour.
+- Début prise en charge des langues, tranduction progressive. langue supporté français (FRE).
+... 
 v.0.9.5
 ---------
 Nouveauté :

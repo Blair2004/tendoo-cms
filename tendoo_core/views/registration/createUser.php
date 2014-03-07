@@ -71,7 +71,7 @@
                         <input class="btn btn-info" type="submit" value="Cr&eacute;er" />
                         <input class="btn btn-danger" type="reset" value="Annuler" />
                         <div class="line line-dashed"></div>
-                        <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('login'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="icon-signin text"></i> <span class="text">Ouvrir un compte</span> <i class="icon-ok text-active"></i></a>
+                        <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('login'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="fa fa-signin text"></i> <span class="text">Ouvrir un compte</span> <i class="fa fa-ok text-active"></i></a>
                     </form>
                 </section>                
             </div>

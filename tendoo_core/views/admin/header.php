@@ -4,7 +4,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="description" content="<?php echo $this->core->tendoo->getDescription();?>">
-<link rel="stylesheet" media="all" href="<?php echo $this->core->url->font_url('fontawesome-webfont.woff');?>">
 <title><?php echo $this->core->tendoo->getTitle();?></title>
 <script>
 var tendoo				=	new Object();

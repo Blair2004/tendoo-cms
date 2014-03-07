@@ -2,36 +2,36 @@
     <section class="vbox">
         <header class="nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 
-            	<i class="icon-reorder"></i> 
+            	<i class="fa fa-reorder"></i> 
 			</a> 
             <a href="#" class="nav-brand" data-toggle="fullscreen">
-            	<i class="icon-dashboard"></i> 
+            	<i class="fa fa-dashboard"></i> 
             </a> 
             <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-user"> 
-            	<i class="icon-comment-alt"></i> 
+            	<i class="fa fa-comment-alt"></i> 
 			</a> 
 		</header>
         <?php
 		$redirective	=	urlencode($this->core->url->request_uri());
 		?>
-        <footer class="footer bg-gradient hidden-xs"> <a href="<?php echo $this->core->url->site_url(array('logoff','tologin?ref='.$redirective));?>" data-toggle="ajaxModal" class="btn btn-sm btn-link m-r-n-xs pull-right"> <i class="icon-off"></i> </a> <a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm"> <i class="icon-reorder"></i> </a> </footer>
+        <footer class="footer bg-gradient hidden-xs"> <a href="<?php echo $this->core->url->site_url(array('logoff','tologin?ref='.$redirective));?>" data-toggle="ajaxModal" class="btn btn-sm btn-link m-r-n-xs pull-right"> <i class="fa fa-off"></i> </a> <a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm"> <i class="fa fa-reorder"></i> </a> </footer>
         <section>
             <nav class="nav-primary">
                 <ul class="nav">
 					<?php echo $this->core->tendoo_admin->parseMenuBefore();?>
-                    <li class="dropdown-submenu"> <a href="<?php echo $this->url->site_url(array('admin','discover'));?>"> <i class="icon-eye-open"></i> <span>D&eacute;couvrir</span> </a>
+                    <li class="dropdown-submenu"> <a href="<?php echo $this->url->site_url(array('admin','discover'));?>"> <i class="fa fa-eye"></i> <span>D&eacute;couvrir</span> </a>
 						<ul class="dropdown-menu">
                             <li> <a href="<?php echo $this->core->url->site_url('admin/discover/firstSteps');?>">Premiers pas</a> </li>
                         </ul>
 					</li>
-                    <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-bookmark-empty"></i> <span>Contr&ocirc;leur</span> </a>
+                    <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bookmark"></i> <span>Contr&ocirc;leur</span> </a>
                         <ul class="dropdown-menu">
                             <li> <a href="<?php echo $this->core->url->site_url('admin/pages/create');?>">Cr&eacute;er un contr&ocirc;leur</a> </li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/pages');?>">Tous les contr&ocirc;leurs</a> </li>
                         </ul>
                     </li>
                     
-                    <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-puzzle-piece"></i> <span>Applications</span> </a>
+                    <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-puzzle-piece"></i> <span>Applications</span> </a>
                         <ul class="dropdown-menu">
                             <li> <a href="<?php echo $this->core->url->site_url('admin/installer');?>">Installer une application</a> </li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/modules');?>">Modules install&eacute;s</a> </li>
@@ -43,8 +43,8 @@
 					if($this->core->users_global->current('PRIVILEGE') == 'NADIMERPUS')
 					{
 					?>
-                    <li> <a href="<?php echo $this->core->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="icon-cogs"></i> <span>Param&ecirc;tres</span> </a> </li>
-                    <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-tasks"></i> <span>Syst&egrave;me</span> </a> 
+                    <li> <a href="<?php echo $this->core->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="fa fa-cogs"></i> <span>Param&ecirc;tres</span> </a> </li>
+                    <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-wrench"></i> <span>Syst&egrave;me</span> </a> 
                         <ul class="dropdown-menu">
                         	<li> <a href="<?php echo $this->core->url->site_url('admin/system');?>">&Agrave; propos de Tendoo</a> </li>
                             <li><a href="<?php echo $this->core->url->site_url('admin/system/adminMain');?>">Gestion des utilisateurs</a></li>
@@ -58,7 +58,7 @@
                     <?php
 					}
 					?>
-                    <li> <a href="<?php echo $this->core->url->site_url('index');?>"> <i class="icon-signout"></i> <span>Retour</span> </a> </li>
+                    <li> <a href="<?php echo $this->core->url->site_url('index');?>"> <i class="fa fa-sign-out"></i> <span>Retour</span> </a> </li>
                     
 					<?php $this->core->tendoo_admin->parseMenuAfter();?>
                 </ul>

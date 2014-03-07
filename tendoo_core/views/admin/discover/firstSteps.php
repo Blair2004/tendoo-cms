@@ -78,7 +78,7 @@
           </div>
           <div class="panel">
             <div class="panel-body">
-              <h2 class="smb smh" id="tendooFonction">II - a : G&eacute;rer les modules <small><a href="<?php echo $this->core->url->site_url(array('admin','modules'));?>"><i class="icon-link"></i></a></small></h2>
+              <h2 class="smb smh" id="tendooFonction">II - a : G&eacute;rer les modules <small><a href="<?php echo $this->core->url->site_url(array('admin','modules'));?>"><i class="fa fa-link"></i></a></small></h2>
               <br />
               <div class="row">
                 <div class="col-lg-6">
@@ -127,7 +127,7 @@
           </div>
           <div class="panel">
             <div class="panel-body">
-              <h2 class="smh" id="tendooFonction">III  : G&eacute;rer les th&egrave;mes <small><a href="<?php echo $this->core->url->site_url(array('admin','themes'));?>"><i class="icon-link"></i></a></small></h2>
+              <h2 class="smh" id="tendooFonction">III  : G&eacute;rer les th&egrave;mes <small><a href="<?php echo $this->core->url->site_url(array('admin','themes'));?>"><i class="fa fa-link"></i></a></small></h2>
 				<p>Avec les thèmes vous ferez la différence entre votre site web et d'autres. Les thèmes s'installent comme les modules, c'est à dire, via la même interface et sous la même forme. Tendoo effectue un contrôl sur l'application envoyé afin de déterminer s'il s'agit d'un th&egrave;me ou d'un module.</p>
                 <div class="row">
                 <div class="col-lg-6">

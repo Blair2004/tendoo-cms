@@ -128,7 +128,7 @@
 						$color	=	substr($p['COLOR'],1);
 						$color	=	substr($color,0,-1);
 						?>
-                        <i class="icon-circle" style="color:<?php echo $color;?>"></i> <?php echo $p['PRIV_NAME'];?>
+                        <i class="fa fa-circle" style="color:<?php echo $color;?>"></i> <?php echo $p['PRIV_NAME'];?>
                         <?Php
 					}
 				}

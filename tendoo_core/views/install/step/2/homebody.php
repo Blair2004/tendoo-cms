@@ -28,7 +28,7 @@
 								<div class="row">
 									<div class="col-lg-7">
 										<div class="col-lg-13">
-											<h4><i class="icon-exchange"></i> Connexion &agrave; la base de donn&eacute;es</h4>
+											<h4><i class="fa fa-exchange"></i> Connexion &agrave; la base de donn&eacute;es</h4>
 											<div>
 												Nous allons procéder à la création de votre site web. vous devez spécifier toutes les informations d'accès à la base de données. <br><br>La base de donn&eacute;e que vous devez fournir doit exister et l'utilisateur doit avoir les privil&egrave;ges necessaire &agrave; la cr&eacute;ation des tables. Dans le cas contraire, le site ne pourra pas &ecirc;tre installé. <br><br>Verifiez que le nom de la base de donn&eacute;e, de l'h&ocirc;te et le mot de passe correspondent &agrave; ceux que vous sp&eacute;cifiez ci-apr&egrave;s.
 												<br>Si des erreurs persistent, vous pouvez toujours vous connecter à la communauté Tendoo pour signaler cette erreur.
@@ -63,7 +63,7 @@
 									?>
 									</div>
 									<div class="col-lg-5">
-										<h4><i class="icon-bullseye"></i> Information de connexion</h3>
+										<h4><i class="fa fa-bullseye"></i> Information de connexion</h3>
 										<div class="form-group">
 											<label class="host_name">Identifiant de l'h&ocirc;te</label>
 											<input name="host_name" type="text" placeholder="exemple : localhost" class="form-control">

@@ -82,11 +82,11 @@
             <section class="panel pos-rlt clearfix">
               <header class="panel-heading">
                 <ul class="nav nav-pills pull-right">
-                  <li> <a data-requestType="silent" data-url="<?php echo $this->core->url->site_url(array('admin','ajax','toogle_app_tab'));?>" href="#" class="panel-toggle text-muted <?php echo $icon_1;?>"><i class="icon-caret-down text-active"></i><i class="icon-caret-up text"></i></a> </li>
+                  <li> <a data-requestType="silent" data-url="<?php echo $this->core->url->site_url(array('admin','ajax','toogle_app_tab'));?>" href="#" class="panel-toggle text-muted <?php echo $icon_1;?>"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
                 </ul>
                 Applications </header>
               <div class="panel-body clearfix <?php echo $collapse;?>">
-                <div class="icon-grid">
+                <div class="icon icon-grid">
                   <?php
                 if($appIconApi)
                 {
@@ -177,7 +177,7 @@
                           <small class="text-muted">L'&eacute;quipe vous remercie d'avoir choisi Tendoo comme application pour la cr&eacute;ation de votre site web / application web. Si vous demarrez sur Tendoo, consultez <a href="<?php echo $this->core->url->site_url(array('admin','discover'));?>">le guide d'utilisation</a> sur les premiers pas, et commercez &agrave; personnaliser tendoo.</small> </p>
                       </div>
                     </div>
-                    <a class="left carousel-control" href="#c-slide" data-slide="prev"> <i class="icon-angle-left"></i> </a> <a class="right carousel-control" href="#c-slide" data-slide="next"> <i class="icon-angle-right"></i> </a> </div>
+                    <a class="left carousel-control" href="#c-slide" data-slide="prev"> <i class="fa fa-angle-left"></i> </a> <a class="right carousel-control" href="#c-slide" data-slide="next"> <i class="fa fa-angle-right"></i> </a> </div>
                 </div>
                 <?php
                     }
