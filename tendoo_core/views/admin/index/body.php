@@ -21,7 +21,7 @@
           </div>
         </div>
       </header>
-      <section class="scrollable wrapper"> <?php echo notice_from_url();?>
+	  <section class="scrollable wrapper"> <?php echo notice_from_url();?>
         <?php
             if($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1")
             {
@@ -219,6 +219,9 @@
           </div>
         </div>
       </section>
-    </section>
+    
+	</section>
+	
   </section>
+  <a class="hide nav-off-screen-block" data-target="body" data-toggle="class:nav-off-screen" href="#"></a>
 </section>

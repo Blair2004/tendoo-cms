@@ -85,7 +85,7 @@
 												var installStatus		=	true;
 												var defaultsApp			=	new Array();
 													defaultsApp[0]		=	"Tendoo_index_mod";
-													defaultsApp[1]		=	"modus";
+													defaultsApp[1]		=	"revera";
 													defaultsApp[2]		=	"blogster";
 													defaultsApp[3]		=	"file_manager";
 													defaultsApp[4]		=	"widget_admin";
@@ -93,7 +93,7 @@
 													defaultsApp[6]		=	"Contact_manager";
 												var defaultsAppText		=	new Array();
 													defaultsAppText[0]	=	'Installation du module Index Manager...';
-													defaultsAppText[1]	=	'Installation du thème Modus...';
+													defaultsAppText[1]	=	'Installation du thème Revera...';
 													defaultsAppText[2]	=	'Installation du module Blogster...';
 													defaultsAppText[3]	=	'Installation du module Gestionnaire de fichiers...';
 													defaultsAppText[4]	=	'Installation du module Gestionnaire de widgets...';
@@ -101,7 +101,7 @@
 													defaultsAppText[6]	=	'Installation du module Tendoo Contact Manager...';
 												var defaultsAppFinish	=	new Array();
 													defaultsAppFinish[0]=	'<span style="color:green">Installation du module terminée</span>';
-													defaultsAppFinish[1]=	'<span style="color:green">Installation du thème terminée</span>';
+													defaultsAppFinish[1]=	'<span style="color:green">Installation du thème revera terminée</span>';
 													defaultsAppFinish[2]=	'<span style="color:green">Installation du module Blogster terminée</span>';
 													defaultsAppFinish[3]=	'<span style="color:green">Installation du Gestionnaire de fichier terminée</span>';
 													defaultsAppFinish[4]=	'<span style="color:green">Installation du Gestionnaire de widget terminée</span>';
@@ -132,8 +132,8 @@
 																case "blogster"	:
 																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/blogster";
 																break;
-																case "modus"	:
-																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/modus";
+																case "revera"	:
+																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/revera";
 																break;	
 																case "Tendoo_index_mod":
 																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/Tendoo_index_mod";									

@@ -22,7 +22,7 @@ var tools				=	new Object();
 		}
 		return false
 	};
-	tools.centerThis 	= function(concerned, parent, toScreen) {
+	tools.centerThis 	= 	function(concerned, parent, toScreen) {
 			if (tools.isDefined(toScreen)) {
 				var parentWidth = device.width;
 				var parentHeight = device.height;
@@ -41,7 +41,7 @@ var tools				=	new Object();
 				$(concerned).css({"position": "absolute","left": leftPosition + "px","top": topPosition + "px"})
 			}
 		};
-	tools.inArray		= function(e,array){
+	tools.inArray		= 	function(e,array){
 		for(i=0;i<array.length;i++)
 		{
 			if(e == array[i])
@@ -51,7 +51,35 @@ var tools				=	new Object();
 		}
 		return false;
 	};
-// 	Tendoo has already beend declared
+	tools.encode_meta	=	function(sentence){
+		var remplaces	=	['%3Albkt%3A','%3Arbkt%3A','%quotes1%','%quotes2%'];
+		var statements	=	[
+								/\[/g,
+								/\]/g,
+								/"/g,
+								/'/g
+							];
+		var returned	=	'';
+		for(i=0;i<statements.length;i++)
+		{
+			sentence	=	sentence.replace(statements[i],remplaces[i]);
+		}
+		return sentence;
+	};
+	tools.decode_meta	=	function(sentence){
+		var remplaces	=	['[',']'];
+		var statements	=	[
+								/%3Albkt%3A/g,
+								/%3Arbkt%3A/g
+							];
+		var returned	=	'';
+		for(i=0;i<statements.length;i++)
+		{
+			sentence	=	sentence.replace(statements[i],remplaces[i]);
+		}
+		return sentence;
+	};
+	// 	Tendoo has already beend declared
 $(document).ready(function(){
 	if(typeof tendoo.app  ==  'undefined'){ // Pour évider le conflict d'un double appel via AJAX
 		tendoo.zIndex		=	new function(){
@@ -60,7 +88,7 @@ $(document).ready(function(){
 			this.loader		=	16000;
 			this.window		=	9500;
 		};
-		tendoo.notice		=	new function() {
+		tendoo.notice		=	new function(){
 			var parent		=	'#appendNoticeHere';
 			var noticeId	=	0;
 			var getNewId	=	function(){
@@ -84,7 +112,7 @@ $(document).ready(function(){
 				else if(type	==	'danger')
 				{
 					title	=	'Erreur';
-					icon	=	'remove';
+					icon	=	'ban';
 				}
 				else
 				{
@@ -93,13 +121,18 @@ $(document).ready(function(){
 				}
 				var element	=	typeof type	==	'undefined' ? 'info' : type;
 				var index	=	getNewId();
-				$(parent).prepend('<div style="width:100%;float:right" data-notice-index="'+index+'" class="alert alert-'+element+' alert-block"> <button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button> <h4><i class="fa fa-'+icon+'"></i>'+title+'</h4> <p>'+showMsg+'</p> </div>');
+				$(parent).prepend('<div style="width:100%;float:right" data-notice-index="'+index+'" class="alert alert-'+element+' alert-block"> <button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button> <h4><i class="fa fa-'+icon+'"></i>'+title+'</h4> <p>'+showMsg+'</p> </div>');
 				$('[data-notice-index="'+index+'"]').hide().css({
 					'margin-right'	:	- ($('[data-notice-index="'+index+'"]').width()+100)+'px',
 					'opacity'		:	0
 				}).show().animate({
 					'margin-right' 	:	0,
 					'opacity'		:	1
+				});
+				$('[data-dismiss="alert"]').bind('click',function(){
+					$(this).closest('[data-notice-index="'+index+'"]').fadeOut(500,function(){
+						$(this).remove();
+					});
 				});
 				var timeOut;
 				function launchTimeOut(){
@@ -381,9 +414,9 @@ $(document).ready(function(){
 				$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
 			}
 		};
-		tendoo.formAjax		=	new function(){
+		tendoo.formAjax		=	new function(){ // For Post Method Only
 			this.bind		=	function(){
-				$('form[fjax=""]').each(function(){
+				$('form[fjax]').each(function(){
 					$(this).attr('fjax','true');
 					$(this).bind('submit',function(){
 						if($(this).attr('method') == 'post' || $(this).attr('method') == 'POST')
@@ -392,7 +425,7 @@ $(document).ready(function(){
 							var datas = $(this).serializeArray();
 							for (i = 0; i < datas.length; i++)
 							{
-								eval("finalQuery." + datas[i].name + ' = "' + datas[i].value + '"');
+								eval("finalQuery." + datas[i].name + ' = datas[i].value;');
 							}
 							$.ajax($(this).attr('action'),{
 								beforeSend	:	function(){
@@ -405,9 +438,6 @@ $(document).ready(function(){
 								data		:	finalQuery,
 								dataType	:	'script'
 							});
-						}
-						else
-						{
 						}
 						return false;
 					});

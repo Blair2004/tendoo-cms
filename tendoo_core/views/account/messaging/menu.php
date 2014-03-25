@@ -65,7 +65,7 @@
 			}
 		});
 		var field	=	
-		'<div class="line"></div><div class="container"><div class="row"><div class="col-lg-10 col-lg-offset-1"><form method="post" class="panel-content reply_form">'+
+		'<div class="line"></div><div class=""><div class="row"><div class="col-lg-10 col-lg-offset-1"><form method="post" class="panel-content reply_form">'+
 			'<div class="form-group">'+
 				'<textarea class="form-control" name="reply" placeholder="Ajouter un post">'+
 				'</textarea>'+

@@ -5,7 +5,7 @@ $participant['RECEVEUR']	=	$this->core->users_global->getUser($getMsgContent['ti
 ?>
 <section class="scrollable bg-light lt">
     <div class="panel-content">
-        <div class="container wrapper scrollable">
+        <div class="wrapper scrollable">
 			<?php echo $this->core->notice->parse_notice();?>
             <?php echo validation_errors();?>
         	<div class="panel">
@@ -14,11 +14,11 @@ $participant['RECEVEUR']	=	$this->core->users_global->getUser($getMsgContent['ti
                 </div>
             	<div class="span12">
                     	<div class="wrapper btn-group">
-                        <form method="post" action="<?php echo $this->core->url->site_url(array('account','messaging','home'));?>" class="read_form_id">
-							<?php include_once(VIEWS_DIR.'account/messaging/menu.php');?>
-                            <input type="button" class="btn btn-sm btn-white answer_btn" value="Poster un message" />
-                            <input type="hidden" name="conv_id" class="conv_id" value="<?php echo $getMsgContent['title'][0]['ID'];?>" />
-                        </form>
+							<form method="post" action="<?php echo $this->core->url->site_url(array('account','messaging','home'));?>" class="read_form_id">
+								<?php include_once(VIEWS_DIR.'account/messaging/menu.php');?>
+								<input type="button" class="btn btn-sm btn-white answer_btn" value="Poster un message" />
+								<input type="hidden" name="conv_id" class="conv_id" value="<?php echo $getMsgContent['title'][0]['ID'];?>" />
+							</form>
                         </div>
                         <table class="table table-striped b-t text-sm answer_table">
                             <thead>

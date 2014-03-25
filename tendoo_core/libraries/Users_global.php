@@ -458,30 +458,16 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 					$unread	=	$this->getUnreadMsg();
 					if($unread > 0)
 					{
-                    ?><em class="number"><?php echo $unread;?></em></a></li>
+                    ?><em class="number"><?php echo $unread;?></em>
                     <?php
 					}
 					?>
+					</a></li>
                 </ul>
                 <div style="line-height:30px;float:right;margin-right:20px;">
                     <a href="<?php echo $this->core->url->site_url(array('logoff'));?>" style="text-decoration:none;color:#F90;">Deconnexion</a>
                 </div>
-            </div>
-            <script type="text/javascript">
-			$(document).ready(function()
-			{
-				$('#user_menu .logo').bind('click',function()
-				{
-					$('#user_menu').toggle(function()
-					{
-						$(this).height(100);
-					},function()
-					{
-						$(this).height(50);
-					});
-				});
-			});
-			</script>
+            </div>            
             <style type="text/css">
 			.number
 			{
@@ -536,6 +522,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 				float:left;
 				margin:0;
 				padding:0;
+				list-style: none;
 			}
 			#user_menu ul li
 			{

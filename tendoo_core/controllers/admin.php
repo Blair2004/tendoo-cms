@@ -106,7 +106,7 @@ class Admin
 			$this->core->file->js_push('bubbles');
 		}
 		
-		$this->core->file->js_push('app.v2'); // _2
+		$this->core->file->js_push('app.min.vTendoo'); // _2
 		$this->core->file->js_push('tendoo_loader');
 		$this->core->file->js_push('tendoo_app');
 	}
@@ -361,8 +361,8 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		}
 		else if($e == 'modules')
 		{
-			$this->data['module']	=	$this->core->tendoo->getSpeModule($a);
-			if(count($this->data['module']) > 0)
+			$this->data['module']	=	$this->core->tendoo->getSpeModule((int)$a);
+			if($this->data['module'] == TRUE) // rather than counting
 			{
 				$this->core->tendoo->setTitle('Panneau d\'administration du module - '.$this->data['module'][0]['NAMESPACE']); // DEFAULT NAME DEFINITION
 				/* 	$baseUrl	= 	$this->core->url->site_url(array('admin','open','modules',$this->data['module'][0]['ID'])); */

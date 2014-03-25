@@ -26,6 +26,22 @@ class aflecatdi_news_common_widget
 			$end		.=	'<li><a href="'.$this->core->url->site_url(array($controller[0]['PAGE_CNAME'])).'/category/'.$this->core->tendoo->urilizeText($t['CATEGORY_NAME']).'/'.$t['ID'].'">'.$t['CATEGORY_NAME'].' ('.$ttArtThere.')</a></li>';
 		}
 		$end			.=	'</ul>';
-		$this->theme->defineWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_HEAD'],$end);
+		// For Each Zone
+		if(in_array($this->data['widgets']['requestedZone'],array('LEFT','BOTTOM','RIGHT')))
+		{
+			$rZone		=&	$this->data['widgets']['requestedZone']; // requestedZone
+			if($rZone == 'LEFT')
+			{
+				$this->theme->defineLeftWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$end);
+			}
+			elseif($rZone == 'RIGHT')
+			{
+				$this->theme->defineRightWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$end);
+			}
+			else
+			{
+				$this->theme->defineBottomWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$end);
+			}
+		}
 	}
 }

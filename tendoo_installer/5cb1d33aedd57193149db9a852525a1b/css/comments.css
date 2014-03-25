@@ -1,0 +1,27 @@
+/*
+	Style
+*/
+#comments-wrap .heading
+{
+	background:#ED564B;
+	padding:10px;
+	color:#FEFEFE;
+}
+#comments-wrap .commentlist
+{
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+#comments-wrap #comment-1
+{
+	background:#F96B61;
+	padding:5px;
+	color:#FEFEFE;
+	margin-bottom:5px;
+}
+#comments-wrap #comment-1 .comment-meta
+{
+	background:rgba(0,0,0,0.5);
+	padding:5px;
+}

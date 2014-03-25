@@ -20,7 +20,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		$this->core->file->css_push('tendoo_global');
 
 		$this->core->file->js_push('jquery');
-		$this->core->file->js_push('app.v2');
+		$this->core->file->js_push('app.min.vTendoo');
 		$this->core->file->js_push('tendoo_app');
 	}
 	public function index($i = 1,$e = '')

@@ -2,6 +2,9 @@ Tendoo-cms
 =========
 v.0.9.6
 ---------
+- Ajout de nouveaux items au "theme handler" (defineLeftWidget(), defineRightWidget(), defineBottomWidget()).
+- Mise à du module "Gestionnaire de widget".
+- Nouveau thème par défaut.
 - Nouvel interface d'installation.
 - Compression des fichiers CSS et Javascript.
 - Mise à jour du bootstrap 3.1

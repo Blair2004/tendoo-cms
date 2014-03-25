@@ -15,6 +15,31 @@
                 <section class="wrapper w-f"> 
 					<?php echo $this->core->notice->parse_notice();?> 
 					<?php echo $success;?>
+					<!-- FOR THEME GRID
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-lg-4 ">
+								<div class="panel">
+									<div class="panel-heading">
+										Nouveauté
+									</div>
+									<div class="panel-body">
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4 ">
+								<div class="col-lg-12 panel">
+									One
+								</div>
+							</div>
+							<div class="col-lg-4 ">
+								<div class="col-lg-12 panel">
+									One
+								</div>
+							</div>
+						</div>
+					</div>
+					-->					
                     <section class="panel">
                         <div class="table-responsive">
                             <table class="table table-striped m-b-none">

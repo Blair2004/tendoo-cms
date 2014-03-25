@@ -1,15 +1,15 @@
 <?php
 // ARTICLE SECTION
-$userdata				=	$userUtil->getUser($GetNews[0]['AUTEUR']);
+$userdata				=	$this->core->users_global->getUser($GetNews[0]['AUTEUR']);
 $date					=	$GetNews[0]['DATE'];
 $Ccategory				=	$news->retreiveCat($GetNews[0]['CATEGORY_ID']);
-// COMMENT SECTION
+// COMMENT SECTIONo
 $theme->defineSingleBlogPost(
 	$title				=	$GetNews[0]['TITLE'],
 	$content			=	$GetNews[0]['CONTENT'],
 	$thumb				=	$GetNews[0]['IMAGE'],
 	$full				=	$GetNews[0]['IMAGE'],
-	$author				=	$userdata['PSEUDO'],
+	$author				=	$userdata,
 	$timestamp			=	$GetNews[0]['DATE'],
 	$category			=	$Ccategory['name'],
 	$categoryLink		=	$this->core->url->site_url($Ccategory['url'])

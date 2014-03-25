@@ -40,14 +40,21 @@ if($options[0]['ADMIN_THEME'] == 1)
         <?php
 		}
 		?>
-<header id="headish" class="header b-b <?php if($options[0]['ADMIN_THEME'] == 0):?> bg-primary <?php ;endif;?>">
+		<header id="headish" class="header b-b <?php if($options[0]['ADMIN_THEME'] == 0):?> bg-primary <?php ;endif;?>">
             <div class="collapse navbar-collapse pull-in">
             	<form class="navbar-form navbar-left m-t-sm" role="search">
-                    <a onclick="document.location	=	'<?php echo $this->core->url->site_url(array('admin'));?>'" type="submit" class="btn btn-sm btn-white"><i class="fa fa-dashboard"></i>Administration</a>
+                    <a onclick="document.location	=	'<?php echo $this->core->url->site_url(array('admin'));?>'" type="submit" class="btn btn-sm btn-white"><i class="fa fa-dashboard"></i> Administration</a>
                 </form>
+				<?php
+				if($options[0]['CONNECT_TO_STORE'] == "1")
+				{
+				?>
                 <form class="navbar-form navbar-left m-t-sm" role="search">
-                    <a href="javascript:void(0)" id="tendooAppStore" class="btn btn-sm btn-white"><i class="fa fa-shopping-cart"></i>Magasin d'application</a>
+                    <a href="javascript:void(0)" id="tendooAppStore" class="btn btn-sm btn-white"><i class="fa fa-shopping-cart"></i> Magasin d'application</a>
                 </form>
+				<?php
+				}
+				?>
                 <ul class="nav navbar-nav m-l-n" style="margin-left:10px;">
                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus-sign-alt"></i> Outils <b class="caret"></b></a>
                         <ul class="dropdown-menu">

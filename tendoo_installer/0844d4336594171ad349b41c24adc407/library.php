@@ -493,7 +493,11 @@ $NOTICE_SUPER_ARRAY = $or;
 					}
 					$this->core->db			->where(array('REF_ART'=>$id));
 				}
-				$query = $this->core->db->order_by('ID',$order)->limit($end,$start)->get('Tendoo_comments');
+				if(is_numeric((int)$start) && is_numeric((int)$end))
+				{
+					$this->core->db->limit($end,$start);
+				}
+				$query = $this->core->db->order_by('ID',$order)->get('tendoo_comments');
 				return $query->result_array();
 				
 			}

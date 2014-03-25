@@ -2,7 +2,7 @@
 	function page_header()
 	{
 	?>
-<body style="" cz-shortcut-listen="true">
+<body>
     <section class="hbox stretch"><?php
     }
 	function page_bottom($options,$obj)

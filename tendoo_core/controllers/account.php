@@ -24,13 +24,13 @@ class Account
 		$this->core->file->css_push('css1');
 		$this->core->file->css_push('css2');
 		$this->core->file->css_push('tendoo_global');
-
+		////->
 		$this->core->file->js_push('jquery-1.9');
-		$this->core->file->js_push('jquery.pjax');
-		$this->core->file->js_push('morris.min');
-		$this->core->file->js_push('raphael-min');
-		$this->core->file_2->js_push('app.v2');
+		$this->core->file->js_push('app.min.vTendoo'); // _2
+		$this->core->file->js_push('tendoo_loader');
 		$this->core->file->js_push('tendoo_app');
+		
+		$this->data['options']	=	$this->tendoo->getOptions();
 		
 		if(!$this->core->users_global->isConnected())
 		{
@@ -43,7 +43,8 @@ class Account
 	}
 	public function index()
 	{
-		$this->tendoo->setTitle('Mon profil');
+		$user_pseudo 						=	$this->core->users_global->current('PSEUDO');
+		$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Mon profil');
 		$this->tendoo->setDescription('Mon profil');
 		$this->data['body']			=	$this->load->view('account/profile/body',$this->data,true);
 		
@@ -74,8 +75,11 @@ class Account
 			$this->core->users_global->setUserElement('TOWN', $this->core->input->post('user_town'));
 			$this->core->notice->push_notice(notice('userTownUpdated'));
 		}
-		$this->tendoo->setTitle('Mettre mon profil &agrave; jour');
-		$this->tendoo->setDescription('Mettre mon profil &agrave; jour');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
+		$user_pseudo 						=	$this->core->users_global->current('PSEUDO');
+		$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Mise &agrave; jour du profil');
+		$this->tendoo->setDescription('Mettre mon profil &agrave; jour');
+		
+		$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 		$this->data['body']			=	$this->load->view('account/update_prof/body',$this->data,true);
 		
 		$this->load->view('account/header',$this->data);
@@ -119,8 +123,9 @@ class Account
 					}
 				}
 			}
-			$this->tendoo->setTitle('Messagerie');
-			$this->tendoo->setDescription('Tendoo Users Account');
+			$user_pseudo 						=	$this->core->users_global->current('PSEUDO');
+			$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Messagerie');
+			$this->tendoo->setDescription('Messagerie de '.$user_pseudo);
 			$this->data['ttMessage']	=	$this->core->users_global->countMessage();
 			$this->data['paginate']		=	$this->core->tendoo->paginate(30,$this->data['ttMessage'],1,'ClasseOn','ClasseOff',$start,$this->core->url->site_url(array('account','messaging','home')).'/',null);
 			$this->data['getMessage']	=	$this->core->users_global->getMessage($this->data['paginate'][1],$this->data['paginate'][2]);$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
@@ -151,7 +156,8 @@ class Account
 				}
 			}
 			
-			$this->tendoo->setTitle('Messagerie');
+			$user_pseudo 						=	$this->core->users_global->current('PSEUDO');
+			$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Ecrire un nouveau message');
 			$this->tendoo->setDescription('Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/write',$this->data,true);
 			
@@ -186,7 +192,9 @@ class Account
 			}
 			$this->data['getMsgContent']=	$this->core->users_global->getMsgContent($start,$this->data['paginate'][1],$this->data['paginate'][2]);
 			
-			$this->tendoo->setTitle('Messagerie &raquo; Lecture');
+			$user_pseudo 						=	$this->core->users_global->current('PSEUDO');
+			$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Lecture d\'un message');
+
 			$this->tendoo->setDescription('Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/read',$this->data,true);
 			
@@ -204,8 +212,10 @@ class Account
 		if($user)
 		{
 			$this->data['user'] =& $user;
-			$this->tendoo->setTitle($user[0]['PSEUDO'].' - Profil');
+			
+			$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user[0]['PSEUDO']).' &raquo; profil de l\'utilisateur');
 			$this->tendoo->setDescription($user[0]['PSEUDO'].' - Profil');
+			
 			$this->data['body']			=	$this->load->view('account/profile/user_profil_body',$this->data,true);
 			
 			$this->load->view('account/header',$this->data);

@@ -331,11 +331,11 @@ class Tendoo
 	{
 		$this->core->load->library('Tendoo_admin');
 		$this->tendoo_admin		=&		$this->core->tendoo_admin;
-		if($app	==	'modus')
+		if($app	==	'revera')
 		{
 			// Installe le thème par défaut.
 			$appFile				=		array();
-			$appFile['temp_dir']	=		'85f173b4ecef39136a596061be621a0c';
+			$appFile['temp_dir']	=		'5cb1d33aedd57193149db9a852525a1b';
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 			$installed_theme		=		$this->tendoo_admin->getThemes();
 			// Set first Installed theme as default
@@ -1389,12 +1389,12 @@ class Tendoo
 			return;
 		}
 	}	
-	public function getModuleMenu($namespace)
+	public function getModuleMenu($namespace) // deprecated ??
 	{
 		$module		=	$this->getSpeModuleByNamespace($namespace);
 		if($module)
 		{
-			
+			// Deprecated ?
 		}
 	}
 	public function getControllerSubmenu($element,$ulclass="",$liclass="")

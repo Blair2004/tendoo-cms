@@ -1153,11 +1153,11 @@ class Tendoo_admin
 		return $finalArray;
 	}
 	// End install methods
-	public function getSpeMod($value,$option = TRUE)
+	public function getSpeMod($value,$byid = TRUE)
 	{
 		$this->core->db		->select('*')
 							->from('tendoo_modules');
-		if($option == TRUE)
+		if($byid == TRUE)
 		{
 			$this->core->db->where('ID',$value);
 		}

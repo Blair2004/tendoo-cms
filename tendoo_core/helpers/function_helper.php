@@ -438,4 +438,24 @@ if(!function_exists('gt')) // gt = Get Text
 		}
 	}
 }
+if(!function_exists('encode_meta')) // gt = Get Text
+{
+	function encode_meta($meta,$search	=	array('[',']'),$replacement	=	array('%3Arbkt%3A','%3Albkt%3A'))
+	{
+		for($i = 0;$i < count($search);$i++)
+		{
+			$code	=	str_replace($search[$i],$replacement[$i],$meta);
+		}
+	}
+}
+if(!function_exists('decode_meta')) // gt = Get Text
+{
+	function decode_meta($meta,$search	=	array('[',']'),$replacement	=	array('%3Arbkt%3A','%3Albkt%3A'))
+	{
+		for($i = 0;$i < count($search);$i++)
+		{
+			$code	=	str_replace($replacement[$i],$search[$i],$meta);
+		}
+	}
+}
 ?>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class=" js no-touch no-android chrome no-firefox no-iemobile no-ie no-ie10 no-ios">
+<html lang="fr">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">

@@ -11,7 +11,7 @@
 					$content	=	$g['CONTENT'],
 					$thumb		=	$g['THUMB'],
 					$full		=	$g['IMAGE'],
-					$author		=	$userdata['PSEUDO'],
+					$author		=	$userdata,
 					$link		=	$this->core->url->site_url(array($page[0]['PAGE_CNAME'],'read',$g['ID'],$this->core->tendoo->urilizeText($g['TITLE']))),
 					$timestamp	=	strtotime($g['DATE']),
 					$categoryLink=	$category['name'],

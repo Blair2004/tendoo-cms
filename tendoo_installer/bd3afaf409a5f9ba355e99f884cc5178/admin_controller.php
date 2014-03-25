@@ -27,7 +27,8 @@ class Tendoo_widget_administrator_admin_controller
 		$this->data						=&	$data;
 		$this->notice					=&	$this->core->notice;
 		$this->data['module_dir']		=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
-		$this->adwid_lib				=	new widhandler_lib($this->data);
+		$this->lib						=	new widhandler_lib($this->data);
+		$this->data['lib']				=&	$this->lib;
 		
 		$this->core->tendoo_admin->menuExtendsBefore($this->core->load->view($this->data['module_dir'].'/views/menu',$this->data,true,TRUE));
 		$this->data['inner_head']		=	$this->core->load->view('admin/inner_head',$this->data,true);
@@ -39,166 +40,56 @@ class Tendoo_widget_administrator_admin_controller
 	}
 	public function index($page	=	1,$action = "",$element	=	'')
 	{
-		if($action	==	'activate' && $element != '')
+		//echo '<pre>';
+		//print_r($_POST);
+		//echo '</pre>';
+		if(isset($_POST['tewi_wid']))
 		{
-			$exec	=	$this->adwid_lib->activateWidget($element);
-			$this->core->notice->push_notice(notice($exec));
+			$this->lib->save_widgets($_POST['tewi_wid']);
 		}
-		else if($action	==	'disable' && $element != '')
-		{
-			$exec	=	$this->adwid_lib->disableWidget($element);
-			$this->core->notice->push_notice(notice($exec));
-		}
-		else if($action	==	'goUp' && $element != '')
-		{
-			$exec	=	$this->adwid_lib->grapWidget($element);
-			$this->core->notice->push_notice(notice($exec));
-		}
-		$this->core->load->library('form_validation');
-		$this->core->form_validation->set_rules('id_fordeletion','Identifiant du widget','trim|required|min_length[1]');
-		if($this->core->form_validation->run())
-		{
-			$exec	=	$this->adwid_lib->deleteWidget((int)$this->core->input->post('id_fordeletion'));
-			$this->core->notice->push_notice(notice($exec));
-		}
-		$this->data['currentPage']		=	$page;
-		$this->data['ttWidget']			=	$this->adwid_lib->countWidgets();
-		$this->data['paginate']			=	$this->core->tendoo->paginate(
-			30,
-			$this->data['ttWidget'],
-			1,
-			"",
-			"",
-			$page,
-			$this->core->url->site_url(array('admin','open','modules',$this->data['module'][0]['ID'],'index')).'/'
-		); // Pagination
+		$this->core->file->js_push('jquery-ui-1.8.23.custom.min');
+		$this->core->file->js_url	=	$this->core->url->main_url().$this->data['module_dir'].'/script/';
+		$this->core->file->js_push('tewi_script');
 		
-		$this->data['getWidgets']		=	$this->adwid_lib->getWidgets($this->data['paginate'][1],$this->data['paginate'][2]);
-		$this->tendoo->setTitle('Gestionnaire de widget - Page d\'administration');
+		$this->core->file->css_url	=	$this->core->url->main_url().$this->data['module_dir'].'/css/';
+		$this->core->file->css_push('style');
+		
+		
+		$this->data['modules']		=	$this->tendoo_admin->get_modules();
+		$this->data['finalMod']		=	array();
+		foreach($this->data['modules']	as $module)
+		{
+			if($module['HAS_WIDGET']	==	1)
+			{
+				$widget_config_file		=	MODULES_DIR.$module['ENCRYPTED_DIR'].'/config/widget_config.php';
+				if(file_exists($widget_config_file))
+				{
+					include_once($widget_config_file);
+					if(isset($WIDGET_CONFIG))
+					{
+						foreach($WIDGET_CONFIG as $wc)
+						{
+							$this->data['finalMod'][]	=	$wc;
+						}
+					}
+				}
+			}
+		}
+		$this->data['widgets_left']			=	$this->lib->tewi_getWidgets('left');
+		$this->data['widgets_right']		=	$this->lib->tewi_getWidgets('right');
+		$this->data['widgets_bottom']		=	$this->lib->tewi_getWidgets('bottom');
+		// var_dump($this->data['widgets_bottom']);
+		$this->tendoo->setTitle('Tendoo &raquo; Gestion des widgets');
 		
 		$this->data['body']			=	$this->core->load->view($this->data['module_dir'].'/views/body',$this->data,true,TRUE);
 		return $this->data['body'];
 	}
-	public function create_widget()
+	public function tewi_save()
 	{
-		$this->core->load->library('form_validation');
-		$this->core->form_validation->set_rules('widget_title','Intitulé du widget','trim|required|min_length[5]|max_length[50]');
-		$this->core->form_validation->set_rules('widget_content','Contenu du widget','trim|required|min_length[5]|max_length[1000]');
-		$this->core->form_validation->set_rules('widget_description','Description du widget','trim|required|min_length[5]|max_length[1000]');
-		if($this->core->form_validation->run())
-		{
-			$query	=	$this->adwid_lib->createWidget(
-				$this->core->input->post('widget_title'),
-				$this->core->input->post('widget_description'),
-				$this->core->input->post('widget_content')
-			);
-			$this->core->notice->push_notice(notice($query));
-		}
-		$this->core->load->library('form_validation');
-		$this->core->form_validation->set_rules('createSpecial','','trim|required|min_length[2]');
-		$this->core->form_validation->set_rules('widget_ref','','trim|required|min_length[2]');
-		$this->core->form_validation->set_rules('widget_description','','trim|required|min_length[3]');
-		$this->core->form_validation->set_rules('widget_title','','trim|required|min_length[3]');
-		if($this->core->form_validation->run())
-		{
-			$query	=	$this->adwid_lib->createSpecialWidget(
-				$this->core->input->post('widget_title'),
-				$this->core->input->post('widget_description'),
-				$this->core->input->post('widget_ref')
-			);	
-			$this->core->notice->push_notice(notice($query));
-		}
-		$this->data['modules']		=	$this->tendoo_admin->get_modules();
-		$this->data['finalMod']		=	array();
-		foreach($this->data['modules']	as $module)
-		{
-			if($module['HAS_WIDGET']	==	1)
-			{
-				$widget_config_file		=	MODULES_DIR.$module['ENCRYPTED_DIR'].'/config/widget_config.php';
-				if(file_exists($widget_config_file))
-				{
-					include_once($widget_config_file);
-					if(isset($WIDGET_CONFIG))
-					{
-						foreach($WIDGET_CONFIG as $wc)
-						{
-							$this->data['finalMod'][]	=	$wc;
-						}
-					}
-				}
-			}
-		}
-		$this->tendoo->loadEditor(1);
-		$this->tendoo->setTitle('Gestionnaire de widget - Cr&eacute;er un widget');
-		
-		$this->data['body']			=	$this->core->load->view($this->data['module_dir'].'/views/create',$this->data,true,TRUE);
-		return $this->data['body'];
-	}
-	public function edit($we)
-	{
-		$this->tendoo->loadEditor(1);
-		$this->core->load->library('form_validation');
-		$this->core->form_validation->set_rules('widget_id','Intitulé du widget','trim|required|min_length[1]|max_length[11]');
-		$this->core->form_validation->set_rules('widget_title','Intitulé du widget','trim|required|min_length[5]|max_length[50]');
-		$this->core->form_validation->set_rules('widget_content','Contenu du widget','trim|required|min_length[5]|max_length[1000]');
-		$this->core->form_validation->set_rules('widget_description','Description du widget','trim|required|min_length[5]|max_length[1000]');
-		if($this->core->form_validation->run())
-		{
-			$query	=	$this->adwid_lib->editWidget(
-				$this->core->input->post('widget_id'),
-				$this->core->input->post('widget_title'),
-				$this->core->input->post('widget_description'),
-				$this->core->input->post('widget_content')
-			);
-			if($query)	:	$this->core->notice->push_notice(notice('done'));			endif;
-			if(!$query)	:	$this->core->notice->push_notice(notice('error_occured'));	endif;
-		}
-		$this->core->load->library('form_validation');
-		$this->core->form_validation->set_rules('widget_id','Intitulé du widget','trim|required|min_length[1]|max_length[11]');
-		$this->core->form_validation->set_rules('widget_title','Intitulé du widget','trim|required|min_length[5]|max_length[50]');
-		$this->core->form_validation->set_rules('widget_description','Description du widget','trim|required|min_length[5]|max_length[1000]');
-		$this->core->form_validation->set_rules('updateSpecial','Description du widget','trim|required|min_length[2]');
-		if($this->core->form_validation->run())
-		{
-			$query	=	$this->adwid_lib->editSpecialWidget(
-				$this->core->input->post('widget_id'),
-				$this->core->input->post('widget_title'),
-				$this->core->input->post('widget_description'),
-				$this->core->input->post('widget_ref')
-			);
-			if($query)	:	$this->core->notice->push_notice(notice('done'));			endif;
-			if(!$query)	:	$this->core->notice->push_notice(notice('error_occured'));	endif;
-		}
-		// Prie en charge de widgets embarqués.
-		$this->data['modules']		=	$this->tendoo_admin->get_modules();
-		$this->data['finalMod']		=	array();
-		foreach($this->data['modules']	as $module)
-		{
-			if($module['HAS_WIDGET']	==	1)
-			{
-				$widget_config_file		=	MODULES_DIR.$module['ENCRYPTED_DIR'].'/config/widget_config.php';
-				if(file_exists($widget_config_file))
-				{
-					include_once($widget_config_file);
-					if(isset($WIDGET_CONFIG))
-					{
-						foreach($WIDGET_CONFIG as $wc)
-						{
-							$this->data['finalMod'][]	=	$wc;
-						}
-					}
-				}
-			}
-		}
-		$this->data['getWidget']		=	$this->adwid_lib->getWidgets($we);
-		if($this->data['getWidget'] != false)
-		{
-			$this->data['body']			=	$this->core->load->view($this->data['module_dir'].'/views/edit',$this->data,true,TRUE);
-			return $this->data['body'];
-		}
-		else
-		{
-			$this->core->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=unknowWidget'));
-		}
+		$this->lib->tewi_creating_widgets($this->core->input->post('tewi_code'));
+		return array(
+			'MCO'		=>		TRUE,
+			'RETURNED'	=>		''
+		);
 	}
 }

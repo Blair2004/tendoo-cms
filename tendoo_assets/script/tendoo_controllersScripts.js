@@ -37,7 +37,7 @@ $(document).ready(function(){
 				$(c[i]).insertAfter($(e));
 			}			
 		};
-		var upIcon	=	'<i class="icon-level-up" style="font-size:15px;"></i>';
+		var upIcon	=	'<i class="fa fa-level-up" style="font-size:15px;"></i>';
 		$('#controllersList').find('.upTaker').bind('click',function(){
 			var row		=	$(this).closest('tr[title="racine"]');
 			var childs	=	__getChilren(row);

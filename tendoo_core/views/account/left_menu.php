@@ -28,7 +28,7 @@
                     <?php
 					}
                     ?>
-                    <i class="fa fa-envelope-alt"></i><span>Messagerie</span> </a> </li>
+                    <i class="fa fa-envelope"></i><span>Messagerie</span> </a> </li>
                     <li> <a href="<?php echo $this->core->url->site_url('account/profile_update');?>"> <i class="fa fa-edit"></i> <span>Modifier</span> </a> </li>
                     <?php
 					if($this->core->users_global->isAdmin())
@@ -38,7 +38,7 @@
                     <?php
 					}
 					?>
-                    <li> <a href="<?php echo $this->core->url->site_url('index');?>"> <i class="fa fa-signout"></i> <span>Retour</span> </a> </li>
+                    <li> <a href="<?php echo $this->core->url->site_url('index');?>"> <i class="fa fa-sign-out"></i> <span>Retour</span> </a> </li>
                 </ul>
             </nav>
         </section>

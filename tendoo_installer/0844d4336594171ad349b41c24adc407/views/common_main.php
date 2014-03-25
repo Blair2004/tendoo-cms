@@ -4,7 +4,7 @@
 		{
 			foreach($getNews as $g)
 			{
-				$userdata		=	$userUtil->getUser($g['AUTEUR']);
+				$userdata		=	$this->core->users_global->getUser($g['AUTEUR']);
 				$date			=	$g['DATE'];
 				$Pcategory		=	$news->retreiveCat($g['CATEGORY_ID']);
 				$theme->defineBlogPost(
@@ -12,7 +12,7 @@
 					$content		=	$g['CONTENT'],
 					$thumb			=	$g['THUMB'],
 					$full			=	$g['IMAGE'],
-					$author			=	$userdata['PSEUDO'],
+					$author			=	$userdata,
 					$link			=	$this->core->url->site_url(array($page[0]['PAGE_CNAME'],'read',$g['ID'],$this->core->tendoo->urilizeText($g['TITLE']))),
 					$timestamp		=	$date,
 					$category		=	$Pcategory['name'],

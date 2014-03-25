@@ -1,7 +1,7 @@
 <?php echo $smallHeader;?>
 <section class="bg-light lt">
     <div class="panel-content">
-        <div class="container wrapper scrollable">
+        <div class="wrapper scrollable">
             <section class="panel">
                 <h4 class="font-thin padder">Détails</h4>
                 <ul class="list-group">
