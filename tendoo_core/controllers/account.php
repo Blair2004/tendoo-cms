@@ -26,7 +26,7 @@ class Account
 		$this->core->file->css_push('tendoo_global');
 		////->
 		$this->core->file->js_push('jquery-1.9');
-		$this->core->file->js_push('app.min.vTendoo'); // _2
+		$this->core->file->js_push('app.min.vtendoo'); // _2
 		$this->core->file->js_push('tendoo_loader');
 		$this->core->file->js_push('tendoo_app');
 		

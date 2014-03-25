@@ -106,7 +106,7 @@ class Admin
 			$this->core->file->js_push('bubbles');
 		}
 		
-		$this->core->file->js_push('app.min.vTendoo'); // _2
+		$this->core->file->js_push('app.min.vtendoo'); // _2
 		$this->core->file->js_push('tendoo_loader');
 		$this->core->file->js_push('tendoo_app');
 	}
