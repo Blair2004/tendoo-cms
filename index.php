@@ -1,11 +1,12 @@
 <?php
+// Started on 28/03/2014
 session_start();
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 /* =-=-=-=-=-=-Tendoo SCRIPT DU NOYAU(2014)-=-=-=-=-=-=-=-= */
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('TENDOO_VERSION','0.96');
+define('TENDOO_VERSION','0.97');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('Tendoo_SIGNATURE','Tendoo - CMS('.TENDOO_VERSION.')');
+define('TENDOO_SIGNATURE','Tendoo - CMS('.TENDOO_VERSION.')');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('SYSTEM_DIR','tendoo_core/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -50,6 +51,9 @@ include_once(HELPERS_DIR.'function_helper.php');
 include_once(HELPERS_DIR.'date.php');
 include_once(HELPERS_DIR.'text.php');
 include_once(HELPERS_DIR.'cookie_helper.php');
+/* =-=-=-=-=-=-=-=-=-=-=-=-= BOOT HANDLERS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+//set_error_handler('tendoo_error');
+//set_error_handler('tendoo_exception');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LAUNCH TENDOO -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 new Controller;
 /* =-=-=-=-=-=-=-=-=-=-=-=-= UBBER ENTERPRISE 2014 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
