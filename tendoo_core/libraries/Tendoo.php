@@ -522,19 +522,16 @@ class Tendoo
 	{
 		$q = $this->core->db->get('tendoo_options');
 		$r = $q->result();
-		$value['FIRST_VISIT']			=	'1'; // it's the first visit :D
 		$value['CONNECT_TO_STORE']		=	'1'; // by default tendoo connect to store
 		if(count($r) == 1)
 		{	
 			$value['SITE_NAME'] 			= $name;
-			$value['SHOW_WELCOME']			=	'TRUE';
 			$this->core->db->where('ID',1);
 			$result = $this->core->db->update('tendoo_options',$value);
 		}
 		else if(count($r) == 0)
 		{
 			$value['SITE_NAME'] 			= 	$name;
-			$value['SHOW_WELCOME']			=	'TRUE';
 			$result = $this->core->db->insert('tendoo_options',$value);
 		}
 		if($result == false)
