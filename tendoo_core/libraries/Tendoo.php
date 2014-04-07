@@ -397,7 +397,7 @@ class Tendoo
 		}
 		else if($app	==	'widget_admin')
 		{
-			// Install "Tendoo_index_mod"
+			// Install "Widget_admin"
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'bd3afaf409a5f9ba355e99f884cc5178';
 			$option					=		$this->getOptions();
@@ -410,7 +410,46 @@ class Tendoo
 				$lib					=	new widhandler_lib(array(
 					'module_dir'		=>	MODULES_DIR.$module[0]['ENCRYPTED_DIR']
 				));
-				
+				$array['LEFT'][]	=	array(
+					'modnamespace'	=>	'system',
+					'namespace'		=>	'texte',
+					'human_name'	=>	'Widget Texte',
+					'title'			=>	'Bienvenu sur Tendoo 0.9.7',
+					'params'		=>	'Ceci est un widget ajouté depuis l\'espace administration. Vous pouvez accédez au module "Gestionnaire de widget" pour modifier ce Widget.'
+				);
+				$array['LEFT'][]	=	array(
+					'modnamespace'	=>	'news',
+					'namespace'		=>	'syslink',
+					'human_name'	=>	'Liens Système',
+					'title'			=>	'Meta.'
+				);
+				$array['RIGHT'][]	=	array(
+					'modnamespace'	=>	'system',
+					'namespace'		=>	'texte',
+					'human_name'	=>	'Widget Texte',
+					'title'			=>	'Bienvenu sur Tendoo 0.9.7',
+					'params'		=>	'Ceci est un widget ajouté depuis l\'espace administration. Vous pouvez accédez au module "Gestionnaire de widget" pour modifier ce Widget.'
+				);
+				$array['RIGHT'][]	=	array(
+					'modnamespace'	=>	'news',
+					'namespace'		=>	'syslink',
+					'human_name'	=>	'Liens Système',
+					'title'			=>	'Meta.'
+				);
+				$array['BOTTOM'][]	=	array(
+					'modnamespace'	=>	'system',
+					'namespace'		=>	'texte',
+					'human_name'	=>	'Widget Texte',
+					'title'			=>	'Bienvenu sur Tendoo 0.9.7',
+					'params'		=>	'Ceci est un widget ajouté depuis l\'espace administration. Vous pouvez accédez au module "Gestionnaire de widget" pour modifier ce Widget.'
+				);
+				$array['BOTTOM'][]	=	array(
+					'modnamespace'	=>	'news',
+					'namespace'		=>	'syslink',
+					'human_name'	=>	'Liens Système',
+					'title'			=>	'Meta.'
+				);
+				$lib->save_widgets($array);
 			}
 		}
 		else if($app	==	'PageEditor')

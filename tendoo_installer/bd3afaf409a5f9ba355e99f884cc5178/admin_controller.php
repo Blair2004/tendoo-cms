@@ -84,12 +84,4 @@ class Tendoo_widget_administrator_admin_controller
 		$this->data['body']			=	$this->core->load->view($this->data['module_dir'].'/views/body',$this->data,true,TRUE);
 		return $this->data['body'];
 	}
-	public function tewi_save()
-	{
-		$this->lib->tewi_creating_widgets($this->core->input->post('tewi_code'));
-		return array(
-			'MCO'		=>		TRUE,
-			'RETURNED'	=>		''
-		);
-	}
 }

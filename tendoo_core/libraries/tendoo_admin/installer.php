@@ -4,6 +4,7 @@ class tendoo_installer
 	public function __construct()
 	{
 		__extends($this);
+		$this->load->library('upload');
 	}
 	public function encrypted_name()
 	{
