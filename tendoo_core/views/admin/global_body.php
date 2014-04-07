@@ -2,12 +2,12 @@
 	function page_header()
 	{
 	?>
-<body>
+<body style="background:<?php echo theme_background_color();?>">
     <section class="hbox stretch"><?php
     }
 	function page_bottom($options,$obj)
 	{
-		if($options[0]['ADMIN_THEME'] == 1)
+		if($obj->core->users_global->current('ADMIN_THEME') == 1)
 		{
 		?>
 	<script>
@@ -26,7 +26,7 @@
 </html>
 <?php
 		}
-		else if($options[0]['FIRST_VISIT'] == "101")	 // Set 1 after creating
+		else if($obj->core->users_global->current('FIRST_VISIT') == "101")	 // Set 1 after creating
 		{
 			?>
 			<div id="WelCome" style="display:none">
@@ -43,7 +43,7 @@
 											<p>Que vous soyez un professionnel ou un amateur, cette visite est faites pour vous. Vous découvrirez comment prendre en main l'espace administration de Tendoo, mais aussi comment étendre ses 
 											fonctionnalités en installant de nouvelles applications.</p>
 											<p>
-												<a class="btn btn-primary btn-large proceed">
+												<a class="btn <?php echo theme_button_class();?> btn-large proceed">
 												Découvrir Tendoo
 												</a>
 												<a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn btn-danger btn-large" id="quitTour">

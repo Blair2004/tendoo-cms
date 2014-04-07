@@ -1,7 +1,7 @@
 <?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.2);
+$this->appVers(0.3);
 $this->appTendooVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'Tendoo_widget_administrator',
@@ -9,7 +9,8 @@ $this->appTableField(array(
 	'AUTHOR'		=> 'Tendoo Group',
 	'DESCRIPTION'	=> 'Permet de créer et d\'administrer des widgets',
 	'TYPE'			=> 'GLOBAL',
-	'TENDOO_VERS'	=> 0.94
+	'TENDOO_VERS'	=> 0.94,
+	'HAS_ICON'		=>	1
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_widget_administrator_left` (

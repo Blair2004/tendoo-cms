@@ -80,7 +80,7 @@ if(is_array($lib_options) && count($lib_options) > 0)
 	if($o['ABOUTUS_CONTENT'] != '')
 	{
 		$theme->defineIndexAboutUsTitle($o['ABOUTUS_TITLE']);
-		$theme->defineIndexAboutUs(strip_tags($o['ABOUTUS_CONTENT']));
+		$theme->defineIndexAboutUs($o['ABOUTUS_CONTENT']);
 	}
 	if($o['SHOW_LASTEST'] == '1')
 	{

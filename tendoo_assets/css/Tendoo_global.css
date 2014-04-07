@@ -139,14 +139,15 @@
 {
 	width:100px;
 	height:120px;
-	border:solid 1px #DDD;
-	border-right:solid 3px #DDD;
-	border-bottom:solid 3px #DDD;
+	border:solid 1px #BBB;
+	border-right:solid 3px #BBB;
+	border-bottom:solid 3px #BBB;
 	border-radius:5px;
 	text-align:center;
 	box-shadow: linear-gradient(top #EEE #333);
 	float:left;
 	margin: 0 20px 20px 0;
+	background:#EEE;
 }
 .tendoo-icon-set .badge
 {
@@ -158,6 +159,6 @@
 .tendoo-icon-set:hover
 {
 	cursor:pointer;
-	background:#F2F2F2;
+	background:#F7F7F7;
 }
 

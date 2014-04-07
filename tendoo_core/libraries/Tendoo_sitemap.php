@@ -54,10 +54,7 @@ class tendoo_sitemap
 	{
 		$root_controller	=	$this->tendoo->get_pages();
 		$sitemap_head		=	
-'<?xml version="1.0" encoding="UTF-8"?>
-<urlset 
-xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocati http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ';
 		$sitemap_end		=	'</urlset>';
 		$sitemap_body		=	$this->__loopController($root_controller);

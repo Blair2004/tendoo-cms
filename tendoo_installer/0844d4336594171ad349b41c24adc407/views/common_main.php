@@ -7,6 +7,7 @@
 				$userdata		=	$this->core->users_global->getUser($g['AUTEUR']);
 				$date			=	$g['DATE'];
 				$Pcategory		=	$news->retreiveCat($g['CATEGORY_ID']);
+				$ttComments		=	$news->countComments($g['ID']);
 				$theme->defineBlogPost(
 					$title			=	$g['TITLE'],
 					$content		=	$g['CONTENT'],
@@ -16,7 +17,8 @@
 					$link			=	$this->core->url->site_url(array($page[0]['PAGE_CNAME'],'read',$g['ID'],$this->core->tendoo->urilizeText($g['TITLE']))),
 					$timestamp		=	$date,
 					$category		=	$Pcategory['name'],
-					$categoryLink	=	$Pcategory['url']
+					$categoryLink	=	$Pcategory['url'],
+					$comments		=	$ttComments
 				);
 			}
 			$superArray['currentPage']	=	$currentPage;

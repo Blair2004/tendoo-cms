@@ -23,44 +23,53 @@
       </header>
 	  <section class="scrollable wrapper"> <?php echo notice_from_url();?>
         <?php
-            if($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1")
+            if($this->core->users_global->current('SHOW_ADMIN_INDEX_STATS') == "1")
             {
-                    $currentTime	=	$this->core->tendoo->datetime();
-                    $dateArray		=	$this->core->tendoo->time(strtotime($currentTime),TRUE);
-                    $stats		=	$this->core->tendoo_admin->tendoo_visit_stats();
-                    $visitLine		=	'';
-                    $totalUnique	=	$stats['statistics']['unique'][$dateArray['y']][$dateArray['M']]['totalVisits'];
-                    $totalGlobal	=	$stats['statistics']['global'][$dateArray['y']][$dateArray['M']]['totalVisits'];
-                    $overAllUnique	=	$stats['statistics']['overAll']['unique']['totalVisits'];
-                    $overAllGlobal	=	$stats['statistics']['overAll']['global']['totalVisits'];
-                    //echo '<pre>';
-                    //print_r();
-                    //echo '</pre>';
-                    if(is_array($stats['ordered']))
-                    {
-                        foreach($stats['ordered'] as $year)
-                        {
-                            foreach($year as $month)
-                            {
-                                $uniqVisit[]	=	count($month);
-                            }
-                        }
-                        for($i=0;$i<count($uniqVisit);$i++)
-                        {
-                            if(array_key_exists($i+1,$uniqVisit))
-                            {
-                                $visitLine.=	$uniqVisit[$i].',';
-                            }
-                            else
-                            {
-                                $visitLine.=	$uniqVisit[$i];
-                            }
-                        }
-                    }
-                    else
-                    {
-                        $visitLine	=	'';
-                    }
+				$currentTime	=	$this->core->tendoo->datetime();
+				$dateArray		=	$this->core->tendoo->time(strtotime($currentTime),TRUE);
+				$stats		=	$this->core->tendoo_admin->tendoo_visit_stats();
+				$visitLine		=	'';
+				if(array_key_exists($dateArray['M'],$stats['statistics']['unique'][$dateArray['y']]))
+				{
+					$totalUnique	=	$stats['statistics']['unique'][$dateArray['y']][$dateArray['M']]['totalVisits'];
+					$totalGlobal	=	$stats['statistics']['global'][$dateArray['y']][$dateArray['M']]['totalVisits'];
+				}
+				else
+				{
+					$totalUnique	=	0;
+					$totalGlobal	=	0;
+					$this->core->notice->push_notice(tendoo_info('Aucune visite n\'a &eacute;t&eacute; &eacute;ffectu&eacute;e ce mois'));
+				}
+				$overAllUnique	=	$stats['statistics']['overAll']['unique']['totalVisits'];
+				$overAllGlobal	=	$stats['statistics']['overAll']['global']['totalVisits'];
+				//echo '<pre>';
+				//print_r();
+				//echo '</pre>';
+				if(is_array($stats['ordered']))
+				{
+					foreach($stats['ordered'] as $year)
+					{
+						foreach($year as $month)
+						{
+							$uniqVisit[]	=	count($month);
+						}
+					}
+					for($i=0;$i<count($uniqVisit);$i++)
+					{
+						if(array_key_exists($i+1,$uniqVisit))
+						{
+							$visitLine.=	$uniqVisit[$i].',';
+						}
+						else
+						{
+							$visitLine.=	$uniqVisit[$i];
+						}
+					}
+				}
+				else
+				{
+					$visitLine	=	'';
+				}
             }
                     ?>
         <!-- data-toggle="tooltip" data-placement="right" title="" data-original-title="Statistiques sur le traffic de votre site." -->
@@ -68,7 +77,7 @@
           <div class="col-lg-9"> 
             <!-- Start Here -->
             <?php
-              if($options[0]['OPEN_APP_TAB'] == '0')
+              if($this->core->users_global->current('OPEN_APP_TAB') == '0')
               {
                   $icon_1	=	'';
                   $collapse	=	'collapse';
@@ -99,8 +108,9 @@
                             {
                                 if($i	==	$a['ICON_MODULE_NAMESPACE'].'/'.$a['ICON_NAMESPACE'])
                                 {
+									// .'?ajax=true' we're no more accessing ajax content, but directly app.
                         ?>
-                        <div class="tendoo-icon-set" data-toggle="tooltip" data-placement="right" title="<?php echo $a['ICON_MODULE']['HUMAN_NAME'];?>" modal-title="<?php echo $a['ICON_MODULE']['HUMAN_NAME'];?>" data-url="<?php echo $this->core->url->site_url(array('admin','open','modules',$a['ICON_MODULE']['ID'].'?ajax=true'));?>">
+                        <div class="tendoo-icon-set" data-toggle="tooltip" data-placement="right" title="<?php echo $a['ICON_MODULE']['HUMAN_NAME'];?>" modal-title="<?php echo $a['ICON_MODULE']['HUMAN_NAME'];?>" data-url="<?php echo $this->core->url->site_url(array('admin','open','modules',$a['ICON_MODULE']['ID']));?>">
                         	
                           <img class="G-icon" src="<?php echo $this->core->tendoo_admin->getAppImgIco($a['ICON_MODULE']['NAMESPACE']);?>">
                   			<p><?php echo word_limiter($a['ICON_MODULE']['HUMAN_NAME'],4);?></p>
@@ -127,15 +137,14 @@
             <!-- End Here -->
             <ul class="list-group gutter list-group-lg list-group-sp sortable">
               <?php
-                if($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1")
+					if((int)$this->core->users_global->current('SHOW_ADMIN_INDEX_STATS') == 1)
                 {
                 ?>
-              <li class="list-group-item" draggable="true" style="padding:0px;" data-id="<?php echo $this->core->tendoo_admin->getGridId();?>">
-                <header class="panel-heading bg-info lter"> <span class="pull-right"><?php echo $dateArray['month'];?></span> <span class="h4">Stats. sur <?php echo $this->core->tendoo_admin->getStatLimitation();?> mois<br>
+              <li class="list-group-item" draggable="true" style="padding:0px;">
+                <header class="panel-heading <?php echo theme_class();?> lter"> <span class="pull-right"><?php echo $dateArray['month'];?></span> <span class="h4">Stats. sur <?php echo $this->core->tendoo_admin->getStatLimitation();?> mois<br>
                   <small class="text-muted"></small> </span>
                   <div class="text-center padder m-b-n-sm m-t-sm">
-                    <div class="sparkline" data-type="line" data-resize="true" data-height="48" data-width="100%" data-line-width="2" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="3" data-data="
-                            [<?php echo $visitLine;?>]"></div>
+                    <div class="sparkline" data-type="line" data-resize="true" data-height="48" data-width="100%" data-line-width="2" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="3" data-data="[<?php echo $visitLine;?>]"></div>
                     <div class="sparkline inline"></div>
                   </div>
                 </header>
@@ -148,9 +157,9 @@
               <?php
                 }
                     ?>
-              <li class="list-group-item" draggable="true" style="padding:0px;" data-id="<?php echo $this->core->tendoo_admin->getGridId();?>">
+              <li class="list-group-item" draggable="true" style="padding:0px;">
                 <?php
-                    if($options[0]['SHOW_WELCOME'] == 'TRUE')
+                    if(in_array($this->core->users_global->current('SHOW_WELCOME'),array('1','TRUE')))
                     {
                     ?>
                 <div class="panel-body">

@@ -1,4 +1,4 @@
-<aside class="aside nav-vertical bg-primary b-r" id="nav">
+<aside class="aside nav-vertical <?php echo theme_class();?> b-r" id="nav">
     <section class="vbox">
         <header class="nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 

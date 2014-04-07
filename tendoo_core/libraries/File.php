@@ -27,6 +27,17 @@ class File
 			array_push($this->jsfiles,js_url($e));
 		}
 	}
+	/*
+	Ajoute un fichier Js à la liste des fichiers télécharger si le fichier n'existe pas.
+	Tendoo 0.9.7
+	*/
+	public function js_push_if_not_exists($e) 
+	{
+		if(!in_array($e,array($this->jsfiles)))
+		{
+			$this->js_push($e);
+		}
+	}
 	public function js_clear()
 	{
 		$this->jsfiles	=	array();
@@ -58,6 +69,18 @@ class File
 	public function css_clear()
 	{
 		$this->cssfiles	=	array();
+	}
+	/*
+	Ajoute un fichier css à la liste des fichiers télécharger si le fichier n'existe pas.
+	*/
+	public function css_push_if_not_exists($e) 
+	{
+		if(!in_array($e,array($this->cssfiles)))
+		{
+			$this->css_push($e);
+			return true;
+		}
+		return false;
 	}
 }
 ?>

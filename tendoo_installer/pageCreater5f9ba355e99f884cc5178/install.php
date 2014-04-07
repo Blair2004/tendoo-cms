@@ -1,7 +1,7 @@
 <?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.2);
+$this->appVers(0.3);
 $this->appTendooVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'Pages_editor',
@@ -9,7 +9,8 @@ $this->appTableField(array(
 	'AUTHOR'		=> 'Tendoo Group',
 	'DESCRIPTION'	=> 'Créez une page HTML.',
 	'TYPE'			=> 'BYPAGE',
-	'TENDOO_VERS'	=> 0.94
+	'TENDOO_VERS'	=> 0.94,
+	'HAS_ICON'		=>	1
 ));
 $this->appAction(array(
 	'action'				=>	'create_page',

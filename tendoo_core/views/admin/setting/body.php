@@ -21,9 +21,16 @@
                     <section class="panel">
                         <header class="panel-heading bg-light">
                             <ul class="nav nav-tabs nav-justified">
+								<?php
+								if($this->core->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+								{
+								?>
                                 <li class="active"><a href="#datasetting" data-toggle="tab">R&eacute;glages de base</a></li>
                                 <li><a href="#autorisation" data-toggle="tab">Autorisations</a></li>
                                 <li><a href="#security" data-toggle="tab">S&eacute;curit&eacute;</a></li>
+								<?php
+								}
+								?>
                             </ul>
                         </header>
                         <div class="panel-body">
@@ -34,10 +41,18 @@
 											<label class="label-control">Modifier le thème du système</label>
 											<select class="form-control" name="theme_style">
 												<option value="">Choisir le thème</option>
-												<option value="0" <?php if((int)$options[0]['ADMIN_THEME'] == 0): ?> selected="selected"<?php endif;?> >Par d&eacute;faut</option>
-												<option value="1" <?php if((int)$options[0]['ADMIN_THEME'] == 1): ?> selected="selected"<?php endif;?>>Bubbles Showcase</option>
+												<option value="0" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 0): ?> selected="selected"<?php endif;?> >Inverse Theme</option>
+												<option value="1" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 1): ?> selected="selected"<?php endif;?>>Bubbles Showcase</option>
+												<option value="2" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 2): ?> selected="selected"<?php endif;?>>Green Day</option>
+												<option value="3" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 3): ?> selected="selected"<?php endif;?>>Red Horn</option>
+												<option value="4" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 4): ?> selected="selected"<?php endif;?>>Selective Orange</option>
+												<option value="5" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 5): ?> selected="selected"<?php endif;?>>Skies</option>
 											</select>
 										</div>
+										<?php
+										if($this->core->users_global->current('PRIVILEGE') == 'NADIMERPUS')
+										{
+										?>
 										<div class="form-group">
 											<label class="control-label">D&eacute;finir fuseau horaire</label>
 											<?php $default	=	$options[0]['SITE_TIMEZONE'] == '' ? 'UTC' : $options[0]['SITE_TIMEZONE'];?>
@@ -81,7 +96,10 @@
 												<option <?php echo $format == 'type_3' ? 'selected="selected"' : '';?> value="type_3">A/m/J (2013/06/29)</option>
 											</select>
 										</div>
-										<input class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+										<?php
+										}
+										?>
+										<input class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Enregistrer"/>
 									</form>
 								</div>
 								<div class="tab-pane" id="autorisation">
@@ -93,16 +111,16 @@
 												<div class="form-group">
 													<label>
 														<?php 
-														if($options[0]['SHOW_ADMIN_INDEX_STATS'] == "1")
+														if((int)$this->core->users_global->current('SHOW_ADMIN_INDEX_STATS') == 1)
 														{
 														?>
-														<input type="submit" name="showAdminStats" class="btn btn-primary" value="Cacher les statistiques &agrave; l'accueil">
+														<input type="submit" name="showAdminStats" class="btn <?php echo theme_button_class();?>" value="Cacher les statistiques &agrave; l'accueil">
 														<?php
 														}
 														else
 														{
 														?>
-														<input type="submit" name="showAdminStats" class="btn btn-primary" value="Afficher les statistiques à l'accueil">
+														<input type="submit" name="showAdminStats" class="btn <?php echo theme_button_class();?>" value="Afficher les statistiques à l'accueil">
 														<?php
 														}
 														;?>
@@ -130,13 +148,13 @@
 														if($options[0]['CONNECT_TO_STORE'] == "1")
 														{
 														?>
-														<input type="submit" name="storeToggle" class="btn btn-primary" value="Désactiver la connexion au Store">
+														<input type="submit" name="storeToggle" class="btn <?php echo theme_button_class();?>" value="Désactiver la connexion au Store">
 														<?php
 														}
 														else
 														{
 														?>
-														<input type="submit" name="storeToggle" class="btn btn-primary" value="Activer la connexion au Store">
+														<input type="submit" name="storeToggle" class="btn <?php echo theme_button_class();?>" value="Activer la connexion au Store">
 														<?php
 														}
 														;?>
@@ -161,16 +179,16 @@
 												<div class="form-group">
 													<label>
 														<?php 
-														if($options[0]['FIRST_VISIT'] == "1")
+														if((int)$this->core->users_global->current('FIRST_VISIT') == 1)
 														{
 														?>
-														<input type="submit" name="firstVisitToggle" class="btn btn-primary" value="Cacher la visite guidée">
+														<input type="submit" name="firstVisitToggle" class="btn <?php echo theme_button_class();?>" value="Cacher la visite guidée">
 														<?php
 														}
 														else
 														{
 														?>
-														<input type="submit" name="firstVisitToggle" class="btn btn-primary" value="Afficher la visite guidée">
+														<input type="submit" name="firstVisitToggle" class="btn <?php echo theme_button_class();?>" value="Afficher la visite guidée">
 														<?php
 														}
 														;?>
@@ -195,16 +213,16 @@
 												<div class="form-group">
 													<label>
 														<?php 
-														if($options[0]['SHOW_WELCOME'] == "TRUE")
+														if((int)$this->core->users_global->current('SHOW_WELCOME') == 1)
 														{
 														?>
-														<input type="submit" name="welcomeToggle" class="btn btn-primary" value="Cacher le message de bienvenue">
+														<input type="submit" name="welcomeToggle" class="btn <?php echo theme_button_class();?>" value="Cacher le message de bienvenue">
 														<?php
 														}
 														else
 														{
 														?>
-														<input type="submit" name="welcomeToggle" class="btn btn-primary" value="Afficher le message de bienvenue">
+														<input type="submit" name="welcomeToggle" class="btn <?php echo theme_button_class();?>" value="Afficher le message de bienvenue">
 														<?php
 														}
 														;?>
@@ -227,15 +245,15 @@
 											</form>
 										</div>
 										<div class="col-lg-8">
-											<h3>Icones et applications</h3>
+											<h3>Ic&ocirc;nes et applications</h3>
 											<form method="post">
 												<div class="form-group">
-													<label class="control-label">Liste d'icones disponibles</label>
+													<label class="control-label">Liste d'ic&ocirc;nes disponibles</label>
 													<div class="panel">
 														<table class="table">
 															<thead>
 																<th>Module</th>
-																<th>Nom de l'icone</th>
+																<th>Nom de l'ic&ocirc;ne</th>
 																<th width="180">Afficher à l'accueil</th>
 															</thead>
 															<tbody>
@@ -263,12 +281,14 @@
 																			}
 																				
 																		?>
+																	<tr>
 																		<td><?php echo $_a['ICON_HUMAN_NAME'];?></td>
 																		<td><?php echo $_a['ICON_MODULE']['HUMAN_NAME'];?></td>
 													<td><label class="label-control switch">
 														<input type="checkbox" name="showIcon[]" <?php echo $val;?>  value="<?php echo $_a['ICON_MODULE']['NAMESPACE'].'/'.$_a['ICON_NAMESPACE'];?>"  />
 														<span style="height:20px;"></span>
 													</label></td>
+																	</tr>
 													<?php
 																		
 																	}
@@ -284,7 +304,7 @@
 														</table>
 													</div>
 												</div>
-												<input name="appicons" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+												<input name="appicons" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Enregistrer"/>
 											</form>
                                     
 										</div>
@@ -302,7 +322,7 @@
 												<div class="form-group">
 													<label class="label-control">Autoriser la selection des privilèges: <input class="input-control" name="allow_priv_selection" type="checkbox" value="1" style="min-width:20px;" <?php echo $checked;?> /></label>                                                <p>Vous avez la possibilité de définir parmis les privilèges que vous avez cr&eacute;e, ceux qui sont disponible d&egrave;s l'inscription par les utilisateurs. N'oubliez pas de choisir parmis les privil&egrave;ges que vous avez cr&eacute;es ceux qui seront acc&eacute;sible au public. </p>
 												</div>
-												<input name="allow_priv_selection_button" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+												<input name="allow_priv_selection_button" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Enregistrer"/>
 											</form>
 											<br>
 											<form method="post" >
@@ -336,7 +356,7 @@
 														?>
 													</select>
 												</div>
-												<input name="publicPrivAccessAdmin_button" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+												<input name="publicPrivAccessAdmin_button" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Enregistrer"/>
 											</form>
 										</div>
 										<div class="col-lg-4">
@@ -371,7 +391,7 @@
 														?>
 													</select>
 												</div>
-												<input name="autoriseRegistration" class="btn btn-sm btn-primary" type="submit" value="Enregistrer"/>
+												<input name="autoriseRegistration" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Enregistrer"/>
 											</form>
 										</div>
 									</div>

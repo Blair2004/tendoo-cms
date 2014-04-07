@@ -150,7 +150,7 @@ class Tendoo_index_manager_admin_controller
 			$this->form_validation->set_rules('aboutUsContent', '&agrave; propos de nous','trim');
 			if($this->form_validation->run())
 			{
-				if($this->lib->setQuadOptions($this->input->post('aboutUsContent')))
+				if($this->lib->setQuadOptions($_POST['aboutUsContent']))
 				{
 					$this->notice->push_notice(notice('done'));
 				}

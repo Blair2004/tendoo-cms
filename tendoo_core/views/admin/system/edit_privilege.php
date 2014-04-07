@@ -42,7 +42,7 @@
                                     	<label class="label-control">Description du privil&egrave;ge</label>
                                         <textarea class="form-control" name="priv_description" placeholder="Description du privil&egrave;ge" title="Description du privil&egrave;ge"><?php echo $getPriv[0]['DESCRIPTION'];?></textarea>
                                     </div>
-                                    <input class="btn btn-primary" type="submit" value="Cr&eacute;er le privil&egrave;ge" />
+                                    <input class="btn <?php echo theme_button_class();?>" type="submit" value="Cr&eacute;er le privil&egrave;ge" />
                                     <input class="btn btn-danger" type="reset" value="Annuler" />
                                 </form>
                             </section>

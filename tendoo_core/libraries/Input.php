@@ -97,7 +97,7 @@ class Input {
 		log_message('debug', "Input Class Initialized");
 
 		$this->_allow_get_array	= TRUE;
-		$this->_enable_xss		= TRUE; 
+		$this->_enable_xss		= FALSE;  // Disabled
 		$this->_enable_csrf		= TRUE;
 
 		$this->security 		= $this->core->security;

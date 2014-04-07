@@ -192,7 +192,7 @@ Class Controller
 				$this->data['getTheme']		=		$this->tendoo->getSiteTheme();
 				$this->data['Tendoo']		=		$this->tendoo;
 				$this->data['module_url']	=		$this->url->site_url(array('tendoo@'.$Teurmola[1]));
-				$this->tendoo->addVisit(); // Add visit to global stats
+				$this->tendoo->addVisit(); // Add visit to global stat;				
 
 				$this->data['module']		=		$this->tendoo->getSpeModuleByNamespace($this->data['url_module']);
 				if($this->data['getTheme'] === FALSE)
@@ -272,6 +272,7 @@ Class Controller
 					$this->data['getTheme']		=		$this->tendoo->getSiteTheme();
 					$this->data['Tendoo']		=		$this->tendoo;
 					$this->data['module_url']	=		$this->tendoo->retreiveControlerUrl();
+					$this->tendoo->setKeywords($this->data['page'][0]['PAGE_KEYWORDS']);
 					$this->tendoo->addVisit(); // Add visit to global stats
 					if($this->data['module_url']	==	'noMainPage')
 					{
@@ -349,9 +350,5 @@ Class Controller
 		}
 
 		return $_config_item[$item];
-	}
-	public function __clone()
-	{
-		return $this->instance();
 	}
 }

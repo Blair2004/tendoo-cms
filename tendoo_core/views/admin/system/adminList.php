@@ -17,7 +17,7 @@
 					<?php $this->core->notice->parse_notice();?>
                     <?php echo notice_from_url();?>
                     <section class="panel">
-                        <div class="wrapper b-b font-bold">Liste des administrateurs</div>
+                        <div class="wrapper b-b font-bold">Liste des utilisateurs</div>
                         <table class="table table-striped m-b-none">
                             <thead>
                                 <tr>

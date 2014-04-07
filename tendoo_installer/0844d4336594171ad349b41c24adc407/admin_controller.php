@@ -34,6 +34,60 @@ class News_admin_controller
 	}
 	public function index($page	= 1)
 	{
+		if($this->core->input->post('draftSelected'))
+		{
+			if($this->tendoo_admin->actionAccess('edit_news','news'))
+			{
+				foreach($_POST['art_id'] as $id)
+				{
+					if(!$this->news->moveSpeNewsToDraft($id))
+					{
+						$this->core->notice->push_notice(hubby_error('Une erreur s\'est produite durant le d&eacute;placement de certaines articles'));
+					}
+				}
+				$this->core->notice->push_notice(notice('done'));
+			}
+			else
+			{
+				$this->core->notice->push_notice(notice('notForYourPriv'));
+			}
+		}
+		if($this->core->input->post('publishSelected'))
+		{
+			if($this->tendoo_admin->actionAccess('edit_news','news'))
+			{
+				foreach($_POST['art_id'] as $id)
+				{
+					if(!$this->news->publishSpeNews($id))
+					{
+						$this->core->notice->push_notice(hubby_error('Une erreur s\'est produite durant la publication de certaines articles'));
+					}
+				}
+				$this->core->notice->push_notice(notice('done'));
+			}
+			else
+			{
+				$this->core->notice->push_notice(notice('notForYourPriv'));
+			}
+		}
+		if($this->core->input->post('deleteSelected'))
+		{
+			if($this->tendoo_admin->actionAccess('delete_news','news'))
+			{
+				foreach($_POST['art_id'] as $id)
+				{
+					if(!$this->news->deleteSpeNews($id))
+					{
+						$this->core->notice->push_notice(hubby_error('Une erreur s\'est produite durant la suppr&eacute;sion de certaines articles'));
+					}
+				}
+				$this->core->notice->push_notice(notice('done'));
+			}
+			else
+			{
+				$this->core->notice->push_notice(notice('notForYourPriv'));
+			}
+		}
 		$this->data['ttNews']		=	$this->news->countNews();
 		$this->data['paginate']	=	$this->core->tendoo->paginate(10,$this->data['ttNews'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
 		if($this->data['paginate'][3] == FALSE): $this->core->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
@@ -81,7 +135,9 @@ class News_admin_controller
 					$this->core->input->post('push_directly'),
 					$this->core->input->post('image_link'),
 					$this->core->input->post('thumb_link'),
-					$this->core->input->post('category')
+					$this->core->input->post('category'),
+					FALSE,
+					$_POST['artKeyWord']
 				);
 				if(isset($_GET['ajax']))
 				{
@@ -120,6 +176,9 @@ class News_admin_controller
 			else
 			{
 				$this->tendoo->loadEditor(1);
+				$this->core->file->js_url	=	$this->core->url->main_url();
+				$this->core->file->js_push(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/js/blogster.script');
+
 			return $this->data['body']	=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/publish',$this->data,true,TRUE);
 			}
 		}
@@ -159,7 +218,8 @@ class News_admin_controller
 				$this->core->input->post('push_directly'),
 				$this->core->input->post('image_link'),
 				$this->core->input->post('thumb_link'),
-				$this->core->input->post('category')
+				$this->core->input->post('category'),
+				$_POST['artKeyWord']
 			);
 			if($this->data['result'])
 			{
@@ -171,8 +231,8 @@ class News_admin_controller
 			}
 		}
 		// Retreiving News Data
-		$this->data['news']		=	$this->news->getSpeNews($e);
-		$this->tendoo->setTitle('Blogster - Créer un nouvel article');
+		$this->data['getSpeNews']		=	$this->news->getSpeNews($e);
+		$this->tendoo->setTitle('Blogster - Modifier un article');
 		$this->tendoo->loadEditor(1);
 		
 		if(isset($_GET['ajax']))
@@ -188,6 +248,9 @@ class News_admin_controller
 		}
 		else
 		{
+			$this->core->file->js_url	=	$this->core->url->main_url();
+			$this->core->file->js_push(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/js/blogster.script');
+			
 			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/edit',$this->data,true,TRUE);
 			return $this->data['body'];
 		}
@@ -499,6 +562,40 @@ class News_admin_controller
 		else
 		{
 			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
+		}
+	}
+	public function ajax($section)
+	{
+		if($section == 'createCategory')
+		{
+			$this->core->load->library('form_validation');
+			$this->core->form_validation->set_rules('categoryName','Du nom de la cat&eacutegorie','trim|required');
+			if($this->core->form_validation->run())
+			{
+				if($this->data['news']->createCat($this->core->input->post('categoryName'),'Aucune description Enregistr&eacute;e') == 'categoryCreated')
+				{
+					$this->data['message']	=	'La cat&eacute;gorie &agrave; &eacute;t&eacute; cr&eacute;e.';
+					$this->data['notice_type']	=	'success';
+				}
+				else
+				{
+					$this->data['message']	=	"Une erreur s\'est produite durant la cr&eacute;ation de la cat&eacute;gorie. V&eacute;rifiez qu\'une cat&eacutegorie ayant le m&ecirc;me nom n\'existe pas d&eacute;j&agrave;.";
+					$this->data['notice_type']	=	'warning';
+				}
+				return array(
+					'MCO'		=>	TRUE,
+					'RETURNED'	=>	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_creatingCategory',$this->data,true,TRUE)
+				);
+			}
+			else
+			{
+				$this->data['message']			=	"Le nom de la cat&eacute;gorie n\'est pas valide";
+				$this->data['notice_type']	=	'warning';
+				return array(
+					'MCO'		=>	TRUE,
+					'RETURNED'	=>	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_creatingCategory',$this->data,true,TRUE)
+				);
+			}
 		}
 	}
 }

@@ -5,6 +5,7 @@ class Tendoo
 	private $coreDir;
 	private $defaultTitle;
 	private $defaultDesc;
+	private $defaultKeyWords;
 	private $isInstalled;
 	private $data;
 	protected	$load;
@@ -23,7 +24,7 @@ class Tendoo
 		else
 		{
 			$this->isInstalled = false;
-		}
+		}		
 	}
 	public function addVisit()
 	{
@@ -186,42 +187,41 @@ class Tendoo
 		/* CREATE tendoo_options */
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_options` (
-		  `ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-		  `SITE_NAME` varchar(40) NOT NULL,
-		  `SITE_TYPE` varchar(40) NOT NULL,
-		  `SITE_LOGO` varchar(200) NOT NULL,
-		  `SITE_LANG` varchar(200) NOT NULL,
-		  `ALLOW_REGISTRATION` int(11) NOT NULL,
-		  `SITE_TIMEZONE` varchar(30) NOT NULL,
-		  `SITE_TIMEFORMAT` varchar(10) NOT NULL,
-		  `SHOW_WELCOME` varchar(10) NOT NULL,
-		  `ADMIN_THEME` int(11) NOT NULL,
-		  `ALLOW_PRIVILEGE_SELECTION` int(11) NOT NULL,
-		  `PUBLIC_PRIV_ACCESS_ADMIN` int(11) NOT NULL,
-		  `ACTIVATE_STATS` int(11) NOT NULL,
-		  `SHOW_ADMIN_INDEX_STATS` int(11) NOT NULL,
-		  `OPEN_APP_TAB` int(11) NOT NULL,
-		  `ADMIN_ICONS` text NOT NULL,
-		  `FIRST_VISIT` int(11) NOT NULL,
-		  `CONNECT_TO_STORE` int(11) NOT NULL,
+		`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+		`SITE_NAME` varchar(40) NOT NULL,
+		`SITE_TYPE` varchar(40) NOT NULL,
+		`SITE_LOGO` varchar(200) NOT NULL,
+		`SITE_LANG` varchar(200) NOT NULL,
+		`ALLOW_REGISTRATION` int(11) NOT NULL,
+		`SITE_TIMEZONE` varchar(30) NOT NULL,
+		`SITE_TIMEFORMAT` varchar(10) NOT NULL,
+		`ALLOW_PRIVILEGE_SELECTION` int(11) NOT NULL,
+		`PUBLIC_PRIV_ACCESS_ADMIN` int(11) NOT NULL,
+		`ACTIVATE_STATS` int(11) NOT NULL,
+		`ADMIN_ICONS` text NOT NULL,
+		`CONNECT_TO_STORE` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
 		{
 			return false;
 		};
+		/* 
+		 int(11) NOT NULL, Removed, only admin can access private stats.
+		*/
+		
 		/* CREATE tendoo_themes */
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_themes` (
-		  `ID` int(11) NOT NULL AUTO_INCREMENT,
-		  `NAMESPACE` varchar(100) NOT NULL,
-		  `HUMAN_NAME` varchar(200) NOT NULL,
-		  `AUTHOR` varchar(100) NOT NULL,
-		  `DESCRIPTION` text NOT NULL,
-		  `ACTIVATED` varchar(20) NOT NULL,
-		  `TENDOO_VERS` varchar(100) NOT NULL,
-		  `ENCRYPTED_DIR` text NOT NULL,
-		  `APP_VERS` varchar(100) NOT NULL,
+			`ID` int(11) NOT NULL AUTO_INCREMENT,
+			`NAMESPACE` varchar(100) NOT NULL,
+			`HUMAN_NAME` varchar(200) NOT NULL,
+			`AUTHOR` varchar(100) NOT NULL,
+			`DESCRIPTION` text NOT NULL,
+			`ACTIVATED` varchar(20) NOT NULL,
+			`TENDOO_VERS` varchar(100) NOT NULL,
+			`ENCRYPTED_DIR` text NOT NULL,
+			`APP_VERS` varchar(100) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -231,20 +231,25 @@ class Tendoo
 		/* CREATE tendoo_users */
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_users` (
-		  `ID` int(11) NOT NULL AUTO_INCREMENT,
-		  `PSEUDO` varchar(100) NOT NULL,
-		  `PASSWORD` varchar(100) NOT NULL,
-		  `NAME` varchar(100) NOT NULL,
-		  `SURNAME` varchar(100) NOT NULL,
-		  `EMAIL` varchar(100) NOT NULL,
-		  `SEX` varchar(50) NOT NULL,
-		  `STATE` varchar(100) NOT NULL,
-		  `PHONE` varchar(100) NOT NULL,
-		  `TOWN` varchar(100) NOT NULL,
-		  `REG_DATE` datetime NOT NULL,
-		  `LAST_ACTIVITY` datetime NOT NULL,
-		  `PRIVILEGE` varchar(100) NOT NULL,
-		  `ACTIVE` varchar(100) NOT NULL,
+			`ID` int(11) NOT NULL AUTO_INCREMENT,
+			`PSEUDO` varchar(100) NOT NULL,
+			`PASSWORD` varchar(100) NOT NULL,
+			`NAME` varchar(100) NOT NULL,
+			`SURNAME` varchar(100) NOT NULL,
+			`EMAIL` varchar(100) NOT NULL,
+			`SEX` varchar(50) NOT NULL,
+			`STATE` varchar(100) NOT NULL,
+			`PHONE` varchar(100) NOT NULL,
+			`TOWN` varchar(100) NOT NULL,
+			`REG_DATE` datetime NOT NULL,
+			`LAST_ACTIVITY` datetime NOT NULL,
+			`PRIVILEGE` varchar(100) NOT NULL,
+			`ACTIVE` varchar(100) NOT NULL,
+			`ADMIN_THEME` int(11) NOT NULL,
+			`FIRST_VISIT` int(11) NOT NULL,
+			`OPEN_APP_TAB` int(11) NOT NULL,
+			`SHOW_WELCOME` varchar(10) NOT NULL,
+			`SHOW_ADMIN_INDEX_STATS` int(110) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -821,6 +826,14 @@ class Tendoo
 	{
 		return $this->defaultDesc;
 	}
+	public function setKeywords($e)
+	{
+		$this->keyWords		=	$e;
+	}
+	public function getKeywords()
+	{
+		return $this->keyWords;
+	}
 	/* INNER FUNCTION */
 	public function loadModules() /// OBSOLETE
 	{
@@ -1248,17 +1261,23 @@ class Tendoo
 			{
 				if($p != '') // Les parametres vide ne sont pas accepté
 				{
-					if($i+1 < count($Parameters))
+				//	var_dump($p);
+					if($i+1 < count($Parameters)) // Tant que l'on n'a pas atteind la fin du tableau.
 					{
-						$param_text .= '"'.$p.'",';
+						if(strlen($Parameters[$i+1]) > 0) // Si le nombre de caractère est supérieur a 0
+						{
+							$param_text .= '"'.$p.'",'; // ajouté une virgule à la fin de la chaine de caractère personnalisée.
+						}
 					}
 					else
 					{
-						$param_text .= '"'.$p.'"';
+						$param_text .= '"'.$p.'"'; // omettre la virgule.
 					}
 				}
 				$i++;
 			}		
+			// var_dump($param_text);
+			// die();
 			eval('$BODY 	=	$objet->'.$Method.'('.$param_text.');'); // exécution du controller.
 			return $BODY;
 		}
@@ -1501,5 +1520,90 @@ class Tendoo
 			return file_get_contents(SYSTEM_DIR.'/config/lang.tfc');
 		}
 		return 'ENG';
+	}
+	// Tendoo 0.9.7 theming support 
+	public function getCurrentThemeClass()
+	{
+		$options	=	$this->core->users_global->current('ADMIN_THEME');
+		if((int)$options == 0) // darken
+		{
+			return "bg-dark";
+		}
+		else if((int)$options == 1) // Bubble show case
+		{
+			return "bg-primary";
+		}
+		elseif((int)$options == 2) // Green Day
+		{
+			return "bg-success";
+		}
+		elseif((int)$options == 3) // red Hord
+		{
+			return "bg-danger";
+		}
+		elseif((int)$options == 4) // Selective Orange
+		{
+			return "bg-warning";
+		}
+		elseif((int)$options == 5) // skies
+		{
+			return "bg-info";
+		}
+	}
+	public function getCurrentThemeButtonClass()
+	{
+		$options	=	$this->core->users_global->current('ADMIN_THEME');
+		if((int)$options == 0) // darken
+		{
+			return "btn-dark";
+		}
+		else if((int)$options == 1) // Bubble show case
+		{
+			return "btn-primary";
+		}
+		elseif((int)$options == 2) // Green Day
+		{
+			return "btn-success";
+		}
+		elseif((int)$options == 3) // red Hord
+		{
+			return "btn-danger";
+		}
+		elseif((int)$options == 4) // Selective Orange
+		{
+			return "btn-warning";
+		}
+		elseif((int)$options == 5) // skies
+		{
+			return "btn-info";
+		}
+	}
+	public function getCurrentThemeBackgroundColor()
+	{
+		$options	=	$this->core->users_global->current('ADMIN_THEME');
+		if((int)$options == 0) // darken
+		{
+			return "#F9F9F9";
+		}
+		else if((int)$options == 1) // Bubble show case
+		{
+			return "#EEEDF7";
+		}
+		elseif((int)$options == 2) // Green Day
+		{
+			return "#F0F7EA";
+		}
+		elseif((int)$options == 3) // red Hord
+		{
+			return "#F9F3F2";
+		}
+		elseif((int)$options == 4) // Selective Orange
+		{
+			return "#FCF4E5";
+		}
+		elseif((int)$options == 5) // skies
+		{
+			return "#E6F3F7";
+		}
 	}
 }

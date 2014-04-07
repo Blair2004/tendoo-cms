@@ -131,7 +131,7 @@
                                         </div>
                                     </div>
                                     <hr class="line line-dashed" />
-                                    <input type="submit" value="Rechercher" class="btn btn-primary btn-sm" />
+                                    <input type="submit" value="Rechercher" class="btn <?php echo theme_button_class();?> btn-sm" />
                                 </div>
                             </section>
                         </div>

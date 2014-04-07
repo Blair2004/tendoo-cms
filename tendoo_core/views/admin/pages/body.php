@@ -61,7 +61,7 @@
                     {						
                         ?>
                                     <tr title="racine">
-                                        <td><em class="fa fa-sort-by-attributes-alt"></em></td>
+                                        <td><em class="fa fa-list-ul"></em></td>
                                         <td><a href="<?php echo $this->core->url->site_url('admin/pages/edit/'.$g['PAGE_CNAME']);?>" data-toggle="modal"><?php echo $g['PAGE_NAMES'];?></a></td>
                                         <td><?php echo $g['PAGE_TITLE'];?></td>
                                         <td><?php echo $g['PAGE_DESCRIPTION'];?></td>

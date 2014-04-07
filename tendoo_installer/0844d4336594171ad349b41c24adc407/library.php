@@ -80,7 +80,13 @@ $NOTICE_SUPER_ARRAY = $or;
 				$query			=	$this->core->db->get();
 				return $query->result_array();
 			}
-			public function publish_news($title,$content,$state,$image,$thumb,$cat,$first_admin = FALSE)
+			public function getNewsKeyWords($newsid)
+			{
+				$this->core->db	->where('NEWS_ID',$newsid);
+				$query	=	$this->core->db->get('Tendoo_news_keywords');
+				return $query->result_array();
+			}
+			public function publish_news($title,$content,$state,$image,$thumb,$cat,$first_admin = FALSE,$key_words= array())
 			{
 				if($first_admin == FALSE)
 				{
@@ -108,9 +114,33 @@ $NOTICE_SUPER_ARRAY = $or;
 					'CATEGORY_ID'	=> $cat
 					);
 				}
-				return $this->core->db	->insert('Tendoo_news',$content);
+				$this->core->db->insert('Tendoo_news',$content);
+				$query		=	$this->core->db->limit(1,0)->order_by('ID','desc')->get('Tendoo_news');
+				$getLastNews	=	$query->result_array(); 
+				if(count($key_words) > 0) // Préparation des mots clés.
+				{
+					foreach($key_words as $k)
+					{
+						$final_key_words[]	=	array(
+							'NEWS_ID'		=>	$getLastNews[0]['ID'],
+							'KEYWORDS'		=>	$k
+						);
+					}
+				}
+				else
+				{
+					$final_key_words	=	array();
+				}
+				if(count($final_key_words) > 0) // insertion des mots clés.
+				{
+					foreach($final_key_words as $f)
+					{
+						$this->core->db->insert('Tendoo_news_keywords',$f);
+					}
+				}
+				return true;
 			}
-			public function edit($id,$title,$content,$state,$image,$thumb,$cat)
+			public function edit($id,$title,$content,$state,$image,$thumb,$cat,$key_words	=	array())
 			{
 				$content	=	array(
 					'TITlE'			=> $title,
@@ -122,6 +152,28 @@ $NOTICE_SUPER_ARRAY = $or;
 					'DATE'			=> $this->tendoo->datetime(),
 					'CATEGORY_ID'	=> $cat
 				);
+				if(count($key_words) > 0) // Préparation des mots clés.
+				{
+					foreach($key_words as $k)
+					{
+						$final_key_words[]	=	array(
+							'NEWS_ID'		=>	$id,
+							'KEYWORDS'		=>	$k
+						);
+					}
+				}
+				else
+				{
+					$final_key_words	=	array();
+				}
+				$this->core->db->where('NEWS_ID',$id)->delete('Tendoo_news_keywords');
+				if(count($final_key_words) > 0) // insertion des mots clés.
+				{
+					foreach($final_key_words as $f)
+					{
+						$this->core->db->insert('Tendoo_news_keywords',$f);
+					}
+				}
 				$this->core->db->where('ID',$id);
 				return $this->core->db->update('Tendoo_news',$content);
 			}
@@ -136,6 +188,32 @@ $NOTICE_SUPER_ARRAY = $or;
 				}
 				return false;
 			}
+			public function moveSpeNewsToDraft($id)
+			{
+				$article	=	$this->getSpeNews($id);
+				if($article)
+				{
+					return $this->core->db	
+					->where(array('ID'=>$id))
+					->update('Tendoo_news',array(
+						'ETAT'		=>		0
+					));
+				}
+				return false;
+			}
+			public function publishSpeNews($id)
+			{
+				$article	=	$this->getSpeNews($id);
+				if($article)
+				{
+					return $this->core->db	
+					->where(array('ID'=>$id))
+					->update('Tendoo_news',array(
+						'ETAT'		=>		1
+					));
+				}
+				return false;
+			}
 			public function countCat()
 			{
 				$query	=	$this->core->db->get('Tendoo_news_category');
@@ -146,6 +224,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				if($this->getSpeNews($id))
 				{
 					$this->core->db->where('REF_ART',$id)->delete('Tendoo_comments');
+					$this->core->db->where('NEWS_ID',$id)->delete('Tendoo_news_keywords');
 					$this->core->db->where('ID',$id)->delete('Tendoo_news');
 					return true;
 				}
@@ -581,5 +660,12 @@ $NOTICE_SUPER_ARRAY = $or;
 				$query 					= $this->core->db->get();
 				return $query->result_array();
 			}
+			public function getNewsKeyWords($newsid)
+			{
+				$this->core->db	->where('NEWS_ID',$newsid);
+				$query	=	$this->core->db->get('Tendoo_news_keywords');
+				return $query->result_array();
+			}
+			
 		}	
 	}

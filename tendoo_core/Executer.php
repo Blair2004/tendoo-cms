@@ -1,6 +1,9 @@
 <?php
 if(class_exists($Class))
 {
+	
+	$theme						=&	$this->data['theme']; // Added - Tendoo 0.9.2
+	// GLOBAL MODULES
 	if($this->tendoo->interpreter($Class,$Method,$Parameters) === '404')
 	{
 		$this->tendoo->error('page404');
@@ -14,14 +17,14 @@ else if(class_exists($Class.'_module_controller'))
 			'PAGE_NAME'				=>		'Tendoo Url Module Launcher',
 			'PAGE_CNAME'			=>		$Teurmola[0].'@'.$Teurmola[1],
 			'PAGE_TITLE'			=>		'Tendoo Url Module Launcher',
-			'PAGE_DESCRIPTION'	=>		'',
+			'PAGE_DESCRIPTION'		=>		'',
 			'PAGE_MAIN'				=>		'FALSE',
 			'PAGE_PARENT'			=>		'FALSE'
 		));
 		$this->load->library('users_global'); // 0.9.4
-		$theme			=&	$this->data['theme']; // Added - Tendoo 0.9.2
+		$theme						=&	$this->data['theme']; // Added - Tendoo 0.9.2
 		// GLOBAL MODULES
-		$GlobalModule	=&	$this->data['GlobalModule'];
+		$GlobalModule				=&	$this->data['GlobalModule'];
 		if(is_array($GlobalModule))
 		{
 			foreach($GlobalModule as $g)
@@ -70,6 +73,8 @@ else if(class_exists('Tendoo_'.$Class))
 {
 	if($this->tendoo->interpreter('Tendoo_'.$Class,$Method,$Parameters) === '404')
 	{
+		$theme						=&	$this->data['theme']; // Added - Tendoo 0.9.2
+		// GLOBAL MODULES
 		$this->tendoo->error('page404');
 	}
 }

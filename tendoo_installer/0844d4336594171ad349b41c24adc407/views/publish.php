@@ -5,8 +5,8 @@
     <footer class="footer bg-white b-t">
       <div class="row m-t-sm text-center-xs">
         <div class="col-sm-2" id="ajaxLoading"> </div>
-        <div class="col-sm-4"> </div>
-        <div class="col-sm-4 text-center"> </div>
+        <div class="col-sm-6"> </div>
+        
         <div class="col-sm-4 text-right text-center-xs"> <a class="submit_article btn btn-white">Publier l'article</a> </div>
       </div>
     </footer>
@@ -31,7 +31,46 @@
               <section class="panel">
                 <div class="panel-heading">Options</div>
                 <div class="panel-body">
-                  <div class="form-group"> </div>
+                  <div class="form-group"> 
+					<div id="articleKeyWords" class="pillbox clearfix m-b"> 
+						<ul> 
+							<input class="addKeyWord" placeholder="Ajouter un mot clé" type="text"> 
+						</ul> 
+					</div>
+				  </div>
+				  <script type="text/javascript">
+					function __bindKeyWordRemovalListener()
+					{
+						$('#articleKeyWords').find('.label').each(function(){
+							if(typeof $(this).attr('bindKeyWordRemovalListenerBinded') == 'undefined')
+							{
+								$(this).attr('bindKeyWordRemovalListenerBinded','true');
+								$(this).bind('click',function(){
+									$(this).fadeOut(500,function(){
+										$(this).remove();
+									});
+								});
+							}
+						})
+					}
+						
+					$(document).ready(function(){
+						$('.addKeyWord').focusin(function(){
+							$(this).keydown(function(e,f){
+								if(e.which == 13)
+								{
+									if($(this).val() != '')
+									{
+										$(this).before('<li class="label bg-primary"><input type="hidden" name="artKeyWord[]" value="'+$(this).val()+'">'+$(this).val()+'</li>');
+										$(this).val('');
+										__bindKeyWordRemovalListener();
+									}
+								}
+							});
+						});
+						__bindKeyWordRemovalListener();
+					});
+				  </script>
                   <div class="form-group">
                     <select class="form-control" name="push_directly">
                       <option value="">Choisir une action</option>
@@ -39,18 +78,21 @@
                       <option value="2">Enregistrer dans les brouillons</option>
                     </select>
                   </div>
+				  <div class="form-group">
+					<button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'ajax','createCategory'));?>" type="button">Ajouter une cat&eacute;gorie</button>
+				  </div>
                   <div class="form-group">
-                    <select class="form-control" name="category">
-                      <option value="">Choisir la cat&eacute;gorie</option>
-                      <?php
-                                                foreach($categories as $c)
-                                                {
-                                                ?>
-                      <option value="<?php echo $c['ID'];?>"><?php echo $c['CATEGORY_NAME'];?></option>
-                      <?php
-                                                }
-                                                ?>
-                    </select>
+						<select class="form-control" name="category">
+						  <option value="">Choisir la cat&eacute;gorie</option>
+						  <?php
+							foreach($categories as $c)
+							{
+							?>
+							<option value="<?php echo $c['ID'];?>"><?php echo $c['CATEGORY_NAME'];?></option>
+							<?php
+							}
+							?>
+						</select>
                   </div>
                   <div class="form-group">
                     <?php
@@ -84,10 +126,10 @@
     </section>
     </section>
     <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a> </section>
-  <script>
+	<script>
 		$(document).ready(function(){
 			$('.submit_article').bind('click',function(){
 				$('.submitForm').submit();
 			});
 		});
-		</script>
+	</script>

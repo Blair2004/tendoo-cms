@@ -58,16 +58,16 @@
 												?>
                                             </select>
                                         </div>
-                                        <input class="btn btn-sm btn-primary" type="submit" value="Cr&eacute;er" />
+                                        <input class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Cr&eacute;er" />
                                         <input type="reset" class="btn btn-sm btn-danger" value="Annuler" />
                                     </form>
                             </section>
                         </div>
                         <div class="col-lg-4">
 <?php
-$field_1	=	(form_error('admin_pseudo')) ? form_error('admin_pseudo') : 'L\'utilisateur doit avoir un pseudo unique';
-$field_2	=	(form_error('admin_password')) ? form_error('admin_password') : 'L\'email de l\'utilisateur sera utilis&eacute; pour la récupération du mot de passe.';
-$field_3	=	(form_error('admin_password_confirm')) ? form_error('admin_password_confirm') : 'Choisir un privil&egrave;ge c\'est classer cet utilisateur dans un groupe disposant d\'action';
+$field_1	=	(form_error('admin_pseudo')) ? form_error('admin_pseudo') : 'L\'utilisateur doit avoir un pseudo unique.<br>';
+$field_2	=	(form_error('admin_password')) ? form_error('admin_password') : 'L\'adresse email de l\'utilisateur sera utilis&eacute; pour la récupération du mot de passe.<br>';
+$field_3	=	(form_error('admin_password_confirm')) ? form_error('admin_password_confirm') : 'Choisir un privil&egrave;ge c\'est classer cet utilisateur dans un groupe disposant d\'action.<br>';
 $field_6	=	(form_error('admin_password_email')) ? form_error('admin_password_email') : 'Email.';
 $field_4	=	(form_error('admin_sex')) ? form_error('admin_sex') : '';
 $field_5	=	(form_error('admin_privilege')) ? form_error('admin_privilege') : '';

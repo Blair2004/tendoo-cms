@@ -1,15 +1,16 @@
 <?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.2);
+$this->appVers(0.3);
 $this->appTendooVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'Tendoo_contents',
-	'HUMAN_NAME'	=> 'Gestionnaire de contenu',
+	'HUMAN_NAME'	=> 'Librarie multimedia',
 	'AUTHOR'		=> 'Tendoo Group',
 	'DESCRIPTION'	=> 'G&eacute;rer vos contenus de type image, video ou musique.',
 	'TYPE'			=> 'BYPAGE',
-	'TENDOO_VERS'	=> 0.94
+	'TENDOO_VERS'	=> 0.94,
+	'HAS_ICON'		=>	1
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_contents` (

@@ -143,6 +143,11 @@ Class users_global
 			$array['PRIVILEGE']	=	$priv_id;
 			$array['REG_DATE']	=	$this->tendoo->datetime();
 			$array['ACTIVE']	=	$active;
+			$array['ADMIN_THEME']	=	1; // Added 0.9.7
+			$array['FIRST_VISIT']	=	1; // 
+			$array['OPEN_APP_TAB']	=	1; //
+			$array['SHOW_WELCOME']	= 	1; // 
+			$array['SHOW_ADMIN_INDEX_STATS']	=	1; // 
 			$this->db->insert('tendoo_users',$array);
 			$this->sendValidationMail($array['EMAIL']);
 			return 'userCreated';
@@ -168,6 +173,11 @@ Class users_global
 			$array['PRIVILEGE']	=	($privilege == 'NADIMERPUS') ? 'RELPIMSUSE' : $privilege;
 			$array['REG_DATE']	=	$this->tendoo->datetime();
 			$array['ACTIVE']	=	$active;
+			$array['ADMIN_THEME']	=	1; // Added 0.9.7
+			$array['FIRST_VISIT']	=	1; // 
+			$array['OPEN_APP_TAB']	=	1; //
+			$array['SHOW_WELCOME']	= 	1; // 
+			$array['SHOW_ADMIN_INDEX_STATS']	=	1; // 
 			$this->db->insert('tendoo_users',$array);
 			return 'adminCreated';
 		}
@@ -199,7 +209,6 @@ Class users_global
 	}
 	public function authUser($pseudo,$password,$stay = FALSE,$encrypt_password = TRUE)
 	{
-
 		if($encrypt_password == TRUE)
 		{
 			$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->where('PASSWORD',sha1($password))->get('tendoo_users');
@@ -229,6 +238,10 @@ Class users_global
 				$this->current['STATE']			=	($data[0]['STATE'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['STATE'];
 				$this->current['TOWN']			=	($data[0]['TOWN'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['TOWN'];
 				$this->current['PHONE']			=	($data[0]['PHONE'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['PHONE'];
+				$this->current['ADMIN_THEME']	=	$data[0]['ADMIN_THEME'];
+				$this->current['SHOW_WELCOME']	=	$data[0]['SHOW_WELCOME'];
+				$this->current['OPEN_APP_TAB']	=	$data[0]['OPEN_APP_TAB'];
+				$this->current['SHOW_ADMIN_INDEX_STATS']	=	$data[0]['SHOW_ADMIN_INDEX_STATS'];
 				if($stay == TRUE)
 				{
 					if($encrypt_password == TRUE)
@@ -247,6 +260,10 @@ Class users_global
 			}
 		}
 		return 'PseudoOrPasswordWrong';
+	}
+	public function refreshUser() // rafraichir les données de l'utilisateur connecté.
+	{
+		$this->authUser($this->current('PSEUDO'),$this->current('PASSWORD'));
 	}
 	public function sendValidationMail($email)
 	{

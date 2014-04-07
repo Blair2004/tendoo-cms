@@ -37,7 +37,7 @@
                         <p>Pays : <?php echo $this->core->users_global->current('STATE');?></p>
                     </li>
                     <li class="list-group-item">
-                        <p>Ville : <?php echo $this->core->users_global->current('CITY');?></p>
+                        <p>Ville : <?php echo $this->core->users_global->current('TOWN');?></p>
                     </li>
                 </ul>
             </section>

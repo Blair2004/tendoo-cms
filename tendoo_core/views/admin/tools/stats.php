@@ -145,11 +145,10 @@
             </div>
             <div class="col-lg-8">
             	<div class="panel">
-                	<header class="panel-heading bg-info lter"> <span class="pull-right"><?php echo $dateArray['month'];?></span> <span class="h4">Stats. sur <?php echo $this->core->tendoo_admin->getStatLimitation();?> mois<br>
+                	<header class="panel-heading <?php echo theme_class();?> lter"> <span class="pull-right"><?php echo $dateArray['month'];?></span> <span class="h4">Stats. sur <?php echo $this->core->tendoo_admin->getStatLimitation();?> mois<br>
                   <small class="text-muted"></small> </span>
                   <div class="text-center padder m-b-n-sm m-t-sm">
-                    <div class="sparkline" data-type="line" data-resize="true" data-height="190" data-width="100%" data-line-width="2" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="3" data-data="
-                            [<?php echo $visitLine;?>]"></div>
+                    <div class="sparkline" data-type="line" data-resize="true" data-height="190" data-width="100%" data-line-width="2" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="3" data-data="[<?php echo $visitLine;?>]"></div>
                     <div class="sparkline inline"></div>
                   </div>
                 </header>

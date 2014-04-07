@@ -1,7 +1,7 @@
 <?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.1);
+$this->appVers(0.2);
 $this->appTendooVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'Tendoo_contact_handler',
@@ -9,7 +9,8 @@ $this->appTableField(array(
 	'AUTHOR'		=> 'Tendoo Group',
 	'DESCRIPTION'	=> 'Recevez les messages envoy&eacute;s par les utilisateurs via l\'interface de contact.',
 	'TYPE'			=> 'BYPAGE',
-	'TENDOO_VERS'	=> 0.94
+	'TENDOO_VERS'	=> 0.94,
+	'HAS_ICON'		=>	1
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_contact_handler` (

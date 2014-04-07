@@ -15,7 +15,7 @@ if(count($this->lastestElements) > 0)
 				$date	=	$this->core->tendoo->time($c['DATETIME'],TRUE);
 				?>
 				<div class="boxitems">
-					 <div class="col-sm-3 col-6 postbox" style="height:380px;">
+					 <div class="col-sm-3 col-6 postbox" style="height:400px;">
 						<div class="hthumb">
 							<a href="<?php echo $c['LINK'];?>"><img style="height:150px;" class="img-responsive" src="<?php echo $c['THUMB'];?>"></a>
 						</div>

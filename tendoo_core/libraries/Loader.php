@@ -138,8 +138,11 @@ class Loader
 		// to standard PHP echo statements.
 
 		if ((bool) @ini_get('short_open_tag') === FALSE)
-		{
-			echo eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($_Tendoo_path))));
+		{		
+			include($_Tendoo_path);
+			
+			/* $return = eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($_Tendoo_path)))); */
+			
 		}
 		else
 		{

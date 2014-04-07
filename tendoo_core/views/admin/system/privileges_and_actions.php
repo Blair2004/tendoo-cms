@@ -1,7 +1,16 @@
 <?php echo $lmenu;?>
 <section id="content">
 <section class="vbox"><?php echo $inner_head;?>
-   
+   <footer class="footer bg-white b-t">
+      <div class="row m-t-sm text-center-xs">
+         <div class="col-sm-3">
+            <input type="button" class="form-control <?php echo theme_class();?> inline update_system_action" value="Mettre &agrave; jour les actions syst&egrave;me" />
+         </div>
+         <div class="col-sm-3">
+            <input type="button" class="form-control bg-info inline update_common_action" value="Mettre &agrave; jour les actions communes" />
+         </div>
+      </div>
+   </footer>
    <section class="scrollable" id="pjax-container">
       <header>
          <div class="row b-b m-l-none m-r-none">
@@ -330,14 +339,5 @@
          </section>
       </section>
    </section>
-   <footer class="footer bg-white b-t">
-      <div class="row m-t-sm text-center-xs">
-         <div class="col-sm-3">
-            <input type="button" class="form-control bg-primary inline update_system_action" value="Mettre &agrave; jour les actions syst&egrave;mes" />
-         </div>
-         <div class="col-sm-3">
-            <input type="button" class="form-control bg-info inline update_common_action" value="Mettre &agrave; jour les actions communes" />
-         </div>
-      </div>
-   </footer>
+   
 </section>

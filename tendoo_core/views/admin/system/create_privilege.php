@@ -18,10 +18,10 @@
                     <?php echo notice_from_url();?>
                     <div class="row">
                     	<div class="col-lg-8">
+							<section class="panel">
                         	<header class="panel-heading text-center">
-                                Cr&eacute;er un contr&ocirc;leur
+                                Cr&eacute;er un privil&egrave;ge
                             </header>
-                        	<section class="panel">
                                 <form method="post" class="panel-body">
                                     <div class="form-group">
                                     	<label class="label-control">Nom du privil&egrave;ge</label>
@@ -43,22 +43,22 @@
                                     	<label class="label-control">Description du privil&egrave;ge</label>
                                         <textarea class="form-control" name="priv_description" placeholder="Description du privil&egrave;ge" title="Description du privil&egrave;ge"></textarea>
                                     </div>
-                                    <input class="btn btn-primary" type="submit" value="Cr&eacute;er le privil&egrave;ge" />
+                                    <input class="btn <?php echo theme_button_class();?>" type="submit" value="Cr&eacute;er le privil&egrave;ge" />
                                     <input class="btn btn-danger" type="reset" value="Annuler" />
                                 </form>
                             </section>
                         </div>
                         <div class="col-lg-4">
-                        	<header class="panel-heading text-center">
-                                Plus d'information
-                            </header>
+							<section class="panel">
+								<header class="panel-heading text-center">
+									Plus d'information
+								</header>
 <?php
 $field_1	=	(form_error('priv_name')) ? form_error('priv_name') : '';
 $field_2	=	(form_error('priv_encoding')) ? form_error('priv_encoding') : '';
 $field_3	=	(form_error('priv_description')) ? form_error('priv_description') : '';
 $field_4	=	(form_error('is_selectable')) ? form_error('is_selectable') : '';
 ?>
-    						<section class="panel">
                             	<div class="wrapper">
                                 	<p>Un privil&egrave;ge est un grade qui regroupe un certain nombre d'action. Les actions sont syst&egrave;me et commune. Syst&egrave;me en ce sens o&ugrave; certaines actions natives sont d&eacute;j&agrave; pr&eacute;d&eacute;finies, commune en ce sens o&ugrave; certains modules peuvent ajouter des actions au syst&egrave;me. Vous pouvez attribuer &agrave; un privil&egrave;ge des actions syst&egrave;mes et des actions communes. Le syst&egrave;me de privil&egrave;ge permet de r&eacute;guler les activit&eacute;s des administrateurs.<br /><a href="<?php echo $this->core->url->site_url(array('admin','system','privilege_list'));?>">Administrer les privil&egrave;ges d&eacute;j&agrave; cr&eacute;e ici.</a></p>
 									<?php if(strlen($field_1) > 0): echo $field_1;  endif;?>

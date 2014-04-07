@@ -7,7 +7,7 @@
             	<div class="col-sm-2" id="ajaxLoading">
                 </div>
                 <div class="col-sm-10 text-right text-center-xs">
-                    <button id="controller_form_submiter" class="btn btn-sm btn-primary">Cr&eacute;er le contr&ocirc;leur</button>
+                    <button id="controller_form_submiter" class="btn btn-sm <?php echo theme_button_class();?>">Cr&eacute;er le contr&ocirc;leur</button>
 					<input class="btn btn-sm btn-red" value="Annuler" type="reset" />
                 </div>
 				<script>
@@ -141,7 +141,7 @@
 													data-toggle="popover" 
 													data-html="true" 
 													data-placement="top" 
-													data-content="<div style='width:250px'>Vous pouvez choisir plutôt de créer un menu qui redirigera vers une autre page, au lieu d'exécuter un module. Veuillez entrer le lien vers une page.</div>" 
+													data-content="<div style='width:250px'>Vous pouvez choisir de créer un menu qui redirigera l'utilisateur vers une autre page, au lieu d'exécuter un module. Il vous suffit d'entrer un lien vers une page.</div>" 
 													title="" 
 													data-original-title="Emplacement du contrôleur">?</button>
 											</span>
@@ -162,7 +162,7 @@
 													data-toggle="popover" 
 													data-html="true" 
 													data-placement="top" 
-													data-content="<div style='width:250px'>Il s'agit de savoir un lien, donnant accès au contrôleur, peut être disponible sur le menu.</div>" 
+													data-content="<div style='width:250px'>Il s'agit de définir qu'un contrôleur est disponible ou non sur le menu principal. Cela n'affecte en rien l'existence du contrôleur.</div>" 
 													title="" 
 													data-original-title="Visibilit&eacute; du contrôleur">?</button>
 											</span>
@@ -173,6 +173,7 @@
 								<div class="row">
 									<div class="col-lg-6">
                                     <div class="form-group"> 
+										<label class="control-label">Affecter un module</label>
 										<div class="input-group">
 											<select class="form-control inline" name="page_module">
 												<option value="">Affecter un module</option>
@@ -202,6 +203,7 @@
                                     </div>
 									<div class="col-lg-6">
 									<div class="form-group"> 
+										<label class="control-label">Définir comme principale</label>
 										<div class="input-group">
 											<select name="page_priority" class="form-control inline">
 												<option value="">D&eacute;finir comme principale</option>

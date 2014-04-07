@@ -35,7 +35,7 @@
 								<textarea name="sitemap" class="form-control" rows="10"><?php echo $getSitemap;?></textarea>
 							</div>
 							<div class="form-group">
-								<input type="submit" class="btn btn-primary" value="Cr&eacute;er / Mettre &agrave; jour le sitemap">
+								<input type="submit" class="btn <?php echo theme_button_class();?>" value="Cr&eacute;er / Mettre &agrave; jour le sitemap">
 							</div>
 						</form>
 						<hr class="line">
@@ -53,7 +53,7 @@
 					<div class="panel-body">
 						<form method="post">
 							<div class="form-group">
-								<input class="btn btn-primary" type="submit" name="autoGenerate" value="Générer un sitemap automatiquement">
+								<input class="btn <?php echo theme_button_class();?>" type="submit" name="autoGenerate" value="Générer un sitemap automatiquement">
 							</div>
 						</form>
 					</div>

@@ -1,7 +1,30 @@
 <?php echo $lmenu;?>
 <section id="content">
     <section class="vbox"><?php echo $inner_head;?>
-        
+        <footer class="footer bg-white b-t">
+			<div class="row m-t-sm text-center-xs">
+				<div class="col-sm-4">
+					
+				</div>
+				<div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">Montre <?php echo $paginate[1];?> &agrave; <?php echo $paginate[2];?> sur <?php echo $ttPrivileges;?> El&eacute;ments</small> </div>
+				<div class="col-sm-4 text-right text-center-xs">
+					<ul class="pagination pagination-sm m-t-none m-b-none">
+					<?php
+					if(is_array($paginate[4]))
+					{
+						foreach($paginate[4] as $p)
+
+						{
+							?>
+							<li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
+					<?php
+						}
+					}
+					?>
+					</ul>
+				</div>
+			</div>
+		</footer>
         <section class="scrollable" id="pjax-container">
             <header>
                 <div class="row b-b m-l-none m-r-none">
@@ -17,14 +40,14 @@
 					<?php $this->core->notice->parse_notice();?>
                     <?php echo notice_from_url();?>
                     <section class="panel">
-                        <div class="wrapper b-b font-bold">Liste des administrateurs</div>
+                        <div class="wrapper b-b font-bold">Liste des privil&egrave;ges</div>
                         <table class="table table-striped m-b-none">
                             <thead>
                                 <tr>
                                     <td width="150">Identifiant</td>
                                     <td width="200">Nom</td>
-                                    <td>Pr&eacute;nom</td>
-                                    <td>Cr&eacute;er</td>
+                                    <td>Description</td>
+                                    <td>Cr&eacute;&eacute;</td>
                                     <td title="Acc&eacute;ssible au public">Acc. au Pub.</td>
                                 </tr>
                             </thead>
@@ -61,35 +84,5 @@
                 </div>
             </div>
         </section>
-        <footer class="footer bg-white b-t">
-                <div class="row m-t-sm text-center-xs">
-                    <div class="col-sm-4">
-                        <select class="input-sm form-control input-s-sm inline">
-                            <option value="0">Bulk action</option>
-                            <option value="1">Delete selected</option>
-                            <option value="2">Bulk edit</option>
-                            <option value="3">Export</option>
-                        </select>
-                        <button class="btn btn-sm btn-white">Apply</button>
-                    </div>
-                    <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">Montre <?php echo $paginate[1];?> &agrave; <?php echo $paginate[2];?> sur <?php echo $ttPrivileges;?> El&eacute;ments</small> </div>
-                    <div class="col-sm-4 text-right text-center-xs">
-                        <ul class="pagination pagination-sm m-t-none m-b-none">
-                        <?php
-						if(is_array($paginate[4]))
-						{
-							foreach($paginate[4] as $p)
-
-							{
-								?>
-                                <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
-                        <?php
-							}
-						}
-						?>
-                        </ul>
-                    </div>
-                </div>
-            </footer>
     </section>
 </section>

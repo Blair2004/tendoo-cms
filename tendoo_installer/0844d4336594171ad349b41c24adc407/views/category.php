@@ -39,7 +39,7 @@
                                     <tr>
                                         <th><a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'category','manage',$g['ID']));?>"><?php echo $g['CATEGORY_NAME'];?></a></th>
                                         <th><?php echo $g['DESCRIPTION'];?></th>
-                                        <th><?php echo timespan(strtotime($g['DATE']));?></th>
+                                        <th><?php echo timespan($g['DATE']);?></th>
                                     </tr>
                                 <?php
                                     }

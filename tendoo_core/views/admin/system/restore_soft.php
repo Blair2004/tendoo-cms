@@ -25,7 +25,7 @@
                                     <div class="form-group">
                                         <input class="form-control" type="password" placeholder="Mot de passe administrateur" name="admin_password" />
                                     </div>
-                                    <input class="btn btn-primary" type="submit" name="submit_restore" value="Restaurer Tendoo" />
+                                    <input class="btn <?php echo theme_button_class();?>" type="submit" name="submit_restore" value="Restaurer Tendoo" />
                                 </form>
                             </div>
                         </div>

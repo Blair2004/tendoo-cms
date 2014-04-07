@@ -1,16 +1,29 @@
 // Tendoo 0.9.2
+/**
+*	Device Object : 
+*	Cet objet permet de récuperé les dimensions de l'écran de l'appareil. "device.height" pour la hauteur, "device.width" pour la largeur.
+*	device.widthIs renvoie "true" si la largeur de l'écran est comprise entre la largeur minimal et maximal.
+**/
 var device 								= {};
     	device.height 						= window.innerHeight;
     	device.width 						= window.innerWidth;
     	device.widthIs						= function(min, max) {
-        if (device.width >= min && device.width <= max){
-            return true
-		}
-    };
+			if (device.width >= min && device.width <= max){
+				return true
+			}
+			return false;
+		};
+/**
+*  Tools Object:
+*		tools.isDefined : renvoi "true" ou "false" à la question de savoir si une variable est définie.
+**/
 var tools				=	new Object();
     tools.isDefined     =   function(e){
         return typeof e == 'undefined' ? true : false;
     };
+/**
+*		tools.isDefinedOrLike : renvoi "true" ou "false" à la question de savoir si une variable est définie ou est comparable au deuxième paramètre.
+**/
 	tools.isDefinedOrLike=	function(e,f){
 		if(tools.isDefined(e))
 		{
@@ -22,6 +35,12 @@ var tools				=	new Object();
 		}
 		return false
 	};
+/**
+*		tools.centerThis : permet de centrer un objet jQuery (element DOM) au milieu d'un élément "parent" ou par rapport à l'écran.
+		concerned : Objet jQuery à centrer.
+		parent: objet Jquery, parent de l'élément à centrer.
+		toScreen: "true" pour centrer un élément par rapport à l'écran. 
+**/
 	tools.centerThis 	= 	function(concerned, parent, toScreen) {
 			if (tools.isDefined(toScreen)) {
 				var parentWidth = device.width;
@@ -41,6 +60,9 @@ var tools				=	new Object();
 				$(concerned).css({"position": "absolute","left": leftPosition + "px","top": topPosition + "px"})
 			}
 		};
+/**
+*		tools.inArray : Permet de déterminé si le premier parametre se trouve dans le tableau qui est le deuxième parametres.
+**/
 	tools.inArray		= 	function(e,array){
 		for(i=0;i<array.length;i++)
 		{
@@ -51,34 +73,6 @@ var tools				=	new Object();
 		}
 		return false;
 	};
-	tools.encode_meta	=	function(sentence){
-		var remplaces	=	['%3Albkt%3A','%3Arbkt%3A','%quotes1%','%quotes2%'];
-		var statements	=	[
-								/\[/g,
-								/\]/g,
-								/"/g,
-								/'/g
-							];
-		var returned	=	'';
-		for(i=0;i<statements.length;i++)
-		{
-			sentence	=	sentence.replace(statements[i],remplaces[i]);
-		}
-		return sentence;
-	};
-	tools.decode_meta	=	function(sentence){
-		var remplaces	=	['[',']'];
-		var statements	=	[
-								/%3Albkt%3A/g,
-								/%3Arbkt%3A/g
-							];
-		var returned	=	'';
-		for(i=0;i<statements.length;i++)
-		{
-			sentence	=	sentence.replace(statements[i],remplaces[i]);
-		}
-		return sentence;
-	};
 	// 	Tendoo has already beend declared
 $(document).ready(function(){
 	if(typeof tendoo.app  ==  'undefined'){ // Pour évider le conflict d'un double appel via AJAX
@@ -88,6 +82,11 @@ $(document).ready(function(){
 			this.loader		=	16000;
 			this.window		=	9500;
 		};
+/**
+*		tools.notice : Permet d'afficher les notification en haut à droite de l'écran.
+			a pour méthode ".alert([message à afficher],[format de l'alerte]);
+			l'alerte peut avoir pour format (success,warning,danger).
+**/
 		tendoo.notice		=	new function(){
 			var parent		=	'#appendNoticeHere';
 			var noticeId	=	0;
@@ -121,7 +120,7 @@ $(document).ready(function(){
 				}
 				var element	=	typeof type	==	'undefined' ? 'info' : type;
 				var index	=	getNewId();
-				$(parent).prepend('<div style="width:100%;float:right" data-notice-index="'+index+'" class="alert alert-'+element+' alert-block"> <button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button> <h4><i class="fa fa-'+icon+'"></i>'+title+'</h4> <p>'+showMsg+'</p> </div>');
+				$(parent).prepend('<div style="width:100%;float:right" data-notice-index="'+index+'" class="alert alert-'+element+' alert-block"> <button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button> <h4><i class="fa fa-'+icon+'"></i> '+title+'</h4> <p>'+showMsg+'</p> </div>');
 				$('[data-notice-index="'+index+'"]').hide().css({
 					'margin-right'	:	- ($('[data-notice-index="'+index+'"]').width()+100)+'px',
 					'opacity'		:	0
@@ -151,7 +150,7 @@ $(document).ready(function(){
 				launchTimeOut();
 			}
 		};
-		tendoo.modal		=	new function(){
+		tendoo.modal		=	new function(){ // Déprécié | Depracated
 			this.show		=	function(){
 				var modal	=	'<div style="z-index:'+tendoo.zIndex.modal+';display:block;width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(76,85,102,0.5)">'+
 									'<div class="modal-dialog">'+
@@ -173,6 +172,13 @@ $(document).ready(function(){
 				$('body').append(modal);
 			};
 		};
+/**
+*		tools.window : Permet d'afficher une boite modale sur une page. A pour méthodes.
+			".title([titre de la boite modale])"
+			".icon([icône de la boite modale])" // utiliser les icones fontawesome.
+			".ajax([true ou false pour activer ajax dans la boite modale])"
+			".show([contenu de la boite modale])"
+**/
 		tendoo.window		=	new function(){
 			var ttWindows	=	0;
 			this.getId		=	function(){
@@ -181,6 +187,8 @@ $(document).ready(function(){
 			var title			=	'Modal Sans titre';
 			var activateAjax	=	false;
 			var icon			=	'';
+			var modalWidth		= device.width;
+			var modalHeight		= device.height;
 			this.title		=	function(e){
 				title	=	e;
 				return this;
@@ -258,11 +266,16 @@ $(document).ready(function(){
 					}
 				});
 			};
+			this.size		=	function(width,height){ // modifier la taille de la boite modal, remplacera les valeurs device.height et device.width
+				modalWidth	=	width;
+				modalHeight	=	height;
+				return this;
+			};
 			this.show		=	function(e){
 				var currentId	=	this.getId();
 				var currentE	=	'[data-modal-id="'+currentId+'"]';
 				var modal	=	'<div data-modal-id="'+currentId+'" style="z-index:'+tendoo.zIndex.window+';display:block;width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(76,85,102,0.5);overflow:hidden">'+
-									'<div class="modal-dialog" id="modalBox" style="width:'+parseInt(device.width-50)+'px;">'+
+									'<div class="modal-dialog" id="modalBox" style="width:'+parseInt(modalWidth-50)+'px;">'+
 										'<div class="modal-content" style="-webkit-border-radius:2px;-moz-border-radius:2px;-ms-border-radius:2px">'+
 											'<div class="modal-header bg-primary" style="border-bottom:solid 0px;">'+
 												'<div type="button" style="opacity:1" class="close" data-dismiss="modal" aria-hidden="true">'+
@@ -271,7 +284,7 @@ $(document).ready(function(){
 												'</div>'+
 												'<h4 class="modal-title">'+title+'</h4>'+
 											'</div>'+
-											'<div class="modal-body" style="height:'+parseInt(device.height-120)+'px;padding:0px;overflow:auto;width:100%;">'+
+											'<div class="modal-body" style="height:'+parseInt(modalHeight-120)+'px;padding:0px;overflow:auto;width:100%;">'+
 												e+
 											'</div>'+
 										'</div>'+
@@ -288,43 +301,59 @@ $(document).ready(function(){
 				});
 			};
 		};
+/**
+*		tools.app : // Bientôt déprécié.
+**/
 		tendoo.app			=	new function(){
+			this.bind		=	function(){
 				$(document).ready(function(){
 					$('.icon-grid .tendoo-icon-set').each(function(){
-					$(this).bind('click',function(){
-						if(typeof $(this).attr('data-status') == 'undefined' || $(this).attr('data-status') == 'clickable')
-						{
-							$(this).attr('data-status','clicked');
-							var $this		=	$(this);
-							var iconRef		=	$(this).attr('data-icon-url');
-							var windowRef	=	$(this).attr('data-url');
-							var title		=	$(this).attr('modal-title') ? $(this).attr('modal-title') : "Page Sans Titre";
-							var object;
-							$.ajax({
-								beforeSend		:	function(jqXHR, settings){
-									tendoo.loader.display();
-								},
-								complete		:	function(jqXHR, textStatus){
-								},
-								cache			:	false,
-								success			:	function(data, textStatus, jqXHR){
-									tendoo.loader.hide();
-									object		=	void(0);
-									tendoo.window.ajax(true).title(title).show(data);
-									$this.attr('data-status','clickable');
-								},
-								dataType		:	'html',
-								error			:	function(jqXHR, textStatus, errorThrown){
-									$this.attr('data-status','clickable');
-								},
-								type			:	'GET',
-								url				:	windowRef
-							});
-						}
+						$(this).bind('click',function(){
+							if(typeof $(this).attr('tendoo_app_binded') == 'undefined')
+							{
+								$(this).attr('tendoo_app_binded','true');
+								if(typeof $(this).attr('data-status') == 'undefined' || $(this).attr('data-status') == 'clickable')
+								{
+									window.location	=	$(this).attr('data-url');
+									return; 
+									// Were no more handling ajax modal boxes
+									$(this).attr('data-status','clicked');
+									var $this		=	$(this);
+									var iconRef		=	$(this).attr('data-icon-url');
+									var windowRef	=	$(this).attr('data-url');
+									var title		=	$(this).attr('modal-title') ? $(this).attr('modal-title') : "Page Sans Titre";
+									var object;
+									$.ajax({
+										beforeSend		:	function(jqXHR, settings){
+											tendoo.loader.display();
+										},
+										complete		:	function(jqXHR, textStatus){
+										},
+										cache			:	false,
+										success			:	function(data, textStatus, jqXHR){
+											tendoo.loader.hide();
+											object		=	void(0);
+											tendoo.window.ajax(true).title(title).show(data);
+											$this.attr('data-status','clickable');
+										},
+										dataType		:	'html',
+										error			:	function(jqXHR, textStatus, errorThrown){
+											$this.attr('data-status','clickable');
+										},
+										type			:	'GET',
+										url				:	windowRef
+									});
+								}
+							}
+						});
 					});
 				});
-			});
+			};
+			this.bind();
 		};
+/**
+*		tools.loader : Cette méthode affiche un indice de chargement AJAX dans les pages qui dispose d'espace spécifié pour l'élément.
+**/
 		tendoo.loader		=	new function(){
 			this.show		=	function(x,obj){
 				var cSpeed=9;
@@ -400,8 +429,12 @@ $(document).ready(function(){
 				this.dontdisplay();
 			}
 		};
+/**
+*		tools.boot : Démarrage du script.
+**/	
 		tendoo.boot			=	new function(){
 			var tASE	=	'#tendooAppStore'; // TENDOO APP STORE DOM BUTTON ELEMENT
+			var tTab	=	'.showAppTab'; // Tendoo Tab, panel d'application disponible partout.
 			$(tASE).bind('click',function(){
 				tendoo.notice.alert('Indisponible pour le moment.','info');
 				tendoo.loader.display();
@@ -409,11 +442,17 @@ $(document).ready(function(){
 					tendoo.loader.hide();
 				},2000);
 			});
+			$(tTab).bind('click',function(){
+				tendoo.tab.show();
+			});
 			if($(tASE).length > 0)
 			{
 				$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
 			}
 		};
+/**
+*		tools.formAjax : Permet d'attacher un évènement AJAX au formulaire ayant pour attribue "fjax", les formulaires doivent avoir les attributs "action" et "method".
+**/			
 		tendoo.formAjax		=	new function(){ // For Post Method Only
 			this.bind		=	function(){
 				$('form[fjax]').each(function(){
@@ -445,6 +484,9 @@ $(document).ready(function(){
 			}
 			this.bind();
 		};
+/**
+*		tools.silentAjax : Attache un évènement AJAX au clic sur un élément ayant l'attribut 'data-requestType="silent"' et "data-url" indiquant l'adresse de la requêtes. Ne prend aucun paramêtre.
+**/			
 		tendoo.silentAjax	=	new function(){
 			this.bind		=	function(){
 				$('[data-requestType="silent"]').each(function(){
@@ -468,5 +510,29 @@ $(document).ready(function(){
 			}
 			this.bind();
 		}
+/**
+*		tools.tab : Affiche un panel d'applications (modules).
+**/
+		tendoo.tab	=	new function(){
+			this.show		=	function(){
+				$.ajax(tendoo.url.base_url()+'admin/ajax/get_app_tab',{
+					beforeSend	:	function(){
+						tendoo.loader.display();
+					},
+					success	:	function(e){
+						tendoo.loader.hide();
+						if(device.width >= 1000)
+						{
+							tendoo.window.size(600,device.height).title('Applications Tendoo').show(e);
+						}
+						else if(device.width >= 300 && device.width < 1000)
+						{	
+							tendoo.window.size(200,200).title('Applications Tendoo').show(e);
+						}
+						tendoo.app.bind();
+					}
+				});
+			};
+		};
 	}
 });

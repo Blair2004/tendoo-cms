@@ -2,6 +2,7 @@
 	<head>
 		<meta charset="utf-8">
         <meta name="description" content="<?php echo $this->core->tendoo->getDescription();?>">
+		<meta name="keywords" content="<?php echo $this->core->tendoo->getKeywords();?>">
 		<script>
 			var site_url	=	'<?php echo $this->core->url->site_url();?>';
 			var base_url	=	'<?php echo $this->core->url->main_url();?>';

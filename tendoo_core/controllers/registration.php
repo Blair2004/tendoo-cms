@@ -43,10 +43,10 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 	}
 	private function loadOuputFile()
 	{
+		$this->core->file->css_push('font');
 		$this->core->file->css_push('app.v2');
 		$this->core->file->css_push('css1');
 		$this->core->file->css_push('css2');
-		$this->core->file->css_push('font');
 		$this->core->file->css_push('tendoo_global');
 	}
 	// Public methods

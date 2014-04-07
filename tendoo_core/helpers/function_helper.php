@@ -79,28 +79,28 @@ if(!function_exists('tendoo_error'))
 {
 	function tendoo_error($text)
 	{
-		return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-warning"></i> '.$text.'</div>';
+		return '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-warning"></i> '.$text.'</div>';
 	}
 }
 if(!function_exists('tendoo_success'))
 {
 	function tendoo_success($text)
 	{
-		return '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-thumbs-o-up"></i> '.$text.'</div>';
+		return '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-thumbs-o-up"></i> '.$text.'</div>';
 	}
 }
 if(!function_exists('tendoo_warning'))
 {
 	function tendoo_warning($text)
 	{
-		return '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-warning"></i> '.$text.'</div>';
+		return '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-warning"></i> '.$text.'</div>';
 	}
 }
 if(!function_exists('tendoo_info'))
 {
 	function tendoo_info($text)
 	{
-		return '<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-info"></i> '.$text.'</div>';;
+		return '<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-info"></i> '.$text.'</div>';;
 	}
 }
 if(!function_exists('notice'))
@@ -179,7 +179,7 @@ if(!function_exists('notice'))
 		$array['no_page_set']				=	tendoo_warning('Aucun contr&ocirc;leur disponible.');
 		$array['privilegeNotFound']			=	tendoo_warning('Privil&egrave;ge introuvable.');
 		$array['invalidApp']				=	tendoo_warning('Application Tendoo non valide. L\'installation &agrave; &eacute;chou&eacute;e');
-		$array['adminCreationFailed']		=	tendoo_warning('Impossible de cr&eacute;er un administrateur, verifiez la correspondance de pseudo et vos actions.');
+		$array['adminCreationFailed']		=	tendoo_warning('Impossible de cr&eacute;er un utilisateur, vérifiez que ce pseudo ne soit déjà utilisé.');
 		$array['tableCreationFailed']		=	tendoo_warning('Impossible d\'installer Tendoo, les informations fournies sont peut &ecirc;tre invalide. Assurez-vous de la validité de la connexion et de leur conformit&eacute; aux informations fournies.');
 		$array['upload_invalid_filetype']	=	tendoo_warning('Extension du fichier non autoris&eacute;e');
 		$array['themeControlerFailed']		=	tendoo_warning('L\'interace embarqu&eacute; de ce th&egrave;me n\'est pas correctement d&eacute;finie.');
@@ -394,11 +394,12 @@ if(!function_exists('__extends'))
 		$obj->url				=&	$Controller->url;
 		$obj->input				=&	$Controller->input;
 		$obj->notice			=&	$Controller->notice;
-		$obj->tendoo				=&	$Controller->tendoo;
+		$obj->tendoo			=&	$Controller->tendoo;
 		$obj->db				=&	$Controller->db;
 		$obj->session			=&	$Controller->session;
 		$obj->users_global		=&	$Controller->users_global;
 		$obj->load				=&	$Controller->load;
+		
 		if(isset($Controller->tendoo_admin))
 		{
 			$obj->tendoo_admin	=&	$Controller->tendoo_admin;
@@ -413,6 +414,14 @@ if(!function_exists('__extends'))
 		}
 	}
 }
+if(!function_exists('__herits'))
+{
+	function __herits($obj)
+	{
+		var_dump($obj);
+	}
+}
+
 if(!function_exists('gt')) // gt = Get Text
 {
 	function gt($code)
@@ -438,24 +447,52 @@ if(!function_exists('gt')) // gt = Get Text
 		}
 	}
 }
-if(!function_exists('encode_meta')) // gt = Get Text
+if(!function_exists('tendoo_error'))
 {
-	function encode_meta($meta,$search	=	array('[',']'),$replacement	=	array('%3Arbkt%3A','%3Albkt%3A'))
+	function tendoo_error($x1,$x2,$x3)
 	{
-		for($i = 0;$i < count($search);$i++)
-		{
-			$code	=	str_replace($search[$i],$replacement[$i],$meta);
-		}
+		$core	=	Controller::instance();
+		?>
+		<div id="tendoo_error_notice">
+			<h2>Erreur</h2>
+		</div>
+		<?php
 	}
 }
-if(!function_exists('decode_meta')) // gt = Get Text
+if(!function_exists('tendoo_exception'))
 {
-	function decode_meta($meta,$search	=	array('[',']'),$replacement	=	array('%3Arbkt%3A','%3Albkt%3A'))
+	function tendoo_exception($x1,$x2,$x3)
 	{
-		for($i = 0;$i < count($search);$i++)
-		{
-			$code	=	str_replace($replacement[$i],$search[$i],$meta);
-		}
+		$core	=	Controller::instance();
+		?>
+		<div id="tendoo_error_notice" style="border:solid 1px #999">
+			<h2>Tendoo Exception</h2>
+		</div>
+		<?php
+	}
+}
+if(!function_exists('theme_class')) // Recupère la classe application à un élément comme couleur de fond.
+{
+	function theme_class()
+	{
+		$core	=	Controller::instance();
+		return $core->tendoo->getCurrentThemeClass();
+	}
+}
+if(!function_exists('theme_button_class')) // Recupère la classe application à un élément de type "btn" comme couleur de fond.
+{
+	function theme_button_class()
+	{
+		$core	=	Controller::instance();
+		return $core->tendoo->getCurrentThemeButtonClass();
+	}
+}
+if(!function_exists('theme_background_color')) // Recupère la classe application à un élément de type "btn" comme couleur de fond.
+{
+	function theme_background_color()
+	{
+		$core	=	Controller::instance();
+		return $core->tendoo->getCurrentThemeBackgroundColor();
 	}
 }
 ?>

@@ -20,6 +20,7 @@ class Account
 		$this->file		=&	$this->core->file;
 		$this->core->file_2	=	new File;
 		// out put files
+		$this->core->file->css_push('font');
 		$this->core->file->css_push('app.v2');
 		$this->core->file->css_push('css1');
 		$this->core->file->css_push('css2');

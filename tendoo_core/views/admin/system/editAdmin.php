@@ -57,7 +57,7 @@
                                     </select>
                                 </div>
                                 <input type="hidden" value="<?php echo $adminInfo['PSEUDO'];?>" name="current_admin" />
-                                <input type="submit" class="btn btn-sm btn-primary" value="Enregsitrer" name="set_admin" />
+                                <input type="submit" class="btn btn-sm <?php echo theme_button_class();?>" value="Enregsitrer" name="set_admin" />
                                 <input type="submit" class="btn btn-sm btn-danger" value="Supprimer <?php echo $adminInfo['PSEUDO'];?>" name="delete_admin"/>
                             </form>
                         </div>

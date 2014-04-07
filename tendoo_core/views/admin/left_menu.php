@@ -1,21 +1,28 @@
-<aside class="bg-primary aside-sm nav-vertical" id="nav">
+<aside class="<?php echo theme_class();?> aside-sm nav-vertical" id="nav">
     <section class="vbox">
         <header class="dker nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 
             	<i class="fa fa-reorder"></i> 
 			</a> 
-            <span href="#" class="nav-brand bg-primary">
+            <span href="#" class="nav-brand <?php echo theme_class();?>">
             	<img style="max-height:30px;" src="<?php echo $this->core->url->img_url('logo_minim.png');?>" alt="logo">
             </span> 
             <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-user"> 
-            	<i class="fa fa-comment-alt"></i> 
+            	<i class="fa fa-comment-alt"></i>
 			</a> 
 		</header>
         <?php
 		$redirective	=	urlencode($this->core->url->request_uri());
 		?>
 		<!-- <?php echo $this->core->url->site_url(array('logoff','tologin?ref='.$redirective));?> TO LOGIN REDIR -->
-        <footer class="footer bg-gradient hidden-xs"> <a href="" class="btn btn-sm btn-link m-r-n-xs pull-right"> <i class="fa fa-th-large"></i> </a> <a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm"> <i class="fa fa-arrows-h"></i> </a> </footer>
+        <footer class="footer bg-gradient hidden-xs"> 
+			<a href="javascript:void(0)" class="showAppTab btn btn-sm pull-right"> 
+				<i class="fa fa-th-large"></i> 
+			</a> 
+			<a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm"> 
+				<i class="fa fa-arrows-h"></i> 
+			</a> 
+		</footer>
         <section>
             <nav class="nav-primary hidden-xs">
                 <ul class="nav">
@@ -32,7 +39,7 @@
                         </ul>
                     </li>
                     
-                    <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-puzzle-piece"></i> <span>Applications</span> </a>
+                    <li class="dropdown-submenu"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-puzzle-piece"></i> <span>Applications</span> </a>
                         <ul class="dropdown-menu">
                             <li> <a href="<?php echo $this->core->url->site_url('admin/installer');?>">Installer une application</a> </li>
                             <li> <a href="<?php echo $this->core->url->site_url('admin/modules');?>">Modules install&eacute;s</a> </li>
@@ -40,11 +47,11 @@
                             <!--<li> <a href="<?php echo $this->core->url->site_url('admin/tools');?>">Utilitaires</a> </li> -->
                         </ul>
                     </li>
+					<li> <a href="<?php echo $this->core->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="fa fa-cogs"></i> <span>Param&egrave;tres</span> </a> </li>
                     <?php
 					if($this->core->users_global->current('PRIVILEGE') == 'NADIMERPUS')
 					{
 					?>
-                    <li> <a href="<?php echo $this->core->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="fa fa-cogs"></i> <span>Param&egrave;tres</span> </a> </li>
                     <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-wrench"></i> <span>Syst&egrave;me</span> </a> 
                         <ul class="dropdown-menu">
                         	<li> <a href="<?php echo $this->core->url->site_url('admin/system');?>">&Agrave; propos de Tendoo</a> </li>

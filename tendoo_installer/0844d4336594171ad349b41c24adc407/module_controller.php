@@ -55,6 +55,8 @@ class News_module_controller
 		}
 		$this->data['ttNews']		=		$this->data['news']->countNews();
 		$this->data['GetNews']		=		$this->data['news']->getSpeNews($id);
+		$this->data['getKeywords']	=		$this->data['news']->getNewsKeyWords($id);
+		// var_dump($this->data['getKeywords']);
 		$this->data['ttComments']	=		$this->data['news']->countComments($id);
 		$this->data['pagination']	=	$this->core->tendoo->paginate(10,$this->data['ttComments'],1,'active','',$page,$this->core->url->site_url(array('blog','read',$id,$text)).'/');
 		$this->data['pagination'][3]=== false ? $this->core->url->redirect(array('error','code','page404')) : null;
@@ -65,10 +67,28 @@ class News_module_controller
 			$this->core->url->redirect(array('error/code/page404'));
 		}
 		$this->data['news']->pushView($this->data['GetNews'][0]['ID']);
+		
 		$this->tendoo->setTitle('Article - '.$this->data['GetNews'][0]['TITLE']);
 		$this->tendoo->setDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
+		$keyWords	=	'';
+		if(count($this->data['getKeywords']) > 0)
+		{
+			for($i=0;$i< count($this->data['getKeywords']);$i++)
+			{
+				if(array_key_exists($i+1,$this->data['getKeywords']))
+				{
+					$keyWords	.=	$this->data['getKeywords'][$i]['KEYWORDS'].',';
+				}
+				else
+				{
+					$keyWords	.=	$this->data['getKeywords'][$i]['KEYWORDS'];
+				}
+			}
+		}
+		$this->tendoo->setKeywords($keyWords);
 		$this->data['theme']->definePageTitle($this->data['page'][0]['PAGE_TITLE']);
 		$this->data['theme']->definePageDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
+		
 		
 		// Load View		
 		$this->data['module_content']		=	$this->core->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_open',$this->data,true,TRUE);
