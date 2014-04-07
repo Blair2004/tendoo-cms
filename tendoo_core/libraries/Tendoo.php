@@ -410,12 +410,7 @@ class Tendoo
 				$lib					=	new widhandler_lib(array(
 					'module_dir'		=>	MODULES_DIR.$module[0]['ENCRYPTED_DIR']
 				));
-				$lib->createSpecialWidget('Cat&eacute;gories','articles publi&eacute;','news/aflecatdi',TRUE);
-				$lib->activateWidget(1);
-				$lib->createSpecialWidget('Au top','les articles les plus lues','news/aflearlep',TRUE);
-				$lib->activateWidget(2);
-				$lib->createSpecialWidget('Liens','les syst&egrave;mes','news/syslink',TRUE);
-				$lib->activateWidget(3);
+				
 			}
 		}
 		else if($app	==	'PageEditor')

@@ -5,7 +5,10 @@ class tendoo_settings
 	{
 		__extends($this);
 		//
-		$this->users_options	=	$this->db->where('ID',$this->users_global->current('ID'))->get('tendoo_users');
+		if($this->users_global->isConnected())
+		{
+			$this->users_options	=	$this->db->where('ID',$this->users_global->current('ID'))->get('tendoo_users');
+		}
 	}
 	public function editSiteName($e)
 	{
