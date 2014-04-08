@@ -26,7 +26,7 @@
 </html>
 <?php
 		}
-		else if($obj->core->users_global->current('FIRST_VISIT') == "101")	 // Set 1 after creating
+		else if($obj->core->users_global->current('FIRST_VISIT') == "1")	 // Set 1 after creating
 		{
 			?>
 			<div id="WelCome" style="display:none">

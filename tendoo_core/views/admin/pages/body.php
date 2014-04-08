@@ -75,20 +75,20 @@
 											if(count($get_pages) > 1)
 											{
 											?>
-                                            <a class="upTaker" href="javascript:void(0)" data-url="<?php echo $this->core->url->site_url(array('admin','ajax','upController',$g['ID']));?>" data-requestType="silent"><i class="fa fa-level-up" style="font-size:15px;"></i></a>
+                                            <a data-type="script" class="upTaker" href="javascript:void(0)" data-url="<?php echo $this->core->url->site_url(array('admin','ajax','upController',$g['ID']));?>" data-requestType="silent"><i class="fa fa-level-up" style="font-size:15px;"></i></a>
                                             <?php
 											}
 											else
 											{
 											?>
-                                            <a class="upTaker" href="javascript:void(0)" silent-ajax-event="lock" data-url="<?php echo $this->core->url->site_url(array('admin','ajax','upController',$g['ID']));?>" data-requestType="silent">---</a>
+                                            <a data-type="script"  class="upTaker" href="javascript:void(0)" silent-ajax-event="lock" data-url="<?php echo $this->core->url->site_url(array('admin','ajax','upController',$g['ID']));?>" data-requestType="silent">---</a>
                                             <?php
 											}
 										}
 										else
 										{
 											?>
-                                            <a class="upTaker" href="javascript:void(0)" silent-ajax-event="lock" data-url="<?php echo $this->core->url->site_url(array('admin','ajax','upController',$g['ID']));?>" data-requestType="silent">---</a>
+                                            <a data-type="script"  class="upTaker" href="javascript:void(0)" silent-ajax-event="lock" data-url="<?php echo $this->core->url->site_url(array('admin','ajax','upController',$g['ID']));?>" data-requestType="silent">---</a>
                                             <?php
 										}
 										?>

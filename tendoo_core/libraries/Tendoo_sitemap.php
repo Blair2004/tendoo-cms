@@ -10,8 +10,11 @@ class tendoo_sitemap
 	{
 		if(file_exists('sitemap.xml'))
 		{
-			$current_map	=	trim(file_get_contents('sitemap.xml'));
-			$simulating_creation	=	trim($this->create_sitemap_automatically(TRUE));
+			$current_map			=	trim(file_get_contents('sitemap.xml'));
+			$current_site_map		=	$this->create_sitemap_automatically(TRUE);
+			$simulating_creation	=	trim($current_site_map);
+			return;
+
 			if($current_map != $simulating_creation)
 			{
 				$this->tendoo_admin->system_not(
@@ -49,10 +52,9 @@ class tendoo_sitemap
 		}
 		return $body;
 	}
-		
 	public function create_sitemap_automatically($return = FALSE)
 	{
-		$root_controller	=	$this->tendoo->get_pages();
+		$root_controller	=	$this->tendoo->get_pages(NULL,FALSE,FALSE);
 		$sitemap_head		=	
 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ';

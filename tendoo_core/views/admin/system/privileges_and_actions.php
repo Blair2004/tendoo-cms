@@ -40,11 +40,12 @@
 								foreach($getPrivileges as $p)
 								{
 									$values		=	array();
-									$values['gestpa']	=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestpa',$p['PRIV_ID']);	
-									$values['gestapp']	=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestapp',$p['PRIV_ID']);	
-									$values['gestheme']	=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestheme',$p['PRIV_ID']);	
-									$values['gestmo']	=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestmo',$p['PRIV_ID']);	
-									$values['gestset']	=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestset',$p['PRIV_ID']);	
+									$values['gestpa']		=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestpa',$p['PRIV_ID']);	
+									$values['toolsaccess']	=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','toolsaccess',$p['PRIV_ID']);	
+									$values['gestapp']		=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestapp',$p['PRIV_ID']);	
+									$values['gestheme']		=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestheme',$p['PRIV_ID']);	
+									$values['gestmo']		=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestmo',$p['PRIV_ID']);	
+									$values['gestset']		=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestset',$p['PRIV_ID']);	
 							?>
                            <li class="list-group-item" data-form-name="<?php echo $p['PRIV_ID'];?>">
                               <h4 class="panel-heading"><?php echo $p['HUMAN_NAME'];?></h4>
@@ -67,6 +68,24 @@
 											?> list-group-item">
                                        <h4 class="list-group-item-heading">Gestion des pages</h4>
                                        <p class="list-group-item-text">Créer, modifier, suppimer, affecter un module.</p>
+                                       </a> </li>
+									<li data-name="toolsaccess" data-value="<?php
+											if(array_key_exists('REF_ACTION_VALUE',$values['toolsaccess']))
+											{
+												echo ($values['toolsaccess']['REF_ACTION_VALUE'] == 'true') ? 'true'	:	'false';
+											}
+											else
+											{
+												echo 'false';
+											}
+											?>"> <a href="javascript:void(0)" class="<?php
+											if(array_key_exists('REF_ACTION_VALUE',$values['toolsaccess']))
+											{
+												echo ($values['toolsaccess']['REF_ACTION_VALUE'] == 'true') ? 'active'	:	'';
+											}
+											?> list-group-item">
+                                       <h4 class="list-group-item-heading">Accès aux outils</h4>
+                                       <p class="list-group-item-text">Permet d'accéder aux différents outils disponible. Ceci inclu l'affichage des statistiques à la page d'accueil.</p>
                                        </a> </li>
                                     <li data-name="gestapp" data-value="<?php
 											if(array_key_exists('REF_ACTION_VALUE',$values['gestapp']))

@@ -1,4 +1,5 @@
 <?php
+// var_dump($this);
 if($this->core->users_global->current('ADMIN_THEME') == 1)
 {
 ?>

@@ -27,7 +27,7 @@
             <nav class="nav-primary hidden-xs">
                 <ul class="nav">
 					<?php echo $this->core->tendoo_admin->parseMenuBefore();?>
-                    <li class="dropdown-submenu"> <a href="<?php echo $this->url->site_url(array('admin','discover'));?>"> <i class="fa fa-eye"></i> <span>D&eacute;couvrir</span> </a>
+                    <li class="dropdown-submenu"> <a href="<?php echo $this->core->url->site_url(array('admin','discover'));?>"> <i class="fa fa-eye"></i> <span>D&eacute;couvrir</span> </a>
 						<ul class="dropdown-menu">
                             <li> <a href="<?php echo $this->core->url->site_url('admin/discover/firstSteps');?>">Premiers pas</a> </li>
                         </ul>

@@ -673,11 +673,12 @@ class Tendoo
 		return $r->result_array();
 	}
 	private $levelLimit					= 20; // limitation en terme de sous menu
-	public function get_sublevel($cname,$level,$showHidden=TRUE)
-	{
+	public function get_sublevel($cname,$level,$showHidden=TRUE,$getModuleData=TRUE) // Deprecated ?
+	{	
+		echo tendoo_warning('Tendoo::get_sublevel(...) est une méthode déprécié, Utiliser Tendoo::get_pages(...) à la plage');
 		if($level <= $this->levelLimit)
 		{
-			if($showHidden == FALSE)
+			if($showHidden == FALSE)// ??
 			{
 				$this->core->db->where('PAGE_VISIBLE','TRUE');
 			}
@@ -711,13 +712,20 @@ class Tendoo
 		}
 		return false;
 	}
-	public function get_menu_limitation()
+	public function get_menu_limitation() // Deprecated;
 	{
 		return $this->levelLimit;
 	}
-	public function get_pages($page ='',$showHidden=TRUE)
+	/*
+		@$page			=	Code CNAME du contrôleur.
+		@$showHidden	=	Recupérer les contrôleurs invisibles sur le menu [true/false].
+		@getModuleData	=	Recupérer les modules attachés aux contrôleurs [true/false].
+		@getChild		=	Traite $page comme étant parent et opère récupération des enfants au lieu du parent [true/false], défaut FALSE.
+	*/
+	public function get_pages($page =NULL,$showHidden=TRUE,$getModuleData = TRUE,$getChild = TRUE) 
 	{
-		if($page == '')
+		// '' pour prendre en charge les anciens modules qui recupère tous les contrôleurs en spécifiant une chaine vide.
+		if(in_array($page,array('',NULL))) 
 		{
 			if($showHidden == FALSE)
 			{
@@ -731,54 +739,114 @@ class Tendoo
 			$array		=	array();
 			foreach($query->result() as $obj)
 			{
-				$array[] = array(
-					'ID'			=>$obj->ID,
-					'PAGE_CNAME'	=>$obj->PAGE_CNAME,
-					'PAGE_PARENT'	=>$obj->PAGE_PARENT,
-					'PAGE_NAMES'	=>$obj->PAGE_NAMES,
-					'PAGE_MODULES'	=>$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : $this->getSpeModuleByNamespace($obj->PAGE_MODULES),
-					'PAGE_TITLE'	=>$obj->PAGE_TITLE,
-					'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
-					'PAGE_MAIN'		=>$obj->PAGE_MAIN,
-					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE,
-					'PAGE_CHILDS'	=> $this->get_sublevel($obj->ID,1),
-					'PAGE_LINK'		=>$obj->PAGE_LINK, // new added 0.9.4
-					'PAGE_POSITION'	=>	$obj->PAGE_POSITION,
-					'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
-				);
+				if($getModuleData == TRUE)
+				{
+					$array[] = array(
+						'ID'			=>$obj->ID,
+						'PAGE_CNAME'	=>$obj->PAGE_CNAME,
+						'PAGE_PARENT'	=>$obj->PAGE_PARENT,
+						'PAGE_NAMES'	=>$obj->PAGE_NAMES,
+						'PAGE_MODULES'	=>$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : $this->getSpeModuleByNamespace($obj->PAGE_MODULES),
+						'PAGE_TITLE'	=>$obj->PAGE_TITLE,
+						'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
+						'PAGE_MAIN'		=>	$obj->PAGE_MAIN,
+						'PAGE_VISIBLE'	=>	$obj->PAGE_VISIBLE,
+						'PAGE_CHILDS'	=> 	$this->get_pages($obj->ID,$showHidden,$getModuleData,$getChild),
+						'PAGE_LINK'		=>	$obj->PAGE_LINK, // new added 0.9.4
+						'PAGE_POSITION'	=>	$obj->PAGE_POSITION,
+						'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
+					);
+				}
+				else
+				{
+					$array[] = array(
+						'ID'			=>$obj->ID,
+						'PAGE_CNAME'	=>$obj->PAGE_CNAME,
+						'PAGE_PARENT'	=>$obj->PAGE_PARENT,
+						'PAGE_NAMES'	=>$obj->PAGE_NAMES,
+						'PAGE_MODULES'	=>$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : '#MODULE NOT LOADED',
+						'PAGE_TITLE'	=>$obj->PAGE_TITLE,
+						'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
+						'PAGE_MAIN'		=>	$obj->PAGE_MAIN,
+						'PAGE_VISIBLE'	=>	$obj->PAGE_VISIBLE,
+						'PAGE_CHILDS'	=> 	$this->get_pages($obj->ID,$showHidden,$getModuleData,$getChild),
+						'PAGE_LINK'		=>	$obj->PAGE_LINK, // new added 0.9.4
+						'PAGE_POSITION'	=>	$obj->PAGE_POSITION,
+						'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
+					);
+				}
 			}
 			$this->getpages	=	$array;
 			return $array;	
 		}
 		else
 		{
+			// If there is any content founded, $array will be overwrited.
+			$array		=	FALSE;
 			if($showHidden == FALSE)
 			{
 				$this->core->db->where('PAGE_VISIBLE','TRUE');
 			}
-			$this->core	->db->select('*')
-						->from('tendoo_controllers')
-						->where('PAGE_CNAME',$page);
-			$query 	=	$this->core->db->get();
-			foreach($query->result() as $obj)
+			if($getChild == TRUE)
 			{
-				$array[] = array(
-					'ID'		=>$obj->ID,
-					'PAGE_CNAME'	=>$obj->PAGE_CNAME,
-					'PAGE_PARENT'	=>$obj->PAGE_PARENT,
-					'PAGE_NAMES'	=>$obj->PAGE_NAMES,
-					'PAGE_MODULES'	=>$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : $this->getSpeModuleByNamespace($obj->PAGE_MODULES),
-					'PAGE_TITLE'	=>$obj->PAGE_TITLE,
-					'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
-					'PAGE_MAIN'		=>$obj->PAGE_MAIN,
-					'PAGE_VISIBLE'	=>$obj->PAGE_VISIBLE,
-					'PAGE_CHILDS'	=>$this->get_sublevel($obj->ID,1),
-					'PAGE_LINK'		=>	$obj->PAGE_LINK, // New added 0.9.4
-					'PAGE_POSITION'	=>	$obj->PAGE_POSITION, // added 0.9.5,
-					'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
-				);
+				$this->core->db->where('PAGE_PARENT',$page) // On recupère le menu de base
+							// ->order_by('PAGE_POSITION','asc')
+							->from('tendoo_controllers');
+				$query 	=	$this->core->db->get();
+				// var_dump($query);
 			}
-			$this->getpages	=	$array;
+			else
+			{
+				$this->core	->db->select('*')
+							->from('tendoo_controllers')
+							->where('PAGE_CNAME',$page);
+				$query 	=	$this->core->db->get();
+			}
+			if(count(get_object_vars($query)) > 0)
+			{
+				// var_dump($query->result());
+				foreach($query->result() as $obj)
+				{
+					if($getModuleData == TRUE)
+					{
+						$array[] = array(
+							'ID'		=>$obj->ID,
+							'PAGE_CNAME'	=>	$obj->PAGE_CNAME,
+							'PAGE_PARENT'	=>	$obj->PAGE_PARENT,
+							'PAGE_NAMES'	=>	$obj->PAGE_NAMES,
+							'PAGE_MODULES'	=>	$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : $this->getSpeModuleByNamespace($obj->PAGE_MODULES),
+							'PAGE_TITLE'	=>	$obj->PAGE_TITLE,
+							'PAGE_DESCRIPTION'	=>$obj->PAGE_DESCRIPTION,
+							'PAGE_MAIN'		=>	$obj->PAGE_MAIN,
+							'PAGE_VISIBLE'	=>	$obj->PAGE_VISIBLE,
+							'PAGE_CHILDS'	=>	$this->get_pages($obj->ID,$showHidden,$getModuleData,$getChild),
+							'PAGE_LINK'		=>	$obj->PAGE_LINK, // New added 0.9.4
+							'PAGE_POSITION'	=>	$obj->PAGE_POSITION, // added 0.9.5,
+							'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
+						);
+					}
+					else
+					{
+						$array[] = array(
+							'ID'		=>$obj->ID,
+							'PAGE_CNAME'	=>	$obj->PAGE_CNAME,
+							'PAGE_PARENT'	=>	$obj->PAGE_PARENT,
+							'PAGE_NAMES'	=>	$obj->PAGE_NAMES,
+							'PAGE_MODULES'	=>	$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : '#MODULE NOT LOADED',
+							'PAGE_TITLE'	=>	$obj->PAGE_TITLE,
+							'PAGE_DESCRIPTION'	=>$obj->PAGE_DESCRIPTION,
+							'PAGE_MAIN'		=>	$obj->PAGE_MAIN,
+							'PAGE_VISIBLE'	=>	$obj->PAGE_VISIBLE,
+							'PAGE_CHILDS'	=>	$this->get_pages($obj->ID,$showHidden,$getModuleData,$getChild),
+							'PAGE_LINK'		=>	$obj->PAGE_LINK, // New added 0.9.4
+							'PAGE_POSITION'	=>	$obj->PAGE_POSITION, // added 0.9.5,
+							'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
+						);
+
+					}
+				}
+				$this->getpages	=	$array;
+			}	
 			return $array;
 		}
 	}
@@ -1551,90 +1619,5 @@ class Tendoo
 			return file_get_contents(SYSTEM_DIR.'/config/lang.tfc');
 		}
 		return 'ENG';
-	}
-	// Tendoo 0.9.7 theming support 
-	public function getCurrentThemeClass()
-	{
-		$options	=	$this->core->users_global->current('ADMIN_THEME');
-		if((int)$options == 0) // darken
-		{
-			return "bg-dark";
-		}
-		else if((int)$options == 1) // Bubble show case
-		{
-			return "bg-primary";
-		}
-		elseif((int)$options == 2) // Green Day
-		{
-			return "bg-success";
-		}
-		elseif((int)$options == 3) // red Hord
-		{
-			return "bg-danger";
-		}
-		elseif((int)$options == 4) // Selective Orange
-		{
-			return "bg-warning";
-		}
-		elseif((int)$options == 5) // skies
-		{
-			return "bg-info";
-		}
-	}
-	public function getCurrentThemeButtonClass()
-	{
-		$options	=	$this->core->users_global->current('ADMIN_THEME');
-		if((int)$options == 0) // darken
-		{
-			return "btn-dark";
-		}
-		else if((int)$options == 1) // Bubble show case
-		{
-			return "btn-primary";
-		}
-		elseif((int)$options == 2) // Green Day
-		{
-			return "btn-success";
-		}
-		elseif((int)$options == 3) // red Hord
-		{
-			return "btn-danger";
-		}
-		elseif((int)$options == 4) // Selective Orange
-		{
-			return "btn-warning";
-		}
-		elseif((int)$options == 5) // skies
-		{
-			return "btn-info";
-		}
-	}
-	public function getCurrentThemeBackgroundColor()
-	{
-		$options	=	$this->core->users_global->current('ADMIN_THEME');
-		if((int)$options == 0) // darken
-		{
-			return "#F9F9F9";
-		}
-		else if((int)$options == 1) // Bubble show case
-		{
-			return "#EEEDF7";
-		}
-		elseif((int)$options == 2) // Green Day
-		{
-			return "#F0F7EA";
-		}
-		elseif((int)$options == 3) // red Hord
-		{
-			return "#F9F3F2";
-		}
-		elseif((int)$options == 4) // Selective Orange
-		{
-			return "#FCF4E5";
-		}
-		elseif((int)$options == 5) // skies
-		{
-			return "#E6F3F7";
-		}
 	}
 }

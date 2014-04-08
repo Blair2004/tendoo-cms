@@ -1,13 +1,11 @@
 <?php
 if(class_exists($Class))
 {
-	
-	$theme						=&	$this->data['theme']; // Added - Tendoo 0.9.2
-	// GLOBAL MODULES
 	if($this->tendoo->interpreter($Class,$Method,$Parameters) === '404')
 	{
 		$this->tendoo->error('page404');
 	}
+	// var_dump($this->db);
 }
 else if(class_exists($Class.'_module_controller'))
 {

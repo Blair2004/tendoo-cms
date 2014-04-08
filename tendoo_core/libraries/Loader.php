@@ -1,28 +1,63 @@
 <?php
 class Loader
 {
-	private $loadedLibrary;
-	private $loadedHelper;
+	private $data					=	array();
+	
+	private $library_path			=	array();
+	private $loadedLibrary			=	array();
+	private $loadedHelper			=	array();
 	private $loadedFile;
 	private $instance;
 	private $viewpath;
 	private $_vars_caches;
 	private $_Tendoo_ob_level;
-	public 	$module;
-	public function __construct()
+	private $_ci_varmap;
+	private $_ci_classes;
+	private $_base_classes;
+	private $tendoo_vars_caches		=	array();
+	private $tendoo_vue_dir			=	array(VIEWS_DIR => TRUE);
+	private $tendoo_mod_vue_dir		=	array(MODULES_DIR => TRUE);
+	private	$tendoo_main_dir		=	array('' => TRUE);
+	private $core;
+	public function __construct($core)
 	{
-		$this->loadedLibrary		=	array();
-		$this->loadedHelper			=	array();
-		$this->library_path			=	array();
-		$this->tendoo_vue_dir		=	array(VIEWS_DIR => TRUE);
-		$this->tendoo_mod_vue_dir	=	array(MODULES_DIR => TRUE);
-		$this->tendoo_main_dir		=	array('' => TRUE);
-		$this->tendoo_vars_caches	=	array();
-		$this->core					=	Controller::instance();
+		$this->core					=&	$core;
 	}
-	public function view($path,$array = NULL,$return = false, $load_from_main_dir = FALSE)
+	public function __get($var)
 	{
-		__extends($this);
+		if(isset($this->$var))
+		{
+			return $this->$var;
+		}
+		else if(array_key_exists('object_source',$this->data))
+		{
+			if(is_object($this->data['object_source']))
+			{
+				if(array_key_exists($var,$this->data['object_source']))
+				{
+					return $this->data['object_source']->$var;
+				}
+			}
+		}
+		else if(array_key_exists($var,$this->data))
+		{
+			return $this->data[$var];
+		}
+		else
+		{
+			echo 'Erreur fatale inattendue : Evenement non pris en charge'; // Event not handled
+		}
+	}
+	public function __set($var,$value)
+	{
+		$this->data[$var]	=	$value;
+	}
+	public function view($path,$array = NULL,$return = false, $load_from_main_dir = FALSE,&$object_source=	NULL)
+	{
+		if($object_source != NULL)
+		{
+			$this->data['object_source']	=&	$object_source;
+		}
 		if($load_from_main_dir == FALSE)
 		{
 			return $this->load_ext(array('_Tendoo_view' => $path, '_Tendoo_vars' => $this->object_to_array($array), '_Tendoo_return' => $return),FALSE);
@@ -101,7 +136,7 @@ class Loader
 		{
 			if ( ! isset($this->$_Tendoo_key))
 			{
-				$this->$_Tendoo_key =& $_Tendoo_Tendoo->$_Tendoo_key;
+				$this->data[$_Tendoo_key] =& $_Tendoo_Tendoo->$_Tendoo_key;
 			}
 		}
 
@@ -178,8 +213,9 @@ class Loader
 			$_Tendoo_Tendoo->output->append_output(ob_get_contents());
 			@ob_end_clean();
 		}
+		$this->data['source_object']	=	NULL; // Reseting Object Saved
 	}
-	public function library($library = '', $params = NULL, $object_name = NULL)
+	public function library($library = '', $params = NULL, $object_name = NULL,&$object_source= null)
 	{
 		if (is_array($library))
 		{
@@ -187,7 +223,6 @@ class Loader
 			{
 				$this->library($class, $params);
 			}
-
 			return;
 		}
 
@@ -201,9 +236,9 @@ class Loader
 			$params = NULL;
 		}
 
-		$this->_load_class($library, $params, $object_name);
+		$this->_load_class($library, $params, $object_name,$object_source);
 	}
-	protected function _load_class($class, $params = NULL, $object_name = NULL)
+	protected function _load_class($class, $params = NULL, $object_name = NULL,&$object_source= null)
 	{
 		// Get the class name, and while we're at it trim any slashes.
 		// The directory path can be included as part of the class name,
@@ -237,7 +272,7 @@ class Loader
 					{
 						if ( ! isset($this->core->$object_name))
 						{
-							return $this->init_class($class, $params, $object_name);
+							return $this->init_class($class, $params, $object_name,$object_source);
 						}
 					}
 
@@ -249,7 +284,7 @@ class Loader
 				$this->loadedLibrary[] = $class;
 				$this->loadedFile[] = $subclass;
 
-				return $this->init_class($class, $params, $object_name);
+				return $this->init_class($class, $params, $object_name,$object_source);
 			}
 			else
 			{
@@ -273,7 +308,7 @@ class Loader
 					{
 						if ( ! isset($this->core->$object_name))
 						{
-							return $this->init_class($class, $params, $object_name);
+							return $this->init_class($class, $params, $object_name,$object_source);
 						}
 					}
 
@@ -284,12 +319,12 @@ class Loader
 
 				include_once($filepath);
 				$this->loadedFile[] = $filepath;
-				return $this->init_class($class, $params, $object_name);
+				return $this->init_class($class, $params, $object_name,$object_source);
 			}
 
 		} // END FOREACH
 	}
-	protected function init_class($class, $params, $object_name = NULL)
+	protected function init_class($class, $params, $object_name = NULL,&$object_source= null)
 	{
 		// Is there an associated config file for this class?  Note: these should always be lowercase
 		$name = $class;
@@ -313,16 +348,26 @@ class Loader
 			$classvar = $object_name;
 		}
 		// Save the class name and object name
-		$this->_ci_classes[$class] = $classvar; // ? seems to be unused
+		$this->data['_ci_classes'][$class] = $classvar; // ? seems to be unused
 
 		// Instantiate the class
 		if (is_array($params))
 		{
+			// La librarie chargé est directement ajouté au noyau, et sera désormais accéssible partout dans le script.
 			$this->core->$classvar = new $name($params);
+			if($object_source != NULL)
+			{
+				// L'objet dans lequel est chargé la librarie hérite de cet objet et de ses méthodes.
+				$object_source->$classvar =& $this->core->$classvar;
+			}
 		}
 		else
 		{
 			$this->core->$classvar 	= new $name;
+			if($object_source != NULL)
+			{
+				$object_source->$classvar 	=& $this->core->$classvar;
+			}
 		}
 	}
 	public function helper($helper	= array())

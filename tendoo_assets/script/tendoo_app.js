@@ -493,6 +493,7 @@ $(document).ready(function(){
 					$(this).bind('click',function(){
 						if(typeof $(this).attr('data-url') != 'undefined')
 						{
+							var requestDataType	=	typeof $(this).attr('data-type') != 'undefined' ? $(this).attr('data-type') : false;
 							if(typeof $(this).attr('silent-ajax-event') == 'undefined')
 							{
 								$.ajax($(this).attr('data-url'),{
@@ -501,7 +502,8 @@ $(document).ready(function(){
 									},
 									complete	:	function(){
 										tendoo.loader.hide();
-									}
+									},
+									dataType	:	requestDataType
 								});
 							}
 						}

@@ -33,7 +33,7 @@ class File
 	*/
 	public function js_push_if_not_exists($e) 
 	{
-		if(!in_array($e,array($this->jsfiles)))
+		if(!in_array($this->js_url.$e.'.js',$this->jsfiles))
 		{
 			$this->js_push($e);
 		}
@@ -75,7 +75,7 @@ class File
 	*/
 	public function css_push_if_not_exists($e) 
 	{
-		if(!in_array($e,array($this->cssfiles)))
+		if(!in_array($this->css_url.$e.'.css',$this->cssfiles))
 		{
 			$this->css_push($e);
 			return true;

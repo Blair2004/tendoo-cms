@@ -21,12 +21,12 @@
                     <section class="panel">
                         <header class="panel-heading bg-light">
                             <ul class="nav nav-tabs nav-justified">
+                                <li class="active"><a href="#datasetting" data-toggle="tab">R&eacute;glages de base</a></li>
+                                <li><a href="#autorisation" data-toggle="tab">Autorisations</a></li>
 								<?php
 								if($this->core->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 								{
 								?>
-                                <li class="active"><a href="#datasetting" data-toggle="tab">R&eacute;glages de base</a></li>
-                                <li><a href="#autorisation" data-toggle="tab">Autorisations</a></li>
                                 <li><a href="#security" data-toggle="tab">S&eacute;curit&eacute;</a></li>
 								<?php
 								}
@@ -107,6 +107,10 @@
 									<div class="row">
 										<div class="col-lg-4">
 											<h3>Principales Autorisations</h3>
+											<?php
+											if($this->core->users_global->isSuperAdmin() || $this->core->tendoo_admin->adminAccess('system','toolsAccess',$this->core->users_global->current('PRIVILEGE')) != FALSE)
+											{
+											?>
 											<form fjax method="post" action="<?php echo $this->core->url->site_url(array('admin','ajax','toggleAdminStats'));?>">
 												<div class="form-group">
 													<label>
@@ -141,6 +145,11 @@
 													</script>
 												</div>
 											</form>
+											<?php
+											}
+											if($this->core->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+											{
+											?>
 											<form fjax method="post" action="<?php echo $this->core->url->site_url(array('admin','ajax','toogleStoreAccess'));?>">
 												<div class="form-group">
 													<label>
@@ -175,6 +184,9 @@
 													</script>
 												</div>
 											</form>
+											<?php
+											}
+											?>
 											<form fjax method="post" action="<?php echo $this->core->url->site_url(array('admin','ajax','toggleFirstVisit'));?>">
 												<div class="form-group">
 													<label>
@@ -244,6 +256,10 @@
 												</div>
 											</form>
 										</div>
+										<?php
+										if($this->core->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+										{
+										?>
 										<div class="col-lg-8">
 											<h3>Ic&ocirc;nes et applications</h3>
 											<form method="post">
@@ -308,9 +324,15 @@
 											</form>
                                     
 										</div>
-										
+										<?php
+										}
+										?>
 									</div>
                                 </div>
+								<?php
+								if($this->core->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+								{
+								?>
 								<div class="tab-pane" id="security">
 									<div class="row">
 										<div class="col-lg-8">
@@ -396,22 +418,9 @@
 										</div>
 									</div>
 								</div>
-                                
-                                <div class="tab-pane" id="otherSetting">
-                                	<div class="col-lg-6">
-                                        
-										
-                                        
-                                        </div>
-                                	<div class="col-lg-6">
-                                        
-										
-                                    </div>
-                                </div>
-                               <div class="tab-pane" id="icons">
-                                	<div class="wrapper">
-                                    </div>
-                                </div> 
+                                <?php
+								}
+								?>
                             </div>
                         </div>
                     </section>

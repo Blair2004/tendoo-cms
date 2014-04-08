@@ -307,60 +307,7 @@ if(!function_exists('notice_from_url'))
 		}
 	}
 }
-if(!function_exists('notice_from_url_by_modal'))
-{
-	function notice_from_url_by_modal()
-	{
-		if(isset($_GET['notice']))
-		{
-			?><div class="notices" id="this_notice" style="position:fixed;width:300px;bottom:10px;left:10px;"><div class="tile double bg-color-purple padding10"><?php echo strip_tags(notice($_GET['notice']));?></div></div><script type="text/javascript">
-				$('#this_notice').bind('click',function()
-				{
-					$(this).fadeOut(500,function()
-					{
-						$(this).remove();
-					});
-				});
-				$(document).ready(function()
-				{
-					$('#this_notice').animate({"margin-left":"10px"},80,'linear',function()
-					{
-						$(this).animate({"margin-left":"-10px"},80,"linear",function()
-						{
-							$(this).animate({"margin-left":"10px"},80,'linear',function()
-							{
-								$(this).animate({"margin-left":"-10px"},80,"linear",function()
-								{
-									$(this).animate({"margin-left":"10px"},80,'linear');
-								});								
-							});
-						})
-					});
-					setTimeout(function(){
-						$('#this_notice').trigger('click');
-					},10000);
-				});
-			</script><?php
-		}
-	}
-}
-if(!function_exists('sup'))
-{
-	function sup($e) // Site Url Plus
-	{
-		$ci		=	get_instance();
-		$ci		=	$ci->uri;
-		$uri	=	explode('/',$ci->uri_string);
-		$length	=	count($uri);
-		$end_uri=	'';
-		for($_i = 0;$_i <= 2 ;$_i++)
-		{
-			$end_uri	.= '/';
-			$end_uri	.=$uri[$_i];
-		}
-		return site_url($end_uri.'/'.$e);
-	}
-}
+
 if(!function_exists('between'))
 {
 	function between($min,$max,$var) // Site Url Plus
@@ -397,9 +344,9 @@ if(!function_exists('__extends'))
 		$obj->tendoo			=&	$Controller->tendoo;
 		$obj->db				=&	$Controller->db;
 		$obj->session			=&	$Controller->session;
-		$obj->users_global		=&	$Controller->users_global;
 		$obj->load				=&	$Controller->load;
 		
+		// Chargement de quelques classes qui ont été ajouté ultérieurement au noyau.
 		if(isset($Controller->tendoo_admin))
 		{
 			$obj->tendoo_admin	=&	$Controller->tendoo_admin;
@@ -412,16 +359,20 @@ if(!function_exists('__extends'))
 		{
 			$obj->form_validation	=&	$Controller->form_validation;
 		}
+		if(isset($Controller->upload))
+		{
+			$obj->upload	=&	$Controller->upload;
+		}
+		if(isset($Controller->pagination))
+		{
+			$obj->pagination	=&	$Controller->pagination;
+		}
+		if(isset($Controller->users_global))
+		{
+			$obj->users_global	=&	$Controller->users_global;
+		}
 	}
 }
-if(!function_exists('__herits'))
-{
-	function __herits($obj)
-	{
-		var_dump($obj);
-	}
-}
-
 if(!function_exists('gt')) // gt = Get Text
 {
 	function gt($code)
@@ -475,24 +426,24 @@ if(!function_exists('theme_class')) // Recupère la classe application à un él
 {
 	function theme_class()
 	{
-		$core	=	Controller::instance();
-		return $core->tendoo->getCurrentThemeClass();
+		$Core	=	Controller::instance();
+		return $Core->users_global->getCurrentThemeClass();
 	}
 }
 if(!function_exists('theme_button_class')) // Recupère la classe application à un élément de type "btn" comme couleur de fond.
 {
 	function theme_button_class()
 	{
-		$core	=	Controller::instance();
-		return $core->tendoo->getCurrentThemeButtonClass();
+		$Core	=	Controller::instance();
+		return $Core->users_global->getCurrentThemeButtonClass();
 	}
 }
 if(!function_exists('theme_background_color')) // Recupère la classe application à un élément de type "btn" comme couleur de fond.
 {
 	function theme_background_color()
 	{
-		$core	=	Controller::instance();
-		return $core->tendoo->getCurrentThemeBackgroundColor();
+		$Core	=	Controller::instance();
+		return $Core->users_global->getCurrentThemeBackgroundColor();
 	}
 }
 ?>

@@ -152,7 +152,7 @@ Class users_global
 			$array['FIRST_VISIT']	=	1; // 
 			$array['OPEN_APP_TAB']	=	1; //
 			$array['SHOW_WELCOME']	= 	1; // 
-			$array['SHOW_ADMIN_INDEX_STATS']	=	1; // 
+			$array['SHOW_ADMIN_INDEX_STATS']	=	0; // 
 			$this->db->insert('tendoo_users',$array);
 			$this->sendValidationMail($array['EMAIL']);
 			return 'userCreated';
@@ -247,6 +247,7 @@ Class users_global
 				$this->current['SHOW_WELCOME']	=	$data[0]['SHOW_WELCOME'];
 				$this->current['OPEN_APP_TAB']	=	$data[0]['OPEN_APP_TAB'];
 				$this->current['SHOW_ADMIN_INDEX_STATS']	=	$data[0]['SHOW_ADMIN_INDEX_STATS'];
+				$this->current['FIRST_VISIT']	=	$data[0]['FIRST_VISIT'];
 				if($stay == TRUE)
 				{
 					if($encrypt_password == TRUE)
@@ -775,6 +776,11 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		}
 		return $unread;
 	}
+	public function editThemeStyle($e)
+	{
+		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1,2,3,4,5))  ? $e : 0; // If there is new theme just add it there
+		return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('ADMIN_THEME'=>$int));
+	}
 	private function hasAccessToConv($ref_id)
 	{
 		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('tendoo_users_messaging_title');
@@ -803,6 +809,151 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		switch($priv)
 		{
 			case 'RELPIMSUSE' : return 'Utilisateur';break;
+		}
+	}
+	// News 0.9.7
+	public function toggleWelcomeMessage()
+	{
+		if(in_array((int)$this->current('SHOW_WELCOME'),array(1,'TRUE')))
+		{
+			$int	=	0;
+		}
+		else
+		{
+			$int	=	1;
+		}
+		$this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('SHOW_WELCOME'=>$int));
+	}
+	public function switchShowAdminIndex()
+	{
+		if((int)$this->current('SHOW_ADMIN_INDEX_STATS') ==  1)
+		{
+			$int	=	0;
+		}
+		else
+		{
+			$int	=	1;
+		}
+		$this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('SHOW_ADMIN_INDEX_STATS'=>$int));
+	}
+	public function toggleAppTab() // method used on users_global class.
+	{
+		$option =	$this->db->where('ID',$this->current('ID'))->get('tendoo_users');
+		$result	=	$option->result_array();
+		if($result[0]['OPEN_APP_TAB'] == '0')
+		{
+			return $this->db
+				->where('ID',$this->current('ID'))
+				->update('tendoo_users',array(
+				'OPEN_APP_TAB'			=>		'1'
+			));
+		}
+		else
+		{
+			return $this->db
+				->where('ID',$this->current('ID'))
+				->update('tendoo_users',array(
+				'OPEN_APP_TAB'			=>		'0'
+			));
+		}
+	}
+	public function toggleFirstVisit()
+	{
+		if($this->current('FIRST_VISIT') == '0')
+		{
+			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array(
+				'FIRST_VISIT'			=>		'1'
+			));
+		}
+		else
+		{
+			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array(
+				'FIRST_VISIT'			=>		'0'
+			));
+		}
+	}
+	public function getCurrentThemeClass()
+	{
+		$options	=	$this->current('ADMIN_THEME');
+		if((int)$options == 0) // darken
+		{
+			return "bg-dark";
+		}
+		else if((int)$options == 1) // Bubble show case
+		{
+			return "bg-primary";
+		}
+		elseif((int)$options == 2) // Green Day
+		{
+			return "bg-success";
+		}
+		elseif((int)$options == 3) // red Hord
+		{
+			return "bg-danger";
+		}
+		elseif((int)$options == 4) // Selective Orange
+		{
+			return "bg-warning";
+		}
+		elseif((int)$options == 5) // skies
+		{
+			return "bg-info";
+		}
+	}
+	public function getCurrentThemeButtonClass()
+	{
+		$options	=	$this->current('ADMIN_THEME');
+		if((int)$options == 0) // darken
+		{
+			return "btn-dark";
+		}
+		else if((int)$options == 1) // Bubble show case
+		{
+			return "btn-primary";
+		}
+		elseif((int)$options == 2) // Green Day
+		{
+			return "btn-success";
+		}
+		elseif((int)$options == 3) // red Hord
+		{
+			return "btn-danger";
+		}
+		elseif((int)$options == 4) // Selective Orange
+		{
+			return "btn-warning";
+		}
+		elseif((int)$options == 5) // skies
+		{
+			return "btn-info";
+		}
+	}
+	public function getCurrentThemeBackgroundColor()
+	{
+		$options	=	$this->current('ADMIN_THEME');
+		if((int)$options == 0) // darken
+		{
+			return "#F9F9F9";
+		}
+		else if((int)$options == 1) // Bubble show case
+		{
+			return "#EEEDF7";
+		}
+		elseif((int)$options == 2) // Green Day
+		{
+			return "#F0F7EA";
+		}
+		elseif((int)$options == 3) // red Hord
+		{
+			return "#F9F3F2";
+		}
+		elseif((int)$options == 4) // Selective Orange
+		{
+			return "#FCF4E5";
+		}
+		elseif((int)$options == 5) // skies
+		{
+			return "#E6F3F7";
 		}
 	}
 }
