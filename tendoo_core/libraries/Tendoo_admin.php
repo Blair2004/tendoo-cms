@@ -14,7 +14,7 @@ class Tendoo_admin
 /**********************************************************************************************************************
 												Controlers Methods
 **********************************************************************************************************************/
-	private reservedControllers			=	array('admin','login','logoff','install','account','error','registration','tendoo_index');
+	private $reservedControllers			=	array('admin','login','logoff','install','account','error','registration','tendoo_index');
 	public function countPages()
 	{
 		$query	=	$this->db->get('tendoo_controllers');
