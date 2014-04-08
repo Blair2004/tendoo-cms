@@ -6,10 +6,15 @@ class Tendoo_admin
 	public function __construct()
 	{
 		__extends($this);
+		if(isset($this->users_global))
+		{
+			$this->load->library('users_global',null,null,$this);
+		}
 	}
 /**********************************************************************************************************************
 												Controlers Methods
 **********************************************************************************************************************/
+	private reservedControllers			=	array('admin','login','logoff','install','account','error','registration','tendoo_index');
 	public function countPages()
 	{
 		$query	=	$this->db->get('tendoo_controllers');
