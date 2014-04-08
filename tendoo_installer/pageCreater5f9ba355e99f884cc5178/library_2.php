@@ -7,7 +7,7 @@ $or['noCategoryCreated']		=	'<span class="error"><i class="icon-warning"></i> Av
 /// -------------------------------------------------------------------------------------------------------------------///
 $NOTICE_SUPER_ARRAY = $or;
 /// -------------------------------------------------------------------------------------------------------------------///
-	if(class_exists('Tendoo_admin'))
+	if(class_exists('tendoo_admin'))
 	{
 		class refToPage_lib
 		{
@@ -26,7 +26,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function isAttached($page)
 			{
-				$query	=	$this->core->db->where('PAGE_CONTROLEUR',$page)->get('Tendoo_refTopage');
+				$query	=	$this->core->db->where('PAGE_CONTROLEUR',$page)->get('tendoo_refTopage');
 				$result	=	$query->result_array();
 				if(count($result) > 0)
 				{
@@ -58,15 +58,15 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function attach($page,$content)
 			{
-				$query	=	$this->core->db->where('PAGE_CONTROLEUR',$page)->get('Tendoo_refTopage');
+				$query	=	$this->core->db->where('PAGE_CONTROLEUR',$page)->get('tendoo_refTopage');
 				$result	=	$query->result_array();
 				if(count($result) > 0)
 				{
-					return $this->core->db->where('PAGE_CONTROLEUR',$page)->update('Tendoo_refTopage',array('PAGE_HTML'=>$content,'AUTEUR'	=>	$this->core->users_global->current('ID')));
+					return $this->core->db->where('PAGE_CONTROLEUR',$page)->update('tendoo_refTopage',array('PAGE_HTML'=>$content,'AUTEUR'	=>	$this->core->users_global->current('ID')));
 				}
 				else
 				{
-					return $this->core->db->insert('Tendoo_refTopage',array(
+					return $this->core->db->insert('tendoo_refTopage',array(
 							'PAGE_HTML'				=>	$content,
 							'PAGE_CONTROLEUR'		=>	$page,
 							'AUTEUR'				=>	$this->core->users_global->current('ID'),
@@ -77,12 +77,12 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 		}
 	}
-	if(class_exists('Tendoo'))
+	if(class_exists('tendoo'))
 	{
-		class Tendoo_refTopage_smart
+		class tendoo_refTopage_smart
 		{
 			private $data;
-			private $Tendoo;
+			private $tendoo;
 			private $ci;
 			public function __construct($data	=	array())
 			{

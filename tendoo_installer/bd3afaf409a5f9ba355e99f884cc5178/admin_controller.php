@@ -16,7 +16,7 @@ $or['widgetDeleted']			=	tendoo_success('Le widget &agrave; &eacute;t&eacute; su
 $NOTICE_SUPER_ARRAY = $or;
 /// -------------------------------------------------------------------------------------------------------------------///
 
-class Tendoo_widget_administrator_admin_controller
+class tendoo_widget_administrator_admin_controller
 {
 	public function __construct($data)
 	{
@@ -79,7 +79,7 @@ class Tendoo_widget_administrator_admin_controller
 		$this->data['widgets_right']		=	$this->lib->tewi_getWidgets('right');
 		$this->data['widgets_bottom']		=	$this->lib->tewi_getWidgets('bottom');
 		// var_dump($this->data['widgets_bottom']);
-		$this->tendoo->setTitle('Tendoo &raquo; Gestion des widgets');
+		$this->tendoo->setTitle('tendoo &raquo; Gestion des widgets');
 		
 		$this->data['body']			=	$this->core->load->view($this->data['module_dir'].'/views/body',$this->data,true,TRUE);
 		return $this->data['body'];

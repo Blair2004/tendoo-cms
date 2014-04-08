@@ -1,5 +1,5 @@
 <?php
-	if(class_exists('Tendoo_admin'))
+	if(class_exists('tendoo_admin'))
 	{
 		class Pages_admin
 		{
@@ -7,8 +7,8 @@
 			private $dir;
 			private $cp_dir;
 			private $core;
-			private $Tendoo;
-			private $Tendoo_admin;
+			private $tendoo;
+			private $tendoo_admin;
 			public function __construct($data)
 			{
 				$this->core			=	Controller::instance();
@@ -41,11 +41,11 @@
 												fwrite($file,$contenu);
 												fclose($file);
 												closedir($dos);
-				return $this->core->db		->insert('Tendoo_pages',$datas);
+				return $this->core->db		->insert('tendoo_pages',$datas);
 			}
 			public function edit($id,$title,$desc,$contenu)
 			{
-				$query						=	$this->core->db->where('ID',$id)->get('Tendoo_pages');
+				$query						=	$this->core->db->where('ID',$id)->get('tendoo_pages');
 				$cur_page					=	$query					->result_array();
 				$dir						=	opendir($this->cp_dir);
 				$file						=	fopen($this->cp_dir.'/'.$cur_page[0]['FILE_NAME'],'w+');
@@ -59,7 +59,7 @@
 					'AUTHOR'				=>$this->core->users_global->current('ID')
 				);
 				return $this->core->db		->where('ID',$id)
-											->update('Tendoo_pages',$datas);
+											->update('tendoo_pages',$datas);
 			}
 			public function getPages($start = '',$end = '')
 			{
@@ -67,12 +67,12 @@
 				{
 					$this->core->db->limit($end,$start);
 				}
-				$query	=	$this->core->db->get('Tendoo_pages');
+				$query	=	$this->core->db->get('tendoo_pages');
 				return $query->result_array();
 			}
 			public function getSpePage($id)
 			{
-				$query	= $this->core->db->where('ID',$id)->get('Tendoo_pages');
+				$query	= $this->core->db->where('ID',$id)->get('tendoo_pages');
 				$ar	=	$query->result_array();
 				$dos	=	opendir($this->cp_dir);
 				$file	=	fopen($this->cp_dir.'/'.$ar[0]['FILE_NAME'],'r');
@@ -84,19 +84,19 @@
 			}
 			public function deletePage($id)
 			{
-				$cur_page					=	$this->core->db->where('ID',$id)->get('Tendoo_pages');
+				$cur_page					=	$this->core->db->where('ID',$id)->get('tendoo_pages');
 				$array						=	$cur_page->result_array();
 				$dir						=	opendir($this->cp_dir);
 				if(is_file($this->cp_dir.'/'.$array[0]['FILE_NAME']))
 				{
 					unlink($this->cp_dir.'/'.$array[0]['FILE_NAME']);
-					return $this->core->db->where('ID',$id)->delete('Tendoo_pages');
+					return $this->core->db->where('ID',$id)->delete('tendoo_pages');
 				}
 				return false;
 			}
 		}
 	}
-	if(class_exists('Tendoo'))
+	if(class_exists('tendoo'))
 	{
 		class Pages_smart
 		{
@@ -115,7 +115,7 @@
 			}
 			public function getPage($id)
 			{
-				$query	= $this->core->db->where('ID',$id)->get('Tendoo_pages');
+				$query	= $this->core->db->where('ID',$id)->get('tendoo_pages');
 				$ar	=	$query->result_array();
 				if(is_dir($this->cp_dir))
 				{

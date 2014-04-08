@@ -17,7 +17,7 @@ class syslink_news_common_widget
 		$end			=	'<ul>';
 		if($this->core->users_global->isConnected())
 		{
-			$this->core->load->library('Tendoo_admin');
+			$this->core->load->library('tendoo_admin');
 			if($this->core->users_global->isAdmin())
 			{
 				$priv	=	$this->core->users_global->current('PRIVILEGE');

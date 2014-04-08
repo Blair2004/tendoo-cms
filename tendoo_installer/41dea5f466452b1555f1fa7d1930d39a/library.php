@@ -1,5 +1,5 @@
 <?php
-class Tendoo_index_manager_library
+class tendoo_index_manager_library
 {
 	public function __construct()
 	{
@@ -7,7 +7,7 @@ class Tendoo_index_manager_library
 	}
 	public function getOptions()
 	{
-		$query	=	$this->db->get('Tendoo_index_manager');
+		$query	=	$this->db->get('tendoo_index_manager');
 		return $query->result_array();
 	}
 	public function setFirstOptions($showCarroussel,$showAboutUs,$showFeatures,$showGallery,$showLastest,$showPartners,$showSmallDetails,$showTabShowCase)
@@ -25,11 +25,11 @@ class Tendoo_index_manager_library
 		);
 		if(count($options) > 0)
 		{
-			return	$this->db->update('Tendoo_index_manager',$value);
+			return	$this->db->update('tendoo_index_manager',$value);
 		}
 		else
 		{
-			return	$this->db->insert('Tendoo_index_manager',$value);
+			return	$this->db->insert('tendoo_index_manager',$value);
 		}
 		return false;
 	}
@@ -48,11 +48,11 @@ class Tendoo_index_manager_library
 		);
 		if(count($options) > 0)
 		{
-			return $this->db->update('Tendoo_index_manager',$values);
+			return $this->db->update('tendoo_index_manager',$values);
 		}
 		else
 		{
-			return $this->db->insert('Tendoo_index_manager',$values);
+			return $this->db->insert('tendoo_index_manager',$values);
 		}
 		return false;
 	}
@@ -69,11 +69,11 @@ class Tendoo_index_manager_library
 		);
 		if(count($options) > 0)
 		{
-			return $this->db->update('Tendoo_index_manager',$values);
+			return $this->db->update('tendoo_index_manager',$values);
 		}
 		else
 		{
-			return $this->db->insert('Tendoo_index_manager',$values);
+			return $this->db->insert('tendoo_index_manager',$values);
 		}
 	}
 	public function setQuadOptions($abousUsText)
@@ -84,11 +84,11 @@ class Tendoo_index_manager_library
 		);
 		if(count($options) > 0)
 		{
-			return $this->db->update('Tendoo_index_manager',$values);
+			return $this->db->update('tendoo_index_manager',$values);
 		}
 		else
 		{
-			return $this->db->insert('Tendoo_index_manager',$values);
+			return $this->db->insert('tendoo_index_manager',$values);
 		}
 	}
 	public function setSixOptions($partnersText)
@@ -99,16 +99,16 @@ class Tendoo_index_manager_library
 		);
 		if(count($options) > 0)
 		{
-			return $this->db->update('Tendoo_index_manager',$values);
+			return $this->db->update('tendoo_index_manager',$values);
 		}
 		else
 		{
-			return $this->db->insert('Tendoo_index_manager',$values);
+			return $this->db->insert('tendoo_index_manager',$values);
 		}
 	}
 	public function setFiftOptions($carousselLimit,$featuredLimit,$lastestLimit,$galleryLimit,$tabShowCaseLimit,$smallDetailsLimit)
 	{
-		$options	=	$this->db->get('Tendoo_index_manager');
+		$options	=	$this->db->get('tendoo_index_manager');
 		$values		=	array(
 			'CAROUSSEL_LIMIT'		=>		$carousselLimit,
 			'FEATURED_LIMIT'		=>		$featuredLimit,
@@ -119,11 +119,11 @@ class Tendoo_index_manager_library
 		);
 		if(count($options) > 0)
 		{
-			return $this->db->update('Tendoo_index_manager',$values);
+			return $this->db->update('tendoo_index_manager',$values);
 		}
 		else
 		{
-			return $this->db->insert('Tendoo_index_manager',$values);
+			return $this->db->insert('tendoo_index_manager',$values);
 		}
 	}
 	public function getApiModules() // permet la récupération de certains éléments d'un module.

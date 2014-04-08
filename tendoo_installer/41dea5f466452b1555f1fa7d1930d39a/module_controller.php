@@ -1,12 +1,12 @@
 <?php
-class Tendoo_index_manager_module_controller
+class tendoo_index_manager_module_controller
 {
 	public function __construct($data)
 	{
 		__extends($this);
 		$this->data		=&		$data;
 		include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library.php');
-		$this->lib					=	new Tendoo_index_manager_library;
+		$this->lib					=	new tendoo_index_manager_library;
 		$this->data['lib_options']	=	$this->lib->getOptions();
 	}
 	public function index()

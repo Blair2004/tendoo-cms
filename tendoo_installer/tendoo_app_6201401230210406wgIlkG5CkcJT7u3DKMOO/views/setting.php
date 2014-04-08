@@ -271,7 +271,7 @@
                 <div class="panel-heading"> Contenu du contact : </div>
                 <div class="panel-body"> 
 					<form method="post">
-					<?php echo Tendoo_info('Remplissez les informations qui vous concerne, ou votre entreprise ou votre activ&eacute;');?> <?php echo $this->core->tendoo->getEditor(array(
+					<?php echo tendoo_info('Remplissez les informations qui vous concerne, ou votre entreprise ou votre activ&eacute;');?> <?php echo $this->core->tendoo->getEditor(array(
 										'name'			=>	'contact_description',
 										'id'			=>	'contact_description_id',
 										'defaultValue'	=>	array_key_exists(0,$gDescription) ? $gDescription[0]['FIELD_CONTENT'] : ''

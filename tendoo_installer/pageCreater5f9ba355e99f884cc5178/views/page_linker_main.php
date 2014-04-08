@@ -16,7 +16,7 @@
 					<?php echo $this->core->notice->parse_notice();?> 
 					<?php echo $success;?>
                     <?php echo notice_from_url();?>
-                    <?php echo Tendoo_info('Afin de pouvoir li&eacute;er un contr&ocirc;leur que vous avez cr&eacute;e &agrave; une page HTML, ils est n&eacute;cessiare que ce contr&ocirc;leur ait comme module ce module');?>
+                    <?php echo tendoo_info('Afin de pouvoir li&eacute;er un contr&ocirc;leur que vous avez cr&eacute;e &agrave; une page HTML, ils est n&eacute;cessiare que ce contr&ocirc;leur ait comme module ce module');?>
                 	<section class="panel">
                     	<div class="panel-heading">
                         Liste des contr&ocirc;leurs compatibles
@@ -41,7 +41,7 @@
                                             $isAttached	=	$rtp_lib->isAttached($s['ID']);
                                             ?>
                                     <tr>
-                                        <td><a href="<?php echo $this->core->url->site_url(array('admin','open','modules',$data['_Tendoo_vars']['module'][0]['ID'],'page_edit',$s['PAGE_CNAME']));?>"><?php echo $s['PAGE_NAMES'];?></a></td>
+                                        <td><a href="<?php echo $this->core->url->site_url(array('admin','open','modules',$data['_tendoo_vars']['module'][0]['ID'],'page_edit',$s['PAGE_CNAME']));?>"><?php echo $s['PAGE_NAMES'];?></a></td>
                                         <td><?php echo $isAttached == true ? "Oui" : "Non";?></td>
                                         <td>
                                             <?php

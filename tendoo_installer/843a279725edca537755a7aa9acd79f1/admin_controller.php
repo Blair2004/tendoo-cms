@@ -1,13 +1,13 @@
 <?php
-class Tendoo_contents_admin_controller
+class tendoo_contents_admin_controller
 {
 	private $moduleData;
 	private $data;
 	private $news;
 	private $news_smart;
 	private $ci;
-	private $Tendoo;
-	private $Tendoo_admin;
+	private $tendoo;
+	private $tendoo_admin;
 	private $notice;
 	public function __construct($data)
 	{
@@ -81,7 +81,7 @@ class Tendoo_contents_admin_controller
 				}
 			}
 		}
-		if(!$this->tendoo_admin->actionAccess('Tendoo_contents_upload','Tendoo_contents'))
+		if(!$this->tendoo_admin->actionAccess('tendoo_contents_upload','tendoo_contents'))
 		{
 			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
@@ -93,7 +93,7 @@ class Tendoo_contents_admin_controller
 	}
 	public function manage($id)
 	{
-		if(!$this->tendoo_admin->actionAccess('Tendoo_contents_upload','Tendoo_contents'))
+		if(!$this->tendoo_admin->actionAccess('tendoo_contents_upload','tendoo_contents'))
 		{
 			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 		}
@@ -104,7 +104,7 @@ class Tendoo_contents_admin_controller
 		$this->core->load->library('form_validation');
 		if($this->core->input->post('delete_file'))
 		{
-			if(!$this->tendoo_admin->actionAccess('Tendoo_contents_delete','Tendoo_contents'))
+			if(!$this->tendoo_admin->actionAccess('tendoo_contents_delete','tendoo_contents'))
 			{
 				$this->core->url->redirect(array('admin','index?notice=accessDenied'));
 			}

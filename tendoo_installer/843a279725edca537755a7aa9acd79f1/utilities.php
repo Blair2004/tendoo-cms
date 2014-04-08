@@ -1,12 +1,12 @@
 <?php
-class Tendoo_contents_utility
+class tendoo_contents_utility
 {
 	private $instance_loaded	=	0;
 	private $tcm;
 	function __construct()
 	{
 		__extends($this);
-		$this->tcm	=	$this->tendoo_admin->getSpeModuleByNamespace('Tendoo_contents');
+		$this->tcm	=	$this->tendoo_admin->getSpeModuleByNamespace('tendoo_contents');
 	}
 	function mediaLib_load()
 	{

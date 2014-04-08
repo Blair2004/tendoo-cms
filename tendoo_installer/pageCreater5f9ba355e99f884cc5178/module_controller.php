@@ -4,7 +4,7 @@ class Pages_editor_module_controller
 	protected 	$data;
 	private 	$news;
 	private 	$core;
-	private 	$Tendoo;
+	private 	$tendoo;
 	
 	public function __construct($data)
 	{
@@ -15,7 +15,7 @@ class Pages_editor_module_controller
 		$this->load							=& 		$this->core->load;
 		$this->moduleData					=&			$this->data['module'][0];
 		include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library_2.php');
-		$this->data['ftp_libSmart']	=			new Tendoo_refToPage_smart($this->data);
+		$this->data['ftp_libSmart']	=			new tendoo_refToPage_smart($this->data);
 		$this->data['userUtil']			=&			$this->core->users_global;		
 	}
 	public function index($page= 0)

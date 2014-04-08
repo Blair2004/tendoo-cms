@@ -25,11 +25,11 @@ class News_admin_controller
 		$this->data['ajaxMenu']	=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_menu',$this->data,true,TRUE);
 		$this->data['lmenu']			=	$this->core->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 		$this->linnk					=	MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/';
-		$fileManager	=	$this->tendoo_admin->getSpeModuleByNamespace('Tendoo_contents');
+		$fileManager					=	$this->tendoo_admin->getSpeModuleByNamespace('tendoo_contents');
 		if($fileManager)
 		{
 			include_once(MODULES_DIR.$fileManager[0]['ENCRYPTED_DIR'].'/utilities.php');
-			$this->data['fmlib']	=	new Tendoo_contents_utility(); // Loading library
+			$this->data['fmlib']	=	new tendoo_contents_utility(); // Loading library
 		}
 	}
 	public function index($page	= 1)

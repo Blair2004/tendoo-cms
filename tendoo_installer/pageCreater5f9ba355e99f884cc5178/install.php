@@ -6,7 +6,7 @@ $this->appTendooVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'Pages_editor',
 	'HUMAN_NAME'	=> 'Editeur de page HTML',
-	'AUTHOR'		=> 'Tendoo Group',
+	'AUTHOR'		=> 'tendoo Group',
 	'DESCRIPTION'	=> 'Créez une page HTML.',
 	'TYPE'			=> 'BYPAGE',
 	'TENDOO_VERS'	=> 0.94,
@@ -46,7 +46,7 @@ $this->appSql(
 	  PRIMARY KEY (`ID`)
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 $this->appSql(	
-'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_pages` (
+'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_pages` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `TITLE` varchar(200) NOT NULL,
   `DESCRIPTION` varchar(200) NOT NULL,

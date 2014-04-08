@@ -21,7 +21,7 @@
                         Attributeur de contenu & modification
                         </div>
                         <div class="wrapper">
-                            <?php echo Tendoo_info("Le contenu dont il s'agit est une page cr&eacute;e depuis le module : Editeur de page HTML");?>
+                            <?php echo tendoo_info("Le contenu dont il s'agit est une page cr&eacute;e depuis le module : Editeur de page HTML");?>
                             <form method="post" class="panel-body">
                             <div class="form-group select">
                             	<select name="content_id" class="form-control">

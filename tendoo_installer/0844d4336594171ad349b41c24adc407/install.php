@@ -6,7 +6,7 @@ $this->appTendooVers(0.94);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'news',
 	'HUMAN_NAME'	=> 'Blogster - Le gestionnaire d\'articles',
-	'AUTHOR'		=> 'Tendoo Group',
+	'AUTHOR'		=> 'tendoo Group',
 	'DESCRIPTION'	=> 'Créez, modifiez et publiez des articles pour votre blog.',
 	'TYPE'			=> 'BYPAGE',
 	'HAS_WIDGET'	=>	1,
@@ -16,7 +16,7 @@ $this->appTableField(array(
 	'TENDOO_VERS'	=> 0.94
 ));
 $this->appSql(	
-'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_comments` (
+'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_comments` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `REF_ART` int(11) NOT NULL,
   `SHOW` int(11) NOT NULL,
@@ -28,7 +28,7 @@ $this->appSql(
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 $this->appSql(	
-'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_news` (
+'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `CATEGORY_ID` int(11) NOT NULL,
   `TITLE` varchar(200) NOT NULL,
@@ -43,7 +43,7 @@ $this->appSql(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 ');
 $this->appSql(	
-'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_news_keywords` (
+'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news_keywords` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NEWS_ID` int(11) NOT NULL,
   `KEYWORDS` text NOT NULL,
@@ -51,7 +51,7 @@ $this->appSql(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 ');
 $this->appSql(	
-'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_news_setting` (
+'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news_setting` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `EVERYONEPOST` int(11) NOT NULL,
   `APPROVEBEFOREPOST` int(11) NOT NULL,
@@ -62,7 +62,7 @@ $this->appSql(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 ');
 $this->appSql(	
-'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'Tendoo_news_category` (
+'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news_category` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `CATEGORY_NAME` varchar(100) NOT NULL,
   `DESCRIPTION` text NOT NULL,

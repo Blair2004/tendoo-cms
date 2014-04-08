@@ -1,5 +1,5 @@
 <?php
-class Tendoo_index_manager_admin_controller
+class tendoo_index_manager_admin_controller
 {
 	public function __construct($data)
 	{
@@ -7,11 +7,11 @@ class Tendoo_index_manager_admin_controller
 		
 		$this->data						=	$data;
 		$this->moduleData				=&	$this->data['module'][0];
-		if(!$this->tendoo_admin->actionAccess('Tendoo_index_manager','Tendoo_index_manager'))
+		if(!$this->tendoo_admin->actionAccess('tendoo_index_manager','tendoo_index_manager'))
 		{
 			$this->url->redirect(array('admin','index?notice=accessDenied'));
 		}
-		$this->lib						=	new Tendoo_index_manager_library;
+		$this->lib						=	new tendoo_index_manager_library;
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 	}
@@ -178,7 +178,7 @@ class Tendoo_index_manager_admin_controller
 			}
 		}
 		$this->data['lib_options']		=	$this->lib->getOptions();
-		$this->tendoo->setTitle('Tendoo Index Manager');
+		$this->tendoo->setTitle('tendoo Index Manager');
 		$this->tendoo->loadEditor(1);
 		
 		return $this->data['body']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/main.php',$this->data,TRUE,TRUE);

@@ -4,9 +4,9 @@ $this->appType('MODULE');
 $this->appVers(0.3);
 $this->appTendooVers(0.94);
 $this->appTableField(array(
-	'NAMESPACE'		=> 'Tendoo_widget_administrator',
+	'NAMESPACE'		=> 'tendoo_widget_administrator',
 	'HUMAN_NAME'	=> 'Gestionnaire de widgets',
-	'AUTHOR'		=> 'Tendoo Group',
+	'AUTHOR'		=> 'tendoo Group',
 	'DESCRIPTION'	=> 'Permet de créer et d\'administrer des widgets',
 	'TYPE'			=> 'GLOBAL',
 	'TENDOO_VERS'	=> 0.94,
@@ -58,5 +58,5 @@ $this->appAction(array(
 	'action'				=>	'widgetsMastering',
 	'action_name'			=>	'Gestion des widgets',
 	'action_description'	=>	'Cette action permet de cr&eacute;er et d\'administrer un widget.',
-	'mod_namespace'			=>	'Tendoo_widget_administrator'
+	'mod_namespace'			=>	'tendoo_widget_administrator'
 ));

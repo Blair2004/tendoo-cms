@@ -1,5 +1,5 @@
 <?php
-class Tendoo_contact_handler_module_controller
+class tendoo_contact_handler_module_controller
 {
 	public function __construct($data)
 	{
@@ -7,7 +7,7 @@ class Tendoo_contact_handler_module_controller
 		$this->data			=&	$data;
 		$this->module_dir	=	MODULES_DIR.$data['module'][0]['ENCRYPTED_DIR'];
 		include_once($this->module_dir.'/library.php');
-		$this->lib			=	new Tendoo_contact_handler_class();
+		$this->lib			=	new tendoo_contact_handler_class();
 	}
 	public function index()
 	{

@@ -1,5 +1,5 @@
 <?php
-class Tendoo_contact_handler_class
+class tendoo_contact_handler_class
 {
 	public function __construct()
 	{
@@ -7,7 +7,7 @@ class Tendoo_contact_handler_class
 	}
 	public function toogleFields($name = false,$email = false,$phone = false,$website = false,$country	=	false,$city = false)
 	{
-		$query	=	$this->db->get('Tendoo_contact_handler_option');
+		$query	=	$this->db->get('tendoo_contact_handler_option');
 		$fields	=	array(
 			'SHOW_NAME'		=>	$name == true ? 1 : 0,
 			'SHOW_MAIL'		=>	$email== true ? 1 : 0,
@@ -18,37 +18,37 @@ class Tendoo_contact_handler_class
 		);
 		if(count($query->result_array()) > 0)
 		{
-			return $this->db->where('ID',1)->update('Tendoo_contact_handler_option',$fields);
+			return $this->db->where('ID',1)->update('tendoo_contact_handler_option',$fields);
 		}
 		else
 		{
-			return $this->db->insert('Tendoo_contact_handler_option',$fields);
+			return $this->db->insert('tendoo_contact_handler_option',$fields);
 		}
 	}
 	public function getToggledFields()
 	{
-		$query	=	$this->db->get('Tendoo_contact_handler_option');
+		$query	=	$this->db->get('tendoo_contact_handler_option');
 		return $query->result_array();
 	}
 	public function addContact($type,$content)
 	{
-		return $this->db->insert('Tendoo_contact_fields',array(
+		return $this->db->insert('tendoo_contact_fields',array(
 			'CONTACT_TYPE'		=>	$type,
 			'CONTACT_TEXT'		=>	$content
 		));
 	}
 	public function removeContact($id)
 	{
-		return $this->db->where('ID',$id)->delete('Tendoo_contact_fields');
+		return $this->db->where('ID',$id)->delete('tendoo_contact_fields');
 	}
 	public function getContact()
 	{
-		$query	=	$this->db->get('Tendoo_contact_fields');
+		$query	=	$this->db->get('tendoo_contact_fields');
 		return $query->result_array();
 	}
 	public function addDescription($content)
 	{
-		$query	=	$this->db->get('Tendoo_contact_aboutUs');
+		$query	=	$this->db->get('tendoo_contact_aboutUs');
 		$array	=	array(
 			'FIELD_CONTENT'		=>		$content,
 			'AUTHOR'			=>		$this->users_global->current('ID'),
@@ -56,16 +56,16 @@ class Tendoo_contact_handler_class
 		);
 		if(count($query->result_array()) > 0)
 		{
-			return $this->db->update('Tendoo_contact_aboutUs',$array);
+			return $this->db->update('tendoo_contact_aboutUs',$array);
 		}
 		else
 		{
-			return $this->db->insert('Tendoo_contact_aboutUs',$array);
+			return $this->db->insert('tendoo_contact_aboutUs',$array);
 		}
 	}
 	public function getDescription()
 	{
-		$query	=	$this->db->get('Tendoo_contact_aboutUs');
+		$query	=	$this->db->get('tendoo_contact_aboutUs');
 		return $query->result_array();
 	}
 	// Common
@@ -81,7 +81,7 @@ class Tendoo_contact_handler_class
 			$userid			=	0;
 		}
 		$date	=	$this->tendoo->datetime();
-		return $this->db->insert('Tendoo_contact_handler',array(
+		return $this->db->insert('tendoo_contact_handler',array(
 			'USER_ID'			=>	$userid,
 			'USER_NAME'			=>	$username,
 			'USER_MAIL'			=>	$email,
@@ -97,7 +97,7 @@ class Tendoo_contact_handler_class
 	{
 		if(is_numeric($start) && $end == null)
 		{
-			$this->db->where('ID',$start)->update('Tendoo_contact_handler',array('STATE'=>1));
+			$this->db->where('ID',$start)->update('tendoo_contact_handler',array('STATE'=>1));
 			$this->db->where('ID',$start);
 		}
 		else if(is_numeric($start) && is_numeric($end))
@@ -105,7 +105,7 @@ class Tendoo_contact_handler_class
 			$this->db->order_by('ID','desc');
 			$this->db->limit($end,$start);
 		}
-		$query	=	$this->db->get('Tendoo_contact_handler');
+		$query	=	$this->db->get('tendoo_contact_handler');
 		return $query->result_array();
 	}
 	public function deleteContact($id)
@@ -113,7 +113,7 @@ class Tendoo_contact_handler_class
 		$contact			=	$this->getSendedContact($id);
 		if($contact)
 		{
-			return $this->db->where('ID',$id)->delete('Tendoo_contact_handler');
+			return $this->db->where('ID',$id)->delete('tendoo_contact_handler');
 		}
 		return false;
 	}

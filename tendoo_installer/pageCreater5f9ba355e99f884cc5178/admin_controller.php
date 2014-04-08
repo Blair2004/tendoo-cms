@@ -6,8 +6,8 @@ class Pages_editor_admin_controller
 	private $news;
 	private $news_smart;
 	private $ci;
-	private $Tendoo;
-	private $Tendoo_admin;
+	private $tendoo;
+	private $tendoo_admin;
 	private $notice;
 	public function __construct($data)
 	{

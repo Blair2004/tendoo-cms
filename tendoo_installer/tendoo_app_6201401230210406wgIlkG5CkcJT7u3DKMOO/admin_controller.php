@@ -8,7 +8,7 @@ $or['unknowContactMessage']			=	tendoo_error('Discussion introuvable ou indispon
 $NOTICE_SUPER_ARRAY = $or;
 /// -------------------------------------------------------------------------------------------------------------------///
 
-class Tendoo_contact_handler_admin_controller
+class tendoo_contact_handler_admin_controller
 {
 	public function __construct($data)
 	{
@@ -18,12 +18,12 @@ class Tendoo_contact_handler_admin_controller
 		$this->module_dir				=	MODULES_DIR.$data['module'][0]['ENCRYPTED_DIR'];
 		$this->module_namespace			=	$data['module'][0]['NAMESPACE']; // retreive namespace
 		$this->module_id				=	$data['module'][0]['ID'];
-		if($this->tendoo_admin->actionAccess('Tendoo_contact_handler','Tendoo_contact_handler') === FALSE)
+		if($this->tendoo_admin->actionAccess('tendoo_contact_handler','tendoo_contact_handler') === FALSE)
 		{
 			$this->url->redirect(array('admin','index?notice=accessDenied'));
 		}
 		include_once($this->module_dir.'/library.php');
-		$this->lib						=	new Tendoo_contact_handler_class();
+		$this->lib						=	new tendoo_contact_handler_class();
 		$this->tendoo_admin->menuExtendsBefore($this->load->view($this->module_dir.'/views/menu',$this->data,true,TRUE));
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);

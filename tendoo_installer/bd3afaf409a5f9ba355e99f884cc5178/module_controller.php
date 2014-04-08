@@ -1,10 +1,10 @@
 <?php
-class Tendoo_widget_administrator_module_controller
+class tendoo_widget_administrator_module_controller
 {
 	protected 	$data;
 	private 	$news;
 	private 	$core;
-	private 	$Tendoo;
+	private 	$tendoo;
 	
 	public function __construct($data)
 	{
