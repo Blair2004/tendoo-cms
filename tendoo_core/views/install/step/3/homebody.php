@@ -123,7 +123,6 @@
 														{
 															clearInterval(Interval);
 															$('.statusList').append('<?php echo tendoo_success("<span class=\"currentInstall_'+curIterator+'\"> Installation des applications terminée...</span>");?>');
-															return;
 															$('#siteNameForm').submit();
 														}
 														else
