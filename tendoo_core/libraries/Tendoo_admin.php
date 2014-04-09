@@ -352,7 +352,7 @@ class Tendoo_admin
 	{
 		if($form == TRUE)
 		{
-			$mod	=	$this->tendoo_admin->getSpeMod($id,TRUE);
+			$mod	=	$this->getSpeMod($id,TRUE);
 			if($mod)
 			{
 				$this->db->where('ID',$id)->update('tendoo_modules',array(
@@ -1082,6 +1082,7 @@ class Tendoo_admin
 	private $appThemeAllowedTableField		=	array('NAMESPACE','HUMAN_NAME','AUTHOR','DESCRIPTION','TENDOO_VERS','ENCRYPTED_DIR','APP_VERS');
 	public function tendoo_installer($source)
 	{
+		$this->load->library('upload',null,null,$this);
 		function Unzip($zip)
 		{
 			$myZip						=	new ZipArchive;

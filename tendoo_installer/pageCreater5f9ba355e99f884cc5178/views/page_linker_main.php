@@ -41,7 +41,7 @@
                                             $isAttached	=	$rtp_lib->isAttached($s['ID']);
                                             ?>
                                     <tr>
-                                        <td><a href="<?php echo $this->core->url->site_url(array('admin','open','modules',$data['_tendoo_vars']['module'][0]['ID'],'page_edit',$s['PAGE_CNAME']));?>"><?php echo $s['PAGE_NAMES'];?></a></td>
+                                        <td><a href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'page_edit',$s['PAGE_CNAME']));?>"><?php echo $s['PAGE_NAMES'];?></a></td>
                                         <td><?php echo $isAttached == true ? "Oui" : "Non";?></td>
                                         <td>
                                             <?php

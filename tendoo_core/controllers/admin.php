@@ -52,6 +52,8 @@ class Admin
 			$this->notice->push_notice(notice($gl));
 		}
 		$this->loadOuputFile();
+		// Core NOTICE
+		$this->data['tendoo_core_update']	=	$this->tendoo_update->getUpdateCoreNotification();
 	}
 	private function adminConnection()
 	{
@@ -62,14 +64,17 @@ class Admin
 	}
 	private function loadLibraries()
 	{	
+		// Chargement des classes.
 		$this->load->library('tendoo_admin',null,null,$this);
 		$this->load->library('pagination',null,null,$this);
 		$this->load->library('file',null,null,$this);
 		$this->load->library('file',null,'file_2',$this);
 		$this->load->library('form_validation',null,null,$this);
 		$this->load->library('tendoo_sitemap',null,null,$this);
+		$this->load->library('tendoo_update',null,null,$this);
+		// Définition des balises d'erreur.
 		$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-
+		
 		$this->data['notice']		=	'';
 		$this->data['error']		=	'';
 		$this->data['success']		=	'';
@@ -96,10 +101,6 @@ class Admin
 		$this->file->css_push('fuelux');
 
 		$this->file->js_push('jquery');
-		if($this->users_global->current('ADMIN_THEME') == 1)
-		{
-			$this->file->js_push('bubbles');
-		}
 		$this->file->js_push('app.min.vtendoo'); // _2
 		$this->file->js_push('tendoo_loader');
 		$this->file->js_push('tendoo_app');
@@ -1123,7 +1124,17 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($option	== 'store_connect')
 		{
-			echo (!$this->users_global->isSuperAdmin()) ?  'tendoo.notice.alert("Accès refusé","danger")': $this->tendoo->store_connect();
+			$site_options	=	$this->tendoo->getOptions();
+			if((int)$site_options[0]['CONNECT_TO_STORE'] == 1)
+			{
+				$this->tendoo->store_connect();
+			}
+			else
+			{
+				$this->data['type'] =	'wraning';
+				$this->data['notice'] =	tendoo_info('Impossible d\'acc&eacute;der au Store. Option d&eacute;sactiv&eacute;e');
+				$this->load->view('admin/ajax/notice',$this->data);
+			}
 		}
 		else if($option	==	'toggleFirstVisit')
 		{

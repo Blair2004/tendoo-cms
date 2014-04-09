@@ -449,6 +449,16 @@ $(document).ready(function(){
 			{
 				$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
 			}
+			var interval 	=	setInterval(function(){
+				if($('.alert').length > 0)
+				{
+					$('.alert').find('button[class="close"]').bind('click',function(){
+						$(this).closest('.alert').fadeOut(500,function(){
+							$(this).remove();
+						});
+					});
+				}
+			},500);
 		};
 /**
 *		tools.formAjax : Permet d'attacher un évènement AJAX au formulaire ayant pour attribue "fjax", les formulaires doivent avoir les attributs "action" et "method".

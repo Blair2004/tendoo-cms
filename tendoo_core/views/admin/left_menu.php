@@ -24,8 +24,97 @@
 			</a> 
 		</footer>
         <section>
-            <nav class="nav-primary hidden-xs">
-                <ul class="nav">
+		<?php 
+		if($tendoo_core_update !== FALSE)
+		{
+			$ttNotice	=	0;
+			foreach($tendoo_core_update as $global_notices)
+			{
+				$ttNotice +=	count($global_notices);
+			}
+		?>
+			<nav class="nav-primary hidden-xs">
+                <ul class="nav">					
+                    <li class="openUpdateCoreNotification"> 
+						<a href="javascript:void(0)"> 
+							<i class="fa fa-gift"></i> <span>tengoo.org</span> 
+							<div class="nav-msg"> 
+								<!-- class="dropdown-toggle" data-toggle="dropdown" -->
+								<?php 
+								if($ttNotice > 0)
+								{
+								?>
+								<a href="javascript:void(0)">
+									<b class="badge badge-white count-n"><?php echo $ttNotice;?></b> 
+								</a> 
+								<section class="dropdown-menu m-l-sm pull-left animated fadeInRight"> 
+									<div class="arrow left"></div> 
+									<section class="panel bg-white"> 
+										<header class="panel-heading"> 
+											<strong>Vous avez <span class="count-n"><?php echo $ttNotice;?></span> notification(s)</strong> 
+										</header> 
+										<div class="list-group"> 
+											<?php
+											foreach($tendoo_core_update as $global_notices)
+											{
+												foreach($global_notices as $unique_notice)
+												{
+												?>
+												<a href="<?php echo $unique_notice['link'];?>" class="media list-group-item">
+													<?php 
+													if($unique_notice['thumb'] != false)
+													{
+													?>
+													<span class="pull-left thumb-sm"> 
+														<img src="<?php echo $unique_notice['thumb'];?>" alt="image" class="img-circle"> 
+													</span> 
+													<?php
+													}
+													?>
+													<span class="media-body block m-b-none"><strong><?php echo word_limiter($unique_notice['title'],6);?></strong><br> 
+														<?php echo word_limiter($unique_notice['content'],20);?><br>
+														<small class="text-muted"><?php echo $unique_notice['date'];?></small> 
+													</span> 
+												</a>
+												<?php
+												}
+											}
+											?>
+										</div>
+									</section>
+								</section>
+								<?php
+								}
+								?>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</nav>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					var canMouseLeave	=	true;
+					$('.openUpdateCoreNotification').mouseleave(function(){
+						$(document).bind('click',function(){
+							if($('.openUpdateCoreNotification').attr('expecting-close-after-leaving') == 'true')
+							{
+								$('.openUpdateCoreNotification').find('.nav-msg').toggleClass('open');
+								$('.openUpdateCoreNotification').removeAttr('expecting-close-after-leaving');
+							}
+						});
+					});
+					$('.openUpdateCoreNotification').bind('click',function(event){
+						event.stopImmediatePropagation();
+						$(this).find('.nav-msg').toggleClass('open');
+						$(this).attr('expecting-close-after-leaving','true');
+					});
+				});
+			</script>
+		<?php
+		}
+		?>
+			<nav class="nav-primary hidden-xs">
+                <ul class="nav">					
 					<?php echo $this->core->tendoo_admin->parseMenuBefore();?>
                     <li class="dropdown-submenu"> <a href="<?php echo $this->core->url->site_url(array('admin','discover'));?>"> <i class="fa fa-eye"></i> <span>D&eacute;couvrir</span> </a>
 						<ul class="dropdown-menu">
