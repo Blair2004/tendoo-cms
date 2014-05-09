@@ -11,12 +11,15 @@ class tendoo_update
 			include('tendoo_core/exec_file.php');
 			ob_clean(); // Dans le cas ou il y aurait une réponse dans le fichier.
 			// Find Warning
-			$array								=	array();
-			$array['tendoo_core_warning']		=	$tendoo_core_warning; // if exists
-			$array['tendoo_themes_warning']		=	$tendoo_themes_warning; // if exists
-			$array['tendoo_modules_warning']	=	$tendoo_modules_warning;
-			$array['tendoo_security_warning']	=	$tendoo_security_warning;
-			return $array;
+			if(isset($tendoo_core_warning,$tendoo_themes_warning,$tendoo_modules_warning,$tendoo_security_warning))
+			{
+				$array								=	array();
+				$array['tendoo_core_warning']		=	$tendoo_core_warning; // if exists
+				$array['tendoo_themes_warning']		=	$tendoo_themes_warning; // if exists
+				$array['tendoo_modules_warning']	=	$tendoo_modules_warning;
+				$array['tendoo_security_warning']	=	$tendoo_security_warning;
+				return $array;
+			}
 		}
 		return false;
 	}

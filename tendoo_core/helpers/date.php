@@ -39,25 +39,9 @@ if ( ! function_exists('now'))
 {
 	function now()
 	{
-		$CI =& get_instance();
-
-		if (strtolower($CI->config->item('time_reference')) == 'gmt')
-		{
-			$now = time();
-			$system_time = mktime(gmdate("H", $now), gmdate("i", $now), gmdate("s", $now), gmdate("m", $now), gmdate("d", $now), gmdate("Y", $now));
-
-			if (strlen($system_time) < 10)
-			{
-				$system_time = time();
-				log_message('error', 'The Date class could not set a proper GMT timestamp so the local time() value was used.');
-			}
-
-			return $system_time;
-		}
-		else
-		{
-			return time();
-		}
+		$obj	=	new stdClass();
+		__extends($obj);
+		return $obj->tendoo->datetime();
 	}
 }
 
@@ -165,13 +149,77 @@ if ( ! function_exists('timespan'))
 
 		if ($time <= $seconds)
 		{
-			$seconds = 1;
+			if($time	== $seconds)
+			{
+				return 'à l\'instant';
+			}
+			$str	=	'Dans ';
+			$reste	=	$seconds - $time;
+			$annees	=	floor($reste/31536000);
+			if($annees > 0) // S'il y a des années
+			{
+				if($annees > 0)
+				{
+					return $str.= $annees == 1 ? $annees.' an' : $annees.' ans';
+				}
+			}
+			// Retrait de l'année compté, si $annees vaut 0 l'opération ne retirera pas d'année.
+			$reste	-=	$annees * 31536000;
+			$mois	= floor($reste/ 2628000);
+			if ($annees > 0 OR $mois > 0)
+			{
+				if($mois > 0)
+				{
+					return $str.= $mois == 1 ? $mois.' mois' : $mois.' mois';
+				}
+			}
+			$reste	-=	$mois * 2628000;
+			$semaines = floor($reste/604800);
+			if ($annees > 0 OR $mois > 0 OR $semaines > 0)
+			{
+				if($semaines > 0)
+				{
+					return $str.= $semaines == 1 ? $semaines.' semaine' : $semaines.' semaines';
+				}
+			}
+			$reste	-=	$semaines * 604800;
+			$jours	= floor($reste / 86400);
+			if($annees > 0 OR $mois > 0 OR $semaines > 0 or $jours > 0)
+			{
+				if($jours > 0)
+				{
+					return $str.= $jours == 1 ? $jours.' jour ' : $jours.' jours ';
+				}
+			}
+			$reste	-=	$jours * 86400;
+			$heures	=	floor($reste / 3600);
+			if($annees > 0 OR $mois > 0 OR $semaines > 0 or $jours > 0 or $heures > 0)
+			{
+				if($heures > 0)
+				{
+					return $str.= $heures == 1 ? $heures.' heure ' : $heures.' heures ';
+				}
+			}
+			$reste	-=	$heures * 3600;
+			$minutes=	floor($reste / 60);
+			if($annees > 0 OR $mois > 0 OR $semaines > 0 or $jours > 0 or $heures > 0 or $minutes > 0)
+			{
+				if($minutes > 0)
+				{
+					$str.= $minutes == 1 ? $minutes.' minute ' : $minutes.' minutes ';
+				}
+			}
+			$reste	-=	$minutes * 60;
+			if($reste	> 0)
+			{
+				$str.=	$reste == 1 ? $reste.' segonde' : $reste.' segondes';
+			}
+			return $str;
 		}
 		else
 		{
 			$seconds = $time - $seconds;
 		}
-
 		$str = 'Il y a ';
 		$years = floor($seconds / 31536000);
 
@@ -187,7 +235,7 @@ if ( ! function_exists('timespan'))
 			}
 			return $str;
 		}
-
+		// Segondes dans un mois.
 		$seconds -= $years * 31536000;
 		$months = floor($seconds / 2628000);
 
@@ -207,7 +255,7 @@ if ( ! function_exists('timespan'))
 			return $str;
 			$seconds -= $months * 2628000;
 		}
-
+		// Segonde dans une semaine
 		$weeks = floor($seconds / 604800);
 
 		if ($years > 0 OR $months > 0 OR $weeks > 0)

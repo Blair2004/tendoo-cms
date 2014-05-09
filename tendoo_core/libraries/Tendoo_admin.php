@@ -6,7 +6,7 @@ class Tendoo_admin
 	public function __construct()
 	{
 		__extends($this);
-		if(isset($this->users_global))
+		if(isset($this->users_global)) // Chargement de la classe utilisateur si n'existe pas.
 		{
 			$this->load->library('users_global',null,null,$this);
 		}
@@ -24,62 +24,13 @@ class Tendoo_admin
 	{
 		return $this->tendoo->getPage($e);
 	}
-	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'',$keywords = '')
+	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'',$keywords = '') // Obsolète
 	{
 		if(in_array($cname,$this->reservedControllers)): return 'cantUserReservedCNames'; endif; // ne peut utiliser les cname reservés.
 		if($childOf == strtolower($cname)) : return 'cantHeritFromItSelf' ;endif; // Ne peut être sous menu de lui même
 		$currentPosition=	$childOf;
-		if($obj == 'update')
-		{
-			$_xquery	=	$this->db->where('PAGE_CNAME',$cname)->get('tendoo_controllers');
-			$_xresult	=	$_xquery->result_array();
-			if(count($_xresult) > 0)
-			{
-				if($_xresult[0]['ID'] != $id)
-				{
-					return 'c_name_already_found';
-				}
-			}
-			$_xquery	=	$this->db->where('PAGE_NAMES',$name)->get('tendoo_controllers');
-			$_xresult	=	$_xquery->result_array();
-			if(count($_xresult) > 0)
-			{
-				if($_xresult[0]['ID'] != $id)
-				{
-					return 'name_already_found';
-				}
-			}
-		}
-		if($childOf != 'none') // Si ce controleur est l'enfant d'un autre.
-		{
-			for($i=0;$i<= $this->tendoo->get_menu_limitation();$i++)
-			{
-				$firstQuery	=	$this	->db->select('*')
-							->from('tendoo_controllers')
-							->where('ID',$currentPosition);
-				$data		=	$firstQuery->get();
-				$result		=	$data->result_array();
-				if(count($result) > 0)
-				{
-					if($this->tendoo->get_menu_limitation() == $i && $result[0]['PAGE_PARENT'] != 'none') // Si le dernier menu, compte tenu de la limitation en terme de sous menu est atteinte, et pourtant le menu nous dis qu'il y a encore un autre menu, nous déclarons qu'il ne peut plus y avoir de sous menu.
-					{
-						return 'subMenuLevelReach';
-					}
-					$currentPosition = $result[0]['PAGE_PARENT']; // Affecte le nouveau parent, pour remonter la source.
-				}
-				else
-				{
-					if($i == 0) // Nous sommes au premier niveau de la boucle, ici nous vérifions que le contrôleur désigné comme parent existe effectivement
-					{
-						return 'unkConSpeAsParent';
-					}
-				}
-				
-			}
-		}
 		if($main == 'TRUE' && $childOf != 'none'):return 'cantSetChildAsMain';endif; // Il ne faut pas définir un sous menu comme page principale
-		
-		$this	->db->select('*')
+		$this		->db->select('*')
 					->from('tendoo_controllers');
 		$query		=	$this->db->get();
 		
@@ -111,117 +62,140 @@ class Tendoo_admin
 		$e['PAGE_NAMES']		=	strtolower($name);
 		$e['PAGE_TITLE']		=	$title;
 		$e['PAGE_DESCRIPTION']	=	$description;
-		$e['PAGE_MAIN']			=	$query->num_rows > 0 ? $main == 'TRUE' && $childOf != 'none' ? 'FALSE' : $main : 'TRUE'; // Les sous menu ne devriat pas intervenir en tant que principale.
+		$e['PAGE_MAIN']			=	$query->num_rows > 0 ? $main == 'TRUE' && $childOf != 'none' ? 'FALSE' : $main : 'TRUE'; // Les sous menu ne devrait pas intervenir en tant que principale.
 		$e['PAGE_MODULES']		=	$mod; // SI le controleur doit rediriger vers une page, alors on enregistre la page sinon on enregistre le module.
 		$e['PAGE_VISIBLE']		=	$visible;
 		$e['PAGE_PARENT']		=	$childOf == $name ? 'none' : $childOf;
 		$e['PAGE_LINK']			=	$page_link;
 		$e['PAGE_KEYWORDS']		=	$keywords;
-		if($childOf == 'none')
-		{
-			$sub_query	=	$this->db->where('PAGE_PARENT','none')->get('tendoo_controllers');
-			$result		=	$sub_query->result_array();
-			$e['PAGE_POSITION']		=	count($result);
-		}
-		else
-		{
-			$sub_query	=	$this->db->where('PAGE_PARENT',$e['PAGE_PARENT'])->get('tendoo_controllers');
-			$result		=	$sub_query->result_array();
-			$e['PAGE_POSITION']		=	count($result);
-		}
+		// var_dump($e);
+		// Nous créons plus les positions via l'interface PHP, mais directement depuis javaScript
 		if($obj == 'create')
 		{
-			if($this		->db->insert('tendoo_controllers',$e))
+			if($this->db->insert('tendoo_controllers',$e))
 			{
 				$query			=	$this->db->where('PAGE_MAIN','TRUE')->get('tendoo_controllers');
-				if($query->num_rows == 0) : 		return "no_main_controller_created";endif;
-				return 'controler_created';
-			}
-			else
-			{
-				return 'error_occured';
+				if($query->num_rows == 0): 		
+					return "no_main_controller_created";
+				endif;
+					return 'controler_created';
 			}
 		}
-		else if($obj == 'update')
-		{
-			$query = $this	->db->where('ID',$id)
-								->update('tendoo_controllers',$e);
-			if($query)
-			{
-				return 'controler_edited';
-			}
-			else
-			{
-				return 'error_occured';
-			}
-		}
+		return 'error_occured';
 	}
-	public function upController($id) // Change l'emplacement d'un menu et le poussant vers le haut.
-	{
-		$query	=	$this->db->where('ID',$id)->get('tendoo_controllers');
-		$result	=	$query->result_array();
-		if($result)
-		{
-			$parent	=	$result[0]['PAGE_PARENT'];
-			if($parent == 'none')
-			{
-				if($result[0]['PAGE_POSITION'] != '0')
-				{
-					$this->db->where('PAGE_PARENT','none')->where('PAGE_POSITION',$result[0]['PAGE_POSITION']-1)->update('tendoo_controllers',array(
-						'PAGE_POSITION'			=>		$result[0]['PAGE_POSITION'] // Mise à jour du controlleur précédent.
-					));
-					return $this->db->where('ID',$id)->where('PAGE_PARENT','none')->update('tendoo_controllers',array(
-						'PAGE_POSITION'			=>		(int) $result[0]['PAGE_POSITION'] - 1
-					));
-				}
-			}
-		}
-		else
-		{
-			echo '<script>tendoo.notice.alert("Une erreur est survenue durant la modification de l\'ordre des contr&ocirc;leurs","danger");</script>';
-		}
-	}
-	public function delete_controler($name)
-	{
-		$this	->db->select('*')
-					->from('tendoo_controllers')
-					->where('PAGE_CNAME',$name);
-		$query 		= $this->db->get();
-		$result 	= $query->result_array();
-		if($result[0]['PAGE_MAIN'] == 'TRUE')
-		{
-			return 'cant_delete_mainpage';
-		}
-		else
-		{
-			if($this->db->where('PAGE_CNAME',$name)->delete('tendoo_controllers'))
-			{
-				return 'controler_deleted';
-			}
-			return 'error_occured';
-		}
-	}
-	public function getChildren($curent_level,$child)
+	public function getChildren($child,$compress = FALSE)
 	{
 		if(is_array($child))
 		{
-			foreach($child as $_g)
+			foreach($child as $g)
 			{
+				if($compress == FALSE)
+				{
 				?>
-			<tr>
-				<td><?php echo $curent_level;?></td>
-				<td><a href="<?php echo $this->url->site_url('admin/pages/edit/'.$_g['PAGE_CNAME']);?>" data-toggle="modal"><?php echo $_g['PAGE_NAMES'];?></a></td>
-				<td><?php echo $_g['PAGE_TITLE'];?></td>
-				<td><?php echo $_g['PAGE_DESCRIPTION'];?></td>
-				<td><?php echo ($_g['PAGE_MAIN'] == 'TRUE') ? 'Oui' : 'Non';?></td>
-				<td><?php echo $_g['PAGE_MODULES'] === FALSE ? 'Aucun module' : is_string($_g['PAGE_MODULES']) ? $_g['PAGE_MODULES'] : $_g['PAGE_MODULES'][0]['HUMAN_NAME'];?></td>
-				<td><a onclick="if(!confirm('voulez-vous supprimer ce contrôleur ?')){return false}" href="<?php echo $this->url->site_url('admin/pages/delete/'.$_g['PAGE_CNAME']);?>">Supprimer</a></td>
-				<td><?php echo count($_g['PAGE_CHILDS']);?></td>
-			</tr>
+				<li class="dd-item" controllers c_id="<?php echo $g['ID'];?>" c_name="<?php echo $g['PAGE_NAMES'];?>" c_cname="<?php echo $g['PAGE_CNAME'];?>" c_title="<?php echo $g['PAGE_TITLE'];?>">
+					<input type="hidden" controller_title name="controller[title][]" value="<?php echo $g['PAGE_TITLE'];?>">
+					<input type="hidden" controller_description name="controller[description][]" value="<?php echo $g['PAGE_DESCRIPTION'];?>">
+					<input type="hidden" controller_main name="controller[main][]" value="<?php echo $g['PAGE_MAIN'];?>">
+					<input type="hidden" controller_module name="controller[module][]" value="<?php echo is_array($g['PAGE_MODULES']) ? $g['PAGE_MODULES'][0]['NAMESPACE'] : $g['PAGE_MODULES'];?>">
+					<input type="hidden" controller_parent name="controller[parent][]" value="<?php echo $g['PAGE_PARENT'];?>">
+					<input type="hidden" controller_name name="controller[name][]" value="<?php echo $g['PAGE_NAMES'];?>">
+					<input type="hidden" controller_cname name="controller[cname][]" value="<?php echo $g['PAGE_CNAME'];?>">
+					<input type="hidden" controller_keywords name="controller[keywords][]" value="<?php echo $g['PAGE_KEYWORDS'];?>">
+					<input type="hidden" controller_link name="controller[link][]" value="<?php echo $g['PAGE_LINK'];?>">
+					<input type="hidden" controller_visible name="controller[visible][]" value="<?php echo $g['PAGE_VISIBLE'];?>">
+					<input type="hidden" controller_id name="controller[id][]" value="<?php echo $g['ID'];?>">
+					<div class="dd-handle"><?php echo $g['PAGE_NAMES'];?>
+						<span id="controller_priority_status">
+						<?php
+						if($g['PAGE_MAIN'] == 'TRUE')
+						{
+							?>
+							- <small>Index</small>
+							<?php
+						}
+						?>
+						</span>
+						<span class="controller_name">
+						</span>
+						<div style="float:right">
+							<button class="edit_controller dd-nodrag btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i></button>
+							<button class="remove_controller dd-nodrag btn btn-warning btn-sm" type="button"><i class="fa fa-times"></i></button>												
+						</div>
+					</div>
+					<ol class="dd-list">
+						<?php
+						$this->getChildren($g['PAGE_CHILDS']);
+						?>
+					</ol>
+				</li>
 				<?php
-				$this->getChildren($curent_level+1,$_g['PAGE_CHILDS']);
+				}
+				else
+				{
+					?><li class="dd-item" controllers c_id="<?php echo $g['ID'];?>" c_name="<?php echo $g['PAGE_NAMES'];?>" c_cname="<?php echo $g['PAGE_CNAME'];?>" c_title="<?php echo $g['PAGE_TITLE'];?>"><input type="hidden" controller_title name="controller[title][]" value="<?php echo $g['PAGE_TITLE'];?>"><input type="hidden" controller_description name="controller[description][]" value="<?php echo $g['PAGE_DESCRIPTION'];?>"><input type="hidden" controller_main name="controller[main][]" value="<?php echo $g['PAGE_MAIN'];?>"><input type="hidden" controller_module name="controller[module][]" value="<?php echo is_array($g['PAGE_MODULES']) ? $g['PAGE_MODULES'][0]['NAMESPACE'] : $g['PAGE_MODULES'];?>"><input type="hidden" controller_parent name="controller[parent][]" value="<?php echo $g['PAGE_PARENT'];?>"><input type="hidden" controller_name name="controller[name][]" value="<?php echo $g['PAGE_NAMES'];?>"><input type="hidden" controller_cname name="controller[cname][]" value="<?php echo $g['PAGE_CNAME'];?>"><input type="hidden" controller_keywords name="controller[keywords][]" value="<?php echo $g['PAGE_KEYWORDS'];?>"><input type="hidden" controller_link name="controller[link][]" value="<?php echo $g['PAGE_LINK'];?>"><input type="hidden" controller_visible name="controller[visible][]" value="<?php echo $g['PAGE_VISIBLE'];?>"><input type="hidden" controller_id name="controller[id][]" value="<?php echo $g['ID'];?>"><div class="dd-handle"><?php echo $g['PAGE_NAMES'];?><span id="controller_priority_status"><?php
+					if($g['PAGE_MAIN'] == 'TRUE')
+					{
+						?>- <small>Index</small><?php
+					}
+					?></span><span class="controller_name"></span><div style="float:right"><button class="edit_controller dd-nodrag btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i></button> <button class="remove_controller dd-nodrag btn btn-warning btn-sm" type="button"><i class="fa fa-times"></i></button></div></div><ol class="dd-list"><?php 
+					$this->getChildren($g['PAGE_CHILDS'],TRUE); ?></ol></li><?php
+				}
+				
 			}
 		}
+	}
+	public function get_controller($id)
+	{
+		$query	=	$this->db->where('ID',$id)->get('tendoo_controllers');
+		return $query->result_array();
+	}
+	public function createControllers($controller)
+	{
+		if(is_array($controller))
+		{
+			$restructured_controllers	=	array();
+			$keys	=	array_keys($controller);
+			foreach($keys as $v)
+			{
+				$id		=	0;
+				foreach($controller[$v] as $s)
+				{
+					$restructured_controllers[$id][$v]	=	$controller[$v][$id];
+					$id++;
+				}
+			}
+			// Raccourcis
+			$s	=	$restructured_controllers;
+			// var_dump(count($s));
+			// Supprimer les controlleurs déjà existant
+			$this->db->where('ID >',0)->delete('tendoo_controllers');
+			// Création des nouveaux controlleurs
+			if($s)
+			{
+				$arraynotice	=	array();
+				foreach($s as $_s)
+				{
+					// var_dump($_s);
+					$arraynotice[]	=	$this->controller(
+						$name	=	$_s['name'],
+						$cname	=	$_s['cname'],
+						$mod	=	$_s['module'],
+						$title	=	$_s['title'],
+						$description	=	$_s['description'],
+						$main	=	$_s['main'] == '' ? 'FALSE' : $_s['main'],
+						$obj 	= 'create',
+						$id 	= '',
+						$visible	=	$_s['visible'],
+						$childOf	= 	$_s['parent'],
+						$page_link	=	$_s['link'],
+						$keywords 	= 	$_s['keywords']
+					);
+				}
+				// Création terminé
+				return $arraynotice;
+			}
+		}
+		return false;
 	}
 /**********************************************************************************************************************
 												End Controlers Methods
@@ -230,7 +204,7 @@ class Tendoo_admin
 												File Manager Methods
 **********************************************************************************************************************/
 	private $system_dir	=	array('tendoo_themes/','tendoo_core/','tendoo_installer/','tendoo_modules/','tendoo_assets/');
-	private function drop($source)
+	public function drop($source)
 	{
 		if(in_array($source,$this->system_dir))
 		{
@@ -255,8 +229,9 @@ class Tendoo_admin
 			}
 			rmdir($source);
 		}
+		return true;
 	}
-	private function extractor($source,$destination,$dir_limit = 10)
+	public function extractor($source,$destination,$dir_limit = 10)
 	{
 		if(!is_dir($destination))
 		{
@@ -300,6 +275,38 @@ class Tendoo_admin
 		if(!rmdir($source))
 		{
 			$this->drop($source);
+		}
+	}
+	public function copy($source,$destination,$dir_limit = 10)
+	{
+		if(!is_dir($destination))
+		{
+			mkdir($destination);
+		}
+		if(is_dir($source))
+		{
+			if($open	=	opendir($source))
+			{
+				while(($content	=	readdir($open)) !== FALSE)
+				{
+					if(is_file($source.'/'.$content))
+					{
+						copy($source.'/'.$content,$destination.'/'.$content);
+					}
+					if(is_dir($source.'/'.$content) && !in_array($content,array('..','.')))
+					{
+						if($dir_limit > 0)
+						{
+							if(!is_dir($destination.'/'.$content))
+							{
+								mkdir($destination.'/'.$content);
+							}
+							$this->copy($source.'/'.$content,$destination.'/'.$content,$dir_limit-1);
+						}
+					}
+				}
+				closedir($open);
+			}
 		}
 	}
 /**********************************************************************************************************************
@@ -391,11 +398,12 @@ class Tendoo_admin
 	{
 		$this->db		->select('*')
 							->where('TYPE','BYPAGE')
+							->where('ACTIVE',1) // on recupère uniquement les modules activés.
 							->from('tendoo_modules');
 		$query				= $this->db->get();
 		return $query->result_array();
 	}
-	// Module Functions
+	// Module methods
 	public function uninstall_module($id)
 	{
 		$Module		=	$this->getSpeMod($id,TRUE);
@@ -483,6 +491,19 @@ class Tendoo_admin
 			return $this->db->update('tendoo_options',array('ADMIN_ICONS'=>$content));
 		}
 		return false;
+	}
+	// New 0.9.8
+	/*
+		Recupère tous les modules qui exécute un script hors interface embarqué.
+		Renvoi un tableau avec le nom du module et le code renvoyé par le 
+	*/
+	public function getModByOutputScripting($start,$end)
+	{
+		if(is_numeric($start) && is_numeric($end))
+		{
+			$this->db->limit($end,$start);
+		}
+		$this->db->where('HAS_OUTPUT_SCRIPTING','1')->get('tendoo_modules');
 	}
 /**********************************************************************************************************************
 												End Module Methods
@@ -885,7 +906,6 @@ class Tendoo_admin
 	{
 		return $this->db->update('tendoo_options',array('SITE_TIMEFORMAT'=>$e));
 	}
-	
 	public function editPrivilegeAccess($e)
 	{
 		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0;

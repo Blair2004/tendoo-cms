@@ -13,13 +13,12 @@ class tendoo_sitemap
 			$current_map			=	trim(file_get_contents('sitemap.xml'));
 			$current_site_map		=	$this->create_sitemap_automatically(TRUE);
 			$simulating_creation	=	trim($current_site_map);
-			return;
 
 			if($current_map != $simulating_creation)
 			{
 				$this->tendoo_admin->system_not(
 					'V&eacute;rifiez votre sitemap', 
-					'Le sitemap trouv&eacute; n\'est plus compatible avec l\'organisation de votre site web. Vous devez générer une autre.',
+					'Le sitemap trouv&eacute; n\'est plus compatible avec l\'organisation de votre site web. Veuillez générer un autre sitemap.',
 					$this->url->site_url(array('admin','tools','seo')), '10 mai 2013', null
 				);
 			}

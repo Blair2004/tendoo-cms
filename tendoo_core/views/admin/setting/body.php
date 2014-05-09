@@ -221,6 +221,15 @@
 													</script>
 												</div>
 											</form>
+                                            <!-- Modifier le status des visites -->
+                                            <form fjaxson method="post" action="<?php echo $this->core->url->site_url(array('admin','ajax','restorePagesVisits'));?>">
+												<div class="form-group">
+													<label>
+														<input type="submit" name="page_status" class="btn <?php echo theme_button_class();?>" value="Restaurer le statut des visites des pages">
+													</label>
+												</div>
+											</form>
+                                            <!-- Fin "modifier le statut des pages"-->
 											<form fjax method="post" action="<?php echo $this->core->url->site_url(array('admin','ajax','toggleWelcomeMessage'));?>">
 												<div class="form-group">
 													<label>

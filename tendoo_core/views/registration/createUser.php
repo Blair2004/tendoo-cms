@@ -14,7 +14,7 @@
 			?>
             	<?php echo $this->core->notice->parse_notice();?>
             	<section class="panel">
-                	<header class="panel-heading <?php echo theme_class();?> text-center"><?php echo $pageTitle;?></header>
+                	<header class="panel-heading text-center"><?php echo $pageTitle;?></header>
                 	<form method="post" class="panel-body">
                         <div class="form-group text">
                         	<label class="control-label">Pseudo <?php echo $field_1;?></label>

@@ -1,5 +1,5 @@
 <?php echo $lmenu;?>
-<section id="content">
+<section id="content" adminIndexIntro>
   <section class="vbox"><?php echo $inner_head;?>
     
     <footer class="footer bg-white b-t">
@@ -19,6 +19,29 @@
             <h4 class="m-t m-b-none"><?php echo $this->tendoo->getTitle();?></h4>
             <p class="block text-muted"><?php echo $pageDescription;?></p>
           </div>
+          
+          <div class="col-sm-8">
+          	<button data-step="1" data-position="left" data-intro="<strong>Bienvenue sur Tendoo <?php echo TENDOO_VERSION;?></strong><br>Nous allons maintenant vous présenter Tendoo, si vous êtes prêt cliquez sur 'Suivant'.<br><br>Vous pouvez également utiliser les flèches directionnelles pour naviguer dans cette visite guidée." launch_visit type="button" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i><?php 
+		  if($this->users_global->current('ADMIN_INDEX_VISIT') == '0')
+		  {
+		  ?> <span>Cliquez pour une visite</span><?php
+		  }
+		  ?></button>
+          </div>
+          <?php 
+		  if($this->users_global->current('ADMIN_INDEX_VISIT') == '0')
+		  {
+		  ?>
+         	<script type="text/javascript">
+				$('[launch_visit]').bind('click',function(){
+					tendoo.doAction('<?php echo $this->url->site_url(array('admin','ajax','setViewed?page=ADMIN_INDEX_VISIT'));?>',function(){
+					},{});
+				});
+			</script>
+          <?php
+		  }
+		  ?>
+          
         </div>
       </header>
 	  <section class="scrollable wrapper"> <?php echo notice_from_url();?>
@@ -38,7 +61,7 @@
                   $collapse	=	'';
               }
               ?>
-            <section class="panel pos-rlt clearfix">
+            <section class="panel pos-rlt clearfix" data-intro="Utilisez ce panel pour accéder aux différents modules que vous aurez installé. Ce panel est..." data-step="8" data-position="bottom">
               <header class="panel-heading">
                 <ul class="nav nav-pills pull-right">
                   <li> <a data-requestType="silent" data-url="<?php echo $this->url->site_url(array('admin','ajax','toogle_app_tab'));?>" href="#" class="panel-toggle text-muted <?php echo $icon_1;?>"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
@@ -143,7 +166,7 @@
 					if((int)$this->users_global->current('SHOW_ADMIN_INDEX_STATS') == 1)
                 {
                 ?>
-              <li class="list-group-item" draggable="true" style="padding:0px;">
+              <li class="list-group-item" draggable="true" style="padding:0px;" data-intro="Vous aurez la possibilité de voir les statistiques des visites sur une durée de 5 mois. Vous pouvez désactiver ce panel depuis les 'Paramètres' dans la section 'Autorisations', mais il sera..." data-step="10" data-position="top">
                 <header class="panel-heading <?php echo theme_class();?> lter"> <span class="pull-right"><?php echo $dateArray['month'];?></span> <span class="h4">Stats. sur <?php echo $this->tendoo_admin->getStatLimitation();?> mois<br>
                   <small class="text-muted"></small> </span>
                   <div class="text-center padder m-b-n-sm m-t-sm">
@@ -201,13 +224,14 @@
 			?>
 		</div>
           <div class="col-lg-3">
-            <section class="panel">
+            <section class="panel" data-intro="Ce panel affichera les statistiques de votre site: modules installés, thèmes installés, pages créées, privilèges et utilisateurs" data-step="15" data-position="left">
               <header class="panel-heading bg-info">Statistiques</header>
               <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
                 <li class="list-group-item">Modules install&eacute;s <span class="badge bg-info"><?php echo $ttModule;?></span></li>
                 <li class="list-group-item">Th&egrave;mes install&eacute;s <span class="badge bg-info"><?php echo $ttTheme;?></span></li>
                 <li class="list-group-item">Pages cr&eacute&eacute;es <span class="badge bg-info"><?php echo $ttPages;?></span></li>
                 <li class="list-group-item">Privil&egrave;ges cr&eacute;es <span class="badge bg-info"><?php echo $ttPrivileges;?></span></li>
+                <li class="list-group-item">Utilisateurs <span class="badge bg-info"><?php echo $countUsers;?></span></li>
               </ul>
             </section>
 <!--

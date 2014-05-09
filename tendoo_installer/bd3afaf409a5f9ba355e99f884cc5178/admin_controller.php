@@ -1,4 +1,7 @@
 <?php
+//echo '<pre>';
+//print_r($_POST);
+//echo '</pre>';
 /// -------------------------------------------------------------------------------------------------------------------///
 global $NOTICE_SUPER_ARRAY;
 /// -------------------------------------------------------------------------------------------------------------------///
@@ -78,7 +81,7 @@ class tendoo_widget_administrator_admin_controller
 		$this->data['widgets_left']			=	$this->lib->tewi_getWidgets('left');
 		$this->data['widgets_right']		=	$this->lib->tewi_getWidgets('right');
 		$this->data['widgets_bottom']		=	$this->lib->tewi_getWidgets('bottom');
-		// var_dump($this->data['widgets_bottom']);
+		// var_dump($this->data['widgets_right']);
 		$this->tendoo->setTitle('tendoo &raquo; Gestion des widgets');
 		
 		$this->data['body']			=	$this->core->load->view($this->data['module_dir'].'/views/body',$this->data,true,TRUE);

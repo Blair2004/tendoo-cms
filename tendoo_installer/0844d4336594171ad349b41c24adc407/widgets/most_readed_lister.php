@@ -15,6 +15,7 @@ class aflearlep_news_common_widget
 		// var_dump($this->data['currentWidget']);
 		$this->news		=	new News_smart;
 		$setting		=	$this->news->getBlogsterSetting();
+		// var_dump($this->data['currentWidget']['WIDGET_INFO']['WIDGET_PARAMETERS']);
 		eval($this->data['currentWidget']['WIDGET_INFO']['WIDGET_PARAMETERS']);
 		
 		$LIMIT			=	$WIDGET_PARAMS['nbr_article'];

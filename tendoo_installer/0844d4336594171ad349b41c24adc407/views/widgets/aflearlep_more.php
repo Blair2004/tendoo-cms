@@ -1,5 +1,5 @@
   <div class="form-group">
-    <label for="exampleInputEmail1">Nombre d'article à afficher.</label>
+    <label>Nombre d'article à afficher.</label>
 	<?php
 	if(!function_exists('lazyNameGen'))
 	{

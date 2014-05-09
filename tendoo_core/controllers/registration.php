@@ -16,6 +16,8 @@ Class registration
 		$this->core->load->library('captcha');
 		$this->user_global	=&	$this->core->users_global;
 		$this->load			=&	$this->core->load;
+		// is Connected ?
+		($this->core->users_global->isConnected()=== TRUE) ? $this->core->url->redirect(array('index?notice=disconnectFirst')) : false;
 	}
 	// Privates Methods
 	private function construct_end()

@@ -10,14 +10,15 @@
 	$field[]	=	(form_error('page_parent')) ;
 	$field[]	=	(form_error('page_keywords')) ;
 	?>
-	$('#controller_creation_error_contener').html('');
+    tendoo.notice.alert(
+		'<ul>'+
 	<?php
+	$i = 0;
 	foreach($field as $f)
 	{
-		if(strlen($f) > 5)
-		{
-			?>
-			$('#controller_creation_error_contener').append('<?php echo addslashes($f);?>');
-			<?php
-		}
+		?>
+		'<li><?php echo addslashes($f);?></li>'+;
+		<?php
 	}
+	?>
+	'</ul>','error');

@@ -63,18 +63,22 @@
 											if($t['ACTIVATED']== '')
 											{
 												$t['ACTIVATED']	= 'Inactif';
+												$color			=	'';
 											}
 											else if($t['ACTIVATED']	==	 'TRUE')
 											{
 												$t['ACTIVATED']	=	'Activ&eacute;';
+												$color			=	'';
 											}
 										?>
-									<tr>
-										<th><a class="view" href="<?php echo $this->core->url->site_url(array('admin','themes','config',$t['ID']));?>"><?php echo $t['HUMAN_NAME'];?></a></th>
-										<th ><?php echo $t['AUTHOR'];?></th>
-										<th ><?php echo $t['DESCRIPTION'];?></th>
-										<th ><?php echo $t['ACTIVATED'];?></th>
-										<th ><a class="view" href="<?php echo $this->core->url->site_url(array('admin','themes','manage',$t['ID']));?>">Param&ecirc;tre avanc&eacute;</a></th>
+									<tr <?php echo $color;?>>
+										<td>
+											<a class="view" href="<?php echo $this->core->url->site_url(array('admin','themes','config',$t['ID']));?>"><?php echo $t['HUMAN_NAME'];?></a>
+										</td>
+										<td ><?php echo $t['AUTHOR'];?></td>
+										<td ><?php echo $t['DESCRIPTION'];?></td>
+										<td ><?php echo $t['ACTIVATED'];?></td>
+										<td ><a class="view" href="<?php echo $this->core->url->site_url(array('admin','themes','manage',$t['ID']));?>">Param&ecirc;tre avanc&eacute;</a></td>
 									</tr>
 										<?php
 										}

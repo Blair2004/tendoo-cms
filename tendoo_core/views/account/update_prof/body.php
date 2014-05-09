@@ -1,7 +1,7 @@
 <?php echo $smallHeader;?>
-<section class="bg-light lt scrollable">
+<section class="bg-light lt">
     <div class="panel-content">
-        <div class="container wrapper">
+        <div class="wrapper scrollable">
         	<?php echo $this->core->notice->parse_notice();?>
             <?php echo notice_from_url();?>
             <?php echo validation_errors();?>

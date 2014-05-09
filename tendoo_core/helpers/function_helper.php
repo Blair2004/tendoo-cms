@@ -116,6 +116,7 @@ if(!function_exists('notice'))
 		$array['c_name_already_found']		=	tendoo_warning('Une autre page poss&egrave;de d&eacute;j&agrave; ce nom comme contr&ocirc;leur, veuillez choisir un autre nom.');
 		$array['name_already_found']		=	tendoo_warning('Une autre page poss&egrave;de d&eacute;j&agrave; ce nom, veuillez choisir un autre nom.');
 		$array['controler_deleted']			=	tendoo_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
+		$array['controllers_updated']		=	tendoo_success('Les contr&ocirc;leurs ont été correctement mis à jour.');
 		$array['incorrectSuperAdminPassword']	=	tendoo_warning('Le mot de passe administrateur est incorrect');
 		$array['cantHeritFromItSelf']		=	tendoo_error('Ce contr&ocirc;leur ne peut pas &ecirc;tre un sous menu de lui m&ecirc;me. La modification de l\'emplacement &agrave; &eacute;chou&eacute;.');
 		$array['cantSendMsgToYou']			=	tendoo_error('Une erreur s\'est produite, vous ne pouvez pas vous envoyer un message.');
@@ -124,7 +125,7 @@ if(!function_exists('notice'))
 		$array['subMenuLevelReach']			=	tendoo_error('Impossible de cr&eacute;er ou de modifier ce contr&ocirc;leur, la limitation en terme de sous menu &agrave; &eacute;t&eacute; atteinte. Veuillez choisir un autre menu ou en cr&eacute;er un nouveau.');
 		$array['cantUserReservedCNames']	=	tendoo_error('Ce code du contr&ocirc;leur est un code reserv&eacute;, vous ne pouvez pas l\'utiliser.');
 		$array['unknowProfil']				=	tendoo_error('Le profil que vous souhaitez visiter est introuvable. Il est en outre probable que cet utilisateur n\'existe pas ou que son compte &agrave; &eacute;t&eacute; supprim&eacute;.');
-		
+		$array['upload_invalid_filesize']	=	tendoo_error('La taille du fichier est supérieur à celle autorisée.');
 		$array['cant_delete_mainpage']		=	tendoo_warning(' La page principale ne peut pas &ecirc;tre supprim&eacute;.');
 		$array['controler_edited']			=	tendoo_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
 		$array['db_unable_to_connect']		=	tendoo_warning('Il est impossible de se connecter &agrave; la base de donn&eacute;es avec les informations fournies.');
@@ -345,7 +346,7 @@ if(!function_exists('__extends'))
 		$obj->db				=&	$Controller->db;
 		$obj->session			=&	$Controller->session;
 		$obj->load				=&	$Controller->load;
-		
+		$obj->exceptions		=&	$Controller->exceptions;
 		// Chargement de quelques classes qui ont été ajouté ultérieurement au noyau.
 		if(isset($Controller->tendoo_admin))
 		{
@@ -436,6 +437,14 @@ if(!function_exists('theme_button_class')) // Recupère la classe application à
 	{
 		$Core	=	Controller::instance();
 		return $Core->users_global->getCurrentThemeButtonClass();
+	}
+}
+if(!function_exists('theme_button_false_class')) // Recupère la classe application à un élément de type "btn" comme couleur de fond.
+{
+	function theme_button_false_class()
+	{
+		$Core	=	Controller::instance();
+		return $Core->users_global->getCurrentThemeButtonFalseClass();
 	}
 }
 if(!function_exists('theme_background_color')) // Recupère la classe application à un élément de type "btn" comme couleur de fond.

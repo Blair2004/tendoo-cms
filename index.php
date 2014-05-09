@@ -1,10 +1,13 @@
 <?php
-// Started on 28/03/2014
+// Started on 24/04/2014
 session_start();
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 /* =-=-=-=-=-=-Tendoo SCRIPT DU NOYAU(2014)-=-=-=-=-=-=-=-= */
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('TENDOO_VERSION','0.97');
+/*
+		Définition des constances
+*/
+define('TENDOO_VERSION','0.98');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('TENDOO_SIGNATURE','Tendoo - CMS('.TENDOO_VERSION.')');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -29,10 +32,10 @@ define('THEMES_DIR','tendoo_themes/');
 define('MODULES_DIR','tendoo_modules/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('INSTALLER_DIR','tendoo_installer/');
-
 /* =-=-=-=-=-=-=-=-=-=-=-=-= SYSTEM SCRIPT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 include_once(SYSTEM_DIR.'Controller.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LOAD CLASSES -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+/* Chargement des diffirents class qui seront utilisées dans le noyau */
 include_once(LIBRARIES_DIR.'Lang.php');
 include_once(LIBRARIES_DIR.'Url.php');
 include_once(LIBRARIES_DIR.'Exceptions.php');
@@ -47,13 +50,14 @@ include_once(LIBRARIES_DIR.'Tendoo.php');
 include_once(LIBRARIES_DIR.'Session.php');
 include_once(LIBRARIES_DIR.'Notice.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LOAD HELPERS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+/* Chargement des helpers, fonctions utilitaires. */
 include_once(HELPERS_DIR.'function_helper.php');
 include_once(HELPERS_DIR.'date.php');
 include_once(HELPERS_DIR.'text.php');
 include_once(HELPERS_DIR.'cookie_helper.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= BOOT HANDLERS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-//set_error_handler('tendoo_error');
-//set_error_handler('tendoo_exception');
+//set_error_handler('tendoo_error'); // Aborded
+//set_error_handler('tendoo_exception'); // Aborded
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LAUNCH TENDOO -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 new Controller;
 /* =-=-=-=-=-=-=-=-=-=-=-=-= UBBER ENTERPRISE 2014 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */

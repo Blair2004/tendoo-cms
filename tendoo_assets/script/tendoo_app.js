@@ -90,12 +90,20 @@ $(document).ready(function(){
 		tendoo.notice		=	new function(){
 			var parent		=	'#appendNoticeHere';
 			var noticeId	=	0;
+			var etimeOut	=	null;
 			var getNewId	=	function(){
 				return noticeId++;
 			};
 			if($(parent).length == 0)
 			{
 				$('body').append('<div id="appendNoticeHere" style="position:fixed;top:10px;right:10px;z-index:'+tendoo.zIndex.modal+';width:20%;"/>');
+			}
+			/*
+				this.timeout	: Définit une durée d'affichage de la notification
+			*/
+			this.timeout	=	function(e){
+				etimeOut	=	e;
+				return this;
 			}
 			this.alert		=	function(showMsg,type){
 				if(type	==	'success') 
@@ -135,22 +143,44 @@ $(document).ready(function(){
 				});
 				var timeOut;
 				function launchTimeOut(){
+					if(etimeOut)
+					{
+						timeout	=	etimeOut;
+					}
+					else
+					{
+						timeout	=	3000; // le timeout n'est pas expressément définit.
+					}
 					timeOut	=	setTimeout(function(){
 						$('[data-notice-index="'+index+'"]').fadeOut(500,function(){
 							 $(this).remove();
 						});
-					},10000);
+					},timeout);
+					// Attribue Null à la variable etimeOut, pour les prochaines notification.
+					etimeOut	=	null;
 				}
 				$('[data-notice-index="'+index+'"]').hover(function(){
 					clearTimeout(timeOut);
 				});
 				$('[data-notice-index="'+index+'"]').bind('mouseleave',function(){
-					launchTimeOut();
+					launchTimeOut(etimeOut);
 				});
-				launchTimeOut();
+				launchTimeOut(etimeOut);
+				
 			}
 		};
-		tendoo.modal		=	new function(){ // Déprécié | Depracated
+/**
+		tendoo.modal	: Permet d'afficher une boite modale permanente soit d'alerte soit de confirmation.
+			.alert([message])
+			.confirm([message],callback)
+**/
+		tendoo.modal		=	new function(){ 
+			var count		=	0;
+			var confirmTitle=	'Confirmez votre action';
+			var alertTitle	=	'Attention';
+			var getId		=	function(){
+				return count++;
+			};
 			this.show		=	function(){
 				var modal	=	'<div style="z-index:'+tendoo.zIndex.modal+';display:block;width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(76,85,102,0.5)">'+
 									'<div class="modal-dialog">'+
@@ -171,6 +201,76 @@ $(document).ready(function(){
 								'</div>';
 				$('body').append(modal);
 			};
+			this.confirm	=	function(msg,f){
+				var id		=	getId();
+				var modal	=	'<div modal_id="'+id+'" id="confirm_box" style="z-index:'+tendoo.zIndex.modal+';display:block;width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(76,85,102,0.5)">'+
+									'<div class="modal-dialog">'+
+										'<div class="modal-content">'+
+											'<div class="modal-header">'+
+												'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+												'<h4 class="modal-title">'+confirmTitle+'</h4>'+
+											'</div>'+
+											'<div class="modal-body">'+
+												'<p>'+msg+'</p>'+
+											'</div>'+
+											'<div class="modal-footer">'+
+												'<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>'+
+												'<button type="button" data-confirm="modal" class="btn btn-primary">Confirmer</button>'+
+											'</div>'+
+										'</div>'+
+									'</div>'+
+								'</div>';
+				$('body').append(modal);
+				$('[modal_id="'+id+'"]').find('[data-dismiss="modal"]').bind('click',function(){
+					$('[modal_id="'+id+'"]').find('.modal-dialog').fadeOut(500,function(){
+						$('[modal_id="'+id+'"]').remove();
+					});
+				});
+				$('[modal_id="'+id+'"]').find('[data-confirm="modal"]').bind('click',function(){
+					$('[modal_id="'+id+'"]').find('.modal-dialog').fadeOut(500,function(){
+						$('[modal_id="'+id+'"]').remove();
+						f(); // execute la fonction en parametre.
+					});
+				});
+				
+			}
+			this.alert		=	function(msg){
+				var id		=	getId();
+				var modal	=	'<div modal_id="'+id+'" id="alert_box" style="z-index:'+tendoo.zIndex.modal+';display:block;width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(76,85,102,0.5)">'+
+									'<div class="modal-dialog">'+
+										'<div class="modal-content">'+
+											'<div class="modal-header">'+
+												'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+												'<h4 class="modal-title">'+alertTitle+'</h4>'+
+											'</div>'+
+											'<div class="modal-body">'+
+												'<p>'+msg+'</p>'+
+											'</div>'+
+											'<div class="modal-footer">'+
+												'<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>'+
+											'</div>'+
+										'</div>'+
+									'</div>'+
+								'</div>';
+				$('body').append(modal);
+				$('[modal_id="'+id+'"]').find('[data-dismiss="modal"]').bind('click',function(){
+					$('[modal_id="'+id+'"]').find('.modal-dialog').fadeOut(500,function(){
+						$('[modal_id="'+id+'"]').remove();
+					});
+				});
+			}
+			this.alertTitlte=	function(e){
+				alertTitle			=	e;
+				return this;
+			}
+			this.confirmTitle=	function(e){
+				confirmTitle		=	e;
+				return this;
+			}
+			this.alertTitle=	function(e){
+				alertTitle		=	e;
+				return this;
+			}
 		};
 /**
 *		tools.window : Permet d'afficher une boite modale sur une page. A pour méthodes.
@@ -271,6 +371,10 @@ $(document).ready(function(){
 				modalHeight	=	height;
 				return this;
 			};
+			this.restoreSize	=	function(){
+				modalWidth	=	device.width;
+				modalHeight	=	device.height;
+			}
 			this.show		=	function(e){
 				var currentId	=	this.getId();
 				var currentE	=	'[data-modal-id="'+currentId+'"]';
@@ -294,11 +398,12 @@ $(document).ready(function(){
 				if(activateAjax == true){
 					ajaxBinder(currentId);
 				};
-				$('[data-modal-id="'+currentId+'"]').find('[data-dismiss="modal"] [data-dismiss="modal"]').bind('click',function(){
+				$('[data-modal-id="'+currentId+'"]').find('[data-dismiss="modal"]').bind('click',function(){
 					$('*[data-modal-id="'+currentId+'"] #modalBox').fadeOut(0,function(){
 						$('[data-modal-id="'+currentId+'"]').remove();
 					})
 				});
+				this.restoreSize();
 			};
 		};
 /**
@@ -430,7 +535,7 @@ $(document).ready(function(){
 			}
 		};
 /**
-*		tools.boot : Démarrage du script.
+*		tendoo.boot : Démarrage du script.
 **/	
 		tendoo.boot			=	new function(){
 			var tASE	=	'#tendooAppStore'; // TENDOO APP STORE DOM BUTTON ELEMENT
@@ -459,37 +564,144 @@ $(document).ready(function(){
 					});
 				}
 			},500);
+			$(document).keypress(function(event){
+				// Ferme toutes les boites modales ouvertes.
+				if(event.which == 0)
+				{
+					$('.modal-dialog').find('[data-dismiss="modal"]').trigger('click');
+				}
+			});
 		};
 /**
-*		tools.formAjax : Permet d'attacher un évènement AJAX au formulaire ayant pour attribue "fjax", les formulaires doivent avoir les attributs "action" et "method".
+/**
+*		tendoo.doAction		: Effectue une requete AJAX en attente d'un format JSON
+**/
+		tendoo.doAction		=	function(url,callback,object){
+			$.ajax(url,{
+				beforeSend	:	function(e){
+					tendoo.loader.show();
+				},
+				success		:	function(e){
+					tendoo.loader.hide();
+					callback(e);
+				},
+				dataType	:	'json',
+				type		:	"POST",
+				data		:	object
+			})
+		;}
+/**
+*		tendoo.triggerAlert	: Exécute une réponse JSON et génère le cas échéant une erreur
+**/
+		tendoo.triggerAlert=	function(object){
+			if(object.alertType	==	'notice'){
+				if(_.inArray(object.status,['warning','success','danger','info']))
+				{
+					tendoo.notice.alert(object.message,object.status);
+				}			
+			};
+			if(object.alertType	==	'modal'){
+				if(_.inArray(object.status,['warning','success','danger','info']))
+				{
+					tendoo.modal.alert(object.message,object.status);
+				}			
+			};
+		};			
+/**
+		tendoo.dropDown : Attache un évènement afin de transformer le dropdown du twitter bootstrap en un réel input de type select. Le button d'avoir avoir pour attribut "select" et les sélections doivent avoir comme attribut "value" afin que la valeur soit récupérée et attribuée au champ masqué. Tendoo. 0.9.8
+**/
+		tendoo.dropdown		=	new function(){
+			this.bind		=	function(){
+				$('[data-toggle="dropdown"][select]').each(function(){
+					if(typeof $(this).attr('dropdown-binded') == 'undefined')
+					{
+						$(this).attr('dropdown-binded','true');
+						// Ajout d'un élément caché qui servira d'imput à la place du button.
+						$(this).after('<input type="hidden" class="button_hidden" name="'+$(this).attr('name')+'">');
+						// 
+						var thisName	=	$(this).attr('name');
+						var inputSource	=	$(this);
+						var inputHead	=	$(this).next('[name="'+thisName+'"]');
+						var defaulValue	=	$(this).text();
+						//
+						$(this).removeAttr('name');
+						// $(this).next('ul[class="dropdown-menu"]').prepend('<li><a value="" href="#">'+defaulValue+'</a></li>');
+						$(this).parent().find('ul[class="dropdown-menu"]').find('li a[value]').each(function(){
+							$(this).bind('click',function(){
+								$(inputSource).text($(this).text());
+								$(inputHead).val($(this).attr('value'));
+							});
+						});
+					}
+				});
+			}
+			this.bind();
+		}
+/**		tendoo.formAjax : Permet d'attacher un évènement AJAX au formulaire ayant pour attribue "fjax", les formulaires doivent avoir les attributs "action" et "method".
+		Tendoo 0.9.8
+			fjaxson		:	Effectue une requête AJAX POST en attente d'un JSON.
 **/			
 		tendoo.formAjax		=	new function(){ // For Post Method Only
 			this.bind		=	function(){
 				$('form[fjax]').each(function(){
-					$(this).attr('fjax','true');
-					$(this).bind('submit',function(){
-						if($(this).attr('method') == 'post' || $(this).attr('method') == 'POST')
-						{
-							var finalQuery = {};
-							var datas = $(this).serializeArray();
-							for (i = 0; i < datas.length; i++)
+					if($(this).attr('fjax') == '')
+					{
+						$(this).attr('fjax','true');
+						$(this).bind('submit',function(){
+							if($(this).attr('method') == 'post' || $(this).attr('method') == 'POST')
 							{
-								eval("finalQuery." + datas[i].name + ' = datas[i].value;');
+								var finalQuery = {};
+								var datas = $(this).serializeArray();
+								for (i = 0; i < datas.length; i++)
+								{
+									eval("finalQuery." + datas[i].name + ' = datas[i].value;');
+								}
+								$.ajax($(this).attr('action'),{
+									beforeSend	:	function(){
+										tendoo.loader.display();
+									},
+									complete	:	function(){
+										tendoo.loader.hide();
+									},
+									type		:	'POST',
+									data		:	finalQuery,
+									dataType	:	'script'
+								});
 							}
-							$.ajax($(this).attr('action'),{
-								beforeSend	:	function(){
-									tendoo.loader.display();
-								},
-								complete	:	function(){
-									tendoo.loader.hide();
-								},
-								type		:	'POST',
-								data		:	finalQuery,
-								dataType	:	'script'
-							});
-						}
-						return false;
-					});
+							return false;
+						});
+					}
+				});
+				// FJAXSON
+				$('form[fjaxson]').each(function(){
+					if($(this).attr('fjaxson') == '')
+					{
+						$(this).attr('fjaxson','true');
+						$(this).bind('submit',function(){
+							if($(this).attr('method') == 'post' || $(this).attr('method') == 'POST')
+							{
+								var finalQuery = {};
+								var datas = $(this).serializeArray();
+								for (i = 0; i < datas.length; i++)
+								{
+									eval("finalQuery." + datas[i].name + ' = datas[i].value;');
+								}
+								$.ajax($(this).attr('action'),{
+									beforeSend	:	function(){
+										tendoo.loader.display();
+									},
+									success		:	function(e){
+										tendoo.loader.hide();
+										tendoo.triggerAlert(e);									
+									},
+									type		:	'POST',
+									data		:	finalQuery,
+									dataType	:	'json'
+								});
+							}
+							return false;
+						});
+					}
 				});
 			}
 			this.bind();

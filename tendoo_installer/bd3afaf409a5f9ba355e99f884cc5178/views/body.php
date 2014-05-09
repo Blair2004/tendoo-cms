@@ -153,7 +153,7 @@
 										</header>
 										<div class="panel-body clearfix collapse" style="min-height:50px;" active-widget-panel-body>
 										<?php
-										if($widgets_left)
+										if($widgets_right)
 										{
 											$index	=	0;
 											foreach($widgets_right as $w)
@@ -181,7 +181,7 @@
 											</header>
 											<div class="panel-body clearfix collapse" style="min-height:50px;" active-widget-panel-body>
 											<?php
-												if($widgets_left)
+												if($widgets_bottom)
 												{
 													$index	=	0;
 													foreach($widgets_bottom as $w)

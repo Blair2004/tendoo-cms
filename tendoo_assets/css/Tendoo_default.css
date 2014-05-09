@@ -4,22 +4,6 @@ body
 {
 	background: url(data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAGklEQVR42mMQhAEJCQkGOAtIMsBZIA6cBQQAW5wDhYzvi1MAAAAASUVORK5CYII%3D) repeat;
 }
-.tile input[type="text"], .tile input[type="password"]
-{
-	color:#333 !important;
-}
-.hub_table
-{
-	margin:0 1% 0 0 !important;
-	width:98% !important;
-}
-.bg-color-fullDarkBlue
-{
-	background:#003 !important;
-}
-.install_page
-{
-}
 @media (min-width: 1200px) {
 .page-region-content
 {
@@ -38,61 +22,3 @@ body
 	float:left;
 	height:50px;	
 }
-/* FRAMEWORK */
-.font-20
-{
-	font-size:20px;
-}
-.font-25
-{
-	font-size:25px;
-}
-.font-30
-{
-	font-size:30px;
-}
-.font-40
-{
-	font-size:40px;
-}
-.font-50
-{
-	font-size:50px;
-}
-.font-60
-{
-	font-size:60px;
-}
-.font-70
-{
-	font-size:70px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

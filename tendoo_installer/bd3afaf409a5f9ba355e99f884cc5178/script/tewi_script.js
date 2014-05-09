@@ -28,7 +28,8 @@ $(document).ready(function(){
 				$(this).find('[meta_namespace]').attr('name','tewi_wid['+tewi_section+']['+startIndex+'][namespace]');
 				$(this).find('[meta_human_name]').attr('name','tewi_wid['+tewi_section+']['+startIndex+'][human_name]');
 				// In case there is too many params.
-				if($(this).find('[meta_widgetParams]').length > 1)
+				// Dans le cas ou l'attribut meta_widgetParamsName est définie.
+				if($(this).find('[meta_widgetParams]').length > 0)
 				{
 					$(this).find('[meta_widgetParams]').each(function(){
 						$(this).attr('name','tewi_wid['+tewi_section+']['+startIndex+'][params]['+$(this).attr('meta_widgetParamsName')+']');
@@ -96,7 +97,7 @@ $(document).ready(function(){
 						{
 							$(components).find('[meta_widgetParams]').attr('name','tewi_wid['+tewi_section+']['+totalW+'][params]');
 						}
-						components			=	$(components).html() == null ? '' : $(components).html(); // Retreiving components edited
+						components_html			=	$(components).html() == null ? '' : $(components).html(); // Retreiving components edited
 						$(element.item).find('[widget-hidden_content]').remove(); // Suppression de l'échantillon pour éviter les conflits.
 					}
 					$(clone)
@@ -128,7 +129,7 @@ $(document).ready(function(){
 							'<div class="form-group">'+
 								'<input type="text" meta_title placeholder="Titre du widget" class="form-control" name="tewi_wid['+tewi_section+']['+totalW+'][title]">'+
 							'</div>'+
-							components+
+							components_html+
 						'</div>'
 					);
 					bindTewiRemover();			

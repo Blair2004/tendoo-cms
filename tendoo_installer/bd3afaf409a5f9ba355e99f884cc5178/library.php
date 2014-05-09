@@ -61,6 +61,7 @@
 					}
 				}
 			}
+			return 'arrayExpected';
 		}
 		public function tewi_getWidgets($section = 'left')
 		{

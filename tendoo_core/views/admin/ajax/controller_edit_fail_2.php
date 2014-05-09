@@ -1,3 +1,1 @@
-	$('#controller_creation_error_contener').html('');
-	
-	$('#controller_creation_error_contener').append('<?php echo addslashes(notice($notice));?>');
+    tendoo.notice.alert('<?php echo addslashes(strip_tags(notice($notice)));?>','warning');

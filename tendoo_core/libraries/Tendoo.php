@@ -173,6 +173,7 @@ class Tendoo
 		  `HAS_API`	int(11) NOT NULL,
           `HAS_ICON` int(11) NOT NULL,
           `HAS_ADMIN_API` int(11) NOT NULL,
+		  `HAS_OUTPUT_SCRIPTING` int(11) NOT NULL,
 		  `TYPE` varchar(50) NOT NULL,
 		  `ACTIVE` int(11) NOT NULL,
 		  `TENDOO_VERS` varchar(100) NOT NULL,
@@ -250,6 +251,11 @@ class Tendoo
 			`OPEN_APP_TAB` int(11) NOT NULL,
 			`SHOW_WELCOME` varchar(10) NOT NULL,
 			`SHOW_ADMIN_INDEX_STATS` int(110) NOT NULL,
+			`ADMIN_INDEX_VISIT` int(11) NOT NULL,
+			`ADMIN_PAGES_VISIT` int(11) NOT NULL,
+			`ADMIN_APPS_VISIT` int(11) NOT NULL,
+			`ADMIN_SETTINGS_VISIT` int(11) NOT NULL,
+			`ADMIN_SYSTEM_VISIT` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->core->db->query($sql))
@@ -712,10 +718,6 @@ class Tendoo
 		}
 		return false;
 	}
-	public function get_menu_limitation() // Deprecated;
-	{
-		return $this->levelLimit;
-	}
 	/*
 		@$page			=	Code CNAME du contrôleur.
 		@$showHidden	=	Recupérer les contrôleurs invisibles sur le menu [true/false].
@@ -733,7 +735,6 @@ class Tendoo
 			}
 			$this->core	->db->select('*')
 						->where('PAGE_PARENT','none') // On recupère le menu de base
-						->order_by('PAGE_POSITION','asc')
 						->from('tendoo_controllers');
 			$query 	=	$this->core->db->get();
 			$array		=	array();
@@ -751,7 +752,7 @@ class Tendoo
 						'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
 						'PAGE_MAIN'		=>	$obj->PAGE_MAIN,
 						'PAGE_VISIBLE'	=>	$obj->PAGE_VISIBLE,
-						'PAGE_CHILDS'	=> 	$this->get_pages($obj->ID,$showHidden,$getModuleData,$getChild),
+						'PAGE_CHILDS'	=> 	$this->get_pages($obj->PAGE_CNAME,$showHidden,$getModuleData,$getChild),
 						'PAGE_LINK'		=>	$obj->PAGE_LINK, // new added 0.9.4
 						'PAGE_POSITION'	=>	$obj->PAGE_POSITION,
 						'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
@@ -769,7 +770,7 @@ class Tendoo
 						'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
 						'PAGE_MAIN'		=>	$obj->PAGE_MAIN,
 						'PAGE_VISIBLE'	=>	$obj->PAGE_VISIBLE,
-						'PAGE_CHILDS'	=> 	$this->get_pages($obj->ID,$showHidden,$getModuleData,$getChild),
+						'PAGE_CHILDS'	=> 	$this->get_pages($obj->PAGE_CNAME,$showHidden,$getModuleData,$getChild),
 						'PAGE_LINK'		=>	$obj->PAGE_LINK, // new added 0.9.4
 						'PAGE_POSITION'	=>	$obj->PAGE_POSITION,
 						'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
@@ -819,7 +820,7 @@ class Tendoo
 							'PAGE_DESCRIPTION'	=>$obj->PAGE_DESCRIPTION,
 							'PAGE_MAIN'		=>	$obj->PAGE_MAIN,
 							'PAGE_VISIBLE'	=>	$obj->PAGE_VISIBLE,
-							'PAGE_CHILDS'	=>	$this->get_pages($obj->ID,$showHidden,$getModuleData,$getChild),
+							'PAGE_CHILDS'	=>	$this->get_pages($obj->PAGE_CNAME,$showHidden,$getModuleData,$getChild),
 							'PAGE_LINK'		=>	$obj->PAGE_LINK, // New added 0.9.4
 							'PAGE_POSITION'	=>	$obj->PAGE_POSITION, // added 0.9.5,
 							'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
@@ -837,7 +838,7 @@ class Tendoo
 							'PAGE_DESCRIPTION'	=>$obj->PAGE_DESCRIPTION,
 							'PAGE_MAIN'		=>	$obj->PAGE_MAIN,
 							'PAGE_VISIBLE'	=>	$obj->PAGE_VISIBLE,
-							'PAGE_CHILDS'	=>	$this->get_pages($obj->ID,$showHidden,$getModuleData,$getChild),
+							'PAGE_CHILDS'	=>	$this->get_pages($obj->PAGE_CNAME,$showHidden,$getModuleData,$getChild),
 							'PAGE_LINK'		=>	$obj->PAGE_LINK, // New added 0.9.4
 							'PAGE_POSITION'	=>	$obj->PAGE_POSITION, // added 0.9.5,
 							'PAGE_KEYWORDS'	=>	$obj->PAGE_KEYWORDS
@@ -967,6 +968,20 @@ class Tendoo
 			return $controller;
 		}
 	}
+	// New Tendoo 0.9.8 retourne le timezone enregistré
+	public function getTimeZone()
+	{
+		$options	=	$this->getOptions();
+		$timezone	=	$options[0]['SITE_TIMEZONE'];
+		return $timezone;
+	}
+	// Crée un objet date sur la base d'un format et d'une chaine de caractère donnée. en utilisant le TimeZone définie
+	// Renvoi un objet DateTime; T098
+	public function createDateFromString($format,$string)
+	{
+		$date		=	DateTime::createFromFormat('d-m-Y H:i e',$string.' '.$this->getTimeZone());
+		return $date;
+	}
 	public function time($timestamp	=	'',$toArray	=	false)
 	{
 		$timestamp	=	strtotime($timestamp);
@@ -1005,6 +1020,7 @@ class Tendoo
 			'd'=>mdate('%d',$timestamp),
 			'y'=>mdate('%Y',$timestamp),
 			'M'=>mdate('%n',$timestamp),
+			'm'=>mdate('%m',$timestamp),
 			'h'=>mdate('%H',$timestamp),
 			'i'=>mdate('%i',$timestamp),
 			's'=>mdate('%s',$timestamp),
@@ -1042,7 +1058,7 @@ class Tendoo
 		{
 			$timezone 		= 'Etc/UTC';
 		}
-		$tz_object	=	new DatetimeZone($timezone);
+		// $tz_object	=	new DatetimeZone($timezone);
 		$date		=	new DateTime(null,new DatetimeZone($timezone));
 		$timestamp	=	strtotime($date->format('Y-m-d H:i:s'));
 		return $timestamp;
@@ -1225,18 +1241,21 @@ class Tendoo
 	{
 		return timespan($timestamp,$this->timestamp());
 	}
-	public function datetime()
+	public function datetime($defaulFormat = '%Y-%m-%d %H:%i:%s')
 	{
 		$this->load->helper('date');
 		$timestamp			=	$this->timestamp();
-		$datetime			=	mdate('%Y-%m-%d %H:%i:%s',$timestamp);
+		$datetime			=	mdate($defaulFormat,$timestamp);
 		return $datetime;
 	}
-	public function urilizeText($text)
+	/*
+		Transforme un texte en URL ou $strip_car est le délimiteur
+	*/
+	public function urilizeText($text,$strip_char = '-')
 	{
 		if(!function_exists('stripThing'))
 		{
-			function stripThing($delimiter,$offset)
+			function stripThing($delimiter,$offset,$strip_char)
 			{
 				$newtext	=	explode($delimiter,$offset);
 				$e = '';
@@ -1248,7 +1267,7 @@ class Tendoo
 					}
 					else
 					{
-						$e .=$newtext[$i].'-';
+						$e .=$newtext[$i].$strip_char;
 					}
 				}
 				return $newtext	=	strtolower($e);
@@ -1256,9 +1275,10 @@ class Tendoo
 		}
 		$this->load->helper('text');
 		$newtext	=	convert_accented_characters($text);
-		$newtext	=	stripThing('\'',$newtext);
-		$newtext	=	stripThing(' ',$newtext);
-		$newtext	=	stripThing('.',$newtext);
+		$newtext	=	stripThing('\'',$newtext,$strip_char);
+		$newtext	=	stripThing(' ',$newtext,$strip_char);
+		$newtext	=	stripThing('.',$newtext,$strip_char);
+		$newtext	=	stripThing('\n',$newtext,$strip_char);
 		return $newtext;
 	}
 	// HTML FUNCTION
@@ -1269,12 +1289,13 @@ class Tendoo
 		if($id == 1)
 		{
 			$this->core->file->js_push('ckeditor/ckeditor');
+			$this->core->file->js_push('ckeditor/adapters/jquery');
 		}
 	}
 	public function getEditor($values)
 	{
 		$default	=	array(
-			'id'			=>null,
+			'id'			=>'ckeditor',
 			'width'			=>900,
 			'height'		=>300,
 			'cssclass'		=>'tinyeditor',
@@ -1309,7 +1330,11 @@ class Tendoo
 			case 1	:
 				if(!array_key_exists('id',$values)): $values['id']		=	'';endif;
 				if(!array_key_exists('name',$values)): $values['name']	=	'';endif;
-			return "<textarea class=\"ckeditor\" name=\"".$values['name']."\" id=\"".$values['id']."\">".$defValue."</textarea>";
+			return "<textarea class=\"cked\" name=\"".$values['name']."\" id=\"".$values['id']."\">".$defValue."</textarea>
+			<script>
+			CKEDITOR.replace( '".$values['id']."' )
+			</script>
+				";
 			break;
 		}
 	}

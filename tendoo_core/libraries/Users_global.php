@@ -27,7 +27,6 @@ Class users_global
 				);
 			}
 		}
-		
 	}
 	public function cookiesLogin()
 	{
@@ -248,6 +247,13 @@ Class users_global
 				$this->current['OPEN_APP_TAB']	=	$data[0]['OPEN_APP_TAB'];
 				$this->current['SHOW_ADMIN_INDEX_STATS']	=	$data[0]['SHOW_ADMIN_INDEX_STATS'];
 				$this->current['FIRST_VISIT']	=	$data[0]['FIRST_VISIT'];
+				/* Page Status  Tendoo 0.9.8 */
+				/* Enregistrement du statut de visites des pages dans l'espace administration */
+				$this->current['ADMIN_INDEX_VISIT']		=	$data[0]['ADMIN_INDEX_VISIT'];
+				$this->current['ADMIN_PAGES_VISIT']		=	$data[0]['ADMIN_PAGES_VISIT'];
+				$this->current['ADMIN_APPS_VISIT']		=	$data[0]['ADMIN_APPS_VISIT'];
+				$this->current['ADMIN_SETTINGS_VISIT']	=	$data[0]['ADMIN_SETTINGS_VISIT'];
+				$this->current['ADMIN_SYSTEM_VISIT']	=	$data[0]['ADMIN_SYSTEM_VISIT'];
 				if($stay == TRUE)
 				{
 					if($encrypt_password == TRUE)
@@ -417,12 +423,16 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	public function getAdmin($start	=	NULL,$end	=	NULL)
 	{
 		$this->db->where('PRIVILEGE !=',$this->superAdmin);
-		if($start != NULL && $end != NULL)
+		if(is_numeric($start) && is_numeric($end))
 		{
 			$this->db->limit($end,$start);
 		}
 		$query	=	$this->db->get('tendoo_users');
 		return $query->result_array();
+	}
+	public function setViewed($page)
+	{
+		$this->db->where('ID',$this->current('ID'))->update('tendoo_users',array($page =>	1));
 	}
 	public function getSpeAdmin($id)
 	{
@@ -812,9 +822,13 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		}
 	}
 	// News 0.9.7
+	/*
+		Active / Désactive la fonctionnalité qui affiche le message de bienvenue sur l'emplacement "admin/index"
+			retourne true/false
+	*/
 	public function toggleWelcomeMessage()
 	{
-		if(in_array((int)$this->current('SHOW_WELCOME'),array(1,'TRUE')))
+		if(in_array($this->current('SHOW_WELCOME'),array('1','TRUE')))
 		{
 			$int	=	0;
 		}
@@ -822,8 +836,12 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		{
 			$int	=	1;
 		}
-		$this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('SHOW_WELCOME'=>$int));
+		return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('SHOW_WELCOME'=>$int));
 	}
+	/*
+		Active / désactive les statistiques sur l'emplacement "admin/index"
+			retourn true/false
+	*/
 	public function switchShowAdminIndex()
 	{
 		if((int)$this->current('SHOW_ADMIN_INDEX_STATS') ==  1)
@@ -834,8 +852,12 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		{
 			$int	=	1;
 		}
-		$this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('SHOW_ADMIN_INDEX_STATS'=>$int));
+		return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('SHOW_ADMIN_INDEX_STATS'=>$int));
 	}
+	/*
+		Plie / Déplie le panel des applications sur l'emplacement "admin/index"
+			retourn true/false
+	*/
 	public function toggleAppTab() // method used on users_global class.
 	{
 		$option =	$this->db->where('ID',$this->current('ID'))->get('tendoo_users');
@@ -857,6 +879,10 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			));
 		}
 	}
+	/*
+		Active / Désactive la visite guidé (lors de la première visite)
+			retourne true/false
+	*/
 	public function toggleFirstVisit()
 	{
 		if($this->current('FIRST_VISIT') == '0')
@@ -872,6 +898,10 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			));
 		}
 	}
+	/*
+		Tendoo.0.9.7
+			Recupère la classe du thème sélectionné dans les paramètres "admin/settings".
+	*/
 	public function getCurrentThemeClass()
 	{
 		$options	=	$this->current('ADMIN_THEME');
@@ -900,6 +930,10 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			return "bg-info";
 		}
 	}
+	/*
+		Tendoo.0.9.7
+			Recupère la classe du bouton de validation en fonction du thème sélectionné
+	*/
 	public function getCurrentThemeButtonClass()
 	{
 		$options	=	$this->current('ADMIN_THEME');
@@ -928,6 +962,42 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			return "btn-info";
 		}
 	}
+	/*
+		Tendoo.0.9.8
+			Recupère la classe du bouton d'infirmation en fonction du thème séléctionné.
+	*/
+	public function getCurrentThemeButtonFalseClass()
+	{
+		$options	=	$this->current('ADMIN_THEME');
+		if((int)$options == 0) // darken
+		{
+			return "btn-warning";
+		}
+		else if((int)$options == 1) // Bubble show case
+		{
+			return "btn-warning";
+		}
+		elseif((int)$options == 2) // Green Day
+		{
+			return "btn-warning";
+		}
+		elseif((int)$options == 3) // red Hord
+		{
+			return "btn-primary";
+		}
+		elseif((int)$options == 4) // Selective Orange
+		{
+			return "btn-primary";
+		}
+		elseif((int)$options == 5) // skies
+		{
+			return "btn-primary";
+		}
+	}
+	/* 
+		Tendoo.0.9.7
+			Recupère la couleur d'arrière plan en fonction du thème séléctionné.
+	*/
 	public function getCurrentThemeBackgroundColor()
 	{
 		$options	=	$this->current('ADMIN_THEME');
@@ -955,5 +1025,35 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		{
 			return "#E6F3F7";
 		}
+	}
+	/*
+		Tendoo.0.9.8
+			Reinitialise le statut des visites des pages de l'espace administration
+			Retourne true/false
+	*/
+	public function restorePagesVisit()
+	{
+		return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array(
+			'ADMIN_INDEX_VISIT'		=>		0,
+			'ADMIN_PAGES_VISIT'		=>		0,
+			'ADMIN_APPS_VISIT'		=>		0,
+			'ADMIN_SETTINGS_VISIT'	=>		0,
+			'ADMIN_SYSTEM_VISIT'	=>		0
+		));
+	}
+	/* 
+		Tendoo.0.9.8
+		Modifie le statut de visite d'une page définie
+		retourne true/false
+	*/
+	public function setPageViewed($page_name)
+	{
+		if(in_array($page_name,array('ADMIN_INDEX_VISIT','ADMIN_PAGES_VISIT','ADMIN_APPS_VISIT','ADMIN_SETTINGS_VISIT','ADMIN_SYSTEM_VISIT')))
+		{
+			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array(
+				$page_name			=>		1
+			));
+		}
+		return false; // page non reconnue
 	}
 }
