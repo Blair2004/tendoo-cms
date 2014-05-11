@@ -306,12 +306,12 @@ class DB_driver {
 				// Log and display errors
 				log_message('error', 'Query error: '.$error_msg);
 				return $this->display_error(
-										array(
-												'Error Number: '.$error_no,
-												$error_msg,
-												$sql
-											)
-										);
+				array(
+						'Error Number: '.$error_no,
+						$error_msg,
+						$sql
+					)
+				);
 			}
 
 			return FALSE;
@@ -1269,7 +1269,6 @@ class DB_driver {
 		{
 			return $item.$alias;
 		}
-
 		// Break the string apart if it contains periods, then insert the table prefix
 		// in the correct location, assuming the period doesn't indicate that we're dealing
 		// with an alias. While we're at it, we will escape the components
@@ -1296,7 +1295,6 @@ class DB_driver {
 				}
 				return $item.$alias;
 			}
-
 			// Is there a table prefix defined in the config file?  If not, no need to do anything
 			if ($this->dbprefix != '')
 			{
@@ -1350,18 +1348,17 @@ class DB_driver {
 
 			return $item.$alias;
 		}
-
 		// Is there a table prefix?  If not, no need to insert it
 		if ($this->dbprefix != '')
 		{
 			// Verify table prefix and replace if necessary
 			if ($this->swap_pre != '' && strncmp($item, $this->swap_pre, strlen($this->swap_pre)) === 0)
 			{
-				$item = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $item);
+				// $item = preg_replace("/^".$this->swap_pre."(\S+?)/", $this->dbprefix."\\1", $item);
 			}
-
 			// Do we prefix an item with no segments?
-			if ($prefix_single == TRUE AND substr($item, 0, strlen($this->dbprefix)) != $this->dbprefix)
+			// Tendoo 0.9.8 Why Removing tendoo comparison ? AND substr($item, 0, strlen($this->dbprefix)) != $this->dbprefix
+			if ($prefix_single == TRUE )
 			{
 				$item = $this->dbprefix.$item;
 			}

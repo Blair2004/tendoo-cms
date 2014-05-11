@@ -30,7 +30,7 @@
 										<div class="col-lg-13">
 											<h4><i class="fa fa-exchange"></i> Connexion &agrave; la base de donn&eacute;es</h4>
 											<div>
-												Nous allons procéder à la création de votre site web. vous devez spécifier toutes les informations d'accès à la base de données. <br><br>La base de donn&eacute;e que vous devez fournir doit exister et l'utilisateur doit avoir les privil&egrave;ges necessaire &agrave; la cr&eacute;ation des tables. Dans le cas contraire, le site ne pourra pas &ecirc;tre installé. <br><br>Verifiez que le nom de la base de donn&eacute;e, de l'h&ocirc;te et le mot de passe correspondent &agrave; ceux que vous sp&eacute;cifiez ci-apr&egrave;s.
+												Nous allons procéder à la création de votre site web. vous devez spécifier toutes les informations d'accès à la base de données. <br><br>La base de donn&eacute;es que vous devez fournir doit exister et l'utilisateur doit avoir les privil&egrave;ges necessaire &agrave; la cr&eacute;ation des tables. Dans le cas contraire, le site ne pourra pas &ecirc;tre installé. <br><br>Verifiez que le nom de la base de donn&eacute;es, de l'h&ocirc;te et le mot de passe correspondent &agrave; ceux que vous sp&eacute;cifiez ci-apr&egrave;s.
 												<br>Si des erreurs persistent, vous pouvez toujours vous connecter à la communauté Tendoo pour signaler cette erreur.
 											</div>										
 										</div>
@@ -77,16 +77,16 @@
 											<input name="host_password" type="text" placeholder="Entrez le mot de passe" class="form-control">
 										</div>
 										<div class="form-group">
-											<label class="db_name">Nom de la base de donn&eacute;e</label>
+											<label class="db_name">Nom de la base de donn&eacute;es</label>
 											<input name="db_name" type="text" placeholder="Base de donn&eacute;e" class="form-control">
 										</div>
 										<div class="form-group">
-											<label class="extension_name">Extenstion des tables</label>
+											<label class="extension_name">Extension des tables</label>
 											<input name="extension_name" type="text" placeholder="Exemple : Tendoo_" class="form-control">
 										</div>
 										<div class="form-group">
 											<select class="input-sm form-control input-s-sm inline" name="db_type" style="color:#333;background:#FFF;">
-												<option value="" style="color:#333">Type de la base de donn&eacute;e</option>
+												<option value="" style="color:#333">Type de la base de donn&eacute;es</option>
 												<option value="mysql" style="color:#333">Mysql</option>
 												<option value="mysqli" style="color:#333">Mysql Lite</option>
 												<option value="sqlite" style="color:#333">Sql Lite</option>
