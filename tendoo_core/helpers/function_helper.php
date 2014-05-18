@@ -348,6 +348,12 @@ if(!function_exists('__extends'))
 		$obj->load				=&	$Controller->load;
 		$obj->exceptions		=&	$Controller->exceptions;
 		// Chargement de quelques classes qui ont été ajouté ultérieurement au noyau.
+		// Mise à jour du super tableau (T098).
+		if(isset($obj->data))
+		{
+			$Controller->data		=&	$obj->data;
+		}
+		// Fin mise à jour
 		if(isset($Controller->tendoo_admin))
 		{
 			$obj->tendoo_admin	=&	$Controller->tendoo_admin;

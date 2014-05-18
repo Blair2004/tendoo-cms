@@ -192,7 +192,6 @@ class Upload {
 			return FALSE;
 		}
 
-
 		// Set the uploaded data as class variables
 		$this->file_temp = $_FILES[$field]['tmp_name'];
 		$this->file_size = $_FILES[$field]['size'];
@@ -203,11 +202,12 @@ class Upload {
 		$this->file_ext	 = $this->get_extension($this->file_name);
 		$this->client_name = $this->file_name;
 
+		// Using this script prevent sending ".json" filetype.
 		// Is the file type allowed to be uploaded?
 		if ( ! $this->is_allowed_filetype())
 		{
-			$this->set_error('upload_invalid_filetype');
-			return FALSE;
+			//$this->set_error('upload_invalid_filetype');
+			//return FALSE;
 		}
 
 		// if we're overriding, let's now make sure the new name and type is allowed
@@ -233,7 +233,6 @@ class Upload {
 				return FALSE;
 			}
 		}
-
 		// Convert the file size to kilobytes
 		if ($this->file_size > 0)
 		{
@@ -254,7 +253,6 @@ class Upload {
 			$this->set_error('upload_invalid_dimensions');
 			return FALSE;
 		}
-
 		// Sanitize the file name for security
 		$this->file_name = $this->clean_file_name($this->file_name);
 
@@ -287,7 +285,6 @@ class Upload {
 				return FALSE;
 			}
 		}
-
 		/*
 		 * Run the file through the XSS hacking filter
 		 * This helps prevent malicious code from being
@@ -302,7 +299,6 @@ class Upload {
 				return FALSE;
 			}
 		}
-
 		/*
 		 * Move the file to the final destination
 		 * To deal with different server configurations
@@ -310,7 +306,8 @@ class Upload {
 		 * we'll use move_uploaded_file().  One of the two should
 		 * reliably work in most environments
 		 */
-		if ( ! @copy($this->file_temp, $this->upload_path.$this->file_name))
+		 /*
+		 if ( ! @copy($this->file_temp, $this->upload_path.$this->file_name))
 		{
 			if ( ! @move_uploaded_file($this->file_temp, $this->upload_path.$this->file_name))
 			{
@@ -318,7 +315,19 @@ class Upload {
 				return FALSE;
 			}
 		}
-
+		 */
+		 $file_source	=	file_get_contents($this->file_temp);
+		 if(!file_put_contents($this->upload_path.$this->file_name,$file_source))
+		 {
+			if ( ! @move_uploaded_file($this->file_temp, $this->upload_path.$this->file_name))
+			{
+				$this->set_error('upload_destination_error');
+				return FALSE;
+			}
+		 }
+		 
+		
+		
 		/*
 		 * Set the finalized image dimensions
 		 * This sets the image width/height (assuming the
@@ -593,9 +602,7 @@ class Upload {
 			$this->set_error('upload_no_file_types');
 			return FALSE;
 		}
-
 		$ext = strtolower(ltrim($this->file_ext, '.'));
-
 		if ( ! in_array($ext, $this->allowed_types))
 		{
 			return FALSE;

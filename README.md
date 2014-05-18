@@ -10,13 +10,17 @@ Mise à jour
     *	Ajout message d'accueil (visite guidée)
     *	Ajout section d'aide.
     *	Documentation progressive du code.
-	*	Correction issue #1 (utilisation du préfixe "tendoo_" ou "tendoo" entrainant une erreur à la sélection des tables).
+	*	Correction issue #1.
+	*	Blogster mise à jour.
+	*	Correction issue #2.
+	* 	Amélioration de l'interface des thèmes.
+	* 	Restructuration du menu.
+	*	Début déploiement plateforme "www.tendoo.org"
 
 En attente :
 
     *	Nouveau thème
     *	2TB tendoo theme builder
-    *	Blogster mise à jour
     *	Gestionnaire de la page d'accueil mise à jour
     *	Gestionnaire de médias ...
 

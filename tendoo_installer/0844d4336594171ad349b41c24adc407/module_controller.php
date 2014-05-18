@@ -3,12 +3,11 @@ class News_module_controller
 {
 	public function __construct($data)
 	{
-		$this->core					=		Controller::instance();
+		__extends($this);
+		
 		$this->data					=		$data;
-		$this->tendoo				=&		$this->core->tendoo;
-		$this->data['core']			=&		$this->core;
 		$this->data['news']			=		new News_smart($this->data);
-		$this->data['userUtil']		=&		$this->core->users_global;	
+		$this->data['userUtil']		=&		$this->users_global;	
 		$this->data['setting']		=		$this->data['news']->getBlogsterSetting();	
 	}
 	public function index($page=1)
@@ -20,11 +19,11 @@ class News_module_controller
 		
 		$this->data['ttNews']		=		$this->data['news']->countNews();
 		// Load View		
-		$this->data['pagination']	=	$this->core->tendoo->paginate(5,$this->data['ttNews'],1,'on','off',$page,$this->core->url->site_url(array('blog','index')).'/',$ajaxis_link=null);
-		$this->data['pagination'][3]=== false ? $this->core->url->redirect(array('error','code','page404')) : null;
+		$this->data['pagination']	=	$this->tendoo->paginate(5,$this->data['ttNews'],1,'on','off',$page,$this->url->site_url(array('blog','index')).'/',$ajaxis_link=null);
+		$this->data['pagination'][3]=== false ? $this->url->redirect(array('error','code','page404')) : null;
 		$this->data['getNews']		=		$this->data['news']->getNews($this->data['pagination'][1],$this->data['pagination'][2]);
 		$this->data['currentPage']	=	$page;
-		$this->data['module_content']		=	$this->core->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_main',$this->data,true,TRUE);
+		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_main',$this->data,true,TRUE);
 		
 		$this->data['theme']->header($this->data);
 		$this->data['theme']->body($this->data);
@@ -33,38 +32,51 @@ class News_module_controller
 	{
 		// CE n'est pas au module de faire les chargement nécessaire pour le fonctionnement du theme.
 		// Must be retreiving data
-		$this->core->load->library('form_validation');
-		$this->core->form_validation->set_rules('pseudo','Pseudo','required|min_length[3]|max_length[15]');
-		$this->core->form_validation->set_rules('mail','Email','required|valid_email');
-		$this->core->form_validation->set_rules('content','Contenu','required|min_length[3]|max_length[1000]');
-		if($this->core->form_validation->run())
+		$showAsAdmin	=	FALSE; // montrer l'article, même si ce dernier n'est pas publié
+		if(isset($_GET['mode']))
+		{
+			// Reservé aux administrateurs
+			if($this->users_global->isAdmin())
+			{
+				$showAsAdmin	=	$_GET['mode']	==	'preview'	? TRUE : FALSE;
+			}
+			else
+			{
+				$this->url->redirect(array('error','code','accessDenied'));
+			}
+		}
+		$this->load->library('form_validation',null,null,$this);
+		$this->form_validation->set_rules('pseudo','Pseudo','required|min_length[3]|max_length[15]');
+		$this->form_validation->set_rules('mail','Email','required|valid_email');
+		$this->form_validation->set_rules('content','Contenu','required|min_length[3]|max_length[1000]');
+		if($this->form_validation->run())
 		{
 			// Provisoire $this->input->post('author');
-			$result	=	$this->data['news']->postComment($id,$this->core->input->post('content'),$this->core->input->post('pseudo'),$this->core->input->post('email'));
+			$result	=	$this->data['news']->postComment($id,$this->input->post('content'),$this->input->post('pseudo'),$this->input->post('email'));
 			if($result)
 			{
 				if($this->data['setting']['APPROVEBEFOREPOST'] == 0)
 				{
-					$this->core->notice->push_notice(notice('done'));
+					$this->notice->push_notice(notice('done'));
 				}
 				else
 				{
-					$this->core->notice->push_notice(notice('submitedForApproval'));
+					$this->notice->push_notice(notice('submitedForApproval'));
 				}
 			}
 		}
-		$this->data['ttNews']		=		$this->data['news']->countNews();
-		$this->data['GetNews']		=		$this->data['news']->getSpeNews($id);
+	//	$this->data['ttNews']		=		$this->data['news']->countNews();
+		$this->data['GetNews']		=		$this->data['news']->getSpeNews($id,$showAsAdmin);
 		$this->data['getKeywords']	=		$this->data['news']->getNewsKeyWords($id);
 		// var_dump($this->data['getKeywords']);
 		$this->data['ttComments']	=		$this->data['news']->countComments($id);
-		$this->data['pagination']	=	$this->core->tendoo->paginate(10,$this->data['ttComments'],1,'active','',$page,$this->core->url->site_url(array('blog','read',$id,$text)).'/');
-		$this->data['pagination'][3]=== false ? $this->core->url->redirect(array('error','code','page404')) : null;
+		$this->data['pagination']	=	$this->tendoo->paginate(10,$this->data['ttComments'],1,'active','',$page,$this->url->site_url(array('blog','read',$id,$text)).'/');
+	//	$this->data['pagination'][3]=== false ? $this->url->redirect(array('error','code','page404')) : null;
 		$this->data['currentPage']	=	$page;
 		$this->data['Comments']		=		$this->data['news']->getComments($id,$this->data['pagination'][1],$this->data['pagination'][2]);
 		if(!$this->data['GetNews'])
 		{
-			$this->core->url->redirect(array('error/code/page404'));
+			$this->url->redirect(array('error/code/page404'));
 		}
 		$this->data['news']->pushView($this->data['GetNews'][0]['ID']);
 		
@@ -91,7 +103,7 @@ class News_module_controller
 		
 		
 		// Load View		
-		$this->data['module_content']		=	$this->core->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_open',$this->data,true,TRUE);
+		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_open',$this->data,true,TRUE);
 		// Load View From Theme selected;
 		$this->data['theme']->header($this->data);
 		$this->data['theme']->body($this->data);
@@ -100,7 +112,7 @@ class News_module_controller
 	{
 		if($catid == null || $catid == 0)
 		{
-			$this->core->url->redirect(array('error','code','missingArg'));
+			$this->url->redirect(array('error','code','missingArg'));
 		}
 		$this->data['category']	=	$this->data['news']->retreiveCat($catid);
 		$this->tendoo->setTitle($this->data['page'][0]['PAGE_TITLE'].' &raquo; '.$this->data['category']['name']);
@@ -109,8 +121,8 @@ class News_module_controller
 		$this->data['theme']->definePageDescription($this->data['category']['desc']);
 
 		$this->data['ttNews']	=	$this->data['news']->countArtFromCat($catid);
-		$this->data['pagination']	=	$this->core->tendoo->paginate(10,$this->data['ttNews'],1,'active','',$page,$this->core->url->site_url(array($this->core->url->controller(),'category',$cat_text,$catid)).'/',$ajaxis_link=null);
-		$this->data['pagination'][3]=== false ? $this->core->url->redirect(array('error','code','page404')) : null;
+		$this->data['pagination']	=	$this->tendoo->paginate(10,$this->data['ttNews'],1,'active','',$page,$this->url->site_url(array($this->url->controller(),'category',$cat_text,$catid)).'/',$ajaxis_link=null);
+		$this->data['pagination'][3]=== false ? $this->url->redirect(array('error','code','page404')) : null;
 		$this->data['currentPage']	=	$page;
 		$this->data['getNews']	=	$this->data['news']->getArtFromCat($catid,$this->data['pagination'][1],$this->data['pagination'][2]);
 		if($this->data['getNews']== false)
@@ -120,16 +132,16 @@ class News_module_controller
 					'TITLE'			=>	'Aucune publication disponible',
 					'CONTENT'		=>	'Aucune publication n\'est disponible dans cette cat&eacute;gorie',
 					'AUTEUR'		=>	'1',
-					'DATE'			=>	$this->core->tendoo->datetime(),
-					'THUMB'			=>	$this->core->url->img_url('hub_back.png'),
-					'IMAGE'			=>	$this->core->url->img_url('hub_back.png'),
+					'DATE'			=>	$this->tendoo->datetime(),
+					'THUMB'			=>	$this->url->img_url('hub_back.png'),
+					'IMAGE'			=>	$this->url->img_url('hub_back.png'),
 					'ID'			=>	0
 				)
 			);
 		}
 		
 		$this->data['section']	=		'category';
-		$this->data['module_content']		=	$this->core->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_category',$this->data,true,TRUE);
+		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_category',$this->data,true,TRUE);
 		// ----------------------------------------------------------------------------------------------------------------------------------//
 		$this->data['theme']->header($this->data);
 		$this->data['theme']->body($this->data);
@@ -139,7 +151,7 @@ class News_module_controller
 		$this->tendoo->setTitle('Test');
 		$this->tendoo->setDescription('Nothing');
 		// Load View		
-		$this->data['module_content']		=	$this->core->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_test',$this->data,true,TRUE);
+		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_test',$this->data,true,TRUE);
 		
 		$this->data['theme']->header($this->data);
 		$this->data['theme']->body($this->data);

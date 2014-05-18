@@ -1025,9 +1025,13 @@ class Tendoo_admin
 	}
 	public function getThemes($start = NULL,$end = NULL)
 	{
-		if($start  != NULL && $end != NULL )
+		if(is_numeric($start) && is_numeric($end))
 		{
 			$this->db->limit($end,$start);
+		}
+		else if(is_numeric($start) && !is_numeric($end))
+		{
+			$this->db->where('ID',$start);
 		}
 		$query	=	$this->db->get('tendoo_themes');
 		return $query->result_array();
@@ -1079,6 +1083,23 @@ class Tendoo_admin
 			return 'done';
 		}
 		return 'unknowTheme';
+	}
+	public function getThemeThumb($id)
+	{
+		$access	=	$this->url->main_url().ASSETS_DIR.'img/theme_default.png';
+		$theme	=	$this->getThemes($id);
+		if($theme)
+		{
+			if(is_file(THEMES_DIR.$theme[0]['ENCRYPTED_DIR'].'/preview.png'))
+			{
+				$access	= $this->url->main_url().THEMES_DIR.$theme[0]['ENCRYPTED_DIR'].'/preview.png';
+			}
+			else if(is_file(THEMES_DIR.$theme[0]['ENCRYPTED_DIR'].'/preview.jpg'))
+			{
+				$access	= $this->url->main_url().THEMES_DIR.$theme[0]['ENCRYPTED_DIR'].'/preview.jpg';
+			}
+		}
+		return $access;
 	}
 /**********************************************************************************************************************
 												End Theming Methods

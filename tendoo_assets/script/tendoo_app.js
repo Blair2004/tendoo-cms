@@ -19,13 +19,13 @@ var device 								= {};
 **/
 var tools				=	new Object();
     tools.isDefined     =   function(e){
-        return typeof e == 'undefined' ? true : false;
+        return typeof e == 'undefined' ? false : true;
     };
 /**
 *		tools.isDefinedOrLike : renvoi "true" ou "false" à la question de savoir si une variable est définie ou est comparable au deuxième paramètre.
 **/
 	tools.isDefinedOrLike=	function(e,f){
-		if(tools.isDefined(e))
+		if(!tools.isDefined(e))
 		{
 			if(e == f)
 			{
@@ -33,7 +33,7 @@ var tools				=	new Object();
 			}
 			return false;
 		}
-		return false
+		return true
 	};
 /**
 *		tools.centerThis : permet de centrer un objet jQuery (element DOM) au milieu d'un élément "parent" ou par rapport à l'écran.
@@ -42,7 +42,7 @@ var tools				=	new Object();
 		toScreen: "true" pour centrer un élément par rapport à l'écran. 
 **/
 	tools.centerThis 	= 	function(concerned, parent, toScreen) {
-			if (tools.isDefined(toScreen)) {
+			if (!tools.isDefined(toScreen)) {
 				var parentWidth = device.width;
 				var parentHeight = device.height;
 				var concernedWidth = $(concerned).outerWidth();
@@ -707,8 +707,46 @@ $(document).ready(function(){
 			this.bind();
 		};
 /**
+*		tendoo.confirmEvent : Attache un évènement sur un élément du DOM, pour qu'en cas de clic, une action déterminé dans l'attribut confirm-do="" s'exécute, après avoir afficher une boite de confirmation, dont le contenu se trouve dans l'attribut confirm-text=""
+**/
+		tendoo.confirmEvent	=	new function(){
+			this.bind		=	function(){
+				$('[confirm-do]').each(function(index, element) {
+                    if(!tools.isDefined($(this).attr('confirm-binded')))
+					{
+						var $this	=	$(this);
+						$(this).attr('confirm-binded','true');
+						$(this).bind('click',function(){							
+							if(tools.isDefined($(this).attr('confirm-text')))
+							{
+								tendoo.modal.confirm($(this).attr('confirm-text'),function(){
+									if($this.attr('confirm-do') == 'click')
+									{
+										var name	=	tools.isDefined($(this).attr('name')) ? $(this).attr('name') : '';
+										var value	=	tools.isDefined($(this).attr('value')) ? $(this).attr('value') : '';
+										$this.closest('form').append('<input type="hidden" name="'+name+'" value="'+value+'">');
+										$this.closest('form').trigger('submit');
+									}
+									else ($this.attr('confirm-do') == 'fadeOutParent') // Supprime le parent "confirm-parent" après une requête ajax fructueuse.
+									{
+										// in process
+									}
+								});
+								return false;
+							}
+							// throw "Confirm event badly defined";
+							return false;
+						});
+					}
+                });
+			};
+			// Launch binder
+			this.bind();
+		};
+
+/**
 *		tools.silentAjax : Attache un évènement AJAX au clic sur un élément ayant l'attribut 'data-requestType="silent"' et "data-url" indiquant l'adresse de la requêtes. Ne prend aucun paramêtre.
-**/			
+**/					
 		tendoo.silentAjax	=	new function(){
 			this.bind		=	function(){
 				$('[data-requestType="silent"]').each(function(){

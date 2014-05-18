@@ -369,7 +369,7 @@ class Tendoo
 				$lib->createCat('Cat&eacute;gorie sans nom','Cette cat&eacute;gorie sert d\'illustration.');
 				$lib->publish_news(
 					'Bienvenue sur Tendoo '.$this->getVersId(),
-					'Voici votre premi&egrave;re publication dans votre blog Tendoo, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles',
+					'Voici votre premier article, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles. Vous pouvez également effectuer des programmations d\'articles, afin que ces derniers soient publiés automatiquement à des dates précises. <br>Merci d\'avoir choisi Tendoo.',
 					1,
 					$this->core->url->img_url('Hub_back.png'),
 					$this->core->url->img_url('Hub_back.png'),
@@ -932,10 +932,14 @@ class Tendoo
 	}
 	public function getKeywords()
 	{
-		return $this->keyWords;
+		if(isset($this->keyWords))
+		{
+			return $this->keyWords;
+		}
+		return false;
 	}
 	/* INNER FUNCTION */
-	public function loadModules() /// OBSOLETE
+	/*public function loadModules() /// OBSOLETE
 	{
 		$modules= array();
 		if($dir	=	opendir('application/views/modules'))
@@ -950,11 +954,7 @@ class Tendoo
 			return $modules;
 		}
 		return false;
-	}
-	public function modules_url($e)
-	{
-		return site_url();
-	}
+	}*/
 	public function retreiveControlerUrl()
 	{
 		$details	=	$this->core->url->http_request(TRUE);
@@ -1278,6 +1278,8 @@ class Tendoo
 		$newtext	=	stripThing('\'',$newtext,$strip_char);
 		$newtext	=	stripThing(' ',$newtext,$strip_char);
 		$newtext	=	stripThing('.',$newtext,$strip_char);
+		// Removing question mark to avoid security error.
+		$newtext	=	stripThing('?',$newtext,$strip_char);
 		$newtext	=	stripThing('\n',$newtext,$strip_char);
 		return $newtext;
 	}
@@ -1292,12 +1294,62 @@ class Tendoo
 			$this->core->file->js_push('ckeditor/adapters/jquery');
 		}
 	}
-	public function getEditor($values)
+	public function getEditor($values,$type	=	'editor')
 	{
+		$toolBarConfig	=	'';
+		$customConfig	=	'';
+		if($type	==	'editor')
+		{
+			$toolBarConfig	=	"toolbar: [
+				['Source'],
+				{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'Outdent', 'Indent','Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+				['Styles','Format','Colors'],
+				['Bold','Italic'],
+				['Undo','Redo'],
+				{ name: 'links', items: [ 'Link', 'Unlink'] },
+				['NumberedList','BulletedList','Maximize'],
+				
+				['Cut','Copy','Paste','PasteText','PasteFromWord'],
+				['Image','links']
+			],height:400";
+		}
+		else if($type	==	'coder')
+		{
+			$customConfig	=	"
+				CKEDITOR.config.extraPlugins 			= '';
+				CKEDITOR.config.startupMode 			= 'source';
+				CKEDITOR.config.extraAllowedContent 	= 'b,big,code,del,dfn,em,font,i,ins,kbd';
+				CKEDITOR.config.codemirror				=	{
+					lineWrapping						: 	true,
+					showAutoCompleteButton				: 	true,
+					allowedContent						: true
+				};
+			";
+		}
+		else if($type	==	'advanced')
+		{
+			$toolBarConfig	=	"toolbarGroups: [
+				{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+				{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+				{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ] },
+				{ name: 'forms' },
+				'/',
+				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+				{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+				{ name: 'links' },
+				{ name: 'insert' },
+				'/',
+				{ name: 'styles' },
+				{ name: 'colors' },
+				{ name: 'tools' },
+				{ name: 'others' },
+				{ name: 'about' }
+			]";
+		}
 		$default	=	array(
 			'id'			=>'ckeditor',
 			'width'			=>900,
-			'height'		=>300,
+			'height'		=>800,
 			'cssclass'		=>'tinyeditor',
 			'controlclass'	=>'tinyeditor-control',
 			'rowclass'		=>'tinyeditor-header',
@@ -1330,9 +1382,14 @@ class Tendoo
 			case 1	:
 				if(!array_key_exists('id',$values)): $values['id']		=	'';endif;
 				if(!array_key_exists('name',$values)): $values['name']	=	'';endif;
-			return "<textarea class=\"cked\" name=\"".$values['name']."\" id=\"".$values['id']."\">".$defValue."</textarea>
+			return "<textarea class=\"cked\" name=\"".$values['name']."\" id=\"".$values['id']."\" style='height:".$default['height']."px;width:".$default['width']."px;'>".$defValue."</textarea>
 			<script>
-			CKEDITOR.replace( '".$values['id']."' )
+			".$customConfig."
+			var ".$values['id']."	=	
+			CKEDITOR.replace('".$values['id']."',{
+				".$toolBarConfig.",
+				heigth	:	'500px'
+			});
 			</script>
 				";
 			break;

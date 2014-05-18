@@ -408,8 +408,8 @@ class DB_driver {
 
 		if ( ! class_exists($driver))
 		{
-			include_once(BASE_DIR.'DB_result.php');
-			include_once(BASE_DIR.'drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
+			include_once(DATABASE_DIR.'DB_result.php');
+			include_once(DATABASE_DIR.'drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
 		}
 
 		return $driver;
@@ -1168,10 +1168,10 @@ class DB_driver {
 
 		foreach ($trace as $call)
 		{
-			if (isset($call['file']) && strpos($call['file'], BASE_DIR) === FALSE)
+			if (isset($call['file']) && strpos($call['file'], DATABASE_DIR) === FALSE)
 			{
 				// Found it - use a relative path for safety
-				$message[] = 'Filename: '.str_replace(array(BASE_DIR), '', $call['file']);
+				$message[] = 'Filename: '.str_replace(array(DATABASE_DIR), '', $call['file']);
 				$message[] = 'Line Number: '.$call['line'];
 
 				break;

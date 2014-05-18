@@ -48,12 +48,14 @@
 					<?php echo $success;?>
                     <?php echo notice_from_url();?>
 					<div class="row">
-						<div class="col-lg-12">
+						<div class="col-lg-8">
 						<section class="panel">
 							<div class="panel-heading">
-								<strong>
-							Articles
-								</strong>
+								<h4>
+									<a href="<?php echo module_url('index');?>">Tous les articles (<?php echo $ttNews;?>)</a> | 
+                                    <a href="<?php echo module_url('index?filter=mines');?>">Mes articles (<?php echo $ttMines;?>)</a> |
+                                    <a href="<?php echo module_url('index?filter=scheduled');?>">Programmés (<?php echo $ttScheduled;?>)</a>
+								</h4>
 							</div>
 							<table class="table table-striped m-b-none">
 								<form method="POST">
@@ -72,12 +74,33 @@
 											<a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'edit',$g['ID']));?>"><?php echo $g['TITLE'];?></a>
 											</strong>
 											<hr class="line line-dashed" style="margin:5px 0">
-											<small><?php echo $g['ETAT'] == '1' ? 'Publi&eacute;' : 'Brouillon';?></small> |
+											<small><?php 
+											if($g['ETAT'] == '1')
+											{
+												echo 'Publi&eacute;'; 
+											}
+											else if($g['ETAT']	==	'2')
+											{
+												echo 'Brouillon';
+											}
+											else if($g['ETAT']	==	'3')
+											{
+												echo 'Programmé';
+											}
+											else if($g['ETAT']	==	'4')
+											{
+												echo 'En attente d\'examination';
+											}
+											else
+											{
+												echo $g['ETAT'].' : statut inconnu';
+											}
+											;?></small> |
 											<small>Dans <?php echo $cat_name['CATEGORY_NAME'];?></small> | 
 											<small>Par <strong><a href="<?php echo $this->core->url->site_url(array('account','profile',$user['PSEUDO']));?>"><?php echo $user['PSEUDO'];?></a></strong></small> |
 											<small><?php echo $this->core->tendoo->timespan($g['DATE']);?></small> |
-											<small><a style="color:#FF7F7F" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></small> |
-											<small><input type="checkbox" name="art_id[]" value="<?php echo $g['ID'];?>"></small>
+											<small><a data-doAction style="color:#FF7F7F" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></small> |
+											<small><input style="display:none;" type="checkbox" name="art_id[]" value="<?php echo $g['ID'];?>"></small>
 										</td>
 									</tr>
 								<?php
@@ -92,7 +115,29 @@
 									<?php
 								}
 								?>
-								
+								<script>
+								$('[data-doAction]').each(function(){
+									if(typeof $(this).attr('doAction-binded') == 'undefined')
+									{
+										$(this).attr('doAction-binded','true');
+										$(this).bind('click',function(){
+											var $this	=	$(this);
+											tendoo.modal.confirm('Souhaitez-vous supprimer ce message ?',function(){
+												tendoo.doAction($this.attr('href'),function(e){
+													tendoo.triggerAlert(e);
+													if(e.status == 'success')
+													{
+														$this.closest('tr').fadeOut(500,function(){
+															$(this).remove();
+														});
+													}
+												},{});
+											});
+											return false;
+										});
+									}
+								});
+								</script>
 								</tbody>
 								<div style="display:none">
 									<input type="submit" name="deleteSelected">
@@ -139,21 +184,89 @@
 									}
 								});
 								$('.articlePanel').bind('click',function(){
-									if($(this).find('[type="checkbox"]').attr('checked'))
+									if(tools.isDefined($(this).find('[type="checkbox"]').attr('checked')))
 									{
+										$(this).removeClass('active');
 										$(this).find('[type="checkbox"]').removeAttr('checked');
 									}
 									else
 									{
+										$(this).addClass('active');
 										$(this).find('[type="checkbox"]').attr('checked','checked');
 									}
 								});
 							});
 							</script>
-						
+							<style>
+							.active
+							{
+								background	:	#555 !important;
+								color		:	#FEFEFE !important;
+							}
+							.active h1, .active h2, .active h3, .active h4, .active h5, .active a
+							{
+								color		:	#FEFEFE !important;
+							}
+							</style>
 						</section>
 						
 						</div>
+                        <div class="col-lg-4">
+                        	<div class="panel-heading">
+                            	<h4>Commentaires récents</h4>
+                            </div>
+                            <div class="panel">
+                            <table class="table">
+								<form method="POST">
+								<tbody>
+								<?php
+								if(count($lastestComments) > 0)
+								{
+									foreach($lastestComments as $g)
+									{
+										$news_concerned	=	$news->getSpeNews($g['REF_ART']);
+										$user			=	$this->core->users_global->getUser($g['AUTEUR']);
+										$pseudo			=	$g['AUTEUR'];
+										if(is_array($user) && count($user) > 0)
+										{
+											$pseudo	=	$user['PSEUDO'];
+											?>
+												<tr>
+													<td><h5><?php echo $pseudo;?> dit :
+                                                    	<a style="font-weight:600;" href="<?php echo module_url(array('comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],10);?></a> dans
+                                                    	<a style="font-weight:600;" href="<?php echo module_url(array('edit',$news_concerned[0]['ID']));?>"><?php echo $news_concerned[0]['TITLE'];?></a> </h5>
+													</td>
+												</tr>
+											<?php
+										}
+										else
+										{
+											?>
+												<tr>
+													<td><h5><?php echo $pseudo;?> dit : 
+                                                    <a style="font-weight:600;" href="<?php echo module_url(array('comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],10);?></a> dans
+                                                    	<a style="font-weight:600;" href="<?php echo module_url(array('edit',$news_concerned[0]['ID']));?>"><?php echo $news_concerned[0]['TITLE'];?></a> </h5>
+                                                    </td>
+												</tr>
+											<?php
+										}
+								
+									}
+								}
+								else
+								{
+									?>
+									<tr>
+										<td colspan="5">Aucun commentaires disponible</td>
+									</tr>
+									<?php
+								}
+								?>
+                                </tbody>
+								</form>
+							</table>
+                            </div>
+                        </div>
 					</div>
 				</section>
             </section>

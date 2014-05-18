@@ -30,6 +30,8 @@
                                 <li>CK Editor</li>
                                 <li>Bootstrap (3.1)</li>
 								<li><a href="https://github.com/dbushell/Nestable">Nestable</a> Jquery plugin</li>
+                                <li>Jquery Ui</li>
+                                <li>Google Grid</li>
 							</ul>
                         </p>
                         <p><small>Ubber Enterprises 2014. <br />Tous droits reserv&eacute;s.</small></p>

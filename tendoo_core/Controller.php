@@ -1,6 +1,7 @@
 <?php
 Class Controller
 {
+	public 	$data;
 	public	$url;
 	public	$load;
 	public	$Tendoo;

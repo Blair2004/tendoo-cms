@@ -425,9 +425,17 @@ Class Url
 		}
 		elseif(is_array($uri))
 		{
+			$complete	=	$this->array2Url($uri);
+			return $this->base_url().$complete;
+		}		
+	}
+	public function array2Url($array)
+	{
+		if(is_array($array) && $array)
+		{
 			$complete		=	'';
 			$start			=	1;
-			foreach($uri as $u)
+			foreach($array as $u)
 			{
 				if($start == 1)
 				{
@@ -439,8 +447,9 @@ Class Url
 				}
 				$start++;
 			}
-			return $this->base_url().$complete;
-		}		
+			return $complete;
+		}
+		return false;
 	}
 	public function index_page()
 	{

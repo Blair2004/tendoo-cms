@@ -7,6 +7,7 @@ $or['categoryAldreadyCreated']	=	'<span class="tendoo_error">Cette cat&eacute;go
 $or['unknowCat']				=	'<span class="tendoo_error">Cette cat&eacute;gorie est inexistante</span>';
 $or['categoryUpdated']			=	'<span class="tendoo_success">La mise &agrave; jour &agrave; r&eacute;ussie</span>';
 $or['CatDeleted']				=	'<span class="tendoo_success">La cat&eacute;gorie &agrave; &eacute;t&eacute; supprim&eacute; avec succ&egrave;s</span>';
+$or['artCreated']				=	tendoo_success('L\'article à correctement été crée.');
 $or['CatNotEmpty']				=	'<span class="tendoo_error">Cette cat&eacute;gorie ne peut pas &ecirc;tre supprim&eacute;e, car il existe des publications qui y sont rattach&eacute;es. Changez la cat&eacute;gorie de ces publications avant de supprimer cette cat&eacute;gorie.</span>';
 $or['noCategoryCreated']		=	'<span class="tendoo_error"><i class="icon-warning"></i> Avant de publier un article, vous devez cr&eacute;er une cat&eacute;gorie.</span>';
 $or['connectToComment']			=	'<span class="tendoo_error"><i class="icon-warning"></i> Vous devez &ecirc;tre connect&eacute; pour commenter.</span>';
@@ -22,23 +23,20 @@ $NOTICE_SUPER_ARRAY = $or;
 		class News
 		{
 			private $data;
-			private $user;
-			private $core;
-			private $tendoo;
-			private $mod_repo;
 			public function __construct($data)
 			{
-				$this->core		=	Controller::instance();
 				$this->data		=	$data;
-				$this->user		=&	$this->core->users_global;
-				$this->tendoo	=&	$this->core->tendoo;	
+				__extends($this);
+				$this->user		=&	$this->users_global;
 				$this->mod_repo	=	MODULES_DIR.$data['module'][0]['ENCRYPTED_DIR'].'/';
+				// Post les articles programmés.
+				$this->postScheduledArt();
 			}
 			public function retreiveCat($id)
 			{
-				$this->core->db			->from('tendoo_news_category')
+				$this->db			->from('tendoo_news_category')
 										->where('ID',$id);
-				$query					= $this->core->db->get();
+				$query					= $this->db->get();
 				$data					=	$query->result_array();
 				if(count($data) == 0)
 				{
@@ -64,41 +62,108 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function getMenu()
 			{
-				return $this->core->load->view($this->mod_repo.'views/menu.php',$this->data,true,true);
+				return $this->load->view($this->mod_repo.'views/menu.php',$this->data,true,true);
 			}
-			public function countNews()
+			public function countNews($action = 'default')
 			{
-				$query = $this->core->db->get('tendoo_news');
+				if($action == 'mines')
+				{
+					$this->db->where('AUTEUR',$this->users_global->current('ID'));
+				}
+				else if($action == 'scheduled')
+				{
+					$this->db->where('SCHEDULED',1);
+				}
+				$query = $this->db->get('tendoo_news');
 				return count($query->result_array());
 			}
-			public function getNews($start,$end)
+			public function getNews($start = NULL,$end = NULL,$scheduled_only	=	FALSE,$filter	=	'default')
 			{
-				$this->core->db	->select('*')
-								->from('tendoo_news')
-								->order_by('id','desc')
+				$this->db		->select('*')
+								->from('tendoo_news');
+				if($scheduled_only == TRUE || $filter	== 'scheduled')
+				{
+					$this->db->where('SCHEDULED',1);
+				}
+				if($filter	==	'mines')
+				{
+					$this->db->where('AUTEUR',$this->users_global->current('ID'));
+				}
+				if(is_numeric($start) && is_numeric($end))
+				{
+								$this->db
+								->order_by('DATE','desc')
 								->limit($end,$start);
-				$query			=	$this->core->db->get();
+				}
+				$query			=	$this->db->get();
 				return $query->result_array();
 			}
 			public function getNewsKeyWords($newsid)
 			{
-				$this->core->db	->where('NEWS_ID',$newsid);
-				$query	=	$this->core->db->get('tendoo_news_keywords');
+				$this->db	->where('NEWS_ID',$newsid);
+				$query	=	$this->db->get('tendoo_news_keywords');
 				return $query->result_array();
 			}
-			public function publish_news($title,$content,$state,$image,$thumb,$cat,$first_admin = FALSE,$key_words= array())
+			public function getKeyWords($start = NULL,$end = NULL,$filter = 'all')
+			{
+				if(is_numeric($start) && is_numeric($end))
+				{
+					$this->db->limit($end,$start);
+				}
+				if($filter	==	'article_keyWords')
+				{
+					$this->db->where('NEWS_ID',$start);
+				}
+				if($filter	==	'keywords')
+				{
+					$this->db->where('ID',$start);
+				}
+				$query	=	$this->db->get('tendoo_news_keywords');
+				return $query->result_array();
+			}
+			/*
+				Publie un article, prend comme paramètre : 
+					le titre, 
+					le contenu, 
+					l'etat (1,2,3,4)(publié, brouillon, programmé, en examen), 
+					le lien vers l'image, 
+					le lien vers l'aperçu, 
+					l'identifiant de la catégorie, 
+					si cet article est publié pendant l'installation de Tendoo [True/False], si oui, l'auteur sera le super administrateur, 
+					les mots clés : tableau non associatif
+					la date de programmation au format "dd-mm-YY", 
+					le temps de programmation au format "H:i"
+				Renvoi un tableau associatif contenant les informations de l'article publié.
+			*/
+			public function publish_news($title,$content,$state,$image,$thumb,$cat,$first_admin = FALSE,$key_words= array(),$scheduledDate=FALSE,$scheduledTime=FALSE)
 			{
 				if($first_admin == FALSE)
 				{
+					$scheduled			=	0;
+					// Si une date est définie comme date de publication
+					if(!in_array($scheduledDate,array('',FALSE)))
+					{
+						// Si l'heure n'est pas précisé l'article sera publié a 00h
+						$scheduledTime	=	in_array($scheduledTime,array(FALSE,'')) ? '00:00' : $scheduledTime; 
+						$cur_date	=	$this->tendoo->createDateFromString('d-m-Y H:i',$scheduledDate.' '.$scheduledTime);
+						$date		=	$cur_date->format('Y-m-d H:i:s');
+						$state	=	3; // Pour indiquer que l'article à été programmé.
+						$scheduled		=	1; // Programmé [1:TRUE]
+					}
+					else
+					{
+						$date	=	$this->tendoo->datetime();
+					}
 					$content		=	array(
-					'TITLE'			=> $title,
-					'CONTENT'		=> $content,
-					'IMAGE'			=> $image,
-					'THUMB'			=>	$thumb,
-					'AUTEUR'		=> $this->user->current('ID'),
-					'ETAT'			=> $state,
-					'DATE'			=> $this->tendoo->datetime(),
-					'CATEGORY_ID'	=> $cat
+						'TITLE'			=> $title == false ? 'Article sans titre' : $title,
+						'CONTENT'		=> $content,
+						'IMAGE'			=> $image	==	false ? $this->url->img_url('Hub_back.png') : $image,
+						'THUMB'			=> $thumb	==	false ? $this->url->img_url('Hub_back.png') : $thumb,
+						'AUTEUR'		=> $this->user->current('ID'),
+						'ETAT'			=> $state	==	false ? 2 : $state,
+						'DATE'			=> $date,
+						'CATEGORY_ID'	=> $cat		==	false ? 0 : $cat,
+						'SCHEDULED'		=>	$scheduled
 					);
 				}
 				else
@@ -114,10 +179,10 @@ $NOTICE_SUPER_ARRAY = $or;
 					'CATEGORY_ID'	=> $cat
 					);
 				}
-				$this->core->db->insert('tendoo_news',$content);
-				$query		=	$this->core->db->limit(1,0)->order_by('ID','desc')->get('tendoo_news');
+				$this->db->insert('tendoo_news',$content);
+				$query		=	$this->db->limit(1,0)->order_by('ID','desc')->get('tendoo_news');
 				$getLastNews	=	$query->result_array(); 
-				if(count($key_words) > 0) // Préparation des mots clés.
+				if(count($key_words) > 0 && $key_words != false) // Préparation des mots clés.
 				{
 					foreach($key_words as $k)
 					{
@@ -135,13 +200,29 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					foreach($final_key_words as $f)
 					{
-						$this->core->db->insert('tendoo_news_keywords',$f);
+						$this->db->insert('tendoo_news_keywords',$f);
 					}
 				}
-				return true;
+				// Retourne les inforamtions de l'article récemment publié.
+				return $getLastNews;
 			}
-			public function edit($id,$title,$content,$state,$image,$thumb,$cat,$key_words	=	array())
+			public function edit($id,$title,$content,$state,$image,$thumb,$cat,$key_words	=	array(),$scheduledDate = FALSE, $scheduledTime	=	FALSE)
 			{
+				$scheduled			=	0;
+				// Si une date est définie comme date de publication
+				if(!in_array($scheduledDate,array('',FALSE)))
+				{
+					// Si l'heure n'est pas précisé l'article sera publié a 00h
+					$scheduledTime	=	in_array($scheduledTime,array(FALSE,'')) ? '00:00' : $scheduledTime; 
+					$cur_date	=	$this->tendoo->createDateFromString('d-m-Y H:i',$scheduledDate.' '.$scheduledTime);
+					$date		=	$cur_date->format('Y-m-d H:i:s');
+					$state	=	3; // Pour indiquer que l'article à été programmé.
+					$scheduled		=	1; // Programmé [1:TRUE]
+				}
+				else
+				{
+					$date	=	$this->tendoo->datetime();
+				}
 				$content	=	array(
 					'TITlE'			=> $title,
 					'CONTENT'		=> $content,
@@ -149,38 +230,43 @@ $NOTICE_SUPER_ARRAY = $or;
 					'IMAGE'			=> $image,
 					'THUMB'			=>	$thumb,
 					'AUTEUR'		=> $this->user->current('ID'),
-					'DATE'			=> $this->tendoo->datetime(),
-					'CATEGORY_ID'	=> $cat
+					'DATE'			=> $date,
+					'CATEGORY_ID'	=> $cat,
+					'SCHEDULED'		=>	$scheduled
 				);
+				$final_key_words	=	array();
 				if(count($key_words) > 0) // Préparation des mots clés.
 				{
-					foreach($key_words as $k)
+					if(is_array($key_words))
 					{
-						$final_key_words[]	=	array(
-							'NEWS_ID'		=>	$id,
-							'KEYWORDS'		=>	$k
-						);
+						foreach($key_words as $k)
+						{
+							$final_key_words[]	=	array(
+								'NEWS_ID'		=>	$id,
+								'KEYWORDS'		=>	$k
+							);
+						}
 					}
 				}
-				else
-				{
-					$final_key_words	=	array();
-				}
-				$this->core->db->where('NEWS_ID',$id)->delete('tendoo_news_keywords');
+				$this->db->where('NEWS_ID',$id)->delete('tendoo_news_keywords');
 				if(count($final_key_words) > 0) // insertion des mots clés.
 				{
 					foreach($final_key_words as $f)
 					{
-						$this->core->db->insert('tendoo_news_keywords',$f);
+						$this->db->insert('tendoo_news_keywords',$f);
 					}
 				}
-				$this->core->db->where('ID',$id);
-				return $this->core->db->update('tendoo_news',$content);
+				$this->db->where('ID',$id);
+				if($this->db->update('tendoo_news',$content))
+				{
+					return $this->getSpeNews($id);
+				}
+				return false;
 			}
 			public function getSpeNews($id)
 			{
-				$this->core->db	->where(array('ID'=>$id));
-				$query			=	$this->core->db->get('tendoo_news');
+				$this->db	->where(array('ID'=>$id));
+				$query			=	$this->db->get('tendoo_news');
 				$result			=	$query->result_array();
 				if(count($result) > 0)
 				{
@@ -193,10 +279,13 @@ $NOTICE_SUPER_ARRAY = $or;
 				$article	=	$this->getSpeNews($id);
 				if($article)
 				{
-					return $this->core->db	
+					$datetime	=	$this->tendoo->datetime();
+					return $this->db	
 					->where(array('ID'=>$id))
 					->update('tendoo_news',array(
-						'ETAT'		=>		0
+						'ETAT'		=>		0,
+						'SCHEDULED'	=>		0,
+						'DATE'		=>		$datetime
 					));
 				}
 				return false;
@@ -206,51 +295,59 @@ $NOTICE_SUPER_ARRAY = $or;
 				$article	=	$this->getSpeNews($id);
 				if($article)
 				{
-					return $this->core->db	
+					$datetime	=	$this->tendoo->datetime();
+					return $this->db	
 					->where(array('ID'=>$id))
 					->update('tendoo_news',array(
-						'ETAT'		=>		1
+						'ETAT'		=>		1,
+						'DATE'		=>		$datetime,
+						'SCHEDULED'	=>		0
 					));
 				}
 				return false;
 			}
 			public function countCat()
 			{
-				$query	=	$this->core->db->get('tendoo_news_category');
+				$query	=	$this->db->get('tendoo_news_category');
 				return count($query->result_array());
 			}
 			public function deleteSpeNews($id)
 			{
 				if($this->getSpeNews($id))
 				{
-					$this->core->db->where('REF_ART',$id)->delete('tendoo_comments');
-					$this->core->db->where('NEWS_ID',$id)->delete('tendoo_news_keywords');
-					$this->core->db->where('ID',$id)->delete('tendoo_news');
+					$this->db->where('REF_ART',$id)->delete('tendoo_comments');
+					$this->db->where('NEWS_ID',$id)->delete('tendoo_news_keywords');
+					$this->db->where('ID',$id)->delete('tendoo_news');
 					return true;
 				}
 				return false;
 			}
+			/*
+				Recupère les catégories à partir d'un index spécifié "$start" à une limite déterminée "$end"
+				ou Recupère une catégorie dont l'identifiant est fourni "$start" lorsque "$end" vaut "NULL"
+					renvoie un tableau.
+			*/
 			public function getCat($start = null,$end = null)
 			{
 				if($start == null && $end == null)
 				{
-					$query	=	$this->core->db->get('tendoo_news_category');
+					$query	=	$this->db->get('tendoo_news_category');
 				}
 				else if($start != null && $end == null)
 				{
-					$query	=	$this->core->db->where('ID',$start)->get('tendoo_news_category');
+					$query	=	$this->db->where('ID',$start)->get('tendoo_news_category');
 					$ar		=	$query->result_array();
 					return $ar[0];
 				}
 				else
 				{
-					$query	=	$this->core->db->limit($end,$start)->order_by('ID','desc')->get('tendoo_news_category');
+					$query	=	$this->db->limit($end,$start)->order_by('ID','desc')->get('tendoo_news_category');
 				}
 				return $query->result_array();
 			}
 			public function getSpeCat($id)
 			{
-				$query	=	$this->core->db->where('ID',$id)->get('tendoo_news_category');
+				$query	=	$this->db->where('ID',$id)->get('tendoo_news_category');
 				$ar		=	$query->result_array();
 				if(count($ar) == 0)
 				{
@@ -258,9 +355,13 @@ $NOTICE_SUPER_ARRAY = $or;
 				}
 				return $ar[0];
 			}
+			/*
+				crée une catégorie avec un nom "$name" et une description "$description"
+					renvoie une chaine de caractère soit : categoryCreated lorsque l'opération réussi, soit : categoryAldreadyCreated.
+			*/
 			public function createCat($name,$description)
 			{
-				$query  = $this->core->db->where('CATEGORY_NAME',strtolower($name))->get('tendoo_news_category');
+				$query  = $this->db->where('CATEGORY_NAME',strtolower($name))->get('tendoo_news_category');
 				if(count($query->result_array()) == 0)
 				{
 					$array	=	array(
@@ -268,14 +369,17 @@ $NOTICE_SUPER_ARRAY = $or;
 						'DESCRIPTION'	=>$description,
 						'DATE'			=>$this->tendoo->datetime()
 					);
-					$this->core->db->insert('tendoo_news_category',$array);
+					$this->db->insert('tendoo_news_category',$array);
 					return 'categoryCreated';
 				}
 				return 'categoryAldreadyCreated';
 			}
+			/*
+				Modifie une catégorie dont l'identifiant est déterminé avec le paramètre "$id", et remplace le nom "$name" et la description de la catégorie "$description".
+			*/
 			public function editCat($id,$name,$description)
 			{
-				$query  = $this->core->db->where('ID',$id)->get('tendoo_news_category');
+				$query  = $this->db->where('ID',$id)->get('tendoo_news_category');
 				if(count($query->result_array()) > 0)
 				{
 					$array	=	array(
@@ -283,30 +387,48 @@ $NOTICE_SUPER_ARRAY = $or;
 						'DESCRIPTION'	=>$description,
 						'DATE'			=>$this->tendoo->datetime()
 					);
-					$this->core->db->where('ID',$id)->update('tendoo_news_category',$array);
+					$this->db->where('ID',$id)->update('tendoo_news_category',$array);
 					return 'categoryUpdated';
 				}
 				return 'unknowCat';
 			}
+			/*
+				Supprime une catégorie dont l'identifiant est déterminé.
+			*/
 			public function deleteCat($id)
 			{
-				$query	=	$this->core->db->where('CATEGORY_ID',$id)->get('tendoo_news');
+				$query	=	$this->db->where('CATEGORY_ID',$id)->get('tendoo_news');
 				if(count($query->result_array()) > 0)
 				{
 					return 'CatNotEmpty';
 				}
-				$this->core->db->where('ID',$id)->delete('tendoo_news_category');
+				$this->db->where('ID',$id)->delete('tendoo_news_category');
 				return 'CatDeleted';
 			}
+			/*
+				Renvoie une int avec le nombre de commentaires postés.
+			*/
 			public function countComments()
 			{
-				$query	=	$this->core->db->get('tendoo_comments');
+				$query	=	$this->db->get('tendoo_comments');
 				$result	=	$query->result_array();
 				return count($result);
 			}
-			public function getComments($start,$end)
+			/*
+				Recupère les commentaires à partir d'un index spécifié à une limite déterminée.
+					renvoie un tableau.
+			*/
+			public function getComments($start	=	null,$end = null)
 			{
-				$query	=	$this->core->db->order_by('ID','desc')->limit($end,$start)->get('tendoo_comments');
+				if(is_numeric($start) && is_numeric($end))
+				{
+					$this->db->limit($end,$start);
+				}
+				else if(is_numeric($start) && !is_numeric($end))
+				{
+					$this->db->where('ID',$start);
+				}
+				$query	=	$this->db->order_by('ID','desc')->get('tendoo_comments');
 				$result	=	$query->result_array();
 				return $result;
 			}
@@ -315,7 +437,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				/* 
 				/*	1 : TRUE; 0 : FALSE
 				*/
-				$query	=	$this->core->db->get('tendoo_news_setting');
+				$query	=	$this->db->get('tendoo_news_setting');
 				$result	=	$query->result_array();
 				if(count($result) > 0)
 				{
@@ -335,7 +457,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					{
 						$VC		=	0;
 					}
-					return $this->core->db->update('tendoo_news_setting',array(
+					return $this->db->update('tendoo_news_setting',array(
 						'EVERYONEPOST'		=>	$APC,
 						'APPROVEBEFOREPOST'	=>	$VC // Vlidate comments
 					));
@@ -358,7 +480,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					{
 						$VC		=	0;
 					}
-					return $this->core->db->insert('tendoo_news_setting',array(
+					return $this->db->insert('tendoo_news_setting',array(
 						'EVERYONEPOST'			=>		$APC,	
 						'APPROVEBEFOREPOST'		=>		$VC,	
 					));
@@ -366,22 +488,20 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function getBlogsterSetting()
 			{
-				$query	=	$this->core->db->get('tendoo_news_setting');
+				$query	=	$this->db->get('tendoo_news_setting');
 				$result	=	$query->result_array();
 				if(!$result)
 				{
 					return 	array(
-						'WIDGET_CATEGORY_LIMIT'		=>	10,
 						'EVERYONEPOST'				=>	1,
-						'APPROVEBEFOREPOST'			=>	1,
-						'WIDGET_MOSTREADED_LIMIT'	=>	10
+						'APPROVEBEFOREPOST'			=>	1
 					);
 				}
 				return array_key_exists(0,$result) ? $result[0] : false;
 			}
 			public function getSpeComment($id)
 			{
-				$query		=	$this->core->db->where(array('ID'=>$id))->get('tendoo_comments');
+				$query		=	$this->db->where(array('ID'=>$id))->get('tendoo_comments');
 				$result		=	$query->result_array();
 				if(count($result) == 0): return false;endif; // return false if comment doesn't exist
 				if($result[0]['AUTEUR'] == '0')
@@ -396,7 +516,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			{
 				if($comment	=	$this->getSpeComment($id)) // If comment exist
 				{
-					return $this->core->db->where('ID',$id)->update('tendoo_comments',array('SHOW'=>'1'));
+					return $this->db->where('ID',$id)->update('tendoo_comments',array('SHOW'=>'1'));
 				}
 				return false;
 			}
@@ -404,7 +524,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			{
 				if($comment	=	$this->getSpeComment($id)) // If comment exist
 				{
-					return $this->core->db->where('ID',$id)->update('tendoo_comments',array('SHOW'=>'0'));
+					return $this->db->where('ID',$id)->update('tendoo_comments',array('SHOW'=>'0'));
 				}
 				return false;
 			}
@@ -412,62 +532,93 @@ $NOTICE_SUPER_ARRAY = $or;
 			{
 				if($comment	=	$this->getSpeComment($id)) // If comment exist
 				{
-					return $this->core->db->where(array('ID'=>$id))->delete('tendoo_comments');
+					return $this->db->where(array('ID'=>$id))->delete('tendoo_comments');
 				}
 				return false;
 			}
-			public function updateWidgetSetting($option,$value)
+			/*
+				Publie les articles programmés.
+			*/
+			public function postScheduledArt()
 			{
-				if($option	==	'CAT')
+				$news	=	$this->getNews(null,null,TRUE);
+				if($news)
 				{
-					$query		=	$this->core->db->get('tendoo_news_setting');
-					$result		=	$query->result_array();
-					if($result)
+					$currentTime	=	strtotime($this->tendoo->datetime());
+					foreach($news as $n)
 					{
-						return	$this->core->db->update('tendoo_news_setting',array(
-							'WIDGET_CATEGORY_LIMIT'		=>	$value,
-						));	
+						$postTime	=	strtotime($n['DATE']);
+						if($currentTime > $postTime)
+						{
+							$this->db->where('ID',$n['ID'])
+								->update('tendoo_news',array(
+									'SCHEDULED'	=>	0,
+									'ETAT'		=>	1
+								));
+						}
 					}
-					else
-					{
-						return $this->core->db->insert('tendoo_news_setting',array(
-							'WIDGET_CATEGORY_LIMIT'		=>	$value,
-						));	
-					}
+					return true;
 				}
-				else if($option	==	'MOSTREADED')
+				return false;
+			}
+			public function export()
+			{
+				$categories			=	$this->getCat();
+				$articles			=	$this->getNews();
+				$comments			=	$this->getComments();
+				$articles_keyWords	=	$this->getKeyWords();
+				// Creating Categories
+				$fullArray			=	array();
+				$fullArray['CATEGORY']	=	$categories;
+				$fullArray['ARTICLES']	=	$articles;
+				$fullArray['KEYWORDS']	=	$articles_keyWords;
+				$fullArray['COMMENTS']	=	$comments;
+				
+				return json_encode($fullArray,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT);
+			}
+			public function doImport($fullArray)
+			{
+				if(count($fullArray) > 0)
 				{
-					$query		=	$this->core->db->get('tendoo_news_setting');
-					$result		=	$query->result_array();
-					if($result)
+					$status		=	array();
+					$status['success']	=	0;
+					$status['error']	=	0;
+					foreach($fullArray as $key	=>	$value)
 					{
-						return	$this->core->db->update('tendoo_news_setting',array(
-							'WIDGET_MOSTREADED_LIMIT'		=>	$value,
-						));	
+						if(in_array($key,array('ARTICLES','CATEGORY','KEYWORDS','COMMENTS')))
+						{
+							switch($key)
+							{
+								case "ARTICLES" :
+								$table	=	"tendoo_news";
+								break;
+								case "CATEGORY"	:	
+								$table	=	"tendoo_news_category";
+								break;
+								case "KEYWORDS" :
+								$table	=	"tendoo_news_keywords";
+								break;
+								case "COMMENTS"	:
+								$table	=	"tendoo_comments";
+								break;
+							}
+							// Removing all Articles
+							$this->db->empty_table($table);
+							// Loading Articles
+							foreach($value as $inputs)
+							{
+								if($this->db->insert($table,$inputs))
+								{
+									$status['success']++;
+								}
+								else 
+								{
+									$status['error'];
+								}
+							}							
+						}
 					}
-					else
-					{
-						return $this->core->db->insert('tendoo_news_setting',array(
-							'WIDGET_MOSTREADED_LIMIT'		=>	$value,
-						));	
-					}
-				}
-				else if($option	==	'COMMENTS')
-				{
-					$query		=	$this->core->db->get('tendoo_news_setting');
-					$result		=	$query->result_array();
-					if($result)
-					{
-						return	$this->core->db->update('tendoo_news_setting',array(
-							'WIDGET_COMMENTS_LIMIT'		=>	$value,
-						));	
-					}
-					else
-					{
-						return $this->core->db->insert('tendoo_news_setting',array(
-							'WIDGET_COMMENTS_LIMIT'		=>	$value,
-						));	
-					}
+					return $status;
 				}
 				return false;
 			}
@@ -478,38 +629,41 @@ $NOTICE_SUPER_ARRAY = $or;
 		class News_smart
 		{
 			private $data;
-			private $tendoo;
-			private $ci;
 			public function __construct($data	=	array())
 			{
-				$this->core		=	Controller::instance();
+				__extends($this);
 				$this->data		=&	$data;
-				$this->tendoo	=&	$this->core->tendoo;
-				$this->users	=&	$this->core->users_global;
+				$this->users	=&	$this->users_global;
+				// Post ScheduledArt()
+				$this->postScheduledArt();
 			}
 			public function getCat($start = null,$end = null)
 			{
 				if($start == null && $end == null)
 				{
-					$query	=	$this->core->db->get('tendoo_news_category');
+					$query	=	$this->db->get('tendoo_news_category');
 				}
 				else if(is_numeric($start) && !is_numeric($end))
 				{
-					$query	=	$this->core->db->where('ID',$start)->get('tendoo_news_category');
+					$query	=	$this->db->where('ID',$start)->get('tendoo_news_category');
 					$ar		=	$query->result_array();
-					return $ar[0];
+					if($ar)
+					{
+						return $ar[0];
+					}
+					return false;
 				}
 				else
 				{
-					$query	=	$this->core->db->limit($end,$start)->order_by('ID','desc')->get('tendoo_news_category');
+					$query	=	$this->db->limit($end,$start)->order_by('ID','desc')->get('tendoo_news_category');
 				}
 				return $query->result_array();
 			}
 			public function retreiveCat($id)
 			{
-				$this->core->db			->from('tendoo_news_category')
+				$this->db			->from('tendoo_news_category')
 										->where('ID',$id);
-				$query					= $this->core->db->get();
+				$query					= $this->db->get();
 				$data					=	$query->result_array();
 				if(count($data) == 0)
 				{
@@ -524,30 +678,48 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					return array(
 						'name'		=>$data[0]['CATEGORY_NAME'],
-						'url'		=>$this->core->url->site_url($this->core->url->controller()).'/category/'.$this->core->tendoo->urilizeText($data[0]['CATEGORY_NAME']).'/'.$id,
+						'url'		=>$this->url->site_url($this->url->controller()).'/category/'.$this->tendoo->urilizeText($data[0]['CATEGORY_NAME']).'/'.$id,
 						'desc'		=>$data[0]['DESCRIPTION']
 					);
 				}
 			}
-			public function getNews($start,$end)
+			public function getNews($start = NULL,$end = NULL,$showScheduled	=	FALSE)
 			{
-				$this->core->db			->from('tendoo_news')
-										->where('ETAT',1)
-										->order_by('DATE','desc')
-										->limit($end,$start);
-				$query 					= $this->core->db->get();
+				$this->db->from('tendoo_news');					
+				if($showScheduled	==	TRUE)
+				{
+					$this->db->where('SCHEDULED',1)->where('ETAT',3);
+				}
+				else
+				{
+					$this->db->where('ETAT',1);
+				}
+				if(is_numeric($start) && is_numeric($end))
+				{
+					$this->db
+						->order_by('DATE','desc')
+						->limit($end,$start);
+				}
+				$query 					= $this->db->get();
 				return $query->result_array();
 			}
 			public function countNews()
 			{
-				$this->core->db			->where(array('ETAT'=>1));
-				$query = $this->core->db	->get('tendoo_news');
+				$this->db			->where(array('ETAT'=>1));
+				$query = $this->db	->get('tendoo_news');
 				return count($query->result_array());
 			}
-			public function getSpeNews($id)
+			public function getSpeNews($id,$showAsAdmin	=	FALSE)
 			{
-				$this->core->db	->where(array('ETAT'=>1,'ID'=>$id));
-				$query			=	$this->core->db->get('tendoo_news');
+				if($showAsAdmin)
+				{
+					$this->db	->where(array('ID'=>$id));
+				}
+				else
+				{
+					$this->db	->where(array('ETAT'=>1,'ID'=>$id));
+				}
+				$query			=	$this->db->get('tendoo_news');
 				return $query->result_array();
 			}
 			public function countComments($id)
@@ -555,10 +727,10 @@ $NOTICE_SUPER_ARRAY = $or;
 				$option			=	$this->getBlogsterSetting();
 				if($option['APPROVEBEFOREPOST'] == 1) // Get only approuved comments
 				{
-					$this->core->db->where('SHOW',1);
+					$this->db->where('SHOW',1);
 				}
-				$this->core->db			->where(array('REF_ART'=>$id));
-				$query = $this->core->db	->get('tendoo_comments');
+				$this->db			->where(array('REF_ART'=>$id));
+				$query = $this->db	->get('tendoo_comments');
 				return count($query->result_array());
 			}
 			public function getComments($id,$start,$end,$order = "asc")
@@ -568,15 +740,15 @@ $NOTICE_SUPER_ARRAY = $or;
 					$option			=	$this->getBlogsterSetting();
 					if($option['APPROVEBEFOREPOST'] == 1) // Get only approuved comments
 					{
-						$this->core->db->where('SHOW',1);
+						$this->db->where('SHOW',1);
 					}
-					$this->core->db			->where(array('REF_ART'=>$id));
+					$this->db			->where(array('REF_ART'=>$id));
 				}
 				if(is_numeric((int)$start) && is_numeric((int)$end))
 				{
-					$this->core->db->limit($end,$start);
+					$this->db->limit($end,$start);
 				}
-				$query = $this->core->db->order_by('ID',$order)->get('tendoo_comments');
+				$query = $this->db->order_by('ID',$order)->get('tendoo_comments');
 				return $query->result_array();
 				
 			}
@@ -605,37 +777,35 @@ $NOTICE_SUPER_ARRAY = $or;
 					'DATE'					=> 	$this->tendoo->datetime(),
 					'SHOW'					=>	$autoApprove
 				);
-				return $this->core->db	->insert('tendoo_comments',$comment);
+				return $this->db	->insert('tendoo_comments',$comment);
 			}
 			public function countArtFromCat($catid)
 			{
-				$this->core->db			->where('ETAT',1)
+				$this->db			->where('ETAT',1)
 										->where('CATEGORY_ID',$catid);
-				$query = $this->core->db	->get('tendoo_news');
+				$query = $this->db	->get('tendoo_news');
 				return count($query->result_array());
 			}
 			public function getArtFromCat($catid,$start = null,$end = null)
 			{
-				$this->core->db			->where('ETAT',1)
+				$this->db			->where('ETAT',1)
 										->where('CATEGORY_ID',$catid);
 				if(is_numeric($start) && is_numeric($end))
 				{
-					$this->core->db->order_by('ID','desc')->limit($end,$start);
+					$this->db->order_by('ID','desc')->limit($end,$start);
 				}
-				$query = $this->core->db	->get('tendoo_news');
+				$query = $this->db	->get('tendoo_news');
 				return $query->result_array();
 			}
 			public function getBlogsterSetting()
 			{
-				$query	=	$this->core->db->get('tendoo_news_setting');
+				$query	=	$this->db->get('tendoo_news_setting');
 				$result	=	$query->result_array();
 				if(!$result)
 				{
 					return 	array(
-						'WIDGET_CATEGORY_LIMIT'		=>	10,
 						'EVERYONEPOST'				=>	1,
-						'APPROVEBEFOREPOST'			=>	1,
-						'WIDGET_MOSTREADED_LIMIT'	=>	10
+						'APPROVEBEFOREPOST'			=>	1
 					);
 				}
 				return array_key_exists(0,$result) ? $result[0] : false;
@@ -645,7 +815,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				$art	=	$this->getSpeNews($arid);
 				if($art)
 				{
-					return $this->core->db->where('ID',$arid)->update('tendoo_news',array(
+					return $this->db->where('ID',$arid)->update('tendoo_news',array(
 						'VIEWED'		=>	(int)$art[0]['VIEWED']+1
 					));
 				}
@@ -653,18 +823,43 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function getMostViewed($start,$end)
 			{
-				$this->core->db			->from('tendoo_news')
+				$this->db			->from('tendoo_news')
 										->where('ETAT',1)
 										->order_by('VIEWED','DESC')
 										->limit($end,$start);
-				$query 					= $this->core->db->get();
+				$query 					= $this->db->get();
 				return $query->result_array();
 			}
 			public function getNewsKeyWords($newsid)
 			{
-				$this->core->db	->where('NEWS_ID',$newsid);
-				$query	=	$this->core->db->get('tendoo_news_keywords');
+				$this->db	->where('NEWS_ID',$newsid);
+				$query	=	$this->db->get('tendoo_news_keywords');
 				return $query->result_array();
+			}
+			/*
+				Publie les articles programmés.
+			*/
+			public function postScheduledArt()
+			{
+				$news	=	$this->getNews(null,null,TRUE);
+				if($news)
+				{
+					$currentTime	=	strtotime($this->tendoo->datetime());
+					foreach($news as $n)
+					{
+						$postTime	=	strtotime($n['DATE']);
+						if($currentTime > $postTime)
+						{
+							$this->db->where('ID',$n['ID'])
+								->update('tendoo_news',array(
+									'SCHEDULED'	=>	0,
+									'ETAT'		=>	1
+								));
+						}
+					}
+					return true;
+				}
+				return false;
 			}
 			
 		}	

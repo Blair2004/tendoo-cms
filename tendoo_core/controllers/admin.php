@@ -103,7 +103,9 @@ class Admin
 		$this->file->css_push('fuelux');
 		$this->file->css_push('introjs/introjs.min');
 
-		$this->file->js_push('jquery');
+		// $this->file->js_push('jquery');
+		$this->file->js_push('jquery-1.9');
+		
 		$this->file->js_push('underscore.1.6.0');
 		$this->file->js_push('app.min.vtendoo'); // _2
 		$this->file->js_push('tendoo_loader');
@@ -469,7 +471,8 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			if($e == 'main')
 			{
 				$page	=	$a;
-				
+				$this->file->js_push('jtransit/jquery.transit.min');
+								
 				$this->tendoo->setTitle('Gestion des th&egrave;mes - Tendoo');
 				$this->data['ttThemes']	=	$this->tendoo_admin->countThemes();
 				$this->data['paginate']	=	$this->tendoo->paginate(
@@ -493,39 +496,56 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			{
 				$this->load->library('form_validation');
 $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-				$this->form_validation->set_rules('setDefault','Définir par d&eacute;faut');
+				$this->form_validation->set_rules('action','Définir par d&eacute;faut');
 				$this->form_validation->set_rules('theme_id','identifiant du theme','required');
 				if($this->form_validation->run())
 				{
-					if($this->input->post('setDefault') == 'ADMITSETDEFAULT')
+					if($this->input->post('action') == 'ADMITSETDEFAULT')
 					{
-						$this->data['queryResult']	=	$this->tendoo_admin->setDefault($this->input->post('theme_id'));
+						if($this->tendoo_admin->setDefault($this->input->post('theme_id')))
+						{
+							echo json_encode(array(
+								'status'	=>		'success',
+								'alertType'	=>		'notice',
+								'message'	=>		'Le thème à été correctement été définie par défaut',
+								'response'	=>		'theme_set'
+							));
+							return;
+						}
+						echo json_encode(array(
+							'status'	=>		'warning',
+							'alertType'	=>		'modal',
+							'message'	=>		'Le thème n\'a pas pu être défini par défaut.',
+							'response'	=>		'theme_set_failure'
+						));
+						return;
 					}
 				}
-				$this->form_validation->set_rules('delete','Supprimer le th&egrave;me');
+				$this->form_validation->set_rules('action','Supprimer le th&egrave;me');
 				$this->form_validation->set_rules('theme_id','identifiant du theme','required');
 				if($this->form_validation->run())
 				{
-					if($this->input->post('delete') == 'ADMITDELETETHEME')
+					if($this->input->post('action') == 'ADMITDELETETHEME')
 					{
-						$this->data['queryResult']	=	$this->tendoo_admin->uninstall_theme($this->input->post('theme_id'));
-						$this->url->redirect(array('admin','themes','main?notice='.$this->data['queryResult']));
+						$status		=	$this->tendoo_admin->uninstall_theme($this->input->post('theme_id'));
+						if($status)
+						{
+							echo json_encode(array(
+								'status'	=>		'success',
+								'alertType'	=>		'notice',
+								'message'	=>		'Le thème à été supprimé',
+								'response'	=>		'theme_deleted'
+							));
+							return;
+						}
+						echo json_encode(array(
+							'status'	=>		'warning',
+							'alertType'	=>		'modal',
+							'message'	=>		'Le thème n\'a pas pu être supprimé.',
+							'response'	=>		'theme_deletion_failure'
+						));
+						return;
 					}
-				}
-				$this->data['Spetheme']	=	$this->tendoo_admin->isTheme($a);
-				if($this->data['Spetheme'])
-				{
-					
-					$this->tendoo->setTitle('Gestion du th&egrave;me - '.$this->data['Spetheme'][0]['NAMESPACE']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
-					$this->data['body']	=	$this->load->view('admin/themes/manage',$this->data,true);
-					
-					$this->load->view('admin/header',$this->data,false,false,$this);
-					$this->load->view('admin/global_body',$this->data,false,false,$this);
-				}
-				else
-				{
-					$this->url->redirect(array('error','code','unknowTheme'));
-					return false;
 				}
 			}
 			else if($e ==  'config') // Added 0.9.2
