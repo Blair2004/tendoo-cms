@@ -1,6 +1,6 @@
 Tendoo-cms
 =========
-v.0.9.81
+v.0.9.82
 ---------
 Mise à jour
 ---------
@@ -15,10 +15,10 @@ Mise à jour
 	*	Correction issue #2.
 	* 	Amélioration de l'interface des thèmes.
 	* 	Restructuration du menu.
-	*	Début déploiement plateforme "www.tendoo.org"
 
 En attente :
 
+	*	Configuration de la plateforme "www.tendoo.org"
     *	Nouveau thème
     *	2TB tendoo theme builder
     *	Gestionnaire de la page d'accueil mise à jour
