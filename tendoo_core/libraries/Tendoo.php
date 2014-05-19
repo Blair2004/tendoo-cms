@@ -410,53 +410,6 @@ class Tendoo
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 
 			$module					=		$this->tendoo_admin->moduleActivation('Tendoo_widget_administrator',FALSE);
-			if($module)
-			{
-				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
-				$lib					=	new widhandler_lib(array(
-					'module_dir'		=>	MODULES_DIR.$module[0]['ENCRYPTED_DIR']
-				));
-				$array['LEFT'][]	=	array(
-					'modnamespace'	=>	'system',
-					'namespace'		=>	'texte',
-					'human_name'	=>	'Widget Texte',
-					'title'			=>	'Bienvenu sur Tendoo 0.9.7',
-					'params'		=>	'Ceci est un widget ajouté depuis l\'espace administration. Vous pouvez accédez au module "Gestionnaire de widget" pour modifier ce Widget.'
-				);
-				$array['LEFT'][]	=	array(
-					'modnamespace'	=>	'news',
-					'namespace'		=>	'syslink',
-					'human_name'	=>	'Liens Système',
-					'title'			=>	'Meta.'
-				);
-				$array['RIGHT'][]	=	array(
-					'modnamespace'	=>	'system',
-					'namespace'		=>	'texte',
-					'human_name'	=>	'Widget Texte',
-					'title'			=>	'Bienvenu sur Tendoo 0.9.7',
-					'params'		=>	'Ceci est un widget ajouté depuis l\'espace administration. Vous pouvez accédez au module "Gestionnaire de widget" pour modifier ce Widget.'
-				);
-				$array['RIGHT'][]	=	array(
-					'modnamespace'	=>	'news',
-					'namespace'		=>	'syslink',
-					'human_name'	=>	'Liens Système',
-					'title'			=>	'Meta.'
-				);
-				$array['BOTTOM'][]	=	array(
-					'modnamespace'	=>	'system',
-					'namespace'		=>	'texte',
-					'human_name'	=>	'Widget Texte',
-					'title'			=>	'Bienvenu sur Tendoo 0.9.7',
-					'params'		=>	'Ceci est un widget ajouté depuis l\'espace administration. Vous pouvez accédez au module "Gestionnaire de widget" pour modifier ce Widget.'
-				);
-				$array['BOTTOM'][]	=	array(
-					'modnamespace'	=>	'news',
-					'namespace'		=>	'syslink',
-					'human_name'	=>	'Liens Système',
-					'title'			=>	'Meta.'
-				);
-				$lib->save_widgets($array);
-			}
 		}
 		else if($app	==	'PageEditor')
 		{
@@ -476,7 +429,7 @@ class Tendoo
 			if($module)
 			{
 				$this->tendoo_admin->controller('Accueil','home','Tendoo_contact_handler',$option[0]['SITE_NAME'].' - Accueil','Aucune description enregistr&eacute;e','TRUE',$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'');
-				$this->core->db->insert('Tendoo_contact_handler_option',array(
+				$this->db->insert('Tendoo_contact_handler_option',array(
 					'SHOW_NAME'			=>		1,
 					'SHOW_MAIL'			=>		1
 				));

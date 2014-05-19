@@ -11,11 +11,7 @@ class Tendoo_index
 	public function index($arg = '')
 	{
 		$this->core->file->css_push('font');
-		$this->core->file->css_push('app.v2');
-		$this->core->file->css_push('css1');
-		$this->core->file->css_push('css2');
-		$this->core->file->css_push('tendoo_global');
-		
+		$this->core->file->css_push('app.v2');		
 		$this->core->tendoo->setTitle('Bienvenue sur '.$this->core->tendoo->getVersion());
 		$this->core->load->view('header',$this->data);
 		$this->core->load->view('tendoo_index_body',$this->data);
