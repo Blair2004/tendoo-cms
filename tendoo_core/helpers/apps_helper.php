@@ -27,6 +27,28 @@
 		}
 		return false;
 	}
+	function theme_dir()
+	{
+		$CORE	=	Controller::instance();
+		return $CORE->main_url().THEMES_DIR.$CORE->data['getTheme']['ENCRYPTED_DIR'];
+	}
+	function theme_assets_url($url)
+	{
+		$CORE	=	Controller::instance();
+		return $CORE->url->main_url().'tendoo_dir/'.$CORE->data['getTheme']['ENCRYPTED_DIR'].'/'.$CORE->url->array2Url($url);
+	}
+	function js_push_if_not_exists($url)
+	{
+		$url	=	array_unshift($url,'script');
+		$CORE	=	Controller::instance();
+		$CORE->file->js_push_if_not_exists(theme_assets_url($url));
+	}
+	function css_push_if_not_exists($url)
+	{
+		$url	=	array_unshift($url,'css');
+		$CORE	=	Controller::instance();
+		$CORE->file->css_push_if_not_exists(theme_assets_url($url));
+	}
 	function site_datetime()
 	{
 		$CORE	=	Controller::instance();
