@@ -25,9 +25,11 @@ define('VIEWS_DIR',SYSTEM_DIR.'views/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('CONFIG_DIR',SYSTEM_DIR.'config/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('BASE_DIR',SYSTEM_DIR.'libraries/database/');
+define('DATABASE_DIR',SYSTEM_DIR.'libraries/database/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('THEMES_DIR','tendoo_themes/');
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+define('ASSETS_DIR','tendoo_assets/'); // T098
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('MODULES_DIR','tendoo_modules/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -55,6 +57,7 @@ include_once(HELPERS_DIR.'function_helper.php');
 include_once(HELPERS_DIR.'date.php');
 include_once(HELPERS_DIR.'text.php');
 include_once(HELPERS_DIR.'cookie_helper.php');
+include_once(HELPERS_DIR.'apps_helper.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= BOOT HANDLERS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 //set_error_handler('tendoo_error'); // Aborded
 //set_error_handler('tendoo_exception'); // Aborded
