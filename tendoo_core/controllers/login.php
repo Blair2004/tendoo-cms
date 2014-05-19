@@ -122,7 +122,6 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		{
 			$this->data['pageTitle']	=	'Syst&egrave;me de r&eacute;cup&eacute;ration de compte';
 			$this->core->tendoo->setTitle($this->data['pageTitle']);
-			$this->data['menu']	=	$this->load->view('login/recovery_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('login/recovery_main',$this->data,true);
 			
 			$this->load->view('header',$this->data);
@@ -144,7 +143,6 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			}
 			$this->data['pageTitle']	=	'Recevoir le mail d\'activation';
 			$this->core->tendoo->setTitle($this->data['pageTitle']);
-			$this->data['menu']	=	$this->load->view('login/recovery_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('login/recovery_mailOption',$this->data,true);
 			
 			$this->load->view('header',$this->data);
@@ -166,7 +164,6 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			}
 			$this->data['pageTitle']	=	'Mot de passe perdu';
 			$this->core->tendoo->setTitle($this->data['pageTitle']);
-			$this->data['menu']	=	$this->load->view('login/recovery_menu',$this->data,true);
 			$this->data['body']	=	$this->load->view('login/recovery_password',$this->data,true);
 			
 			$this->load->view('header',$this->data);

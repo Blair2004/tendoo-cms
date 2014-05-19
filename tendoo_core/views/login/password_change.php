@@ -1,4 +1,3 @@
-<?php echo $menu;?>
     <div class="container">
 		<?php echo validation_errors();?>
         <?php echo $this->core->notice->parse_notice();?>

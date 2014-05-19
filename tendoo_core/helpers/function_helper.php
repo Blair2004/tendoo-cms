@@ -72,7 +72,7 @@ if(!function_exists('img_url'))
 	function img_url($e)
 	{
 		$instance	=	Controller::instance();
-		return $instance->url->base_url().'assets/files/'.$e;
+		return $instance->url->main_url().ASSETS_DIR.'/img/'.$e;
 	}
 }
 if(!function_exists('tendoo_error'))

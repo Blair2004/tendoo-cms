@@ -16,7 +16,6 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 		$this->core->file->css_push('font');
 		$this->core->file->css_push('app.v2');
 		$this->core->file->css_push('fuelux');
-		$this->core->file->css_push('tendoo_global');
 
 		$this->core->file->js_push('jquery');
 		$this->core->file->js_push('app.min.vtendoo');
@@ -140,6 +139,9 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				$this->core->tendoo->createConfigFile(); // Créer le fichier de configuration.
 				$this->core->url->redirect('admin');
 			}
+			$this->core->tendoo->setOptions(array(
+				'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"Tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"Tendoo_contents/main_icon";$icons[]	=	"Pages_editor/main_icon";$icons[]	=	"Tendoo_contact_handler/main_icon";$icons[]	=	"Tendoo_widget_administrator/main_icon";$icons[]	=	"tendoo_theme_builder/main_icon";'	
+			));
 			$this->core->tendoo->setTitle('Tendoo - Bravo votre site web est pr&ecirc;t');
 			$this->load->view('header',$this->data);
 			$this->load->view('install/step/4/homebody',$this->data);
@@ -157,7 +159,10 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 					echo 'false'; // Table creation failed, redirect so
 					return false;
 				}
-				if($this->core->tendoo->setOptions($this->core->input->post('site_name')))
+				if($this->core->tendoo->setOptions(array(
+					'SITE_NAME'				=>		$this->core->input->post('site_name'),	// Nom du site
+					'CONNECT_TO_STORE'		=>		1 										// Par défaut se connecte au Store
+				)))
 				{
 					$_SESSION['secur_access']	=	4;
 					echo 'true';

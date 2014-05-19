@@ -14,7 +14,7 @@ class Captcha
 	public function get()
 	{
 		$ttCapt		=	count($this->captchaList);
-		$index		=	rand(0,$ttCapt);
+		$index		=	rand(0,$ttCapt-1);
 		return array(
 			'CODE'		=>	$this->captchaList[$index],
 			'DIRECTORY'	=>	$this->captchaDirectory.$this->captchaList[$index].$this->captchaExtension,

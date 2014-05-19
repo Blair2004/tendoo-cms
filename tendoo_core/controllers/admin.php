@@ -103,8 +103,8 @@ class Admin
 		$this->file->css_push('fuelux');
 		$this->file->css_push('introjs/introjs.min');
 
-		// $this->file->js_push('jquery');
-		$this->file->js_push('jquery-1.9');
+		$this->file->js_push('jquery');
+		//	$this->file->js_push('jquery-1.9');
 		
 		$this->file->js_push('underscore.1.6.0');
 		$this->file->js_push('app.min.vtendoo'); // _2

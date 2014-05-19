@@ -1,9 +1,8 @@
-<?php echo $menu;?>
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-lg-offset-3">
                 <section class="panel">
-                    <header class="panel-heading">D&eacute;tails sur le syst&egrave;me de r&eacute;cup&eacute;ration de compte</header>
+                    <header class="panel-heading"><h4>D&eacute;tails sur le syst&egrave;me de r&eacute;cup&eacute;ration de compte</h4></header>
                     <section class="chat-list panel-body">
                     	<p>Le syst&egrave;me de r&eacute;cup&eacute;ration de compte vous permet de recup&eacute;rer un compte d&eacute;j&agrave; existant, lorsqu'il s'av&egrave;re que : </p>
                         <ul>

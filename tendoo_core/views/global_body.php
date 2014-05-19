@@ -1,4 +1,9 @@
-<body cz-shortcut-listen="true" id="backgroundLogin">
+<?php
+// Setting Random BackGround Login Images
+$images_list	=	array("bkoverlay.jpg");
+$rand	=	$images_list[rand(0,count($images_list)-1)];
+?>
+<body cz-shortcut-listen="true" id="backgroundLogin" style="background:url(<?php echo img_url($rand);?>)">
 	<section class="hbox stretch">
 		<section class="vbox">
 			<footer id="footer"> 

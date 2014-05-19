@@ -355,9 +355,9 @@ class Tendoo_admin
 		$query				=	$this->db->get('tendoo_modules');
 		return $query->num_rows();
 	}
-	public function moduleActivation($id,$form = TRUE)
+	public function moduleActivation($id,$install_dir = "activateFromInstallInterface")
 	{
-		if($form == TRUE)
+		if($install_dir == "activateFromInstallInterface")
 		{
 			$mod	=	$this->getSpeMod($id,TRUE);
 			if($mod)
@@ -370,7 +370,7 @@ class Tendoo_admin
 			}
 			return false;
 		}
-		else
+		else if($install_dir	==	"activateFromInstallInterface")
 		{
 			$mod	=	$this->getSpeModuleByNamespace($id);
 			if($mod)

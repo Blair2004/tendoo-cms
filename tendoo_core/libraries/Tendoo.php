@@ -24,7 +24,7 @@ class Tendoo
 		else
 		{
 			$this->isInstalled = false;
-		}		
+		}	
 	}
 	public function addVisit()
 	{
@@ -190,7 +190,6 @@ class Tendoo
 		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_options` (
 		`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 		`SITE_NAME` varchar(40) NOT NULL,
-		`SITE_TYPE` varchar(40) NOT NULL,
 		`SITE_LOGO` varchar(200) NOT NULL,
 		`SITE_LANG` varchar(200) NOT NULL,
 		`ALLOW_REGISTRATION` int(11) NOT NULL,
@@ -359,7 +358,7 @@ class Tendoo
 			$appFile['temp_dir']	=		'0844d4336594171ad349b41c24adc407';
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$module					=		$this->tendoo_admin->moduleActivation('news',FALSE);
+			$module					=		$this->tendoo_admin->moduleActivation('news',"activateFromInstallInterface");
 			if($module)
 			{
 				$this->tendoo_admin->controller('Blog','blog','news',$option[0]['SITE_NAME'].' - Blog','Aucune description enregistr&eacute;e','FALSE');
@@ -376,6 +375,15 @@ class Tendoo
 					1,
 					TRUE
 				);
+				$lib->publish_news(
+					'Quoi de neuf sur Tendoo '.$this->getVersId(),
+					'Dans cet article, nous vous présenterons les nouveautés de cette nouvelle version de Tendoo.',
+					1,
+					$this->core->url->img_url('whats_new.jpg'),
+					$this->core->url->img_url('whats_new.jpg'),
+					1,
+					TRUE
+				);
 			}
 		}
 		else if($app	==	'Tendoo_index_mod')
@@ -385,7 +393,7 @@ class Tendoo
 			$appFile['temp_dir']	=		'41dea5f466452b1555f1fa7d1930d39a';
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$module					=		$this->tendoo_admin->moduleActivation('Tendoo_index_manager',FALSE);
+			$module					=		$this->tendoo_admin->moduleActivation('tendoo_index_manager',"activateFromInstallInterface");
 			if($module)
 			{
 				$this->tendoo_admin->controller('Accueil','home','Tendoo_index_manager',$option[0]['SITE_NAME'].' - Accueil','Aucune description enregistr&eacute;e','TRUE',$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'');
@@ -399,7 +407,7 @@ class Tendoo
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 
-			$module					=		$this->tendoo_admin->moduleActivation('Tendoo_contents',FALSE);
+			$module					=		$this->tendoo_admin->moduleActivation('tendoo_contents',"activateFromInstallInterface");
 		}
 		else if($app	==	'widget_admin')
 		{
@@ -409,7 +417,10 @@ class Tendoo
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 
-			$module					=		$this->tendoo_admin->moduleActivation('Tendoo_widget_administrator',FALSE);
+			$module					=		$this->tendoo_admin->moduleActivation('tendoo_widget_administrator',"activateFromInstallInterface");
+			if($module == TRUE)
+			{
+			}
 		}
 		else if($app	==	'PageEditor')
 		{
@@ -417,7 +428,7 @@ class Tendoo
 			$appFile['temp_dir']	=		'pageCreater5f9ba355e99f884cc5178';
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$this->tendoo_admin->moduleActivation('Pages_editor',FALSE);
+			$this->tendoo_admin->moduleActivation('pages_editor',FALSE);
 		}
 		else if($app	==	'Contact_manager')
 		{
@@ -425,7 +436,7 @@ class Tendoo
 			$appFile['temp_dir']	=		'tendoo_app_6201401230210406wgIlkG5CkcJT7u3DKMOO';
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$module				=	$this->tendoo_admin->moduleActivation('Tendoo_contact_handler',FALSE);
+			$module				=	$this->tendoo_admin->moduleActivation('tendoo_contact_handler',FALSE);
 			if($module)
 			{
 				$this->tendoo_admin->controller('Accueil','home','Tendoo_contact_handler',$option[0]['SITE_NAME'].' - Accueil','Aucune description enregistr&eacute;e','TRUE',$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'');
@@ -511,21 +522,19 @@ class Tendoo
 		$this->core->notice->push_notice(notice($this->connexion_status));
 		return false;
 	}
-	public function setOptions($name)
+	public function setOptions($options)
 	{
 		$q = $this->core->db->get('tendoo_options');
 		$r = $q->result();
-		$value['CONNECT_TO_STORE']		=	'1'; // by default tendoo connect to store
+		
 		if(count($r) == 1)
 		{	
-			$value['SITE_NAME'] 			= $name;
 			$this->core->db->where('ID',1);
-			$result = $this->core->db->update('tendoo_options',$value);
+			$result = $this->core->db->update('tendoo_options',$options);
 		}
 		else if(count($r) == 0)
 		{
-			$value['SITE_NAME'] 			= 	$name;
-			$result = $this->core->db->insert('tendoo_options',$value);
+			$result = $this->core->db->insert('tendoo_options',$options);
 		}
 		if($result == false)
 		{

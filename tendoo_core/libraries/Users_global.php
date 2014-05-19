@@ -788,7 +788,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function editThemeStyle($e)
 	{
-		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1,2,3,4,5))  ? $e : 0; // If there is new theme just add it there
+		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1,2,3,4,5,6))  ? $e : 0; // If there is new theme just add it there
 		return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('ADMIN_THEME'=>$int));
 	}
 	private function hasAccessToConv($ref_id)
@@ -929,6 +929,10 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		{
 			return "bg-info";
 		}
+		elseif((int)$options == 6) // Blurry T098
+		{
+			return "bg-primary";
+		}
 	}
 	/*
 		Tendoo.0.9.7
@@ -960,6 +964,10 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		elseif((int)$options == 5) // skies
 		{
 			return "btn-info";
+		}
+		elseif((int)$options == 6) // Blurry
+		{
+			return "btn-primary";
 		}
 	}
 	/*
@@ -993,6 +1001,10 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		{
 			return "btn-primary";
 		}
+		elseif((int)$options == 6) // Blurry
+		{
+			return "btn-white";
+		}
 	}
 	/* 
 		Tendoo.0.9.7
@@ -1024,6 +1036,10 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		elseif((int)$options == 5) // skies
 		{
 			return "#E6F3F7";
+		}
+		elseif((int)$options == 6) // Blurry
+		{
+			return "url(".img_url('bg.jpg').")";
 		}
 	}
 	/*
