@@ -26,6 +26,12 @@ class Tendoo
 			$this->isInstalled = false;
 		}	
 	}
+	public function getBackgroundImage()
+	{
+		$images_list	=	array("bkoverlay.jpg");
+		$rand			=	$images_list[0]; // [rand(0,count($images_list)-1)]
+		return $rand;
+	}
 	public function addVisit()
 	{
 		$ts_this_month	=	$this->global_date('month_start_date');
@@ -1411,6 +1417,10 @@ class Tendoo
 						{
 							$param_text .= '"'.$p.'",'; // ajouté une virgule à la fin de la chaine de caractère personnalisée.
 						}
+						else
+						{
+							$param_text .= '"'.$p.'"'; // omettre la virgule.	
+						}
 					}
 					else
 					{
@@ -1419,9 +1429,9 @@ class Tendoo
 				}
 				$i++;
 			}		
-			// var_dump($param_text);
-			// die();
+			//var_dump($param_text);
 			eval('$BODY 	=	$objet->'.$Method.'('.$param_text.');'); // exécution du controller.
+			
 			return $BODY;
 		}
 		else
@@ -1429,13 +1439,13 @@ class Tendoo
 			return '404';
 		}
 	}
-	public function error($array)
+	public function error($notice)
 	{
 		$this->setTitle('Erreur');
 		$this->core->load->library('file');
 		$this->core->file->css_push('app.v2');
 		$this->core->file->css_push('tendoo_global');
-		$error	=	notice($array);
+		$error	=	notice($notice);
 		
 		include_once(VIEWS_DIR.'warning.php');
 	}
@@ -1447,8 +1457,9 @@ class Tendoo
 		$this->core->file->css_push('tendoo_global');
 		include_once(VIEWS_DIR.'warning.php');
 	}
-	public function paginate($elpp,$ttel,$pagestyle,$classOn,$classOff,$current_page,$baselink,$ajaxis_link=null)
+	public function paginate($elpp,$ttel,$pagestyle,$classOn,$classOff,$current_page,$baselink,$ajaxis_link=null) // Deprecated
 	{
+		tendoo_warning('<strong>tendoo::paginate</strong> est désormais déprécié, utilisez "<strong>doPaginate</strong>" à la place.');
 		/*// Gloabl ressources Control*/
 		if(!is_finite($elpp))				: echo '<strong>$elpp</strong> is not finite'; return;
 		elseif(!is_finite($pagestyle))		: echo '<strong>$pagestyle</strong> is not finite'; return;
@@ -1543,6 +1554,58 @@ class Tendoo
 			return array($content,$firstoshow,$elpp,true);
 		}
 	}
+	public function doPaginate($elpp,$ttel,$current_page,$baselink)
+	{
+		/*// Gloabl ressources Control*/
+		if(!is_finite($elpp))				: echo '<strong>$elpp</strong> is not finite'; return;
+		elseif(!is_finite($current_page))	: echo '<strong>$current_page</strong> is not finite'; return;
+		endif;
+		
+		$more	=	array();
+		$ttpage = ceil($ttel / $elpp);
+		if(($current_page > $ttpage || $current_page < 1) && $ttel > 0): return array(
+			'start'				=>	0,
+			'end'				=>	0,
+			'page404', 			// 	Deprécié
+			array(),			// 	Déprécié
+			'status'			=>	'page404',
+			'pagination'		=>	array(),
+			'available_pages'	=>	0,
+			'current_page'		=>	0
+		);
+		endif;
+		$firstoshow = ($current_page - 1) * $elpp;
+		/*// FTS*/
+		if($current_page < 5):$fts = 1;
+		elseif($current_page >= 5):$fts = $current_page - 4;
+		endif;
+		/*// LTS*/
+		if(($current_page + 4) <= $ttpage):$lts = $current_page + 4;
+		/*elseif($ttpage > 5):$lts = $ttpage - $current_page;*/
+		else:$lts = $ttpage;
+		endif;
+		
+		$content = null;
+		for($i = $fts;$i<=$lts;$i++)
+		{
+			$more[]	=	array(
+				'link'	=>	$baselink.'/'.$i,
+				'text'	=>	$i,
+				'state'	=>	((int)$i === (int)$current_page) ? "active" : "" // Fixing int type 03.11.2013
+			);
+		}		
+		return array(
+			'start'				=>	$firstoshow,
+			'end'				=>	$elpp,
+			'pageExists', 		// 	Deprécié
+			$more,				// 	Déprécié
+			'status'			=>	'pageExists',
+			'pagination'		=>	$more,
+			'available_pages'	=>	$ttpage,
+			'current_page'		=>	$current_page
+		);
+		
+	}
 	public function callbackLogin() // Renvoie vers la page de connexion lorsque l'utilisateur n'est pas connecté et le renvoir sur la dernier pas en cas de connexion
 	{
 		if(!$this->core->users_global->isConnected())
@@ -1596,12 +1659,6 @@ class Tendoo
 				}
 			}
 		}
-	}
-	public function sochaBackground()
-	{
-		$available_background	=	array(
-			''
-		);
 	}
 	public function store_connect() // must create interface to disable this.
 	{

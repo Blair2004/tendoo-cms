@@ -44,6 +44,7 @@ Class Controller
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		$this->session	=	new Session;
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+		$this->file		=	new File;
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		$baseUrl	=	$this->url->site_url(array('index'));
 		$Class		=	$this->url->controller();	
@@ -55,6 +56,9 @@ Class Controller
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		if(strtolower($this->url->controller()) == 'install')
 		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
 			if($this->tendoo->isInstalled())
 			{
 				$this->url->redirect(array('error','code','accessDenied'));
@@ -67,6 +71,9 @@ Class Controller
 		}
 		else if(strtolower($this->url->controller()) == 'registration')
 		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
 			if($this->tendoo->isInstalled())
 			{
 				if($this->tendoo->connectToDb())
@@ -87,6 +94,9 @@ Class Controller
 		}
 		else if(strtolower($this->url->controller()) == 'login')
 		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
 			if($this->tendoo->isInstalled())
 			{
 				if($this->tendoo->connectToDb())
@@ -107,6 +117,9 @@ Class Controller
 		}
 		else if(strtolower($this->url->controller()) == 'logoff')
 		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
 			if($this->tendoo->isInstalled())
 			{
 				if($this->tendoo->connectToDb())
@@ -127,6 +140,9 @@ Class Controller
 		}
 		else if(strtolower($this->url->controller()) == 'admin')
 		{
+			// 	Define Script context to Admin
+			define('SCRIPT_CONTEXT','ADMIN');
+			// 	End define
 			if($this->tendoo->isInstalled())
 			{
 				if($this->tendoo->connectToDb())
@@ -147,6 +163,9 @@ Class Controller
 		}
 		else if(strtolower($this->url->controller()) == 'account')
 		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
 			if($this->tendoo->isInstalled())
 			{
 				if($this->tendoo->connectToDb())
@@ -167,11 +186,17 @@ Class Controller
 		}
 		else if(strtolower($this->url->controller()) == 'error')
 		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
 			include_once(CONTROLLERS_DIR.'error.php');
 			include_once(SYSTEM_DIR.'Executer.php');
 		}
 		else if(strtolower($Teurmola[0]) == 'tendoo') // TENDOO URL MODULE LAUNCHER : teurmola
 		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
 			if(!$this->tendoo->isInstalled())
 			{
 				include_once(CONTROLLERS_DIR.'tendoo_index.php');
@@ -190,23 +215,23 @@ Class Controller
 				
 				$this->data['options']		=		$this->tendoo->getOptions();
 				$this->data['controllers']	=		$this->tendoo->get_pages('',FALSE); // Get every page with their childrens instead of getController() who is now obsolete
-				$this->data['getTheme']		=		$this->tendoo->getSiteTheme();
+				$this->data['activeTheme']		=		$this->tendoo->getSiteTheme();
 				$this->data['Tendoo']		=		$this->tendoo;
 				$this->data['module_url']	=		$this->url->site_url(array('tendoo@'.$Teurmola[1]));
 				$this->tendoo->addVisit(); // Add visit to global stat;				
 
 				$this->data['module']		=		$this->tendoo->getSpeModuleByNamespace($this->data['url_module']);
-				if($this->data['getTheme'] === FALSE)
+				if($this->data['activeTheme'] === FALSE)
 				{
 					$this->url->redirect(array('error','code','noThemeInstalled'));
 				}
 				else
 				{
 					// LOAD THEME HANDLER
-					include_once(THEMES_DIR.$this->data['getTheme']['ENCRYPTED_DIR'].'/extends/script.php');
-					if(class_exists($this->data['getTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
+					include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/extends/script.php');
+					if(class_exists($this->data['activeTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
 					{
-						eval('$this->data["theme"] = new '.$this->data['getTheme']['NAMESPACE'].'_theme_handler($this->data);'); // Initialize Theme handler;
+						eval('$this->data["theme"] = new '.$this->data['activeTheme']['NAMESPACE'].'_theme_handler($this->data);'); // Initialize Theme handler;
 					}
 					else // Erreur theme.
 					{
@@ -247,6 +272,9 @@ Class Controller
 		}
 		else
 		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
 			if(!$this->tendoo->isInstalled())
 			{
 				include_once(CONTROLLERS_DIR.'tendoo_index.php');
@@ -270,9 +298,10 @@ Class Controller
 				}
 				else
 				{
-					$this->data['getTheme']		=		$this->tendoo->getSiteTheme();
+					$this->data['activeTheme']	=		$this->tendoo->getSiteTheme();
 					$this->data['Tendoo']		=		$this->tendoo;
 					$this->data['module_url']	=		$this->tendoo->retreiveControlerUrl();
+					
 					$this->tendoo->setKeywords($this->data['page'][0]['PAGE_KEYWORDS']);
 					$this->tendoo->addVisit(); // Add visit to global stats
 					if($this->data['module_url']	==	'noMainPage')
@@ -280,17 +309,17 @@ Class Controller
 						$this->url->redirect(array('error','code','noMainPage'));
 					}
 					$this->data['module']		=		$this->tendoo->getSpeModuleByNamespace($this->data['page'][0]['PAGE_MODULES']);
-					if($this->data['getTheme'] === FALSE)
+					if($this->data['activeTheme'] === FALSE)
 					{
 						$this->url->redirect(array('error','code','noThemeInstalled'));
 					}
 					else
 					{
 						// LOAD THEME HANDLER
-						include_once(THEMES_DIR.$this->data['getTheme']['ENCRYPTED_DIR'].'/extends/script.php');
-						if(class_exists($this->data['getTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
+						include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/extends/script.php');
+						if(class_exists($this->data['activeTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
 						{
-							eval('$this->data["theme"] = new '.$this->data['getTheme']['NAMESPACE'].'_theme_handler($this->data);'); // Initialize Theme handler;
+							eval('$this->data["theme"] = new '.$this->data['activeTheme']['NAMESPACE'].'_theme_handler($this->data);'); // Initialize Theme handler;
 						}
 						else // Erreur theme.
 						{

@@ -109,4 +109,11 @@
 		</section>
 	</section>
 </body>
+<style type="text/css">
+    #backgroundLogin{
+        background:url(<?php echo img_url($this->core->tendoo->getBackgroundImage());?>) ;
+        background-position:0 0;
+        background-repeat: no-repeat;
+    }
+</style>
 </html>

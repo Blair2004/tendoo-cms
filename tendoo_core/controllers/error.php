@@ -6,7 +6,6 @@ class error
 	public function __construct()
 	{
 		$this->core				=	Controller::instance();
-		$this->core->load->library('file');
 		$this->core->load->library('notice');
 		$this->core->load->library('Tendoo');
 		if($this->core->tendoo->connectToDb()) // On connecte si 

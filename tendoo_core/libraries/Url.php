@@ -8,28 +8,33 @@ Class Url
 	private $splited_url;
 	private $script_url;
 	private $parameters	=	array();
+	private $rewrite	=	FALSE;
 
 	public function __construct()
 	{
+		if(file_exists('.htaccess'))
+		{
+			$this->rewrite	=	TRUE;
+		}
 		$host	=	(in_array($_SERVER['HTTP_HOST'],array('localhost','127.0.0.1'))) ? $_SERVER['HTTP_HOST'] == 'localhost' ? 'localhost/' : '127.0.0.1/' : $_SERVER['HTTP_HOST'].'/';
-		$this->request_uri	=	'http://'.$host.substr($_SERVER['REQUEST_URI'],1);
-		$this->explode_get	=	explode('?',$this->request_uri);
-		$this->splited_url	=	explode('/',substr($this->explode_get[0],7));
-		$this->execution_dir=	getcwd();
-		$this->projet_dir	=	'';
+		$this->request_uri			=	'http://'.$host.substr($_SERVER['REQUEST_URI'],1);
+		$this->explode_get			=	explode('?',$this->request_uri);
+		$this->splited_url			=	explode('/',substr($this->explode_get[0],7));
+		$this->execution_dir		=	getcwd();
+		$this->projet_dir			=	'';
 		if(preg_match("#\\\#",$this->execution_dir))
 		{
-			$splitDir		=	explode('\\',$this->execution_dir);
-			$this->projet_dir	=	$splitDir[count($splitDir) -1];
+			$splitDir				=	explode('\\',$this->execution_dir);
+			$this->projet_dir		=	$splitDir[count($splitDir) -1];
 		}
 		else
 		{
-			$splitDir		=	explode('/',$this->execution_dir);
-			$this->projet_dir	=	$splitDir[count($splitDir) -1];
+			$splitDir				=	explode('/',$this->execution_dir);
+			$this->projet_dir		=	$splitDir[count($splitDir) -1];
 		}
-		$rootKey			=	0;
-		$newSpliterUrl		=	array();
-		$copy_new_url		=	false;
+		$rootKey					=	0;
+		$newSpliterUrl				=	array();
+		$copy_new_url				=	false;
 		foreach($this->splited_url as $p)
 		{
 			if($p	==	 $this->projet_dir || $copy_new_url == true)
@@ -40,9 +45,9 @@ Class Url
 		}
 		if(in_array($this->projet_dir,$this->splited_url))
 		{
-			$this->splited_url	=		$newSpliterUrl;
+			$this->splited_url		=		$newSpliterUrl;
 		}
-		$this->site_name	=	$_SERVER['HTTP_HOST'];
+		$this->site_name			=	$_SERVER['HTTP_HOST'];
 		if(in_array($this->splited_url[0],array('localhost','127.0.0.1')))
 		{
 			if(array_key_exists(2,$this->splited_url)) // Si n'existe pas, nous ne somme pas censé nous trouver sous un environnement local.
@@ -151,16 +156,19 @@ Class Url
 		}
 		else // S'applique dans ce cas.
 		{
-			if(array_key_exists(1,$this->splited_url))
+			// Si la re-écriture est activé, on réduit l'index. 
+			$index	=	$this->rewrite	==	true ? 1 : 0;
+			// 
+			if(array_key_exists(1-$index,$this->splited_url))
 			{
-				if($this->splited_url[1] == '')
+				if($this->splited_url[1-$index] == '')
 				{
 					$this->controller	=	'index';
-					if(array_key_exists(2,$this->splited_url))
+					if(array_key_exists(2-$index,$this->splited_url))
 					{
-						if($this->splited_url[2] != '')
+						if($this->splited_url[2-$index] != '')
 						{
-							$this->method	=	$this->splited_url[2];
+							$this->method	=	$this->splited_url[2-$index];
 						}
 						else
 						{
@@ -171,7 +179,7 @@ Class Url
 					{
 						$this->method		=	'index';
 					}
-					for($i=3;$i<count($this->splited_url);$i++)
+					for($i=(3-$index);$i<count($this->splited_url);$i++)
 					{
 						if($this->splited_url[$i] != '')
 						{
@@ -179,23 +187,23 @@ Class Url
 						}
 					}
 				}
-				else if($this->splited_url[1] == 'index.php')
+				else if($this->splited_url[1-$index] == 'index.php')
 				{
-					if(array_key_exists(2,$this->splited_url))
+					if(array_key_exists(2-$index,$this->splited_url))
 					{
-						if($this->splited_url[2] == '')
+						if($this->splited_url[2-$index] == '')
 						{
 							$this->controller	=	'index';
 						}
 						else
 						{
-							$this->controller	=	$this->splited_url[2];
+							$this->controller	=	$this->splited_url[2-$index];
 						}
-						if(array_key_exists(3,$this->splited_url))
+						if(array_key_exists(3-$index,$this->splited_url))
 						{
-							if($this->splited_url[3] != '')
+							if($this->splited_url[3-$index] != '')
 							{
-								$this->method	=	$this->splited_url[3];
+								$this->method	=	$this->splited_url[3-$index];
 							}
 							else
 							{
@@ -206,7 +214,7 @@ Class Url
 						{
 							$this->method		=	'index';
 						}
-						for($i=4;$i<count($this->splited_url);$i++)
+						for($i=(4-$index);$i<count($this->splited_url);$i++)
 						{
 							array_push($this->parameters,$this->splited_url[$i]);
 						}
@@ -214,11 +222,11 @@ Class Url
 					else
 					{
 						$this->controller	=	'index';
-						if(array_key_exists(2,$this->splited_url))
+						if(array_key_exists(2-$index,$this->splited_url))
 						{
-							if($this->splited_url[2] != '')
+							if($this->splited_url[2-$index] != '')
 							{
-								$this->method	=	$this->splited_url[2];
+								$this->method	=	$this->splited_url[2-$index];
 							}
 							else
 							{
@@ -229,7 +237,7 @@ Class Url
 						{
 							$this->method		=	'index';
 						}
-						for($i=3;$i<count($this->splited_url);$i++)
+						for($i=(3-$index);$i<count($this->splited_url);$i++)
 						{
 							if($this->splited_url[$i] != '')
 							{
@@ -240,14 +248,14 @@ Class Url
 				}
 				else
 				{
-					if($this->splited_url[2] == 'index.php')
+					if($this->splited_url[2-$index] == 'index.php')
 					{
-						$this->controller	=	$this->splited_url[3];
-						if(array_key_exists(4,$this->splited_url))
+						$this->controller	=	$this->splited_url[3-$index];
+						if(array_key_exists(4-$index,$this->splited_url))
 						{
-							if(!in_array($this->splited_url[4],array('','index.php')))
+							if(!in_array($this->splited_url[4-$index],array('','index.php')))
 							{
-								$this->method	=	$this->splited_url[4];
+								$this->method	=	$this->splited_url[4-$index];
 							}
 							else
 							{
@@ -268,12 +276,12 @@ Class Url
 					}
 					else
 					{
-						$this->controller	=	$this->splited_url[2];
-						if(array_key_exists(3,$this->splited_url))
+						$this->controller	=	$this->splited_url[2-$index];
+						if(array_key_exists(3-$index,$this->splited_url))
 						{
-							if(!in_array($this->splited_url[3],array('','index.php')))
+							if(!in_array($this->splited_url[3-$index],array('','index.php')))
 							{
-								$this->method	=	$this->splited_url[3];
+								$this->method	=	$this->splited_url[3-$index];
 							}
 							else
 							{
@@ -284,7 +292,7 @@ Class Url
 						{
 							$this->method		=	'index';
 						}
-						for($i=4;$i<count($this->splited_url);$i++)
+						for($i=(4-$index);$i<count($this->splited_url);$i++)
 						{
 							if($this->splited_url[$i] != '')
 							{
@@ -299,7 +307,11 @@ Class Url
 				$this->controller		=	'index';
 			}
 		}
-		// echo '<pre>'.print_r($this,TRUE).'</pre>';
+		//	echo '<pre>'.print_r($this,TRUE).'</pre>';
+	}
+	public function getRewrite()
+	{
+		return $this->rewrite;
 	}
 	public function http_request($ARRAY_TYPE	=	FALSE)
 	{
@@ -392,7 +404,8 @@ Class Url
 		{
 			$base_url = 'http://localhost/';
 		}
-		return $base_url.'index.php/';
+		// Lorsque le fichier de reécriture est présent, supprimer "index.php".
+		return $this->rewrite	== true ? $base_url : $base_url.'index.php/';
 	}
 	public function main_url()
 	{

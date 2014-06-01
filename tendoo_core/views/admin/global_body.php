@@ -11,6 +11,7 @@
 		if($obj->core->users_global->current('FIRST_VISIT') == 1)	 // Set 1 after creating
 		{
 			?>
+<!-- Step 1 -->
 <div data-stepContent style="display:none">
     <div class="hero-unit">
     	<div class="row">
@@ -22,14 +23,15 @@
                         <p>Merci d'avoir choisi Tendoo comme outil de création de site web. Découvrez dès maintenant tout le potentiel de Tendoo.
 <h4>Tendoo pour quel public ?</h4>
 Que vous soyez un adepte des technologies de la communication ou un professionnel qui voudrait déployer son site web, Tendoo peut être utilisé selon vos envies et vos ambitions. Vous aurez dans chaque cas des outils mis à votre disposition par Tendoo, qui vous permettrons de surveiller l'évolution de votre site web ou tout simplement du taux d'audience de votre site web.</p>
-                        <p> <a class="btn <?php echo theme_button_class();?> btn-large proceed"> Découvrir Tendoo </a> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" id="quitTour"> Ne plus afficher </a> </p>
+                        <p> <a class="btn <?php echo theme_button_class();?> btn-large proceed">C'est quoi Tendoo</a> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" dismissmodal id="quitTour"> Ne plus afficher </a> </p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5"> <img style="width:100%;margin-top:40px;" src="<?php echo $obj->core->url->img_url('logo_4.png');?>" alt="girl"> </div>
+            <div class="col-lg-5 text-center"> <img style="dislay:compact;width:auto;margin-top:40px;" src="<?php echo $obj->core->url->img_url('tendoo_darken.png');?>" alt="girl"> </div>
         </div>
     </div>
 </div>
+<!-- Step 2 -->
 <div data-stepContent style="display:none">
     <div class="hero-unit">
         <div class="row">
@@ -45,7 +47,7 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
                         <p>Bien que la gestion d'un site web va au-delà de son contenu, vous serrez souvent amener à répondre à des problèmes de sécurité, de référencement ou tout simplement d'optimisation. Tendoo mets à votre disposition divers outils qui sont accèssibles depuis l'emplacement "Outils" & "Paramètres", afin d'améliorer non seulement les performances de votre site web, mais aussi de vous assurer d'avoir un meilleur positionnement sur les résultats des moteurs de recherche.</p>
                         <h4>Etendez les fonctionnalités de base avec les applications</h4>
                         <p>Vous pouvez étendre les fonctionnalités de base de votre site web Tendoo en installant les applications Tendoo. Les applications sont de deux types : Modules et Thèmes.<br>
-                        	<p> <a class="btn <?php echo theme_button_class();?> btn-large proceed"> Comment ça marche ? </a> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" id="quitTour"> Ne plus afficher </a> </p>
+                        	<p> <a class="btn <?php echo theme_button_class();?> btn-large proceed"> Comment ça marche ? </a> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" id="quitTour" dismissmodal> Ne plus afficher </a> </p>
                         </p>
                     </div>                    
                 </div>
@@ -53,6 +55,7 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
         </div>
     </div>
 </div>
+<!-- Step 3 -->
 <div data-stepContent style="display:none">
     <div class="hero-unit">
         <div class="row">
@@ -65,7 +68,7 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
                                 <h4>Comment ça marche ?</h4>
                                 <p>Tendoo est fourni avec des applications par défaut, afin de vous permettre de mettre sur pied un blog assez complet avec un gestionnaire de page d'accueil, un gestionnaire d'article (Blogster), une page de contact et un éditeur de page HTML, un gestionnaire de widgets, il s'agit ici de modules. <br><br>Les modules sont de deux types. Soit ils s'exécutent sur tous votre blog dans l'interface publique (on dit qu'il s'agit d'un module de type "<strong>GLOBAL</strong>"), soit ils s'exécutent uniquement sur une page dans laquelle ils ont été assignés (on dit qu'il s'agit d'un module de type "<strong>UNIQUE</strong>", ou par page).</p>
                                 <p>Un même module peut être exécuté sur plusieurs pages. Pour exécuter un module sur une page, il faut "l'affecter" dans la page de création et d'édition de pages. Une fois installé les applications disposent d'une interface embarquée, cette interface vous permet d'utiliser les fonctionnalités du module. Un page qui n'exécute pas un module ou dans laquelle une page n'est pas liée, génèrera une erreur lors de son accès.</p>
-                                <p> <a class="btn <?php echo theme_button_class();?> btn-large proceed"> Comment utiliser les outils ? </a> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" id="quitTour"> Ne plus afficher </a> </p>
+                                <p> <a class="btn <?php echo theme_button_class();?> btn-large proceed"> Comment utiliser les outils ? </a> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" id="quitTour" dismissmodal> Ne plus afficher </a> </p>
                             </div>
                         </div>
                     </div>
@@ -74,7 +77,7 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
         </div>
     </div>
 </div>
-<!-- Step 3 -->
+<!-- Step 4 -->
 <div data-stepContent style="display:none">
     <div class="hero-unit">
         <div class="row">
@@ -89,7 +92,8 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
                                 <p>L'objectif des visites guidées, est de vous aider à mieux comprendre comment utiliser une fonctionnalité. C'est la raison pour laquelle, des petites boites modales flottantes indexeront certains éléments sur une page. Lorsqu'une page sera visitée pour la première fois, le bouton d'aide aura comme texte "<strong>Cliquez pour une visite</strong>". Après une visite, ce statut pourra être réinitialisé depuis la page des paramètres, dans la section des "<strong>autorisations</strong>".</p>
                                 <p>Chaque visites guidées, disposent de bouton de navigation, vous permettant de facilement naviguer dans la visite guidée. Vous pourrez donc revenir sur un point que vous n'aurez pas totalement assimilé. </p>
                                 <p>Utilisez les flèches de naviguation pour parcourir la visite guidée. Appuyez sur "ESC" sur votre clavier pour quitter la visite guidée.</p>
-                                <p> <a class="btn <?php echo theme_button_class();?> btn-large proceed"> Continuer </a> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" id="quitTour"> Ne plus afficher </a> </p>
+                                <p> 
+                                <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" id="quitTour" dismissmodal> Ne plus afficher </a> </p>
                             </div>
                         </div>
                     </div>
@@ -99,7 +103,7 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
     </div>
 </div>
 <!-- Last Step -->
-<div data-stepContent style="display:none">
+<!--<div data-stepContent style="display:none">
     <div class="hero-unit">
         <div class="row">
             <div class="col-lg-12">
@@ -118,7 +122,7 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <script>
 			var wizard	=	'<section class="wizmodal">'+ 
 								'<div class="wizard clearfix">'+
@@ -128,7 +132,7 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
 										'<li data-target="#step2" class=""><span class="badge">2</span>C\'est quoi Tendoo ?</li>'+
 										'<li data-target="#step3" class=""><span class="badge">3</span>Comment ça marche ?</li>'+
 										'<li data-target="#step4" class=""><span class="badge">4</span>Comment utiliser les outils ?</li>'+
-										'<li data-target="#step5" class=""><span class="badge">5</span>Par où commencer ?</li>'+
+										//'<li data-target="#step5" class=""><span class="badge">5</span>Par où commencer ?</li>'+
 									'</ul>'+
 									'<div class="actions">'+
 										'<button type="button" class="btn btn-white btn-xs btn-prev">Pr&eacute;cedent</button>'+

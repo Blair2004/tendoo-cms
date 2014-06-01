@@ -64,7 +64,7 @@ if(!function_exists('js_url'))
 	function js_url($e="")
 	{
 		$instance	=	Controller::instance();
-		return $instance->url->main_url().'tendoo_assets/script/'.$e.'.js';
+		return $instance->url->main_url().'tendoo_assets/js/'.$e.'.js';
 	}
 }
 if(!function_exists('img_url'))
@@ -306,6 +306,10 @@ if(!function_exists('notice_from_url'))
 		{
 			return notice($_GET['notice']);
 		}
+		else if(isset($_GET['info']))
+		{
+			return tendoo_info($_GET['info']);
+		}
 	}
 }
 
@@ -339,6 +343,7 @@ if(!function_exists('__extends'))
 	function __extends(&$obj)
 	{
 		$Controller				=	Controller::instance();
+
 		$obj->url				=&	$Controller->url;
 		$obj->input				=&	$Controller->input;
 		$obj->notice			=&	$Controller->notice;

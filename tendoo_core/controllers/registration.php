@@ -30,7 +30,6 @@ Class registration
 	private function loadLibraries()
 	{
 		$this->load->library('pagination');
-		$this->load->library('file');
 		$this->load->library('form_validation');
 $this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 		$this->input				=&	$this->core->input;

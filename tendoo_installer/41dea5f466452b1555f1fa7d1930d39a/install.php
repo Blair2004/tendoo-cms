@@ -9,7 +9,8 @@ $this->appTableField(array(
 	'AUTHOR'		=> 'tendoo Group',
 	'DESCRIPTION'	=> 'Personnalisez une page d\'accueil qui refl&egrave;te votre blog, forum, boutique ou vos services. Ajuster les informations qui s\'affichent, ainsi que leur quantité.',
 	'TYPE'			=> 'BYPAGE',
-	'TENDOO_VERS'	=> 0.94
+	'TENDOO_VERS'	=> 0.94,
+	'HAS_ICON'		=>	1
 ));
 $this->appAction(array(
 	'action'				=>	'tendoo_index_manager',

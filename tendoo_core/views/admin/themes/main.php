@@ -62,14 +62,14 @@
                         data-theme_author="<?php echo $t['AUTHOR'];?>"
                         data-theme_version="<?php echo $t['APP_VERS'];?>"
 					>
-                        <input type="hidden" class="theme_details" value="<?php echo $t['DESCRIPTION'];?>">
+                        <input type="hidden" class="theme_details" value="<?php echo htmlentities($t['DESCRIPTION']);?>">
                         <section class="panel pos-rlt clearfix <?php echo $color;?>">
                             <header class="panel-heading">
                                 <ul class="nav nav-pills pull-right">
                                     <li> <a href="#" class="panel-toggle text-muted active"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
                                 </ul>
                                 <a class="view" href="<?php echo $this->core->url->site_url(array('admin','themes','config',$t['ID']));?>"><?php echo $t['HUMAN_NAME'];?></a> </header>
-                            <div class="panel-body clearfix"> <img src="<?php echo $this->core->tendoo_admin->getThemeThumb($t['ID']);?>"> </div>
+                            <div class="panel-body clearfix"> <img src="<?php echo $this->core->tendoo_admin->getThemeThumb($t['ID']);?>" style="width:100%;min-height:203px;"> </div>
                             <footer class="panel-footer">
                                 <div class="actions">
                                     <button type="button" data-action="ADMITSETDEFAULT" class="btn btn-white btn-sm">Activer</button>
@@ -105,7 +105,7 @@
                                 <section class="scrollable" id="pjax-container">
                                     <section class="vbox">
                                         <div class="wrapper">
-                                        	<img class="theme_thumb" src="" style="max-height:70%;max-width:100%;"/>
+                                        	<img class="theme_thumb" src="" style="max-height:90%;max-width:100%;"/>
                                             <hr class="line line-dashed"/>
                                             <h3><span class="theme_name"></span> <small><span class="theme_version"></span></small></h3>
                                             <h5>Par <span class="theme_author"></span></h5>

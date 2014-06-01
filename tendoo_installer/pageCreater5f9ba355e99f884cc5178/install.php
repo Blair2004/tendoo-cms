@@ -4,7 +4,7 @@ $this->appType('MODULE');
 $this->appVers(0.3);
 $this->appTendooVers(0.94);
 $this->appTableField(array(
-	'NAMESPACE'		=> 'Pages_editor',
+	'NAMESPACE'		=> 'pages_editor',
 	'HUMAN_NAME'	=> 'Editeur de page HTML',
 	'AUTHOR'		=> 'tendoo Group',
 	'DESCRIPTION'	=> 'Créez une page HTML.',

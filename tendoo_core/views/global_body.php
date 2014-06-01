@@ -1,9 +1,4 @@
-<?php
-// Setting Random BackGround Login Images
-$images_list	=	array("bkoverlay.jpg");
-$rand	=	$images_list[rand(0,count($images_list)-1)];
-?>
-<body cz-shortcut-listen="true" id="backgroundLogin" style="background:url(<?php echo img_url($rand);?>)">
+<body cz-shortcut-listen="true" id="backgroundLogin">
 	<section class="hbox stretch">
 		<section class="vbox">
 			<footer id="footer"> 
@@ -25,10 +20,9 @@ $rand	=	$images_list[rand(0,count($images_list)-1)];
 </body>
 <style type="text/css">
     #backgroundLogin{
-        background-image:url(<?php echo $this->core->tendoo->sochaBackground();?>) ;
+        background:url(<?php echo img_url($this->core->tendoo->getBackgroundImage());?>) ;
         background-position:0 0;
         background-repeat: no-repeat;
-            
     }
 </style>
 </html>

@@ -31,12 +31,25 @@ class File
 	Ajoute un fichier Js à la liste des fichiers télécharger si le fichier n'existe pas.
 	Tendoo 0.9.7
 	*/
-	public function js_push_if_not_exists($e) 
+	public function js_push_if_not_exists($e,$temporaryLocation = null) 
 	{
-		if(!in_array($this->js_url.$e.'.js',$this->jsfiles))
+		if($temporaryLocation == null)
 		{
-			$this->js_push($e);
+			if(!in_array($this->js_url.$e.'.js',$this->jsfiles))
+			{
+				array_push($this->jsfiles,$this->js_url.$e.'.js');
+				return true;
+			}
 		}
+		else
+		{
+			if(!in_array($temporaryLocation.$e.'.js',$this->jsfiles))
+			{
+				array_push($this->jsfiles,$temporaryLocation.$e.'.js');
+				return true;
+			}
+		}
+		return false;
 	}
 	public function js_clear()
 	{
@@ -73,12 +86,23 @@ class File
 	/*
 	Ajoute un fichier css à la liste des fichiers télécharger si le fichier n'existe pas.
 	*/
-	public function css_push_if_not_exists($e) 
+	public function css_push_if_not_exists($e,$temporaryLocation= null)  
 	{
-		if(!in_array($this->css_url.$e.'.css',$this->cssfiles))
+		if($temporaryLocation == null)
 		{
-			$this->css_push($e);
-			return true;
+			if(!in_array($this->css_url.$e.'.css',$this->cssfiles))
+			{
+				array_push($this->cssfiles,$this->css_url.$e.'.css');
+				return true;
+			}
+		}
+		else
+		{
+			if(!in_array($temporaryLocation.$e.'.css',$this->cssfiles))
+			{
+				array_push($this->cssfiles,$temporaryLocation.$e.'.css');
+				return true;
+			}
 		}
 		return false;
 	}

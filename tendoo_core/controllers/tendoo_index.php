@@ -1,19 +1,17 @@
 <?php
 class Tendoo_index
 {
-	protected $data;
-	private $core;
-	public function __construct()
+	public function __construct($data = array())
 	{
-		$this->core	=	Controller::instance();
-		$this->core->load->library('file');
+		$this->data		=&	$data;
+		__extends($this);
 	}
 	public function index($arg = '')
 	{
-		$this->core->file->css_push('font');
-		$this->core->file->css_push('app.v2');		
-		$this->core->tendoo->setTitle('Bienvenue sur '.$this->core->tendoo->getVersion());
-		$this->core->load->view('header',$this->data);
-		$this->core->load->view('tendoo_index_body',$this->data);
+		$this->file->css_push('font');
+		$this->file->css_push('app.v2');		
+		$this->tendoo->setTitle('Bienvenue sur '.$this->tendoo->getVersion());
+		$this->load->view('header',$this->data,false,false,$this);
+		$this->load->view('tendoo_index_body',$this->data,false,false,$this);
 	}
 }

@@ -29,15 +29,14 @@
 									<div class="col-lg-4">
 										<h4><i class="fa fa-group"></i> Tendoo Community</h4>
 										<div>
-											Besoin d'aide et d'assitance ? connectez-vous &agrave; la communaut&eacute; et exposer vos probl&egrave;mes li&eacute;s &agrave; l'utilisation du CMS Tendoo.<br>
-											T&eacute;l&eacute;charger des applications depuis le Store et augmentez consid&eacute;rablement le potentiel de Tendoo.
+											<?php gt('install/step1/homebody/tendoo_community');?>
 										</div>
 										
 									</div>
 									<div class="col-lg-4">
-										<h4><i class="fa fa-mobile-phone"></i> Tendoo pour appareil mobile</h4>
+										<h4><i class="fa fa-mobile-phone"></i> <?php gt('install/step1/homebody/tendoo_device_title');?></h4>
 										<div>
-											<span>Tendoo offre un espace d'administration qui est compatible avec la plus part des supports mobiles. L'interface intuitif vous permet de g&eacute;rer votre site web depuis un terminal mobile. Cet interface s'apadapte correctement aux dimensions de votre appareil, pour que le plaisir de naviguer sur votre appareil mobile soit identique &agrave; celui ressenti depuis un ordinateur.</span>
+											<?php gt('install/step1/homebody/tendoo_device_description');?>
 										</div>
 									</div>
 									<div class="col-lg-4">
@@ -72,4 +71,11 @@
 		</section>
 	</section>
 </body>
+<style type="text/css">
+    #backgroundLogin{
+        background:url(<?php echo img_url($this->core->tendoo->getBackgroundImage());?>) ;
+        background-position:0 0;
+        background-repeat: no-repeat;
+    }
+</style>
 </html>

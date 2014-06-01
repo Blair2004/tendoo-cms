@@ -1,4 +1,4 @@
-<body cz-shortcut-listen="true" id="backgroundLogin">
+<body cz-shortcut-listen="true" id="backgroundLogin" >
 	<section class="hbox stretch">
 		<section class="vbox">
 			<footer id="footer"> 
@@ -232,4 +232,11 @@
 		</section>
 	</section>
 </body>
+<style type="text/css">
+    #backgroundLogin{
+        background:url(<?php echo img_url($this->core->tendoo->getBackgroundImage());?>) ;
+        background-position:0 0;
+        background-repeat: no-repeat;
+    }
+</style>
 </html>

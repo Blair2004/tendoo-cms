@@ -271,6 +271,9 @@ $(document).ready(function(){
 				alertTitle		=	e;
 				return this;
 			}
+			this.dismiss	=	function(){
+				$('.modal-dialog').find('[data-dismiss="modal"]').trigger('click');
+			};
 		};
 /**
 *		tools.window : Permet d'afficher une boite modale sur une page. A pour méthodes.
@@ -563,12 +566,21 @@ $(document).ready(function(){
 						});
 					});
 				}
+				if($('[dismissmodal]').length > 0)
+				{
+					if(!tools.isDefined($('[dismissmodal]').attr('binded')))
+					{
+						$('[dismissmodal]').bind('click',function(){
+							tendoo.modal.dismiss();
+						});
+					}
+				}
 			},500);
 			$(document).keypress(function(event){
 				// Ferme toutes les boites modales ouvertes.
 				if(event.which == 0)
 				{
-					$('.modal-dialog').find('[data-dismiss="modal"]').trigger('click');
+					tendoo.modal.dismiss();
 				}
 			});
 		};
@@ -637,6 +649,59 @@ $(document).ready(function(){
 			}
 			this.bind();
 		}
+/**
+*		tendoo.tableMultiSelect	: Permet d'attacher un évènement de selection dans un tableau <table> donc l'attribut tableMultiSelect est définie.
+**/
+		tendoo.tableMultiSelect	=	new function(){
+			this.bind		=	function(){
+				$('table[tableMultiSelect]').each(function(){
+					if(!tools.isDefined($(this).attr('binded')))
+					{
+						var isOverCheckBox	=	false;
+						$(this).attr('binded','true');
+						$(this).find('tbody tr input[type="checkbox"]').mouseenter(function(){
+							isOverCheckBox	=	true;
+						});
+						$(this).find('tbody tr input[type="checkbox"]').mouseleave(function(){
+							isOverCheckBox	=	false;
+						});
+						$(this).find('tbody tr').bind('click',function(){
+							if(!isOverCheckBox)
+							{
+								$(this).find('input[type="checkbox"]').trigger('click');
+							}
+						});
+						$(this).find('thead tr input').bind('click',function(){
+							$(this).closest('table').find('tbody input[type="checkbox"]').trigger('click');
+						});
+					}
+				})
+			}
+			this.bind();
+		};
+/**
+*		tendoo.bulkselect		: Attache un évènement de selection sur des éléments hors formulaire et les insères en tant que champ de type "hidden", avec les valeurs sélectionnées.
+**/
+		tendoo.bulkSelect		=	new function(){
+			this.bind			=	function(){
+				$('[bulkSelect]').each(function(){
+					if(!tools.isDefined($(this).attr('binded')))
+					{
+						var parent		=	$(this);
+						var formTarget	=	$(this).attr('target');
+						// Au cas ou aucune cible n'est spécifiée.
+						if(!formTarget){return false}
+						
+						$(this).attr('binded','true');
+						$(this).find('button').bind('click',function(){
+							$(formTarget).append('<input type="hidden" name="'+$(parent).find('select').attr('name')+'" value="'+$(parent).find('select').val()+'">');
+							$(formTarget).trigger('submit');
+						});
+					}
+				});
+			};
+			this.bind();
+		};
 /**		tendoo.formAjax : Permet d'attacher un évènement AJAX au formulaire ayant pour attribue "fjax", les formulaires doivent avoir les attributs "action" et "method".
 		Tendoo 0.9.8
 			fjaxson		:	Effectue une requête AJAX POST en attente d'un JSON.
@@ -692,7 +757,12 @@ $(document).ready(function(){
 									},
 									success		:	function(e){
 										tendoo.loader.hide();
-										tendoo.triggerAlert(e);									
+										tendoo.triggerAlert(e);	
+										eval('var x	=	'+e.exec);
+										if(typeof x == 'function')
+										{
+											x();
+										}
 									},
 									type		:	'POST',
 									data		:	finalQuery,
@@ -775,7 +845,7 @@ $(document).ready(function(){
 /**
 *		tools.tab : Affiche un panel d'applications (modules).
 **/
-		tendoo.tab	=	new function(){
+		tendoo.tab			=	new function(){
 			this.show		=	function(){
 				$.ajax(tendoo.url.base_url()+'admin/ajax/get_app_tab',{
 					beforeSend	:	function(){

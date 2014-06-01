@@ -13,8 +13,7 @@ class Admin
 		
 		$this->construct_end();				// 	Fin du constructeur
 		$this->data['pageDescription']		=	$this->tendoo->getVersion();
-		/*$this->tendoo_admin->system_not('Modifier vos param&ecirc;tre de s&eacute;curit&eacute;', 'Mettez vous &agrave; jour avec cette version', '#', '10 mai 2013', null);*/
-		
+		/*$this->tendoo_admin->system_not('Modifier vos param&ecirc;tre de s&eacute;curit&eacute;', 'Mettez vous &agrave; jour avec cette version', '#', '10 mai 2013', null);*/		
 	}
 	private function installStatus()
 	{
@@ -71,7 +70,6 @@ class Admin
 		// Chargement des classes.
 		$this->load->library('tendoo_admin',null,null,$this);
 		$this->load->library('pagination',null,null,$this);
-		$this->load->library('file',null,null,$this);
 		$this->load->library('file',null,'file_2',$this);
 		$this->load->library('form_validation',null,null,$this);
 		$this->load->library('tendoo_sitemap',null,null,$this);
@@ -103,8 +101,8 @@ class Admin
 		$this->file->css_push('fuelux');
 		$this->file->css_push('introjs/introjs.min');
 
-		$this->file->js_push('jquery');
-		//	$this->file->js_push('jquery-1.9');
+		//$this->file->js_push('jquery');
+		$this->file->js_push('jquery-1.10.2.min');
 		
 		$this->file->js_push('underscore.1.6.0');
 		$this->file->js_push('app.min.vtendoo'); // _2
@@ -290,6 +288,8 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($e == 'modules')
 		{
+			// Si la re-écriture est activé, on réduit l'index. 
+			$index	=	$this->url->getRewrite()	==	true ? 1 : 0;
 			$this->data['module']	=	$this->tendoo->getSpeModule((int)$a);
 			if($this->data['module'] == TRUE) // rather than counting
 			{
@@ -300,15 +300,15 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/admin_controller.php');
 				
 				$Parameters			=	$this->url->http_request(TRUE);
-				if(array_key_exists(4,$Parameters))
+				if(array_key_exists(4-$index,$Parameters))
 				{
-					$Method				=	$Parameters[4];
+					$Method				=	$Parameters[4-$index];
 				}
 				else
 				{
 					$Method			=	'index';
 				}
-				for($i = 0;$i < 5;$i++)
+				for($i = 0;$i < (5-$index);$i++)
 				{
 					array_shift($Parameters);
 				}
@@ -553,6 +553,8 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				$this->data['Spetheme']	=	$this->tendoo_admin->isTheme($a);
 				if(is_array($this->data['Spetheme'])) 
 				{
+					// Si la re-écriture est activé, on réduit l'index. 
+					$index	=	$this->url->getRewrite()	==	true ? 1 : 0;
 					$Parameters			=	$this->url->http_request(TRUE);
 					$admin_controler	=	THEMES_DIR.$this->data['Spetheme'][0]['ENCRYPTED_DIR'].'/admin_controller.php';
 					$library			=	THEMES_DIR.$this->data['Spetheme'][0]['ENCRYPTED_DIR'].'/library.php';
@@ -560,15 +562,15 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					{
 						include_once($admin_controler); // Include admin controler
 						include_once($library); // Include Theme internal library
-						if(array_key_exists(4,$Parameters))
+						if(array_key_exists(4-$index,$Parameters))
 						{
-							$Method				=	$Parameters[4];
+							$Method				=	$Parameters[4-$index];
 						}
 						else
 						{
 							$Method			=	'index';
 						}
-						for($i = 0;$i < 5;$i++)
+						for($i = 0;$i < (5-$index);$i++)
 						{
 							array_shift($Parameters);
 						}

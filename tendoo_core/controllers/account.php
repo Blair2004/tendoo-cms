@@ -15,7 +15,6 @@ class Account
 		$this->url		=&	$this->core->url;
 		$this->notice	=&	$this->core->notice;
 		$this->load		=&	$this->core->load;
-		$this->load->library('file');
 		$this->load->library('users_global');
 		$this->file		=&	$this->core->file;
 		$this->core->file_2	=	new File;

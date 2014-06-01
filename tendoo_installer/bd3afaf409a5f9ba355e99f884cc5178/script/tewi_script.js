@@ -31,9 +31,18 @@ $(document).ready(function(){
 				// Dans le cas ou l'attribut meta_widgetParamsName est définie.
 				if($(this).find('[meta_widgetParams]').length > 0)
 				{
-					$(this).find('[meta_widgetParams]').each(function(){
-						$(this).attr('name','tewi_wid['+tewi_section+']['+startIndex+'][params]['+$(this).attr('meta_widgetParamsName')+']');
-					});
+					if($(this).find('[meta_widgetParams]').find('[meta_widgetParamsName]').length > 0)
+					{
+						$(this).find('[meta_widgetParams]').each(function(){
+							$(this).attr('name','tewi_wid['+tewi_section+']['+startIndex+'][params]['+$(this).attr('meta_widgetParamsName')+']');
+						});
+					}
+					else
+					{
+						$(this).find('[meta_widgetParams]').each(function(){
+							$(this).attr('name','tewi_wid['+tewi_section+']['+startIndex+'][params]');
+						});
+					}
 				}
 				else
 				{

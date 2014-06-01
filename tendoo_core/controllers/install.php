@@ -10,7 +10,6 @@ class Install
 		$this->load->library('notice');
 		$this->data['notice']	=	'';
 		$this->data['error']	=	'';
-		$this->load->library('file');
 		$this->load->library('form_validation');
 $this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 		$this->core->file->css_push('font');
@@ -130,6 +129,10 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				// Execute control
 				unset($_SESSION['secur_access']);
 				$this->core->tendoo->createConfigFile(); // Créer le fichier de configuration.
+				$this->core->tendoo->connectToDb(); // Connecting to database
+				$this->core->tendoo->setOptions(array(
+					'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"Tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"Tendoo_contents/main_icon";$icons[]	=	"Pages_editor/main_icon";$icons[]	=	"Tendoo_contact_handler/main_icon";$icons[]	=	"Tendoo_widget_administrator/main_icon";$icons[]	=	"tendoo_theme_builder/main_icon";'	
+				));
 				$this->core->url->redirect('index');
 			}
 			if(isset($_POST['admin_access']))
@@ -137,11 +140,12 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				// Execute control
 				unset($_SESSION['secur_access']);
 				$this->core->tendoo->createConfigFile(); // Créer le fichier de configuration.
+				$this->core->tendoo->connectToDb(); // Connecting to database
+				$this->core->tendoo->setOptions(array(
+					'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"Tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"Tendoo_contents/main_icon";$icons[]	=	"Pages_editor/main_icon";$icons[]	=	"Tendoo_contact_handler/main_icon";$icons[]	=	"Tendoo_widget_administrator/main_icon";$icons[]	=	"tendoo_theme_builder/main_icon";'	
+				));
 				$this->core->url->redirect('admin');
 			}
-			$this->core->tendoo->setOptions(array(
-				'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"Tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"Tendoo_contents/main_icon";$icons[]	=	"Pages_editor/main_icon";$icons[]	=	"Tendoo_contact_handler/main_icon";$icons[]	=	"Tendoo_widget_administrator/main_icon";$icons[]	=	"tendoo_theme_builder/main_icon";'	
-			));
 			$this->core->tendoo->setTitle('Tendoo - Bravo votre site web est pr&ecirc;t');
 			$this->load->view('header',$this->data);
 			$this->load->view('install/step/4/homebody',$this->data);

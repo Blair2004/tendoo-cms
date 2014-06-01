@@ -1,4 +1,4 @@
-<body style="" cz-shortcut-listen="true">
+<body style="" cz-shortcut-listen="true" id="backgroundLogin">
 <section id="content">
     <div class="row m-n">
         <div class="col-sm-6 col-sm-offset-3">
@@ -54,4 +54,11 @@
 </footer>
 <?php echo $file->js_load();?>
 </body>
+<style type="text/css">
+    #backgroundLogin{
+        background:url(<?php echo img_url($this->core->tendoo->getBackgroundImage());?>) ;
+        background-position:0 0;
+        background-repeat: no-repeat;
+    }
+</style>
 </html>

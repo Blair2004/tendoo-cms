@@ -47,7 +47,7 @@
 												<option value="3" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 3): ?> selected="selected"<?php endif;?>>Red Horn</option>
 												<option value="4" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 4): ?> selected="selected"<?php endif;?>>Selective Orange</option>
 												<option value="5" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 5): ?> selected="selected"<?php endif;?>>Skies</option>
-                                                <option value="6" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 5): ?> selected="selected"<?php endif;?>>Blurry</option>
+                                                <option value="6" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 6): ?> selected="selected"<?php endif;?>>Blurry</option>
 											</select>
 										</div>
 										<?php
