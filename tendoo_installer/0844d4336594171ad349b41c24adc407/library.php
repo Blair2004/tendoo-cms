@@ -991,32 +991,52 @@ $NOTICE_SUPER_ARRAY = $or;
 				return $query->result_array();
 				
 			}
-			public function postComment($id,$content,$auteur,$email)
+			public function postComment($id,$content,$auteur,$email,$interface	=	'public',$user_id	=	1)
 			{
-				if(!$this->users->isConnected())
+				if($interface == 'public')
 				{
-					$user_id 			=	'0';
+					if(!$this->users->isConnected())
+					{
+						$user_id 			=	'0';
+					}
+					else
+					{
+						$user_id 			=	$this->users->current('ID');
+						$auteur				=	'';
+						$email				=	$this->users->current('EMAIL');
+					}
+					$option			=	$this->getBlogsterSetting();
+	
+					$autoApprove	= (int)$option['APPROVEBEFOREPOST'] == 1 ? 	0 : 1;
+					
+					$comment					=	array(
+						'REF_ART'				=> 	$id,
+						'CONTENT'				=> 	$content,
+						'AUTEUR'				=> 	$user_id,
+						'OFFLINE_AUTEUR'		=>	$auteur,
+						'OFFLINE_AUTEUR_EMAIL'	=>	$email,
+						'DATE'					=> 	$this->tendoo->datetime(),
+						'SHOW'					=>	$autoApprove
+					);
+					return $this->db	->insert('tendoo_comments',$comment);
 				}
-				else
+				else if($interface == 'system')
 				{
-					$user_id 			=	$this->users->current('ID');
-					$auteur				=	'';
-					$email				=	$this->users->current('EMAIL');
+					$user_id 					=	$user_id;
+					$email						=	$email;
+					//------------------------------------------------------->
+					$comment					=	array(
+						'REF_ART'				=> 	$id,
+						'CONTENT'				=> 	$content,
+						'AUTEUR'				=> 	0,
+						'OFFLINE_AUTEUR'		=>	$auteur,
+						'OFFLINE_AUTEUR_EMAIL'	=>	$email,
+						'DATE'					=> 	$this->tendoo->datetime(),
+						'SHOW'					=>	1
+					);
+					//------------------------------------------------------->
+					return $this->db->insert('tendoo_comments',$comment);
 				}
-				$option			=	$this->getBlogsterSetting();
-
-				$autoApprove	= (int)$option['APPROVEBEFOREPOST'] == 1 ? 	0 : 1;
-				
-				$comment					=	array(
-					'REF_ART'				=> 	$id,
-					'CONTENT'				=> 	$content,
-					'AUTEUR'				=> 	$user_id,
-					'OFFLINE_AUTEUR'		=>	$auteur,
-					'OFFLINE_AUTEUR_EMAIL'	=>	$email,
-					'DATE'					=> 	$this->tendoo->datetime(),
-					'SHOW'					=>	$autoApprove
-				);
-				return $this->db	->insert('tendoo_comments',$comment);
 			}
 			public function countArtFromCat($catid)
 			{
