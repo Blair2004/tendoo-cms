@@ -1,38 +1,42 @@
-<div id="content" class="site-content ">
-	<div class="page-head">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<h3><?php echo $this->pageTitle;?></h3>
-					<p><?php if(strlen($this->pageDescription) > 0) : echo word_limiter($this->pageDescription,20);endif;?></p>
-				</div>
-				
-			</div>
-		</div>
+<div id="content">
+
+
+<!-- 960 Container -->
+<div class="container floated">
+
+	<div class="sixteen floated page-title">
+
+		<h2><?php echo $this->tendoo->getTitle();?> | <span><?php if(strlen($this->pageDescription) > 0) : echo word_limiter($this->pageDescription,20);endif;?></span></h2>
+
+		<!--<nav id="breadcrumbs">
+			<ul>
+				<li>You are here:</li>
+				<li><a href="index-2.html">Home</a></li>
+				<li>Contact</li>
+			</ul>
+		</nav>-->
+
 	</div>
-	<div class="container">	
-		<div class="row">
-			<div id="primary" class="content-area col-sm-8">
-				<!-- page content -->
-	        	<div class="col-sm-6">
-					<p><?php echo $this->contactContent;?></p>
-					<?php $this->parseNotice();?>
-					<!-- form -->
-					<?php $this->parseForm($this->contactHeader['ACTION'],$this->contactHeader['ENCTYPE'],$this->contactHeader['METHOD']);?>
-					<!-- ENDS form -->
-	        	</div>
-	        	<!-- ENDS page content -->
-			</div><!-- #primary -->
-			<div id="secondary" class="widget-area col-sm-4" role="complementary">
-				<?php 
+
+</div>
+<!-- 960 Container / End -->
+
+
+<!-- 960 Container -->
+<div class="container floated">
+
+	<!-- Sidebar -->
+	<div class="four floated sidebar left">
+		<aside class="sidebar padding-reset">
+			<div class="widget">
+            	<?php 
 				if(count($this->contactAddressItems) > 0)
 				{
 				?>
 	        	<aside id="categories-2" class="widget widget_categories">
-					<h1 class="widget-title"><?php echo $this->contactTitle;?></h1>
+                	<h4><?php echo $this->contactTitle;?></h4>
 					<p><?php echo $this->contactAddress;?></p>
-					
-					<ul class="address-block">
+					<ul class="contact-informations">
 					<?php
 					foreach($this->contactAddressItems as $c)
 					{
@@ -46,9 +50,45 @@
                 <?php
 				}
 				?>
-				<!-- End Added -->
-				<?php echo $this->parseRightWidgets();?>					
-			</div><!-- #secondary -->
-		</div>
+
+				<!--<ul class="contact-informations second">
+					<li><i class="halflings headphones"></i> <p>+48 880 440 110</p></li>
+					<li><i class="halflings envelope"></i> <p>support@example.com</p></li>
+					<li><i class="halflings globe"></i> <p>www.example.com</p></li>
+				</ul>-->
+
+			</div>
+
+		</aside>
 	</div>
+	<!-- Sidebar / End -->
+
+	<!-- Page Content -->
+	<div class="eleven floated right">
+		<section class="page-content">
+			<?php echo $this->contactContent;?>
+			<br>
+			<h3 class="margin">Formulaire</h3>
+				<!-- Contact Form -->
+				<section id="contact">
+
+					<!-- Success Message -->
+					<?php $this->parseNotice();?>
+
+					<!-- Form -->
+					<?php $this->parseForm($this->contactHeader['ACTION'],$this->contactHeader['ENCTYPE'],$this->contactHeader['METHOD']);?>
+                    <div class="clearfix">
+
+				</section>
+				<!-- Contact Form / End -->
+
+
+		</section>
+	</div>
+	<!-- Page Content / End -->
+
+
+</div>
+<!-- 960 Container / End -->
+
 </div>

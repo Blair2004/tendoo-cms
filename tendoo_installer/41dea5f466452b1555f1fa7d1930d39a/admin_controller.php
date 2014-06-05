@@ -17,10 +17,14 @@ class tendoo_index_manager_admin_controller
 	}
 	public function index()
 	{
+		$this->data['supportedELement']	=	$this->tendoo_admin->getActiveThemeSupportedItems();
 		$this->data['apizedMod']		=	$this->lib->getApiModules();
+		// 
 		$this->load->library('form_validation');
 		if($this->input->post('section1'))
 		{
+			$notice['error'] 		=	0;
+			$notice['success'] 		=	0;
 			$this->form_validation->set_rules('showCarrousel', 'Afficher le caroussel','trim|required|numeric');
 			$this->form_validation->set_rules('showLastest', 'Afficher les &eacute;l&eacute;ments r&eacute;cents','trim|required|numeric');
 			$this->form_validation->set_rules('showFeatured', 'Afficher les &eacute;l&eacute;ments au top','trim|required|numeric');
@@ -29,7 +33,6 @@ class tendoo_index_manager_admin_controller
 			$this->form_validation->set_rules('showGallery', 'Afficher gallerie d\'image','trim|required|numeric');
 			$this->form_validation->set_rules('showAboutUs', '"&agrave; propos de nous"','trim|required|numeric');
 			$this->form_validation->set_rules('showPartner', '"nos partenaires"','trim|required|numeric');
-			$this->form_validation->set_rules('section1', 'Submition','trim|required');
 			if($this->form_validation->run())
 			{
 				$showCarroussel	=	$this->input->post('showCarrousel');
@@ -44,13 +47,17 @@ class tendoo_index_manager_admin_controller
 				$exe	=	$this->lib->setFirstOptions($showCarroussel,$showAboutUs,$showFeatures,$showGallery,$showLastest,$showPartners,$showSD,$showTabShowCase);
 				if($exe)
 				{
-					$this->notice->push_notice(notice('done'));
+					$notice['success']++;
+				}
+				else
+				{
+					$notice['error']++;
 				}
 			}
-		}
-		
-		if($this->input->post('section2'))
-		{
+			else
+			{
+				$notice['error']++;
+			}
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules('carousselTitle', 'Titre Caroussel','trim|min_length[0]');
 			$this->form_validation->set_rules('lastestTitle', 'Titre &eacute;l&eacute;ments r&eacute;cents','trim|min_length[0]');
@@ -60,7 +67,6 @@ class tendoo_index_manager_admin_controller
 			$this->form_validation->set_rules('galleryTitle', 'Titre Gallerie','trim|min_length[0]');
 			$this->form_validation->set_rules('aboutUsTitle', 'Titre "&agrave; propos de nous"','trim|min_length[0]');
 			$this->form_validation->set_rules('partnerTitle', 'Titre "nos partenaire"','trim|min_length[0]');
-			$this->form_validation->set_rules('section2', 'Submition','trim|required');
 			if($this->form_validation->run())
 			{
 				$aboutUsTitle		=	$this->input->post('aboutUsTitle');
@@ -75,17 +81,17 @@ class tendoo_index_manager_admin_controller
 				$exe	=	$this->lib->setSecondOptions($aboutUsTitle,$partnersTitle,$galshowCaseTitle,$featuredTitle,$carousselTitle,$smallDetailsTItle,$tabShowCaseTitle,$lastestTitle);
 				if($exe)
 				{
-					$this->notice->push_notice(notice('done'));
+					$notice['success']++;
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					$notice['error']++;
 				}
 			}
-		}
-		
-		if($this->input->post('section3'))
-		{
+			else
+			{
+				$notice['error']++;
+			}
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules('CarousselmoduleExtension', 'Le caroussel','trim|min_length[0]');
 			$this->form_validation->set_rules('LastestExtension', 'Les éléments r&eacute;cents','trim|min_length[0]');
@@ -93,7 +99,6 @@ class tendoo_index_manager_admin_controller
 			$this->form_validation->set_rules('TabShowCaseExtension', 'Le dossier d\'&eacute;l&eacute;ments','trim|min_length[0]');
 			$this->form_validation->set_rules('SmallDetailsExtension', 'La liste d\'informations textuelles','trim|min_length[0]');
 			$this->form_validation->set_rules('GalleryExtension', 'La gallerie d\'image','trim|min_length[0]');
-			$this->form_validation->set_rules('section3', 'Submition','trim|required');
 			if($this->form_validation->run())
 			{
 				$onCaroussel	=	$this->input->post('CarousselmoduleExtension');
@@ -103,19 +108,19 @@ class tendoo_index_manager_admin_controller
 				$smallDetails	=	$this->input->post('SmallDetailsExtension');
 				$onTabShowCase	=	$this->input->post('TabShowCaseExtension');
 				$exec	=	$this->lib->setThridOptions($onCaroussel,$onFeatured,$onGallery,$onLastest,$smallDetails,$onTabShowCase);
-				if($exec)
+				if($exe)
 				{
-					$this->notice->push_notice(notice('done'));
+					$notice['success']++;
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					$notice['error']++;
 				}
 			}
-		}
-		
-		if($this->input->post('section4'))
-		{
+			else
+			{
+				$notice['error']++;
+			}
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules('carousselLimit', 'Le caroussel','trim|numeric');
 			$this->form_validation->set_rules('lastestLimit', 'Les éléments r&eacute;cents','trim|numeric');
@@ -135,13 +140,18 @@ class tendoo_index_manager_admin_controller
 				$exe	=	$this->lib->setFiftOptions($carousselLimit,$featuredLimit,$lastestLimit,$galleryLimit,$tabShowCaseLimit,$smallDetailsLimit);
 				if($exe)
 				{
-					$this->notice->push_notice(notice('done'));
+					$notice['success']++;
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					$notice['error']++;
 				}
 			}
+			else
+			{
+				$notice['error']++;
+			}
+			$this->notice->push_notice(tendoo_info($notice['success'].' élément(s) enregistré(s), '.$notice['error'].' erreur(s)'));
 		}
 		
 		if($this->input->post('section5'))
@@ -181,6 +191,6 @@ class tendoo_index_manager_admin_controller
 		$this->tendoo->setTitle('tendoo Index Manager');
 		$this->tendoo->loadEditor(1);
 		
-		return $this->data['body']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/main.php',$this->data,TRUE,TRUE);
+		return $this->data['body']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/main.php',$this->data,TRUE,TRUE,$this);
 	}
 }

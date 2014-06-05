@@ -1,49 +1,132 @@
-<?php
-		if(count($this->blogPost) > 0)
-		{
+<?php		if(count($this->blogPost) > 0)		{	?>
+  		<?php foreach($this->blogPost as $p){	
+			$global	=	$this->tendoo->time($p['TIMESTAMP'],TRUE); 
+			$base		=	$this->tendoo->time($p['TIMESTAMP']);
 		?>
-        	<?php
-			foreach($this->blogPost as $p)
-			{
-				$global	=	$this->core->tendoo->time($p['TIMESTAMP'],TRUE);
-			?>
-			<article itemscope itemtype="http://schema.org/Article" id="post-83" class="post-83 post type-post status-publish format-standard hentry category-featured category-tutorials">
-				<header class="entry-header">
-					<h1 itemprop="name" class="entry-title"><a href="<?php echo $p['LINK'];?>" rel="bookmark"><?php echo $p['TITLE'];?></a></h1>
-				</header><!-- .entry-header -->
-				<a href="<?php echo $p['FULL'];?>">
-					<img itemprop="image" class="img-responsive" src="<?php echo $p['THUMB'];?>" alt="<?php echo $p['TITLE'];?>">
-				</a>
-				<div class="entry-summary">
-					<p itemprop="description"><?php echo word_limiter(strip_tags($p['CONTENT']),50);?> <a href="<?php echo $p['LINK'];?>" class="read-more">[Lire la suite]</a></p>
-				</div><!-- .entry-summary -->
-				<footer class="entry-meta">
-					<span class="cat-links">
-						dans <span class="categories">
-								<a href="<?php echo $p['CATEGORY_LINK'];?>" itemprop="category"><?php echo $p['CATEGORY'];?></a>
-							</span>
-						<?php
-						if($p['AUTHOR'] == TRUE)
-						{
-						?>
-						par
-							<span class="comments-link">
-								<a href="<?php echo $this->core->url->site_url(array('account','profile',$p['AUTHOR']['PSEUDO']));?>" title="Comment on Etiam mauris tortor, pharetra quis lobortis in, pharetra in diam"><?php echo $p['AUTHOR']['PSEUDO'];?></a>
-							</span>
-						<?php
-						}
-						?>
-						<div class="facebook" style="width:100px;"><iframe src="http://www.facebook.com/plugins/like.php?locale=en_US&href=<?php echo $p['LINK'];?>&amp;layout=button_count&amp;show_faces=true&amp;width=500&amp;action=like&amp;font&amp;colorscheme=light&amp;height=23" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:500px; height:23px;" allowTransparency="true"></iframe></div>
-				</footer>
-			</article>
-                <?php
-			}
-				?>
-        <?php
-		}
-		else if($this->blogPost === FALSE)
-		{
-			?>
-		<h3>Aucun article disponible</h3>
+<article class="post">
+
+    <figure class="post-img">
+        <a href="<?php echo $p['LINK'];?>"><img style="width:100%;" src="<?php echo $p['THUMB'];?>" alt="<?php echo $p['TITLE'];?>"></a>
+    </figure>
+
+    <section class="date">
+        <span class="day"><?php echo $global['d'];?></span>
+        <span class="month"><?php echo $global['month'];?></span>
+    </section>
+
+    <section class="post-content">
+
+        <header class="meta">
+            <h2><a href="<?php echo $p['LINK'];?>"><?php echo $p['TITLE'];?></a></h2>
+            <span>Dans 
             <?php
+			for($i = 0;$i < count($p['CATEGORIES']); $i++)
+			{ 
+				if($i < 1)
+				{
+					if(isset($p['CATEGORIES'][$i+1]))
+					{
+				?>            
+					<a href="<?php echo $p['CATEGORIES'][$i]['LINK'];?>"><?php echo $p['CATEGORIES'][$i]['TITLE'];?></a>,
+				<?php
+					}
+					else
+					{
+				?>            
+					<a href="<?php echo $p['CATEGORIES'][$i]['LINK'];?>"><?php echo $p['CATEGORIES'][$i]['TITLE'];?></a>
+				<?php
+					}
+				}
+				else if($i+ 1 == count($p['CATEGORIES']))
+				{
+					?>
+                    <a href="javascript:void(0);">...</a>
+                    <?php
+				}
+			}
+			?>
+            </span>
+            <span><i class="halflings user icon-user"></i>Par <a href="<?php echo $this->url->site_url(array('account','profile',$p['AUTHOR']['PSEUDO']));?>"><?php echo $p['AUTHOR']['PSEUDO'];?></a></span>
+            <?php 
+			if(is_array($p['KEYWORDS']) && count($p['KEYWORDS']) > 0)
+			{ 
+			?>
+            <span><i class="halflings tag icon-tags"></i>
+				<?php 
+                for($i = 0; $i < count($p['KEYWORDS']); $i++)
+                {
+					if($i < 1)
+					{
+						if(isset($p['KEYWORDS'][$i+1]))
+						{
+					?>
+					<a href="<?php echo $p['KEYWORDS'][$i]['LINK']; ?>"><?php echo $p['KEYWORDS'][$i]['TITLE'];?></a>,
+					<?php 
+						}
+						else
+						{
+					?>
+					<a href="<?php echo $p['KEYWORDS'][$i]['LINK']; ?>"><?php echo $p['KEYWORDS'][$i]['TITLE'];?></a>
+					<?php 
+						}
+					}
+					else if($i+1 == count($p['KEYWORDS']))
+					{
+						?>
+                        <a href="javascrip:void(0);">...</a>
+                        <?php
+					}
+                } 
+                ?>   
+			</span>   
+            <?php 
+			} 
+			?>
+            <span><i class="halflings comments icon-comment"></i><a href="<?php echo $p['LINK'];?>#comments"><?php echo $p['COMMENTS'];?> Commentaire(s)</a></span>
+        </header>
+
+        <p><?php echo word_limiter(strip_tags($p['CONTENT']),80);?></p>
+
+        <a href="<?php echo $p['LINK'];?>" class="button color">Lire la suite</a>
+
+    </section>
+
+</article>
+<div class="line"></div>
+
+<?php
 		}
+?>
+<?php $this->pagination();?>
+<?php	}		
+		else if($this->blogPost === FALSE)		{			?>
+<article class="post">
+
+    <figure class="post-img">
+        <a href=""><img src="<?php echo img_url('Hub_back.png');?>" alt="Aucun article"></a>
+    </figure>
+
+    <section class="date">
+        <span class="day">00</span>
+        <span class="month">00</span>
+    </section>
+
+    <section class="post-content">
+
+        <header class="meta">
+            <h2><a href="#">Aucun article disponible</a></h2>
+            <span>Dans 
+            </span>
+            <span><i class="halflings user icon-user"></i>Par ???
+            <span><i class="halflings comments icon-comment"></i><a href="#">0 Commentaire(s)</a></span>
+        </header>
+
+        <p>Aucun article disponible, veuillez vous connecter et publiez un nouvel article</p>
+
+        <a href="<?php echo $this->url->site_url(array('admin'));?>" class="button color">Connectez-vous</a>
+
+    </section>
+
+</article>
+<div class="line"></div>
+<?php 	}	?>

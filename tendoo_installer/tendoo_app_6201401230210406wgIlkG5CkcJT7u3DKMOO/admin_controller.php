@@ -12,8 +12,8 @@ class tendoo_contact_handler_admin_controller
 {
 	public function __construct($data)
 	{
-		__extends($this);
 		$this->data						=&	$data;
+		__extends($this);
 		
 		$this->module_dir				=	MODULES_DIR.$data['module'][0]['ENCRYPTED_DIR'];
 		$this->module_namespace			=	$data['module'][0]['NAMESPACE']; // retreive namespace
@@ -25,8 +25,8 @@ class tendoo_contact_handler_admin_controller
 		include_once($this->module_dir.'/library.php');
 		$this->lib						=	new tendoo_contact_handler_class();
 		$this->tendoo_admin->menuExtendsBefore($this->load->view($this->module_dir.'/views/menu',$this->data,true,TRUE));
-		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
-		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
+		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true,FALSE,$this);
+		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE,$this);
 		
 	}
 	public function index($page	=	1,$action = "",$element	=	'')
@@ -39,7 +39,7 @@ class tendoo_contact_handler_admin_controller
 		$this->data['retreiContact']	=	$this->lib->getSendedContact($this->data['paginate'][1],$this->data['paginate'][2]);
 		$this->tendoo->setTitle($this->data['module'][0]['HUMAN_NAME'].' - Liste des messages');
 		
-		$this->data['body']			=	$this->load->view($this->module_dir.'/views/body',$this->data,true,TRUE);
+		$this->data['body']			=	$this->load->view($this->module_dir.'/views/body',$this->data,true,TRUE,$this);
 		return $this->data['body'];
 	}
 	public function setting()
@@ -115,7 +115,7 @@ class tendoo_contact_handler_admin_controller
 		
 		$this->tendoo->setTitle($this->data['module'][0]['HUMAN_NAME'].' - Param&ecirc;tres');
 		$this->tendoo->loadEditor(1);
-		$this->data['body']			=	$this->load->view($this->module_dir.'/views/setting',$this->data,true,TRUE);
+		$this->data['body']			=	$this->load->view($this->module_dir.'/views/setting',$this->data,true,TRUE,$this);
 		return $this->data['body'];
 	}
 	public function check($id)
@@ -130,7 +130,7 @@ class tendoo_contact_handler_admin_controller
 		
 		$this->tendoo->setTitle($this->data['module'][0]['HUMAN_NAME'].' - Lire un message');
 		
-		$this->data['body']			=	$this->load->view($this->module_dir.'/views/read',$this->data,true,TRUE);
+		$this->data['body']			=	$this->load->view($this->module_dir.'/views/read',$this->data,true,TRUE,$this);
 		return $this->data['body'];
 	}
 	public function delete($id)

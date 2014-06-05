@@ -83,7 +83,10 @@
 										</div>
 										<div class="form-group">
 											<label class="control-label">Lien vers logo</label>
-											<input type="text" name="newLogo" class="form-control">
+                                            <input type="text" name="newLogo" value="<?php echo $options[0]['SITE_LOGO'];?>" class="form-control">
+                                            <div class="">
+                                              <span class="bg-white input-group-addon"><img src="<?php echo $options[0]['SITE_LOGO'];?>"></span>
+                                            </div>
 										</div>
 										<div class="form-group">
 											<?php

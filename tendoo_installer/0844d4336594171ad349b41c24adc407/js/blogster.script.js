@@ -5,7 +5,7 @@ $(document).ready(function(){
 		{
 			var addCategory	=	
 			'<div addCategory>'+
-				'<form method="POST" fjax action="'+$('.creatingCategory').attr('data-form-url')+'">'+
+				'<form method="POST" fjaxson action="'+$('.creatingCategory').attr('data-form-url')+'">'+
 					'<div class="input-group">'+
 						'<input type="text" class="form-control" name="categoryName" placeholder="Entrez le nom de la cat&eacute;gorie">'+
 						'<div class="input-group-btn">'+

@@ -1,18 +1,15 @@
 <?php
-if(isset($this->indexAboutUs))
-		{
-		?>
-<div class="fwidgets">
-	<div class="container">
-		<div class="row">
-			
-			<div class="col-lg-12" style="color:white">
-				<h2><?php echo $this->indexAboutUsTitle;?></h2>
-				<p><?php echo ($this->indexAboutUs);?></p>
-			</div>
-			
-		</div>
+if(strlen($this->indexAboutUs) > 1)
+{
+?>	
+<div class="container floated">
+	<div class="blank floated">
+            <h3 class="margin-1"><?php echo $this->indexAboutUsTitle;?></h3>
+    
+            <!-- Testimonial Rotator -->
+            <div class="testimonials margin-1"><?php echo $this->indexAboutUs;?></div>
+            <!-- Testomonial Rotator / End -->
 	</div>
 </div>
-		<?php
-		}
+<?php
+}

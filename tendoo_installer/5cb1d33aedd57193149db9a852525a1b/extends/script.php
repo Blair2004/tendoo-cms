@@ -1,128 +1,190 @@
-<?php
-class Tendoo_Revera_theme_handler
+<?php 
+class nevia_theme_handler
 {
-	public $news;	
-	public $file;
-	private $data;
-	private $core;
-	private $prototypeList;
-	private $itemSupported	=	array('UNIQUE','BLOG','404','INDEX','CONTACT');
-	/*
-	Item Supporté par le thème
-	*/
+	// Designed With 2TB
 	public function __construct($data)
 	{
+        // Recupération des données envoyé par le system.
 		$this->data							=	$data;
-		$this->news	=	true;
-		$this->core							=	Controller::instance();
-		$this->core->load->library('file');
-		$this->data['file']					=	$this->core->file;
-		$this->themeEncrypted_dir				=	$this->data['getTheme']['ENCRYPTED_DIR'];
-		include_once(THEMES_DIR.$this->themeEncrypted_dir.'/library.php');
-		$this->modus_lib					=	new modus_lib;
-		// Load Css File
-		$this->data['file']->css_url		=	$this->core->url->main_url().'tendoo_themes/'.$this->themeEncrypted_dir.'/css/';
-		$this->data['file']->css_push('style');
-		$this->data['file']->css_push('bootstrap/bootstrap.min');
-		$this->data['file']->css_push('flexslider');
-		$this->data['file']->css_push('bootstrap-glyphicons');
-		$this->data['file']->css_push('theme');
+        // Extension de l'objet et  mise à jour du noyau.
+    	__extends($this);
+        // Définition des informations du thème.
+        $this->theme						=	$this->data['activeTheme'];
+        // Inclusion du ficher "library.php".		
+        if(file_exists(THEMES_DIR.$this->theme['ENCRYPTED_DIR'].'/library.php'))
+        {
+			include_once(THEMES_DIR.$this->theme['ENCRYPTED_DIR'].'/library.php');
+		}        
+		theme_jpush("js/globals/jquery.min");
+		theme_jpush("js/globals/jquery.contact");
+		theme_jpush("js/globals/jquery.easing.1.3");
+		theme_jpush("js/globals/jquery.fancybox.min");
+		theme_jpush("js/globals/jquery.flexslider");
+		theme_jpush("js/globals/jquery.gmap.min");
+		theme_jpush("js/globals/jquery.isotope.min");
+		theme_jpush("js/globals/jquery.jcarousel");
+		theme_jpush("js/globals/jquery.layerslider-transitions");
+		theme_jpush("js/globals/jquery.layerslider.min");
+		theme_jpush("js/globals/jquery.modernizr");
+		theme_jpush("js/globals/jquery.selectnav");
+		theme_jpush("js/globals/jquery.shop");
+		theme_jpush("js/globals/jquery.transit-modified");
+		theme_jpush("js/globals/script");
+		theme_jpush("js/globals/switcher");
+		theme_jpush("js/globals/custom");
 
 
-		// Load Js
-		$this->data['file']->js_url			=	$this->core->url->main_url().'tendoo_themes/'.$this->themeEncrypted_dir.'/js/';
-		$this->data['file']->js_push('jquery/jquery');
-		$this->data['file']->js_push('jquery/jquery-migrate.min');
-		$this->data['file']->js_push('bootstrap.min');
-		$this->data['file']->js_push('jquery.flexslider');
-		$this->data['file']->js_push('superfish');
-		$this->data['file']->js_push('custom');
-		$this->data['file']->js_push('mobilemenu');
-		$this->data['file']->js_push('skip-link-focus-fix');		
-		
+		theme_cpush("css/globals/base");
+		theme_cpush("css/globals/icons");
+		theme_cpush("css/globals/responsive");
+		theme_cpush("css/globals/style");
+
 	}
-	public function support($element) // Pour savoir si un item existe dans le thème.
+    public function view($path,$do = "showDirectly")
 	{
-		if(in_array($element,$this->itemSupported))
+		$file	=	THEMES_DIR.$this->theme['ENCRYPTED_DIR'].'/'.$path.'.php';
+		if(file_exists($file))
 		{
-			return true;
+        	// Converting $this->data key to vars
+            foreach($this->data as $key	=>	 $value)
+            {
+            	$$key	=	$value;
+            }
+			ob_start();
+			include($file);
+			$content	=	ob_get_clean();
+			if($do == 'returnContent')
+			{
+				return $content;
+				
+			}
+			else if($do == 'showDirectly')
+			{
+				echo $content;
+                return true;
+			}
 		}
-		return false;
+        else
+        {
+			$this->tendoo->error('Unable to load : '.$file);
+            return false;
+        }
 	}
+	/**
+		Méthodes de chargement des fichiers de base.
+			header($data) // Charge l'entête de la page avec le menu et le logo.
+			head($data)// charge l'entête du document avec les balises titles et opère chargement des fichiers css ou js.
+			footer($data) // charge le pied de la page.
+			body($data) // charge le corps de la page.
+	**/
 	public function header($data)
 	{
 		$this->data	=	array_merge($this->data,$data);
-		$this->core->load->view('tendoo_themes/'.$this->themeEncrypted_dir.'/default/header',$this->data,FALSE,TRUE);
-	}
-	public function head($data)
-	{
-		$this->data	=	array_merge($this->data,$data);
-		return $this->core->load->view('tendoo_themes/'.$this->themeEncrypted_dir.'/default/head',$this->data,true,TRUE);
+        return $this->view('default/header','returnContent');
 	}
 	public function footer($data)
 	{
 		$this->data	=	array_merge($this->data,$data);
-		return $this->core->load->view('tendoo_themes/'.$this->themeEncrypted_dir.'/default/footer',$this->data,true,TRUE);
+        return $this->view('default/footer','returnContent');
+	}
+	public function head($data)
+	{
+		$this->data	=	array_merge($this->data,$data);
+       	$this->view('default/head');
 	}
 	public function body($data)
 	{
-		$this->data					=	array_merge($this->data,$data);
-		$this->data['head']			=	$this->head($this->data);
-		$this->data['footer']		=	$this->footer($this->data);
-		$this->core->load->view('tendoo_themes/'.$this->themeEncrypted_dir.'/default/body',$this->data,FALSE,TRUE);
+		$this->data						=	array_merge($this->data,$data);
+		$this->data['header']			=	$this->header($this->data);
+		$this->data['footer']			=	$this->footer($this->data);
+        $this->view('default/body');
 	}
+	/**
+		Méthode : Pagination.
+	**/
 	private $pagination_datas;
 	public function set_pagination_datas($data)
 	{
+		// Définition du premier lien
 		$this->pagination_datas['firstLink']		=	isset($data['firstLink']) 	? $data['firstLink'] : "null";
 		$this->pagination_datas['firstLinkText']	=	isset($data['firstLinkText']) ? $data['firstLinkText'] : "null";
+		// Définition d'un lien
 		$this->pagination_datas['LinkText']			=	isset($data['LinkText']) ? $data['LinkText'] : "null";
 		$this->pagination_datas['lastLinkText']		=	isset($data['lastLinkText']) ? $data['lastLinkText'] : "null";
+		// Nombre de pages
 		$this->pagination_datas['totalPage']		=	isset($data['totalPage']) ? $data['totalPage'] : "Non sp&eacute;cifi&eacute;";
+		// définition du lien actif
 		$this->pagination_datas['activeLink']		=	isset($data['activeLink']) ? $data['activeLink'] : "Non sp&eacute;cifi&eacute;";
 		$this->pagination_datas['activeLinkText']	=	isset($data['activeLinkText']) ? $data['activeLinkText'] : "Texte non sp&eacute;cifi&eacute;";
+		// Définition de l'inner link
 		$this->pagination_datas['innerLink']		=	isset($data['innerLink']) ? $data['innerLink'] : "Liens non sp&eacute;cifi&eacute;";
+		// Définition du lien actif [avancé].
 		$this->pagination_datas['currentPage']		=	isset($data['currentPage']) ? $data['currentPage'] : "page non sp&eacute;cifi&eacute;";
 	}
+	/**
+	Récupération des fichiers pagination.
+	**/
 	public function pagination()
 	{
 		$this->include_item('pagination');
 	}
+	/**
+		Méthode : Inclusion des fichiers dans le dossiers "extends/items/". Ne prend que le nom du fichier en paramètre sans extension.
+	**/
 	public function include_item($item,$array = array())
 	{
-		include(THEMES_DIR.$this->themeEncrypted_dir.'/extends/items/'.$item.'.php');
+		include(THEMES_DIR.$this->theme['ENCRYPTED_DIR'].'/extends/items/'.$item.'.php');
+		/*
+			Procédé de recupération des fichiers
+				define[...] pour définir l'item qui est enregistré
+				parse[...] pour recupéré l'item préalablement définit.
+		*/
 	}
 	/*
-	/*	Commons
+	/*	Méthodes communues
 	*/
-	private $pageTitle			=	'Page Sans Titre';
-	private $pageDescription	=	'';
-	public function definePageTitle($title)
+	private $pageTitle			=	'Page Sans Titre'; // Titre de la page
+	private $pageDescription	=	''; // Description de la page
+	private $pageKeywords		=	'';
+	public function definePageTitle($title) // Définir le titre de la page
 	{
 		$this->pageTitle	=	$title;
 	}
-	public function definePageDescription($description)
+	public function definePageDescription($description) // définir la description de la page
 	{
 		$this->pageDescription	=	$description;
 	}
+	public function definePageKeywords($keywords)
+	{
+		$this->pageKeywords	=	$keywords;
+	}
 	/*
-	/*	Gallery ShowCase
+	/*	Méthode Gallery ShowCase
 	*/
 	private $galleryShowCaseTitle	=	'Gallery Showcase';
 	private $galleryGroup			=	array();
+	private $galleryDescription		=	'';
+	public function defineGalleryDescription($description)
+	{
+		$this->galleryDescription	=	$description;
+	}
 	public function defineGalleryShowCaseTitle($title)
 	{
 		$this->galleryShowCaseTitle	=	$title;
 	}
-	public function defineGalleryShowCase($title,$description,$thumb,$full,$link,$timestamp)
+	public function defineGalleryShowCase($title,$description,$thumb,$full,$link,$timestamp,$author = array(),$categories = array())
 	{
+/*PUSH_GALLERY_JS_IF_NOT_EXISTS*/
+/*PUSH_GALLERY_CSS_IF_NOT_EXISTS*/
 		$this->galleryGroup[]		=	array(
 			'TITLE'					=>	$title,
 			'DESCRIPTION'			=>	$description,
 			'THUMB'					=>	$thumb,
 			'FULL'					=>	$full,
 			'LINK'					=>	$link,
-			'TIMESTAMP'				=>	$timestamp
+			'TIMESTAMP'				=>	$timestamp,
+			'AUTHOR'				=>	$author,
+			'CATEGORIES'			=>	$categories
 		);
 	}
 	private function parseGalleryShowCase() // Ok
@@ -134,12 +196,19 @@ class Tendoo_Revera_theme_handler
 	*/
 	private $carousselElement	=	array();
 	private $carousselTitle		=	'';
+	private $carousselDescription	=	'';
+	public function defineCarousselDescription($description)
+	{
+		$this->carousselDescription	=	$description;
+	}
 	public function defineCarousselTitle($title)
 	{
 		$this->carousselTitle	=	$title;
 	}
 	public function defineCaroussel($title,$content,$image,$link,$timestamp) // Ok
 	{
+/*PUSH_CAROUSSEL_JS_IF_NOT_EXISTS*/
+/*PUSH_CAROUSSEL_CSS_IF_NOT_EXISTS*/
 		$this->carousselElement[]	=	array(
 			'TITLE'					=>	$title,
 			'CONTENT'				=>	$content,
@@ -157,18 +226,27 @@ class Tendoo_Revera_theme_handler
 	*/
 	private $onTopContentTitle	=	'Featured Title';
 	private $onTopContent		=	array();
+	private $onTopContentDescription	=	'';
+	public function defineOnTopContentDescription($description)
+	{
+		$this->onTopContentDescription	=	$description;
+	}
 	public function defineOnTopContentTitle($title)
 	{
 		$this->onTopContentTitle	=	$title;
 	}
-	public function defineOnTopContent($thumb,$title,$content,$link,$timestamp) // Ok
+	public function defineOnTopContent($thumb,$title,$content,$link,$timestamp,$author = '',$categories = array()) // Ok
 	{
+/*PUSH_ONTOPCONTENT_JS_IF_NOT_EXISTS*/
+/*PUSH_ONTOPCONTENT_CSS_IF_NOT_EXISTS*/
 		$this->onTopContent[]	=	array(
 			'THUMB'				=>	$thumb,
 			'TITLE'				=>	$title,
 			'CONTENT'			=>	$content,
 			'LINK'				=>	$link,
-			'DATETIME'			=>	$timestamp
+			'DATETIME'			=>	$timestamp,
+			'AUTHOR'			=>	$author,
+			'CATEGORIES'		=>	$categories // est un tableau.
 		);
 	}
 	private function parseOnTopContent()
@@ -180,12 +258,19 @@ class Tendoo_Revera_theme_handler
 	*/
 	private $lastestElementsTitle	=	'Lastest';
 	private $lastestElements		=	array();
+	private $lastestElementsDescription	=	'';
+	public function defineLastestElementsDescription($description)
+	{
+		$this->lastestElementsDescription	=	$description;
+	}
 	public function defineLastestElementsTitle($title)
 	{
 		$this->lastestElementsTitle	=	$title;
 	}
 	public function defineLastestElements($thumb,$title,$content,$link,$timestamp,$author = '')
 	{
+/*PUSH_LASTESTELEMENT_JS_IF_NOT_EXISTS*/
+/*PUSH_LASTESTELEMENT_CSS_IF_NOT_EXISTS*/
 		$this->lastestElements[]	=	array(
 			'THUMB'				=>	$thumb,
 			'TITLE'				=>	$title,
@@ -203,10 +288,15 @@ class Tendoo_Revera_theme_handler
 	/*	Signature element	
 	*/
 	private $indexAboutUs;
-	private $indexAboutUsTitle	=	"Abous Us";
+	private $indexAboutUsTitle			=	"Abous Us";
+	private $indexAboutUsDescription	=	'';
 	public function defineIndexAboutUs($content)
 	{
 		$this->indexAboutUs	=	$content;
+	}
+	public function defineIndexAboutUsDescription($description)
+	{
+		$this->indexAboutUsDescription	=	$description;
 	}
 	public function defineIndexAboutUsTitle($title)
 	{
@@ -219,11 +309,16 @@ class Tendoo_Revera_theme_handler
 	/*
 	/*	Partner about us
 	*/
-	private $partners_title		=	'Our Partners';
+	private $partners_title			=	'Our Partners';
 	private $partners_content;
+	private $partners_description	=	'';
 	public function definePartnersTitle($title)
 	{
 		$this->partners_title	=	$title;
+	}
+	public function definePartnersDescription($description)
+	{
+		$this->partners_description	=	$description;
 	}
 	public function definePartnersContent($content)
 	{
@@ -236,11 +331,16 @@ class Tendoo_Revera_theme_handler
 	/*
 	/*	Text List Showcase
 	*/
-	private $listText		=	array();
-	private $textListTitle	=	'Sample text';
+	private $listText				=	array();
+	private $textListTitle			=	'Sample text';
+	private $textListDescription	=	'';
 	public function defineTextListTitle($title)
 	{
 		$this->textListTitle			=	$title;
+	}
+	public function defineTextListDescription($description)
+	{
+		$this->textListDescription		=	$description;
 	}
 	public function defineTextList($title,$content,$thumb,$link,$timestamp)
 	{
@@ -261,15 +361,21 @@ class Tendoo_Revera_theme_handler
 	*/
 	private $tabShowCase		=	array();
 	private $tabShowCaseTitle	=	'Tab Show Case';
+	private $tabShowCaseDescription	=	'';
+	public function defineTabShowCaseDescription($description)
+	{
+		$this->tabShowCaseDescription	=	$description;
+	}
 	public function defineTabShowCaseTitle($title)
 	{
 		$this->tabShowCaseTitle	=	$title;
 	}
-	public function defineTabShowCase($title,$content) // Ok
+	public function defineTabShowCase($title,$content,$link = '#') // Ok
 	{
 		$this->tabShowCase[]	=	array(
 			'TITLE'				=>	$title,
-			'CONTENT'			=>	$content
+			'CONTENT'			=>	$content,
+			'LINK'				=>	$link
 		);
 	}
 	private function parseTabShowCase()
@@ -277,59 +383,7 @@ class Tendoo_Revera_theme_handler
 		$this->include_item('index.parse_tabShowCase');
 	}
 	/*
-	/*	Featured products index 
-	*/
-	private $featuredProductTitle	=	'Featured Product';
-	private $featuredProduct		=	array();
-	private $featuredProductDevise	=	'€';
-	public function defineFeaturedProductTitle($title)
-	{
-		$this->featuredProductTitle	=	strlen($title) > 0 ? $title : "Featured Product";
-	}
-	public function defineFeaturedProductDevice($devise)
-	{
-		$this->featuredProductDevise	=	$devise;
-	}
-	public function defineFeaturedProducts($title,$content,$thumb,$price,$link)
-	{
-		$this->featuredProduct[]		=	array(
-			'TITLE'			=>	$title,
-			'CONTENT'		=>	$content,
-			'THUMB'			=>	$thumb,
-			'PRICE'			=>	$price,
-			'LINK'			=>	$link
-		);
-	}
-	private function parseFeaturedProducts()
-	{
-		$this->include_item('index.parse_featuredProducts');
-	}
-	/*
-	/* Products listing + Single view
-	*/
-	private $productListingDevise		=	'€';
-	public function defineProductListingDevice($device)
-	{
-		$this->productListingDevise		=	$device;
-	}
-	private $productListingCaroussel	=	array();
-	public function defineProductListingCaroussel($title,$description,$thumb,$date,$link,$price)
-	{
-		$this->productListingCaroussel[]	=	array(
-			'TITLE'						=>	$title,
-			'CONTENT'					=>	$description,
-			'THUMB'						=>	$thumb,
-			'DATE'						=>	$date,
-			'LINK'						=>	$link,
-			'PRICE'						=>	$price
-		);
-	}
-	private function parseProductListingCaroussel()
-	{
-		$this->include_item('index.parse_productsListingCaroussel');
-	}
-	/*
-	/*	Page index Parser
+	/*	Méthode chargement du prototype de la page d'accueil.
 	*/
 	public function parseIndex()
 	{
@@ -338,13 +392,8 @@ class Tendoo_Revera_theme_handler
 	/*
 	/*	End
 	*/
-	public function socialBar()
-	{
-		return;
-		$this->include_item('index.parse_socialBar');
-	}
 	/*
-	/*	Parse Blogs publications
+	/*	Blogs et publications
 	*/
 	private $blogPostTitle		=	'Blog posts';
 	private $blogPost			=	array();
@@ -352,18 +401,21 @@ class Tendoo_Revera_theme_handler
 	{
 		$this->blogPostTitle	=	$title;
 	}
-	public function defineBlogPost($title,$content,$thumb,$full,$author,$link,$timestamp,$category,$category_link)
+	public function defineBlogPost($title,$content,$thumb,$full,$author,$link,$timestamp,$categories	=	array(),$comments	=	false,$keywords = array())
 	{
+/*PUSH_BLOGPOST_JS_IF_NOT_EXISTS*/
+/*PUSH_BLOGPOST_CSS_IF_NOT_EXISTS*/
 		$this->blogPost[]		=	array(
-			'AUTHOR'			=>	$author,
+			'AUTHOR'			=>	$author, // est un tableau associatif [PSEUDO],[ID],[EMAIL] ...
 			'CONTENT'			=>	$content,
 			'THUMB'				=>	$thumb,
 			'FULL'				=>	$full,
 			'LINK'				=>	$link,
 			'TITLE'				=>	$title,
 			'TIMESTAMP'			=>	$timestamp,
-			'CATEGORY'			=>	$category,
-			'CATEGORY_LINK'		=>	$category_link
+			'CATEGORIES'		=>	$categories, // forme array('TITLE'	=>	'','LINK'	=>	'', 'DESCRIPTION'	=>	'');
+            'KEYWORDS'			=>	$keywords, // array('TITLE' => '', 'LINK' =>	'', 'DESCRIPTION' 	=> '');
+			'COMMENTS'			=>	$comments
 		);
 	}
 	private function parseBlogPost()
@@ -377,9 +429,10 @@ class Tendoo_Revera_theme_handler
 	private $singleBlogPostComments	=	array();
 	private $replyForms				=	array();
 	private $replyFormTitle			=	'R&eacute;pondre';
-	public function defineSingleBlogPost($title,$content,$thumb,$full,$author,$timestamp,$category,$category_link)
+	public function defineSingleBlogPost($title,$content,$thumb,$full,$author,$timestamp,$categories	=	array(),$keywords	=	array())
 	{
-		$this->core->file->css_push('comments');
+/*PUSH_SINGLEBLOGPOST_JS_IF_NOT_EXISTS*/
+/*PUSH_SINGLEBLOGPOST_CSS_IF_NOT_EXISTS*/
 		$this->singleBlogPost		=	array(
 			'TITLE'					=>	$title,
 			'CONTENT'				=>	$content,
@@ -387,8 +440,8 @@ class Tendoo_Revera_theme_handler
 			'FULL'					=>	$full,
 			'AUTHOR'				=>	$author,
 			'TIMESTAMP'				=>	$timestamp,
-			'CATEGORY'				=>	$category,
-			'CATEGORY_LINK'			=>	$category_link
+			'CATEGORIES'			=>	$categories,
+            'KEYWORDS'				=>	$keywords // array('TITLE' => '', 'LINK' =>	'', 'DESCRIPTION' 	=> '');
 		);
 	}
 	private $SBP_comments			=	array();
@@ -430,116 +483,23 @@ class Tendoo_Revera_theme_handler
 		$this->include_item('blog.parse_singlePost');
 	}
 	/*
-	/*	Multilple Product view
-	*/
-	private $productView	=	array();
-	public function defineProductView($title,$content,$thumb,$full,$author,$timestamp,$link,$link_text,$category,$category_link,$price,$add_button_text = 'Ajouter au panier',$add_button_link = '#',$remove_button_text= "Retirer du panier", $remove_button_link = '#',$login_button_text = 'Connectez-vous',$login_button_link	=	'#')
-	{
-		$this->productView[]	=	array(
-			'TITLE'				=>	$title,
-			'CONTENT'			=>	$content,
-			'THUMB'				=>	$thumb,
-			'FULL'				=>	$full,
-			'AUTHOR'			=>	$author,
-			'TIMESTAMP'			=>	$timestamp,
-			'LINK'				=>	$link,
-			'LINK_TEXT'			=>	$link_text,
-			'CATEGORY'			=>	$category,
-			'CATEGORY_LINK'		=>	$category_link,
-			'PRICE'				=>	$price,
-			'ADD_TEXT'	=>	$add_button_text,
-			'ADD_LINK'	=>	$add_button_link,
-			'REMOVE_LINK'=>	$remove_button_link,
-			'REMOVE_TEXT'=>	$remove_button_text,
-			'LOGIN_TEXT'	=>	$login_button_text,
-			'LOGIN_LINK'	=>	$login_button_link
-		);
-	}
-	private function parseProductView()
-	{
-		$this->include_item('blog.parse_productView');
-	}
-	/*
-	/*	Single Product view
-	*/
-	private $singleProductView		=	array();
-	public function defineSingleProductView($title,$content,$thumb,$full,$author,$timestamp,$category,$category_link,$price,$other_preview = array(),$add_button_text = 'Ajouter au panier',$add_button_link = '#',$remove_button_text = 'Retirer du panier', $remove_button_link = '#',$check_button_text	=	'Consulter mon panier',$check_button_link	=	'#',$login_button_text = 'Connectez-vous', $login_button_link = '#')
-	{
-		$this->singleProductView[]	=	array(
-			'TITLE'					=>	$title,
-			'CONTENT'				=>	$content,
-			'THUMB'					=>	$thumb,
-			'FULL'					=>	$full,
-			'AUTHOR'				=>	$author,
-			'TIMESTAMP'				=>	$timestamp,
-			'CATEGORY'				=>	$category,
-			'CATEGORY_LINK'			=>	$category_link,
-			'PRICE'					=>	$price,
-			'OTHERS_PICS'			=>	$other_preview,
-			'ADD_TEXT'				=>	$add_button_text,
-			'ADD_LINK'				=>	$add_button_link,
-			'REMOVE_TEXT'			=>	$remove_button_text,
-			'REMOVE_LINK'			=>	$remove_button_link,
-			'CHECK_TEXT'			=>	$check_button_text,
-			'CHECK_LINK'			=>	$check_button_link,
-			'LOGIN_TEXT'			=>	$login_button_text,
-			'LOGIN_LINK'			=>	$login_button_link
-		);
-	}
-	private function parseSingleProductView()
-	{
-		$this->include_item('blog.parse_singleProductView');
-	}
-	/*
-	/* Cart List
-	*/
-	private $cartListTitle				=	'Our products';
-	private $cartListElements			=	array();
-	private $cartListDevise				=	'€';
-	private $cartListPanelButton		=	array();
-	public function defineCartListDevise($devise)
-	{
-		$this->cartListDevise	=	strlen($devise) > 0 ? $devise : "€";
-	}
-	public function defineCartListPanelButton($text,$link)
-	{
-		$this->cartListPanelButton[]	=	array(
-			'LINK'			=>	$link,
-			'TEXT'			=>	$text
-		);
-	}
-	public function defineCartListTitle($title)
-	{
-		$this->cartTitle	=	strlen($title) > 0 ? $title : "Our products";
-	}
-	public function defineCartListElement($title,$content,$thumb,$price,$link,$cancel_link)
-	{
-		$this->cartListElements[]		=	array(
-			'TITLE'			=>	$title,
-			'CONTENT'		=>	$content,
-			'THUMB'			=>	$thumb,
-			'PRICE'			=>	$price,
-			'LINK'			=>	$link,
-			'CANCEL_LINK'	=>	$cancel_link
-		);
-	}
-	private function parseCartList() // this include widget side panel
-	{
-		$this->include_item('blog.parse_cartList');
-	}
-	/*
 	/*	Parse Blog page
 	*/
-	public function parseListing() // ParseBlog Will be deprecated
-	{
-		$this->parseBlog();
-	}
 	public function parseBlog()
 	{
 		$this->include_item('blog.parse');
 	}
 	/*
-	/*	Form Creator
+		Méthode : Générateur de formulaire.
+			Utilisaiton : 
+			...->defineForm(array(
+				"text"			=>		"mon lien",
+				"name"			=>		"nom_du_champ",
+				"subtype"		=>		"submit" (peut prendre les valeurs : "submit","reset","button". Sous type de l'élément. correspond à l'attribut "type" d'un élément "input".)
+				"value"			=>		"" // valeur du champ,
+				"placeholder"	=>		"" // valeur pré remplie du champ.
+				"type"			=>		"textarea" // ou non définit, "subtype" sera utilisé à la place. l'élément sera donc forcément un "input" ou "select"
+			));
 	*/
 	private $currentForm			=	array();
 	public function defineForm($a)
@@ -562,7 +522,14 @@ class Tendoo_Revera_theme_handler
 		}
 		if(array_key_exists('subtype',$a))
 		{
-			$subtype	=	'type="'.$a['subtype'].'"';
+			if(in_array($a['subtype'],array('submit','reset','button')))
+			{
+			$subtype	=	'class="comment_submit" type="'.$a['subtype'].'"';
+			}
+			else
+			{
+			$subtype	=	'class="comment_input_bg" type="'.$a['subtype'].'"';
+			}
 		}
 		else
 		{
@@ -588,18 +555,46 @@ class Tendoo_Revera_theme_handler
 		{
 			if($a['type']	==	'textarea')
 			{
-				$balise	=	'<textarea '.$name.'>'.$value.'</textarea>';
+				$balise	=	'<textarea class="comment_textarea_bg" '.$name.'>'.$value.'</textarea>';
 			}
 			else
 			{
+				if(array_key_exists('subtype',$a))
+				{
+					if(in_array($a['subtype'],array('submit','reset','button')))
+					{
+					$balise	=	'<input '.$name.' '.$subtype.' '.$value.'/>';
+					}
+					else
+					{
+					$balise	=	'<input '.$name.' '.$subtype.' '.$value.'/>';
+					}
+				}
+				else
+				{
 				$balise	=	'<input '.$name.' '.$subtype.' '.$value.'/>';
+				}
 			}
 		}
 		else
 		{
+			if(array_key_exists('subtype',$a))
+			{
+				if(in_array($a['subtype'],array('submit','reset','button')))
+				{
+				$balise	=	'<input '.$name.' '.$subtype.' '.$value.'/>';
+				}
+				else
+				{
+				$balise	=	'<input '.$name.' '.$subtype.' '.$value.'/>';
+				}
+			}
+			else
+			{
 			$balise	=	'<input '.$name.' '.$subtype.' '.$value.'/>';
+			}
 		}
-		$this->currentForm[]	= '<div>'.$balise.$text.'</div><br>';
+		$this->currentForm[]	= '<div>'.$text.$balise.'</div>';
 	}
 	private function parseForm($action	=	"",$enctype	=	"multipart/form-data",$type 	=	"POST")
 	{
@@ -610,7 +605,7 @@ class Tendoo_Revera_theme_handler
 		$this->include_item('blog.parse_form');
 	}
 	/*
-	/* 	Define Unique 
+	/* 	Define Unique  : Page sans élément. (peut toutefois avoir les méthodes parseLeftWidgets(), parseRigthWidgets() ou parseBottomWidgets()).
 	*/
 	private $uniqueContent				=	'';
 	public function defineUnique($content)
@@ -670,10 +665,10 @@ class Tendoo_Revera_theme_handler
 		$this->include_item('widgets.bottom');
 	}
 	/*
-	/*	Contact Methods
+	/*	Définition du contact
 	*/
 	private $contactAddress				=	'';
-	private $contactTitle				=	"Our Contact";
+	private $contactTitle				=	"Our Contact"; // Texte par défaut.
 	private $contactContent				=	'';
 	private $contactAddressItems		=	array();
 	private $contactHeader				=	array('ACTION'	=>	'',	'ENCTYPE'	=>	'multipart/form-data',	'METHOD'	=>	'POST');
@@ -707,31 +702,10 @@ class Tendoo_Revera_theme_handler
 		$this->include_item('contact.parse');
 	}
 	/*
-	/*	Notice
+	/*	Notice : Recupèrera les notifications passées sur l'objet du noyau "notice".
 	*/
 	public function parseNotice()
 	{
 		$this->include_item('notice');
 	}
-	/*
-	/* Cart element
-	*/
-	private $currentCartContent			=	array();
-	public function defineCurrentCartContent($total_items,$total_prices,$cart_link,$cart_text,$item_shotElement,$devise)
-	{
-		$this->currentCartContent		=	array(
-			'TOTAL_ITEMS'				=>	$total_items,
-			'TOTAL_PRICES'				=>	$total_prices,
-			'CART_LINK'					=>	$cart_link,
-			'CART_TEXT'					=>	$cart_text,
-			'ITEM_LIST'					=>	$item_shotElement,
-			'DEVISE'					=>	$devise
-		);
-	}
-	public function parseCurrentCartContent() // of for entiri
-	{
-		$this->include_item('cart.parse_currentCartContent');
-	}
 }
-
-

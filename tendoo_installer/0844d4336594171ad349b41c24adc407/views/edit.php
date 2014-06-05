@@ -50,15 +50,14 @@
                                             <div id="articleKeyWords" class="pillbox clearfix m-b">
                                                 <ul>
                                                     <?php
-						$keyWords	=	$news->getNewsKeyWords($getSpeNews[0]['ID']);
-						if(count($keyWords) > 0)
+						if(count($getKeyWords) > 0)
 						{
-							foreach($keyWords as $k)
+							foreach($getKeyWords as $k)
 							{
 								?>
                                                     <li class="label bg-primary">
-                                                        <input type="hidden" name="artKeyWord[]" value="<?php echo $k['KEYWORDS'];?>">
-                                                        <?php echo $k['KEYWORDS'];?></li>
+                                                        <input type="hidden" name="artKeyWord[]" value="<?php echo $k['TITLE'];?>">
+                                                        <?php echo $k['TITLE'];?></li>
                                                     <?php
 							}
 						}
@@ -104,27 +103,57 @@
                                             <button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'ajax','createCategory'));?>" type="button">Ajouter une cat&eacute;gorie</button>
                                         </div>
                                         <div class="form-group">
-                                            <select class="form-control" name="category">
-                                                <option value="">Choisir la cat&eacute;gorie</option>
-                                                <?php
+                                        	<span>Choissisez une catégorie</span>
+                                            <hr class="line line-dashed">
+                                            <select class="multiselect" multiple="multiple" name="category[]">
+                                            <?php
+												if(count($categories) > 0)
+												{
+													$relatedCategoryId	=	array();
+													//var_dump($getNewsCategories);
+													foreach($getNewsCategories as $_gNc)
+													{
+														$relatedCategoryId[]	=	$_gNc['CATEGORY_REF_ID'];
+													}
+													//var_dump($relatedCategoryId);
                         foreach($categories as $c)
                         {
-							if($c['ID'] == $getSpeNews[0]['CATEGORY_ID'])
+							if(in_array($c['ID'],$relatedCategoryId))
 							{
-                        ?>
-                                                <option selected="selected" value="<?php echo $c['ID'];?>"><?php echo $c['CATEGORY_NAME'];?></option>
-                                                <?php
+								?>
+								<option selected value="<?php echo $c['ID'];?>"><?php echo $c['CATEGORY_NAME'];?></option>
+								<?php
 							}
 							else
 							{
-                        ?>
-                                                <option value="<?php echo $c['ID'];?>"><?php echo $c['CATEGORY_NAME'];?></option>
-                                                <?php
+								?>
+								<option value="<?php echo $c['ID'];?>"><?php echo $c['CATEGORY_NAME'];?></option>
+								<?php
 							}
                         }
+												}
+												else
+												{
+													?>
+                                                <option value="">Aucune catégorie disponible</option>
+                                                <?php
+												}
                         ?>
                                             </select>
                                         </div>
+                                        <script>
+									$(document).ready(function(e) {
+										$('.multiselect').multiselect({
+											dropRight: true,
+											nonSelectedText	: "Veuillez choisir",
+											nSelectedText	:	"cochés)",
+											enableFiltering	:	true,
+											templates		:	{
+												filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+											}
+										});
+									});
+									</script>
                                         <div class="form-group">
                                             <?php
                         $fmlib->mediaLib_button(array(

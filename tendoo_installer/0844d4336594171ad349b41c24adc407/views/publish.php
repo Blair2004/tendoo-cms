@@ -81,18 +81,40 @@
                                         <button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'ajax','createCategory'));?>" type="button">Ajouter une cat&eacute;gorie</button>
                                     </div>
                                     <div class="form-group">
-                                        <select class="form-control" name="category">
-                                            <option value="">Choisir la cat&eacute;gorie</option>
+                                    	<span>Choissisez une catégorie</span>
+                                        <select class="multiselect" multiple="multiple" name="category[]">
+										<?php
+                                            if(count($categories) > 0)
+                                            {
+                    foreach($categories as $c)
+                    {
+                            ?>
+                            <option value="<?php echo $c['ID'];?>"><?php echo $c['CATEGORY_NAME'];?></option>
+                            <?php
+                    }
+                                            }
+                                            else
+                                            {
+                                                ?>
+                                            <option value="">Aucune catégorie disponible</option>
                                             <?php
-							foreach($categories as $c)
-							{
-							?>
-                                            <option value="<?php echo $c['ID'];?>"><?php echo $c['CATEGORY_NAME'];?></option>
-                                            <?php
-							}
-							?>
+                                            }
+                    ?>
                                         </select>
                                     </div>
+                                    <script>
+									$(document).ready(function(e) {
+										$('.multiselect').multiselect({
+											dropRight: true,
+											nonSelectedText	: "Veuillez choisir",
+											nSelectedText	:	"cochés)",
+											enableFiltering	:	true,
+											templates		:	{
+												filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+											}
+										});
+									});
+									</script>
                                     <div class="form-group">
                                         <?php
 												$fmlib->mediaLib_button(array(

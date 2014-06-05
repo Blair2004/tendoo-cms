@@ -347,7 +347,7 @@ class Tendoo
 	{
 		$this->core->load->library('Tendoo_admin');
 		$this->tendoo_admin		=&		$this->core->tendoo_admin;
-		if($app	==	'revera')
+		if($app	==	'nevia')
 		{
 			// Installe le thème par défaut.
 			$appFile				=		array();
@@ -357,7 +357,7 @@ class Tendoo
 			// Set first Installed theme as default
 			$this->tendoo_admin->setDefault($installed_theme[0]['ID']); // retreiving IDs
 		}
-		else if($app	==	'blogster')
+		else if($app	==	'news')
 		{
 			// Install "Blogster"
 			$appFile				=		array();
@@ -368,31 +368,25 @@ class Tendoo
 			if($module)
 			{
 				$this->tendoo_admin->controller('Blog','blog','news',$option[0]['SITE_NAME'].' - Blog','Aucune description enregistr&eacute;e','FALSE');
-				$module					=		$this->getSpeModuleByNamespace('news');
+				$module				=		$this->getSpeModuleByNamespace('news');
 				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
-				$lib					=	new News(null);
-				$lib->createCat('Cat&eacute;gorie sans nom','Cette cat&eacute;gorie sert d\'illustration.');
+				$lib				=	new News(null);
+				$lib->createCat('Cat&eacute;gorie sans nom','Tous les articles listés dans la catégor');
 				$lib->publish_news(
-					'Bienvenue sur Tendoo '.$this->getVersId(),
-					'Voici votre premier article, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles. Vous pouvez également effectuer des programmations d\'articles, afin que ces derniers soient publiés automatiquement à des dates précises. <br>Merci d\'avoir choisi Tendoo.',
-					1,
-					$this->core->url->img_url('Hub_back.png'),
-					$this->core->url->img_url('Hub_back.png'),
-					1,
-					TRUE
-				);
-				$lib->publish_news(
-					'Quoi de neuf sur Tendoo '.$this->getVersId(),
-					'Dans cet article, nous vous présenterons les nouveautés de cette nouvelle version de Tendoo.',
-					1,
-					$this->core->url->img_url('whats_new.jpg'),
-					$this->core->url->img_url('whats_new.jpg'),
-					1,
-					TRUE
+					$title 			=	'Bienvenue sur Tendoo '.$this->getVersId(),
+					$content 		=	'Voici votre premier article, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles. Vous pouvez également effectuer des programmations d\'articles, afin que ces derniers soient publiés automatiquement à des dates précises. <br>Merci d\'avoir choisi Tendoo.',
+					$state			=	1,
+					$image			=	$this->core->url->img_url('Hub_back.png'),
+					$thumb			=	$this->core->url->img_url('Hub_back.png'),
+					$cat 			= 	array(1),
+					$first_admin 	= 	TRUE,
+					$key_words		= 	array('tendoo','blog'),
+					$scheduledDate	=	FALSE,
+					$scheduledTime	=	FALSE
 				);
 			}
 		}
-		else if($app	==	'Tendoo_index_mod')
+		else if($app	==	'tendoo_index_mod')
 		{
 			// Install "Tendoo_index_mod"
 			$appFile				=		array();
@@ -428,7 +422,7 @@ class Tendoo
 			{
 			}
 		}
-		else if($app	==	'PageEditor')
+		else if($app	==	'pageEditor')
 		{
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'pageCreater5f9ba355e99f884cc5178';
@@ -436,7 +430,7 @@ class Tendoo
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 			$this->tendoo_admin->moduleActivation('pages_editor',FALSE);
 		}
-		else if($app	==	'Contact_manager')
+		else if($app	==	'contact_manager')
 		{
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'tendoo_app_6201401230210406wgIlkG5CkcJT7u3DKMOO';

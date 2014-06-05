@@ -65,7 +65,12 @@
 								{
 									foreach($getNews as $g)
 									{
-										$cat_name	=	$news->getSpeCat($g['CATEGORY_ID']);
+										$relatedCategory	=	$news->getArticlesRelatedCategory($g['ID']);
+										$allCategory		=	array();
+										foreach($relatedCategory as $rC)
+										{
+											$allCategory[]	=	$news->getSpeCat($rC['CATEGORY_REF_ID']);
+										}
 										$user		=	$this->core->users_global->getUser($g['AUTEUR']);
 								?>
 									<tr>
@@ -96,10 +101,17 @@
 												echo $g['ETAT'].' : statut inconnu';
 											}
 											;?></small> |
-											<small>Dans <?php echo $cat_name['CATEGORY_NAME'];?></small> | 
+											<small>Dans <?php 
+											foreach($allCategory as $aC)
+											{
+												?>
+                                                <a style="text-decoration:underline;" href="<?php echo module_url(array('category','manage',$aC['ID']));?>"><?php echo $aC['CATEGORY_NAME'];?></a>, 
+                                                <?php
+											}
+											;?></small> | 
 											<small>Par <strong><a href="<?php echo $this->core->url->site_url(array('account','profile',$user['PSEUDO']));?>"><?php echo $user['PSEUDO'];?></a></strong></small> |
 											<small><?php echo $this->core->tendoo->timespan($g['DATE']);?></small> |
-											<small><a data-doAction style="color:#FF7F7F" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></small> |
+											<small><a data-doAction style="color:#FF7F7F" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></small>
 											<small><input style="display:none;" type="checkbox" name="art_id[]" value="<?php echo $g['ID'];?>"></small>
 										</td>
 									</tr>
@@ -186,24 +198,24 @@
 								$('.articlePanel').bind('click',function(){
 									if(tools.isDefined($(this).find('[type="checkbox"]').attr('checked')))
 									{
-										$(this).removeClass('active');
+										$(this).removeClass('active_list');
 										$(this).find('[type="checkbox"]').removeAttr('checked');
 									}
 									else
 									{
-										$(this).addClass('active');
+										$(this).addClass('active_list');
 										$(this).find('[type="checkbox"]').attr('checked','checked');
 									}
 								});
 							});
 							</script>
 							<style>
-							.active
+							.active_list
 							{
 								background	:	#555 !important;
 								color		:	#FEFEFE !important;
 							}
-							.active h1, .active h2, .active h3, .active h4, .active h5, .active a
+							.active_list h1, .active_list h2, .active_list h3, .active_list h4, .active_list h5, .active_list a
 							{
 								color		:	#FEFEFE !important;
 							}

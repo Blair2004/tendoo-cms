@@ -2,8 +2,31 @@
 // ARTICLE SECTION
 $userdata				=	$this->core->users_global->getUser($GetNews[0]['AUTEUR']);
 $date					=	$GetNews[0]['DATE'];
-$Ccategory				=	$news->retreiveCat($GetNews[0]['CATEGORY_ID']);
+$Ccategory				=	$news->getArticlesRelatedCategory($GetNews[0]['ID']);
+// Recupération des catégories
+$categories				=	array();
+if($Ccategory)
+{
+	foreach($Ccategory as $category)
+	{
+		$categories[]		=	array(
+			'TITLE'			=>	$category['CATEGORY_NAME'],
+			'DESCRIPTION'	=>	$category['CATEGORY_DESCRIPTION'],
+			'LINK'			=>	$this->core->url->site_url(array($page[0]['PAGE_CNAME'],'categorie',$this->core->tendoo->urilizeText($category['CATEGORY_NAME'],'-'),1))
+		);
+	}
+}
 // COMMENT SECTIONo
+// Preparing Keywords
+$keywords	=	array();
+foreach($getKeywords as $key)
+{
+	$keywords[]			=	array(
+		'TITLE'			=>	$key['TITLE'],
+		'LINK'			=>	$this->core->url->site_url(array($page[0]['PAGE_CNAME'],'tags',$key['TITLE'])),
+		'DESCRIPTION'	=>	$key['DESCRIPTION']
+	);
+}
 $theme->defineSingleBlogPost(
 	$title				=	$GetNews[0]['TITLE'],
 	$content			=	$GetNews[0]['CONTENT'],
@@ -11,8 +34,8 @@ $theme->defineSingleBlogPost(
 	$full				=	$GetNews[0]['IMAGE'],
 	$author				=	$userdata,
 	$timestamp			=	$GetNews[0]['DATE'],
-	$category			=	$Ccategory['name'],
-	$categoryLink		=	$this->core->url->site_url($Ccategory['url'])
+	$categories,
+	$keywords
 );
 $theme->defineTT_SBP_comments($news->countComments($GetNews[0]['ID']));
 // intégration des commentaires
@@ -21,8 +44,17 @@ if(count($Comments) >0)
 	foreach($Comments as $c)
 	{
 		$userdata		=	$this->core->users_global->getUser($c['AUTEUR']);
+		$final_user		=	$userdata;
+		if(!$userdata)
+		{
+			$final_user	=	array(
+				'PSEUDO'	=>	$c['OFFLINE_AUTEUR'],
+				'ID'		=>	0,
+				'EMAIL'		=>	'',
+			);
+		}
 		$theme->defineSBP_comments(
-			$author			=	$userdata == FALSE ? $c['OFFLINE_AUTEUR'] : $userdata['PSEUDO'],
+			$author			=	$final_user,
 			$authorLink		=	'#',
 			$content		=	$c['CONTENT'],
 			$timestamp		=	$c['DATE']

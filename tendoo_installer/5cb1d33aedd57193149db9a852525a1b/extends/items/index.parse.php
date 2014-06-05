@@ -1,30 +1,31 @@
-<!-- social -->
-<?php $this->socialBar();?>
-<!-- ENDS social -->
-<!-- Content -->
-<!-- slider -->
-<?php $this->parseCaroussel();?>
-<?php $this->parseProductListingCaroussel();?>
-<!-- ENDS slider -->
-<?php $this->parseIndexAboutUs();?>
-<div id="content" class="site-content ">
-	<div class="container">
-<?php $this->parseOnTopContent();?>
-<?php $this->parseFeaturedProducts();?>
-<?php $this->parseLastestElements();?>
-<?php $this->parseGalleryShowCase();?>
-	</div>
-</div>
-<?php $this->parseTabShowCase();?>
-<!-- text-posts -->
-<?php $this->parseTextList();?>
+<div id="content">
 
-<?php $this->parsePartners();?>
-<!-- ENDS featured -->
-<!-- Features Products -->
-<!-- ENDS Features Products -->
-<!-- ENDS text-posts -->
-<!-- home-gallery -->
-<!-- Headline -->
-<!-- ENDS Headline -->
-<!-- ENDS home-gallery -->
+<!-- LayerSlider  -->
+<?php $this->parseCaroussel();?>
+<!-- LayerSlider / End -->
+
+<!-- 960 Container -->
+<?php $this->parseTextList();?>
+<!-- 960 Container / End -->
+
+
+<!-- 960 Container -->
+<div class="container floated">
+	<?php // echo $this->parseTabShowCase();?>
+</div>
+<!-- 960 Container / End -->
+
+
+<!-- 960 Container -->
+<div class="container">
+
+	<!-- Recent News -->
+	<?php $this->parseLastestElements();?>
+
+	<!-- Testimonials -->
+
+</div>
+<?php $this->parseIndexAboutUs();?>
+<!-- 960 Container / End -->
+
+</div>

@@ -19,19 +19,20 @@ class news_featuredpost_api
 		$final		=	array();
 		foreach($query as $q)
 		{
-			$category_datas				=	$this->lib->getCat($q['CATEGORY_ID']);
+			$category_datas				=	$this->lib->getArticlesRelatedCategory($q['ID']);
+			foreach($category_datas as &$i)
+			{
+				$i['CATEGORY_LINK']	=	$this->url->site_url(array($controler[0]['PAGE_CNAME'],'categorie',$this->tendoo->urilizeText($i['CATEGORY_NAME']),$i['CATEGORY_ID']));
+			}
 			$user						=	$this->users_global->getUser($q['AUTEUR']);
 			$final[]					=	array(
-				'LINK'					=>	$this->url->site_url(array($controler[0]['PAGE_CNAME'],'read',$q['ID'],$this->tendoo->urilizeText($q['TITLE']))),
+				'LINK'					=>	$this->url->site_url(array($controler[0]['PAGE_CNAME'],'lecture',$q['ID'],$this->tendoo->urilizeText($q['TITLE']))),
 				'TITLE'					=>	$q['TITLE'],
 				'CONTENT'				=>	$q['CONTENT'],
 				'DATE'					=>	$q['DATE'],
 				'AUTEUR'				=>	$user['PSEUDO'],
 				'THUMB'					=>	$q['IMAGE'],
-				'CATEGORY_TITLE'		=>	$category_datas['CATEGORY_NAME'],
-				'CATEGORY_LINK'			=>	$this->url->site_url(array($controler[0]['PAGE_CNAME'],'category',$this->tendoo->urilizeText($category_datas['CATEGORY_NAME']),$category_datas['ID'])),
-				'PRICE_TEXT'			=>	'',
-				'PRICE_LINK'			=>	'',
+				'CATEGORIES'			=>	$category_datas
 			);
 		}
 		return $final;

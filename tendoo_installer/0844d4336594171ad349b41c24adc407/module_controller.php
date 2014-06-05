@@ -3,10 +3,12 @@ class News_module_controller
 {
 	public function __construct($data)
 	{
+		$this->data					=		$data;
+		
 		__extends($this);
 		
-		$this->data					=		$data;
-		$this->data['news']			=		new News_smart($this->data);
+		$this->news					=	new News_smart($this->data);
+		$this->data['news']			=&		$this->news;
 		$this->data['userUtil']		=&		$this->users_global;	
 		$this->data['setting']		=		$this->data['news']->getBlogsterSetting();	
 	}
@@ -25,10 +27,10 @@ class News_module_controller
 		$this->data['currentPage']	=	$page;
 		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_main',$this->data,true,TRUE);
 		
-		$this->data['theme']->header($this->data);
+		$this->data['theme']->head($this->data);
 		$this->data['theme']->body($this->data);
 	}
-	public function read($id,$text,$page=1)
+	public function lecture($id,$text,$page=1)
 	{
 		// CE n'est pas au module de faire les chargement nécessaire pour le fonctionnement du theme.
 		// Must be retreiving data
@@ -89,11 +91,11 @@ class News_module_controller
 			{
 				if(array_key_exists($i+1,$this->data['getKeywords']))
 				{
-					$keyWords	.=	$this->data['getKeywords'][$i]['KEYWORDS'].',';
+					$keyWords	.=	$this->data['getKeywords'][$i]['TITLE'].',';
 				}
 				else
 				{
-					$keyWords	.=	$this->data['getKeywords'][$i]['KEYWORDS'];
+					$keyWords	.=	$this->data['getKeywords'][$i]['TITLE'];
 				}
 			}
 		}
@@ -105,29 +107,42 @@ class News_module_controller
 		// Load View		
 		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_open',$this->data,true,TRUE);
 		// Load View From Theme selected;
-		$this->data['theme']->header($this->data);
+		$this->data['theme']->head($this->data);
 		$this->data['theme']->body($this->data);
 	}
-	public function category($cat_text,$catid = null, $page = 1)
+	public function categorie($cat_text,$catid = null, $page = 1)
 	{
-		if($catid == null || $catid == 0)
+		$this->data['category']	=	$this->news->categoryExists($catid);
+		if(!$this->data['category'])
 		{
-			$this->url->redirect(array('error','code','missingArg'));
+			module_location(array('index?unknowCategory'));
 		}
-		$this->data['category']	=	$this->data['news']->retreiveCat($catid);
-		$this->tendoo->setTitle($this->data['page'][0]['PAGE_TITLE'].' &raquo; '.$this->data['category']['name']);
-		$this->tendoo->setDescription('Liste des articles publi&eacute; dans la cat&eacute;gorie '.$this->data['category']['name']);
-		$this->data['theme']->definePageTitle('Cat&eacute;gories');
-		$this->data['theme']->definePageDescription($this->data['category']['desc']);
-
-		$this->data['ttNews']	=	$this->data['news']->countArtFromCat($catid);
-		$this->data['pagination']	=	$this->tendoo->paginate(10,$this->data['ttNews'],1,'active','',$page,$this->url->site_url(array($this->url->controller(),'category',$cat_text,$catid)).'/',$ajaxis_link=null);
-		$this->data['pagination'][3]=== false ? $this->url->redirect(array('error','code','page404')) : null;
-		$this->data['currentPage']	=	$page;
-		$this->data['getNews']	=	$this->data['news']->getArtFromCat($catid,$this->data['pagination'][1],$this->data['pagination'][2]);
-		if($this->data['getNews']== false)
+		// 	->
+		$this->data['countArticles']	=	count($this->news->getCategoryArticles($catid));
+		$this->data['paginate']			=	pagination_helper(
+			10, // should be set by user
+			$this->data['countArticles'],
+			$page,
+			module_url(array('categorie')),
+			$RedirectUrl = array('error','code','page404')
+		);
+		$this->data['getArticles']		=	$this->news->getCategoryArticles(
+			$catid,
+			$this->data['paginate']['start'],
+			$this->data['paginate']['end']
+		);
+		//
+		$title		=	$this->data['page'][0]['PAGE_TITLE'].' &raquo; '.$this->data['category'][0]['CATEGORY_NAME'].' (catégorie)';
+		$description=	$this->data['category'][0]['DESCRIPTION'];
+		// 
+		$this->tendoo->setTitle($title);
+		$this->tendoo->setDescription($description);
+		$this->data['theme']->definePageTitle($title);
+		$this->data['theme']->definePageDescription($description);
+		// 
+		if($this->data['getArticles']== false)
 		{
-			$this->data['getNews']	=	array(
+			$this->data['getArticles']	=	array(
 				array(
 					'TITLE'			=>	'Aucune publication disponible',
 					'CONTENT'		=>	'Aucune publication n\'est disponible dans cette cat&eacute;gorie',
@@ -143,18 +158,62 @@ class News_module_controller
 		$this->data['section']	=		'category';
 		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_category',$this->data,true,TRUE);
 		// ----------------------------------------------------------------------------------------------------------------------------------//
-		$this->data['theme']->header($this->data);
+		$this->data['theme']->head($this->data);
 		$this->data['theme']->body($this->data);
 	}
-	public function tester()
+	public function tags($tags_name = '',$page	=	1)
 	{
-		$this->tendoo->setTitle('Test');
-		$this->tendoo->setDescription('Nothing');
-		// Load View		
-		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_test',$this->data,true,TRUE);
+		$this->data['keyWords']	=	$this->news->keywordExists($tags_name);
+		if(!$this->data['keyWords'])
+		{
+			module_location(array('index?notice=unknowKeyWord'));
+		}
+		$this->data['countArticles']	=	count($this->news->getKeyWordsArticles($tags_name));
 		
-		$this->data['theme']->header($this->data);
+		$this->data['paginate']			=	pagination_helper(
+			10, // should be set by user
+			$this->data['countArticles'],
+			$page,
+			module_url(array('tags')),
+			$RedirectUrl = array('error','code','page404')
+		);
+		$this->data['tagArticles']		=	$this->data['news']->getKeyWordsArticles(
+			$tags_name,
+			$this->data['paginate']['start'],
+			$this->data['paginate']['end']
+		);
+		//
+		$title			=	$this->data['page'][0]['PAGE_TITLE'].' &raquo; '.$tags_name.' (mot-clé)';
+		$description	=	$this->data['keyWords'][0]['DESCRIPTION']; // Fetching KeyWords Description
+		//
+		$this->tendoo->setTitle($title);
+		$this->tendoo->setDescription($description);
+		// 
+		$this->data['theme']->definePageTitle($title);
+		$this->data['theme']->definePageDescription($description);
+		//
+		
+		if($this->data['tagArticles']== false)
+		{
+			$this->data['tagArticles']	=	array(
+				array(
+					'TITLE'			=>	'Aucune publication disponible',
+					'CONTENT'		=>	'Aucune publication n\'est disponible pour ce mot-clé',
+					'AUTEUR'		=>	'1',
+					'DATE'			=>	$this->tendoo->datetime(),
+					'THUMB'			=>	$this->url->img_url('hub_back.png'),
+					'IMAGE'			=>	$this->url->img_url('hub_back.png'),
+					'ID'			=>	0
+				)
+			);
+		}
+		
+		$this->data['section']				=	'keywords';
+		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_keywords',$this->data,true,TRUE);
+		// ----------------------------------------------------------------------------------------------------------------------------------//
+		$this->data['theme']->head($this->data);
 		$this->data['theme']->body($this->data);
 	}
+	
 }
 ?>

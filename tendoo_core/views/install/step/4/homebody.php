@@ -14,10 +14,10 @@
 					<section class="panel"> 
 						<div class="wizard clearfix"> 
 							<ul class="steps"> 
-								<li data-target="#step1"><span class="badge badge-info">1</span>Accueil</li> 
+								<li data-target="#step1"><span class="badge">1</span>Accueil</li> 
 								<li data-target="#step2"><span class="badge">2</span>Base de donn&eacute;es</li> 
 								<li data-target="#step3"><span class="badge">3</span>Options</li> 
-								<li data-target="#step4" class="active"><span class="badge">4</span>Fin de l'installation</li> 
+								<li data-target="#step4" class="active"><span class="badge badge-info">4</span>Fin de l'installation</li> 
 							</ul>
 							<div class="actions"> 
 								<a href="<?php echo $this->core->url->main_url();?>"><img style="height:32px;vertical-align:middle;margin-top:-3px;" src="<?php echo $this->core->url->img_url("logo_4.png");?>"> <?php echo $this->core->tendoo->getVersion();?></a>

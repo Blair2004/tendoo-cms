@@ -1,32 +1,31 @@
-<?php
-		if(count($this->carousselElement) > 0)
-		{
-				?>
-<div class="flexslider" id="slidebox">
-	<ul class="slides">
-	<?php
-	foreach($this->carousselElement as $c)
+<section class="flexslider home">
+    <ul class="slides">
+        <?php
+	if(count($this->carousselElement) > 0)
 	{
+		foreach($this->carousselElement as $caroussel)
+		{
 	?>
-		<li style="width: 100%; float: left; margin-right: -100%; position: relative; display: none;" class="">
-			<a href="<?php echo $c['LINK'];?>">
-				<img src="<?php echo $c['IMAGE'];?>" class="grayscale" alt="<?php echo $c['TITLE'];?>">
-			</a>
-			<div class="flex-caption">
-				<h2><?php echo $c['TITLE'];?></h2>
-				<p><?php echo word_limiter(strip_tags($c['CONTENT']),20);?></p>
-				<a href="<?php echo $c['LINK'];?>" class="frmore"> Lire la suite </a>
-			</div>
-		</li>
-	<?php
+        <li><img src="<?php echo $caroussel['IMAGE'];?>" style="max-height:400px;" alt="<?php echo $caroussel['TITLE'];?>">
+            <article class="slide-caption">
+                <h3><a href="<?php echo $caroussel['LINK'];?>" style="color:white;"><?php echo $caroussel['TITLE'];?></a></h3>
+                <p><?php echo word_limiter(strip_tags($caroussel['CONTENT']),50);?></p>
+            </article>
+        </li>
+        <?php
+		}
+	}
+	else
+	{
+		?>
+        <li><img src="<?php echo img_url('Hub_back.png');?>" alt="">
+            <article class="slide-caption">
+                <h3>Aucun article disponible</h3>
+                <p>Aucun article disponible, veuillez publier un nouvel article depuis l'interface d'administration.</p>
+            </article>
+        </li>
+        <?php
 	}
 	?>
-	</ul>
-	<div class="doverlay"></div>
-	<ul class="flex-direction-nav">
-		<li><a href="#" class="flex-prev">Pr&eacute;c&eacute;dent</a></li>
-		<li><a href="#" class="flex-next">Suivant</a></li>
-	</ul>
-</div>
-<?php
-		}
+    </ul>
+</section>

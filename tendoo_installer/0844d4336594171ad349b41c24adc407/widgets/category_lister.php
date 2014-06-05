@@ -15,15 +15,24 @@ class aflecatdi_news_common_widget
 		}
 		$this->news		=	new News_smart;
 		$setting		=	$this->news->getBlogsterSetting();
-		$LIMITCAT		=	$setting['WIDGET_CATEGORY_LIMIT'];
+		//
+		if(!(bool)$this->data['currentWidget']['WIDGET_INFO']['IS_CODE'])
+		{
+			$LIMIT			=	$this->data['currentWidget']['WIDGET_INFO']['WIDGET_PARAMETERS'] == '' ? 5 : $this->data['currentWidget']['WIDGET_INFO']['WIDGET_PARAMETERS'];
+		}
+		else
+		{
+			
+		}
 		
-		$this->data['ttCat']	=	$this->news->getCat(0,$LIMITCAT);
+		//eval($LIMIT)
+		$this->data['ttCat']	=	$this->news->getCatForWidgets(0,$LIMIT);
+		
 		$end			=	'<ul>';
 		$controller		=	$this->core->tendoo->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['NAMESPACE']);
 		foreach($this->data['ttCat'] as $t)
 		{
-			$ttArtThere	=	count($this->news->getArtFromCat($t['ID']));
-			$end		.=	'<li><a href="'.$this->core->url->site_url(array($controller[0]['PAGE_CNAME'])).'/category/'.$this->core->tendoo->urilizeText($t['CATEGORY_NAME']).'/'.$t['ID'].'">'.$t['CATEGORY_NAME'].' ('.$ttArtThere.')</a></li>';
+			$end		.=	'<li><a href="'.$this->core->url->site_url(array($controller[0]['PAGE_CNAME'])).'/categorie/'.$this->core->tendoo->urilizeText($t['CATEGORY_NAME']).'/'.$t['ID'].'">'.$t['CATEGORY_NAME'].' ('.$t['TOTAL_ARTICLES'].')</a></li>';
 		}
 		$end			.=	'</ul>';
 		// For Each Zone

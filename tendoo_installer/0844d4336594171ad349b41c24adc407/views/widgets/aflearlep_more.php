@@ -16,8 +16,9 @@
 			return $name;
 		}
 	}
+	//  meta_widgetParamsName="nbr_article"
 	?>
-    <select class="form-control" <?php echo lazyNameGen('[nbr_article]',$zone,$index);?> meta_widgetParams meta_widgetParamsName="nbr_article">
+    <select class="form-control" <?php echo lazyNameGen('',$zone,$index);?> meta_widgetParams>
 		<?php 
 			for($i = 1;$i<= 30;$i++)
 			{

@@ -1,9 +1,9 @@
 <?php
-		if(strlen($this->core->notice->parse_notice()) > 0)
+		if(strlen($this->notice->parse_notice(true)) > 0)
 		{
 		?>
-        <div class="headline" style="font-size:15px;">
-            <?php $this->core->notice->parse_notice();?>
-        </div>
-        <?php
+<div style="display: block;" id="notification_4" class="notification notice closeable">
+<p><span>Notification :</span> <?php $this->notice->parse_notice();?>.</p>
+<a class="close" href="#"><i class="icon-remove"></i></a></div>
+<?php
 		}

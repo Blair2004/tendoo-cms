@@ -1,18 +1,34 @@
-<div id="bottom">
-	<div class="container">
-		<div class="row">
-			<?php $theme->parseBottomWidgets();?>
-		</div>
-	</div>
-</div>
-<footer role="contentinfo" class="site-footer" id="colophon">
-	<div class="container">
-		<div class="site-info wrap row">
-			<div class="fcred col-12">
-				Copyright &copy; 2014 <a title="revera" href="http://demo.fabthemes.com/revera">Revera</a> - Th&egrave;me Tendoo.<br>
-				 | <a href="http://topwpthemes.com/Revera/">Revera Theme</a> <br>| <a href="https://github.com/Blair2004/tendoo-cms"><?php echo $this->core->tendoo->getVersion();?></a>
-			</div>		
-
-		</div><!-- .site-info -->
-	</div>	
+<footer id="footer"> 
+    <!-- 960 Container -->
+    <div class="container"> 
+        <!-- Contact Details -->
+        <?php $this->parseBottomWidgets();?>
+    </div>
+    <!-- 960 Container / End --> 
+    
 </footer>
+<footer id="footer-bottom">
+	<!-- 960 Container -->
+	<div class="container">
+
+		<!-- Copyrights -->
+		<div class="eight columns">
+			<div class="copyright">
+				© Designed by Nevia for <?php echo $this->tendoo->getVersion();?>
+			</div>
+		</div>
+
+		<!-- Menu -->
+		<div class="eight columns">
+			<nav id="sub-menu">
+				<ul>
+					<li><a href="#">FAQ's</a></li>
+					<li><a href="#">Sitemap</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+</footer>
+	<!-- 960 Container / End -->

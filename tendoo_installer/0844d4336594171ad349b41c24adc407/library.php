@@ -2,18 +2,21 @@
 /// -------------------------------------------------------------------------------------------------------------------///
 global $NOTICE_SUPER_ARRAY;
 /// -------------------------------------------------------------------------------------------------------------------///
-$or['categoryCreated']			=	'<span class="tendoo_success">La cat&eacute;gorie &agrave; &eacute;t&eacute; correctement cr&eacute;e</span>';
-$or['categoryAldreadyCreated']	=	'<span class="tendoo_error">Cette cat&eacute;gorie existe d&eacute;j&agrave;</span>';
-$or['unknowCat']				=	'<span class="tendoo_error">Cette cat&eacute;gorie est inexistante</span>';
-$or['categoryUpdated']			=	'<span class="tendoo_success">La mise &agrave; jour &agrave; r&eacute;ussie</span>';
-$or['CatDeleted']				=	'<span class="tendoo_success">La cat&eacute;gorie &agrave; &eacute;t&eacute; supprim&eacute; avec succ&egrave;s</span>';
+$or['categoryCreated']			=	tendoo_success('La cat&eacute;gorie &agrave; &eacute;t&eacute; correctement cr&eacute;e');
+$or['categoryAldreadyCreated']	=	tendoo_error('Cette cat&eacute;gorie existe d&eacute;j&agrave;');
+$or['unknowCat']				=
+$or['unknowCategory']			=	tendoo_error('Cette cat&eacute;gorie est inexistante');
+$or['unknowKeyWord']			=	tendoo_error('Mot-clé introuvable.');
+$or['categoryUpdated']			=	tendoo_success('La mise &agrave; jour &agrave; r&eacute;ussie');
+$or['categoryDeleted']			=	tendoo_success('La cat&eacute;gorie &agrave; &eacute;t&eacute; supprim&eacute; avec succ&egrave;s');
 $or['artCreated']				=	tendoo_success('L\'article à correctement été crée.');
-$or['CatNotEmpty']				=	'<span class="tendoo_error">Cette cat&eacute;gorie ne peut pas &ecirc;tre supprim&eacute;e, car il existe des publications qui y sont rattach&eacute;es. Changez la cat&eacute;gorie de ces publications avant de supprimer cette cat&eacute;gorie.</span>';
-$or['noCategoryCreated']		=	'<span class="tendoo_error"><i class="icon-warning"></i> Avant de publier un article, vous devez cr&eacute;er une cat&eacute;gorie.</span>';
-$or['connectToComment']			=	'<span class="tendoo_error"><i class="icon-warning"></i> Vous devez &ecirc;tre connect&eacute; pour commenter.</span>';
-$or['unknowComments']			=	'<span class="tendoo_error"><i class="icon-warning"></i> Commentaire introuvable.</span>';
-$or['commentDeleted']			=	'<span class="tendoo_success"><i class="icon-checkmark"></i> Commentaire supprim&eacute;.</span>';
-$or['submitedForApproval']			=	'<span class="tendoo_success"><i class="icon-checkmark"></i> Votre commentaire &agrave; &eacute;t&eacute; soumis pour une examination.</span>';
+$or['categoryNotEmpty']			=	tendoo_error('Cette cat&eacute;gorie ne peut pas &ecirc;tre supprim&eacute;e, car il existe des publications qui y sont rattach&eacute;es. Changez la cat&eacute;gorie de ces publications avant de supprimer cette cat&eacute;gorie.');
+$or['unknowArticle']			=	tendoo_error('Article introuvable');
+$or['noCategoryCreated']		=	tendoo_error(' Avant de publier un article, vous devez cr&eacute;er une cat&eacute;gorie.');
+$or['connectToComment']			=	tendoo_error(' Vous devez &ecirc;tre connect&eacute; pour commenter.');
+$or['unknowComments']			=	tendoo_error(' Commentaire introuvable.');
+$or['commentDeleted']			=	tendoo_success('<i class="icon-checkmark"></i> Commentaire supprim&eacute;.');
+$or['submitedForApproval']			=	tendoo_success('<i class="icon-checkmark"></i> Votre commentaire &agrave; &eacute;t&eacute; soumis pour une examination.');
 
 /// -------------------------------------------------------------------------------------------------------------------///
 $NOTICE_SUPER_ARRAY = $or;
@@ -100,7 +103,10 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function getNewsKeyWords($newsid)
 			{
-				$this->db	->where('NEWS_ID',$newsid);
+				$this->db	
+					->select('*')
+					->join('tendoo_news_ref_keywords','tendoo_news_keywords.ID = tendoo_news_ref_keywords.KEYWORDS_REF_ID','right')
+					->where('tendoo_news_ref_keywords.NEWS_REF_ID',$newsid);
 				$query	=	$this->db->get('tendoo_news_keywords');
 				return $query->result_array();
 			}
@@ -112,7 +118,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				}
 				if($filter	==	'article_keyWords')
 				{
-					$this->db->where('NEWS_ID',$start);
+					$this->db->where('NEWS_REF_ID',$start);
 				}
 				if($filter	==	'keywords')
 				{
@@ -135,7 +141,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					le temps de programmation au format "H:i"
 				Renvoi un tableau associatif contenant les informations de l'article publié.
 			*/
-			public function publish_news($title,$content,$state,$image,$thumb,$cat,$first_admin = FALSE,$key_words= array(),$scheduledDate=FALSE,$scheduledTime=FALSE)
+			public function publish_news($title,$content,$state,$image,$thumb,$cat = array(),$first_admin = FALSE,$key_words= array(),$scheduledDate=FALSE,$scheduledTime=FALSE)
 			{
 				if($first_admin == FALSE)
 				{
@@ -162,7 +168,7 @@ $NOTICE_SUPER_ARRAY = $or;
 						'AUTEUR'		=> $this->user->current('ID'),
 						'ETAT'			=> $state	==	false ? 2 : $state,
 						'DATE'			=> $date,
-						'CATEGORY_ID'	=> $cat		==	false ? 0 : $cat,
+						//'CATEGORY_ID'	=> $cat		==	false ? 0 : $cat,
 						'SCHEDULED'		=>	$scheduled
 					);
 				}
@@ -176,19 +182,24 @@ $NOTICE_SUPER_ARRAY = $or;
 					'AUTEUR'		=> 1,// Usefull when no admin is created to anticipate super admin creation
 					'ETAT'			=> $state,
 					'DATE'			=> $this->tendoo->datetime(),
-					'CATEGORY_ID'	=> $cat
+					//'CATEGORY_ID'	=> $cat
 					);
+					$cat			=	array(1); // Enregistrement d'une catégorie Fictive.
 				}
 				$this->db->insert('tendoo_news',$content);
+				// Recupération de l'identifiant de cet article
 				$query		=	$this->db->limit(1,0)->order_by('ID','desc')->get('tendoo_news');
+				$lastArticle	=	$query->result_array();
 				$getLastNews	=	$query->result_array(); 
 				if(count($key_words) > 0 && $key_words != false) // Préparation des mots clés.
 				{
 					foreach($key_words as $k)
 					{
+						// Créer un mots clée et recupérer son identifiant.
+						$kWordDatas	=	$this->createKeyWordOrGetKeyWord($k);
 						$final_key_words[]	=	array(
-							'NEWS_ID'		=>	$getLastNews[0]['ID'],
-							'KEYWORDS'		=>	$k
+							'NEWS_REF_ID'			=>	$getLastNews[0]['ID'],
+							'KEYWORDS_REF_ID'		=>	$kWordDatas['ID']
 						);
 					}
 				}
@@ -196,17 +207,32 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					$final_key_words	=	array();
 				}
-				if(count($final_key_words) > 0) // insertion des mots clés.
+				if(count($final_key_words) > 0) // Ajout des mots clé à l'article (ajout des identifiants)
 				{
 					foreach($final_key_words as $f)
 					{
-						$this->db->insert('tendoo_news_keywords',$f);
+						$this->db->insert('tendoo_news_ref_keywords',$f);
+					}
+				}
+				// Enregistrement de plusieurs catégories
+				if(is_array($cat))
+				{
+					foreach($cat as $c)
+					{
+						if($this->getSpeCat($c))
+						{
+							$field	=	array(
+								'NEWS_REF_ID'		=>	$lastArticle[0]['ID'],
+								'CATEGORY_REF_ID'	=>	$c
+							);
+							$this->db->insert('tendoo_news_ref_category',$field);
+						}
 					}
 				}
 				// Retourne les inforamtions de l'article récemment publié.
 				return $getLastNews;
 			}
-			public function edit($id,$title,$content,$state,$image,$thumb,$cat,$key_words	=	array(),$scheduledDate = FALSE, $scheduledTime	=	FALSE)
+			public function edit($id,$title,$content,$state,$image,$thumb,$cat = array(),$key_words	=	array(),$scheduledDate = FALSE, $scheduledTime	=	FALSE)
 			{
 				$scheduled			=	0;
 				// Si une date est définie comme date de publication
@@ -231,7 +257,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					'THUMB'			=>	$thumb,
 					'AUTEUR'		=> $this->user->current('ID'),
 					'DATE'			=> $date,
-					'CATEGORY_ID'	=> $cat,
+					// 'CATEGORY_ID'	=> $cat,
 					'SCHEDULED'		=>	$scheduled
 				);
 				$final_key_words	=	array();
@@ -241,21 +267,43 @@ $NOTICE_SUPER_ARRAY = $or;
 					{
 						foreach($key_words as $k)
 						{
+							// Créer un mots clée et recupérer son identifiant.
+							$kWordDatas	=	$this->createKeyWordOrGetKeyWord($k);
 							$final_key_words[]	=	array(
-								'NEWS_ID'		=>	$id,
-								'KEYWORDS'		=>	$k
+								'NEWS_REF_ID'			=>	$id,
+								'KEYWORDS_REF_ID'		=>	$kWordDatas['ID']
 							);
 						}
 					}
 				}
-				$this->db->where('NEWS_ID',$id)->delete('tendoo_news_keywords');
-				if(count($final_key_words) > 0) // insertion des mots clés.
+				// Reinitialisation des mots clés sinon ils seront ajoutés aux anciens
+				$this->db->where('NEWS_REF_ID',$id)->delete('tendoo_news_ref_keywords');
+				if(count($final_key_words) > 0) // Ajout des mots clé à l'article (ajout des identifiants)
 				{
 					foreach($final_key_words as $f)
 					{
-						$this->db->insert('tendoo_news_keywords',$f);
+						$this->db->insert('tendoo_news_ref_keywords',$f);
 					}
 				}
+				// Suppression des anciens catégories enregistrer pour éviter une accumulation des mêmes catégories.
+				$this->db->where('NEWS_REF_ID',$id)->delete('tendoo_news_ref_category');
+				// Enregistrement des categories
+				// Enregistrement de plusieurs catégories
+				if(is_array($cat))
+				{
+					foreach($cat as $c)
+					{
+						if($this->getSpeCat($c))
+						{
+							$field	=	array(
+								'NEWS_REF_ID'	=>	$id, // identifiant de l'article en cours d'édition
+								'CATEGORY_REF_ID'	=>	$c
+							);
+							$this->db->insert('tendoo_news_ref_category',$field);
+						}
+					}
+				}
+				// Enregistrement des informations
 				$this->db->where('ID',$id);
 				if($this->db->update('tendoo_news',$content))
 				{
@@ -311,16 +359,80 @@ $NOTICE_SUPER_ARRAY = $or;
 				$query	=	$this->db->get('tendoo_news_category');
 				return count($query->result_array());
 			}
+			/**
+			*		Crée un mots clé et renvoi les informations du mot clé crée.
+			**/
+			public function createKeyWordOrGetKeyWord($name)
+			{
+				$query	=	$this->db->where('TITLE',$name)->get('tendoo_news_keywords');
+				$result	=	$query->result_array();
+				// Si le mots clé existe
+				if(count($result) > 0)
+				{
+					return $result[0];
+				}
+				else
+				{
+					$exec	=	$this->db->insert('tendoo_news_keywords',array(
+						'TITLE'				=>		$name,
+						'DESCRIPTION'		=>		'mot clé sans description'
+					));
+					if($exec)
+					{
+						return $this->createKeyWordOrGetKeyWord($name);
+					}
+				}
+				return false;				
+			}
+			public function getArticlesRelatedCategory($id)
+			{
+				$query	=	$this->db->where('NEWS_REF_ID',$id)->get('tendoo_news_ref_category');
+				$result	=	$query->result_array();
+				foreach($result as &$r)
+				{
+					// Si la catégorie n'existe plus, supprimer l'entrée.
+					if(!$this->getSpeCat($r['CATEGORY_REF_ID']))
+					{
+						unset($r);
+					}
+				}
+				return $result;
+			}
 			public function deleteSpeNews($id)
 			{
 				if($this->getSpeNews($id))
 				{
 					$this->db->where('REF_ART',$id)->delete('tendoo_comments');
-					$this->db->where('NEWS_ID',$id)->delete('tendoo_news_keywords');
+					// L'on ne supprime plus les mots clés contenu dans l'article.
+					// $this->db->where('NEWS_ID',$id)->delete('tendoo_news_keywords');
 					$this->db->where('ID',$id)->delete('tendoo_news');
 					return true;
 				}
 				return false;
+			}
+			public function createKeyWord($title,$description)
+			{
+				$query	=	$this->db->where('TITLE',$title)->get('tendoo_news_keywords');
+				$result	=	$query->result_array();
+				if(count($result) == 0)
+				{
+					$this->db->insert('tendoo_news_keywords',array(
+						'TITLE'				=>	$title,
+						'DESCRIPTION'		=>	$description
+					));
+					return array(
+						'message'	=>	'Le mot clé à correctement été crée',
+						'alertType'	=>	'notice',
+						'status'	=>	'success',
+						'response'	=>	''
+					);
+				}
+				return array(
+					'message'	=>	'mot clé existant, veuillez choisir un autre titre',
+					'alertType'	=>	'modal',
+					'status'	=>	'warning',
+					'response'	=>	''
+				);
 			}
 			/*
 				Recupère les catégories à partir d'un index spécifié "$start" à une limite déterminée "$end"
@@ -370,9 +482,11 @@ $NOTICE_SUPER_ARRAY = $or;
 						'DATE'			=>$this->tendoo->datetime()
 					);
 					$this->db->insert('tendoo_news_category',$array);
-					return 'categoryCreated';
+					// Recupération des identifiants de la nouvelle catégorie
+					$query  = $this->db->where('CATEGORY_NAME',strtolower($name))->get('tendoo_news_category');
+					return $query->result_array();
 				}
-				return 'categoryAldreadyCreated';
+				return false;
 			}
 			/*
 				Modifie une catégorie dont l'identifiant est déterminé avec le paramètre "$id", et remplace le nom "$name" et la description de la catégorie "$description".
@@ -397,13 +511,40 @@ $NOTICE_SUPER_ARRAY = $or;
 			*/
 			public function deleteCat($id)
 			{
-				$query	=	$this->db->where('CATEGORY_ID',$id)->get('tendoo_news');
-				if(count($query->result_array()) > 0)
+				$query	=	$this->db->select('*')
+				->from('tendoo_news_ref_category')
+				->join('tendoo_news_category','tendoo_news_ref_category.CATEGORY_REF_ID = tendoo_news_category.ID','inner')
+				->join('tendoo_news','tendoo_news.ID = tendoo_news_ref_category.NEWS_REF_ID','inner')
+				->where('tendoo_news_category.ID',$id)
+				->get();
+				if($query->result_array())
 				{
-					return 'CatNotEmpty';
+					return 'categoryNotEmpty';
 				}
-				$this->db->where('ID',$id)->delete('tendoo_news_category');
-				return 'CatDeleted';
+				else
+				{
+					$this->db->where('ID',$id)->delete('tendoo_news_category');
+					$this->db->where('CATEGORY_REF_ID',$id)->delete('tendoo_news_ref_category');
+					return 'categoryDeleted';
+				}
+			}
+			public function deleteBulkCat($array)
+			{
+				$notice['error']	=	0;
+				$notice['success']	=	0;
+				foreach($array as $c)
+				{
+					$exec	=	$this->deleteCat($c);
+					if($exec	==	'categoryDeleted')
+					{
+						$notice['success']++;
+					}
+					else
+					{
+						$notice['error']++;
+					}					
+				}
+				return $notice;
 			}
 			/*
 				Renvoie une int avec le nombre de commentaires postés.
@@ -539,6 +680,88 @@ $NOTICE_SUPER_ARRAY = $or;
 			/*
 				Publie les articles programmés.
 			*/
+			public function getAllPopularKeyWords($limit	=	5,$start = NULL, $end = NULL)
+			{
+				if(is_numeric($start) OR is_numeric($end))
+				{
+					if(is_numeric($start) AND !is_numeric($end))
+					{
+						$query		=	$this->db->where('ID',$start)->get('tendoo_news_keywords');
+					}
+					else
+					{
+						$query		=	$this->db->limit($end,$start)->get('tendoo_news_keywords');
+					}
+				}
+				else
+				{
+					if($limit != 'all' && (int) is_numeric($limit))
+					{
+						$query		=	$this->db->limit($limit,0)->get('tendoo_news_keywords');
+					}
+					else
+					{
+						$query		=	$this->db->get('tendoo_news_keywords');
+					}
+				}
+				$fullyUsed	=	0; // Nombre total d'utilisation de tous les mots clés.
+				$finalStats	=	array(); // statistiques globales.
+				foreach($query->result_array() as $q)
+				{
+					$tags	=	$this->db->where('KEYWORDS_REF_ID',$q['ID'])->get('tendoo_news_ref_keywords');
+					$finalStats[]	=	array(
+						'ID'			=>	$q['ID'],
+						'TITLE'			=>	$q['TITLE'],
+						'DESCRIPTION'	=>	$q['DESCRIPTION'],
+						'USED'			=>	count($tags->result_array()) // nombre de fois que le mot clé est utilisé.
+					);
+					$fullyUsed+=count($tags); // ajout du nombre de fois que le mot clé est utilisé à la liste de mots clé utilisé
+				}
+				// Création de statistique
+				foreach($finalStats as &$stats)
+				{
+					$stats['PERCENT']	=	($stats['USED'] / $fullyUsed) * 100;
+				}	
+				return $finalStats;			
+			}
+			public function deleteKeyWords($id)
+			{
+				$query	=	$this->db->where('ID',$id)->get('tendoo_news_keywords');
+				$result	=	$query->result_array();
+				$notice['success']	=	0;
+				if($result)
+				{
+					foreach($result as $ref_kw)
+					{
+						// Comptabilisation des référents
+						// Suppréssion de l'utilisation des mots clés dans tous les articles
+						$_query		=	$this->db->where('KEYWORDS_REF_ID',$ref_kw['ID'])->get('tendoo_news_ref_keywords');
+						$notice['success']	=	count($_query->result_array());
+						$this->db->where('KEYWORDS_REF_ID',$ref_kw['ID'])->delete('tendoo_news_ref_keywords');
+					}
+					if($this->db->where('ID',$result[0]['ID'])->delete('tendoo_news_keywords'))
+					{
+						return array(
+							'status'	=>	'success',
+							'alertType'	=>	'notice',
+							'message'	=>	'Le mot clé à correctement été supprimé. '.$notice['success'].' référent(s) a/ont été supprimé.',
+							'response'	=>	''
+						);
+					}
+					return array(
+						'status'	=>	'warning',
+						'alertType'	=>	'modal',
+						'message'	=>	'Une erreur s\'est produite durant la supprésion du mot clé, celui-ci est peut être inexistant. '.$notice['success'].' référent(s) a/ont été supprimé.',
+						'response'	=>	''
+					);
+				}
+				return array(
+					'status'	=>	'warning',
+					'alertType'	=>	'modal',
+					'message'	=>	'Mot-clé introuvable, la supprésion à échouée.',
+					'response'	=>	''
+				);
+			}
 			public function postScheduledArt()
 			{
 				$news	=	$this->getNews(null,null,TRUE);
@@ -637,6 +860,22 @@ $NOTICE_SUPER_ARRAY = $or;
 				// Post ScheduledArt()
 				$this->postScheduledArt();
 			}
+			public function getCatForWidgets($start = null, $end = null)
+			{
+				if(is_numeric($start) && is_numeric($end))
+				{
+					// SELECTIONNE LES CATEGORIES PAR ORDRE décroissant D'article publié dans la catégorie
+					$query	=	$this->db
+					->select('*, tendoo_news_category.ID as CAT_ID, 
+					(SELECT COUNT(*) FROM `'.DB_ROOT.'tendoo_news_ref_category` WHERE CATEGORY_REF_ID	=	CAT_ID) as TOTAL_ARTICLES')
+					->from('tendoo_news_category')
+					->order_by('TOTAL_ARTICLES','desc')
+					->limit($end,$start)
+					->get();
+					return $query->result_array();
+				}
+				return false;
+			}
 			public function getCat($start = null,$end = null)
 			{
 				if($start == null && $end == null)
@@ -661,7 +900,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function retreiveCat($id)
 			{
-				$this->db			->from('tendoo_news_category')
+				$this->db				->from('tendoo_news_category')
 										->where('ID',$id);
 				$query					= $this->db->get();
 				$data					=	$query->result_array();
@@ -832,8 +1071,11 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function getNewsKeyWords($newsid)
 			{
-				$this->db	->where('NEWS_ID',$newsid);
-				$query	=	$this->db->get('tendoo_news_keywords');
+				$this->db->select('*')
+					->from('tendoo_news_ref_keywords')
+					->join('tendoo_news_keywords','tendoo_news_keywords.ID = tendoo_news_ref_keywords.KEYWORDS_REF_ID','left')	
+					->where('tendoo_news_ref_keywords.NEWS_REF_ID',$newsid);
+				$query	=	$this->db->get();
 				return $query->result_array();
 			}
 			/*
@@ -861,6 +1103,131 @@ $NOTICE_SUPER_ARRAY = $or;
 				}
 				return false;
 			}
-			
+			/**
+			*
+			**/
+			public function getAllPopularKeyWords($limit	=	5)
+			{
+				if($limit != 'all' && (int) is_numeric($limit))
+				{
+					$query		=	$this->db->limit($limit,0)->get('tendoo_news_keywords');
+				}
+				else
+				{
+					$query		=	$this->db->get('tendoo_news_keywords');
+				}
+				$fullyUsed	=	0; // Nombre total d'utilisation de tous les mots clés.
+				$finalStats	=	array(); // statistiques globales.
+				foreach($query->result_array() as $q)
+				{
+					$tags	=	$this->db->where('KEYWORDS_REF_ID',$q['ID'])->get('tendoo_news_ref_keywords');
+					$finalStats[]	=	array(
+						'ID'	=>	$q['ID'],
+						'TITLE'	=>	$q['TITLE'],
+						'USED'	=>	count($tags) // nombre de fois que le mot clé est utilisé.
+					);
+					$fullyUsed+=count($tags); // ajout du nombre de fois que le mot clé est utilisé à la liste de mots clé utilisé
+				}
+				// Création de statistique
+				foreach($finalStats as &$stats)
+				{
+					$stats['PERCENT']	=	round($stats['USED'] / $fullyUsed);
+				}	
+				return $finalStats;			
+			}
+			public function getSpeCat($id)
+			{
+				$query	=	$this->db->where('ID',$id)->get('tendoo_news_category');
+				$ar		=	$query->result_array();
+				if(count($ar) == 0)
+				{
+					return array('CATEGORY_NAME'=>'Cat&eacute;gorie inconnue');
+				}
+				return $ar[0];
+			}
+			public function getArticlesRelatedCategory($id)
+			{
+				$query	=	$this->db->where('NEWS_REF_ID',$id)->get('tendoo_news_ref_category');
+				$result	=	$query->result_array();
+				foreach($result as &$r)
+				{
+					// Si la catégorie n'existe plus, supprimer l'entrée.
+					$categoryDetails	=	$this->getSpeCat($r['CATEGORY_REF_ID']);
+					if(!$categoryDetails)
+					{
+						unset($r);
+					}
+					else
+					{
+						// ajout des informations de la catégorie dans tableau des catégories de l'article.
+						$r['CATEGORY_NAME']			=	$categoryDetails['CATEGORY_NAME'];
+						$r['CATEGORY_ID']			=	$categoryDetails['ID'];
+						$r['CATEGORY_DESCRIPTION']	=	$categoryDetails['DESCRIPTION'];
+						$r['CATEGORY_CREATION_DATE']=	$categoryDetails['DATE'];
+					}
+				}
+				return $result;
+			}
+			// 0.5
+			public function categoryExists($element,$filter	=	'filter_id')
+			{
+				switch($filter)
+				{
+					case 'filter_id' : 
+						$this->db->where('ID',$element);
+					break;
+				}
+				$query	=	$this->db->get('tendoo_news_category');
+				$status	=	$query->result_array();
+				if($status)
+				{
+					return $status;
+				}
+				return false;
+			}
+			public function getCategoryArticles($category_id,$start = null, $end = null)
+			{
+				$this->db->select('*')
+					->from('tendoo_news_ref_category')
+					->join('tendoo_news_category','tendoo_news_category.ID = tendoo_news_ref_category.CATEGORY_REF_ID','inner')
+					->join('tendoo_news','tendoo_news.ID = tendoo_news_ref_category.NEWS_REF_ID','inner')
+					->where('tendoo_news_category.ID',$category_id);			
+				if(is_numeric($start) && is_numeric($end))
+				{
+					$this->db->limit($end,$start);
+				}
+				$query	=	$this->db->get();				
+				return $query->result_array();
+			}
+			public function keyWordExists($element,$filter = 'filter_title')
+			{
+				if($filter	==	'filter_title')
+				{
+					$query	=	$this->db->where('TITLE',$element)->get('tendoo_news_keywords');
+				}
+				else if($filter == 'filter_id')
+				{
+					$query	=	$this->db->where('ID',$element)->get('tendoo_news_keywords');
+				}
+				if(!$query->result())
+				{
+					return false;
+				}
+				return true;
+			}
+			public function getKeyWordsArticles($tag,$start = null,$end = null)
+			{
+				$this->db->select('*')
+					->from('tendoo_news_ref_keywords')
+					->join('tendoo_news_keywords','tendoo_news_keywords.ID = tendoo_news_ref_keywords.KEYWORDS_REF_ID','inner')
+					->join('tendoo_news','tendoo_news.ID = tendoo_news_ref_keywords.NEWS_REF_ID','inner')
+					->where('tendoo_news_keywords.TITLE',$tag);			
+				if(is_numeric($start) && is_numeric($end))
+				{
+					$this->db->limit($end,$start);
+				}
+				$query	=	$this->db->get();				
+				return $query->result_array();
+			}
 		}	
 	}

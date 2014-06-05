@@ -207,7 +207,7 @@
 												if($g['CONTACT_TYPE'] == 'phone')
 												{
 													?>
-                        <button class="btn btn-default" type="submit"><i class="icon-phone"></i></button>
+                        <button class="btn btn-default" type="submit"><i class="fa fa-phone"></i></button>
                         <?php	
 												}
 												else if($g['CONTACT_TYPE'] == 'email')
@@ -219,19 +219,19 @@
 												else if($g['CONTACT_TYPE'] == 'mobile')
 												{
 													?>
-                        <button class="btn btn-default" type="submit">@</button>
+                        <button class="btn btn-default" type="submit"><i class="fa fa-mobile"></i></button>
                         <?php	
 												}
 												else if($g['CONTACT_TYPE'] == 'address')
 												{
 													?>
-                        <button class="btn btn-default" type="submit"><i class="icon-envelope-alt"></i></button>
+                        <button class="btn btn-default" type="submit"><i class="fa fa-envelope-alt"></i></button>
                         <?php	
 												}
 												else if($g['CONTACT_TYPE'] == 'fax')
 												{
 													?>
-                        <button class="btn btn-default" type="submit"><i class="icon-print"></i></button>
+                        <button class="btn btn-default" type="submit"><i class="fa fa-print"></i></button>
                         <?php	
 												}
 												else
@@ -245,7 +245,7 @@
                         <input type="hidden" name="contactId" value="<?php echo $g['ID'];?>" />
                         <input type="text" value="<?php echo $g['CONTACT_TEXT'];?>" disabled="disabled" class="form-control">
                         <span class="input-group-btn">
-                        <button class="btn btn-default" name="removeContact" type="submit"><i class="icon-remove"></i></button>
+                        <button class="btn btn-default" name="removeContact" type="submit"><i class="fa fa-times"></i></button>
                         </span> </div>
                     </form>
                     <br />

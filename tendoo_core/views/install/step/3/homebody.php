@@ -14,9 +14,9 @@
 					<section class="panel"> 
 						<div class="wizard clearfix"> 
 							<ul class="steps"> 
-								<li data-target="#step1"><span class="badge badge-info">1</span>Accueil</li> 
+								<li data-target="#step1"><span class="badge">1</span>Accueil</li> 
 								<li data-target="#step2"><span class="badge">2</span>Base de donn&eacute;es</li> 
-								<li data-target="#step3" class="active"><span class="badge">3</span>Options</li> 
+								<li data-target="#step3" class="active"><span class="badge badge-info">3</span>Options</li> 
 								<li data-target="#step4"><span class="badge">4</span>Fin de l'installation</li> 
 							</ul>
 							<div class="actions"> 
@@ -80,95 +80,95 @@
 											<div class="installingStatus">
 											</div>
 										<script>
-											function triggerInstall()
-											{												
-												var installStatus		=	true;
-												var defaultsApp			=	new Array();
-													defaultsApp[0]		=	"Tendoo_index_mod";
-													defaultsApp[1]		=	"revera";
-													defaultsApp[2]		=	"blogster";
-													defaultsApp[3]		=	"file_manager";
-													defaultsApp[4]		=	"widget_admin";
-													defaultsApp[5]		=	"PageEditor";
-													defaultsApp[6]		=	"Contact_manager";
-												var defaultsAppText		=	new Array();
-													defaultsAppText[0]	=	'Installation du module Index Manager...';
-													defaultsAppText[1]	=	'Installation du thème Revera...';
-													defaultsAppText[2]	=	'Installation du module Blogster...';
-													defaultsAppText[3]	=	'Installation du module Gestionnaire de fichiers...';
-													defaultsAppText[4]	=	'Installation du module Gestionnaire de widgets...';
-													defaultsAppText[5]	=	'Installation du module Page Editor...';
-													defaultsAppText[6]	=	'Installation du module Tendoo Contact Manager...';
-												var defaultsAppFinish	=	new Array();
-													defaultsAppFinish[0]=	'<span style="color:green">Installation du module terminée</span>';
-													defaultsAppFinish[1]=	'<span style="color:green">Installation du thème revera terminée</span>';
-													defaultsAppFinish[2]=	'<span style="color:green">Installation du module Blogster terminée</span>';
-													defaultsAppFinish[3]=	'<span style="color:green">Installation du Gestionnaire de fichier terminée</span>';
-													defaultsAppFinish[4]=	'<span style="color:green">Installation du Gestionnaire de widget terminée</span>';
-													defaultsAppFinish[5]=	'<span style="color:green">Installation du module Page Editor terminée</span>';
-													defaultsAppFinish[6]=	'<span style="color:green">Instal... du module Tendoo Contact Manager terminée</span>';
-												var defaultsAppHtml		=	
-													'<h4><i class="fa fa-star"></i> Installation des applications par d&eacute;faut</h5>'+
-													'<ul class="list-group bg-white statusList">'+
-													'</ul>';
-												$('.installingStatus').html('');
-												$('.installingStatus').append(defaultsAppHtml);
-												var iterator			=	0;
-												var Interval			=	setInterval(function(){
-													if(installStatus == true)
-													{
-														var curIterator	=	iterator
-														var action		=	'';
-														if(typeof defaultsApp[iterator] == 'undefined') // Lorsqu'il ny a plus aucune application a installer :D
-														{
-															clearInterval(Interval);
-															$('.statusList').append('<?php echo tendoo_success("<span class=\"currentInstall_'+curIterator+'\"> Installation des applications terminée...</span>");?>');
-															$('#siteNameForm').submit();
-														}
-														else
-														{
-															switch(defaultsApp[iterator])
-															{
-																case "blogster"	:
-																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/blogster";
-																break;
-																case "revera"	:
-																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/revera";
-																break;	
-																case "Tendoo_index_mod":
-																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/Tendoo_index_mod";									
-																break;
-																case "file_manager":
-																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/file_manager";									
-																break;
-																case "widget_admin":
-																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/widget_admin";									
-																break;
-																case "PageEditor":
-																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/PageEditor";									
-																break;
-																case "Contact_manager":
-																	action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/Contact_manager";									
-																break;
-															}
-															$.ajax({
-																beforeSend	:	function()
-																{
-																	installStatus	=	false;
-																	$('.statusList').append('<a href="#" class="currentInstall_'+curIterator+' list-group-item"><i class="fa fa-time"></i> '+defaultsAppText[curIterator]+'</a>');
-																},
-																success		:	function(data)
-																{
-																	installStatus	=	true;
-																	$('.statusList').find('.currentInstall_'+curIterator).html('<i class="fa fa-thumbs-up-alt"></i> '+defaultsAppFinish[curIterator]+'');
-																},
-																url			:	action
-															});
-														}
-														iterator++;
-													}
-												},500);
-											}
+function triggerInstall()
+{												
+	var installStatus		=	true;
+	var defaultsApp			=	new Array();
+		defaultsApp[0]		=	"tendoo_index_mod";
+		defaultsApp[1]		=	"nevia";
+		defaultsApp[2]		=	"news";
+		defaultsApp[3]		=	"file_manager";
+		defaultsApp[4]		=	"widget_admin";
+		defaultsApp[5]		=	"pageEditor";
+		defaultsApp[6]		=	"contact_manager";
+	var defaultsAppText		=	new Array();
+		defaultsAppText[0]	=	'Installation du module Index Manager...';
+		defaultsAppText[1]	=	'Installation du thème Revera...';
+		defaultsAppText[2]	=	'Installation du module Blogster...';
+		defaultsAppText[3]	=	'Installation du module Bibiothèque Multimédia...';
+		defaultsAppText[4]	=	'Installation du module Gestionnaire de widgets...';
+		defaultsAppText[5]	=	'Installation du module Page Editor...';
+		defaultsAppText[6]	=	'Installation du module Tendoo Contact Manager...';
+	var defaultsAppFinish	=	new Array();
+		defaultsAppFinish[0]=	'<span style="color:green">Installation du module terminée</span>';
+		defaultsAppFinish[1]=	'<span style="color:green">Installation du thème revera terminée</span>';
+		defaultsAppFinish[2]=	'<span style="color:green">Installation du module Blogster terminée</span>';
+		defaultsAppFinish[3]=	'<span style="color:green">Installation du "Bibiothèque Multimédia" terminée</span>';
+		defaultsAppFinish[4]=	'<span style="color:green">Installation du Gestionnaire de widgets terminée</span>';
+		defaultsAppFinish[5]=	'<span style="color:green">Installation du module Page Editor terminée</span>';
+		defaultsAppFinish[6]=	'<span style="color:green">Instal... du module Tendoo Contact Manager terminée</span>';
+	var defaultsAppHtml		=	
+		'<h4><i class="fa fa-star"></i> Installation des applications par d&eacute;faut</h5>'+
+		'<ul class="list-group bg-white statusList">'+
+		'</ul>';
+	$('.installingStatus').html('');
+	$('.installingStatus').append(defaultsAppHtml);
+	var iterator			=	0;
+	var Interval			=	setInterval(function(){
+		if(installStatus == true)
+		{
+			var curIterator	=	iterator
+			var action		=	'';
+			if(typeof defaultsApp[iterator] == 'undefined') // Lorsqu'il ny a plus aucune application a installer :D
+			{
+				clearInterval(Interval);
+				$('.statusList').append('<?php echo tendoo_success("<span class=\"currentInstall_'+curIterator+'\"> Installation des applications terminée...</span>");?>');
+				$('#siteNameForm').submit();
+			}
+			else
+			{
+				switch(defaultsApp[iterator])
+				{
+					case "news"	:
+						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/news";
+					break;
+					case "revera"	:
+						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/revera";
+					break;	
+					case "tendoo_index_mod":
+						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/tendoo_index_mod";									
+					break;
+					case "file_manager":
+						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/file_manager";									
+					break;
+					case "widget_admin":
+						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/widget_admin";									
+					break;
+					case "pageEditor":
+						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/pageEditor";									
+					break;
+					case "contact_manager":
+						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/contact_manager";									
+					break;
+				}
+				$.ajax({
+					beforeSend	:	function()
+					{
+						installStatus	=	false;
+						$('.statusList').append('<a href="#" class="currentInstall_'+curIterator+' list-group-item"><i class="fa fa-time"></i> '+defaultsAppText[curIterator]+'</a>');
+					},
+					success		:	function(data)
+					{
+						installStatus	=	true;
+						$('.statusList').find('.currentInstall_'+curIterator).html('<i class="fa fa-thumbs-up-alt"></i> '+defaultsAppFinish[curIterator]+'');
+					},
+					url			:	action
+				});
+			}
+			iterator++;
+		}
+	},500);
+}
 										$(document).ready(function(){
 											$('#siteNameSubmiter').bind('click',function(){
 												var timer;

@@ -29,14 +29,14 @@
 									<div class="col-lg-4">
 										<h4><i class="fa fa-group"></i> Tendoo Community</h4>
 										<div>
-											<?php gt('install/step1/homebody/tendoo_community');?>
+											<?php echo gt('install_step1_tendoo_community');?>
 										</div>
 										
 									</div>
 									<div class="col-lg-4">
-										<h4><i class="fa fa-mobile-phone"></i> <?php gt('install/step1/homebody/tendoo_device_title');?></h4>
+										<h4><i class="fa fa-mobile-phone"></i> <?php echo gt('install_step1_tendoo_device_title');?></h4>
 										<div>
-											<?php gt('install/step1/homebody/tendoo_device_description');?>
+											<?php echo gt('install_step1_tendoo_device_description');?>
 										</div>
 									</div>
 									<div class="col-lg-4">

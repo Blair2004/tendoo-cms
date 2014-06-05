@@ -28,7 +28,7 @@ class Pages_editor_module_controller
 		$this->data['section']				=		'main';
 		$this->data['module_content']		=	$this->core->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/module_view',$this->data,true,TRUE);
 		
-		$this->data['theme']->header($this->data);
+		$this->data['theme']->head($this->data);
 		$this->data['theme']->body($this->data);
 	}
 	public function show($page_id = 0)
@@ -46,7 +46,7 @@ class Pages_editor_module_controller
 		$this->data['section']				=		'main';
 		$this->data['module_content']		=	$this->core->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/module_view',$this->data,true,TRUE);
 		
-		$this->data['theme']->header($this->data);
+		$this->data['theme']->head($this->data);
 		$this->data['theme']->body($this->data);
 	}
 	

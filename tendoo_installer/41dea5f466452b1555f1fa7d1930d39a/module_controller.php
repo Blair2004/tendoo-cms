@@ -17,7 +17,7 @@ class tendoo_index_manager_module_controller
 		$this->data['theme']->definePageDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
 		// Load View		
 		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common',$this->data,true,TRUE);
-		$this->data['theme']->header($this->data);
+		$this->data['theme']->head($this->data);
 		$this->data['theme']->body($this->data);
 	}
 }

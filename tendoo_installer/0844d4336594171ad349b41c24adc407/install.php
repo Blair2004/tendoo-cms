@@ -1,8 +1,8 @@
 	<?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.4);
-$this->appTendooVers(0.94);
+$this->appVers(0.5);
+$this->appTendooVers(0.98);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'news',
 	'HUMAN_NAME'	=> 'Blogster - Le gestionnaire d\'articles',
@@ -11,9 +11,9 @@ $this->appTableField(array(
 	'TYPE'			=> 'BYPAGE',
 	'HAS_WIDGET'	=>	1,
 	'HAS_MENU'		=>	1,
-	'HAS_API'	=>	1,
+	'HAS_API'		=>	1,
 	'HAS_ICON'		=>	1,
-	'TENDOO_VERS'	=> 0.94
+	'TENDOO_VERS'	=> 0.98
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_comments` (
@@ -30,7 +30,6 @@ $this->appSql(
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `CATEGORY_ID` int(11) NOT NULL,
   `TITLE` varchar(200) NOT NULL,
   `CONTENT` text NOT NULL,
   `DATE` datetime NOT NULL,
@@ -44,13 +43,31 @@ $this->appSql(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 ');
 $this->appSql(	
-'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news_keywords` (
+'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news_ref_category` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NEWS_ID` int(11) NOT NULL,
-  `KEYWORDS` text NOT NULL,
+  `NEWS_REF_ID` int(11) NOT NULL,
+  `CATEGORY_REF_ID` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 ');
+$this->appSql(	
+'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news_keywords` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TITLE` text(200) NOT NULL,
+  `DESCRIPTION` text,
+  `AUTEUR` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+');
+$this->appSql(	
+'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news_ref_keywords` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NEWS_REF_ID` int(11) NOT NULL,
+  `KEYWORDS_REF_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+');
+
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news_setting` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -102,5 +119,11 @@ $this->appAction(array(
 	'action'				=>	'blogster_manage_comments',
 	'action_name'			=>	'Gestion des commentaires',
 	'action_description'	=>	'Cette action permet de g&eacute;rer les commentaires.',
+	'mod_namespace'			=>	'news'
+));
+$this->appAction(array(
+	'action'				=>	'blogster_manage_tags',
+	'action_name'			=>	'Gestion des mots clés',
+	'action_description'	=>	'Cette action permet de g&eacute;rer les mots clés.',
 	'mod_namespace'			=>	'news'
 ));

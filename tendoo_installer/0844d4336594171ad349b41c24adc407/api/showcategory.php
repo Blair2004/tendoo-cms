@@ -16,7 +16,7 @@ class news_showcategory_api
 		foreach($query as $q)
 		{
 			$final[]					=	array(
-				'LINK'					=>	$this->url->main_url().$controler[0]['PAGE_CNAME'].'/category/'.$this->tendoo->urilizeText($q['CATEGORY_NAME']).'/'.$q['ID'],
+				'LINK'					=>	$this->url->main_url().$controler[0]['PAGE_CNAME'].'/categorie/'.$this->tendoo->urilizeText($q['CATEGORY_NAME']).'/'.$q['ID'],
 				'TITLE'					=>	$q['CATEGORY_NAME'],
 				'DATE'					=>	$q['DATE'],
 				'AUTEUR'				=>	'',

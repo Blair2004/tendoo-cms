@@ -33,7 +33,7 @@ class tendoo_widget_administrator_admin_controller
 		$this->lib						=	new widhandler_lib($this->data);
 		$this->data['lib']				=&	$this->lib;
 		
-		$this->core->tendoo_admin->menuExtendsBefore($this->core->load->view($this->data['module_dir'].'/views/menu',$this->data,true,TRUE));
+		// $this->core->tendoo_admin->menuExtendsBefore($this->core->load->view($this->data['module_dir'].'/views/menu',$this->data,true,TRUE));
 		$this->data['inner_head']		=	$this->core->load->view('admin/inner_head',$this->data,true);
 		$this->data['lmenu']			=	$this->core->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 		if(!$this->core->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('modules','widgetsMastering',$this->core->users_global->current('PRIVILEGE')))
@@ -43,15 +43,20 @@ class tendoo_widget_administrator_admin_controller
 	}
 	public function index($page	=	1,$action = "",$element	=	'')
 	{
-		//echo '<pre>';
-		//print_r($_POST);
-		//echo '</pre>';
 		if(isset($_POST['tewi_wid']))
 		{
-			$this->lib->save_widgets($_POST['tewi_wid']);
+			$result	=	$this->lib->save_widgets($_POST['tewi_wid']);
+			if(is_array($result))
+			{
+				$this->core->notice->push_notice(tendoo_info($result['success'].' widget(s) a/ont été crée(s). '.$result['error'].' erreur(s)'));
+			}
+			else
+			{
+				$this->core->notice->push_notice(notice($result));
+			}
 		}
-		$this->core->file->js_push('jquery-ui-1.8.23.custom.min');
-		$this->core->file->js_url	=	$this->core->url->main_url().$this->data['module_dir'].'/script/';
+		$this->core->file->js_push('jquery-ui-1.10.4.custom.min');
+		$this->core->file->js_url	=	$this->core->url->main_url().$this->data['module_dir'].'/js/';
 		$this->core->file->js_push('tewi_script');
 		
 		$this->core->file->css_url	=	$this->core->url->main_url().$this->data['module_dir'].'/css/';

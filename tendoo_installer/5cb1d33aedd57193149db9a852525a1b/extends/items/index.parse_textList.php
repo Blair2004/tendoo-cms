@@ -1,56 +1,53 @@
 <?php
 if(count($this->listText) > 0)
-		{
-		?>
-<div class="container">
-	<div class="panel-group" id="accordion">
-		<br>
-		<h3 class="title_" style="color:rgb(237, 86, 75)"><?php echo $this->textListTitle;?></h3>
-		<div class="row">
-		<?php
-		$i = 0;
+{
+?>
+<div class="container floated">
+	<div class="blank floated">
+
+		<!-- Recent Work Entire -->
+		<div class="four columns carousel-intro">
+
+			<section class="entire">
+				<h3><?php echo $this->textListTitle;?></h3>
+				<p></p>
+			</section>
+
+			<div class="carousel-navi">
+				<div id="work-prev" class="arl jcarousel-prev"><i class="icon-chevron-left"></i></div>
+				<div id="work-next" class="arr jcarousel-next"><i class="icon-chevron-right"></i></div>
+			</div>
+			<div class="clearfix"></div>
+
+		</div>
+
+		<!-- jCarousel -->
+		<section class="jcarousel recent-work-jc">
+			<ul>
+				<!-- Recent Work Item -->
+				<?php
 				foreach($this->listText as $t)
 				{
-
-	?>
-		<div class="col-lg-4">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" class="collapsed" data-parent="#accordion" href="#collapse<?php echo $i;?>">
-							<?php echo $t['TITLE'];?>
-						</a>
-					</h4>
-				</div>
-				<div id="collapse<?php echo $i;?>" class="panel-collapse collapse" style="height:auto;">
-					<div class="panel-body">
-						<a href="<?php echo $t['LINK'];?>" class="heading"><?php echo $t['TITLE'];?></a>
-						<?php echo word_limiter($t['CONTENT'],200);?>
-					</div>
-				</div>
-			</div>
-		</div>
-			<?php
-			$i++;
+				?>
+				<li class="four columns">
+					<a href="<?php echo $t['LINK'];?>" class="portfolio-item">
+						<figure>
+							<img src="<?php echo $t['THUMB'];?>" alt="<?php echo $t['TITLE'];?>" style="height:120px;">
+							<figcaption class="item-description">
+								<h5><?php echo word_limiter($t['TITLE'],5);?></h5>
+								<span><?php echo word_limiter($t['CONTENT'],10);?></span>
+							</figcaption>
+						</figure>
+					</a>
+				</li>
+				<?php
 				}
 				?>
-		</div>
+			</ul>
+		</section>
+		<!-- jCarousel / End -->
+
 	</div>
-</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-<h1 class="home-block-heading"></h1>
-        <ul class="text-posts">
-        </ul>
-            <?php
-		}
+</div><?php
+}
+?>

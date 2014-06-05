@@ -7,6 +7,9 @@
 		}
 		public function save_widgets($e)
 		{
+			$notice	=	array();
+			$notice['error']	=	0;
+			$notice['success']	=	0;
 			if(is_array($e))
 			{
 				$this->db->where('ID >',0)->delete('tendoo_widget_administrator_left');
@@ -19,6 +22,7 @@
 						$table	=	strtolower($key);
 						foreach($value as $w_key	=>	$w_content)
 						{
+							// var_dump($w_content);
 							if(array_key_exists('params',$w_content))
 							{
 								if(is_array($w_content['params']))
@@ -42,7 +46,7 @@
 								$line_code	=	'';
 							}
 							$date						=		$this->tendoo->datetime();
-							$this->db->insert('tendoo_widget_administrator_'.$table,array(
+							if($this->db->insert('tendoo_widget_administrator_'.$table,array(
 								'WIDGET_TITLE'			=>		$w_content['title'],
 								'WIDGET_NAMESPACE'		=>		$w_content['namespace'],
 								'WIDGET_MODNAMESPACE'	=>		$w_content['modnamespace'],
@@ -52,14 +56,22 @@
 								'AUTEUR'				=>		$this->users_global->current('ID'),
 								'DATE'					=>		$date,
 								'IS_CODE'				=>		$isCode
-							));
+							)))
+							{
+								$notice['success']++;
+							}
+							else
+							{
+								$notice['error']++;
+							}
 						}
 					}
 					else
 					{
-						break; // we just jump when there is a failure.
+						$notice['error']++;
 					}
 				}
+				return $notice;
 			}
 			return 'arrayExpected';
 		}

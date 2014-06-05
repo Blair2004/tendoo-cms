@@ -4,7 +4,8 @@ $WIDGET_CONFIG['aflecatdi']	=	array(
 	'WIDGET_HUMAN_NAME'		=>	'Afficher les categorie disponible',	// nom du widget
 	'WIDGET_NAMESPACE'		=>	'aflecatdi', // Espace nom du widget, il doit être unique.
 	'WIDGET_FILES'			=>	'/widgets/category_lister.php',	//  Chemin d'acces au fichier
-	'MODULE_NAMESPACE'		=>	$module['NAMESPACE']	// Espace nom du module sur lequel le widget test attaché.
+	'MODULE_NAMESPACE'		=>	$module['NAMESPACE'],	// Espace nom du module sur lequel le widget test attaché.
+	'WIDGET_MORE'			=>	'/more/widget_category_config.php'
 );
 $WIDGET_CONFIG['aflearlep']	=	array(
 	'WIDGET_HUMAN_NAME'		=>	'Afficher les articles les plus lues',
@@ -25,4 +26,11 @@ $WIDGET_CONFIG['comments']	=	array(
 	'WIDGET_FILES'			=>	'/widgets/comments.php',
 	'MODULE_NAMESPACE'		=>	$module['NAMESPACE'],
 	'WIDGET_MORE'			=>	'/more/widget_comments_config.php'
+);
+$WIDGET_CONFIG['tags']	=	array(
+	'WIDGET_HUMAN_NAME'		=>	'Afficher les mots clés',
+	'WIDGET_NAMESPACE'		=>	'tags',
+	'WIDGET_FILES'			=>	'/widgets/tags.php',
+	'MODULE_NAMESPACE'		=>	$module['NAMESPACE'],
+	'WIDGET_MORE'			=>	'/more/widget_tags_config.php'
 );

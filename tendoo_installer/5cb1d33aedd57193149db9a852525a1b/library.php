@@ -1,8 +1,8 @@
-<?php
-class modus_lib
+<?php 
+class nevia_theme_library
 {
-	public function __construct()
+	public function __construct($data)
 	{
-		$this->core	=	Controller::instance();
+		__extends($this);
 	}
 }

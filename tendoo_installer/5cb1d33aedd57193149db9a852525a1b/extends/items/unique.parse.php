@@ -1,25 +1,33 @@
-<div id="content" class="site-content ">
-	<div class="page-head">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<h3><?php echo $this->pageTitle;?></h3>
-					<p><?php if(strlen($this->pageDescription) > 0) : echo word_limiter($this->pageDescription,20);endif;?></p>
-				</div>
-				
-			</div>
-		</div>
+<div id="content">
+
+<!-- 960 Container -->
+<div class="container floated">
+
+	<div class="sixteen floated page-title">
+
+		<h2><?php echo $this->pageTitle;?><span> / <?php if(strlen($this->pageDescription) > 0) : echo word_limiter($this->pageDescription,10);endif;?></span></h2>
+
+		<!-- Portfolio Navi -->
+		<div class="clearfix"></div>
+
 	</div>
-	<div class="container">	
-		<div class="row">
-			<div id="primary" class="content-area col-sm-8">
-				<main id="main" class="site-main" role="main">
-					<?php echo $this->uniqueContent;?>
-				</main><!-- #main -->
-			</div><!-- #primary -->
-			<div id="secondary" class="widget-area col-sm-4" role="complementary">
-				<?php echo $this->parseRightWidgets();?>					
-			</div><!-- #secondary -->
-		</div>
+
+</div>
+<!-- 960 Container / End -->
+
+<!-- Page Content -->
+<div class="page-content">
+
+<div class="container">
+	<div class="sixteen columns">
+
+		<!-- Slider  -->
+		<?php echo $this->uniqueContent;?>
+		<!-- Slider / End -->
+
 	</div>
+</div>
+
+<!-- Page Content / End -->
+
 </div>

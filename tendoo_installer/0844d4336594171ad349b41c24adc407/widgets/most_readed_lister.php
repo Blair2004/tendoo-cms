@@ -16,15 +16,14 @@ class aflearlep_news_common_widget
 		$this->news		=	new News_smart;
 		$setting		=	$this->news->getBlogsterSetting();
 		// var_dump($this->data['currentWidget']['WIDGET_INFO']['WIDGET_PARAMETERS']);
-		eval($this->data['currentWidget']['WIDGET_INFO']['WIDGET_PARAMETERS']);
+		$LIMIT			=	$this->data['currentWidget']['WIDGET_INFO']['WIDGET_PARAMETERS'];
 		
-		$LIMIT			=	$WIDGET_PARAMS['nbr_article'];
 		$this->data['mostViewed']	=	$this->news->getMostViewed(0,$LIMIT);
 		$end			=	'<ul>';
 		$controller		=	$this->core->tendoo->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['NAMESPACE']);
 		foreach($this->data['mostViewed'] as $t)
 		{
-			$end		.=	'<li><a href="'.$this->core->url->site_url(array($controller[0]['PAGE_CNAME'])).'/read/'.$t['ID'].'/'.$this->core->tendoo->urilizeText($t['TITLE']).'">'.$t['TITLE'].'</a></li>';
+			$end		.=	'<li><a href="'.$this->core->url->site_url(array($controller[0]['PAGE_CNAME'])).'/lecture/'.$t['ID'].'/'.$this->core->tendoo->urilizeText($t['TITLE']).'">'.$t['TITLE'].'</a></li>';
 		}
 		$end			.=	'</ul>';
 		// For Zones

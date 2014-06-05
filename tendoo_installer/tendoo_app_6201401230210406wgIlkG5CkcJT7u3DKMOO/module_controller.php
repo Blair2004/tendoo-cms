@@ -40,7 +40,7 @@ class tendoo_contact_handler_module_controller
 		
 		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_main',$this->data,true,TRUE);
 		
-		$this->data['theme']->header($this->data);
+		$this->data['theme']->head($this->data);
 		$this->data['theme']->body($this->data);
 	}
 }

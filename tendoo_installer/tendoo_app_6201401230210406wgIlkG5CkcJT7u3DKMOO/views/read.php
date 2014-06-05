@@ -72,7 +72,7 @@
                         <section class="panel">
                         <div class="panel-heading">Erreur</div>
                         <div class="panel-body">
-                        	<?php echo tendoo_warning('Vous ne pouvez faire vous faire un message &agrave; vous m&ecirc;me..');?>
+                        	<?php echo tendoo_warning('Vous ne pouvez vous faire un message ...');?>
                         </div>
                      </section>
                         <?php

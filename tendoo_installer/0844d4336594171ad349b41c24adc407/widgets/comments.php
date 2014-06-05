@@ -27,18 +27,21 @@ class comments_news_common_widget
 		{
 			$user		=	$this->core->users_global->getUser($c['AUTEUR']);
 			$article	=	$this->news->getSpeNews($c['REF_ART']);
-			if($user)
+			if($article)
 			{
-			$end		.= '
-			<a href="'.$this->core->url->site_url(array('account','profile',$user['PSEUDO'])).'">'.$user['PSEUDO'].'</a> dit : 
-			"'.word_limiter($c['CONTENT'],10).'" dans <a href="'.$this->core->url->main_url().'index.php/'.$controler[0]['PAGE_CNAME'].'/read/'.$article[0]['ID'].'/'.$this->core->tendoo->urilizeText($article[0]['TITLE']).'">'.$article[0]['TITLE'].'</a><br><br>';
-			}
-			else
-			{
-				$offlineUser	=	$c['OFFLINE_AUTEUR'] != '' ? $c['OFFLINE_AUTEUR'] : 'Utilisateur inconnu';
-			$end		.= '
-			<a href="#">'.$offlineUser.'</a> dit : 
-			"'.word_limiter($c['CONTENT'],10).'" dans <a href="'.$this->core->url->main_url().'index.php/'.$controler[0]['PAGE_CNAME'].'/read/'.$article[0]['ID'].'/'.$this->core->tendoo->urilizeText($article[0]['TITLE']).'">'.$article[0]['TITLE'].'</a><br><br>';
+				if($user)
+				{
+				$end		.= '
+				<a href="'.$this->core->url->site_url(array('account','profile',$user['PSEUDO'])).'">'.$user['PSEUDO'].'</a> dit : 
+				"'.word_limiter($c['CONTENT'],10).'" dans <a href="'.$this->core->url->main_url().'index.php/'.$controler[0]['PAGE_CNAME'].'/lecture/'.$article[0]['ID'].'/'.$this->core->tendoo->urilizeText($article[0]['TITLE']).'">'.$article[0]['TITLE'].'</a><br><br>';
+				}
+				else
+				{
+					$offlineUser	=	$c['OFFLINE_AUTEUR'] != '' ? $c['OFFLINE_AUTEUR'] : 'Utilisateur inconnu';
+				$end		.= '
+				<a href="#">'.$offlineUser.'</a> dit : 
+				"'.word_limiter($c['CONTENT'],10).'" dans <a href="'.$this->core->url->main_url().'index.php/'.$controler[0]['PAGE_CNAME'].'/lecture/'.$article[0]['ID'].'/'.$this->core->tendoo->urilizeText($article[0]['TITLE']).'">'.$article[0]['TITLE'].'</a><br><br>';
+				}
 			}
 		}
 		$end			.=	'</ul>';

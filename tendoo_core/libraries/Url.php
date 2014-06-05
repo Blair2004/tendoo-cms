@@ -250,7 +250,7 @@ Class Url
 				{
 					if($this->splited_url[2-$index] == 'index.php')
 					{
-						$this->controller	=	$this->splited_url[3-$index];
+						$this->controller	=	$this->splited_url[3-$index] != '' ? $this->splited_url[3-$index] : 'index';
 						if(array_key_exists(4-$index,$this->splited_url))
 						{
 							if(!in_array($this->splited_url[4-$index],array('','index.php')))
@@ -276,7 +276,7 @@ Class Url
 					}
 					else
 					{
-						$this->controller	=	$this->splited_url[2-$index];
+						$this->controller	=	$this->splited_url[2-$index] != '' ? $this->splited_url[2-$index] : 'index';
 						if(array_key_exists(3-$index,$this->splited_url))
 						{
 							if(!in_array($this->splited_url[3-$index],array('','index.php')))
@@ -307,7 +307,7 @@ Class Url
 				$this->controller		=	'index';
 			}
 		}
-		//	echo '<pre>'.print_r($this,TRUE).'</pre>';
+		// echo '<pre>'.print_r($this,TRUE).'</pre>';
 	}
 	public function getRewrite()
 	{

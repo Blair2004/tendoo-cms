@@ -1,15 +1,15 @@
 <?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.3);
-$this->appTendooVers(0.94);
+$this->appVers(0.5);
+$this->appTendooVers(0.98);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'tendoo_widget_administrator',
 	'HUMAN_NAME'	=> 'Gestionnaire de widgets',
 	'AUTHOR'		=> 'tendoo Group',
 	'DESCRIPTION'	=> 'Permet de créer et d\'administrer des widgets',
 	'TYPE'			=> 'GLOBAL',
-	'TENDOO_VERS'	=> 0.94,
+	'TENDOO_VERS'	=> 0.98,
 	'HAS_ICON'		=>	1
 ));
 $this->appSql(	
