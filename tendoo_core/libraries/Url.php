@@ -16,12 +16,17 @@ Class Url
 		{
 			$this->rewrite	=	TRUE;
 		}
-		$host	=	(in_array($_SERVER['HTTP_HOST'],array('localhost','127.0.0.1'))) ? $_SERVER['HTTP_HOST'] == 'localhost' ? 'localhost/' : '127.0.0.1/' : $_SERVER['HTTP_HOST'].'/';
+		$host	=	(in_array($_SERVER['HTTP_HOST'],array('localhost','127.0.0.1'))) ? 
+						(($_SERVER['HTTP_HOST'] == 'localhost') ? 
+							'localhost/' : '127.0.0.1/')
+						: $_SERVER['HTTP_HOST'].'/';
+		// Attribution des  valeurs.
 		$this->request_uri			=	'http://'.$host.substr($_SERVER['REQUEST_URI'],1);
 		$this->explode_get			=	explode('?',$this->request_uri);
 		$this->splited_url			=	explode('/',substr($this->explode_get[0],7));
 		$this->execution_dir		=	getcwd();
 		$this->projet_dir			=	'';
+		//
 		if(preg_match("#\\\#",$this->execution_dir))
 		{
 			$splitDir				=	explode('\\',$this->execution_dir);
@@ -34,7 +39,8 @@ Class Url
 		}
 		$rootKey					=	0;
 		$newSpliterUrl				=	array();
-		$copy_new_url				=	false;
+		$copy_new_url				=	true;
+		// Splited URL restructuration. To detect Base Root on URL
 		foreach($this->splited_url as $p)
 		{
 			if($p	==	 $this->projet_dir || $copy_new_url == true)
@@ -307,7 +313,6 @@ Class Url
 				$this->controller		=	'index';
 			}
 		}
-		// echo '<pre>'.print_r($this,TRUE).'</pre>';
 	}
 	public function getRewrite()
 	{

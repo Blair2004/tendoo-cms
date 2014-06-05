@@ -392,7 +392,7 @@ class Tendoo
 				// Fist Comments
 				$lib_->postComment(
 					1,
-					"Bonjour, voici un commentaire publier par ... vous. Vous pouvez le supprimer depuis l\'interface de l\'application blogster",
+					"Bravo ce blog est désormais fonctionnel. Consultez les dernières actualités sur <a href=\"http://blog.tendoo.org/\">blog.tendoo.org</a>.",
 					"John Doe",
 					"support@tendoo.org",
 					$interface	=	'system',
@@ -400,7 +400,7 @@ class Tendoo
 				);
 				$lib_->postComment(
 					1,
-					"Voici un autre commentaire, nous participons à ce nouveau blog :D",
+					"Nous sommes vos premiers participants, vous avez le contrôle sur les commentaire depuis l'interface de l'application Blogster.",
 					"Cathy Verana",
 					"support@tendoo.org",
 					$interface	=	'system',
