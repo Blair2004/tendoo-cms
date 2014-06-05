@@ -1,0 +1,40 @@
+<?php 
+class nevia_theme_admin_controller
+{
+	private $lib;
+	public function __construct($data)
+	{
+		__extends($this);
+        include_once($data['theme'][0]['ENCRYPTED_DIR'].'/library.php');
+        $this->lib	=	new nevia_theme_library($data);
+        // Définition des chemins d'accès.
+        $this->data['theme_details']	=&	$this->data['Spetheme'][0];
+		$this->location					=&	$this->data['Spetheme']['ENCRYPTED_DIR'];
+        $this->loadAccess				=	$this->data['loadAccess']	=	THEMES_DIR.$this->location.'/';
+        // LOADING VIEW //
+        $this->data['tendoo_head']		=	$this->load->view(VIEWS_DIR.'/admin/inner_head',$this->data,true,TRUE);
+		$this->data['tendoo_left_menu']	=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
+	}
+	public function index()
+	{
+    	// DEFINE THEME TITLE //
+		$this->tendoo->setTitle('2TB &raquo; Nevia - Gestion du thème');
+        // END THEME TITLE //
+        // DEFINE THEME DESCRIPTION //
+        $this->tendoo->setDescription('Thème cr&eacute;e avec 2TB');
+        // END THEME DESCRIPTION //
+        $this->data['body']			=		$this->load->view($this->loadAccess.'views/body',$this->data,true,true);
+		return $this->data['body'];
+	}
+    public function about()
+	{
+    	// DEFINE THEME TITLE //
+		$this->tendoo->setTitle('2TB &raquo; A propos de  Nevia');
+        // END THEME TITLE //
+        // DEFINE THEME DESCRIPTION //
+        $this->tendoo->setDescription('Thème cr&eacute;e avec 2TB');
+        // END THEME DESCRIPTION //
+        $this->data['body']			=		$this->load->view($this->loadAccess.'views/about',$this->data,true,true);
+		return $this->data['body'];
+	}
+}

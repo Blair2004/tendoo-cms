@@ -1,4 +1,4 @@
-<body style="" cz-shortcut-listen="true" id="backgroundLogin">
+<body cz-shortcut-listen="true" id="backgroundLogin">
 <section id="content">
     <div class="row m-n">
         <div class="col-sm-6 col-sm-offset-3">

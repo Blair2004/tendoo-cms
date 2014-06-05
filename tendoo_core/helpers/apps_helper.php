@@ -74,6 +74,23 @@
 		}
 		return false;
 	}
+	/**
+	*	module_include('module_namespace','path');
+	*	utilise la méthode include_once pour un fichier contenu dans le dossier du module dont l'espace nom est fourni comme premier paramètre.
+	**/
+	function module_include($mod_namespace,$path)
+	{
+		$CORE	=	Controller::instance();
+		if(isset($CORE->tendoo_admin))
+		{
+			$mod	=	$CORE->tendoo_admin->getSpeModuleByNamespace($mod_namespace);
+			if($mod)
+			{
+				include_once(MODULES_DIR.$mod[0]['ENCRYPTED_DIR'].'/'.$mod_namespace);
+			}
+		}
+		return false;
+	}
 /*
 	Tendoo 0.9.8 Only
 	

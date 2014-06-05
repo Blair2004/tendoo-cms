@@ -254,9 +254,10 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 	{
 		if($e	== 	'module')
 		{
-			if($this->tendoo_admin->moduleActivation($id))
+			$module	=	$this->tendoo_admin->moduleActivation($id);
+			if($module)
 			{
-				$this->url->redirect(array('admin','modules?notice=done'));
+				$this->url->redirect(array('admin','modules?info='.strip_tags('Le module <strong>'.$module[0]['HUMAN_NAME'].' a été correctement activé')));
 				return true;
 			}
 		}

@@ -92,7 +92,7 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 			{
 				if(!isset($_SESSION['secur_access']))
 				{
-					$this->core->url->redirect('install/etape/1');
+					$this->core->url->redirect('install/etape/1/secur_access_not_defined');
 				}
 				else
 				{
@@ -131,7 +131,8 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				$this->core->tendoo->createConfigFile(); // Créer le fichier de configuration.
 				$this->core->tendoo->connectToDb(); // Connecting to database
 				$this->core->tendoo->setOptions(array(
-					'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"Tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"Tendoo_contents/main_icon";$icons[]	=	"Pages_editor/main_icon";$icons[]	=	"Tendoo_contact_handler/main_icon";$icons[]	=	"Tendoo_widget_administrator/main_icon";$icons[]	=	"tendoo_theme_builder/main_icon";'	
+					'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"Tendoo_contents/main_icon";$icons[]	=	"pages_editor/main_icon";$icons[]	=	"tendoo_contact_handler/main_icon";$icons[]	=	"tendoo_widget_administrator/main_icon";',	
+					'SITE_LOGO'			=>	img_url('tendoo_darken.png')
 				));
 				$this->core->url->redirect('index');
 			}
@@ -142,7 +143,8 @@ $this->core->form_validation->set_error_delimiters('<div class="alert alert-dang
 				$this->core->tendoo->createConfigFile(); // Créer le fichier de configuration.
 				$this->core->tendoo->connectToDb(); // Connecting to database
 				$this->core->tendoo->setOptions(array(
-					'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"Tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"Tendoo_contents/main_icon";$icons[]	=	"Pages_editor/main_icon";$icons[]	=	"Tendoo_contact_handler/main_icon";$icons[]	=	"Tendoo_widget_administrator/main_icon";$icons[]	=	"tendoo_theme_builder/main_icon";'	
+					'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"Tendoo_contents/main_icon";$icons[]	=	"pages_editor/main_icon";$icons[]	=	"tendoo_contact_handler/main_icon";$icons[]	=	"tendoo_widget_administrator/main_icon";',	
+					'SITE_LOGO'			=>	img_url('tendoo_darken.png')	
 				));
 				$this->core->url->redirect('admin');
 			}

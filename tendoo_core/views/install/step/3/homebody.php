@@ -91,22 +91,25 @@ function triggerInstall()
 		defaultsApp[4]		=	"widget_admin";
 		defaultsApp[5]		=	"pageEditor";
 		defaultsApp[6]		=	"contact_manager";
+		defaultsApp[7]		=	"final_config";
 	var defaultsAppText		=	new Array();
 		defaultsAppText[0]	=	'Installation du module Index Manager...';
-		defaultsAppText[1]	=	'Installation du thème Revera...';
+		defaultsAppText[1]	=	'Installation du thème Nevia...';
 		defaultsAppText[2]	=	'Installation du module Blogster...';
 		defaultsAppText[3]	=	'Installation du module Bibiothèque Multimédia...';
 		defaultsAppText[4]	=	'Installation du module Gestionnaire de widgets...';
 		defaultsAppText[5]	=	'Installation du module Page Editor...';
 		defaultsAppText[6]	=	'Installation du module Tendoo Contact Manager...';
+		defaultsAppText[7]	=	'Configuration du site...';
 	var defaultsAppFinish	=	new Array();
 		defaultsAppFinish[0]=	'<span style="color:green">Installation du module terminée</span>';
-		defaultsAppFinish[1]=	'<span style="color:green">Installation du thème revera terminée</span>';
+		defaultsAppFinish[1]=	'<span style="color:green">Installation du thème Nevia terminée</span>';
 		defaultsAppFinish[2]=	'<span style="color:green">Installation du module Blogster terminée</span>';
 		defaultsAppFinish[3]=	'<span style="color:green">Installation du "Bibiothèque Multimédia" terminée</span>';
 		defaultsAppFinish[4]=	'<span style="color:green">Installation du Gestionnaire de widgets terminée</span>';
 		defaultsAppFinish[5]=	'<span style="color:green">Installation du module Page Editor terminée</span>';
 		defaultsAppFinish[6]=	'<span style="color:green">Instal... du module Tendoo Contact Manager terminée</span>';
+		defaultsAppFinish[7]=	'<span style="color:green">Configuration Terminé !</span>';
 	var defaultsAppHtml		=	
 		'<h4><i class="fa fa-star"></i> Installation des applications par d&eacute;faut</h5>'+
 		'<ul class="list-group bg-white statusList">'+
@@ -132,8 +135,8 @@ function triggerInstall()
 					case "news"	:
 						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/news";
 					break;
-					case "revera"	:
-						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/revera";
+					case "nevia"	:
+						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/nevia";
 					break;	
 					case "tendoo_index_mod":
 						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/tendoo_index_mod";									
@@ -149,6 +152,9 @@ function triggerInstall()
 					break;
 					case "contact_manager":
 						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/contact_manager";									
+					break;
+					case "final_config"	:
+						action	=	"<?php echo $this->core->url->site_url(array('install','installApp'));?>/final_config";									
 					break;
 				}
 				$.ajax({

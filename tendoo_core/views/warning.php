@@ -6,7 +6,7 @@
 <?php echo $this->core->file->css_load();?>
 </head>
 
-<body style="" cz-shortcut-listen="true">
+<body cz-shortcut-listen="true" id="backgroundLogin">
 <section id="content">
     <div class="row m-n">
         <div class="col-sm-6 col-sm-offset-3">
@@ -22,7 +22,12 @@
 </section>
 <!-- footer -->
 <?php echo $this->core->file->js_load();?>
-<footer id="footer">
-</footer>
 </body>
+<style type="text/css">
+    #backgroundLogin{
+        background:url(<?php echo img_url($this->core->tendoo->getBackgroundImage());?>) ;
+        background-position:0 0;
+        background-repeat: no-repeat;
+    }
+</style>
 </html>

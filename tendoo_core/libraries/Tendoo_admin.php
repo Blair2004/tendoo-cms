@@ -24,7 +24,7 @@ class Tendoo_admin
 	{
 		return $this->tendoo->getPage($e);
 	}
-	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'',$keywords = '') // Obsolète
+	public function controller($name,$cname,$mod,$title,$description,$main,$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'',$keywords = '')
 	{
 		if(in_array($cname,$this->reservedControllers)): return 'cantUserReservedCNames'; endif; // ne peut utiliser les cname reservés.
 		if($childOf == strtolower($cname)) : return 'cantHeritFromItSelf' ;endif; // Ne peut être sous menu de lui même
@@ -355,9 +355,9 @@ class Tendoo_admin
 		$query				=	$this->db->get('tendoo_modules');
 		return $query->num_rows();
 	}
-	public function moduleActivation($id,$install_dir = "activateFromInstallInterface")
+	public function moduleActivation($id,$install_dir = "using_id")
 	{
-		if($install_dir == "activateFromInstallInterface")
+		if($install_dir == "using_id")
 		{
 			$mod	=	$this->getSpeMod($id,TRUE);
 			if($mod)
@@ -365,18 +365,44 @@ class Tendoo_admin
 				$this->db->where('ID',$id)->update('tendoo_modules',array(
 					'ACTIVE'	=>	1
 				));
-				$this->url->redirect(array('admin','modules'));
-				return true;
+				return $mod;
 			}
 			return false;
 		}
-		else if($install_dir	==	"activateFromInstallInterface")
+		else if($install_dir	==	"using_namespace")
 		{
 			$mod	=	$this->getSpeModuleByNamespace($id);
 			if($mod)
 			{
 				$this->db->where('NAMESPACE',$id)->update('tendoo_modules',array(
 					'ACTIVE'	=>	1
+				));
+				return $mod;
+			}
+			return false;
+		}
+	}
+	public function moduleUnactivate($id,$install_dir = "using_id")
+	{
+		if($install_dir == "using_id")
+		{
+			$mod	=	$this->getSpeMod($id,TRUE);
+			if($mod)
+			{
+				$this->db->where('ID',$id)->update('tendoo_modules',array(
+					'ACTIVE'	=>	0
+				));
+				return $mod;
+			}
+			return false;
+		}
+		else if($install_dir	==	"using_namespace")
+		{
+			$mod	=	$this->getSpeModuleByNamespace($id);
+			if($mod)
+			{
+				$this->db->where('NAMESPACE',$id)->update('tendoo_modules',array(
+					'ACTIVE'	=>	0
 				));
 				return $mod;
 			}

@@ -351,7 +351,7 @@ class Tendoo
 		{
 			// Installe le thème par défaut.
 			$appFile				=		array();
-			$appFile['temp_dir']	=		'5cb1d33aedd57193149db9a852525a1b';
+			$appFile['temp_dir']	=		'tendoo_nevia_30394828273Df9df9f_SneuoOCiaonzodpZda';
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 			$installed_theme		=		$this->tendoo_admin->getThemes();
 			// Set first Installed theme as default
@@ -364,14 +364,19 @@ class Tendoo
 			$appFile['temp_dir']	=		'0844d4336594171ad349b41c24adc407';
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$module					=		$this->tendoo_admin->moduleActivation('news',"activateFromInstallInterface");
+			$module					=		$this->tendoo_admin->moduleActivation('news',"using_namespace");
 			if($module)
 			{
-				$this->tendoo_admin->controller('Blog','blog','news',$option[0]['SITE_NAME'].' - Blog','Aucune description enregistr&eacute;e','FALSE');
 				$module				=		$this->getSpeModuleByNamespace('news');
 				include_once(MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/library.php');
-				$lib				=	new News(null);
+				$lib				=		new News(array(
+					'module'		=>		$module
+				));
+				$lib_				=		new News_smart(array(
+					'module'		=>		$module
+				));
 				$lib->createCat('Cat&eacute;gorie sans nom','Tous les articles listés dans la catégor');
+				// First Article
 				$lib->publish_news(
 					$title 			=	'Bienvenue sur Tendoo '.$this->getVersId(),
 					$content 		=	'Voici votre premier article, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles. Vous pouvez également effectuer des programmations d\'articles, afin que ces derniers soient publiés automatiquement à des dates précises. <br>Merci d\'avoir choisi Tendoo.',
@@ -384,6 +389,23 @@ class Tendoo
 					$scheduledDate	=	FALSE,
 					$scheduledTime	=	FALSE
 				);
+				// Fist Comments
+				$lib_->postComment(
+					1,
+					"Bonjour, voici un commentaire publier par ... vous. Vous pouvez le supprimer depuis l\'interface de l\'application blogster",
+					"John Doe",
+					"support@tendoo.org",
+					$interface	=	'system',
+					$user_id	=	0
+				);
+				$lib_->postComment(
+					1,
+					"Voici un autre commentaire, nous participons à ce nouveau blog :D",
+					"Cathy Verana",
+					"support@tendoo.org",
+					$interface	=	'system',
+					$user_id	=	0
+				);
 			}
 		}
 		else if($app	==	'tendoo_index_mod')
@@ -393,11 +415,7 @@ class Tendoo
 			$appFile['temp_dir']	=		'41dea5f466452b1555f1fa7d1930d39a';
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$module					=		$this->tendoo_admin->moduleActivation('tendoo_index_manager',"activateFromInstallInterface");
-			if($module)
-			{
-				$this->tendoo_admin->controller('Accueil','home','Tendoo_index_manager',$option[0]['SITE_NAME'].' - Accueil','Aucune description enregistr&eacute;e','TRUE',$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'');
-			}
+			$module					=		$this->tendoo_admin->moduleActivation('tendoo_index_manager',"using_namespace");
 		}
 		else if($app	==	'file_manager')
 		{
@@ -407,7 +425,7 @@ class Tendoo
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 
-			$module					=		$this->tendoo_admin->moduleActivation('tendoo_contents',"activateFromInstallInterface");
+			$module					=		$this->tendoo_admin->moduleActivation('tendoo_contents',"using_namespace");
 		}
 		else if($app	==	'widget_admin')
 		{
@@ -417,10 +435,7 @@ class Tendoo
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 
-			$module					=		$this->tendoo_admin->moduleActivation('tendoo_widget_administrator',"activateFromInstallInterface");
-			if($module == TRUE)
-			{
-			}
+			$module					=		$this->tendoo_admin->moduleActivation('tendoo_widget_administrator',"using_namespace");
 		}
 		else if($app	==	'pageEditor')
 		{
@@ -428,7 +443,7 @@ class Tendoo
 			$appFile['temp_dir']	=		'pageCreater5f9ba355e99f884cc5178';
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$this->tendoo_admin->moduleActivation('pages_editor',FALSE);
+			$this->tendoo_admin->moduleActivation('pages_editor',"using_namespace");
 		}
 		else if($app	==	'contact_manager')
 		{
@@ -436,17 +451,33 @@ class Tendoo
 			$appFile['temp_dir']	=		'tendoo_app_6201401230210406wgIlkG5CkcJT7u3DKMOO';
 			$option					=		$this->getOptions();
 			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$module				=	$this->tendoo_admin->moduleActivation('tendoo_contact_handler',FALSE);
+			$module				=	$this->tendoo_admin->moduleActivation('tendoo_contact_handler',"using_namespace");
 			if($module)
 			{
-				$this->tendoo_admin->controller('Accueil','home','Tendoo_contact_handler',$option[0]['SITE_NAME'].' - Accueil','Aucune description enregistr&eacute;e','TRUE',$obj = 'create',$id = '',$visible	=	'TRUE',$childOf= 'none',$page_link	=	'');
-				$this->db->insert('Tendoo_contact_handler_option',array(
+				$this->core->db->insert('Tendoo_contact_handler_option',array(
 					'SHOW_NAME'			=>		1,
 					'SHOW_MAIL'			=>		1
 				));
 			}
-
 		}
+		else if($app	==	'final_config')
+		{
+			// Creating All Pages controllers here
+			$this->tendoo_admin->createControllers(array(
+				'title'			=>	array('Accueil','blog','contact'),
+				'description'	=>	array('Accueil du site','Section blog','Section de contact'),
+				'main'			=>	array('TRUE','FALSE','FALSE'),
+				'module'		=>	array('tendoo_index_manager','news','tendoo_contact_handler'),
+				'parent'		=>	array('none','none','none'),
+				'name'			=>	array('accueil','blog','contact'),
+				'cname'			=>	array('accueil','blog','contact'),
+				'keywords'		=>	array('accueil','blog','contact'),
+				'link'			=>	array('','',''),
+				'visible'		=>	array('TRUE','TRUE','TRUE'),
+				'id'			=>	array(1,2,3),
+			));	
+		}
+		
 	}
 	public function connectToDb()
 	{
@@ -489,7 +520,7 @@ class Tendoo
 		";
 		$file = fopen('tendoo_core/config/tendoo_config.php','w+');
 		fwrite($file,$string_config);
-		fclose($file);		
+		fclose($file);
 	}
 	public function attemptConnexion($host,$user,$pass,$db_name,$type,$extension)
 	{
@@ -499,7 +530,7 @@ class Tendoo
 		$config['password'] = $pass;
 		$config['database'] = $db_name;
 		$config['dbdriver'] = $type;
-		$config['dbprefix'] = $extension;
+		$config['dbprefix'] = (!preg_match('#^tendoo#',$extension)) ? $extension : 'td_';
 		$config['pconnect'] = TRUE;
 		$config['db_debug'] = TRUE;
 		$config['cache_on'] = FALSE;
