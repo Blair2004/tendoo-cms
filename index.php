@@ -2,11 +2,18 @@
 // Started on 24/04/2014
 session_start();
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+// Définition du timeZone par défaut
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+date_default_timezone_set('UTC');
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 /* =-=-=-=-=-=-Tendoo SCRIPT DU NOYAU(2014)-=-=-=-=-=-=-=-= */
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-/*
-		Définition des constances
-*/
+/**
+*		Définition des constantes
+**/
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+define('SITE_TIMEZONE',date_default_timezone_get());
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('TENDOO_VERSION','0.98');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('TENDOO_SIGNATURE','Tendoo - CMS('.TENDOO_VERSION.')');
@@ -39,6 +46,7 @@ include_once(SYSTEM_DIR.'Controller.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LOAD CLASSES -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 /* Chargement des diffirents class qui seront utilisées dans le noyau */
 include_once(LIBRARIES_DIR.'Lang.php');
+include_once(LIBRARIES_DIR.'File.php');
 include_once(LIBRARIES_DIR.'Url.php');
 include_once(LIBRARIES_DIR.'Exceptions.php');
 include_once(LIBRARIES_DIR.'Helper.php');
