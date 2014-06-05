@@ -1,0 +1,80 @@
+.tendoo_success
+{
+	padding:1%;
+	width:98%;
+	display:inline-block;
+	background:#00a300;
+	color:#EEE;
+	margin-bottom:10px;
+}
+.tendoo_notice
+{
+	padding:1%;
+	width:98%;
+	display:inline-block;
+	background:#6CB6FF;
+	color:#FFF;
+	margin-bottom:10px;
+}
+.tendoo_error, .tendoo_warning
+{
+	padding:1%;
+	width:98%;
+	display:inline-block;
+	background:#FF5B5B;
+	color:#FFF;
+	margin-bottom:10px;
+}
+.style_1 label
+{
+	line-height:20px;
+	display:block;
+}
+.style_1 textarea
+{
+	min-height:200px;
+	padding:1%;
+	width:98%;
+}
+.icon-grid .G-icon
+{
+	width:64px;
+	height:64px;
+	display:inline-block;
+	margin-bottom:5px;
+	margin-top:5px;
+}
+.tendoo-icon-set
+{
+	width:100px;
+	height:120px;
+	border:solid 1px #BBB;
+	border-right:solid 3px #BBB;
+	border-bottom:solid 3px #BBB;
+	border-radius:5px;
+	text-align:center;
+	box-shadow: linear-gradient(top #EEE #333);
+	float:left;
+	margin: 0 20px 20px 0;
+	background:#EEE;
+}
+.tendoo-icon-set .badge
+{
+	position:relative;
+	float:right;
+	right:-8px;
+	top:-8px;
+}
+.tendoo-icon-set:hover
+{
+	cursor:pointer;
+	background:#F7F7F7;
+}
+.placeholder:hover
+{
+	cursor:pointer;
+}
+.placeholder
+{
+	border:dashed 1px #BBB;background:#EEE;text-align:center;padding:20px 15px;margin-bottom:20px;
+}
