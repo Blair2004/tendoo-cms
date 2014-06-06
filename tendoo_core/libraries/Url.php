@@ -256,7 +256,9 @@ Class Url
 				{
 					if($this->splited_url[2-$index] == 'index.php')
 					{
-						$this->controller	=	$this->splited_url[3-$index] != '' ? $this->splited_url[3-$index] : 'index';
+						$this->controller	=	!array_key_exists(3-$index,$this->splited_url) ? 
+							(($this->splited_url[3-$index] != '') ? $this->splited_url[3-$index] : 'index') :
+								'index';
 						if(array_key_exists(4-$index,$this->splited_url))
 						{
 							if(!in_array($this->splited_url[4-$index],array('','index.php')))
