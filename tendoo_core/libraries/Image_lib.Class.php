@@ -1489,7 +1489,7 @@ class Image_lib { // Ci_Image_lib
 	 */
 	function set_error($msg)
 	{
-		$CI =	Controller::instance();
+		$CI =	get_instance();
 		$CI->lang->load('imglib');
 
 		if (is_array($msg))

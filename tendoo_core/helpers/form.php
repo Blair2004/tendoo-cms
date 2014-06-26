@@ -871,6 +871,7 @@ if ( ! function_exists('form_error'))
 {
 	function form_error($field = '', $prefix = '', $suffix = '')
 	{
+
 		if (FALSE === ($OBJ =& _get_validation_object()))
 		{
 			return '';
@@ -897,6 +898,7 @@ if ( ! function_exists('validation_errors'))
 {
 	function validation_errors($prefix = '', $suffix = '')
 	{
+		$instance	=	get_instance();
 		if (FALSE === ($OBJ =& _get_validation_object()))
 		{
 			return '';
@@ -1029,18 +1031,13 @@ if ( ! function_exists('_get_validation_object'))
 {
 	function &_get_validation_object()
 	{
-		$CI = Controller::instance();
+		$CI = get_instance();
 		// We set this as a variable since we're returning by reference.
 		$return = FALSE;
-		if (FALSE !== ($object = $CI->load->is_loaded('form_validation')))
+		if(isset($CI->form_validation))
 		{
-			if ( ! isset($CI->$object) OR ! is_object($CI->$object))
-			{
-				return $return;
-			}
-			return $CI->$object;
+			return $CI->form_validation;
 		}
-		
 		return $return;
 	}
 }

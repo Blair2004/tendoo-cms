@@ -899,19 +899,19 @@ class Upload {
 	 */
 	public function set_error($msg)
 	{
-		$CI = Controller::instance();
+		$CI = get_instance();
 		$CI->lang->load('upload');
 
 		if (is_array($msg))
 		{
 			foreach ($msg as $val)
 			{
-				$CI->notice->push_notice(notice($val));
+				$CI->notice->push_notice(fetch_error($val));
 			}
 		}
 		else
 		{
-			$CI->notice->push_notice(notice($msg));
+			$CI->notice->push_notice(fetch_error($msg));
 		}
 	}
 

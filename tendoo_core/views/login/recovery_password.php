@@ -1,6 +1,6 @@
     <div class="container">
         <div class="row">
-			<?php echo $this->core->notice->parse_notice();?>
+			<?php echo output('notice');?>
             <?php echo validation_errors();?>
             <div class="col-lg-6 col-lg-offset-3">
                 <section class="panel">

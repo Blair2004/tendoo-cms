@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="description" content="<?php echo $this->tendoo->getDescription();?>">
-<title><?php echo $this->tendoo->getTitle();?></title>
+<title><?php echo get_page('title');?></title>
 <?php echo $this->file->css_load();?>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>

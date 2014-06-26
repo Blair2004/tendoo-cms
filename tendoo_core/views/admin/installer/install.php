@@ -6,7 +6,7 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
                         <p class="block text-muted">Installer une application Tendoo</p>
                     </div>
                      <div class="col-sm-8">
@@ -38,15 +38,15 @@
             <section class="vbox">
                 <section class="wrapper w-f"> 
                 	<?php echo validation_errors('<p class="error">', '</p>');?>
-					<?php echo notice_from_url();?>
-					<?php echo $this->core->notice->parse_notice();?>
+					<?php echo fetch_error_from_url();?>
+					<?php echo output('notice');?>
                     <div class="row">
                     	<div class="col-lg-6">
                         	<section class="panel">
                             	<div class="panel-heading">Envoyer un fichier</div>
                                 <form method="post" class="panel-body" enctype="multipart/form-data">
                                 	<div class="form-group">
-                                    	<p>Installer une application. Le fichier doit n&eacute;cessairement est constitu&eacute; sous forme de fichier zip. Cette application doit &ecirc;tre compatible avec la verison actuelle du CMS. la version actuelle est : <strong><?php echo $this->core->tendoo->getVersion();?></strong>. Assurez-vous d'avoir t&eacute;l&eacute;charger cette application depuis un emplacement s&ucirc;r.</p>
+                                    	<p>Installer une application. Le fichier doit n&eacute;cessairement est constitu&eacute; sous forme de fichier zip. Cette application doit &ecirc;tre compatible avec la verison actuelle du CMS. la version actuelle est : <strong><?php echo get('core_version');?></strong>. Assurez-vous d'avoir t&eacute;l&eacute;charger cette application depuis un emplacement s&ucirc;r.</p>
                                         <label class="control-label">Application Tendoo</label>
                                         <input name="installer_file" type="file" class="form-control">
                                     </div>
@@ -59,7 +59,7 @@
                             	<div class="panel-heading">Depuis une adresse url</div>
                                 <form method="post" class="panel-body" enctype="multipart/form-data">
                                 	<div class="form-group">
-                                    	<p>L'adresse vers laquelle le fichier d'installation de l'application Tendoo sera t&eacute;l&eacute;charger doit être une adresse valide, Assurez-vous que le fichier &agrave; t&eacute;l&eacute;charger soit un fichier compatible &agrave; la version actuelle de tendoo. La version actuelle est : <strong><?php echo $this->core->tendoo->getVersion();?></strong>. </p>
+                                    	<p>L'adresse vers laquelle le fichier d'installation de l'application Tendoo sera t&eacute;l&eacute;charger doit être une adresse valide, Assurez-vous que le fichier &agrave; t&eacute;l&eacute;charger soit un fichier compatible &agrave; la version actuelle de tendoo. La version actuelle est : <strong><?php echo get('core_version');?></strong>. </p>
                                         <p class="control-label"><strong>Application Tendoo</strong></p>
                                         <div class="row">
                                             <div class="col-lg-7">

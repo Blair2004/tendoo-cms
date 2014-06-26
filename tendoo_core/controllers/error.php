@@ -1,26 +1,27 @@
 <?php 
-class error
+class error extends Libraries
 {
 	private $data;
-	private $core;
+	private $instance;
 	public function __construct()
 	{
-		$this->core				=	Controller::instance();
-		$this->core->load->library('notice');
-		$this->core->load->library('Tendoo');
-		if($this->core->tendoo->connectToDb()) // On connecte si 
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		parent::__construct();
+		__extends($this);
+		$this->instance					=	get_instance();
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$this->load->library('install');
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		if($this->instance->db_connected()) // On connecte si 
 		{
-			$this->core->load->library('users_global');
-			$this->data['options']	=	$this->core->tendoo->getOptions();
+			$this->load->library('users_global');
+			$this->data['options']		=	$this->options->get();
 		}
 		else
 		{
-			$this->core->users_global	=	FALSE;
+			$this->users_global			=	FALSE;
 			$this->data['options']		=	FALSE;
 		}
-		$this->data['notice']	=	'';
-		$this->data['error']	=	'';
-		$this->data['success']	=	'';
 	}
 	public function index($e = '')
 	{
@@ -28,17 +29,19 @@ class error
 	}
 	public function code($e)
 	{
-		$this->data['file']	=&	$this->core->file;
-		$this->data['code']	=	$this->core->notice->push_notice(notice($e));
-		$this->data['body']	=	$this->core->load->view('error/inner_body',$this->data,TRUE);
-		$this->core->tendoo->setTitle('Erreur - Tendoo');
-		$this->core->file->css_push('font');
-		$this->core->file->css_push('app.v2');
-		$this->core->file->css_push('css1');
-		$this->core->file->css_push('css2');
-		$this->core->file->css_push('tendoo_global');
-		$this->core->load->view('header',$this->data);
-		$this->core->load->view('error/global_body',$this->data);
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$this->data['code']				=	notice('push',fetch_error($e));
+		$this->data['body']				=	$this->load->view('error/inner_body',$this->data,TRUE);
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		set_page('title','Erreur - Tendoo');
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$this->file->css_push('font');
+		$this->file->css_push('app.v2');
+		$this->file->css_push('tendoo_global');
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$this->load->view('header',$this->data);
+		$this->load->view('error/global_body',$this->data);
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	}
 }
 

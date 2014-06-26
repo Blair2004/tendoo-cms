@@ -16,7 +16,7 @@ class Form_validation {
 	 */
 	public function __construct($rules = array())
 	{
-		$this->CI = Controller::instance();
+		$this->CI = get_instance();
 
 		// Validation rules can be stored in a config file.
 		$this->_config_rules = $rules;
@@ -196,7 +196,7 @@ class Form_validation {
 			$suffix = $this->_error_suffix;
 		}
 
-		return $prefix.$this->_field_data[$field]['error'].$suffix;
+		return tendoo_warning($this->_field_data[$field]['error']);
 	}
 
 	// --------------------------------------------------------------------
@@ -230,16 +230,16 @@ class Form_validation {
 		}
 
 		// Generate the error string
-		$str = '';
+		$str = '<ul style="">';
 		foreach ($this->_error_array as $val)
 		{
 			if ($val != '')
 			{
-				$str .= $prefix.$val.$suffix."\n";
+				$str .= "<li>".$val."</li>";
 			}
 		}
-
-		return $str;
+		$str	.= "</ul>";
+		return tendoo_warning($str); // We're Using Tendoo So :D
 	}
 
 	// --------------------------------------------------------------------

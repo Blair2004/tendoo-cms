@@ -13,9 +13,9 @@
       <header>
       <div class="row b-b m-l-none m-r-none">
         <div class="col-sm-4">
-          <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
+          <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
           <p class="block text-muted">
-            <?php echo $pageDescription;?>
+            <?php echo get_page('description');?>
           </p>
         </div>
       </div>
@@ -30,7 +30,7 @@
 						<?php
 						echo tendoo_warning('N\'effectuez cette op&eacute;ration que si vous savez ce que vous faites. Le sitemap permet aux moteurs de recherche de correctement ajouter votre site dans leurs r&eacute;sultats.');
 						?>
-						<form fjax method="POST" action="<?php echo $this->core->url->site_url(array('admin','ajax','sm_manual'));?>">
+						<form fjax method="POST" action="<?php echo $this->instance->url->site_url(array('admin','ajax','sm_manual'));?>">
 							<div class="form-group">
 								<textarea name="sitemap" class="form-control" rows="10"><?php echo $getSitemap;?></textarea>
 							</div>
@@ -39,7 +39,7 @@
 							</div>
 						</form>
 						<hr class="line">
-						<form fjax method="POST" action="<?php echo $this->core->url->site_url(array('admin','ajax','sm_remove'));?>">
+						<form fjax method="POST" action="<?php echo $this->instance->url->site_url(array('admin','ajax','sm_remove'));?>">
 							<div class="form-group">
 								<input type="submit" name="sm_remove" class="btn btn-danger" value="Supprimer le sitemap">
 							</div>

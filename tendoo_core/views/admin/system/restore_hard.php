@@ -4,7 +4,7 @@
         <div class="page-header" style="position:relative;">
             <div class="page-header-content">
                 <h1><?php echo $pageTitle;?><small></small></h1>
-            <a class="back-button big page-back" href="<?php echo $this->core->url->site_url(array('admin','menu'));?>"></a></div>
+            <a class="back-button big page-back" href="<?php echo $this->instance->url->site_url(array('admin','menu'));?>"></a></div>
         </div>
         <?php echo $lmenu;?>          
         <div class="page-region">
@@ -13,8 +13,8 @@
                     <div class="hub_table">
                         <div>
 							<?php echo validation_errors('<p class="error">', '</p>');?>
-                            <?php $this->core->notice->parse_notice();?>
-                            <?php echo notice_from_url();?>
+                            <?php output('notice');?>
+                            <?php echo fetch_error_from_url();?>
                         </div>
                         <br />
                         <h3>Avis sur la restauration brutale</h3>

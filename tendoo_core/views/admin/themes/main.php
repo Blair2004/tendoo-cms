@@ -27,13 +27,13 @@
         <header>
             <div class="row b-b m-l-none m-r-none">
                 <div class="col-sm-4">
-                    <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
+                    <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
                     <p class="block text-muted">Liste des th&egrave;mes install&eacute;s</p>
                 </div>
             </div>
         </header>
         <section class="vbox">
-            <section class="wrapper w-f"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?>
+            <section class="wrapper w-f"> <?php echo output('notice');?> 
                 <div class="row themes_grid">
                     <?php 
 	if(isset($Themes))
@@ -58,7 +58,7 @@
                     <div class="col-lg-3 theme_head" 
                     	data-theme_id="<?php echo $t['ID'];?>" 
                         data-theme_name="<?php echo $t['HUMAN_NAME'];?>"
-                        data-theme_thumb="<?php echo $this->core->tendoo_admin->getThemeThumb($t['ID']);?>"
+                        data-theme_thumb="<?php echo $this->instance->tendoo_admin->getThemeThumb($t['ID']);?>"
                         data-theme_author="<?php echo $t['AUTHOR'];?>"
                         data-theme_version="<?php echo $t['APP_VERS'];?>"
 					>
@@ -68,8 +68,8 @@
                                 <ul class="nav nav-pills pull-right">
                                     <li> <a href="#" class="panel-toggle text-muted active"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
                                 </ul>
-                                <a class="view" href="<?php echo $this->core->url->site_url(array('admin','themes','config',$t['ID']));?>"><?php echo $t['HUMAN_NAME'];?></a> </header>
-                            <div class="panel-body clearfix"> <img src="<?php echo $this->core->tendoo_admin->getThemeThumb($t['ID']);?>" style="width:100%;min-height:203px;"> </div>
+                                <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','themes',$t['NAMESPACE']));?>"><?php echo $t['HUMAN_NAME'];?></a> </header>
+                            <div class="panel-body clearfix"> <img src="<?php echo $this->instance->tendoo_admin->getThemeThumb($t['ID']);?>" style="width:100%;min-height:203px;"> </div>
                             <footer class="panel-footer">
                                 <div class="actions">
                                     <button type="button" data-action="ADMITSETDEFAULT" class="btn btn-white btn-sm">Activer</button>
@@ -125,7 +125,7 @@
 					var themeID			=	$(dom).closest('.theme_head').data('theme_id');
 					var action			=	$(dom).data('action');
 					tendoo.doAction(
-					'<?php echo $this->core->url->site_url(array('admin','themes','manage'));?>'+'/'+themeID
+					'<?php echo $this->instance->url->site_url(array('admin','themes','manage'));?>'+'/'+themeID
 					,function(e){
 						tendoo.triggerAlert(e);
 						if(e.status == 'success')

@@ -2,7 +2,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-offset-3">
             	<?php echo validation_errors();?>
-				<?php echo $this->core->notice->parse_notice();?>
+				<?php echo output('notice');?>
                 <section class="panel">
                     <header class="panel-heading"><h4>Recevoir un mail d'activation</h4></header>
                     <section class="chat-list panel-body">

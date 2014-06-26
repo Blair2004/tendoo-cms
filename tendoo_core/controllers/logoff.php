@@ -1,29 +1,29 @@
 <?php
 Class logoff
 {
-	private $core;
+	private $instance;
 	private $user_global;
 	private $load;
 	public function __construct()
 	{
-		$this->core			=	Controller::instance();
-		$this->core->load->library('session');
-		$this->core->load->library('users_global');
-		$this->users_global	=&	$this->core->users_global;
-		$this->load			=&	$this->core->load;
+		$this->instance			=	get_instance();
+		$this->instance->load->library('session');
+		$this->instance->load->library('users_global');
+		$this->users_global	=&	$this->instance->users_global;
+		$this->load			=&	$this->instance->load;
 		// Has admin ?
-		($this->users_global->hasAdmin()=== FALSE) ? $this->core->url->redirect(array('resgistration','superAdmin')) : false;
+		($this->users_global->hasAdmin()=== FALSE) ? $this->instance->url->redirect(array('resgistration','superAdmin')) : false;
 	}
 	// Privates Methods
 	public function index()
 	{
-		$this->core->users_global->closeUserSession();
-		$this->core->url->redirect(array('index'));
+		$this->instance->users_global->closeUserSession();
+		$this->instance->url->redirect(array('index'));
 	}
 	public function tologin()
 	{
 		$redirect	=	isset($_GET['ref']) ? $_GET['ref'] : '';
-		$this->core->users_global->closeUserSession();
-		$this->core->url->redirect(array('login','modal?ref='.$redirect));
+		$this->instance->users_global->closeUserSession();
+		$this->instance->url->redirect(array('login','modal?ref='.$redirect));
 	}
 }

@@ -7,8 +7,8 @@
 <header>
     <div class="row b-b m-l-none m-r-none">
         <div class="col-sm-4">
-            <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-            <p class="block text-muted"><?php echo $pageDescription;?></p>
+            <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+            <p class="block text-muted"><?php echo get_page('description');?></p>
         </div>
     </div>
 </header>
@@ -20,7 +20,7 @@
       	<div class="panel-body">
          	<div class="row">
             	<div class="col-lg-8">
-                 <h1>D&eacute;couvrir <?php echo $this->tendoo->getVersion();?></h1>
+                 <h1>D&eacute;couvrir <?php echo get('core_version');?></h1>
                  <br />
                  Pour commencer l'équipe vous remercie d'avoir choisi Tendoo comme utilitaire de création de site web. Nous allons dès à présent vous donner les réelles raisons pour lesquelles vous allez nous faire confiance.<br />
                  <h4>Tendoo répondra à vos besoins</h4>
@@ -103,7 +103,7 @@
 				</div>
 			</div>
 			<h3>Une plateforme</h3>
-			<p>Pour cr&eacute;er une plateforme, vous aurez besoin de combiner plusieurs modules, et effectuer un certains nombre de configuration. Notez que Tendoo dispose des outils pour vous permettre de mettre sur pied une plateforme tels que Badoo.com, Twoo.com et encore plus...</p>
+			<p>Pour cr&eacute;er une plateforme, vous aurez besoin de combiner plusieurs modules, et effectuer un certains nombre de configuration. Notez que Tendoo dispose des outils pour vous permettre de mettre sur pied une plateforme tels que Badoo.com, Twoo.com et eninstance plus...</p>
          </div>
       </div>
 	  <div class="panel">

@@ -1,20 +1,18 @@
 <?php
-Class users_global
+Class users_global extends Libraries
 {
-	private $core;
-	private $current;
-	private $user_connected;
-	private $connection_status;
-	private $superAdmin;
 	public function __construct()
 	{
+		parent::__construct();
+		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
+		$this->db			=	get_db();
+		$this->instance		=	get_instance();
+		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
+		$this->createUserAvatarDir();
+		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->superAdmin	=	'NADIMERPUS';
 		$this->user			=	'RELPIMSUSE';
-		$this->core		=	Controller::instance();
-		$this->session	=&	$this->core->session;
-		$this->db		=&	$this->core->db;
-		$this->tendoo	=&	$this->core->tendoo;
-
+		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->connection_status	=	FALSE;
 		if($this->cookiesLogin() == FALSE) // in case there is no cookies created else autUser will be called with encrypt process disabled.
 		{
@@ -27,6 +25,46 @@ Class users_global
 				);
 			}
 		}
+		$this->menuStatus	=	'show_menu';
+	}
+	public function createUserAvatarDir()
+	{
+		if(!is_dir(ASSETS_DIR.'/img/avatars'))
+		{
+			mkdir(ASSETS_DIR.'/img/avatars');
+		}
+	}
+	/**
+	*	setAvatarSetting : définit les options d'avatar et des profils vers les réseau sociaux.
+	**/
+	public function setAvatarSetting($facebook_profile,$google_plus_profile,$twitter_profile,$avatar_usage = 'system',$avatar_file = null)
+	{
+		if(isset($_FILES[ $avatar_file ]))
+		{
+			$config['upload_path'] 		= ASSETS_DIR.'img/avatars';
+			$config['allowed_types']	= 'gif|jpg|png';
+			$config['max_size']			= '100';
+			$config['max_width']  		= '300';
+			$config['max_height']  		= '300';
+			$config['file_name']		= 'avatar_'.$this->current('PSEUDO');
+			$config['overwrite']		=	TRUE;
+			$this->load->library('upload', $config);
+			
+			
+			if($this->upload->do_upload($avatar_file))
+			{
+				$upload_data				=	$this->upload->data();
+				$this->setUserElement('AVATAR_LINK',$this->url->main_url().$config[ 'upload_path' ] .'/'. $upload_data[ 'file_name' ]);
+			}
+		}
+		if(in_array($avatar_usage,array('facebook','twitter','google','system')))
+		{
+			$this->setUserElement('AVATAR_TYPE',$avatar_usage);
+		}
+		$this->setUserElement('FACEBOOK_PROFILE',$facebook_profile);
+		$this->setUserElement('GOOGLE_PROFILE',$google_plus_profile);
+		$this->setUserElement('TWITTER_PROFILE',$twitter_profile);
+		return true;
 	}
 	public function cookiesLogin()
 	{
@@ -60,7 +98,7 @@ Class users_global
 		    'prefix' => '',
 		    'secure' => FALSE
 		);
-		$this->core->input->set_cookie($cookie_pseudo);
+		$this->input->set_cookie($cookie_pseudo);
 		$cookie_password	=	array(
 		    'name'   => 'UPSW',
 		    'value'  => $password,
@@ -70,7 +108,7 @@ Class users_global
 		    'prefix' => '',
 		    'secure' => FALSE
 		);
-		$this->core->input->set_cookie($cookie_password);
+		$this->input->set_cookie($cookie_password);
 	}
 	public function systemPrivilege()
 	{
@@ -115,7 +153,7 @@ Class users_global
 			$array['SEX']		=	($sexe	==	'MASC') ? 'MASC' : 'FEM';
 			$array['EMAIL']		=	$email;
 			$array['PRIVILEGE']	=	'NADIMERPUS';
-			$array['REG_DATE']	=	$this->tendoo->datetime();
+			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	'TRUE';
 			$array['ADMIN_THEME']	=	1; // Added 0.9.7
 			$array['FIRST_VISIT']	=	1; // 
@@ -135,8 +173,8 @@ Class users_global
 			{
 				return 'emailUsed';
 			}
-			$this->core->load->library('Tendoo_admin');
-			if(!$this->core->tendoo_admin->isPublicPriv($priv_id)) // Si le priv n'est pa public
+			$this->load->library('Tendoo_admin');
+			if(!$this->tendoo_admin->isPublicPriv($priv_id)) // Si le priv n'est pa public
 			{
 				$priv_id = 'RELPIMSUSE';
 			}
@@ -145,7 +183,7 @@ Class users_global
 			$array['SEX']		=	($sexe	==	'MASC') ? 'MASC' : 'FEM';
 			$array['EMAIL']		=	$email;
 			$array['PRIVILEGE']	=	$priv_id;
-			$array['REG_DATE']	=	$this->tendoo->datetime();
+			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	$active;
 			$array['ADMIN_THEME']	=	1; // Added 0.9.7
 			$array['FIRST_VISIT']	=	1; // 
@@ -175,7 +213,7 @@ Class users_global
 			$array['EMAIL']		=	$email;
 			$array['SEX']		=	($sexe	==	'MASC') ? 'MASC' : 'FEM';
 			$array['PRIVILEGE']	=	($privilege == 'NADIMERPUS') ? 'RELPIMSUSE' : $privilege;
-			$array['REG_DATE']	=	$this->tendoo->datetime();
+			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	$active;
 			$array['ADMIN_THEME']	=	1; // Added 0.9.7
 			$array['FIRST_VISIT']	=	1; // 
@@ -209,7 +247,7 @@ Class users_global
 	}
 	public function activateUser($id)
 	{
-		return $this->core->db->where('ID',$id)->update('tendoo_users',array('ACTIVE'=>'TRUE'));
+		return $this->db->where('ID',$id)->update('tendoo_users',array('ACTIVE'=>'TRUE'));
 	}
 	public function authUser($pseudo,$password,$stay = FALSE,$encrypt_password = TRUE)
 	{
@@ -253,7 +291,26 @@ Class users_global
 				$this->current['ADMIN_PAGES_VISIT']		=	$data[0]['ADMIN_PAGES_VISIT'];
 				$this->current['ADMIN_APPS_VISIT']		=	$data[0]['ADMIN_APPS_VISIT'];
 				$this->current['ADMIN_SETTINGS_VISIT']	=	$data[0]['ADMIN_SETTINGS_VISIT'];
+				// Tendoo 0.9.9
+				// Avatar Support
 				$this->current['ADMIN_SYSTEM_VISIT']	=	$data[0]['ADMIN_SYSTEM_VISIT'];
+				$this->current['AVATAR_LINK']			=	
+					$data[0]['AVATAR_LINK'] == '' ? 
+						img_url('avatar_default.jpg')	:	$data[0]['AVATAR_LINK'];				
+					
+				$this->current['AVATAR_TYPE']			=	($data[0]['AVATAR_TYPE'] == '') ? 'system' : $data[0]['AVATAR_TYPE'];
+				$this->current['GOOGLE_PROFILE']		=	$data[0]['GOOGLE_PROFILE'];
+				$this->current['FACEBOOK_PROFILE']		=	$data[0]['FACEBOOK_PROFILE'];
+				$this->current['TWITTER_PROFILE']		=	$data[0]['TWITTER_PROFILE'];
+				if($data[0]['AVATAR_TYPE'] == 'system')
+				{
+					$this->current['AVATAR']			=	($data[0]['AVATAR_LINK'] == '') ? img_url('avatar_default.jpg') : $data[0]['AVATAR_LINK'];
+				}
+				else if(in_array($data[0]['AVATAR_TYPE'],array('facebook','google','twitter')))
+				{
+					$this->current['AVATAR']			=	($data[0][strtoupper($data[0]['AVATAR_TYPE']). '_PROFILE'] == '') ? img_url('avatar_default.jpg') : $data[0][strtoupper($data[0]['AVATAR_TYPE']). '_PROFILE'];
+				}
+				
 				if($stay == TRUE)
 				{
 					if($encrypt_password == TRUE)
@@ -279,7 +336,7 @@ Class users_global
 	}
 	public function sendValidationMail($email)
 	{
-		$option	=	$this->core->tendoo->getOptions();
+		$option	=	$this->instance->options->get();
 		$user	=	$this->emailExist($email);
 		if($user)
 		{
@@ -295,13 +352,13 @@ Class users_global
 <h4>Votre compte à été correctement crée.</h4>
 
 Activez votre compte en cliquant sur le lien suivant :
-<a href="'.$this->core->url->site_url(array('login','activate',$user['EMAIL'],$this->core->tendoo->timestamp() + 172800,$user['PASSWORD'])).'">Activer votre compte '.$user['PSEUDO'].'</a>.<br>
+<a href="'.$this->url->site_url(array('login','activate',$user['EMAIL'],$this->instance->date->timestamp() + 172800,$user['PASSWORD'])).'">Activer votre compte '.$user['PSEUDO'].'</a>.<br>
 
-Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href="'.$this->core->url->main_url().'">'.$this->core->url->main_url().'</a>.
+Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href="'.$this->url->main_url().'">'.$this->url->main_url().'</a>.
 			';
 			
-			$this->core->load->library('email');
-			$this->email	=&	$this->core->email;
+			$this->load->library('email');
+			$this->email	=&	$this->email;
 			$config = array (
 				'mailtype' => 'html',
 				'charset'  => 'utf-8',
@@ -321,7 +378,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function sendPassChanger($email)
 	{
-		$option	=	$this->core->tendoo->getOptions();
+		$option	=	$this->instance->options->get();
 		$user	=	$this->emailExist($email);
 		if($user)
 		{
@@ -333,12 +390,12 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 <h4>Syst&egrave;me de r&eacute;cup&eacute;ration de mot de passe.</h4>
 
 Changer votre mot de passe en acc&egrave;dant &agrave; cette adresse :
-<a href="'.$this->core->url->site_url(array('login','passchange',$user['EMAIL'],$this->core->tendoo->timestamp() + 10800,$user['PASSWORD'])).'">Changer le mot de passe</a>.<br>
+<a href="'.$this->url->site_url(array('login','passchange',$user['EMAIL'],$this->instance->date->timestamp() + 10800,$user['PASSWORD'])).'">Changer le mot de passe</a>.<br>
 
 Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de mot de passe. Si vous pensez qu\'il s\'agisse d\'une erreur, nous vous prions de ne point donner de suite &agrave; ce message etant donn&eacute; que l\'opération n\'est valide que pour 3h.
 			';
-			$this->core->load->library('email');
-			$this->email	=&	$this->core->email;
+			$this->load->library('email');
+			$this->email	=&	$this->email;
 			$config = array (
 				'mailtype' => 'html',
 				'charset'  => 'utf-8',
@@ -382,7 +439,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function allowedAdminPrivilege()
 	{
-		$query	=	$this->core->db->select('PRIV_ID')->from('tendoo_admin_privileges')->get();
+		$query	=	$this->db->select('PRIV_ID')->from('tendoo_admin_privileges')->get();
 		$result	=	$query->result_array();
 		if(count($result)> 0)
 		{
@@ -467,26 +524,35 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		}
 		return false;
 	}
+	public function setMenuStatus($status)
+	{
+		if(in_array($status,array('show_menu','hide_menu')))
+		{
+			$this->menuStatus	=	$status;
+			return true;
+		}
+		return false;
+	}
 	public function getUserMenu()
 	{
-		if($this->isConnected())
+		if($this->isConnected() && $this->menuStatus == 'show_menu')
 		{
 		?>
             <div id="user_menu">
                 <div class="logo">
-                    <img src="<?php echo $this->core->url->img_url('logo_minim.png');?>" />
+                    <img src="<?php echo $this->url->img_url('logo_minim.png');?>" />
                 </div>
                 <ul>
                 <?php
 				if($this->isAdmin() || $this->isSuperAdmin())
 				{
 				?>
-                	<li><a href="<?php echo $this->core->url->site_url(array('admin','index'));?>">Espace administration</a></li>
+                	<li><a href="<?php echo $this->url->site_url(array('admin','index'));?>">Espace administration</a></li>
 				<?php
 				}
 				?>
-                    <li><a href="<?php echo $this->core->url->site_url(array('account'));?>">Mon profil</a></li>
-                    <li><a href="<?php echo $this->core->url->site_url(array('account','messaging','home'));?>">Messagerie 
+                    <li><a href="<?php echo $this->url->site_url(array('account'));?>">Mon profil</a></li>
+                    <li><a href="<?php echo $this->url->site_url(array('account','messaging','home'));?>">Messagerie 
                     <?php
 					$unread	=	$this->getUnreadMsg();
 					if($unread > 0)
@@ -498,7 +564,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 					</a></li>
                 </ul>
                 <div style="line-height:30px;float:right;margin-right:20px;">
-                    <a href="<?php echo $this->core->url->site_url(array('logoff'));?>" style="text-decoration:none;color:#F90;">Deconnexion</a>
+                    <a href="<?php echo $this->url->site_url(array('logoff'));?>" style="text-decoration:none;color:#F90;">Deconnexion</a>
                 </div>
             </div>            
             <style type="text/css">
@@ -616,7 +682,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function setUserElement($element, $value)
 	{
-		if($this->current($element))
+		if($this->current($element) !== false)
 		{
 			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array($element=>$value));
 		}
@@ -682,7 +748,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		}
 		if(strtolower($to)	!=	$this->current('PSEUDO'))
 		{
-			$post_date				=	$this->tendoo->datetime();
+			$post_date				=	$this->instance->date->datetime();
 			$array_1				=	array(
 				'AUTHOR'			=>	$users[0]['ID'],
 				'RECEIVER'			=>	$this->current('ID')
@@ -763,7 +829,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			return $this->db->insert('tendoo_users_messaging_content',array(
 				'CONTENT'			=>	$content,
 				'AUTHOR'			=>	$this->current('ID'),
-				'DATE'				=>	$this->tendoo->datetime(),
+				'DATE'				=>	$this->instance->date->datetime(),
 				'MESG_TITLE_REF'	=>	$ref_id
 				)
 			);

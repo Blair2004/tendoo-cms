@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="description" content="<?php echo $this->tendoo->getDescription();?>">
-<title><?php echo $this->tendoo->getTitle();?></title>
+<title><?php echo get_page('title');?></title>
 <script>
 var tendoo				=	new Object();
 	tendoo.url			=	new function(){

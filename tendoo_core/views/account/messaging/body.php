@@ -2,7 +2,7 @@
 <section class="scrollable bg-light lt">
     <div class="panel-content">
 	<div class="scrollable wrapper">
-    <?php echo $this->core->notice->parse_notice();?>
+    <?php echo output('notice');?>
     <div class="panel">
         <div class="tab-responsive">
         	<div class="wrapper btn-group">
@@ -26,18 +26,18 @@
                     {
                         foreach($getMessage as $g)
                         {
-                            $preview	=	$this->core->users_global->getMsgPreview($g['ID']);
-                            $users		=	$this->core->users_global->getUser($preview[0]['AUTHOR']);
+                            $preview	=	$this->instance->users_global->getMsgPreview($g['ID']);
+                            $users		=	$this->instance->users_global->getUser($preview[0]['AUTHOR']);
                             $post_time	=	strtotime($preview[0]['DATE']);
                             $cur_time	=	strtotime($g['CREATION_DATE']);
-                            $str	=	($preview[0]['AUTHOR']	!=	$this->core->users_global->current('ID')) && ($g['STATE']	==	'0') ? 'bg-color-blueLight' : '';
+                            $str	=	($preview[0]['AUTHOR']	!=	$this->instance->users_global->current('ID')) && ($g['STATE']	==	'0') ? 'bg-color-blueLight' : '';
                     ?>
                         <tr class="<?php echo $str;?>">
                             <th><input type="checkbox" name="conv_id[]" value="<?php echo $g['ID'];?>" /></th>
                             <th><?php echo $users['PSEUDO'];?></th>
                             <th><?php echo word_limiter($preview[0]['CONTENT'],5);?></th>
-                            <th><?php echo $this->core->tendoo->timespan($post_time);?></th>
-                            <th><?php echo $this->core->tendoo->timespan($cur_time);?></th>
+                            <th><?php echo $this->instance->date->timespan($post_time);?></th>
+                            <th><?php echo $this->instance->date->timespan($cur_time);?></th>
                         </tr>
                         <?php
                         }

@@ -1,41 +1,36 @@
 <?php 
-class Account
+/**
+*	UPDATED FOR TENDOO 0.99
+**/
+class Account extends Libraries
 {
-	private $data;
-	private $Tendoo;
-	private $notice;
-	private $file;
-	private $url;
-	private $core;
-	private $load;
 	public function __construct()
 	{
-		$this->core		=	Controller::instance();
-		$this->tendoo	=&	$this->core->tendoo;
-		$this->url		=&	$this->core->url;
-		$this->notice	=&	$this->core->notice;
-		$this->load		=&	$this->core->load;
+		parent::__construct();
+		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
+		$this->instance			=	get_instance();
+		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->load->library('users_global');
-		$this->file		=&	$this->core->file;
-		$this->core->file_2	=	new File;
+		$this->load->library('file');
+		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
+		$this->file_2			=	new File;
 		// out put files
-		$this->core->file->css_push('font');
-		$this->core->file->css_push('app.v2');
-		$this->core->file->css_push('css1');
-		$this->core->file->css_push('css2');
-		$this->core->file->css_push('tendoo_global');
+		css_push_if_not_exists('font');
+		css_push_if_not_exists('app.v2');
+		css_push_if_not_exists('tendoo_global');
 		////->
-		$this->core->file->js_push('jquery-1.9');
-		$this->core->file->js_push('app.min.vtendoo'); // _2
-		$this->core->file->js_push('tendoo_loader');
-		$this->core->file->js_push('tendoo_app');
+		js_push_if_not_exists('jquery-1.9');
+		js_push_if_not_exists('underscore.1.6.0');
+		js_push_if_not_exists('app.min.vtendoo'); 
+		js_push_if_not_exists('tendoo_loader');
+		js_push_if_not_exists('tendoo_app');
 		
-		$this->data['options']	=	$this->tendoo->getOptions();
+		$this->data['options']	=	$this->instance->options->get();
 		
-		if(!$this->core->users_global->isConnected())
+		if(!$this->users_global->isConnected())
 		{
 			$this->url->redirect(array('login?ref='.urlencode($this->url->request_uri())));
-			return;
+			exit;
 		}
 		$this->data['left_menu']			=	$this->load->view('account/left_menu',$this->data,true);
 		$this->data['smallHeader']			=	$this->load->view('account/smallHeader',$this->data,true);
@@ -43,41 +38,55 @@ class Account
 	}
 	public function index()
 	{
-		$user_pseudo 						=	$this->core->users_global->current('PSEUDO');
-		$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Mon profil');
-		$this->tendoo->setDescription('Mon profil');
+		$user_pseudo 						=	$this->users_global->current('PSEUDO');
+		set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Mon profil');
+		set_page('description','Mon profil');
 		$this->data['body']			=	$this->load->view('account/profile/body',$this->data,true);
 		
 		$this->load->view('account/header',$this->data);
 		$this->load->view('account/global_body',$this->data);
 	}
-	public function profile_update()
+	public function update()
 	{
 		$this->load->library('form_validation');
-		$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-		if($this->core->input->post('user_name'))
+		$this->form_validation->set_rules('avatar_usage','','trim|required');
+		if($this->form_validation->run())
 		{
-			$this->core->users_global->setUserElement('NAME', $this->core->input->post('user_name'));
-			$this->core->notice->push_notice(notice('userNameUpdated'));
+			$this->users_global->setAvatarSetting(
+				$this->input->post(	'facebook_profile' ),
+				$this->input->post(	'google_profile' ),
+				$this->input->post( 'twitter_profile' ),
+				$this->input->post( 'avatar_usage' ),
+				'avatar_file'
+			);
+			$this->url->redirect(array('account','update?notice=done'));
+			exit;
 		}
-		if($this->core->input->post('user_surname'))
+		$this->load->library('form_validation');
+		$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+		if($this->input->post('user_name'))
 		{
-			$this->core->users_global->setUserElement('SURNAME', $this->core->input->post('user_surname'));
-			$this->core->notice->push_notice(notice('userSurnameUpdated'));
+			$this->users_global->setUserElement('NAME', $this->input->post('user_name'));
+			$this->url->redirect(array('account','update?notice=userNameUpdated'));
 		}
-		if($this->core->input->post('user_state'))
+		if($this->input->post('user_surname'))
 		{
-			$this->core->users_global->setUserElement('STATE', $this->core->input->post('user_state'));
-			$this->core->notice->push_notice(notice('userStateUpdated'));
+			$this->users_global->setUserElement('SURNAME', $this->input->post('user_surname'));
+			$this->url->redirect(array('account','update?notice=userSurnameUpdated'));
 		}
-		if($this->core->input->post('user_town'))
+		if($this->input->post('user_state'))
 		{
-			$this->core->users_global->setUserElement('TOWN', $this->core->input->post('user_town'));
-			$this->core->notice->push_notice(notice('userTownUpdated'));
+			$this->users_global->setUserElement('STATE', $this->input->post('user_state'));
+			$this->url->redirect(array('account','update?notice=userStateUpdated'));
 		}
-		$user_pseudo 						=	$this->core->users_global->current('PSEUDO');
-		$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Mise &agrave; jour du profil');
-		$this->tendoo->setDescription('Mettre mon profil &agrave; jour');
+		if($this->input->post('user_town'))
+		{
+			$this->users_global->setUserElement('TOWN', $this->input->post('user_town'));
+			$this->url->redirect(array('account','update?notice=userTownUpdated'));
+		}
+		$user_pseudo 						=	$this->users_global->current('PSEUDO');
+		set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Mise &agrave; jour du profil');
+		set_page('description','Mettre mon profil &agrave; jour');
 		
 		$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 		$this->data['body']			=	$this->load->view('account/update_prof/body',$this->data,true);
@@ -87,48 +96,48 @@ class Account
 	}
 	public function messaging($index	=	'home',$start= 1,$end = 1,$x	=	0)
 	{
-		$this->core->tendoo->timestamp();
+		$this->instance->date->timestamp();
 		if($index 	== 'home')
 		{
 			$this->load->library('form_validation');
-			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			$this->core->form_validation->set_rules('conv_id','Identifiant du message','required');
-			if($this->core->form_validation->run())
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+			$this->form_validation->set_rules('conv_id','Identifiant du message','required');
+			if($this->form_validation->run())
 			{
 				if(is_array($_POST['conv_id']))
 				{
 					foreach($_POST['conv_id'] as $c)
 					{
-						$result	=	$this->core->users_global->deleteConversation($c);
+						$result	=	$this->users_global->deleteConversation($c);
 						if($result	== false)
 						{
-							$this->core->notice->push_notice('Une erreur est survenu durant la suppression du message, il ne vous est surement pas destinée ou ce message n\'existe pas');
+							notice('push','Une erreur est survenu durant la suppression du message, il ne vous est surement pas destinée ou ce message n\'existe pas');
 						}
 						else
 						{
-							$this->core->notice->push_notice(notice('done'));
+							notice('push',fetch_error('done'));
 						}
 					}
 				}
 				else
 				{
-					$result	=	$this->core->users_global->deleteConversation($_POST['conv_id']);
+					$result	=	$this->users_global->deleteConversation($_POST['conv_id']);
 					if($result	== false)
 					{
-						$this->core->notice->push_notice('Une erreur est survenu durant la suppression du message, il ne vous est surement pas destinée ou ce message n\'existe pas');
+						notice('push','Une erreur est survenu durant la suppression du message, il ne vous est surement pas destinée ou ce message n\'existe pas');
 					}
 					else
 					{
-						$this->core->notice->push_notice(notice('done'));
+						notice('push',fetch_error('done'));
 					}
 				}
 			}
-			$user_pseudo 						=	$this->core->users_global->current('PSEUDO');
-			$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Messagerie');
-			$this->tendoo->setDescription('Messagerie de '.$user_pseudo);
-			$this->data['ttMessage']	=	$this->core->users_global->countMessage();
-			$this->data['paginate']		=	$this->core->tendoo->paginate(30,$this->data['ttMessage'],1,'ClasseOn','ClasseOff',$start,$this->core->url->site_url(array('account','messaging','home')).'/',null);
-			$this->data['getMessage']	=	$this->core->users_global->getMessage($this->data['paginate'][1],$this->data['paginate'][2]);$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
+			$user_pseudo 						=	$this->users_global->current('PSEUDO');
+			set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Messagerie');
+			set_page('description','Messagerie de '.$user_pseudo);
+			$this->data['ttMessage']	=	$this->users_global->countMessage();
+			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttMessage'],1,'ClasseOn','ClasseOff',$start,$this->url->site_url(array('account','messaging','home')).'/',null);
+			$this->data['getMessage']	=	$this->users_global->getMessage($this->data['paginate'][1],$this->data['paginate'][2]);$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/body',$this->data,true);
 			
 			$this->load->view('account/header',$this->data);
@@ -137,28 +146,28 @@ class Account
 		else if($index	== 'write')
 		{
 			$this->load->library('form_validation');
-			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			$this->core->form_validation->set_rules('receiver','Pseudo du correspondant','trim|required|min_length[5]|max_length[15]');
-			$this->core->form_validation->set_rules('content','Contenu du message','trim|required|min_length[3]|max_length[1200]');
-			if($this->core->form_validation->run())
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+			$this->form_validation->set_rules('receiver','Pseudo du correspondant','trim|required|min_length[5]|max_length[15]');
+			$this->form_validation->set_rules('content','Contenu du message','trim|required|min_length[3]|max_length[1200]');
+			if($this->form_validation->run())
 			{
-				$result	=	$this->core->users_global->write(
-					$this->core->input->post('receiver'),
-					$this->core->input->post('content')
+				$result	=	$this->users_global->write(
+					$this->input->post('receiver'),
+					$this->input->post('content')
 				);
 				if($result	==	'posted')
 				{
-					$this->core->url->redirect(array('account','messaging','home'));
+					$this->url->redirect(array('account','messaging','home'));
 				}
 				else
 				{
-					$this->core->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 			
-			$user_pseudo 						=	$this->core->users_global->current('PSEUDO');
-			$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Ecrire un nouveau message');
-			$this->tendoo->setDescription('Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
+			$user_pseudo 						=	$this->users_global->current('PSEUDO');
+			set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Ecrire un nouveau message');
+			set_page('description','Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/write',$this->data,true);
 			
 			$this->load->view('account/header',$this->data);
@@ -168,34 +177,34 @@ class Account
 		else if($index	==	'open')
 		{
 			$this->load->library('form_validation');
-			$this->core->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			$this->core->form_validation->set_rules('reply','Contenu du message','trim|required|min_length[3]|max_length[1200]');
-			$this->core->form_validation->set_rules('convid','Identifiant de la convesation','trim|required|min_length[1]');
-			if($this->core->form_validation->run())
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+			$this->form_validation->set_rules('reply','Contenu du message','trim|required|min_length[3]|max_length[1200]');
+			$this->form_validation->set_rules('convid','Identifiant de la convesation','trim|required|min_length[1]');
+			if($this->form_validation->run())
 			{
-				$result	=	$this->core->users_global->addPost($this->core->input->post('convid'),$this->core->input->post('reply'));
+				$result	=	$this->users_global->addPost($this->input->post('convid'),$this->input->post('reply'));
 				if($result	==	true)
 				{
-					$this->core->notice->push_notice(notice('done'));
+					notice('push',fetch_error('done'));
 				}
 				else
 				{
-					$this->core->notice->push_notice('Le message n\'a pas pu &ecirc;tre post&eacute; parceque vous n\'avez pas directement acc&egrave;s, soit parceque cette discution n\'existe pas ou plus.');
+					notice('push','Le message n\'a pas pu &ecirc;tre post&eacute; parceque vous n\'avez pas directement acc&egrave;s, soit parceque cette discution n\'existe pas ou plus.');
 				}
 			}
-			$this->core->users_global->editStatus($start);
-			$this->data['ttMsgContent']	=	$this->core->users_global->countMsgContent($start);
-			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttMsgContent'],1,'bg-color-red fg-color-white','bg-color-blue',$end,$this->core->url->site_url(array('account','messaging','open',$start)).'/',$ajaxis_link=null);
+			$this->users_global->editStatus($start);
+			$this->data['ttMsgContent']	=	$this->users_global->countMsgContent($start);
+			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttMsgContent'],1,'bg-color-red fg-color-white','bg-color-blue',$end,$this->url->site_url(array('account','messaging','open',$start)).'/',$ajaxis_link=null);
 			if($this->data['paginate'][3]	==	false)
 			{
-				$this->core->url->redirect(array('page404'));
+				$this->url->redirect(array('page404'));
 			}
-			$this->data['getMsgContent']=	$this->core->users_global->getMsgContent($start,$this->data['paginate'][1],$this->data['paginate'][2]);
+			$this->data['getMsgContent']=	$this->users_global->getMsgContent($start,$this->data['paginate'][1],$this->data['paginate'][2]);
 			
-			$user_pseudo 						=	$this->core->users_global->current('PSEUDO');
-			$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Lecture d\'un message');
+			$user_pseudo 						=	$this->users_global->current('PSEUDO');
+			set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Lecture d\'un message');
 
-			$this->tendoo->setDescription('Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
+			set_page('description','Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/read',$this->data,true);
 			
 			$this->load->view('account/header',$this->data);
@@ -204,17 +213,17 @@ class Account
 	}
 	public function profile($userPseudo)
 	{
-		if($this->core->users_global->current('PSEUDO') == $userPseudo)
+		if($this->users_global->current('PSEUDO') == $userPseudo)
 		{
-			$this->core->url->redirect(array('account'));
+			$this->url->redirect(array('account'));
 		}
-		$user	=	$this->core->users_global->getUserByPseudo($userPseudo);
+		$user	=	$this->users_global->getUserByPseudo($userPseudo);
 		if($user)
 		{
 			$this->data['user'] =& $user;
 			
-			$this->tendoo->setTitle($this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user[0]['PSEUDO']).' &raquo; profil de l\'utilisateur');
-			$this->tendoo->setDescription($user[0]['PSEUDO'].' - Profil');
+			set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user[0]['PSEUDO']).' &raquo; profil de l\'utilisateur');
+			set_page('description',$user[0]['PSEUDO'].' - Profil');
 			
 			$this->data['body']			=	$this->load->view('account/profile/user_profil_body',$this->data,true);
 			
@@ -223,7 +232,82 @@ class Account
 		}
 		else
 		{
-			$this->core->url->redirect(array('error','code','unknowProfil'));
+			$this->url->redirect(array('error','code','unknowProfil'));
 		}
+	}
+	public function ajax($action)
+	{
+		$this->load->library('form_validation');
+		$result	= array(
+			'status'	=>	'warning',
+			'message'	=>	'Une erreur s\'est produite durant l\'opération.',
+			'alertType'	=>	'modal',
+			'response'	=>	array()
+		);
+		if($action == 'setTheme')
+		{
+			$this->form_validation->set_rules('theme_style','Le champ du thème','required|min_length[1]|max_length[2]');
+			if($this->form_validation->run())
+			{
+				if($this->users_global->editThemeStyle($this->input->post('theme_style')))
+				{
+					$result	=	 array(
+						'status'	=>	'success',
+						'message'	=>	'La modification du thème à réussi.',
+						'alertType'	=>	'notice',
+						'response'	=>	array(),
+						'exec'		=>	'function(){
+							document.location = "'.$this->url->site_url(array('account','update')).'";
+						}'
+					);
+				}
+			}
+		}
+		else if($action == 'setPassword')
+		{
+			$this->form_validation->set_rules('user_oldpass','','required|min_length[6]');
+			$this->form_validation->set_rules('user_newpass','','required|min_length[6]|matches[user_confirmnewpass]');
+			$this->form_validation->set_rules('user_confirmnewpass','','required');
+			if($this->form_validation->run())
+			{
+				$result	=	 array(
+					'status'	=>	'warning',
+					'message'	=>	'Une erreur s\'est produite, verifiez que l\'ancien mot de passe n\'est pas exact.',
+					'alertType'	=>	'modal',
+					'response'	=>	array()
+				);
+				if($this->input->post('user_oldpass') == $this->input->post('user_newpass'))
+				{
+					$result	=	 array(
+						'status'	=>	'warning',
+						'message'	=>	'L\'ancien et le nouveau mot de passe ne doivent pas être identique.',
+						'alertType'	=>	'modal',
+						'response'	=>	array()
+					);
+				}
+				else
+				{
+					if($this->users_global->updatePassword($this->input->post('user_oldpass'),$this->input->post('user_newpass')))
+					{
+						$result	=	 array(
+							'status'	=>	'success',
+							'message'	=>	'La modification du mot de passe à réussi.',
+							'alertType'	=>	'notice',
+							'response'	=>	array()
+						);
+					}
+				}
+			}
+			else
+			{
+				$result	=	 array(
+					'status'	=>	'warning',
+					'message'	=>	'Une erreur s\'est produite, votre mot de passe doit avoir au moins 6 lettres, et le "nouveau mot de passe" doit être identique à celui du champ "Retaper le mot de passe".',
+					'alertType'	=>	'modal',
+					'response'	=>	array()
+				);
+			}
+		}
+		echo json_encode($result);
 	}
 }

@@ -50,8 +50,8 @@ class Exceptions {
 						E_WARNING			=>	'Warning',
 						E_PARSE				=>	'Parsing Error',
 						E_NOTICE			=>	'Notice',
-						E_CORE_ERROR		=>	'Core Error',
-						E_CORE_WARNING		=>	'Core Warning',
+						E_CORE_ERROR		=>	'instance Error',
+						E_CORE_WARNING		=>	'instance Warning',
 						E_COMPILE_ERROR		=>	'Compile Error',
 						E_COMPILE_WARNING	=>	'Compile Warning',
 						E_USER_ERROR		=>	'User Error',
@@ -64,9 +64,9 @@ class Exceptions {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function __construct(&$instance)
 	{
-		$this->core		=	Controller::instance();
+		$this->instance		=&	$instance;
 		$this->ob_level = ob_get_level();
 		// Note:  Do not log messages from this constructor.
 	}
@@ -137,7 +137,7 @@ class Exceptions {
 	{
 		/*set_status_header($status_code);*/
 		$message = '<div class="panel"><div class="wrapper">'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</div></div>';
-		$this->core->tendoo->show_error($message,$heading);
+		$this->instance->tendoo->show_error($message,$heading);
 	}
 
 	// --------------------------------------------------------------------
@@ -181,4 +181,4 @@ class Exceptions {
 // END Exceptions Class
 
 /* End of file Exceptions.php */
-/* Location: ./system/core/Exceptions.php */
+/* Location: ./system/instance/Exceptions.php */

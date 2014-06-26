@@ -18,10 +18,10 @@ class Loader
 	private $tendoo_vue_dir			=	array(VIEWS_DIR => TRUE);
 	private $tendoo_mod_vue_dir		=	array(MODULES_DIR => TRUE);
 	private	$tendoo_main_dir		=	array('' => TRUE);
-	private $core;
-	public function __construct($core)
+	public function __construct(&$parent)
 	{
-		$this->core					=&	$core;
+		$this->parent				=	$parent;
+		$this->instance					=	get_instance();
 	}
 	public function __get($var)
 	{
@@ -29,35 +29,18 @@ class Loader
 		{
 			return $this->$var;
 		}
-		else if(array_key_exists('object_source',$this->data))
-		{
-			if(is_object($this->data['object_source']))
-			{
-				if(array_key_exists($var,$this->data['object_source']))
-				{
-					return $this->data['object_source']->$var;
-				}
-			}
-		}
-		else if(array_key_exists($var,$this->data))
-		{
-			return $this->data[$var];
-		}
 		else
 		{
-			echo 'Erreur fatale inattendue : Evenement non pris en charge'; // Event not handled
+			return isset($this->parent) ? $this->parent->$var : false;
 		}
 	}
-	public function __set($var,$value)
+	/*public function __set($var,$value)
 	{
-		$this->data[$var]	=	$value;
-	}
-	public function view($path,$array = NULL,$return = false, $load_from_main_dir = FALSE,&$object_source=	NULL)
+		$this->parent->$var	=	$value;
+	}*/
+	
+	public function view($path,$array = NULL,$return = false, $load_from_main_dir = FALSE)
 	{
-		if($object_source != NULL)
-		{
-			$this->data['object_source']	=&	$object_source;
-		}
 		if($load_from_main_dir == FALSE)
 		{
 			return $this->load_ext(array('_Tendoo_view' => $path, '_Tendoo_vars' => $this->object_to_array($array), '_Tendoo_return' => $return),FALSE);
@@ -132,7 +115,7 @@ class Loader
 
 		// This allows anything loaded using $this->load (views, files, etc.)
 		// to become accessible from within the Controller and Model functions.
-		foreach (get_object_vars($this->core) as $_Tendoo_key => $_Tendoo_var)
+		foreach (get_object_vars($this->instance) as $_Tendoo_key => $_Tendoo_var)
 		{
 			if ( ! isset($this->$_Tendoo_key))
 			{
@@ -215,7 +198,7 @@ class Loader
 		}
 		$this->data['source_object']	=	NULL; // Reseting Object Saved
 	}
-	public function library($library = '', $params = NULL, $object_name = NULL,&$object_source= null)
+	public function library($library = '', $params = NULL, $object_name = NULL)
 	{
 		if (is_array($library))
 		{
@@ -236,9 +219,9 @@ class Loader
 			$params = NULL;
 		}
 
-		$this->_load_class($library, $params, $object_name,$object_source);
+		$this->_load_class($library, $params, $object_name);
 	}
-	protected function _load_class($class, $params = NULL, $object_name = NULL,&$object_source= null)
+	protected function _load_class($class, $params = NULL, $object_name = NULL)
 	{
 		// Get the class name, and while we're at it trim any slashes.
 		// The directory path can be included as part of the class name,
@@ -258,7 +241,7 @@ class Loader
 		// We'll test for both lowercase and capitalized versions of the file name
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
-			$subclass = LIBRARIES_DIR.$subdir.$class.'.php';
+			$subclass = LIBRARIES_DIR.$subdir.$class.'.Class.php';
 			// Is this a class extension request?
 			if (file_exists($subclass))
 			{
@@ -270,9 +253,9 @@ class Loader
 					// return a new instance of the object
 					if ( ! is_null($object_name))
 					{
-						if ( ! isset($this->core->$object_name))
+						if ( ! isset($this->instance->$object_name))
 						{
-							return $this->init_class($class, $params, $object_name,$object_source);
+							return $this->init_class($class, $params, $object_name);
 						}
 					}
 
@@ -281,17 +264,17 @@ class Loader
 					return;
 				}
 				include_once($subclass);
-				$this->loadedLibrary[] = $class;
-				$this->loadedFile[] = $subclass;
-
-				return $this->init_class($class, $params, $object_name,$object_source);
+				$this->loadedLibrary[] 	= 	$class;
+				$this->loadedFile[] 	= 	$subclass;
+				
+				return $this->init_class($class, $params, $object_name);
 			}
 			else
 			{
 			// Lets search for the requested library file and load it.
 			$is_duplicate = FALSE;
 			
-				$filepath = LIBRARIES_DIR.$subdir.$class.'.php';
+				$filepath = LIBRARIES_DIR.$subdir.$class.'.Class.php';
 				// Does the file exist?  No?  Bummer...
 				if ( ! file_exists($filepath))
 				{
@@ -306,9 +289,9 @@ class Loader
 					// return a new instance of the object
 					if ( ! is_null($object_name))
 					{
-						if ( ! isset($this->core->$object_name))
+						if ( ! isset($this->instance->$object_name))
 						{
-							return $this->init_class($class, $params, $object_name,$object_source);
+							return $this->init_class($class, $params, $object_name);
 						}
 					}
 
@@ -319,12 +302,12 @@ class Loader
 
 				include_once($filepath);
 				$this->loadedFile[] = $filepath;
-				return $this->init_class($class, $params, $object_name,$object_source);
+				return $this->init_class($class, $params, $object_name);
 			}
 
 		} // END FOREACH
 	}
-	protected function init_class($class, $params, $object_name = NULL,&$object_source= null)
+	protected function init_class($class, $params, $object_name = NULL)
 	{
 		// Is there an associated config file for this class?  Note: these should always be lowercase
 		$name = $class;
@@ -354,20 +337,15 @@ class Loader
 		if (is_array($params))
 		{
 			// La librarie chargé est directement ajouté au noyau, et sera désormais accéssible partout dans le script.
-			$this->core->$classvar = new $name($params);
-			if($object_source != NULL)
-			{
-				// L'objet dans lequel est chargé la librarie hérite de cet objet et de ses méthodes.
-				$object_source->$classvar =& $this->core->$classvar;
-			}
+			$this->parent->$classvar 		= 		new $name($params);
+			$this->instance->$classvar		=&		$this->parent->$classvar;
+
+			// Le parent passé en paramètre hérite des nouveaux objets
 		}
 		else
 		{
-			$this->core->$classvar 	= new $name;
-			if($object_source != NULL)
-			{
-				$object_source->$classvar 	=& $this->core->$classvar;
-			}
+			$this->parent->$classvar 		= 		new $name;
+			$this->instance->$classvar		=&		$this->parent->$classvar;
 		}
 	}
 	public function helper($helper	= array())

@@ -6,16 +6,16 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <div class="wrapper w-f">
                 <div class="hub_table">
                 	<?php echo validation_errors('<p class="error">', '</p>');?>
-					<?php $this->core->notice->parse_notice();?>
-                    <?php echo notice_from_url();?>
+					<?php output('notice');?>
+                    <?php echo fetch_error_from_url();?>
                     <section class="panel">
                         <div class="wrapper b-b font-bold">Restauration souple du syst&egrave;me.</div>
                         <div class="wrapper">

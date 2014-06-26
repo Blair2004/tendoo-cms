@@ -18,7 +18,7 @@
                                     <div class="clearfix m-b"> <a href="#" class="pull-left thumb m-r"> <img src="" class="img-circle"> </a>
                                         <div class="clear">
                                             <div class="h3 m-t-xs m-b-xs"><?php echo ucwords($user[0]['PSEUDO']);?></div>
-                                                <small class="text-muted"><i class="fa fa-map-marker"></i> <?php echo $this->core->users_global->current('TOWN');?>, <?php echo $user[0]['STATE'];?></small> 
+                                                <small class="text-muted"><i class="fa fa-map-marker"></i> <?php echo $this->instance->users_global->current('TOWN');?>, <?php echo $user[0]['STATE'];?></small> 
                                             </div>
                                     </div>
                                     <div> <small class="text-uc text-xs text-muted">Nom</small>
@@ -38,5 +38,5 @@
         </section>
         <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="body"></a> </section>
     <!-- /.vbox --> </section>
-<?php echo $this->core->file_2->js_load();?>
+<?php echo $this->instance->file_2->js_load();?>
 </body>

@@ -3,7 +3,7 @@ if(!function_exists('css_url'))
 {
 	function css_url($e)
 	{
-		$instance	=	Controller::instance();
+		$instance	=	get_instance();
 		return $instance->url->main_url().'tendoo_assets/css/'.$e.'.css';
 	}
 }
@@ -63,7 +63,7 @@ if(!function_exists('js_url'))
 {
 	function js_url($e="")
 	{
-		$instance	=	Controller::instance();
+		$instance	=	get_instance();
 		return $instance->url->main_url().'tendoo_assets/js/'.$e.'.js';
 	}
 }
@@ -71,7 +71,7 @@ if(!function_exists('img_url'))
 {
 	function img_url($e)
 	{
-		$instance	=	Controller::instance();
+		$instance	=	get_instance();
 		return $instance->url->main_url().ASSETS_DIR.'img/'.$e;
 	}
 }
@@ -103,9 +103,9 @@ if(!function_exists('tendoo_info'))
 		return '<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-info"></i> '.$text.'</div>';;
 	}
 }
-if(!function_exists('notice'))
+if(!function_exists('fetch_error'))
 {
-	function notice($e,$extends_msg= '',$sort = FALSE)
+	function fetch_error($e,$extends_msg= '',$sort = FALSE)
 	{
 		$array['config_1']					=	tendoo_info('Un fichier de configuration est d&eacute;j&agrave; existant. Si vous enregistrer de nouvelles donn&eacute;es, l\'ancien sera &eacute;cras&eacute;');
 		$array['accessDenied']				=	tendoo_warning('Vous n\'avez pas ou plus acc&egrave;s &agrave; cette page.');
@@ -183,7 +183,7 @@ if(!function_exists('notice'))
 		$array['adminCreationFailed']		=	tendoo_warning('Impossible de cr&eacute;er un utilisateur, vérifiez que ce pseudo ne soit déjà utilisé.');
 		$array['tableCreationFailed']		=	tendoo_warning('Impossible d\'installer Tendoo, les informations fournies sont peut &ecirc;tre invalide. Assurez-vous de la validité de la connexion et de leur conformit&eacute; aux informations fournies.');
 		$array['upload_invalid_filetype']	=	tendoo_warning('Extension du fichier non autoris&eacute;e');
-		$array['themeControlerFailed']		=	tendoo_warning('L\'interace embarqu&eacute; de ce th&egrave;me n\'est pas correctement d&eacute;finie.');
+		$array['controllerNotWellDefined']	=	tendoo_warning('L\'interace embarqu&eacute; n\'est pas correctement d&eacute;fini.');
 		$array['themeControlerNoFound']		=	tendoo_warning('Ce th&egrave;me ne dispose pas d\'interface embarqu&eacute;..');
 		$array['registrationNotAllowed']	=	tendoo_warning('Il impossible de s\'inscrire. L\'inscription &agrave; &eacute;t&eacute; d&eacute;sactiv&eacute;e sur ce site.');
 		$array['userExists']					=	tendoo_warning('Un utilisateur poss&eacute;dant ce pseudo existe d&eacute;j&agrave;.');
@@ -298,13 +298,13 @@ if(!function_exists('notice'))
 		}
 	}
 }
-if(!function_exists('notice_from_url'))
+if(!function_exists('fetch_error_from_url'))
 {
-	function notice_from_url()
+	function fetch_error_from_url()
 	{
 		if(isset($_GET['notice']))
 		{
-			return notice($_GET['notice']);
+			return fetch_error($_GET['notice']);
 		}
 		else if(isset($_GET['info']))
 		{
@@ -342,66 +342,60 @@ if(!function_exists('__extends'))
 {
 	function __extends(&$obj)
 	{
-		$Controller				=	Controller::instance();
-
-		$obj->url				=&	$Controller->url;
-		$obj->input				=&	$Controller->input;
-		$obj->notice			=&	$Controller->notice;
-		$obj->tendoo			=&	$Controller->tendoo;
-		$obj->db				=&	$Controller->db;
-		$obj->session			=&	$Controller->session;
-		$obj->load				=&	$Controller->load;
-		$obj->exceptions		=&	$Controller->exceptions;
-		// Chargement de quelques classes qui ont été ajouté ultérieurement au noyau.
-		// Mise à jour du super tableau (T098).
-		if(isset($obj->data))
+		$instance				=	get_instance();
+		$instance_property		=	get_object_vars($instance);
+		foreach($instance_property as $key	=>	&$value)
 		{
-			$Controller->data		=&	$obj->data;
-		}
-		// Fin mise à jour
-		if(isset($Controller->tendoo_admin))
-		{
-			$obj->tendoo_admin	=&	$Controller->tendoo_admin;
-		}
-		if(isset($Controller->file))
-		{
-			$obj->file	=&	$Controller->file;
-		}
-		if(isset($Controller->form_validation))
-		{
-			$obj->form_validation	=&	$Controller->form_validation;
-		}
-		if(isset($Controller->upload))
-		{
-			$obj->upload	=&	$Controller->upload;
-		}
-		if(isset($Controller->pagination))
-		{
-			$obj->pagination	=&	$Controller->pagination;
-		}
-		if(isset($Controller->users_global))
-		{
-			$obj->users_global	=&	$Controller->users_global;
+			if(!in_array($key,array('load','Load')))
+			{
+				$obj->$key	=	$value;
+			}
 		}
 	}
 }
-if(!function_exists('gt')) // gt = Get Text
+if(!function_exists('translate')) // gt = Get Text
 {
-	function gt($code)
+	function translate($code,$templating = null)
 	{
-		$e;
-		__extends($e);
-		if($e->tendoo->getSystemLang() == 'ENG')
+		$instance	=	get_instance();
+		if($instance->lang->getSystemLang() == 'ENG')
 		{
 			// not yet
 		}
-		else if($e->tendoo->getSystemLang() == 'FRE')
+		else if($instance->lang->getSystemLang() == 'FRE')
 		{
-			$text	=	file_get_contents(SYSTEM_DIR.'/config/french.tlf');
-			eval($text);
-			if(array_key_exists($code,$Lang))
+			$text	=	file_get_contents(SYSTEM_DIR.'/config/french.txt');
+			$exploded	=	explode('[#]',$text);
+			$final_lines=	array();
+			foreach($exploded as $translate_line)
 			{
-				return $Lang[$code];
+				if(strlen($translate_line) > 4 && preg_match('#::#',$translate_line))
+				{	
+					$line_exploder	=	explode('::',$translate_line);
+					if(is_array($templating))
+					{
+						$string			=	$line_exploder[1];
+						foreach($templating as $remplacement)
+						{
+							$percent		=	"%%";
+							$position		=	strpos($string,$percent);
+							$segment2		=	strlen($string)-$position;
+							$first			=	substr($string,0,-($segment2));
+							$second			=	$remplacement.substr($string,$position+1);
+							$string			=	$first.$second;
+						}
+						$final_string		=	$string;
+					}
+					else
+					{
+						$final_string		=	$line_exploder[1];
+					}
+					$final_lines[$line_exploder[0]]	=	$final_string;
+				}
+			}
+			if(array_key_exists($code,$final_lines))
+			{
+				return $final_lines[$code];
 			}
 			else
 			{
@@ -414,7 +408,7 @@ if(!function_exists('tendoo_error'))
 {
 	function tendoo_error($x1,$x2,$x3)
 	{
-		$core	=	Controller::instance();
+		$instance	=	get_instance();
 		?>
 		<div id="tendoo_error_notice">
 			<h2>Erreur</h2>
@@ -426,7 +420,7 @@ if(!function_exists('tendoo_exception'))
 {
 	function tendoo_exception($x1,$x2,$x3)
 	{
-		$core	=	Controller::instance();
+		$instance	=	get_instance();
 		?>
 		<div id="tendoo_error_notice" style="border:solid 1px #999">
 			<h2>Tendoo Exception</h2>
@@ -434,36 +428,36 @@ if(!function_exists('tendoo_exception'))
 		<?php
 	}
 }
-if(!function_exists('theme_class')) // Recupère la classe application à un élément comme couleur de fond.
+if(!function_exists('theme_class')) // Recupère la classe (attribut html) principale à appliquer en tant couleur principale/
 {
 	function theme_class()
 	{
-		$Core	=	Controller::instance();
-		return $Core->users_global->getCurrentThemeClass();
+		$instance	=	get_instance();
+		return $instance->users_global->getCurrentThemeClass();
 	}
 }
-if(!function_exists('theme_button_class')) // Recupère la classe application à un élément de type "btn" comme couleur de fond.
+if(!function_exists('theme_button_class')) // Recupère la classe (attribut html) principale à appliquer en tant couleur principale des boutons/
 {
 	function theme_button_class()
 	{
-		$Core	=	Controller::instance();
-		return $Core->users_global->getCurrentThemeButtonClass();
+		$instance	=	get_instance();
+		return $instance->users_global->getCurrentThemeButtonClass();
 	}
 }
 if(!function_exists('theme_button_false_class')) // Recupère la classe application à un élément de type "btn" comme couleur de fond.
 {
 	function theme_button_false_class()
 	{
-		$Core	=	Controller::instance();
-		return $Core->users_global->getCurrentThemeButtonFalseClass();
+		$instance	=	get_instance();
+		return $instance->users_global->getCurrentThemeButtonFalseClass();
 	}
 }
 if(!function_exists('theme_background_color')) // Recupère la classe application à un élément de type "btn" comme couleur de fond.
 {
 	function theme_background_color()
 	{
-		$Core	=	Controller::instance();
-		return $Core->users_global->getCurrentThemeBackgroundColor();
+		$instance	=	get_instance();
+		return $instance->users_global->getCurrentThemeBackgroundColor();
 	}
 }
 ?>

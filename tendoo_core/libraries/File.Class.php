@@ -5,6 +5,15 @@ class File
 	private $cssfiles	= array();
 	public $css_url		=	'';
 	public $js_url		=	'';
+	public function __construct()
+	{
+		$instance		=	get_instance();
+		if(isset($instance->url))
+		{
+			$this->js_url	=	$instance->url->main_url().ASSETS_DIR.'js/';
+			$this->css_url	=	$instance->url->main_url().ASSETS_DIR.'css/';
+		}
+	}
 	public function css_push($e)
 	{
 		if($this->css_url != '')

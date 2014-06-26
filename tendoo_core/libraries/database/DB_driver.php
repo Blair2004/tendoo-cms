@@ -1145,8 +1145,8 @@ class DB_driver {
 	 */
 	function display_error($error = '', $swap = '', $native = FALSE)
 	{
-		$this->core	=	Controller::instance();
-		$LANG			=	$this->core->lang;
+		$this->instance	=	get_instance();
+		$LANG			=	$this->instance->lang;
 		$LANG->load('db');
 
 		$heading = $LANG->line('db_error_heading');
@@ -1177,7 +1177,7 @@ class DB_driver {
 				break;
 			}
 		}
-		$error = $this->core->exceptions;
+		$error = $this->instance->exceptions;
 		echo $error->show_error($heading, $message, 'error_db');
 		exit;
 	}

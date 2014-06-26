@@ -47,7 +47,7 @@ if ( ! function_exists('set_cookie'))
 	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE)
 	{
 		// Set the config file options
-		$CI = Controller::instance();
+		$CI = get_instance();
 		$CI->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure);
 	}
 }
@@ -66,11 +66,8 @@ if ( ! function_exists('get_cookie'))
 {
 	function get_cookie($index = '', $xss_clean = FALSE)
 	{
-		$CI = Controller::instance();
-
+		$CI = get_instance();
 		$prefix = '';
-
-
 		return $CI->input->cookie($prefix.$index, $xss_clean);
 	}
 }

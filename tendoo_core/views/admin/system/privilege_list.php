@@ -29,16 +29,16 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <div class="wrapper w-f">
                 <div class="hub_table">
                 	<?php echo validation_errors('<p class="error">', '</p>');?>
-					<?php $this->core->notice->parse_notice();?>
-                    <?php echo notice_from_url();?>
+					<?php output('notice');?>
+                    <?php echo fetch_error_from_url();?>
                     <section class="panel">
                         <div class="wrapper b-b font-bold">Liste des privil&egrave;ges</div>
                         <table class="table table-striped m-b-none">
@@ -59,12 +59,12 @@
 									{
 									?>
                                     <tr>
-                                    	<td><a href="<?php echo $this->core->url->site_url(array('admin','system','edit_priv',$g['PRIV_ID']));?>"><?php echo $g['PRIV_ID'];?></a></td>
+                                    	<td><a href="<?php echo $this->instance->url->site_url(array('admin','system','edit_priv',$g['PRIV_ID']));?>"><?php echo $g['PRIV_ID'];?></a></td>
                                     	<td><?php echo $g['HUMAN_NAME'];?></td>
                                         <td><?php echo $g['DESCRIPTION'];?></td>
-                                        <td><?php echo timespan(strtotime($g['DATE']),$this->core->tendoo->timestamp());?></td>
+                                        <td><?php echo timespan(strtotime($g['DATE']),$this->instance->date->timestamp());?></td>
                                         <td><?php echo $g['IS_SELECTABLE'] == "1" ? "Oui" : "Non";?></td>
-                                        <td><a href="<?php echo $this->core->url->site_url(array('admin','system','delete_priv',$g['PRIV_ID']));?>">Supprimer</a></td>
+                                        <td><a href="<?php echo $this->instance->url->site_url(array('admin','system','delete_priv',$g['PRIV_ID']));?>">Supprimer</a></td>
                                     </tr>
                                     <?php
 									}

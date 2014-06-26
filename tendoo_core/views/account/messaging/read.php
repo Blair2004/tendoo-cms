@@ -1,12 +1,12 @@
 <?php echo $smallHeader;?>
 <?php
-$participant['AUTEUR']	=	$this->core->users_global->getUser($getMsgContent['title'][0]['AUTHOR']);
-$participant['RECEVEUR']	=	$this->core->users_global->getUser($getMsgContent['title'][0]['RECEIVER']);
+$participant['AUTEUR']	=	$this->instance->users_global->getUser($getMsgContent['title'][0]['AUTHOR']);
+$participant['RECEVEUR']	=	$this->instance->users_global->getUser($getMsgContent['title'][0]['RECEIVER']);
 ?>
 <section class="scrollable bg-light lt">
     <div class="panel-content">
         <div class="wrapper scrollable">
-			<?php echo $this->core->notice->parse_notice();?>
+			<?php echo output('notice');?>
             <?php echo validation_errors();?>
         	<div class="panel">
                 <div class="panel-heading">
@@ -14,7 +14,7 @@ $participant['RECEVEUR']	=	$this->core->users_global->getUser($getMsgContent['ti
                 </div>
             	<div class="span12">
                     	<div class="wrapper btn-group">
-							<form method="post" action="<?php echo $this->core->url->site_url(array('account','messaging','home'));?>" class="read_form_id">
+							<form method="post" action="<?php echo $this->instance->url->site_url(array('account','messaging','home'));?>" class="read_form_id">
 								<?php include_once(VIEWS_DIR.'account/messaging/menu.php');?>
 								<input type="button" class="btn btn-sm btn-white answer_btn" value="Poster un message" />
 								<input type="hidden" name="conv_id" class="conv_id" value="<?php echo $getMsgContent['title'][0]['ID'];?>" />
@@ -35,13 +35,13 @@ $participant['RECEVEUR']	=	$this->core->users_global->getUser($getMsgContent['ti
                             {
                                 foreach($getMsgContent['content'] as $g)
                                 {
-                                    $users		=	$this->core->users_global->getUser($g['AUTHOR']);
+                                    $users		=	$this->instance->users_global->getUser($g['AUTHOR']);
                                     $post_time	=	strtotime($g['DATE']);
                             ?>
                                 <tr>
                                     <th><?php echo $users['PSEUDO'];?></th>
                                     <th><?php echo htmlentities($g['CONTENT']);?></th>
-                                    <th><?php echo $this->core->tendoo->timespan($post_time);?></th>
+                                    <th><?php echo $this->instance->date->timespan($post_time);?></th>
                                 </tr>
                             <?php
                                 }

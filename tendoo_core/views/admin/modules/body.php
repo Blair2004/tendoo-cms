@@ -29,13 +29,13 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
-                <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?>
+                <section class="wrapper"> <?php echo output('notice');?>
                     <div class="row">
                         <div class="col-lg-8">
                             <section class="panel">
@@ -47,11 +47,11 @@
                                             {
                                                 foreach($modules as $mod)
                                                 {
-                                                    $appIcon	=	$this->core->tendoo_admin->getAppImgIco($mod['NAMESPACE']);
+                                                    $appIcon	=	$this->instance->tendoo_admin->getAppImgIco($mod['NAMESPACE']);
                                                     ?>
                                         <tr>
                                             <td>
-                                            <a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$mod['ID']));?>">
+                                            <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['ID']));?>">
 											<?php
                                                     if($appIcon)
                                                     {
@@ -67,23 +67,23 @@
                                                     }
                                                     ?>
                                                     </a></td>
-                                            <td class="action"><strong> <a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$mod['ID']));?>"><?php echo $mod['HUMAN_NAME'];?></a> </strong> <br>
+                                            <td class="action"><strong> <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['ID']));?>"><?php echo $mod['HUMAN_NAME'];?></a> </strong> <br>
                                                 <em><small><?php echo $mod['AUTHOR'];?></small></em> <br>
                                                 <?php echo $mod['DESCRIPTION'];?> <br>
                                                 <small title="Unique : S'applique à un contr&ocirc;leur uniquement. Globale : S'applique &agrave; tous les contr&ocirc;leurs" style="font-size:10px;"><?php echo ($mod['TYPE'] == 'GLOBAL') ? 'Globale' : 'Unique';?></small>
                                                 <strong><small style="float:right;font-size:10px;"><?php echo ($mod['APP_VERS'] == '') ? 'Version Inconnue' : 'v.'.$mod['APP_VERS'];?></small></strong></td>
-                                            <td class="action"><a class="delete" href="<?php echo $this->core->url->site_url(array('admin','uninstall','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-trash-o" title="D&eacute;sintaller"></i></a></td>
+                                            <td class="action"><a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','uninstall','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-trash-o" title="D&eacute;sintaller"></i></a></td>
                                             <td><?php
                                                     if($mod['ACTIVE'] == '0')
                                                     {
                                                         ?>
-                                                <a class="delete" href="<?php echo $this->core->url->site_url(array('admin','active','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-times-circle" title="Clickez pour activer"></i></a>
+                                                <a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','active','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-times-circle" title="Clickez pour activer"></i></a>
                                                 <?php
                                                     }
                                                     else
                                                     {
                                                         ?>
-                                                <a class="delete" href="<?php echo $this->core->url->site_url(array('admin','unactive','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-check" title="Cliquez pour d&eacute;sactiver"></i></a>
+                                                <a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','unactive','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-check" title="Cliquez pour d&eacute;sactiver"></i></a>
                                                 <?php
                                                     }
                                                     ?></td>

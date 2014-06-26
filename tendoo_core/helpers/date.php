@@ -41,7 +41,7 @@ if ( ! function_exists('now'))
 	{
 		$obj	=	new stdClass();
 		__extends($obj);
-		return $obj->tendoo->datetime();
+		return $obj->instance->date->datetime();
 	}
 }
 
@@ -598,7 +598,7 @@ if ( ! function_exists('timezone_menu'))
 {
 	function timezone_menu($default = 'UTC', $class = "", $name = 'timezones')
 	{
-		$CI = Controller::instance();
+		$CI = get_instance();
 		$CI->lang->load('date');
 
 		if ($default == 'GMT')

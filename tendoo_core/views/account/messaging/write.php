@@ -1,7 +1,7 @@
 <?php echo $smallHeader;?>
 <section class="scrollable bg-light lt">
     <div class="panel-content">
-        <div class="scrollable wrapper"> <?php echo $this->core->notice->parse_notice();?>
+        <div class="scrollable wrapper"> <?php echo output('notice');?>
             <div class="panel">
             	<div class="panel-heading">
                     <div class="btn-group">

@@ -15,14 +15,14 @@
       <header>
          <div class="row b-b m-l-none m-r-none">
             <div class="col-sm-4">
-               <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-               <p class="block text-muted"><?php echo $pageDescription;?></p>
+               <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+               <p class="block text-muted"><?php echo get_page('description');?></p>
             </div>
          </div>
       </header>
       <section class="vbox">
          <section class="wrapper w-f">
-            <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo validation_errors('<p class="error">', '</p>');?> <?php echo notice_from_url();?>
+            <?php echo output('notice');?>  <?php echo validation_errors('<p class="error">', '</p>');?> <?php echo fetch_error_from_url();?>
             <section class="panel">
                <header class="panel-heading bg-light">
                   <ul class="nav nav-tabs nav-justified">
@@ -40,12 +40,12 @@
 								foreach($getPrivileges as $p)
 								{
 									$values		=	array();
-									$values['gestpa']		=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestpa',$p['PRIV_ID']);	
-									$values['toolsaccess']	=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','toolsaccess',$p['PRIV_ID']);	
-									$values['gestapp']		=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestapp',$p['PRIV_ID']);	
-									$values['gestheme']		=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestheme',$p['PRIV_ID']);	
-									$values['gestmo']		=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestmo',$p['PRIV_ID']);	
-									$values['gestset']		=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('system','gestset',$p['PRIV_ID']);	
+									$values['gestpa']		=	$this->instance->tendoo_admin->getValueForPrivNameAndSystem('system','gestpa',$p['PRIV_ID']);	
+									$values['toolsaccess']	=	$this->instance->tendoo_admin->getValueForPrivNameAndSystem('system','toolsaccess',$p['PRIV_ID']);	
+									$values['gestapp']		=	$this->instance->tendoo_admin->getValueForPrivNameAndSystem('system','gestapp',$p['PRIV_ID']);	
+									$values['gestheme']		=	$this->instance->tendoo_admin->getValueForPrivNameAndSystem('system','gestheme',$p['PRIV_ID']);	
+									$values['gestmo']		=	$this->instance->tendoo_admin->getValueForPrivNameAndSystem('system','gestmo',$p['PRIV_ID']);	
+									$values['gestset']		=	$this->instance->tendoo_admin->getValueForPrivNameAndSystem('system','gestset',$p['PRIV_ID']);	
 							?>
                            <li class="list-group-item" data-form-name="<?php echo $p['PRIV_ID'];?>">
                               <h4 class="panel-heading"><?php echo $p['HUMAN_NAME'];?></h4>
@@ -204,7 +204,7 @@
                               	<?php
                                         foreach($getPrivileges as $p)
                                         {
-                                            $action	=	$this->core->tendoo_admin->getModuleAction($g['NAMESPACE']);
+                                            $action	=	$this->instance->tendoo_admin->getModuleAction($g['NAMESPACE']);
                                             if(is_array($action))
                                             {
                                     ?>
@@ -215,7 +215,7 @@
                                                 foreach($action as $a)
                                                 {
                                                     $values		=	array();
-                                                    $values[$a['ACTION']]	=	$this->core->tendoo_admin->getValueForPrivNameAndSystem('modules',$a['ACTION'],$p['PRIV_ID']);	
+                                                    $values[$a['ACTION']]	=	$this->instance->tendoo_admin->getValueForPrivNameAndSystem('modules',$a['ACTION'],$p['PRIV_ID']);	
                                                     ?>
                                        <li data-name="<?php echo $a['ACTION'];?>" data-value="<?php
                                             if(array_key_exists('REF_ACTION_VALUE',$values[$a['ACTION']]))
@@ -326,7 +326,7 @@
 									success	:	function(data){
 										 
 									},
-									url		:	'<?php echo $this->core->url->site_url(array('admin','system','ajax_manage_system_actions'));?>'
+									url		:	'<?php echo $this->instance->url->site_url(array('admin','system','ajax_manage_system_actions'));?>'
 								});
 							});
 							$('.update_common_action').bind('click',function(){
@@ -350,7 +350,7 @@
 									success	:	function(data){
 										 
 									},
-									url		:	'<?php echo $this->core->url->site_url(array('admin','system','ajax_manage_common_actions'));?>'
+									url		:	'<?php echo $this->instance->url->site_url(array('admin','system','ajax_manage_common_actions'));?>'
 								});
 							});
 						});

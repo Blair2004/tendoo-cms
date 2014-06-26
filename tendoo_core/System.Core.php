@@ -1,50 +1,28 @@
 <?php
-Class Controller
+Class instance extends Libraries
 {
-	public 	$data;
-	public	$url;
-	public	$load;
-	public	$Tendoo;
-	public	$output;
-	public	$lang;
-	public 	$input;
-	public 	$security;
-	public 	$utf8;
-	public 	$helper;
-	public 	$notice;
-	public 	$exceptions;
-	public	$session;
-	public 	$users_global;
-	// other vars
-	protected static $instance;
+	private $is_installed			=	false;
+	private $db_connected			=	false;
+	private $data					=	array();
+	public static $instance;
 	public function __construct()
 	{
-		/* =-=-=-=-=-=-=-=-=-=-=-=-= INITIALIZE =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		self::$instance	=&	$this;
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->url		=	new Url;
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->notice	=	new Notice;
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->lang		=	new Lang;
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->utf8		=	new Utf8;		
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->security	=	new Security();
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->load		=	new Loader($this);
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->input	=	new Input($this);
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->helper	=	new Helper($this);
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->exceptions=	new Exceptions;
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->tendoo	=	new Tendoo;
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->session	=	new Session;
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		$this->file		=	new File;
+		parent::__construct();
+		self::$instance			=&	$this;
+		$this->is_installed		=	is_file('tendoo_core/config/tendoo_config.php') ? true : false;
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$this->description		=	'Page Sans Description | Tendoo CMS';
+		$this->title			=	'Page Sans Titre | Tendoo CMS';
+		$this->keywords			=	'';
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	}
+	public function boot()
+	{
+		if($this->db_connect())
+		{
+			$this->date				=	new Tdate;
+			$this->options			=	new Options;
+		}
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		$baseUrl	=	$this->url->site_url(array('index'));
 		$Class		=	$this->url->controller();	
@@ -59,7 +37,7 @@ Class Controller
 			//	Define Script Context to Public
 			define('SCRIPT_CONTEXT','PUBLIC');
 			//	End
-			if($this->tendoo->isInstalled())
+			if($this->is_installed)
 			{
 				$this->url->redirect(array('error','code','accessDenied'));
 			}
@@ -74,12 +52,12 @@ Class Controller
 			//	Define Script Context to Public
 			define('SCRIPT_CONTEXT','PUBLIC');
 			//	End
-			if($this->tendoo->isInstalled())
+			if($this->is_installed)
 			{
-				if($this->tendoo->connectToDb())
+				if($this->db_connected())
 				{
-				include_once(CONTROLLERS_DIR.'registration.php');
-				include_once(SYSTEM_DIR.'Executer.php');
+					include_once(CONTROLLERS_DIR.'registration.php');
+					include_once(SYSTEM_DIR.'Executer.php');
 				}
 				else
 				{
@@ -97,9 +75,9 @@ Class Controller
 			//	Define Script Context to Public
 			define('SCRIPT_CONTEXT','PUBLIC');
 			//	End
-			if($this->tendoo->isInstalled())
+			if($this->is_installed)
 			{
-				if($this->tendoo->connectToDb())
+				if($this->db_connected())
 				{
 					include_once(CONTROLLERS_DIR.'login.php');
 					include_once(SYSTEM_DIR.'Executer.php');
@@ -120,9 +98,9 @@ Class Controller
 			//	Define Script Context to Public
 			define('SCRIPT_CONTEXT','PUBLIC');
 			//	End
-			if($this->tendoo->isInstalled())
+			if($this->is_installed)
 			{
-				if($this->tendoo->connectToDb())
+				if($this->db_connected())
 				{
 					include_once(CONTROLLERS_DIR.'logoff.php');
 					include_once(SYSTEM_DIR.'Executer.php');
@@ -143,9 +121,9 @@ Class Controller
 			// 	Define Script context to Admin
 			define('SCRIPT_CONTEXT','ADMIN');
 			// 	End define
-			if($this->tendoo->isInstalled())
+			if($this->is_installed)
 			{
-				if($this->tendoo->connectToDb())
+				if($this->db_connected())
 				{
 					include_once(CONTROLLERS_DIR.'admin.php');
 					include_once(SYSTEM_DIR.'Executer.php');
@@ -166,9 +144,9 @@ Class Controller
 			//	Define Script Context to Public
 			define('SCRIPT_CONTEXT','PUBLIC');
 			//	End
-			if($this->tendoo->isInstalled())
+			if($this->is_installed)
 			{
-				if($this->tendoo->connectToDb())
+				if($this->db_connected())
 				{
 					include_once(CONTROLLERS_DIR.'account.php');
 					include_once(SYSTEM_DIR.'Executer.php');
@@ -197,7 +175,7 @@ Class Controller
 			//	Define Script Context to Public
 			define('SCRIPT_CONTEXT','PUBLIC');
 			//	End
-			if(!$this->tendoo->isInstalled())
+			if(!$this->is_installed)
 			{
 				include_once(CONTROLLERS_DIR.'tendoo_index.php');
 				include_once(SYSTEM_DIR.'Executer.php');
@@ -205,20 +183,23 @@ Class Controller
 			else
 			{
 				// Connexion a la base de donnée avec le fichier de configuration.
-				if(!$this->tendoo->connectToDb())
+				if(!$this->db_connected())
+
 				{
 					$this->tendoo->error('db_connect_error');
 					die();
 				}
+				$this->load->library(	'stats'	);
+				$this->load->library(	'menu'	);
 				// LOAD SYSTEME VARS
 				$this->data['url_module']	=		$Teurmola[1];
 				
-				$this->data['options']		=		$this->tendoo->getOptions();
+				$this->data['options']		=		get_options();
 				$this->data['controllers']	=		$this->tendoo->get_pages('',FALSE); // Get every page with their childrens instead of getController() who is now obsolete
-				$this->data['activeTheme']		=		$this->tendoo->getSiteTheme();
+				$this->data['activeTheme']	=		$this->tendoo->getSiteTheme();
 				$this->data['Tendoo']		=		$this->tendoo;
 				$this->data['module_url']	=		$this->url->site_url(array('tendoo@'.$Teurmola[1]));
-				$this->tendoo->addVisit(); // Add visit to global stat;				
+				$this->stats->addVisit(); // Add visit to global stat;				
 
 				$this->data['module']		=		$this->tendoo->getSpeModuleByNamespace($this->data['url_module']);
 				if($this->data['activeTheme'] === FALSE)
@@ -228,7 +209,7 @@ Class Controller
 				else
 				{
 					// LOAD THEME HANDLER
-					include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/extends/script.php');
+					include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/theme-items-class.php');
 					if(class_exists($this->data['activeTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
 					{
 						eval('$this->data["theme"] = new '.$this->data['activeTheme']['NAMESPACE'].'_theme_handler($this->data);'); // Initialize Theme handler;
@@ -275,7 +256,7 @@ Class Controller
 			//	Define Script Context to Public
 			define('SCRIPT_CONTEXT','PUBLIC');
 			//	End
-			if(!$this->tendoo->isInstalled())
+			if(!$this->is_installed)
 			{
 				include_once(CONTROLLERS_DIR.'tendoo_index.php');
 				include_once(SYSTEM_DIR.'Executer.php');
@@ -283,32 +264,38 @@ Class Controller
 			else
 			{
 				// Connexion a la base de donnée avec le fichier de configuration.
-				if(!$this->tendoo->connectToDb())
+				if(!$this->db_connected())
 				{
 					$this->tendoo->error('db_connect_error');
 					die();
 				}
-				// LOAD SYSTEME VARS
-				$this->data['options']		=		$this->tendoo->getOptions();
-				$this->data['controllers']	=		$this->tendoo->get_pages('',FALSE); // Get every page with their childrens instead of getController() who is now obsolete
-				$this->data['page'] 		=		$this->tendoo->getPage($Class); // Get info from load Page
+				$this->load->library(	'stats'	);
+				$this->load->library(	'menu'	);
+				// Tendoo 0.9.9
+				update_core_array(	'options'	,	($this->data['options']	=	$this->options->get())	);
+				update_core_array(	'controllers'	,	($this->data['controllers']	=	$this->tendoo->get_pages('',FALSE))	);
+				update_core_array(	'page'	,	($this->data['page']	=	$this->tendoo->getPage($Class))	);
+				
 				if(is_string($this->data['page']))
 				{
 					$this->url->redirect(array('error','code',$this->data['page']));
 				}
 				else
 				{
-					$this->data['activeTheme']	=		$this->tendoo->getSiteTheme();
-					$this->data['Tendoo']		=		$this->tendoo;
-					$this->data['module_url']	=		$this->tendoo->retreiveControlerUrl();
+					update_core_array(	'activeTheme'	,	($this->data['activeTheme']	= $this->tendoo->getSiteTheme()));
+					update_core_array(	'tendoo'	,	($this->data['Tendoo']		=		$this->tendoo)	);
+					update_core_array(	'module_url'	,	($this->data['module_url']	=		$this->url->get_controller_url()));
+					update_core_array(	'bypage_theme'	,  ($this->data['module']	= $this->tendoo->getSpeModuleByNamespace($this->data['page'][0]['PAGE_MODULES'])));
+					update_core_array(	'globalModule'	,	($this->data['GlobalModule']	=		$this->tendoo->getGlobalModules(1)));
+
+					set_page(	'keywords'	, $this->data['page'][0]['PAGE_KEYWORDS']);
 					
-					$this->tendoo->setKeywords($this->data['page'][0]['PAGE_KEYWORDS']);
-					$this->tendoo->addVisit(); // Add visit to global stats
+					$this->stats->addVisit(); // Add visit to global stats
+					
 					if($this->data['module_url']	==	'noMainPage')
 					{
 						$this->url->redirect(array('error','code','noMainPage'));
 					}
-					$this->data['module']		=		$this->tendoo->getSpeModuleByNamespace($this->data['page'][0]['PAGE_MODULES']);
 					if($this->data['activeTheme'] === FALSE)
 					{
 						$this->url->redirect(array('error','code','noThemeInstalled'));
@@ -316,7 +303,7 @@ Class Controller
 					else
 					{
 						// LOAD THEME HANDLER
-						include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/extends/script.php');
+						include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/theme-items-class.php');
 						if(class_exists($this->data['activeTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
 						{
 							eval('$this->data["theme"] = new '.$this->data['activeTheme']['NAMESPACE'].'_theme_handler($this->data);'); // Initialize Theme handler;
@@ -329,7 +316,6 @@ Class Controller
 						if($this->data['module'] !== FALSE) // LE MODULE EST INEXISTANT OU INCORRECT
 						{
 							// La priorité n'est plus prise en charge
-							$this->data['GlobalModule']	=		$this->tendoo->getGlobalModules(1);   // Chargement des modules de type GLOBAL
 							if(is_array($this->data['GlobalModule']))
 							{
 								foreach($this->data['GlobalModule'] as $r)
@@ -360,25 +346,70 @@ Class Controller
 			}
 		}
 	}
+	public function db_connect()
+	{
+		if($this->is_installed)
+		{
+			// Pour ne pas multiplier les connexion vers la base de données.
+			if(!$this->db_connected())
+			{
+				include_once(SYSTEM_DIR.'config/tendoo_config.php');
+				$this->db	=	DB($db,TRUE);
+				set_db($this->db);
+				$this->db_connected	=	true;
+				if(!defined('DB_ROOT'))
+				{
+					define('DB_ROOT',$config['dbprefix']);
+				}
+				return true;
+			}
+		}
+		else
+		{
+			if(!$this->db_connected())
+			{
+				$config		=	$_SESSION['db_datas'];
+				$this->db	=	DB($config,TRUE);
+				set_db($this->db);
+				$this->db_connected	=	true;
+				if(!defined('DB_ROOT'))
+				{
+					define('DB_ROOT',$config['dbprefix']);
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+	public function db_connected()
+	{
+		return $this->db_connected;
+	}
 	public static function instance()
 	{
-		return Controller::$instance;
+		return instance::$instance;
 	}
-	public function config_item($item)
+	public function version()
 	{
-		static $_config_item = array();
-
-		if ( ! isset($_config_item[$item]))
-		{
-			$config =& get_config();
-
-			if ( ! isset($config[$item]))
-			{
-				return FALSE;
-			}
-			$_config_item[$item] = $config[$item];
-		}
-
-		return $_config_item[$item];
+		return 'Tendoo - CMS('.$this->id().')';
+	}
+	public function id()
+	{
+		return TENDOO_VERSION;
+	}
+	/**
+	*	Mise à jour du tableau du noyau
+	**/
+	public function update_core_array($key,$value) // Restreindre la modification du système
+	{
+		$this->data[$key]	=	$value;
+		return true;
+	}
+	/**
+	*	Recupértion d'un champ du tableau du système.
+	**/
+	public function get_core_array($key)
+	{
+		return array_key_exists($key,$this->data) ? $this->data[$key] : false;
 	}
 }

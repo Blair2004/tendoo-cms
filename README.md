@@ -1,27 +1,21 @@
 Tendoo-cms
 =========
-v.0.9.83
+v.1.1
 ---------
 Mise à jour
 ---------
 
-    *	Contrôleur renommé en page (processus en cours...)
-    *	Correction bug gestion des contrôleurs (pages)
-    *	Ajout message d'accueil (visite guidée)
-    *	Ajout section d'aide.
-    *	Documentation progressive du code.
-	*	Correction issue #1.
-	*	Blogster mise à jour.
-	*	Correction issue #2.
-	* 	Amélioration de l'interface des thèmes.
-	* 	Restructuration du menu.
+    *	Reorganisation générale du code Source.
+	* 	Mise à jour des modules et thèmes aux nouvelles normes.
+	*	Amélioration du système d'installation.
+	*	Traduction en cours (support : Français).
+	*	Ajout de nouvelles fonctionnaltiés à l'espace membre
 
 En attente :
 
-	*	Configuration de la plateforme "www.tendoo.org"
-    *	Nouveau thème
-    *	2TB tendoo theme builder
-    *	Gestionnaire de la page d'accueil mise à jour
-    *	Gestionnaire de médias ...
+	*	Création d'une extension pour réseaux sociaux (Google+, Facebook et Twitter).
+	*	Nouveau thème par défaut.
+	*	Conception de "Tforum" (module de gestion des forums).
+	*	Déployement de la plateforme (Tendoo.org).
 
 Laissez-nous vos impressions sur carlosjohnsonluv2004@gmail.com

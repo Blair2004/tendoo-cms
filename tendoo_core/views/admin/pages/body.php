@@ -16,20 +16,20 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
                 <section class="wrapper w-f">
-                    <?php echo $this->core->notice->parse_notice();?>
-                    <?php echo $success;?>
+                    <?php echo output('notice');?>
+                    
                     <div class="row">
                         <div class="col-lg-5">
                             <section class="panel">
                                 <div class="panel-heading"> Cr&eacute;er une page</div>
-                                <form id="controller_form" fjax action="<?php echo $this->core->url->site_url(array('admin','ajax','create_controller'));?>" method="post" class="panel-body">
+                                <form id="controller_form" fjax action="<?php echo $this->instance->url->site_url(array('admin','ajax','create_controller'));?>" method="post" class="panel-body">
                                     <div class="form-group">
                                         <label class="control-label">Nom de la page</label>
                                         <div class="input-group">
@@ -58,7 +58,7 @@
                                             data-toggle="popover" 
                                             data-html="true" 
                                             data-placement="bottom" 
-                                            data-content="<div style='width:250px'>Ce texte sera utilisé dans l'adresse URL. Le mot ne doit pas contenir d'espace ou de caractères spéciaux. les tirets et underscore sont accept&eacute;s. <br>Exemple : <?php echo $this->core->url->main_url();?>index.php/<strong>nouvelle-page</strong> ou <?php echo $this->core->url->main_url();?>index.php/<strong>blog</strong></div>" 
+                                            data-content="<div style='width:250px'>Ce texte sera utilisé dans l'adresse URL. Le mot ne doit pas contenir d'espace ou de caractères spéciaux. les tirets et underscore sont accept&eacute;s. <br>Exemple : <?php echo $this->instance->url->main_url();?>index.php/<strong>nouvelle-page</strong> ou <?php echo $this->instance->url->main_url();?>index.php/<strong>blog</strong></div>" 
                                             title="" 
                                             data-original-title="Code du contrôleur">?</button>
                                             </span>
@@ -220,7 +220,10 @@
 											<input type="hidden" controller_link name="controller[link][]" value="<?php echo $g['PAGE_LINK'];?>">
 											<input type="hidden" controller_visible name="controller[visible][]" value="<?php echo $g['PAGE_VISIBLE'];?>">
 											<input type="hidden" controller_id name="controller[id][]" value="<?php echo $g['ID'];?>">
-											<div class="dd-handle"><?php echo $g['PAGE_NAMES'];?>
+											<div class="dd-handle">
+												<span controller_name_visible>
+                                                <?php echo $g['PAGE_NAMES'];?>
+												</span>
 												<span id="controller_priority_status">
 												<?php
 												if($g['PAGE_MAIN'] == 'TRUE')
@@ -231,8 +234,6 @@
 												}
 												?>
 												</span>
-												<span class="controller_name">
-												</span>
 												<div style="float:right">
 													<button class="edit_controller dd-nodrag btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i></button>
 													<button class="remove_controller dd-nodrag btn btn-warning btn-sm" type="button"><i class="fa fa-times"></i></button>												
@@ -240,7 +241,7 @@
 											</div>
 											<ol class="dd-list">
 												<?php
-												$this->core->tendoo_admin->getChildren($g['PAGE_CHILDS']);
+												$this->instance->tendoo_admin->getChildren($g['PAGE_CHILDS']);
 												?>
 											</ol>
 										</li>
@@ -294,6 +295,7 @@
 									// 
 									var parent			=	$('.modal-body');
 									$(parent).find('[name="page_name"]').val(p_name);
+
 									$(parent).find('[name="page_title"]').val(p_title);
 									$(parent).find('[name="page_cname"]').val(p_cname);
 									$(parent).find('[name="page_description"]').val(p_description);
@@ -305,7 +307,7 @@
 									$(parent).find('[name="page_visible"]').val(p_visible);
 									if(hasparent) // Si c'est un enfant
 									{
-										 $(parent).find('[name="page_priority"]').attr('disabled','disabled').attr('titl','Un contrôleur enfant ne peut pas être défini comme "principal"');
+										 $(parent).find('[name="page_priority"]').attr('disabled','disabled').attr('title','Un contrôleur enfant ne peut pas être défini comme "principal"');
 									}
 									//
 									if(!$(parent).find('[prototype_submiter]').attr('binded'))
@@ -316,6 +318,7 @@
 											var prority =	$(parent).find('[name="page_priority"]').val();
 											$(data).find('[controller_title]').eq(0).val($(parent).find('[name="page_title"]').val());
 											$(data).find('[controller_name]').eq(0).val($(parent).find('[name="page_name"]').val());
+											$(data).find('[controller_name_visible]').eq(0).html($(parent).find('[name="page_name"]').val());
 											$(data).find('[controller_cname]').eq(0).val($(parent).find('[name="page_cname"]').val());
 											$(data).find('[controller_description]').eq(0).val($(parent).find('[name="page_description"]').val());
 											$(data).find('[controller_module]').eq(0).val($(parent).find('[name="page_module"]').val());
@@ -370,7 +373,7 @@
                                             <section class="wrapper">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <form id="controller_form" fjax action="<?php echo $this->core->url->site_url(array('admin','ajax','create_controller'));?>" method="post" class="panel-body">
+                                                        <form id="controller_form" fjax action="<?php echo $this->instance->url->site_url(array('admin','ajax','create_controller'));?>" method="post" class="panel-body">
                                                             <div class="form-group">
                                                                 <div class="row">
                                                                     <div class="col-xs-4">
@@ -401,7 +404,7 @@
                                                         data-toggle="popover" 
                                                         data-html="true" 
                                                         data-placement="bottom" 
-                                                        data-content="<div style='width:250px'>Ce texte sera utilisé dans l'adresse URL. Le mot ne doit pas contenir d'espace ou de caractères spéciaux. les tirets et underscore sont accept&eacute;s. <br>Exemple : <?php echo $this->core->url->main_url();?>index.php/<strong>nouvelle-page</strong> ou <?php echo $this->core->url->main_url();?>index.php/<strong>blog</strong></div>" 
+                                                        data-content="<div style='width:250px'>Ce texte sera utilisé dans l'adresse URL. Le mot ne doit pas contenir d'espace ou de caractères spéciaux. les tirets et underscore sont accept&eacute;s. <br>Exemple : <?php echo $this->instance->url->main_url();?>index.php/<strong>nouvelle-page</strong> ou <?php echo $this->instance->url->main_url();?>index.php/<strong>blog</strong></div>" 
                                                         title="" 
                                                         data-original-title="Code du contrôleur">?</button>
                                                                             </span>

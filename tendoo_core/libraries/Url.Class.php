@@ -26,7 +26,8 @@ Class Url
 		$this->splited_url			=	explode('/',substr($this->explode_get[0],7));
 		$this->execution_dir		=	getcwd();
 		$this->projet_dir			=	'';
-		//
+		// Si la re-écriture est activé, on réduit l'index. 
+		$index	=	($this->rewrite	==	true) ? 1 : 0;
 		if(preg_match("#\\\#",$this->execution_dir))
 		{
 			$splitDir				=	explode('\\',$this->execution_dir);
@@ -39,10 +40,20 @@ Class Url
 		}
 		$rootKey					=	0;
 		$newSpliterUrl				=	array();
-		$copy_new_url				=	true;
+		$copy_new_url				=	false;
+		if(!in_array($this->projet_dir,$this->splited_url))
+		{
+			// Lorsque le dossier d'exécution n'existe pas dans l'url. Alors il faut copier l'URL depuis le début
+			// La copie sera lancé au tout début de la boucle.
+			$copy_new_url			=	true;
+		}
 		// Splited URL restructuration. To detect Base Root on URL
 		foreach($this->splited_url as $p)
 		{
+			if($p == 'index.php')
+			{
+				$index				=	0;
+			}
 			if($p	==	 $this->projet_dir || $copy_new_url == true)
 			{
 				$newSpliterUrl[]	=	$p;
@@ -56,13 +67,13 @@ Class Url
 		$this->site_name			=	$_SERVER['HTTP_HOST'];
 		if(in_array($this->splited_url[0],array('localhost','127.0.0.1')))
 		{
-			if(array_key_exists(2,$this->splited_url)) // Si n'existe pas, nous ne somme pas censé nous trouver sous un environnement local.
+			if(array_key_exists(2-$index,$this->splited_url)) // Si n'existe pas, nous ne somme pas censé nous trouver sous un environnement local.
 			{
-				if($this->splited_url[2] == '')
+				if($this->splited_url[2-$index] == '')
 				{
 					$this->controller	=	'index';
-					$this->method		=	(array_key_exists(3,$this->splited_url)) ? $this->splited_url[3]	:	'index';
-					for($i=4;$i<count($this->splited_url);$i++)
+					$this->method		=	(array_key_exists(3-$index,$this->splited_url)) ? $this->splited_url[3-$index]	:	'index';
+					for($i=(4-$index);$i<count($this->splited_url);$i++)
 					{
 						if($this->splited_url[$i] != '')
 						{
@@ -70,23 +81,23 @@ Class Url
 						}
 					}
 				}
-				else if($this->splited_url[2] == 'index.php')
+				else if($this->splited_url[2-$index] == 'index.php')
 				{
-					if(array_key_exists(3,$this->splited_url))
+					if(array_key_exists(3-$index,$this->splited_url))
 					{
-						if($this->splited_url[3] == '')
+						if($this->splited_url[3-$index] == '')
 						{
 							$this->controller	=	'index';
 						}
 						else
 						{
-							$this->controller	=	$this->splited_url[3];
+							$this->controller	=	$this->splited_url[3-$index];
 						}
-						if(array_key_exists(4,$this->splited_url))
+						if(array_key_exists(4-$index,$this->splited_url))
 						{
-							if($this->splited_url[4] != '')
+							if($this->splited_url[4-$index] != '')
 							{
-								$this->method	=	$this->splited_url[4];
+								$this->method	=	$this->splited_url[4-$index];
 							}
 							else
 							{
@@ -97,7 +108,7 @@ Class Url
 						{
 							$this->method		=	'index';
 						}
-						for($i=5;$i<count($this->splited_url);$i++)
+						for($i=(5-$index);$i<count($this->splited_url);$i++)
 						{
 							if($this->splited_url[$i] != '')
 							{
@@ -108,11 +119,11 @@ Class Url
 					else
 					{
 						$this->controller	=	'index';
-						if(array_key_exists(3,$this->splited_url))
+						if(array_key_exists(3-$index,$this->splited_url))
 						{
-							if($this->splited_url[3] != '')
+							if($this->splited_url[3-$index] != '')
 							{
-								$this->method	=	$this->splited_url[3];
+								$this->method	=	$this->splited_url[3-$index];
 							}
 							else
 							{
@@ -123,7 +134,7 @@ Class Url
 						{
 							$this->method		=	'index';
 						}
-						for($i=5;$i<count($this->splited_url);$i++)
+						for($i=(5-$index);$i<count($this->splited_url);$i++)
 						{
 							if($this->splited_url[$i] != '')
 							{
@@ -134,12 +145,12 @@ Class Url
 				}
 				else
 				{
-					$this->controller	=	$this->splited_url[2];
-					if(array_key_exists(3,$this->splited_url))
+					$this->controller	=	$this->splited_url[2-$index];
+					if(array_key_exists(3-$index,$this->splited_url))
 					{
-						if($this->splited_url[3] != '')
+						if($this->splited_url[3-$index] != '')
 						{
-							$this->method	=	$this->splited_url[3];
+							$this->method	=	$this->splited_url[3-$index];
 						}
 						else
 						{
@@ -150,7 +161,7 @@ Class Url
 					{
 						$this->method		=	'index';
 					}
-					for($i=4;$i<count($this->splited_url);$i++)
+					for($i=(4-$index);$i<count($this->splited_url);$i++)
 					{
 						if($this->splited_url[$i] != '')
 						{
@@ -162,9 +173,6 @@ Class Url
 		}
 		else // S'applique dans ce cas.
 		{
-			// Si la re-écriture est activé, on réduit l'index. 
-			$index	=	$this->rewrite	==	true ? 1 : 0;
-			// 
 			if(array_key_exists(1-$index,$this->splited_url))
 			{
 				if($this->splited_url[1-$index] == '')
@@ -320,7 +328,11 @@ Class Url
 	{
 		return $this->rewrite;
 	}
-	public function http_request($ARRAY_TYPE	=	FALSE)
+	public function getSplitedUrl()
+	{
+		return $this->splited_url;
+	}
+	public function http_request($ARRAY_TYPE	=	FALSE) // Correct this method for product usage
 	{
 		if($ARRAY_TYPE	==	FALSE)
 		{
@@ -473,7 +485,7 @@ Class Url
 	}
 	public function index_page()
 	{
-		return $this->core->url->base_url();
+		return $this->instance->url->base_url();
 	}
 	public function redirect($uri,$method	=	'location')
 	{
@@ -511,7 +523,7 @@ Class Url
 	{
 		return $this->main_url().'tendoo_assets/img/'.$img;
 	}
-	public function segment($segment)
+	public function segment($segment) // unused
 	{
 		var_dump($this->method);
 	}
@@ -522,5 +534,19 @@ Class Url
 	public function font_url($font)
 	{
 		return $this->main_url().'tendoo_assets/font/'.$font;
+	}
+	public function get_controller_url()
+	{
+		$this->instance	=	get_instance();
+		$details	=	$this->http_request(TRUE);
+		if(array_key_exists(0,$details))
+		{
+			$controller	=	$this->instance->tendoo->getPage();
+			if(is_array($controller))
+			{
+				return $this->site_url(array($controller[0]['PAGE_CNAME']));
+			}
+			return $controller;
+		}
 	}
 }

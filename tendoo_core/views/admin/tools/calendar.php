@@ -7,9 +7,9 @@
       <header>
       <div class="row b-b m-l-none m-r-none">
         <div class="col-sm-4">
-          <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
+          <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
           <p class="block text-muted">
-            <?php echo $pageDescription;?>
+            <?php echo get_page('description');?>
           </p>
         </div>
       </div>

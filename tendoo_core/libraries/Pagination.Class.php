@@ -140,7 +140,7 @@ class Pagination {
 		}
 
 		// Determine the current page number.
-		$CI = Controller::instance();
+		$CI = get_instance();
 
 		if ($this->page_query_string === TRUE) // Removed $CI->config->item('enable_query_strings') === TRUE OR 
 		{

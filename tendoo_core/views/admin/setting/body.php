@@ -7,24 +7,24 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
                 <section class="wrapper w-f"> 
-					<?php echo $this->core->notice->parse_notice();?> 
-					<?php echo $success;?>
+					<?php echo output('notice');?> 
+					
                     <?php echo validation_errors('<p class="error">', '</p>');?>
-                    <?php echo notice_from_url();?>
+                    <?php echo fetch_error_from_url();?>
                     <section class="panel">
                         <header class="panel-heading bg-light">
                             <ul class="nav nav-tabs nav-justified">
                                 <li class="active"><a href="#datasetting" data-toggle="tab">R&eacute;glages de base</a></li>
                                 <li><a href="#autorisation" data-toggle="tab">Autorisations</a></li>
 								<?php
-								if($this->core->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+								if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 								{
 								?>
                                 <li><a href="#security" data-toggle="tab">S&eacute;curit&eacute;</a></li>
@@ -37,28 +37,15 @@
                             <div class="tab-content">
 								<div class="tab-pane active" id="datasetting">
 									<form method="post" class="panel-body">
-										<div class="form-group">
-											<label class="label-control">Modifier le thème du système</label>
-											<select class="form-control" name="theme_style">
-												<option value="">Choisir le thème</option>
-												<option value="0" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 0): ?> selected="selected"<?php endif;?> >Inverse Theme</option>
-												<option value="1" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 1): ?> selected="selected"<?php endif;?>>Bubbles Showcase</option>
-												<option value="2" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 2): ?> selected="selected"<?php endif;?>>Green Day</option>
-												<option value="3" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 3): ?> selected="selected"<?php endif;?>>Red Horn</option>
-												<option value="4" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 4): ?> selected="selected"<?php endif;?>>Selective Orange</option>
-												<option value="5" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 5): ?> selected="selected"<?php endif;?>>Skies</option>
-                                                <option value="6" <?php if((int)(int)$this->core->users_global->current('ADMIN_THEME') == 6): ?> selected="selected"<?php endif;?>>Blurry</option>
-											</select>
-										</div>
 										<?php
-										if($this->core->users_global->current('PRIVILEGE') == 'NADIMERPUS')
+										if($this->instance->users_global->current('PRIVILEGE') == 'NADIMERPUS')
 										{
 										?>
 										<div class="form-group">
 											<label class="control-label">D&eacute;finir fuseau horaire</label>
 											<?php $default	=	$options[0]['SITE_TIMEZONE'] == '' ? 'UTC' : $options[0]['SITE_TIMEZONE'];?>
 											<select name="newHoraire" class="input-sm form-control">
-											<?php $fuso		=	$this->core->tendoo->getFuseau();
+											<?php $fuso		=	$this->instance->date->getFuseau();
 											foreach($fuso as $f)
 											{
 												if($options[0]['SITE_TIMEZONE'] == $f['Code'])
@@ -112,14 +99,14 @@
 										<div class="col-lg-4">
 											<h3>Principales Autorisations</h3>
 											<?php
-											if($this->core->users_global->isSuperAdmin() || $this->core->tendoo_admin->adminAccess('system','toolsAccess',$this->core->users_global->current('PRIVILEGE')) != FALSE)
+											if($this->instance->users_global->isSuperAdmin() || $this->instance->tendoo_admin->adminAccess('system','toolsAccess',$this->instance->users_global->current('PRIVILEGE')) != FALSE)
 											{
 											?>
-											<form fjax method="post" action="<?php echo $this->core->url->site_url(array('admin','ajax','toggleAdminStats'));?>">
+											<form fjax method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','toggleAdminStats'));?>">
 												<div class="form-group">
 													<label>
 														<?php 
-														if((int)$this->core->users_global->current('SHOW_ADMIN_INDEX_STATS') == 1)
+														if((int)$this->instance->users_global->current('SHOW_ADMIN_INDEX_STATS') == 1)
 														{
 														?>
 														<input type="submit" name="showAdminStats" class="btn <?php echo theme_button_class();?>" value="Cacher les statistiques &agrave; l'accueil">
@@ -151,10 +138,10 @@
 											</form>
 											<?php
 											}
-											if($this->core->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+											if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 											{
 											?>
-											<form fjax method="post" action="<?php echo $this->core->url->site_url(array('admin','ajax','toogleStoreAccess'));?>">
+											<form fjax method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','toogleStoreAccess'));?>">
 												<div class="form-group">
 													<label>
 														<?php 
@@ -191,11 +178,11 @@
 											<?php
 											}
 											?>
-											<form fjax method="post" action="<?php echo $this->core->url->site_url(array('admin','ajax','toggleFirstVisit'));?>">
+											<form fjax method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','toggleFirstVisit'));?>">
 												<div class="form-group">
 													<label>
 														<?php 
-														if((int)$this->core->users_global->current('FIRST_VISIT') == 1)
+														if((int)$this->instance->users_global->current('FIRST_VISIT') == 1)
 														{
 														?>
 														<input type="submit" name="firstVisitToggle" class="btn <?php echo theme_button_class();?>" value="Cacher la visite guidée">
@@ -226,7 +213,7 @@
 												</div>
 											</form>
                                             <!-- Modifier le status des visites -->
-                                            <form fjaxson method="post" action="<?php echo $this->core->url->site_url(array('admin','ajax','restorePagesVisits'));?>">
+                                            <form fjaxson method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','restorePagesVisits'));?>">
 												<div class="form-group">
 													<label>
 														<input type="submit" name="page_status" class="btn <?php echo theme_button_class();?>" value="Restaurer le statut des visites des pages">
@@ -234,11 +221,11 @@
 												</div>
 											</form>
                                             <!-- Fin "modifier le statut des pages"-->
-											<form fjax method="post" action="<?php echo $this->core->url->site_url(array('admin','ajax','toggleWelcomeMessage'));?>">
+											<form fjax method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','toggleWelcomeMessage'));?>">
 												<div class="form-group">
 													<label>
 														<?php 
-														if((int)$this->core->users_global->current('SHOW_WELCOME') == 1)
+														if((int)$this->instance->users_global->current('SHOW_WELCOME') == 1)
 														{
 														?>
 														<input type="submit" name="welcomeToggle" class="btn <?php echo theme_button_class();?>" value="Cacher le message de bienvenue">
@@ -270,7 +257,7 @@
 											</form>
 										</div>
 										<?php
-										if($this->core->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+										if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 										{
 										?>
 										<div class="col-lg-8">
@@ -343,7 +330,7 @@
 									</div>
                                 </div>
 								<?php
-								if($this->core->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+								if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 								{
 								?>
 								<div class="tab-pane" id="security">

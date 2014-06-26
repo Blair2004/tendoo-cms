@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title><?php echo $this->core->tendoo->getTitle();?></title>
-<?php echo $this->core->file->css_load();?>
+<title><?php echo get_page('title');?></title>
+<?php echo output('css');?>
 </head>
 
 <body cz-shortcut-listen="true" id="backgroundLogin">
@@ -15,17 +15,17 @@
             </div>
             <?php echo $error;?>
             <div class="list-group m-b-sm bg-white m-b-lg"> 
-            	<a href="<?php echo $this->core->url->main_url();?>" class="list-group-item"> <i class="fa fa-chevron-right"></i> <i class="fa fa-home"></i> Accueil </a> 
+            	<a href="<?php echo $this->instance->url->main_url();?>" class="list-group-item"> <i class="fa fa-chevron-right"></i> <i class="fa fa-home"></i> Accueil </a> 
 			</div>
         </div>
     </div>
 </section>
 <!-- footer -->
-<?php echo $this->core->file->js_load();?>
+<?php echo output('js');?>
 </body>
 <style type="text/css">
     #backgroundLogin{
-        background:url(<?php echo img_url($this->core->tendoo->getBackgroundImage());?>) ;
+        background:url(<?php echo img_url($this->instance->tendoo->getBackgroundImage());?>) ;
         background-position:0 0;
         background-repeat: no-repeat;
     }

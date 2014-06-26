@@ -5,16 +5,16 @@
             	<i class="fa fa-reorder"></i> 
 			</a> 
             <span href="#" class="nav-brand <?php echo theme_class();?>">
-            	<img style="max-height:30px;" src="<?php echo $this->core->url->img_url('logo_minim.png');?>" alt="logo">
+            	<img style="max-height:30px;" src="<?php echo $this->instance->url->img_url('logo_minim.png');?>" alt="logo">
             </span> 
             <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-user"> 
             	<i class="fa fa-comment-alt"></i>
 			</a> 
 		</header>
         <?php
-		$redirective	=	urlencode($this->core->url->request_uri());
+		$redirective	=	urlencode($this->instance->url->request_uri());
 		?>
-		<!-- <?php echo $this->core->url->site_url(array('logoff','tologin?ref='.$redirective));?> TO LOGIN REDIR -->
+		<!-- <?php echo $this->instance->url->site_url(array('logoff','tologin?ref='.$redirective));?> TO LOGIN REDIR -->
         <footer class="footer bg-gradient hidden-xs"> 
 			<a data-intro="Cliquez-ici pour ouvrir la fenêtre des applications installées. Utilisez cette fenêtre pour rapidment accéder aux différentes applications." data-step="10" data-position="top" href="javascript:void(0)" class="showAppTab btn btn-sm pull-right"> 
 				<i class="fa fa-th-large"></i> 
@@ -35,7 +35,7 @@
 		?>
 			<nav class="nav-primary hidden-xs">
                 <ul class="nav">					
-                    <li class="openUpdateCoreNotification"> 
+                    <li class="openUpdateinstanceNotification"> 
 						<a href="javascript:void(0)"> 
 							<i class="fa fa-gift"></i> <span>tengoo.org</span> 
 							<div class="nav-msg"> 
@@ -94,16 +94,16 @@
 			<script type="text/javascript">
 				$(document).ready(function(){
 					var canMouseLeave	=	true;
-					$('.openUpdateCoreNotification').mouseleave(function(){
+					$('.openUpdateinstanceNotification').mouseleave(function(){
 						$(document).bind('click',function(){
-							if($('.openUpdateCoreNotification').attr('expecting-close-after-leaving') == 'true')
+							if($('.openUpdateinstanceNotification').attr('expecting-close-after-leaving') == 'true')
 							{
-								$('.openUpdateCoreNotification').find('.nav-msg').toggleClass('open');
-								$('.openUpdateCoreNotification').removeAttr('expecting-close-after-leaving');
+								$('.openUpdateinstanceNotification').find('.nav-msg').toggleClass('open');
+								$('.openUpdateinstanceNotification').removeAttr('expecting-close-after-leaving');
 							}
 						});
 					});
-					$('.openUpdateCoreNotification').bind('click',function(event){
+					$('.openUpdateinstanceNotification').bind('click',function(event){
 						event.stopImmediatePropagation();
 						$(this).find('.nav-msg').toggleClass('open');
 						$(this).attr('expecting-close-after-leaving','true');
@@ -115,37 +115,37 @@
 		?>
 			<nav class="nav-primary hidden-xs">
                 <ul class="nav">					
-					<?php echo $this->core->tendoo_admin->parseMenuBefore();?>
-                    <li> <a data-intro="Accédez à cet emplacement pour créer des pages et affecter des modules ou un lien." data-step="3" data-position="right" href="<?php echo $this->core->url->site_url('admin/pages');?>"> <i class="fa fa-bookmark"></i> <span>Pages</span> </a>                    </li>
+					<?php echo $this->instance->tendoo_admin->parseMenuBefore();?>
+                    <li> <a data-intro="Accédez à cet emplacement pour créer des pages et affecter des modules ou un lien." data-step="3" data-position="right" href="<?php echo $this->instance->url->site_url('admin/pages');?>"> <i class="fa fa-bookmark"></i> <span>Pages</span> </a>                    </li>
                     
-                    <li class="dropdown-submenu" data-intro="Accédez à cet emplacement pour installer de nouvelles applications, gérer les modules et les thèmes déjà installés." data-step="4" data-position="right"> <a href="<?php echo $this->core->url->site_url('admin/installer');?>"> <i class="fa fa-flask"></i> <span>Installer</span> </a>
+                    <li class="dropdown-submenu" data-intro="Accédez à cet emplacement pour installer de nouvelles applications, gérer les modules et les thèmes déjà installés." data-step="4" data-position="right"> <a href="<?php echo $this->instance->url->site_url('admin/installer');?>"> <i class="fa fa-flask"></i> <span>Installer</span> </a>
                     </li>
-                    <li data-intro="Accédez à cet emplacement pour gérer les modules installés." data-step="5" data-position="right"><a href="<?php echo $this->core->url->site_url('admin/modules');?>"> <i class="fa fa-puzzle-piece"></i> <span>Modules</span> </a>
+                    <li data-intro="Accédez à cet emplacement pour gérer les modules installés." data-step="5" data-position="right"><a href="<?php echo $this->instance->url->site_url('admin/modules');?>"> <i class="fa fa-puzzle-piece"></i> <span>Modules</span> </a>
                     </li>
-                    <li data-intro="Accédez à cet emplacement pour gérer les thèmes installés." data-step="6" data-position="right"><a href="<?php echo $this->core->url->site_url('admin/themes');?>"> <i class="fa fa-columns"></i> <span>Thèmes</span> </a>
+                    <li data-intro="Accédez à cet emplacement pour gérer les thèmes installés." data-step="6" data-position="right"><a href="<?php echo $this->instance->url->site_url('admin/themes');?>"> <i class="fa fa-columns"></i> <span>Thèmes</span> </a>
                     </li>
-					<li data-intro="Accédez à cet emplacement pour configurer les informations de base du site, les autorisations et la sécurité (Espace sécurité reservé au super administrateur)." data-step="7" data-position="right"> <a href="<?php echo $this->core->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="fa fa-cogs"></i> <span>Param&egrave;tres</span> </a> </li>
+					<li data-intro="Accédez à cet emplacement pour configurer les informations de base du site, les autorisations et la sécurité (Espace sécurité reservé au super administrateur)." data-step="7" data-position="right"> <a href="<?php echo $this->instance->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="fa fa-cogs"></i> <span>Param&egrave;tres</span> </a> </li>
                     <?php
-					if($this->core->users_global->current('PRIVILEGE') == 'NADIMERPUS')
+					if($this->instance->users_global->current('PRIVILEGE') == 'NADIMERPUS')
 					{
 					?>
                     <li class="dropdown-submenu" data-intro="Accédez à cet emplacement pour gérer les utilisateurs, les actions, les privilèges et opérer restauration du site. (Privilège super administrateur requis)." data-step="8" data-position="right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-wrench"></i> <span>Syst&egrave;me</span> </a> 
                         <ul class="dropdown-menu">
-                        	<li> <a href="<?php echo $this->core->url->site_url('admin/system');?>">&Agrave; propos de Tendoo</a> </li>
-                            <li><a href="<?php echo $this->core->url->site_url('admin/system/adminMain');?>">Gestion des utilisateurs</a></li>
-                            <li><a href="<?php echo $this->core->url->site_url('admin/system/createAdmin');?>">Cr&eacute;er un utilisateur</a></li>
-                            <li> <a href="<?php echo $this->core->url->site_url('admin/system/privilege_list');?>">Listes des privil&egrave;ges</a> </li>
-                            <li> <a href="<?php echo $this->core->url->site_url('admin/system/create_privilege');?>">Cr&eacute;er un privil&egrave;ge</a> </li>
-                            <li> <a href="<?php echo $this->core->url->site_url('admin/system/manage_actions');?>">Gestionnaire d'actions</a> </li>
-                            <li> <a href="<?php echo $this->core->url->site_url('admin/system/restore/soft');?>">Restauration souple</a> </li>                            
+                        	<li> <a href="<?php echo $this->instance->url->site_url('admin/system');?>">&Agrave; propos de Tendoo</a> </li>
+                            <li><a href="<?php echo $this->instance->url->site_url('admin/system/adminMain');?>">Gestion des utilisateurs</a></li>
+                            <li><a href="<?php echo $this->instance->url->site_url('admin/system/createAdmin');?>">Cr&eacute;er un utilisateur</a></li>
+                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/privilege_list');?>">Listes des privil&egrave;ges</a> </li>
+                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/create_privilege');?>">Cr&eacute;er un privil&egrave;ge</a> </li>
+                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/manage_actions');?>">Gestionnaire d'actions</a> </li>
+                            <!--<li> <a href="<?php echo $this->instance->url->site_url('admin/system/restore/soft');?>">Restauration souple</a> </li>                -->            
                         </ul>
                     </li>
                     <?php
 					}
 					?>
-                    <li> <a data-intro="Après avoir finis vos configurations, cliquez sur ce lien pour accéder à l'interface publique de votre site web." data-step="9" data-position="right" href="<?php echo $this->core->url->site_url('index');?>"> <i class="fa fa-sign-out"></i> <span>Retour</span> </a> </li>
+                    <li> <a data-intro="Après avoir finis vos configurations, cliquez sur ce lien pour accéder à l'interface publique de votre site web." data-step="9" data-position="right" href="<?php echo $this->instance->url->site_url('index');?>"> <i class="fa fa-sign-out"></i> <span>Retour</span> </a> </li>
                     
-					<?php $this->core->tendoo_admin->parseMenuAfter();?>
+					<?php $this->instance->tendoo_admin->parseMenuAfter();?>
                 </ul>
             </nav>
         </section>

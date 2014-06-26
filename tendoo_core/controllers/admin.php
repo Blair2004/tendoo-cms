@@ -1,26 +1,23 @@
 <?php 
-class Admin
+class Admin extends Libraries
 {  
 	public function __construct()
 	{
-		__extends($this);
-		// Load Users Global Class
-		$this->load->library('users_global',null,null,$this);
-		// End
-		$this->installStatus();				// 	Install Status
+		parent::__construct();
+		$this->instance		=	get_instance();
+		$this->db			=	get_db();
+		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
+		$this->load->library('users_global');
+		$this->load->library('file');
+		$this->load->library('visual_editor');
+		$this->load->library('string');
+		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->adminConnection(); 			// 	Admin Users Libraries
 		$this->loadLibraries();				//	Affecting Libraries */
 		
 		$this->construct_end();				// 	Fin du constructeur
-		$this->data['pageDescription']		=	$this->tendoo->getVersion();
+		set_page('description',translate('dashboard').' - '.get('core_version'));
 		/*$this->tendoo_admin->system_not('Modifier vos param&ecirc;tre de s&eacute;curit&eacute;', 'Mettez vous &agrave; jour avec cette version', '#', '10 mai 2013', null);*/		
-	}
-	private function installStatus()
-	{
-		if(!$this->tendoo->isInstalled())
-		{
-			$this->url->redirect('install/step/1');
-		}
 	}
 	private function construct_end()
 	{
@@ -28,7 +25,7 @@ class Admin
 		$this->data['global_notice']	=	$this->tendoo_admin->get_global_info();
 		foreach($this->data['global_notice'] as $gl)
 		{
-			$notice_s	=	strip_tags(notice($gl));
+			$notice_s	=	strip_tags(fetch_error($gl));
 			switch($gl)  
 			{
 				case 'no_theme_selected' :
@@ -48,14 +45,14 @@ class Admin
 				break;
 			}
 			$this->tendoo_admin->system_not('Syst&egrave;me', $notice_s, $link,null, null);
-			$this->notice->push_notice(notice($gl));
+			notice('push',fetch_error($gl));
 		}
 		$this->loadOuputFile();
-		// Core NOTICE
+		// instance NOTICE
 		// L'accès au store implique la connexion au Tendoo Threads, sinon le menu est désactivé.
 		$this->data['tendoo_core_update']	=	
 			(int)$this->data['options'][0]['CONNECT_TO_STORE'] == 1 ?
-				$this->tendoo_update->getUpdateCoreNotification() 	:
+				$this->tendoo_update->getUpdateinstanceNotification() 	:
 				false;
 	}
 	private function adminConnection()
@@ -63,23 +60,19 @@ class Admin
 		(!$this->users_global->hasAdmin()) 	?  	$this->url->redirect(array('registration','superAdmin')): FALSE;
 		(!$this->users_global->isConnected()) ? $this->url->redirect(array('login?ref='.urlencode($this->url->request_uri()))) : FALSE;
 		(!$this->users_global->isAdmin())	?	$this->url->redirect(array('error','code','accessDenied')) : FALSE;
-		$this->data['options']				=	$this->tendoo->getOptions();
+		$this->data['options']				=	$this->instance->options->get();
 	}
 	private function loadLibraries()
 	{	
 		// Chargement des classes.
-		$this->load->library('tendoo_admin',null,null,$this);
-		$this->load->library('pagination',null,null,$this);
-		$this->load->library('file',null,'file_2',$this);
-		$this->load->library('form_validation',null,null,$this);
-		$this->load->library('tendoo_sitemap',null,null,$this);
-		$this->load->library('tendoo_update',null,null,$this);
+		$this->load->library('tendoo_admin');
+		$this->load->library('pagination');
+		$this->load->library('file',null,'file_2');
+		$this->load->library('form_validation');
+		$this->load->library('tendoo_sitemap');
+		$this->load->library('tendoo_update');
+		$this->load->library('stats');
 		// Définition des balises d'erreur.
-		$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-		
-		$this->data['notice']		=	'';
-		$this->data['error']		=	'';
-		$this->data['success']		=	'';
 		if($this->data['options'][0]['PUBLIC_PRIV_ACCESS_ADMIN'] == '0') // If public priv is not allowed, not check current user priv class
 		{
 			$priv				=	$this->users_global->current('PRIVILEGE');
@@ -95,51 +88,51 @@ class Admin
 	}
 	private function loadOuputFile()
 	{
-		$this->file->css_push('font');
-		$this->file->css_push('app.v2');
-		$this->file->css_push('tendoo_global');
-		$this->file->css_push('fuelux');
-		$this->file->css_push('introjs/introjs.min');
+		css_push_if_not_exists('font');
+		css_push_if_not_exists('app.v2');
+		css_push_if_not_exists('tendoo_global');
+		css_push_if_not_exists('fuelux');
+		css_push_if_not_exists('introjs/introjs.min');
 
-		//$this->file->js_push('jquery');
-		$this->file->js_push('jquery-1.10.2.min');
+		//js_push_if_not_exists('jquery');
+		js_push_if_not_exists('jquery-1.10.2.min');
 		
-		$this->file->js_push('underscore.1.6.0');
-		$this->file->js_push('app.min.vtendoo'); // _2
-		$this->file->js_push('tendoo_loader');
-		$this->file->js_push('tendoo_app');
-		$this->file->js_push('introjs/intro.min');
+		js_push_if_not_exists('underscore.1.6.0');
+		js_push_if_not_exists('app.min.vtendoo'); // _2
+		js_push_if_not_exists('tendoo_loader');
+		js_push_if_not_exists('tendoo_app');
+		js_push_if_not_exists('introjs/intro.min');
 		// Load Pace
-		//	$this->file->css_push('pace/themes/pace-theme-flash');
-		// 	$this->file->js_push('pace/pace.min');
+		//	css_push_if_not_exists('pace/themes/pace-theme-flash');
+		// 	js_push_if_not_exists('pace/pace.min');
 		// End Pace
 		// var_dump($this->file);
 	}
 	// Public functions
 	public function index()
 	{
-		$this->file->js_push('admin.index.intro');
-		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
+		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
 		$this->data['ttTheme']		=	$this->tendoo_admin->countThemes();
 		$this->data['ttModule']		=	$this->tendoo_admin->count_modules();
 		$this->data['ttPages']		=	$this->tendoo_admin->countPages();
 		$this->data['ttPrivileges']	=	$this->tendoo_admin->countPrivileges();
 		$this->data['appIconApi']	=	$this->tendoo_admin->getAppIcon();
 		$this->data['countUsers']	=	count($this->users_global->getAdmin());
-
-		$this->tendoo->setTitle('Panneau de Contr&ocirc;le - Tendoo');
 		
-		$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
-		$this->data['body']	=	$this->load->view('admin/index/body',$this->data,true,false,$this);
-		$this->load->view('admin/header',$this->data,false,false,$this);
-		$this->load->view('admin/global_body',$this->data,false,false,$this);
+		js_push_if_not_exists('admin.index.intro');
+		set_page('title','Panneau de Contr&ocirc;le - Tendoo');
+		
+		$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
+		$this->data['body']	=	$this->load->view('admin/index/body',$this->data,true,false);
+		$this->load->view('admin/header',$this->data,false,false);
+		$this->load->view('admin/global_body',$this->data,false,false);
 	}
 	public function pages($e = '',$f = '')
 	{
 		if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE')))
 		{
-			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
-			$this->data['success']			=	notice_from_url();
+			$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true,false);
+			$this->data['success']			=	fetch_error_from_url();
 			if($e == '')
 			{
 				if(isset($_POST['controller']))
@@ -157,23 +150,23 @@ class Admin
 						}
 						if($ttError > 0)
 						{
-							$this->notice->push_notice(tendoo_error($ttError.' erreurs trouvée(s), la création à été ignorée pour ces erreurs.'));
+							notice('push',tendoo_error($ttError.' erreurs trouvée(s), la création à été ignorée pour ces erreurs.'));
 						}
-						$this->notice->push_notice(notice('controllers_updated'));
+						notice('push',fetch_error('controllers_updated'));
 					}
 				}
-				$this->file->css_push('controller_style');
-				$this->file->js_push('jquery.nestable');
-				$this->file->js_push('tendoo_controllersScripts'); // ControllersSripts
+				css_push_if_not_exists('controller_style');
+				js_push_if_not_exists('jquery.nestable');
+				js_push_if_not_exists('tendoo_controllersScripts'); // ControllersSripts
 				$this->data['get_pages']	=	$this->tendoo->get_pages();
 				$this->data['get_mod']		=	$this->tendoo_admin->get_bypage_module();
 				
-				$this->tendoo->setTitle('Gestion des contr&ocirc;leurs - Tendoo');
-				$this->data['lmenu']		=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
-				$this->data['body']			=	$this->load->view('admin/pages/body',$this->data,true,false,$this);
+				set_page('title','Gestion des pages - Tendoo');
+				$this->data['lmenu']		=	$this->load->view('admin/left_menu',$this->data,true,false);
+				$this->data['body']			=	$this->load->view('admin/pages/body',$this->data,true,false);
 				
-				$this->load->view('admin/header',$this->data,null,false,$this);
-				$this->load->view('admin/global_body',$this->data,false,false,$this);
+				$this->load->view('admin/header',$this->data,null,false);
+				$this->load->view('admin/global_body',$this->data,false,false);
 			}
 		}
 		else
@@ -183,8 +176,8 @@ class Admin
 	}
 	public function modules($e = '',$a	=	1,$f = '')
 	{
-		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
-		$this->notice->push_notice(notice_from_url());
+		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
+		notice('push',fetch_error_from_url());
 		if($e == '' || $e == 'main')
 		{
 			$this->data['mod_nbr']		= $this->tendoo_admin->count_modules();
@@ -203,14 +196,14 @@ class Admin
 			
 			$this->data['modules']		=	$this->tendoo_admin->get_modules($this->data['paginate'][1],$this->data['paginate'][2]);
 			
-			$this->tendoo->setTitle('Gestion des modules - Tendoo');	
-			$this->data['notice']		=	$this->notice->push_notice(notice($f));
+			set_page('title','Gestion des modules - Tendoo');	
+			$this->data['notice']		=	notice('push',fetch_error($f));
 			$this->data['lmenu']		=	$this->load->view('admin/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('admin/modules/body',$this->data,true);
-			$this->load->view('admin/header',$this->data,false,false,$this);
+			$this->load->view('admin/header',$this->data,false,false);
 			
 			
-			$this->load->view('admin/global_body',$this->data,false,false,$this);
+			$this->load->view('admin/global_body',$this->data,false,false);
 		}
 	}
 	public function uninstall($e ='',$id= '')
@@ -222,7 +215,7 @@ class Admin
 				$this->url->redirect(array('admin','index?notice=accessDenied'));
 				return; 
 			}
-			$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
+			$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
 			$this->load->library('form_validation');
 $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 			$this->form_validation->set_rules('mod_id','','required|trim|alpha_dash|min_length[1]');
@@ -238,11 +231,11 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			$this->data['module']	=	$module 	= $this->tendoo->getSpeModule($id);
 			if(count($module) > 0)
 			{
-				$this->tendoo->setTitle('Desinstallation du plugin - '.$module[0]['NAMESPACE']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+				set_page('title','Desinstallation du plugin - '.$module[0]['NAMESPACE']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 				$this->data['body']	=	$this->load->view('admin/modules/uninstall',$this->data,true);
 				
-				$this->load->view('admin/header',$this->data,false,false,$this);
-				$this->load->view('admin/global_body',$this->data,false,false,$this);
+				$this->load->view('admin/header',$this->data,false,false);
+				$this->load->view('admin/global_body',$this->data,false,false);
 			}
 			else
 			{
@@ -290,16 +283,32 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		else if($e == 'modules')
 		{
 			// Si la re-écriture est activé, on réduit l'index. 
-			$index	=	$this->url->getRewrite()	==	true ? 1 : 0;
-			$this->data['module']	=	$this->tendoo->getSpeModule((int)$a);
+			// Sauf si dans l'url le fichier index.php est appelé.
+			if(!in_array('index.php',$this->url->getSplitedUrl()))
+			{
+				$index	=	$this->url->getRewrite()	==	true ? 1 : 0;
+			}
+			else
+			{
+				$index	=	0;
+			}
+			update_core_array('module',$this->tendoo->getSpeModule((int)$a));
+			$this->data['module']	=	get_core_array('module');
 			if($this->data['module'] == TRUE) // rather than counting
 			{
-				$this->tendoo->setTitle('Panneau d\'administration du module - '.$this->data['module'][0]['NAMESPACE']); // DEFAULT NAME DEFINITION
+				// New Tendoo 0.9.9 : Adding FULL_PATH ou chemin d'accès vers le dossier de base du module.
+				$this->data['module'][0]['FULL_PATH']	=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
+				// Setting Title
+				set_page('title','Panneau d\'administration du module - '.$this->data['module'][0]['NAMESPACE']); // DEFAULT NAME DEFINITION
 				/* 	$baseUrl	= 	$this->url->site_url(array('admin','open','modules',$this->data['module'][0]['ID'])); */
 				$detailsUri	=	$this->url->http_request(TRUE);
+				if(!is_file(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/admin_controller.php'))
+				{
+					$this->exceptions->show_error('Erreur Importante','Certains fichiers important à l\'éxecution de ce module sont manquants. La reinstalaltion pourra corriger ce problème.');
+					exit;
+				}
 				include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library.php');
 				include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/admin_controller.php');
-				
 				$Parameters			=	$this->url->http_request(TRUE);
 				if(array_key_exists(4-$index,$Parameters))
 				{
@@ -328,7 +337,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 								$this->data['interpretation']['RETURNED'] : 
 								$this->exceptions->show_error('Interpr&eacute;tation mal d&eacute;finie','L\'interpreation renvoi un tableau qui ne contient pas la cl&eacute; "RETURNED". Le module chargé renvoi un tableau incorrect ou incomplet.'); // If array key forget, get all content as interpretation.
 							$this->data['body']['MCO']		=	$this->data['interpretation']['MCO'];
-							$this->load->view('admin/global_body',$this->data,false,false,$this);
+							$this->load->view('admin/global_body',$this->data,false,false);
 						}
 					}
 					else
@@ -342,8 +351,8 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					$this->data['body']['MCO']		=	FALSE;
 					$this->data['lmenu']			=	$this->load->view('admin/left_menu',$this->data,true);
 					
-					$this->load->view('admin/header',$this->data,false,false,$this);
-					$this->load->view('admin/global_body',$this->data,false,false,$this);
+					$this->load->view('admin/header',$this->data,false,false);
+					$this->load->view('admin/global_body',$this->data,false,false);
 				}
 			}
 			else
@@ -351,12 +360,52 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				$this->url->redirect(array('admin/modules?notice=unknowModule'));
 			}
 		}
+		else if($e == 'themes') /// unfinised
+		{
+			// Si la re-écriture est activé, on réduit l'index. 
+			// Sauf si dans l'url le fichier index.php est appelé.
+			if(!in_array('index.php',$this->url->getSplitedUrl()))
+			{
+				$index	=	$this->url->getRewrite()	==	true ? 1 : 0;
+			}
+			else
+			{
+				$index	=	0;
+			}
+			$this->data['theme']	=	$this->tendoo_admin->getThemes($a);
+			if($this->data['theme'] == TRUE) // rather than counting
+			{
+				set_page('title','Panneau d\'administration du thèmes - '.$this->data['theme'][0]['HUMAN_NAME']); 
+				include_once(THEMES_DIR.$this->data['theme'][0]['ENCRYPTED_DIR'].'/library.php');
+				include_once(THEMES_DIR.$this->data['theme'][0]['ENCRYPTED_DIR'].'/admin_controller.php');
+				$Parameters			=	$this->url->http_request(TRUE);
+				if(array_key_exists(4-$index,$Parameters))
+				{
+					$Method				=	$Parameters[4-$index];
+				}
+				else
+				{
+					$Method			=	'index';
+				}
+				for($i = 0;$i < (5-$index);$i++)
+				{
+					array_shift($Parameters);
+				}
+				$this->data['interpretation']	=	$this->tendoo->interpreter($this->data['theme'][0]['NAMESPACE'].'_theme_admin_controller',$Method,$Parameters,$this->data);
+				//var_dump($this->data['interpretation']);
+				
+			}
+			else
+			{
+				$this->url->redirect(array('admin/themes?notice=unknowThemes'));
+			}
+		}
 	}
 	public function setting($action = 'main',$query_1='',$query_2='')
 	{
 		if($action	==	'main')
 		{
-		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
+		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
 		$this->load->library('form_validation');
 $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 		$this->load->helper('date');
@@ -402,7 +451,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			}
 			else
 			{
-				$this->notice->push_notice(notice('error_occured'));
+				notice('push',fetch_error('error_occured'));
 			}
 		}
 		if($this->users_global->isSuperAdmin()) // this Setting is now reserved to super admin
@@ -412,22 +461,22 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			{
 				if($this->tendoo_admin->editRegistration($this->input->post('allowRegistration')))
 				{
-					$this->notice->push_notice(notice('done'));
+					notice('push',fetch_error('done'));
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 			if($this->input->post('allow_priv_selection_button')) // Setting notice go here.
 			{
 				if($this->tendoo_admin->editPrivilegeAccess($this->input->post('allow_priv_selection')))
 				{
-					$this->notice->push_notice(notice('done'));
+					notice('push',fetch_error('done'));
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 			if($this->input->post('publicPrivAccessAdmin_button')) // Setting notice go here.
@@ -438,7 +487,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 			if($this->input->post('appicons')) // Setting notice go here.
@@ -449,32 +498,32 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 		}
 		$this->data['appIconApi']	=	$this->tendoo_admin->getAppIcon();
-		$this->data['options']		=	$this->tendoo->getOptions();
+		$this->data['options']		=	$this->instance->options->get();
 		
-		$this->tendoo->setTitle('Param&egrave;tres - Tendoo');
+		set_page('title','Param&egrave;tres - Tendoo');
 		$this->data['lmenu']		=	$this->load->view('admin/left_menu',$this->data,true);
 		$this->data['body']			=	$this->load->view('admin/setting/body',$this->data,true);
 		
-		$this->load->view('admin/header',$this->data,false,false,$this);
-		$this->load->view('admin/global_body',$this->data,false,false,$this);
+		$this->load->view('admin/header',$this->data,false,false);
+		$this->load->view('admin/global_body',$this->data,false,false);
 		}
 	}
 	public function themes($e	=	'main', $a	= 1)
 	{
 		if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestheme',$this->users_global->current('PRIVILEGE')))
 		{
-			$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
+			$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
 			if($e == 'main')
 			{
 				$page	=	$a;
-				$this->file->js_push('jtransit/jquery.transit.min');
+				js_push_if_not_exists('jtransit/jquery.transit.min');
 								
-				$this->tendoo->setTitle('Gestion des th&egrave;mes - Tendoo');
+				set_page('title','Gestion des th&egrave;mes - Tendoo');
 				$this->data['ttThemes']	=	$this->tendoo_admin->countThemes();
 				$this->data['paginate']	=	$this->tendoo->paginate(
 					10,
@@ -490,8 +539,8 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				$this->data['lmenu']	=	$this->load->view('admin/left_menu',$this->data,true);
 				$this->data['body']		=	$this->load->view('admin/themes/main',$this->data,true);
 				
-				$this->load->view('admin/header',$this->data,false,false,$this);
-				$this->load->view('admin/global_body',$this->data,false,false,$this);
+				$this->load->view('admin/header',$this->data,false,false);
+				$this->load->view('admin/global_body',$this->data,false,false);
 			}
 			else if($e == 'manage')
 			{
@@ -590,7 +639,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 										$this->data['interpretation']['RETURNED'] : 
 										$this->exceptions->show_error('Interpr&eacute;tation mal d&eacute;finie','L\'interpreation renvoi un tableau qui ne contient pas la cl&eacute; "RETURNED". Le module chargé renvoi un tableau incorrect ou incomplet.'); // If array key forget, get all content as interpretation.
 									$this->data['body']['MCO']		=	$this->data['interpretation']['MCO'];
-									$this->load->view('admin/global_body',$this->data,false,false,$this);
+									$this->load->view('admin/global_body',$this->data,false,false);
 								}
 							}
 							else
@@ -603,8 +652,8 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 							$this->data['body']['RETURNED']	=	$this->data['interpretation'];
 							$this->data['body']['MCO']		=	FALSE;
 							
-							$this->load->view('admin/header',$this->data,false,false,$this);
-							$this->load->view('admin/global_body',$this->data,false,false,$this);
+							$this->load->view('admin/header',$this->data,false,false);
+							$this->load->view('admin/global_body',$this->data,false,false);
 						}
 					}
 					else
@@ -632,7 +681,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 	{
 		if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestapp',$this->users_global->current('PRIVILEGE')))
 		{
-			$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
+			$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
 			if(isset($_FILES['installer_file']))
 			{
 				$query	=	$this->tendoo_admin->tendoo_installer('installer_file');
@@ -643,14 +692,14 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					$this->input->post('installer_link'),
 					$this->input->post('downloadType')
 				);
-				$this->notice->push_notice(notice($query));
+				notice('push',fetch_error($query));
 			}
-			$this->tendoo->setTitle('Installer une application - Tendoo');
-			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title','Installer une application - Tendoo');
+			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/installer/install',$this->data,true);
 			
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);
 		}
 		else
 		{
@@ -661,17 +710,17 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 	public function system($option	=	'index',$option_2 = 1)
 	{
 		// Is Super Admin ?
-		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
+		$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
 		(!$this->users_global->isSuperAdmin()) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : null;
 		// Proceed
 		if($option	==	'index')
 		{
-			$this->data['pageTitle']	=	'Syst&ecirc;me et restauration - Tendoo';
-			$this->tendoo->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			$this->data['pageTitle']	=	'A propos de Tendoo';
+			set_page('title',$this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/system/body',$this->data,true);
 			
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);	
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
 		}
 		else if($option ==  'createAdmin')
 		{
@@ -693,7 +742,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				switch($creation_status)
 				{
 					case 'notAllowedPrivilege'	:
-						$this->notice->push_notice(notice('adminCreationFailed'));
+						notice('push',fetch_error('adminCreationFailed'));
 						break;
 					case 'adminCreated'	:
 						$this->url->redirect(array('admin','system','createAdmin?notice=adminCreated'));
@@ -704,11 +753,11 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			}
 			$this->data['getPrivs']		=	$this->tendoo_admin->getPrivileges();
 			$this->data['pageTitle']	=	'Gestion des utilisateurs - Tendoo';
-			$this->tendoo->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title',$this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/system/createAdmin',$this->data,true);
 			
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);	
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
 		}
 		else if($option ==  'create_privilege')
 		{
@@ -734,18 +783,18 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 			
 			$this->session->set_userdata('privId',$this->tendoo_admin->getPrivId());
 			$this->data['privId']		=	$this->session->userdata('privId');
 			$this->data['pageTitle']	=	'Cr&eacute;er un privil&egrave;ge - Tendoo';
-			$this->tendoo->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title',$this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/system/create_privilege',$this->data,true);
 			
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);	
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
 		}
 		else if($option	== 	'edit_priv')
 		{
@@ -771,7 +820,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 			$this->data['getPriv']		=	$this->tendoo_admin->getPrivileges($option_2);
@@ -780,11 +829,11 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				$this->url->redirect(array('error','code','privilegeNotFound'));
 			}
 			$this->data['pageTitle']	=	'Modifier un privil&egrave;ge - Tendoo';
-			$this->tendoo->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title',$this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/system/edit_privilege',$this->data,true);
 			
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);	
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
 		
 		}
 		else if($option	==	'manage_actions')
@@ -799,11 +848,11 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			$this->data['paginate']		=	$this->tendoo->paginate(10,$this->data['ttModules'],1,'bg-color-red fg-color-white','',$option_2,$this->url->site_url(array('admin','system','manage_actions')).'/');
 			$this->data['getModules']	=	$this->tendoo_admin->get_modules($this->data['paginate'][1],$this->data['paginate'][2]);
 			$this->data['pageTitle']	=	'Gestionnaire d\'actions - Tendoo';
-			$this->tendoo->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title',$this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/system/privileges_and_actions',$this->data,true);
 			
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);	
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
 		}
 		else if($option	==	'ajax_manage_system_actions')
 		{
@@ -843,11 +892,11 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			$this->data['paginate']		=	$this->tendoo->paginate(10,$this->data['ttPrivileges'],1,'bg-color-red fg-color-white','',$option_2,$this->url->site_url(array('admin','system','privilege_list')).'/');
 			$this->data['getPriv']		=	$this->tendoo_admin->getPrivileges($this->data['paginate'][1],$this->data['paginate'][2]);
 			$this->data['pageTitle']	=	'Privil&egrave;ges et actions - Tendoo';
-			$this->tendoo->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title',$this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/system/privilege_list',$this->data,true);
 			
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);	
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
 		
 		}
 		else if($option == 'delete_priv')
@@ -865,7 +914,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				if($this->form_validation->run())
 				{
 					$query	=	$this->users_global->setAdminPrivilege($this->input->post('edit_priv'),$this->input->post('current_admin'),$this->input->post('user_email'));
-					$this->notice->push_notice(notice($query));
+					notice('push',fetch_error($query));
 				}
 			}
 			if($this->input->post('delete_admin'))
@@ -880,7 +929,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					}
 					else
 					{
-						$this->notice->push_notice(notice('error_occured'));
+						notice('push',fetch_error('error_occured'));
 					}
 				}
 			}
@@ -888,11 +937,11 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			$this->data['getPrivs']		=	$this->tendoo_admin->getPrivileges();
 			$this->data['adminInfo']	=	$this->users_global->getSpeAdminByPseudo($option_2);
 			$this->data['pageTitle']	=	'Profil Utilisateur &raquo; '.$this->data['adminInfo']['PSEUDO'].' - Tendoo';
-			$this->tendoo->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title',$this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/system/editAdmin',$this->data,true);
 			
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);	
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
 			return true;
 		}
 		else if($option	==	'restore')
@@ -904,19 +953,19 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				{
 					if($this->tendoo_admin->cmsRestore($this->input->post('admin_password')))
 					{
-						$this->notice->push_notice(notice('cmsRestored'));
+						notice('push',fetch_error('cmsRestored'));
 					}
 					else
 					{
-						$this->notice->push_notice(notice('cmsRestorationFailed'));
+						notice('push',fetch_error('cmsRestorationFailed'));
 					}
 				}
 				$this->data['pageTitle']	=	'Restauration souple du syst&egrave;me - Tendoo';
-				$this->tendoo->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+				set_page('title',$this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 				$this->data['body']	=	$this->load->view('admin/system/restore_soft',$this->data,true);
 				
-				$this->load->view('admin/header',$this->data,false,false,$this);
-				$this->load->view('admin/global_body',$this->data,false,false,$this);	
+				$this->load->view('admin/header',$this->data,false,false);
+				$this->load->view('admin/global_body',$this->data,false,false);	
 			}
 			else if($option_2	==	'hard') // hard
 			{
@@ -925,11 +974,11 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				{
 				}
 				$this->data['pageTitle']	=	'Restauration brutale du syst&egrave;me';
-				$this->tendoo->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+				set_page('title',$this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 				$this->data['body']	=	$this->load->view('admin/system/restore_hard',$this->data,true);
 				
-				$this->load->view('admin/header',$this->data,false,false,$this);
-				$this->load->view('admin/global_body',$this->data,false,false,$this);	
+				$this->load->view('admin/header',$this->data,false,false);
+				$this->load->view('admin/global_body',$this->data,false,false);	
 			}
 		}
 		else if($option	== 'adminMain')
@@ -941,11 +990,11 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			$this->data['subadmin']		=	$this->users_global->getAdmin($this->data['paginate'][1],$this->data['paginate'][2]);
 			
 			$this->data['pageTitle']	=	'Gestion des utilisateurs - Tendoo';
-			$this->tendoo->setTitle($this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title',$this->data['pageTitle']);$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/system/adminList',$this->data,true);
 			
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);	
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
 		}
 		else
 		{
@@ -961,38 +1010,38 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		if($action == 'index')
 		{
-        $this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
-        $this->data['pageDescription']	=	$this->tendoo->getVersion();
+        $this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
+        $this->data['pageDescription']	=	get('core_version');
         
-        $this->tendoo->setTitle('Utilitaires - Tendoo');
-        $this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+        set_page('title','Utilitaires - Tendoo');
+        $this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
         $this->data['body']	=	$this->load->view('admin/tools/body',$this->data,true);
-        $this->load->view('admin/header',$this->data,false,false,$this);
-        $this->load->view('admin/global_body',$this->data,false,false,$this);
+        $this->load->view('admin/header',$this->data,false,false);
+        $this->load->view('admin/global_body',$this->data,false,false);
 		}
 		else if($action == 'calendar')
 		{
-			 $this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
-			$this->data['pageDescription']	=	$this->tendoo->getVersion();
+			 $this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
+			$this->data['pageDescription']	=	get('core_version');
 			
-			$this->tendoo->setTitle('Utilitaires - Tendoo');
-			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title','Utilitaires - Tendoo');
+			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/tools/calendar',$this->data,true);
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);
 		}
 		else if($action == 'stats')
 		{
-			$this->data['Stats']			=	$this->tendoo_admin->tendoo_visit_stats();
+			$this->data['Stats']			=	$this->instance->stats->tendoo_visit_stats();
 			$this->data['priv_stats']		=	$this->tendoo_admin->privilegeStats();
-			 $this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
-			$this->data['pageDescription']	=	$this->tendoo->getVersion();
+			 $this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
+			$this->data['pageDescription']	=	get('core_version');
 			
-			$this->tendoo->setTitle('Utilitaires &raquo; Statistiques - Tendoo');
-			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title','Utilitaires &raquo; Statistiques - Tendoo');
+			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/tools/stats',$this->data,true);
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);
 		}
 		else if($action == 'seo')
 		{
@@ -1003,14 +1052,14 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				$this->tendoo_sitemap->create_sitemap_automatically();
 			}
 			$this->data['getSitemap']		=	$this->tendoo_sitemap->getSitemap();
-			$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false,$this);
-			$this->data['pageDescription']	=	$this->tendoo->getVersion();
+			$this->data['inner_head']	=	$this->load->view('admin/inner_head',$this->data,true,false);
+			$this->data['pageDescription']	=	get('core_version');
 			
-			$this->tendoo->setTitle('Utilitaires &raquo; Outils SEO - Tendoo');
-			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false,$this);
+			set_page('title','Utilitaires &raquo; Outils SEO - Tendoo');
+			$this->data['lmenu']=	$this->load->view('admin/left_menu',$this->data,true,false);
 			$this->data['body']	=	$this->load->view('admin/tools/seo',$this->data,true);
-			$this->load->view('admin/header',$this->data,false,false,$this);
-			$this->load->view('admin/global_body',$this->data,false,false,$this);
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);
 		}
 		else
 		{
@@ -1056,7 +1105,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($option	== 'store_connect')
 		{
-			$site_options	=	$this->tendoo->getOptions();
+			$site_options	=	$this->instance->options->get();
 			if((int)$site_options[0]['CONNECT_TO_STORE'] == 1)
 			{
 				$this->tendoo->store_connect();
@@ -1159,15 +1208,15 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				$this->load->view('admin/ajax/notice',$this->data);
 				return;
 			}
-			$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[100]');
-			$this->form_validation->set_rules('page_cname','Nom du contr&ocirc;leur','alpha_dash|trim|required|min_length[2]|max_length[30]');
-			$this->form_validation->set_rules('page_title','Titre du contr&ocirc;leur','trim|required|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[200]');
+			$this->form_validation->set_rules('page_cname','Code de la page','alpha_dash|trim|required|min_length[2]|max_length[200]');
+			$this->form_validation->set_rules('page_title','Titre de la page','trim|required|min_length[2]|max_length[200]');
 			$this->form_validation->set_rules('page_module','Affecter un module','trim|required|min_length[2]|max_length[30]');
 			$this->form_validation->set_rules('page_priority','Definir comme page principale','trim|required|min_length[4]|max_length[5]');
 			$this->form_validation->set_rules('page_description','description de la page','trim|required|min_length[2]|max_length[2000]');
 			$this->form_validation->set_rules('page_visible','Visibilité de la page','trim|required|min_length[4]|max_length[5]');
-			$this->form_validation->set_rules('page_parent','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
-			$this->form_validation->set_rules('page_keywords','Emplacement du contr&ocirc;leur','trim|required|min_length[1]');
+			$this->form_validation->set_rules('page_parent','Emplacement de la page','trim|required|min_length[1]');
+			$this->form_validation->set_rules('page_keywords','mots-clés de la page','trim|required|min_length[1]');
 
 			if($this->form_validation->run())
 			{
@@ -1195,7 +1244,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				else
 				{
 					$this->load->view('admin/ajax/controller_create_fail_2',$this->data);
-					//$this->notice->push_notice(notice($this->data['error']));
+					//notice('push',fetch_error($this->data['error']));
 				}
 			}
 			else
@@ -1212,9 +1261,9 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				$this->load->view('admin/ajax/notice',$this->data);
 				return;
 			}
-			$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[100]');
-			$this->form_validation->set_rules('page_cname','Code du controleur','alpha_dash|trim|required|min_length[2]|max_length[30]');
-			$this->form_validation->set_rules('page_title','Titre du controleur','trim|required|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('page_name','Nom de la page','trim|required|min_length[2]|max_length[200]');
+			$this->form_validation->set_rules('page_cname','Code du controleur','alpha_dash|trim|required|min_length[2]|max_length[200]');
+			$this->form_validation->set_rules('page_title','Titre du controleur','trim|required|min_length[2]|max_length[200]');
 			$this->form_validation->set_rules('page_module','D&eacute;finir le module','trim|required|min_length[2]|max_length[30]');
 			$this->form_validation->set_rules('page_priority','Definir comme page principale','trim|required|min_length[4]|max_length[5]');
 			$this->form_validation->set_rules('page_visible','Visibilité de la page','trim|required|min_length[4]|max_length[5]');
@@ -1238,7 +1287,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					$this->input->post('page_link'),
 					$this->input->post('page_keywords')
 				);
-				$this->notice->push_notice(notice($this->data['notice']));
+				notice('push',fetch_error($this->data['notice']));
 				if($this->data['notice']	==	'controler_edited')
 				{
 					$this->load->view('admin/ajax/controller_edit_success',$this->data);

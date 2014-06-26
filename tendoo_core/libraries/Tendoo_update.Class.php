@@ -5,7 +5,7 @@ class tendoo_update
 	function __construct(){
 		__extends($this);
 	}
-	function getUpdateCoreNotification(){
+	function getUpdateinstanceNotification(){
 		if(file_exists('tendoo_core/exec_file.php'))
 		{
 			include('tendoo_core/exec_file.php');
@@ -27,7 +27,7 @@ class tendoo_update
 		Mise à jour du système sans affecter les modules. peut rendre certains modules incompatible.
 		Opère suppression des dossiers "tendoo_assets" et "tendoo_core" et "index.php" remplacé par la version téléchargée.
 	**/
-	function updateCore(){
+	function updateinstance(){
 		
 	}
 }

@@ -1969,7 +1969,7 @@ class Email {
 	 */
 	protected function _set_error_message($msg, $val = '')
 	{
-		$CI = Controller::instance();
+		$CI = get_instance();
 		$CI->lang->load('email');
 
 		if (substr($msg, 0, 5) != 'lang:' || FALSE === ($line = $CI->lang->line(substr($msg, 5))))

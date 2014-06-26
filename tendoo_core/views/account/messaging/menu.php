@@ -23,14 +23,14 @@
 				}
 			});
 			$(this).bind('dblclick',function(){
-				document.location	=	'<?php echo $this->core->url->site_url(array('account','messaging','open'));?>/'+$(this).find('input[type="checkbox"]').attr('value');
+				document.location	=	'<?php echo $this->instance->url->site_url(array('account','messaging','open'));?>/'+$(this).find('input[type="checkbox"]').attr('value');
 			});
 		});
 		$('.tobr').bind('click',function(){
-			document.location	=	'<?php echo $this->core->url->site_url(array('account','messaging','home'));?>';
+			document.location	=	'<?php echo $this->instance->url->site_url(array('account','messaging','home'));?>';
 		});
 		$('.tonew').bind('click',function(){
-			document.location	=	'<?php echo $this->core->url->site_url(array('account','messaging','write'));?>';
+			document.location	=	'<?php echo $this->instance->url->site_url(array('account','messaging','write'));?>';
 		});
 		$('.todellconv').bind('click',function(){
 			if($('.small_app tbody').find('input[isChecked="true"]').length > 0)

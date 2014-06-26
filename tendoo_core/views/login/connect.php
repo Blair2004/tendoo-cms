@@ -6,12 +6,10 @@
                 <div class="form-group"> 
                     <label class="control-label">Pseudo</label> 
                     <input type="text" name="admin_pseudo" placeholder="Pseudo" class="form-control"> 
-                    <?php echo form_error('admin_pseudo');?>
                 </div> 
                 <div class="form-group"> 
                     <label class="control-label">Mot de passe</label> 
                     <input type="password" id="inputPassword" name="admin_password" placeholder="Mot de passe" class="form-control"> 
-                    <?php echo form_error('admin_password');?>
                 </div> 
                 <div class="checkbox"> 
                     <label> 
@@ -25,15 +23,16 @@
 						{
 							?>
                         <div class="line line-dashed"></div>
-                        <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('registration'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="fa fa-group text"></i> <span class="text">Cr&eacute;er un nouveau compte</span> <i class="fa fa-ok text-active"></i></a>
+                        <a type="button" onclick="window.location	=	'<?php echo $this->instance->url->site_url(array('registration'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="fa fa-group text"></i> <span class="text">Cr&eacute;er un nouveau compte</span> <i class="fa fa-ok text-active"></i></a>
                         <div class="line line-dashed"></div>
-                        <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('login','recovery'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="fa fa-share text"></i> <span class="text">R&eacute;cup&eacute;rer un compte</span> <i class="fa fa-ok text-active"></i></a>
+                        <a type="button" onclick="window.location	=	'<?php echo $this->instance->url->site_url(array('login','recovery'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="fa fa-share text"></i> <span class="text">R&eacute;cup&eacute;rer un compte</span> <i class="fa fa-ok text-active"></i></a>
                         <?php
 						}
 						?>
                 <br>
-                <?php echo notice_from_url();?>
-                <?php echo $this->core->notice->parse_notice();?>
+                <?php echo validation_errors();?>
+                <?php echo fetch_error_from_url();?>
+                <?php echo output('notice');?>
                 
             </form> 
         </section> 

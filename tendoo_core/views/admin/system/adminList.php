@@ -6,16 +6,16 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <div class="wrapper w-f">
                 <div class="hub_table">
                 	<?php echo validation_errors('<p class="error">', '</p>');?>
-					<?php $this->core->notice->parse_notice();?>
-                    <?php echo notice_from_url();?>
+					<?php output('notice');?>
+                    <?php echo fetch_error_from_url();?>
                     <section class="panel">
                         <div class="wrapper b-b font-bold">Liste des utilisateurs</div>
                         <table class="table table-striped m-b-none">
@@ -36,15 +36,15 @@
 								{
 									foreach($subadmin as $s)
 									{
-										$priv	=	$this->core->tendoo_admin->getPrivileges($s['PRIVILEGE']);
+										$priv	=	$this->instance->tendoo_admin->getPrivileges($s['PRIVILEGE']);
 										if(!$priv)
 										{
-											$priv[0]['HUMAN_NAME']	=	$this->core->users_global->convertCurrentPrivilege($s['PRIVILEGE']);
+											$priv[0]['HUMAN_NAME']	=	$this->instance->users_global->convertCurrentPrivilege($s['PRIVILEGE']);
 										}
 								?>
                                 <tr>
                                     <td><?php echo $s['ID'];?></td>
-                                    <td><a href="<?php echo $this->core->url->site_url(array('admin','system','editAdmin',$s['PSEUDO']));?>"><?php echo $s['PSEUDO'];?></a></td>
+                                    <td><a href="<?php echo $this->instance->url->site_url(array('admin','system','editAdmin',$s['PSEUDO']));?>"><?php echo $s['PSEUDO'];?></a></td>
                                     <td><?php echo $priv[0]['HUMAN_NAME'];?></td>
                                     <td><?php echo $s['PRIVILEGE']	==	'RELPIMSUSE' ? 'Indisponible' : $s['PRIVILEGE'];?></td>
                                     <td><?php echo $s['EMAIL'] == '' ? 'Indisponible' : $s['EMAIL'];?></td>

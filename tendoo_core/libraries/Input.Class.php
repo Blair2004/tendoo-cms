@@ -26,8 +26,8 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/input.html
  */
-class Input {
-
+class Input
+{
 	/**
 	 * IP address of the current user
 	 *
@@ -91,21 +91,20 @@ class Input {
 	 *
 	 * @var object
 	 */
-	public function __construct()
+	public function __construct($instance)
 	{
-		$this->core			= Controller::instance();
+		$this->instance	=&	$instance;
 		log_message('debug', "Input Class Initialized");
 
 		$this->_allow_get_array	= TRUE;
 		$this->_enable_xss		= FALSE;  // Disabled
 		$this->_enable_csrf		= TRUE;
-
-		$this->security 		= $this->core->security;
+		$this->security 		= $this->instance->security;
 
 		// Do we need the UTF-8 class?
 		if (UTF8_ENABLED === TRUE)
 		{
-			$this->uni 			= $this->core->utf8;
+			$this->uni 			= $this->instance->utf8;
 		}
 
 		// Sanitize global arrays
@@ -839,4 +838,4 @@ class Input {
 }
 
 /* End of file Input.php */
-/* Location: ./system/core/Input.php */
+/* Location: ./system/instance/Input.php */

@@ -2,22 +2,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="<?php echo $this->core->tendoo->getDescription();?>">
-<title><?php echo $this->core->tendoo->getTitle();?></title>
+<meta name="description" content="<?php echo get_page('description');?>">
+<title><?php echo get_page('title');?></title>
 <script>
 var tendoo				=	new Object();
 	tendoo.url			=	new function(){
 		this.main		=	function(){
-			return '<?php echo $this->core->url->main_url();?>';
+			return '<?php echo $this->instance->url->main_url();?>';
 		};
 		this.base_url	=	function(){
-			return '<?php echo $this->core->url->base_url();?>';
+			return '<?php echo $this->instance->url->base_url();?>';
 		};
 		this.site_url	=	function(e){
-			return '<?php echo $this->core->url->site_url();?>'+e;
+			return '<?php echo $this->instance->url->site_url();?>'+e;
 		};
 	};
 </script>
-<?php echo $this->core->file->css_load();?>
-<?php echo $this->core->file->js_load();?>
+<?php echo output('css');?>
+<?php echo output('js');?>
 </head>

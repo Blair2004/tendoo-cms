@@ -1,8 +1,8 @@
 <?php
 	
-	$currentTime	=	$this->core->tendoo->datetime();
-	$dateArray		=	$this->core->tendoo->time(strtotime($currentTime),TRUE);
-	$stats			=	$this->core->tendoo_admin->tendoo_visit_stats();
+	$currentTime	=	$this->instance->date->datetime();
+	$dateArray		=	$this->instance->date->time(strtotime($currentTime),TRUE);
+	$stats			=	$this->instance->stats->tendoo_visit_stats();
 	$visitLine		=	'';
 	//echo '<pre>';
 	//echo print_r($stats,TRUE);
@@ -16,7 +16,7 @@
 	{
 		$totalUnique	=	0;
 		$totalGlobal	=	0;
-		$this->core->notice->push_notice(tendoo_info('Aucune visite n\'a &eacute;t&eacute; &eacute;ffectu&eacute;e ce mois'));
+		notice('push',tendoo_info('Aucune visite n\'a &eacute;t&eacute; &eacute;ffectu&eacute;e ce mois'));
 	}
 	
 	$overAllUnique	=	$stats['statistics']['overAll']['unique']['totalVisits'];
@@ -60,9 +60,9 @@
       <header>
       <div class="row b-b m-l-none m-r-none">
         <div class="col-sm-4">
-          <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
+          <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
           <p class="block text-muted">
-            <?php echo $pageDescription;?>
+            <?php echo get_page('description');?>
           </p>
         </div>
       </div>
@@ -76,7 +76,7 @@
 			{
 				echo tendoo_warning('Si aucun graphisme ne s\'affiche, c\'est certainement parce qu\'il n\'y a pas beaucoup de donn&eacute;e &agrave; traiter');
 			}
-			$this->core->notice->parse_notice();
+			output('notice');
 			?>
 			</div>
           	<div class="col-lg-4">
@@ -145,7 +145,7 @@
             </div>
             <div class="col-lg-8">
             	<div class="panel">
-                	<header class="panel-heading <?php echo theme_class();?> lter"> <span class="pull-right"><?php echo $dateArray['month'];?></span> <span class="h4">Stats. sur <?php echo $this->core->tendoo_admin->getStatLimitation();?> mois<br>
+                	<header class="panel-heading <?php echo theme_class();?> lter"> <span class="pull-right"><?php echo $dateArray['month'];?></span> <span class="h4">Stats. sur <?php echo $this->instance->stats->getStatLimitation();?> mois<br>
                   <small class="text-muted"></small> </span>
                   <div class="text-center padder m-b-n-sm m-t-sm">
                     <div class="sparkline" data-type="line" data-resize="true" data-height="190" data-width="100%" data-line-width="2" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="3" data-data="[<?php echo $visitLine;?>]"></div>

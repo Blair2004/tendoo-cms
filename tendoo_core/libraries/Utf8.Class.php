@@ -47,7 +47,10 @@ class Utf8 {
 			)
 		{
 			log_message('debug', "UTF-8 Support Enabled");
-			define('UTF8_ENABLED', TRUE);
+			if(!defined('UTF8_ENABLED'))
+			{
+				define('UTF8_ENABLED', TRUE);
+			}
 
 			// set internal encoding for multibyte string functions if necessary
 			// and set a flag so we don't have to repeatedly use extension_loaded()
@@ -65,7 +68,10 @@ class Utf8 {
 		else
 		{
 			log_message('debug', "UTF-8 Support Disabled");
-			define('UTF8_ENABLED', FALSE);
+			if(!defined('UTF8_ENABLED'))
+			{
+				define('UTF8_ENABLED', FALSE);
+			}
 		}
 	}
 
@@ -160,4 +166,4 @@ class Utf8 {
 // End Utf8 Class
 
 /* End of file Utf8.php */
-/* Location: ./system/core/Utf8.php */
+/* Location: ./system/instance/Utf8.php */

@@ -9,7 +9,7 @@ $field_6	=	(form_error('user_captcha')) ? form_error('user_captcha') : '';
 $field_7	=	(form_error('priv_id')) ? form_error('priv_id') : '';
 ;
 ?>
-<?php echo $this->core->notice->parse_notice();?>
+<?php echo output('notice');?>
 <section id="content" class="wrapper-md animated fadeInUp scrollable wrapper"> 
     <div class="wrapper">
     	<div class="row">
@@ -72,7 +72,7 @@ $field_7	=	(form_error('priv_id')) ? form_error('priv_id') : '';
                         <input class="btn btn-info" type="submit" value="Cr&eacute;er" />
                         <input class="btn btn-danger" type="reset" value="Annuler" />
                         <div class="line line-dashed"></div>
-                        <a type="button" onclick="window.location	=	'<?php echo $this->core->url->site_url(array('login'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="fa fa-signin text"></i> <span class="text">Ouvrir un compte</span> <i class="fa fa-ok text-active"></i></a>
+                        <a type="button" onclick="window.location	=	'<?php echo $this->instance->url->site_url(array('login'));?>'" class="btn btn-white btn-lg btn-block" id="btn-1"> <i class="fa fa-signin text"></i> <span class="text">Ouvrir un compte</span> <i class="fa fa-ok text-active"></i></a>
                     </form>
                 </div>      
             </div>

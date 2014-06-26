@@ -1,11 +1,11 @@
 <?php
 class Session
 {
-	private $core;
+	private $instance;
 	private $_user_data;
-	public function __construct()
+	public function __construct(&$instance)
 	{
-		$this->core			=	Controller::instance();
+		$this->instance			=&	$instance;
 		if(!isset($_SESSION['Session_user_data']))
 		{
 			$_SESSION['Session_user_data']	=	array();

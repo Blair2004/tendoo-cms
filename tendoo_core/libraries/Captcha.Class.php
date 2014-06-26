@@ -6,9 +6,9 @@ class Captcha
 	private $captchaExtension;
 	public function __construct()
 	{
-		$this->core					=	Controller::instance();
+		$this->instance					=	get_instance();
 		$this->captchaList			= array('ADEFGQ','ADGCBE','ADIOPD','ADOPSC','ADPSCS','ADRGVD','ADTGDS','ADUIDK','ADYUHI','BASXSQ','BESQCE','BOSQPX','BPQSCS','BRQSCT','BTYDQI','BUJDSQ','BYQSVC','BZSCQX','CDQSXI','CEQSWE','CPSQXZ','CSPQOS','FEQSsE','RXGLMS');
-		$this->captchaDirectory		=	$this->core->url->main_url().'tendoo_assets/img/captcha/';
+		$this->captchaDirectory		=	$this->instance->url->main_url().'tendoo_assets/img/captcha/';
 		$this->captchaExtension		=	'.png';
 	}
 	public function get()

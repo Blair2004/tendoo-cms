@@ -4,7 +4,7 @@
 			<footer id="footer"> 
 				<div class="text-center padder clearfix"> 
 					<p> 
-						<small><a href="https://github.com/Blair2004/tendoo-cms"><?php echo $this->core->tendoo->getVersion();?></a> © 2014</small> 
+						<small><a href="https://github.com/Blair2004/tendoo-cms"><?php echo get('core_version');?></a> © 2014</small> 
 					</p>
 				</div>
 			</footer>
@@ -20,7 +20,7 @@
 								<li data-target="#step4" class="active"><span class="badge badge-info">4</span>Fin de l'installation</li> 
 							</ul>
 							<div class="actions"> 
-								<a href="<?php echo $this->core->url->main_url();?>"><img style="height:32px;vertical-align:middle;margin-top:-3px;" src="<?php echo $this->core->url->img_url("logo_4.png");?>"> <?php echo $this->core->tendoo->getVersion();?></a>
+								<a href="<?php echo $this->instance->url->main_url();?>"><img style="height:32px;vertical-align:middle;margin-top:-3px;" src="<?php echo $this->instance->url->img_url("logo_4.png");?>"> <?php echo get('core_version');?></a>
 							</div> 
 						</div> 
 						<div class="step-content"> 
@@ -49,7 +49,7 @@
 </body>
 <style type="text/css">
     #backgroundLogin{
-        background:url(<?php echo img_url($this->core->tendoo->getBackgroundImage());?>) ;
+        background:url(<?php echo img_url($this->instance->tendoo->getBackgroundImage());?>) ;
         background-position:0 0;
         background-repeat: no-repeat;
     }
