@@ -37,14 +37,14 @@ $this->appAction(array(
 	'mod_namespace'			=>	$this->appTableField['NAMESPACE']
 ));
 $this->appSql(	
-	'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_refTopage` (
-	  `ID` int(11) NOT NULL AUTO_INCREMENT,
-	  `PAGE_CONTROLEUR` varchar(200) NOT NULL,
-	  `PAGE_HTML` varchar(200) NOT NULL,
-	  `DATE` varchar(200) NOT NULL,
-	  `AUTEUR` int(11) NOT NULL,
-	  PRIMARY KEY (`ID`)
-	) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_refTopage` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `PAGE_CONTROLEUR` varchar(200) NOT NULL,
+  `PAGE_HTML` varchar(200) NOT NULL,
+  `DATE` varchar(200) NOT NULL,
+  `AUTEUR` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_pages` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,

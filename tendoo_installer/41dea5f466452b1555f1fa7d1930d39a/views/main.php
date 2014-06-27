@@ -6,13 +6,13 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
-                <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
+                <section class="wrapper"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
                     <div class="row">
                         <!--<div class="col-lg-12">
                             <section class="panel">
@@ -971,7 +971,7 @@
 										}
 										?>
                                             <label class="label-control">A propos de nous</label>
-                                            <?php echo $this->core->tendoo->getEditor(array('id'	=>	'ckeditor','name'=>'aboutUsContent','defaultValue'	=>	$default1));?> </div>
+                                            <?php echo $this->instance->visual_editor->getEditor(array('id'	=>	'ckeditor','name'=>'aboutUsContent','defaultValue'	=>	$default1));?> </div>
                                         <input name="section5" type="submit" value="Enregistrer" class="btn btn-info" />
                                     </form>
                                 </div>
@@ -989,7 +989,7 @@
 										?>
                                         <div class="form-group">
                                             <label class="label-control">Nos partenaires</label>
-                                            <?php echo $this->core->tendoo->getEditor(array('id'	=>	'ourPartner','name'=>'ourPartner','defaultValue'	=>	$default2));?> </div>
+                                            <?php echo $this->instance->visual_editor->getEditor(array('id'	=>	'ourPartner','name'=>'ourPartner','defaultValue'	=>	$default2));?> </div>
                                         <input  name="section6" type="submit" value="Enregistrer" class="btn btn-info" />
                                     </form>
                                 </div>

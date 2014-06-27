@@ -11,10 +11,10 @@
 			private $tendoo_admin;
 			public function __construct($data)
 			{
-				$this->core			=	Controller::instance();
+				$this->instance			=	get_instance();
 				$this->data			=	$data;
-				$this->tendoo		=&	$this->core->tendoo;
-				$this->tendoo_admin	=&	$this->core->tendoo_admin;
+				$this->tendoo		=&	$this->instance->tendoo;
+				$this->tendoo_admin	=&	$this->instance->tendoo_admin;
 				$this->dir			=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
 				if(!is_dir($this->dir.'/created_pages'))
 				{
@@ -24,7 +24,7 @@
 			}
 			public function datetime()
 			{
-				return $this->tendoo->datetime();
+				return $this->instance->date->datetime();
 			}
 			public function create($title,$desc,$contenu)
 			{
@@ -34,18 +34,18 @@
 					'DESCRIPTION'			=>$desc,
 					'FILE_NAME'				=>$file_name,
 					'DATE'					=>$this->datetime(),
-					'AUTHOR'				=>$this->core->users_global->current('ID')
+					'AUTHOR'				=>$this->instance->users_global->current('ID')
 				);
 				$dos						=	opendir($this->cp_dir.'/');
 				$file						=	fopen($this->cp_dir.'/'.$file_name,'w+');
 												fwrite($file,$contenu);
 												fclose($file);
 												closedir($dos);
-				return $this->core->db		->insert('tendoo_pages',$datas);
+				return $this->instance->db		->insert('tendoo_pages',$datas);
 			}
 			public function edit($id,$title,$desc,$contenu)
 			{
-				$query						=	$this->core->db->where('ID',$id)->get('tendoo_pages');
+				$query						=	$this->instance->db->where('ID',$id)->get('tendoo_pages');
 				$cur_page					=	$query					->result_array();
 				$dir						=	opendir($this->cp_dir);
 				$file						=	fopen($this->cp_dir.'/'.$cur_page[0]['FILE_NAME'],'w+');
@@ -56,23 +56,23 @@
 					'TITLE'					=>$title,
 					'DESCRIPTION'			=>$desc,
 					'DATE'					=>$this->datetime(),
-					'AUTHOR'				=>$this->core->users_global->current('ID')
+					'AUTHOR'				=>$this->instance->users_global->current('ID')
 				);
-				return $this->core->db		->where('ID',$id)
+				return $this->instance->db		->where('ID',$id)
 											->update('tendoo_pages',$datas);
 			}
 			public function getPages($start = '',$end = '')
 			{
 				if(is_numeric($start) && is_numeric($end))
 				{
-					$this->core->db->limit($end,$start);
+					$this->instance->db->limit($end,$start);
 				}
-				$query	=	$this->core->db->get('tendoo_pages');
+				$query	=	$this->instance->db->get('tendoo_pages');
 				return $query->result_array();
 			}
 			public function getSpePage($id)
 			{
-				$query	= $this->core->db->where('ID',$id)->get('tendoo_pages');
+				$query	= $this->instance->db->where('ID',$id)->get('tendoo_pages');
 				$ar	=	$query->result_array();
 				$dos	=	opendir($this->cp_dir);
 				$file	=	fopen($this->cp_dir.'/'.$ar[0]['FILE_NAME'],'r');
@@ -84,13 +84,13 @@
 			}
 			public function deletePage($id)
 			{
-				$cur_page					=	$this->core->db->where('ID',$id)->get('tendoo_pages');
+				$cur_page					=	$this->instance->db->where('ID',$id)->get('tendoo_pages');
 				$array						=	$cur_page->result_array();
 				$dir						=	opendir($this->cp_dir);
 				if(is_file($this->cp_dir.'/'.$array[0]['FILE_NAME']))
 				{
 					unlink($this->cp_dir.'/'.$array[0]['FILE_NAME']);
-					return $this->core->db->where('ID',$id)->delete('tendoo_pages');
+					return $this->instance->db->where('ID',$id)->delete('tendoo_pages');
 				}
 				return false;
 			}
@@ -105,7 +105,7 @@
 			public function __construct($data)
 			{
 				$this->data	=	$data;
-				$this->core	=	Controller::instance();
+				$this->instance	=	get_instance();
 				$this->dir	=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
 				if(!is_dir($this->dir.'/created_pages'))
 				{
@@ -113,9 +113,9 @@
 				}
 				$this->cp_dir = $this->dir.'/created_pages';
 			}
-			public function getPage($id)
+			public function getPage($page_id)
 			{
-				$query	= $this->core->db->where('ID',$id)->get('tendoo_pages');
+				$query	= $this->instance->db->where('ID',$page_id)->get('tendoo_pages');
 				$ar	=	$query->result_array();
 				if(is_dir($this->cp_dir))
 				{

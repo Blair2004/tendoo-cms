@@ -18,10 +18,10 @@ class nevia_theme_admin_controller
 	public function index()
 	{
     	// DEFINE THEME TITLE //
-		$this->tendoo->setTitle('2TB &raquo; Nevia - Gestion du thème');
+		set_page('title','2TB &raquo; Nevia - Gestion du thème');
         // END THEME TITLE //
         // DEFINE THEME DESCRIPTION //
-        $this->tendoo->setDescription('Thème cr&eacute;e avec 2TB');
+        set_page('description','Thème cr&eacute;e avec 2TB');
         // END THEME DESCRIPTION //
         $this->data['body']			=		$this->load->view($this->loadAccess.'views/body',$this->data,true,true);
 		return $this->data['body'];
@@ -29,10 +29,10 @@ class nevia_theme_admin_controller
     public function about()
 	{
     	// DEFINE THEME TITLE //
-		$this->tendoo->setTitle('2TB &raquo; A propos de  Nevia');
+		set_page('title','2TB &raquo; A propos de  Nevia');
         // END THEME TITLE //
         // DEFINE THEME DESCRIPTION //
-        $this->tendoo->setDescription('Thème cr&eacute;e avec 2TB');
+        set_page('description','Thème cr&eacute;e avec 2TB');
         // END THEME DESCRIPTION //
         $this->data['body']			=		$this->load->view($this->loadAccess.'views/about',$this->data,true,true);
 		return $this->data['body'];

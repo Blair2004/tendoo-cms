@@ -6,7 +6,7 @@ class comments_news_common_widget
 		/*
 			Reçois la zone dans laquelle le widget est appellé, voir clé ['widgets']['requestedZone'] : (LEFT, RIGHT, BOTTOM).
 		*/
-		$this->core		=	Controller::instance();
+		$this->instance		=	get_instance();
 		$this->data		=&	$data;
 		$this->theme	=&	$this->data['theme'];
 		$this->location	=	MODULES_DIR.$this->data['currentWidget']['WIDGET_MODULE']['ENCRYPTED_DIR'];
@@ -20,27 +20,27 @@ class comments_news_common_widget
 		// Dans le cas ou aucune limite n'est fixé nous fixon la limite par défaut à 5 commentaires.
 		$LIMIT			=	$this->data['currentWidget']['WIDGET_INFO']['WIDGET_PARAMETERS'] == '' ? 5 : $this->data['currentWidget']['WIDGET_INFO']['WIDGET_PARAMETERS'];
 		$this->data['comments']	=	$this->news->getComments(false,0,$LIMIT,'desc');
-		$controler		=	$this->core->tendoo->getControllersAttachedToModule('news');
+		$controler		=	$this->instance->tendoo->getControllersAttachedToModule('news');
 		
 		$end			=	'<ul>';
 		foreach($this->data['comments']  as $c)
 		{
-			$user		=	$this->core->users_global->getUser($c['AUTEUR']);
+			$user		=	$this->instance->users_global->getUser($c['AUTEUR']);
 			$article	=	$this->news->getSpeNews($c['REF_ART']);
 			if($article)
 			{
 				if($user)
 				{
 				$end		.= '
-				<a href="'.$this->core->url->site_url(array('account','profile',$user['PSEUDO'])).'">'.$user['PSEUDO'].'</a> dit : 
-				"'.word_limiter($c['CONTENT'],10).'" dans <a href="'.$this->core->url->main_url().'index.php/'.$controler[0]['PAGE_CNAME'].'/lecture/'.$article[0]['ID'].'/'.$this->core->tendoo->urilizeText($article[0]['TITLE']).'">'.$article[0]['TITLE'].'</a><br><br>';
+				<a href="'.$this->instance->url->site_url(array('account','profile',$user['PSEUDO'])).'">'.$user['PSEUDO'].'</a> dit : 
+				"'.word_limiter($c['CONTENT'],10).'" dans <a href="'.$this->instance->url->main_url().'index.php/'.$controler[0]['PAGE_CNAME'].'/lecture/'.$article[0]['URL_TITLE'].'">'.$article[0]['TITLE'].'</a><br><br>';
 				}
 				else
 				{
 					$offlineUser	=	$c['OFFLINE_AUTEUR'] != '' ? $c['OFFLINE_AUTEUR'] : 'Utilisateur inconnu';
 				$end		.= '
 				<a href="#">'.$offlineUser.'</a> dit : 
-				"'.word_limiter($c['CONTENT'],10).'" dans <a href="'.$this->core->url->main_url().'index.php/'.$controler[0]['PAGE_CNAME'].'/lecture/'.$article[0]['ID'].'/'.$this->core->tendoo->urilizeText($article[0]['TITLE']).'">'.$article[0]['TITLE'].'</a><br><br>';
+				"'.word_limiter($c['CONTENT'],10).'" dans <a href="'.$this->instance->url->main_url().'index.php/'.$controler[0]['PAGE_CNAME'].'/lecture/'.$article[0]['URL_TITLE'].'">'.$article[0]['TITLE'].'</a><br><br>';
 				}
 			}
 		}

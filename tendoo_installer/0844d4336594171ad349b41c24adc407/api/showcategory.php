@@ -11,21 +11,34 @@ class news_showcategory_api
 	function getDatas($limitation)
 	{
 		$controler	=	$this->tendoo->getControllersAttachedToModule('news');
-		$query		=	$this->lib->getCat(0,$limitation);
-		$final		=	array();
-		foreach($query as $q)
+		if($controler)
 		{
-			$final[]					=	array(
-				'LINK'					=>	$this->url->main_url().$controler[0]['PAGE_CNAME'].'/categorie/'.$this->tendoo->urilizeText($q['CATEGORY_NAME']).'/'.$q['ID'],
-				'TITLE'					=>	$q['CATEGORY_NAME'],
-				'DATE'					=>	$q['DATE'],
-				'AUTEUR'				=>	'',
-				'THUMB'					=>	'',
-				'CATEGORY_TITLE'		=>	'',
-				'CATEGORY_LINK'			=>	'',
-				'PRICE_TEXT'			=>	'',
-				'PRICE_LINK'			=>	'',
-			);
+			$query		=	$this->lib->getCat(0,$limitation);
+			$final		=	array();
+			foreach($query as $q)
+			{
+				$final[]					=	array(
+					'LINK'					=>	$this->url->main_url().$controler[0]['PAGE_CNAME'].'/categorie/'.$q['URL_TITLE'],
+					'TITLE'					=>	$q['CATEGORY_NAME'],
+					'DATE'					=>	$q['DATE'],
+					'CONTENT'				=>	$q['DESCRIPTION'],
+					'AUTEUR'				=>	'',
+					'THUMB'					=>	'',
+					'CATEGORIES'			=>	array()
+				);
+			}
+		}
+		else
+		{
+			$final[]						=	array(
+					'LINK'					=>	'http://tendoo.org/index.php/faq/bind-module-to-page',
+					'TITLE'					=>	"Erreur, blogster non exécuté",
+					'DATE'					=>	"",
+					'CONTENT'				=>	"",
+					'AUTEUR'				=>	'',
+					'THUMB'					=>	'',
+					'CATEGORIES'			=>	array()
+				);
 		}
 		return $final;
 	}

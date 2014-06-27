@@ -34,13 +34,13 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
-                <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
+                <section class="wrapper"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
                     <section class="panel">
                         <div class="panel-heading"> Liste des fichiers </div>
                         <table class="table table-striped b-t text-sm">
@@ -60,13 +60,13 @@
                     {
                         foreach($files as $t)
                         {
-                            $user	=	$this->core->users_global->getUser($t['AUTHOR']);
+                            $user	=	$this->instance->users_global->getUser($t['AUTHOR']);
                     ?>
                                 <tr>
-                                    <td><img style="width:50px;height:50px;" src="<?php echo $this->core->url->main_url().'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>" alt="<?php echo $t['FILE_NAME'];?>"></td>
-                                    <td><a href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'manage',$t['ID']));?>"><?php echo $t['TITLE'];?></a></td>
+                                    <td><img style="width:50px;height:50px;" src="<?php echo $this->instance->url->main_url().'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>" alt="<?php echo $t['FILE_NAME'];?>"></td>
+                                    <td><a href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'manage',$t['ID']));?>"><?php echo $t['TITLE'];?></a></td>
                                     <td><?php echo word_limiter($t['DESCRIPTION'],200);?></td>
-                                    <td><a href="<?php echo $this->core->url->main_url().'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>"><?php echo $t['FILE_NAME'];?></a></td>
+                                    <td><a href="<?php echo $this->instance->url->main_url().'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>"><?php echo $t['FILE_NAME'];?></a></td>
                                     <td><?php echo $t['FILE_TYPE'];?></td>
                                     <td><?php echo $user == true ? $user['PSEUDO'] : "Utilisateur Introuvable";?></td>
                                 </tr>

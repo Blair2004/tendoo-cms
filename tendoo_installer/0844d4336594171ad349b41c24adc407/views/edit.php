@@ -6,11 +6,11 @@
         <?php
 		if($getSpeNews[0]['SCHEDULED']	==	'1')
 		{
-			$dateArray	=	$this->core->tendoo->time($getSpeNews[0]['DATE'],true);
+			$dateArray	=	$this->instance->date->time($getSpeNews[0]['DATE'],true);
 		}
 		else
 		{
-			$dateArray	=	$this->core->tendoo->time($this->core->tendoo->datetime(),true);
+			$dateArray	=	$this->instance->date->time($this->instance->date->datetime(),true);
 		}
 		?>
             <div class="row m-t-sm text-center-xs">
@@ -28,20 +28,20 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
-                <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
+                <section class="wrapper"> <?php echo output('notice');?>  <?php echo validation_errors(); ?>
                     <form method="post" class="submitForm">
                         <div class="row">
                             <div class="col-lg-9">
                                 <input type="hidden" value="<?php echo $getSpeNews[0]['ID'];?>" name="article_id">
                                 <input class="form-control" value="<?php echo $getSpeNews[0]['TITLE'];?>" type="text" name="news_name" placeholder="Titre de l'article">
                                 <br />
-                                <?php echo $this->core->tendoo->getEditor(array('class'=>'form-control','id'=>'editor','name'=>'news_content','defaultValue'=>$getSpeNews[0]['CONTENT'],'height'	=>	'800px'));?> </div>
+                                <?php echo $this->instance->visual_editor->getEditor(array('class'=>'form-control','id'=>'editor','name'=>'news_content','defaultValue'=>$getSpeNews[0]['CONTENT'],'height'	=>	'800px'));?> </div>
                             <div class="col-lg-3">
                                 <section class="panel">
                                     <div class="panel-heading">Options</div>
@@ -100,7 +100,7 @@
 					});
 				  </script>
                                         <div class="form-group">
-                                            <button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'ajax','createCategory'));?>" type="button">Ajouter une cat&eacute;gorie</button>
+                                            <button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'ajax','createCategory'));?>" type="button">Ajouter une cat&eacute;gorie</button>
                                         </div>
                                         <div class="form-group">
                                         	<span>Choissisez une catégorie</span>
@@ -210,7 +210,7 @@
 			$('.submitForm').submit();
 			$('.submitForm').find('[name="push_directly"]').remove();
 		});
-		var currentTime	=	'<?php echo $this->tendoo->datetime('%d-%m-%Y');?>';
+		var currentTime	=	'<?php echo $this->instance->date->datetime('%d-%m-%Y');?>';
 		$('.datepicker').datepicker({
 			showAnim		:		'slideDown',
 			dateFormat		:		'dd-mm-yy',

@@ -19,13 +19,13 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
-                <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
+                <section class="wrapper"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
 					<?php echo tendoo_info('Choissisez un widget et ajoutez-le à une zone (Gauche, Droite, Pied de page). Les widgets ajoutés sont automatiquement activés.');?>
 					<div class="row">
 						<div class="col-lg-4">
@@ -76,7 +76,7 @@
 									<?php
 									if(array_key_exists('WIDGET_MORE',$f))
 									{
-										$cur_module	=	$this->core->tendoo_admin->getSpeMod($f['MODULE_NAMESPACE'],FALSE);
+										$cur_module	=	$this->instance->tendoo_admin->getSpeMod($f['MODULE_NAMESPACE'],FALSE);
 										if($cur_module)
 										{
 											$module_dir	=	MODULES_DIR.$cur_module[0]['ENCRYPTED_DIR'];

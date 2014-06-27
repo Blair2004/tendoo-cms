@@ -32,13 +32,13 @@
                 <header>
                     <div class="row b-b m-l-none m-r-none">
                         <div class="col-sm-4">
-                            <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                            <p class="block text-muted"><?php echo $pageDescription;?></p>
+                            <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                            <p class="block text-muted"><?php echo get_page('description');?></p>
                         </div>
                     </div>
                 </header>
                 <section class="vbox">
-                    <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
+                    <section class="wrapper"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
                         <div class="row">
                             <div class="col-lg-3">
                                 <section class="panel">
@@ -85,7 +85,7 @@
                                         <form method="post" class="" action="" id="coords">
                                         	
                                             <div style="width:100%;overflow:scroll">
-                                            <img id="target" src="<?php echo $this->core->url->main_url().$repository_dir.'/'.$getFile[0]['FILE_NAME'];?>" />
+                                            <img id="target" src="<?php echo $this->instance->url->main_url().$repository_dir.'/'.$getFile[0]['FILE_NAME'];?>" />
                                             </div>
                                             <hr class="line line-dashed">
                                             <input type="hidden" size="4" id="x1" name="x1" />
@@ -171,6 +171,6 @@
 			$('*[name="overwrite_file"]').trigger('click');
 		});
 		$('.showALook').bind('click',function(){
-			tendoo.modal.show('<img src="<?php echo $this->core->url->main_url().'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$getFile[0]['FILE_NAME'];?>" alt="<?php echo $getFile[0]['FILE_NAME'];?>">');
+			tendoo.modal.show('<img src="<?php echo $this->instance->url->main_url().'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$getFile[0]['FILE_NAME'];?>" alt="<?php echo $getFile[0]['FILE_NAME'];?>">');
 		});
 		</script>

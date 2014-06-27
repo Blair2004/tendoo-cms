@@ -7,9 +7,9 @@ if($files)
 	foreach($files  as $f)
 	{
 		?>
-		<div class="col-xs-6 col-md-3 content_file" style="margin-bottom:10px;" file_url="<?php echo $this->core->url->main_url().MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$f['FILE_NAME'];?>">
+		<div class="col-xs-6 col-md-3 content_file" style="margin-bottom:10px;" file_url="<?php echo $this->instance->url->main_url().MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$f['FILE_NAME'];?>">
 			<a href="javascript:void(0)" class="thumbnail">
-			  <img style="height:100px;" src="<?php echo $this->core->url->main_url().MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/content_repository/small_'.$f['FILE_NAME'];?>" alt="...">
+			  <img style="height:100px;" src="<?php echo $this->instance->url->main_url().MODULES_DIR.$module[0]['ENCRYPTED_DIR'].'/content_repository/small_'.$f['FILE_NAME'];?>" alt="...">
 			</a>
 		</div>
 		<?php

@@ -19,26 +19,27 @@ $or['widgetDeleted']			=	tendoo_success('Le widget &agrave; &eacute;t&eacute; su
 $NOTICE_SUPER_ARRAY = $or;
 /// -------------------------------------------------------------------------------------------------------------------///
 
-class tendoo_widget_administrator_admin_controller
+class tendoo_widget_administrator_admin_controller extends Libraries
 {
 	public function __construct($data)
 	{
-		$this->core						=	Controller::instance();
-		$this->tendoo					=	$this->core->tendoo;
+		parent::__construct();
+		$this->instance					=	get_instance();
+		$this->tendoo					=	$this->instance->tendoo;
 		$this->moduleNamespace			=	$data['module'][0]['NAMESPACE']; // retreive namespace
-		$this->tendoo_admin				=&	$this->core->tendoo_admin;
+		$this->tendoo_admin				=&	$this->instance->tendoo_admin;
 		$this->data						=&	$data;
-		$this->notice					=&	$this->core->notice;
+		$this->notice					=&	$this->instance->notice;
 		$this->data['module_dir']		=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
 		$this->lib						=	new widhandler_lib($this->data);
 		$this->data['lib']				=&	$this->lib;
 		
-		// $this->core->tendoo_admin->menuExtendsBefore($this->core->load->view($this->data['module_dir'].'/views/menu',$this->data,true,TRUE));
-		$this->data['inner_head']		=	$this->core->load->view('admin/inner_head',$this->data,true);
-		$this->data['lmenu']			=	$this->core->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
-		if(!$this->core->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('modules','widgetsMastering',$this->core->users_global->current('PRIVILEGE')))
+		// $this->instance->tendoo_admin->menuExtendsBefore($this->load->view($this->data['module_dir'].'/views/menu',$this->data,true,TRUE));
+		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
+		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
+		if(!$this->instance->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('modules','widgetsMastering',$this->instance->users_global->current('PRIVILEGE')))
 		{
-			$this->core->url->redirect(array('admin','index?notice=access_denied'));
+			$this->instance->url->redirect(array('admin','index?notice=access_denied'));
 		}
 	}
 	public function index($page	=	1,$action = "",$element	=	'')
@@ -48,19 +49,19 @@ class tendoo_widget_administrator_admin_controller
 			$result	=	$this->lib->save_widgets($_POST['tewi_wid']);
 			if(is_array($result))
 			{
-				$this->core->notice->push_notice(tendoo_info($result['success'].' widget(s) a/ont été crée(s). '.$result['error'].' erreur(s)'));
+				$this->instance->notice->push_notice(tendoo_info($result['success'].' widget(s) a/ont été crée(s). '.$result['error'].' erreur(s)'));
 			}
 			else
 			{
-				$this->core->notice->push_notice(notice($result));
+				$this->instance->notice->push_notice(fetch_error($result));
 			}
 		}
-		$this->core->file->js_push('jquery-ui-1.10.4.custom.min');
-		$this->core->file->js_url	=	$this->core->url->main_url().$this->data['module_dir'].'/js/';
-		$this->core->file->js_push('tewi_script');
+		$this->instance->file->js_push('jquery-ui-1.10.4.custom.min');
+		$this->instance->file->js_url	=	$this->instance->url->main_url().$this->data['module_dir'].'/js/';
+		$this->instance->file->js_push('tewi_script');
 		
-		$this->core->file->css_url	=	$this->core->url->main_url().$this->data['module_dir'].'/css/';
-		$this->core->file->css_push('style');
+		$this->instance->file->css_url	=	$this->instance->url->main_url().$this->data['module_dir'].'/css/';
+		$this->instance->file->css_push('style');
 		
 		
 		$this->data['modules']		=	$this->tendoo_admin->get_modules();
@@ -87,9 +88,9 @@ class tendoo_widget_administrator_admin_controller
 		$this->data['widgets_right']		=	$this->lib->tewi_getWidgets('right');
 		$this->data['widgets_bottom']		=	$this->lib->tewi_getWidgets('bottom');
 		// var_dump($this->data['widgets_right']);
-		$this->tendoo->setTitle('tendoo &raquo; Gestion des widgets');
+		set_page('title','tendoo &raquo; Gestion des widgets');
 		
-		$this->data['body']			=	$this->core->load->view($this->data['module_dir'].'/views/body',$this->data,true,TRUE);
+		$this->data['body']			=	$this->load->view($this->data['module_dir'].'/views/body',$this->data,true,TRUE);
 		return $this->data['body'];
 	}
 }

@@ -27,14 +27,14 @@ class tendoo_contact_handler_module_controller
 				$this->input->post('contact_user_city')
 			))
 			{
-				$this->notice->push_notice(notice('done'));
+				notice('push',fetch_error('done'));
 			}
 		}
 		$this->data['gDescription']	=	$this->lib->getDescription();
 		$this->data['fields']		=	$this->lib->getToggledFields();
 		$this->data['contact']		=	$this->lib->getContact();
-		$this->tendoo->setTitle($this->data['page'][0]['PAGE_TITLE']);
-		$this->tendoo->setDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
+		set_page('title',$this->data['page'][0]['PAGE_TITLE']);
+		set_page('description',$this->data['page'][0]['PAGE_DESCRIPTION']);
 		$this->data['theme']->definePageTitle($this->data['page'][0]['PAGE_TITLE']);
 		$this->data['theme']->definePageDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
 		

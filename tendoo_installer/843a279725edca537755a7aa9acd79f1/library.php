@@ -7,7 +7,7 @@ $or['fileReplaced']			=	tendoo_success('Le fichier &agrave; &eacute;t&eacute; co
 $NOTICE_SUPER_ARRAY = $or;
 	if(class_exists('tendoo_admin'))
 	{
-		class file_contentAdmin
+		class file_contentAdmin extends Libraries
 		{
 			private $data;
 			private $dir;
@@ -18,11 +18,15 @@ $NOTICE_SUPER_ARRAY = $or;
 			private $users_global;
 			public function __construct($data)
 			{
-				$this->core			=	Controller::instance();
+				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+				parent::__construct();
+				__extends($this);
+				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+				$this->instance		=	get_instance();
 				$this->data			=	$data;
-				$this->tendoo		=&	$this->core->tendoo;
-				$this->tendoo_admin	=&	$this->core->tendoo_admin;
-				$this->users_global	=&	$this->core->users_global;
+				$this->tendoo		=&	$this->instance->tendoo;
+				$this->tendoo_admin	=&	$this->instance->tendoo_admin;
+				$this->users_global	=&	$this->instance->users_global;
 				$this->dir			=	'tendoo_modules/'.$this->data['module'][0]['ENCRYPTED_DIR'];
 				if(!is_dir($this->dir.'/content_repository'))
 				{
@@ -32,7 +36,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function datetime()
 			{
-				return $this->tendoo->datetime();
+				return $this->instance->date->datetime();
 			}
 			public function getName()
 			{
@@ -44,24 +48,24 @@ $NOTICE_SUPER_ARRAY = $or;
 				$config['allowed_types'] 	= 'gif|jpg|png|avi|mp3|mp4|ogg|zip|rar|docx|doc|pdf';
 				$config['max_size'] 		= '500000';
 				$config['file_name']		= $this->getName();
-				$this->core->load->library('upload',$config);
-				if($this->core->upload->do_upload($file))
+				$this->load->library('upload',$config);
+				if($this->instance->upload->do_upload($file))
 				{
-					$_query					=	$this->core->db->get('tendoo_contents');
+					$_query					=	$this->instance->db->get('tendoo_contents');
 					$_result				=	$_query->result_array(); // Counting uploaded files
 					$ids					=	count($_result)+1;
 					
-					$result	= $this->core->upload->data();
+					$result	= $this->instance->upload->data();
 					$array	=	array(
 						'ID'				=>		$ids,
 						'FILE_NAME'			=>		$result['file_name'],
 						'FILE_TYPE'			=>		substr($result['file_ext'],1),
-						'DATE'				=>		$this->core->tendoo->datetime(),
+						'DATE'				=>		$this->instance->date->datetime(),
 						'TITLE'				=>		$title,
 						'DESCRIPTION'		=>		$description,
 						'AUTHOR'			=>		$this->users_global->current('ID')
 					);
-					$this->core->db->insert('tendoo_contents',$array);
+					$this->instance->db->insert('tendoo_contents',$array);
 					return $this->_createThumb($ids);
 				}
 				return false;				
@@ -98,20 +102,20 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function countUploadedFiles()
 			{
-				$query	=	$this->core->db->get('tendoo_contents');
+				$query	=	$this->instance->db->get('tendoo_contents');
 				return count($query->result_array());
 			}
 			public function getUploadedFiles($start	='',$end	='')
 			{
 				if(is_numeric($start) && is_numeric($end))
 				{
-					$this->core->db->limit($end,$start);
+					$this->instance->db->limit($end,$start);
 				}
 				if(is_numeric($start ) && !is_numeric($end))
 				{
-					$this->core->db->where('ID',$start);
+					$this->instance->db->where('ID',$start);
 				}
-				$query	=	$this->core->db->order_by("ID", "desc")->get('tendoo_contents');
+				$query	=	$this->instance->db->order_by("ID", "desc")->get('tendoo_contents');
 				return	$query->result_array();
 			}
 			public function fileReplace($image_id,$uploaded_file)
@@ -131,15 +135,15 @@ $NOTICE_SUPER_ARRAY = $or;
 				$config['max_size'] 		= '500000';
 				$config['file_name']		= $namesansext;
 				$config['overwrite']		=	TRUE;
-				$this->core->load->library('upload',$config);
-				if($this->core->upload->do_upload($uploaded_file))
+				$this->load->library('upload',$config);
+				if($this->instance->upload->do_upload($uploaded_file))
 				{
-					$file_data				=	$this->core->upload->data();
-					$this->core->db->where('ID',$image_id)->update('tendoo_contents',
+					$file_data				=	$this->instance->upload->data();
+					$this->instance->db->where('ID',$image_id)->update('tendoo_contents',
 						array(
 							'FILE_NAME'	=>	$file_data['file_name'],
 							'FILE_TYPE'	=>	substr($file_data['file_ext'],1),
-							'AUTHOR'	=>	$this->core->users_global->current('ID')
+							'AUTHOR'	=>	$this->instance->users_global->current('ID')
 						)
 					); // un finished
 					$this->_createThumb($image_id);
@@ -152,7 +156,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				$f		=	$this->getUploadedFiles($id);
 				if(count($f) > 0)
 				{
-					$this->core->db->where('ID',$id)->delete('tendoo_contents');
+					$this->instance->db->where('ID',$id)->delete('tendoo_contents');
 					file_exists($this->cp_dir.'/small_'.$f[0]['FILE_NAME']) == TRUE ? unlink($this->cp_dir.'/small_'.$f[0]['FILE_NAME']) : false;
 					return unlink($this->cp_dir.'/'.$f[0]['FILE_NAME']);
 				}
@@ -166,10 +170,10 @@ $NOTICE_SUPER_ARRAY = $or;
 					$array	=	array(
 						'TITLE'			=>	$name,
 						'DESCRIPTION'	=>	$description,
-						'DATE'			=>	$this->core->tendoo->datetime(),
-						'AUTHOR'		=>	$this->core->users_global->current('ID')
+						'DATE'			=>	$this->instance->date->datetime(),
+						'AUTHOR'		=>	$this->instance->users_global->current('ID')
 					);
-					return $this->core->db->where('ID',$thefile[0]['ID'])->update('tendoo_contents',$array);
+					return $this->instance->db->where('ID',$thefile[0]['ID'])->update('tendoo_contents',$array);
 				}
 				return false;
 			}
@@ -188,14 +192,14 @@ $NOTICE_SUPER_ARRAY = $or;
 					$config['x_axis'] 			= $x1;
 					$config['y_axis'] 			= $y1;
 					
-					$this->core->load->library('image_lib');
-					$this->core->image_lib->initialize($config); 
-					$this->core->image_lib->crop();
-					$notice						=	$this->core->image_lib->display_errors();
+					$this->load->library('image_lib');
+					$this->instance->image_lib->initialize($config); 
+					$this->instance->image_lib->crop();
+					$notice						=	$this->instance->image_lib->display_errors();
 					$this->_createThumb($image_id);
 					if($notice != '')
 					{
-					$this->core->notice->push_notice(notice($notice));
+					$this->instance->notice->push_notice(fetch_error($notice));
 					}
 					return true;
 				}
@@ -216,17 +220,17 @@ $NOTICE_SUPER_ARRAY = $or;
 					$config['quality']			=	'100%';
 					$config['x_axis'] 			= $x1;
 					$config['y_axis'] 			= $y1;
-					$this->core->load->library('image_lib');
-					$this->core->image_lib->initialize($config); 
-					$this->core->image_lib->crop();
-					$notice						=	$this->core->image_lib->display_errors();
+					$this->load->library('image_lib');
+					$this->instance->image_lib->initialize($config); 
+					$this->instance->image_lib->crop();
+					$notice						=	$this->instance->image_lib->display_errors();
 					if($notice == '')
 					{
-						$_query					=	$this->core->db->get('tendoo_contents');
+						$_query					=	$this->instance->db->get('tendoo_contents');
 						$_result				=	$_query->result_array(); // Counting uploaded files
 						$ids					=	count($_result)+1;
 						
-						$date					=	$this->core->tendoo->datetime();
+						$date					=	$this->instance->date->datetime();
 						$array	=	array(
 							'ID'				=>		$ids,
 							'FILE_NAME'			=>		$image_name.'.'.strtolower($image[0]['FILE_TYPE']),
@@ -236,7 +240,7 @@ $NOTICE_SUPER_ARRAY = $or;
 							'DESCRIPTION'		=>		$image[0]['DESCRIPTION'],
 							'AUTHOR'			=>		$this->users_global->current('ID')
 						);
-						$this->core->db->insert('tendoo_contents',$array);
+						$this->instance->db->insert('tendoo_contents',$array);
 						$this->_createThumb($ids);
 						return 'done';
 					}
@@ -254,7 +258,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			public function __construct($data)
 			{
 				$this->data	=	$data;
-				$this->core	=	Controller::instance();
+				$this->instance	=	get_instance();
 				$this->dir	=	__DIR__;
 				if(!is_dir($this->dir.'\created_pages'))
 				{
@@ -264,7 +268,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function getPage($id)
 			{
-				$query	= $this->core->db->where('ID',$id)->get('tendoo_pages');
+				$query	= $this->instance->db->where('ID',$id)->get('tendoo_pages');
 				$ar	=	$query->result_array();
 				if(is_dir($this->cp_dir))
 				{

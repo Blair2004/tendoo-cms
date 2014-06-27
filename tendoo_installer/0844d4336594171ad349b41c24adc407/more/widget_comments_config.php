@@ -1,8 +1,9 @@
 <?php
-class comments_news_moreClass
+class comments_news_moreClass extends Libraries
 {
 	public function __construct()
 	{
+		parent::__construct();
 		__extends($this);
 		$this->cur_module			=	$this->tendoo_admin->getSpeMod('news',FALSE);
 		$this->encrypted_dir		=& 	$this->cur_module[0]['ENCRYPTED_DIR'];

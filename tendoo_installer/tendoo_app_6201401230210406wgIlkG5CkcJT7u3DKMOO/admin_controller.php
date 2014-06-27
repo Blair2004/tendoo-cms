@@ -37,7 +37,7 @@ class tendoo_contact_handler_admin_controller
 
 
 		$this->data['retreiContact']	=	$this->lib->getSendedContact($this->data['paginate'][1],$this->data['paginate'][2]);
-		$this->tendoo->setTitle($this->data['module'][0]['HUMAN_NAME'].' - Liste des messages');
+		set_page('title',$this->data['module'][0]['HUMAN_NAME'].' - Liste des messages');
 		
 		$this->data['body']			=	$this->load->view($this->module_dir.'/views/body',$this->data,true,TRUE,$this);
 		return $this->data['body'];
@@ -57,11 +57,11 @@ class tendoo_contact_handler_admin_controller
 					$this->input->post('contactNew')
 				))
 				{
-					$this->notice->push_notice(notice('done'));
+					notice('push',fetch_error('done'));
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 		}
@@ -72,11 +72,11 @@ class tendoo_contact_handler_admin_controller
 			{
 				if($this->lib->removeContact($this->input->post('contactId')))
 				{
-					$this->notice->push_notice(notice('done'));
+					notice('push',fetch_error('done'));
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 		}
@@ -90,22 +90,22 @@ class tendoo_contact_handler_admin_controller
 				$this->input->post('showCountry'),
 				$this->input->post('showCity')))
 			 {
-				 $this->notice->push_notice(notice('done'));
+				 notice('push',fetch_error('done'));
 			 }
 			 else
 			 {
-				 $this->notice->push_notice(notice('error_occured'));
+				 notice('push',fetch_error('error_occured'));
 			 }
 		}
 		if(isset($_POST['contact_description_submit']))
 		{
 			if($this->lib->addDescription($this->input->post('contact_description')))
 			{
-				$this->notice->push_notice(notice('done'));
+				notice('push',fetch_error('done'));
 			}
 			else
 			{
-				$this->notice->push_notice(notice('error_occured'));
+				notice('push',fetch_error('error_occured'));
 			}
 		}
 		
@@ -113,8 +113,8 @@ class tendoo_contact_handler_admin_controller
 		$this->data['getFields']	=	$this->lib->getToggledFields();
 		$this->data['getContact']	=	$this->lib->getContact();
 		
-		$this->tendoo->setTitle($this->data['module'][0]['HUMAN_NAME'].' - Param&ecirc;tres');
-		$this->tendoo->loadEditor(1);
+		set_page('title',$this->data['module'][0]['HUMAN_NAME'].' - Param&ecirc;tres');
+		$this->instance->visual_editor->loadEditor(1);
 		$this->data['body']			=	$this->load->view($this->module_dir.'/views/setting',$this->data,true,TRUE,$this);
 		return $this->data['body'];
 	}
@@ -123,12 +123,12 @@ class tendoo_contact_handler_admin_controller
 		if(isset($_POST['messageToSender']))
 		{
 			$query	=	$this->users_global->write($this->input->post('userTo'),$this->input->post('messageToSender'));
-			$this->notice->push_notice(notice($query));
+			notice('push',fetch_error($query));
 		}
 		$this->data['getSpeContact']	=	$this->lib->getSendedContact($id);
 		if($this->data['getSpeContact'] == FALSE): $this->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
 		
-		$this->tendoo->setTitle($this->data['module'][0]['HUMAN_NAME'].' - Lire un message');
+		set_page('title',$this->data['module'][0]['HUMAN_NAME'].' - Lire un message');
 		
 		$this->data['body']			=	$this->load->view($this->module_dir.'/views/read',$this->data,true,TRUE,$this);
 		return $this->data['body'];

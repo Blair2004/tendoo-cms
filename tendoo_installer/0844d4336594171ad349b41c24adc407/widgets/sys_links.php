@@ -3,7 +3,7 @@ class syslink_news_common_widget
 {
 	public function __construct($data)
 	{
-		$this->core		=	Controller::instance();
+		$this->instance		=	get_instance();
 		$this->data		=&	$data;
 		$this->theme	=&	$this->data['theme'];
 		$this->location	=	MODULES_DIR.$this->data['currentWidget']['WIDGET_MODULE']['ENCRYPTED_DIR'];
@@ -15,35 +15,35 @@ class syslink_news_common_widget
 		$this->news		=	new News_smart;
 		$this->data['mostViewed']	=	$this->news->getMostViewed(0,10);
 		$end			=	'<ul>';
-		if($this->core->users_global->isConnected())
+		if($this->instance->users_global->isConnected())
 		{
-			$this->core->load->library('tendoo_admin');
-			if($this->core->users_global->isAdmin())
+			$this->instance->load->library('tendoo_admin');
+			if($this->instance->users_global->isAdmin())
 			{
-				$priv	=	$this->core->users_global->current('PRIVILEGE');
-				if($this->core->users_global->isSuperAdmin())
+				$priv	=	$this->instance->users_global->current('PRIVILEGE');
+				if($this->instance->users_global->isSuperAdmin())
 				{
-					$end		.=	'<li><a href="'.$this->core->url->site_url(array('admin','modules')).'">Liste des modules</a></li>';
-					$end		.=	'<li><a href="'.$this->core->url->site_url(array('admin','setting')).'">Param&egrave;tres</a></li>';
-					$end		.=	'<li><a href="'.$this->core->url->site_url(array('admin','system','manage_actions')).'">Gestion d\'actions</a></li>';
-					$end		.=	'<li><a href="'.$this->core->url->site_url(array('admin','installer')).'">Installer une application</a></li>';
+					$end		.=	'<li><a href="'.$this->instance->url->site_url(array('admin','modules')).'">Liste des modules</a></li>';
+					$end		.=	'<li><a href="'.$this->instance->url->site_url(array('admin','setting')).'">Param&egrave;tres</a></li>';
+					$end		.=	'<li><a href="'.$this->instance->url->site_url(array('admin','system','manage_actions')).'">Gestion d\'actions</a></li>';
+					$end		.=	'<li><a href="'.$this->instance->url->site_url(array('admin','installer')).'">Installer une application</a></li>';
 				}
-				else if(!$this->core->tendoo_admin->isPublicPriv($priv))
+				else if(!$this->instance->tendoo_admin->isPublicPriv($priv))
 				{
-					$end		.=	'<li><a href="'.$this->core->url->site_url(array('admin')).'">Espace administration</a></li>';
+					$end		.=	'<li><a href="'.$this->instance->url->site_url(array('admin')).'">Espace administration</a></li>';
 				}
 			}
-			$end		.=	'<li><a href="'.$this->core->url->site_url(array('account')).'">Mon profil</a></li>';
-			$end		.=	'<li><a href="'.$this->core->url->site_url(array('account','messaging','home')).'">Ma messagerie</a></li>';
+			$end		.=	'<li><a href="'.$this->instance->url->site_url(array('account')).'">Mon profil</a></li>';
+			$end		.=	'<li><a href="'.$this->instance->url->site_url(array('account','messaging','home')).'">Ma messagerie</a></li>';
 		}
 		else
 		{
-			$options	=	$this->core->tendoo->getOptions();
+			$options	=	$this->instance->options->get();
 			if($options[0]['ALLOW_REGISTRATION'] == '1')
 			{
-				$end		.=	'<li><a href="'.$this->core->url->site_url(array('registration')).'">Inscription</a></li>';
+				$end		.=	'<li><a href="'.$this->instance->url->site_url(array('registration')).'">Inscription</a></li>';
 			}
-			$end		.=	'<li><a href="'.$this->core->url->site_url(array('login')).'">Connexion</a></li>';
+			$end		.=	'<li><a href="'.$this->instance->url->site_url(array('login')).'">Connexion</a></li>';
 		}
 		$end			.=	'</ul>';
 		// For Zones

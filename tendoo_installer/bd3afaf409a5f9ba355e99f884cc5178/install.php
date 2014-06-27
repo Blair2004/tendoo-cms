@@ -66,7 +66,7 @@ if($this->getSpeModuleByNamespace('news'))
 	$this->appSql("
 	INSERT INTO `".DB_ROOT."tendoo_widget_administrator_right` 
 	(ID,WIDGET_TITLE,WIDGET_NAMESPACE,WIDGET_MODNAMESPACE,WIDGET_HUMAN_NAME,WIDGET_ETAT,WIDGET_PARAMETERS,AUTEUR,DATE,IS_CODE) values
-	(1, 'Mots clés disponibles', 'tags', 'news', 'Afficher les mots clés', '1', '9', 4, '".$this->tendoo->datetime()."', 0),
+	(1, 'Mots clés disponibles', 'tags', 'news', 'Afficher les mots clés', '1', '9', 4, '".$this->instance->date->datetime()."', 0),
 	(2, 'Meta.', 'syslink', 'news', 'Liens Système', '1', '', 4, '2014-06-01 10:20:50', 0),
 	(3, 'Catégories Disponibles', 'aflecatdi', 'news', 'Afficher les categorie disponible', '1', '20', 4, '2014-06-01 10:20:50', 0);
 	");
@@ -74,7 +74,7 @@ if($this->getSpeModuleByNamespace('news'))
 	$this->appSql("
 	INSERT INTO `".DB_ROOT."tendoo_widget_administrator_left` 
 	(ID,WIDGET_TITLE,WIDGET_NAMESPACE,WIDGET_MODNAMESPACE,WIDGET_HUMAN_NAME,WIDGET_ETAT,WIDGET_PARAMETERS,AUTEUR,DATE,IS_CODE) values
-	(1, 'Mots clés disponibles', 'tags', 'news', 'Afficher les mots clés', '1', '9', 4, '".$this->tendoo->datetime()."', 0),
+	(1, 'Mots clés disponibles', 'tags', 'news', 'Afficher les mots clés', '1', '9', 4, '".$this->instance->date->datetime()."', 0),
 	(2, 'Meta.', 'syslink', 'news', 'Liens Système', '1', '', 4, '2014-06-01 10:20:50', 0),
 	(3, 'Catégories Disponibles', 'aflecatdi', 'news', 'Afficher les categorie disponible', '1', '20', 4, '2014-06-01 10:20:50', 0);
 	");
@@ -82,7 +82,7 @@ if($this->getSpeModuleByNamespace('news'))
 	$this->appSql("
 	INSERT INTO `".DB_ROOT."tendoo_widget_administrator_bottom`
 	(ID,WIDGET_TITLE,WIDGET_NAMESPACE,WIDGET_MODNAMESPACE,WIDGET_HUMAN_NAME,WIDGET_ETAT,WIDGET_PARAMETERS,AUTEUR,DATE,IS_CODE) values
-	(1, 'Mots clés disponibles', 'tags', 'news', 'Afficher les mots clés', '1', '9', 4, '".$this->tendoo->datetime()."', 0),
+	(1, 'Mots clés disponibles', 'tags', 'news', 'Afficher les mots clés', '1', '9', 4, '".$this->instance->date->datetime()."', 0),
 	(2, 'Meta.', 'syslink', 'news', 'Liens Système', '1', '', 4, '2014-06-01 10:20:50', 0),
 	(3, 'Catégories Disponibles', 'aflecatdi', 'news', 'Afficher les categorie disponible', '1', '20', 4, '2014-06-01 10:20:50', 0);
 	");

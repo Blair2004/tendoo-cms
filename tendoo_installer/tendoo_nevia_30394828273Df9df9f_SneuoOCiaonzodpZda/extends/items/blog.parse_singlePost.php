@@ -1,6 +1,6 @@
 <?php if(count($this->singleBlogPost) > 0)		{	
-	$global	=	$this->tendoo->time($this->singleBlogPost['TIMESTAMP'],TRUE); 
-	$base		=	$this->tendoo->time($this->singleBlogPost['TIMESTAMP']);
+	$global	=	$this->instance->date->time($this->singleBlogPost['TIMESTAMP'],TRUE); 
+	$base		=	$this->instance->date->time($this->singleBlogPost['TIMESTAMP']);
 ?>
 <article class="post">
 

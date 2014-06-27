@@ -16,20 +16,25 @@ $or['noCategoryCreated']		=	tendoo_error(' Avant de publier un article, vous dev
 $or['connectToComment']			=	tendoo_error(' Vous devez &ecirc;tre connect&eacute; pour commenter.');
 $or['unknowComments']			=	tendoo_error(' Commentaire introuvable.');
 $or['commentDeleted']			=	tendoo_success('<i class="icon-checkmark"></i> Commentaire supprim&eacute;.');
-$or['submitedForApproval']			=	tendoo_success('<i class="icon-checkmark"></i> Votre commentaire &agrave; &eacute;t&eacute; soumis pour une examination.');
+$or['submitedForApproval']		=	tendoo_success('<i class="icon-checkmark"></i> Votre commentaire &agrave; &eacute;t&eacute; soumis pour une examination.');
+
 
 /// -------------------------------------------------------------------------------------------------------------------///
 $NOTICE_SUPER_ARRAY = $or;
 /// -------------------------------------------------------------------------------------------------------------------///
 	if(class_exists('tendoo_admin'))
 	{
-		class News
+		class News extends Libraries
 		{
 			private $data;
 			public function __construct($data)
 			{
-				$this->data		=	$data;
+				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+				parent::__construct();
 				__extends($this);
+				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+				$this->data		=	$data;
+				$this->instance	=	get_instance();
 				$this->user		=&	$this->users_global;
 				$this->mod_repo	=	MODULES_DIR.$data['module'][0]['ENCRYPTED_DIR'].'/';
 				// Post les articles programmés.
@@ -61,7 +66,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function datetime()
 			{
-				return $this->tendoo->datetime();
+				return $this->date->datetime();
 			}
 			public function getMenu()
 			{
@@ -158,7 +163,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					}
 					else
 					{
-						$date	=	$this->tendoo->datetime();
+						$date	=	$this->date->datetime();
 					}
 					$content		=	array(
 						'TITLE'			=> $title == false ? 'Article sans titre' : $title,
@@ -168,7 +173,7 @@ $NOTICE_SUPER_ARRAY = $or;
 						'AUTEUR'		=> $this->user->current('ID'),
 						'ETAT'			=> $state	==	false ? 2 : $state,
 						'DATE'			=> $date,
-						//'CATEGORY_ID'	=> $cat		==	false ? 0 : $cat,
+						'URL_TITLE'		=> $this->instance->string->urilizeText($title,'-'),
 						'SCHEDULED'		=>	$scheduled
 					);
 				}
@@ -176,20 +181,20 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					$content		=	array(
 					'TITLE'			=> $title,
+					'URL_TITLE'		=> $this->instance->string->urilizeText($title,'-'),
 					'CONTENT'		=> $content,
 					'IMAGE'			=> $image,
 					'THUMB'			=>	$thumb,
 					'AUTEUR'		=> 1,// Usefull when no admin is created to anticipate super admin creation
 					'ETAT'			=> $state,
-					'DATE'			=> $this->tendoo->datetime(),
+					'DATE'			=> $this->date->datetime(),
 					//'CATEGORY_ID'	=> $cat
 					);
 					$cat			=	array(1); // Enregistrement d'une catégorie Fictive.
 				}
 				$this->db->insert('tendoo_news',$content);
 				// Recupération de l'identifiant de cet article
-				$query		=	$this->db->limit(1,0)->order_by('ID','desc')->get('tendoo_news');
-				$lastArticle	=	$query->result_array();
+				$query			=	$this->db->limit(1,0)->order_by('ID','desc')->get('tendoo_news');
 				$getLastNews	=	$query->result_array(); 
 				if(count($key_words) > 0 && $key_words != false) // Préparation des mots clés.
 				{
@@ -222,7 +227,7 @@ $NOTICE_SUPER_ARRAY = $or;
 						if($this->getSpeCat($c))
 						{
 							$field	=	array(
-								'NEWS_REF_ID'		=>	$lastArticle[0]['ID'],
+								'NEWS_REF_ID'		=>	$getLastNews[0]['ID'],
 								'CATEGORY_REF_ID'	=>	$c
 							);
 							$this->db->insert('tendoo_news_ref_category',$field);
@@ -240,17 +245,18 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					// Si l'heure n'est pas précisé l'article sera publié a 00h
 					$scheduledTime	=	in_array($scheduledTime,array(FALSE,'')) ? '00:00' : $scheduledTime; 
-					$cur_date	=	$this->tendoo->createDateFromString('d-m-Y H:i',$scheduledDate.' '.$scheduledTime);
+					$cur_date	=	$this->tendoo->createDateFromString('d-m-Y H:i e',$scheduledDate.' '.$scheduledTime);
 					$date		=	$cur_date->format('Y-m-d H:i:s');
 					$state	=	3; // Pour indiquer que l'article à été programmé.
 					$scheduled		=	1; // Programmé [1:TRUE]
 				}
 				else
 				{
-					$date	=	$this->tendoo->datetime();
+					$date	=	$this->date->datetime();
 				}
 				$content	=	array(
 					'TITlE'			=> $title,
+					'URL_TITLE'		=> $this->instance->string->urilizeText($title,'-'),
 					'CONTENT'		=> $content,
 					'ETAT'			=> $state,
 					'IMAGE'			=> $image,
@@ -327,7 +333,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				$article	=	$this->getSpeNews($id);
 				if($article)
 				{
-					$datetime	=	$this->tendoo->datetime();
+					$datetime	=	$this->date->datetime();
 					return $this->db	
 					->where(array('ID'=>$id))
 					->update('tendoo_news',array(
@@ -343,7 +349,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				$article	=	$this->getSpeNews($id);
 				if($article)
 				{
-					$datetime	=	$this->tendoo->datetime();
+					$datetime	=	$this->date->datetime();
 					return $this->db	
 					->where(array('ID'=>$id))
 					->update('tendoo_news',array(
@@ -364,7 +370,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			**/
 			public function createKeyWordOrGetKeyWord($name)
 			{
-				$query	=	$this->db->where('TITLE',$name)->get('tendoo_news_keywords');
+				$query	=	$this->db->where('URL_TITLE',$this->instance->string->urilizeText($name,'-'))->get('tendoo_news_keywords');
 				$result	=	$query->result_array();
 				// Si le mots clé existe
 				if(count($result) > 0)
@@ -375,6 +381,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					$exec	=	$this->db->insert('tendoo_news_keywords',array(
 						'TITLE'				=>		$name,
+						'URL_TITLE'			=>		$this->instance->string->urilizeText($name,'-'),
 						'DESCRIPTION'		=>		'mot clé sans description'
 					));
 					if($exec)
@@ -412,12 +419,13 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function createKeyWord($title,$description)
 			{
-				$query	=	$this->db->where('TITLE',$title)->get('tendoo_news_keywords');
+				$query	=	$this->db->where('URL_TITLE',strtolower($this->instance->string->urilizeText($title,'-')))->get('tendoo_news_keywords');
 				$result	=	$query->result_array();
 				if(count($result) == 0)
 				{
 					$this->db->insert('tendoo_news_keywords',array(
 						'TITLE'				=>	$title,
+						'URL_TITLE'			=>	$this->instance->string->urilizeText($title,'-'),
 						'DESCRIPTION'		=>	$description
 					));
 					return array(
@@ -473,17 +481,18 @@ $NOTICE_SUPER_ARRAY = $or;
 			*/
 			public function createCat($name,$description)
 			{
-				$query  = $this->db->where('CATEGORY_NAME',strtolower($name))->get('tendoo_news_category');
+				$query  = $this->db->where('URL_TITLE',$this->instance->string->urilizeText($name,'-'))->get('tendoo_news_category');
 				if(count($query->result_array()) == 0)
 				{
 					$array	=	array(
 						'CATEGORY_NAME'	=>$name,
+						'URL_TITLE'		=>$this->instance->string->urilizeText($name,'-'),
 						'DESCRIPTION'	=>$description,
-						'DATE'			=>$this->tendoo->datetime()
+						'DATE'			=>$this->date->datetime()
 					);
 					$this->db->insert('tendoo_news_category',$array);
 					// Recupération des identifiants de la nouvelle catégorie
-					$query  = $this->db->where('CATEGORY_NAME',strtolower($name))->get('tendoo_news_category');
+					$query  = $this->db->where('CATEGORY_NAME',$name)->get('tendoo_news_category');
 					return $query->result_array();
 				}
 				return false;
@@ -498,8 +507,9 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					$array	=	array(
 						'CATEGORY_NAME'	=>$name,
+						'URL_TITLE'		=>$this->instance->string->urilizeText($name,'-'),
 						'DESCRIPTION'	=>$description,
-						'DATE'			=>$this->tendoo->datetime()
+						'DATE'			=>$this->date->datetime()
 					);
 					$this->db->where('ID',$id)->update('tendoo_news_category',$array);
 					return 'categoryUpdated';
@@ -767,7 +777,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				$news	=	$this->getNews(null,null,TRUE);
 				if($news)
 				{
-					$currentTime	=	strtotime($this->tendoo->datetime());
+					$currentTime	=	strtotime($this->date->datetime());
 					foreach($news as $n)
 					{
 						$postTime	=	strtotime($n['DATE']);
@@ -917,7 +927,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					return array(
 						'name'		=>$data[0]['CATEGORY_NAME'],
-						'url'		=>$this->url->site_url($this->url->controller()).'/category/'.$this->tendoo->urilizeText($data[0]['CATEGORY_NAME']).'/'.$id,
+						'url'		=>$this->url->site_url($this->url->controller()).'/category/'.$this->instance->string->urilizeText($data[0]['CATEGORY_NAME']).'/'.$id,
 						'desc'		=>$data[0]['DESCRIPTION']
 					);
 				}
@@ -948,18 +958,37 @@ $NOTICE_SUPER_ARRAY = $or;
 				$query = $this->db	->get('tendoo_news');
 				return count($query->result_array());
 			}
-			public function getSpeNews($id,$showAsAdmin	=	FALSE)
+			public function getSpeNews($element,$showAsAdmin	=	FALSE,$filter = 'filter_url_title')
 			{
 				if($showAsAdmin)
 				{
-					$this->db	->where(array('ID'=>$id));
+					if($filter == 'filter_url_title')
+					{
+						$this->db	->where(array('URL_TITLE'=>$element));
+					}
+					else if($filter == 'filter_id')
+					{
+						$this->db	->where(array('ID'=>$element));
+					}
 				}
 				else
 				{
-					$this->db	->where(array('ETAT'=>1,'ID'=>$id));
+					if($filter == 'filter_url_title')
+					{
+						$this->db	->where(array('URL_TITLE'=>$element));
+					}
+					else if($filter == 'filter_id')
+					{
+						$this->db	->where(array('ID'=>$element));
+					}
 				}
 				$query			=	$this->db->get('tendoo_news');
-				return $query->result_array();
+				$result			=	$query->result_array();
+				if($result)
+				{
+					return $result;
+				}
+				return false;
 			}
 			public function countComments($id)
 			{
@@ -1015,7 +1044,7 @@ $NOTICE_SUPER_ARRAY = $or;
 						'AUTEUR'				=> 	$user_id,
 						'OFFLINE_AUTEUR'		=>	$auteur,
 						'OFFLINE_AUTEUR_EMAIL'	=>	$email,
-						'DATE'					=> 	$this->tendoo->datetime(),
+						'DATE'					=> 	$this->date->datetime(),
 						'SHOW'					=>	$autoApprove
 					);
 					return $this->db	->insert('tendoo_comments',$comment);
@@ -1031,7 +1060,7 @@ $NOTICE_SUPER_ARRAY = $or;
 						'AUTEUR'				=> 	0,
 						'OFFLINE_AUTEUR'		=>	$auteur,
 						'OFFLINE_AUTEUR_EMAIL'	=>	$email,
-						'DATE'					=> 	$this->tendoo->datetime(),
+						'DATE'					=> 	$this->date->datetime(),
 						'SHOW'					=>	1
 					);
 					//------------------------------------------------------->
@@ -1048,7 +1077,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			public function getArtFromCat($catid,$start = null,$end = null)
 			{
 				$this->db			->where('ETAT',1)
-										->where('CATEGORY_ID',$catid);
+									->where('CATEGORY_ID',$catid);
 				if(is_numeric($start) && is_numeric($end))
 				{
 					$this->db->order_by('ID','desc')->limit($end,$start);
@@ -1083,17 +1112,17 @@ $NOTICE_SUPER_ARRAY = $or;
 			public function getMostViewed($start,$end)
 			{
 				$this->db			->from('tendoo_news')
-										->where('ETAT',1)
-										->order_by('VIEWED','DESC')
-										->limit($end,$start);
-				$query 					= $this->db->get();
+									->where('ETAT',1)
+									->order_by('VIEWED','DESC')
+									->limit($end,$start);
+				$query 				= $this->db->get();
 				return $query->result_array();
 			}
 			public function getNewsKeyWords($newsid)
 			{
 				$this->db->select('*')
 					->from('tendoo_news_ref_keywords')
-					->join('tendoo_news_keywords','tendoo_news_keywords.ID = tendoo_news_ref_keywords.KEYWORDS_REF_ID','left')	
+					->join('tendoo_news_keywords','tendoo_news_keywords.ID = tendoo_news_ref_keywords.KEYWORDS_REF_ID','inner')	
 					->where('tendoo_news_ref_keywords.NEWS_REF_ID',$newsid);
 				$query	=	$this->db->get();
 				return $query->result_array();
@@ -1106,7 +1135,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				$news	=	$this->getNews(null,null,TRUE);
 				if($news)
 				{
-					$currentTime	=	strtotime($this->tendoo->datetime());
+					$currentTime	=	strtotime($this->date->datetime());
 					foreach($news as $n)
 					{
 						$postTime	=	strtotime($n['DATE']);
@@ -1142,9 +1171,10 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					$tags	=	$this->db->where('KEYWORDS_REF_ID',$q['ID'])->get('tendoo_news_ref_keywords');
 					$finalStats[]	=	array(
-						'ID'	=>	$q['ID'],
-						'TITLE'	=>	$q['TITLE'],
-						'USED'	=>	count($tags) // nombre de fois que le mot clé est utilisé.
+						'ID'		=>	$q['ID'],
+						'TITLE'		=>	$q['TITLE'],
+						'USED'		=>	count($tags), // nombre de fois que le mot clé est utilisé.
+						'URL_TITLE'	=>	$q['URL_TITLE']
 					);
 					$fullyUsed+=count($tags); // ajout du nombre de fois que le mot clé est utilisé à la liste de mots clé utilisé
 				}
@@ -1184,6 +1214,7 @@ $NOTICE_SUPER_ARRAY = $or;
 						$r['CATEGORY_ID']			=	$categoryDetails['ID'];
 						$r['CATEGORY_DESCRIPTION']	=	$categoryDetails['DESCRIPTION'];
 						$r['CATEGORY_CREATION_DATE']=	$categoryDetails['DATE'];
+						$r['CATEGORY_URL_TITLE']	=	$categoryDetails['URL_TITLE'];
 					}
 				}
 				return $result;
@@ -1195,6 +1226,9 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					case 'filter_id' : 
 						$this->db->where('ID',$element);
+					break;
+					case 'filter_url_title' :
+						$this->db->where('URL_TITLE',$element);
 					break;
 				}
 				$query	=	$this->db->get('tendoo_news_category');
@@ -1211,7 +1245,8 @@ $NOTICE_SUPER_ARRAY = $or;
 					->from('tendoo_news_ref_category')
 					->join('tendoo_news_category','tendoo_news_category.ID = tendoo_news_ref_category.CATEGORY_REF_ID','inner')
 					->join('tendoo_news','tendoo_news.ID = tendoo_news_ref_category.NEWS_REF_ID','inner')
-					->where('tendoo_news_category.ID',$category_id);			
+					->where('tendoo_news_category.ID',$category_id)
+					->order_by('tendoo_news.DATE','desc');			
 				if(is_numeric($start) && is_numeric($end))
 				{
 					$this->db->limit($end,$start);
@@ -1219,7 +1254,7 @@ $NOTICE_SUPER_ARRAY = $or;
 				$query	=	$this->db->get();				
 				return $query->result_array();
 			}
-			public function keyWordExists($element,$filter = 'filter_title')
+			public function keyWordExists($element,$filter = 'filter_url_title')
 			{
 				if($filter	==	'filter_title')
 				{
@@ -1229,23 +1264,39 @@ $NOTICE_SUPER_ARRAY = $or;
 				{
 					$query	=	$this->db->where('ID',$element)->get('tendoo_news_keywords');
 				}
-				if(!$query->result())
+				else if($filter == 'filter_url_title')
+				{
+					$query	=	$this->db->where('URL_TITLE',$element)->get('tendoo_news_keywords');
+				}
+				if(!$query->result_array())
 				{
 					return false;
 				}
-				return true;
+				return $query->result_array();
 			}
-			public function getKeyWordsArticles($tag,$start = null,$end = null)
+			public function getKeyWordsArticles($element,$start = null,$end = null,$filter = 'filter_url_title')
 			{
 				$this->db->select('*')
 					->from('tendoo_news_ref_keywords')
 					->join('tendoo_news_keywords','tendoo_news_keywords.ID = tendoo_news_ref_keywords.KEYWORDS_REF_ID','inner')
-					->join('tendoo_news','tendoo_news.ID = tendoo_news_ref_keywords.NEWS_REF_ID','inner')
-					->where('tendoo_news_keywords.TITLE',$tag);			
+					->join('tendoo_news','tendoo_news.ID = tendoo_news_ref_keywords.NEWS_REF_ID','inner');
+				if($filter == 'filter_url_title')
+				{
+					$this->db->where('tendoo_news_keywords.URL_TITLE',$element);			
+				}
+				else if($filter == 'filter_id')
+				{
+					$this->db->where('tendoo_news_keywords.ID',$element);			
+				}
+				else if($filter == 'filter_title')
+				{
+					$this->db->where('tendoo_news_keywords.TITLE',$element);			
+				}
 				if(is_numeric($start) && is_numeric($end))
 				{
 					$this->db->limit($end,$start);
 				}
+				$this->db->order_by('tendoo_news.DATE','desc');
 				$query	=	$this->db->get();				
 				return $query->result_array();
 			}

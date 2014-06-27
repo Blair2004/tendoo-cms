@@ -366,7 +366,7 @@ Class instance extends Libraries
 		}
 		else
 		{
-			if(!$this->db_connected())
+			if(!$this->db_connected() && array_key_exists('db_datas',$_SESSION))
 			{
 				$config		=	$_SESSION['db_datas'];
 				$this->db	=	DB($config,TRUE);

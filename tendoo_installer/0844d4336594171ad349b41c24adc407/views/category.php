@@ -35,17 +35,17 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             
             <section class="vbox">
                 <section class="wrapper"> 
-					<?php echo $this->core->notice->parse_notice();?> 
-					<?php echo $success;?>
-                    <?php echo notice_from_url();?>
+					<?php echo output('notice');?> 
+					
+                    <?php echo fetch_error_from_url();?>
                 	<section class="panel">
                     	<div class="panel-heading">
                         Liste des cat&eacute;gories cr&eacute;es
@@ -70,9 +70,9 @@
                                 ?>
                                     <tr>
                                     	<td><input type="checkbox" name="cat_id[]" value="<?php echo $g['ID'];?>"></td>
-                                        <td><a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'category','manage',$g['ID']));?>"><?php echo $g['CATEGORY_NAME'];?></a></td>
+                                        <td><a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'category','manage',$g['ID']));?>"><?php echo $g['CATEGORY_NAME'];?></a></td>
                                         <td><?php echo $g['DESCRIPTION'];?></td>
-                                        <td><?php echo $this->core->tendoo->time($g['DATE']);?></td>
+                                        <td><?php echo $this->instance->date->time($g['DATE']);?></td>
                                     </tr>
                                 <?php
                                     }

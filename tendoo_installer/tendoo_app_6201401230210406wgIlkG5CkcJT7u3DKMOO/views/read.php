@@ -6,13 +6,13 @@
          <header>
             <div class="row b-b m-l-none m-r-none">
                <div class="col-sm-4">
-                  <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                  <p class="block text-muted"><?php echo $pageDescription;?></p>
+                  <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                  <p class="block text-muted"><?php echo get_page('description');?></p>
                </div>
             </div>
          </header>
          <section class="vbox">
-            <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
+            <section class="wrapper"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
                <div class="row">
                   <div class="col-lg-8 col-sm-8">
                      <section class="panel">
@@ -28,7 +28,7 @@
 									$nameSurname	=	'';
 								}
 								?>
-                           <div class="clearfix m-b"> <small class="text-muted pull-right"><?php echo $this->tendoo->timespan($getSpeContact[0]['DATE']);?></small> <a href="#" class="thumb-sm pull-left m-r"> <img src="" class="img-circle bg-danger"> </a>
+                           <div class="clearfix m-b"> <small class="text-muted pull-right"><?php echo $this->instance->date->timespan($getSpeContact[0]['DATE']);?></small> <a href="#" class="thumb-sm pull-left m-r"> <img src="" class="img-circle bg-danger"> </a>
                               <div class="clear"> <a href="#"><strong><?php echo ucwords($getSpeContact[0]['USER_NAME']).' ['.$nameSurname.']';?></strong></a> <small class="block text-muted"><?php echo $getSpeContact[0]['USER_COUNTRY'] == '0' ? 'Pays Inconnu' : $getSpeContact[0]['USER_COUNTRY'];?>, <?php echo $getSpeContact[0]['USER_CITY']  == '0' ? 'Ville Inconnu' : $getSpeContact[0]['USER_CITY'];?></small> </div>
                            </div>
                            <p> <?php echo $getSpeContact[0]['USER_CONTENT'];?> </p>

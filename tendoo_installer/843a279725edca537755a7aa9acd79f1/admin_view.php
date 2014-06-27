@@ -9,7 +9,7 @@ if(isset($loadSection))
         <div class="page-header">
             <div class="page-header-content">
                 <h1>Gestionnaire de contenu<small></small></h1>
-            <a class="back-button big page-back" href="<?php echo $this->core->url->site_url(array('admin','modules'));?>"></a></div>
+            <a class="back-button big page-back" href="<?php echo $this->instance->url->site_url(array('admin','modules'));?>"></a></div>
         </div>
         <?php echo $lmenu;?>          
         <div class="page-region">
@@ -30,7 +30,7 @@ if(isset($loadSection))
         <div class="page-header">
             <div class="page-header-content">
                 <h1>Gestionnaire de contenu<small></small></h1>
-            <a class="back-button big page-back" href="<?php echo $this->core->url->site_url(array('admin','modules'));?>"></a></div>
+            <a class="back-button big page-back" href="<?php echo $this->instance->url->site_url(array('admin','modules'));?>"></a></div>
         </div>
         <?php echo $lmenu;?>          
         <div class="page-region">
@@ -53,15 +53,15 @@ if(isset($loadSection))
         <div class="page-header">
             <div class="page-header-content">
                 <h1>Editeur de fichiers<small></small></h1>
-            <a class="back-button big page-back" href="<?php echo $this->core->url->site_url(array('admin','modules'));?>"></a></div>
+            <a class="back-button big page-back" href="<?php echo $this->instance->url->site_url(array('admin','modules'));?>"></a></div>
         </div>
         <?php echo $lmenu;?>          
         <div class="page-region">
             <div class="page-region-content">
                 <div class="hub_table">
                 	<h2>Modifier une page</h2>
-                    <?php echo $this->core->notice->parse_notice();?>
-                    <?php echo notice_from_url();?>
+                    <?php echo output('notice');?>
+                    <?php echo fetch_error_from_url();?>
                 	
 				</div>
 			</div>

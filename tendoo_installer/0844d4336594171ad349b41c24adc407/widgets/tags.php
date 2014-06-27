@@ -6,7 +6,7 @@ class tags_news_common_widget
 		/*
 			Reçois la zone dans laquelle le widget est appellé, voir clé ['widgets']['requestedZone'] : (LEFT, RIGHT, BOTTOM).
 		*/
-		$this->core		=	Controller::instance();
+		$this->instance		=	get_instance();
 		$this->data		=&	$data;
 		$this->theme	=&	$this->data['theme'];
 		$this->location	=	MODULES_DIR.$this->data['currentWidget']['WIDGET_MODULE']['ENCRYPTED_DIR'];
@@ -22,12 +22,12 @@ class tags_news_common_widget
 		$this->data['getTotalKeyWords']	=	$this->news->getAllPopularKeyWords($LIMIT);
 		// Recupération du contrôleur attaché au module.
 		
-		$controler		=	$this->core->tendoo->getControllersAttachedToModule('news');
+		$controler		=	$this->instance->tendoo->getControllersAttachedToModule('news');
 		
 		$tags			=	'<ul>';
 		foreach($this->data['getTotalKeyWords']  as $gtk)
 		{
-			$tags		.=	'<a href="'.$this->core->url->site_url(array($controler[0]['PAGE_CNAME'],'tags',$gtk['TITLE'])).'">'.$gtk['TITLE'].'</a> ';
+			$tags		.=	'<a href="'.$this->instance->url->site_url(array($controler[0]['PAGE_CNAME'],'tags',$gtk['URL_TITLE'])).'">'.$gtk['TITLE'].'</a> ';
 		}
 		$tags			.=	'</ul>';
 		if(in_array($this->data['widgets']['requestedZone'],array('LEFT','BOTTOM','RIGHT')))

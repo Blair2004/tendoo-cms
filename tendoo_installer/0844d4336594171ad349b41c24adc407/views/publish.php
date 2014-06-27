@@ -11,7 +11,7 @@
                     <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">ou</a>
                     <input type="text" name="scheduledTime" class="input-sm input-s pull-right form-control" placeholder="12:30" style="margin-right:10px;">
                     <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">à</a>
-                    <input class="input-sm input-s pull-right datepicker form-control" size="16" value="<?php echo $this->tendoo->datetime('%d-%m-%Y');?>" type="text" style="margin-right:10px;" name="scheduledDate">
+                    <input class="input-sm input-s pull-right datepicker form-control" size="16" value="<?php echo $this->instance->date->datetime('%d-%m-%Y');?>" type="text" style="margin-right:10px;" name="scheduledDate">
                     <a class="program_for pull-right btn-sm btn <?php echo theme_button_false_class();?>" style="margin-right:10px;">Programmer pour le :</a>
                 </div>
             </div>
@@ -20,19 +20,19 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
                 <form method="post" class="row submitForm">
                     <section class="wrapper">
-                        <div class="col-lg-12"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?> </div>
+                        <div class="col-lg-12"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?> </div>
                         <div class="col-lg-9">
                             <input class="form-control" type="text" name="news_name" placeholder="Titre de l'article">
                             <br />
-                            <?php echo $this->core->tendoo->getEditor(array('class'=>'form-control','id'=>'editor','name'=>'news_content'));?> </div>
+                            <?php echo $this->instance->visual_editor->getEditor(array('class'=>'form-control','id'=>'editor','name'=>'news_content'));?> </div>
                         <div class="col-lg-3">
                             <section class="panel">
                                 <div class="panel-heading">Options</div>
@@ -78,7 +78,7 @@
 					});
 				  </script>
                                     <div class="form-group">
-                                        <button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'ajax','createCategory'));?>" type="button">Ajouter une cat&eacute;gorie</button>
+                                        <button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'ajax','createCategory'));?>" type="button">Ajouter une cat&eacute;gorie</button>
                                     </div>
                                     <div class="form-group">
                                     	<span>Choissisez une catégorie</span>
@@ -170,7 +170,7 @@
 			$('.submitForm').submit();
 			$('.submitForm').find('[name="push_directly"]').remove();
 		});
-		var currentTime	=	'<?php echo $this->tendoo->datetime('%d-%m-%Y');?>';
+		var currentTime	=	'<?php echo $this->instance->date->datetime('%d-%m-%Y');?>';
 		$('.datepicker').datepicker({
 			showAnim		:		'slideDown',
 			dateFormat		:		'dd-mm-yy',

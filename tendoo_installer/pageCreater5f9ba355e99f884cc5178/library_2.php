@@ -15,23 +15,23 @@ $NOTICE_SUPER_ARRAY = $or;
 			private $user;
 			public function __construct($data)
 			{
-				$this->core		=	Controller::instance();
+				$this->instance		=	get_instance();
 				$this->data		=	$data;
-				$this->user		=&	$this->core->users_global;
-				$this->tendoo	=&	$this->core->tendoo;	
+				$this->user		=&	$this->instance->users_global;
+				$this->tendoo	=&	$this->instance->tendoo;	
 			}
 			public function datetime()
 			{
-				return $this->tendoo->datetime();
+				return $this->instance->date->datetime();
 			}
 			public function isAttached($page)
 			{
-				$query	=	$this->core->db->where('PAGE_CONTROLEUR',$page)->get('tendoo_refTopage');
+				$query	=	$this->instance->db->where('PAGE_CONTROLEUR',$page)->get('tendoo_refTopage');
 				$result	=	$query->result_array();
 				if(count($result) > 0)
 				{
 					// Extra session retreiving data from other plugin, mean that if that plugin is not installed bug may occure
-					$pageEditor	=	$this->core->tendoo_admin->getSpeMod('Pages_editor',FALSE);
+					$pageEditor	=	$this->instance->tendoo_admin->getSpeMod('Pages_editor',FALSE);
 					if($pageEditor)
 					{
 						include_once(MODULES_DIR.$pageEditor[0]['ENCRYPTED_DIR'].'/library.php');
@@ -48,7 +48,7 @@ $NOTICE_SUPER_ARRAY = $or;
 			public function getContentList()
 			{
 				// Extra session retreiving data from other plugin, mean that if that plugin is not installed bug may occure
-				$pageEditor	=	$this->core->tendoo_admin->getSpeMod('Pages_editor',FALSE);
+				$pageEditor	=	$this->instance->tendoo_admin->getSpeMod('Pages_editor',FALSE);
 				if($pageEditor)
 				{
 					include_once(MODULES_DIR.$pageEditor[0]['ENCRYPTED_DIR'].'/library.php');
@@ -58,19 +58,19 @@ $NOTICE_SUPER_ARRAY = $or;
 			}
 			public function attach($page,$content)
 			{
-				$query	=	$this->core->db->where('PAGE_CONTROLEUR',$page)->get('tendoo_refTopage');
+				$query	=	$this->instance->db->where('PAGE_CONTROLEUR',$page)->get('tendoo_refTopage');
 				$result	=	$query->result_array();
 				if(count($result) > 0)
 				{
-					return $this->core->db->where('PAGE_CONTROLEUR',$page)->update('tendoo_refTopage',array('PAGE_HTML'=>$content,'AUTEUR'	=>	$this->core->users_global->current('ID')));
+					return $this->instance->db->where('PAGE_CONTROLEUR',$page)->update('tendoo_refTopage',array('PAGE_HTML'=>$content,'AUTEUR'	=>	$this->instance->users_global->current('ID')));
 				}
 				else
 				{
-					return $this->core->db->insert('tendoo_refTopage',array(
+					return $this->instance->db->insert('tendoo_refTopage',array(
 							'PAGE_HTML'				=>	$content,
 							'PAGE_CONTROLEUR'		=>	$page,
-							'AUTEUR'				=>	$this->core->users_global->current('ID'),
-							'DATE'					=>	$this->core->tendoo->datetime()
+							'AUTEUR'				=>	$this->instance->users_global->current('ID'),
+							'DATE'					=>	$this->instance->date->datetime()
 						)
 					);
 				}
@@ -86,19 +86,19 @@ $NOTICE_SUPER_ARRAY = $or;
 			private $ci;
 			public function __construct($data	=	array())
 			{
-				$this->core		=	Controller::instance();
+				$this->instance		=	get_instance();
 				$this->data		=&	$data;
-				$this->tendoo	=&	$this->core->tendoo;
-				$this->users	=&	$this->core->users_global;
+				$this->tendoo	=&	$this->instance->tendoo;
+				$this->users	=&	$this->instance->users_global;
 			}
 			public function getContent($controller)
 			{
 				// Extra session retreiving data from other plugin, mean that if that plugin is not installed bug may occure
-				$pageEditor	=	$this->core->tendoo->getSpeModule('Pages_editor',FALSE);
+				$pageEditor	=	$this->instance->tendoo->getSpeModule('pages_editor',FALSE);
 				if($pageEditor)
 				{
-					$prequery	=	$this->core->tendoo->getPage($controller);
-					$query		=	$this->core->db->where('PAGE_CONTROLEUR',$prequery[0]['ID'])->get('tendoo_refTopage');
+					$prequery	=	$this->instance->tendoo->getPage($controller);
+					$query		=	$this->instance->db->where('PAGE_CONTROLEUR',$prequery[0]['PAGE_CNAME'])->get('tendoo_refTopage');
 					$result		=	$query->result_array();
 					if(count($result) > 0)
 					{

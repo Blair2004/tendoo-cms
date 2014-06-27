@@ -1,41 +1,34 @@
 <?php
-class tendoo_contents_admin_controller
+class tendoo_contents_admin_controller extends Libraries
 {
-	private $moduleData;
-	private $data;
-	private $news;
-	private $news_smart;
-	private $ci;
-	private $tendoo;
-	private $tendoo_admin;
-	private $notice;
 	public function __construct($data)
 	{
-		$this->core						=	Controller::instance();
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		parent::__construct();
+		__extends($this);
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->data						=	$data;
 		$this->moduleData				=	$this->data['module'][0];
 		$this->lib						=	$this->data['lib']				=	// no is not an error;
 		$this->file_contentAdmin		=	new file_contentAdmin($this->data);
-		$this->tendoo					=	$this->core->tendoo;
-		$this->tendoo_admin				=	$this->core->tendoo_admin;
-		$this->tendoo_admin->menuExtendsBefore($this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/menu',$this->data,true,TRUE));
-		$this->notice					=	$this->core->notice;
+		$this->tendoo_admin->menuExtendsBefore($this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/menu',$this->data,true,TRUE));
+		$this->notice					=	$this->instance->notice;
 		$this->data['module_dir']		=	MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'];
 		$this->data['repository_dir']	=	MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/content_repository';
-		$this->data['inner_head']		=	$this->core->load->view('admin/inner_head',$this->data,true);
-		$this->data['lmenu']			=	$this->core->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
+		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
+		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 	}
 	public function index($page	=	1)
 	{
-		$this->tendoo->setTitle('Gestionnaire de contenu');
+		set_page('title','Gestionnaire de contenu');
 			
 		$this->data['loadSection']	=	'main';
 		$this->data['ttFiles']		=	$this->file_contentAdmin->countUploadedFiles();
-		$this->data['paginate']	=	$this->core->tendoo->paginate(10,$this->data['ttFiles'],1,'on','off',$page,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
-		$this->data['paginate'][3]=== false ? $this->core->url->redirect(array('error','code','page404')) : null;
+		$this->data['paginate']	=	$this->instance->tendoo->paginate(10,$this->data['ttFiles'],1,'on','off',$page,$this->instance->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
+		$this->data['paginate'][3]=== false ? $this->instance->url->redirect(array('error','code','page404')) : null;
 		$this->data['files']		=	$this->file_contentAdmin->getUploadedFiles($this->data['paginate'][1],$this->data['paginate'][2]);
 		
-		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/main',$this->data,true,TRUE);
+		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/main',$this->data,true,TRUE);
 		
 		return $this->data['body'];
 	}
@@ -44,10 +37,10 @@ class tendoo_contents_admin_controller
 		if($x == 'selection')
 		{
 			$this->data['ttFiles']		=	$this->file_contentAdmin->countUploadedFiles();
-			$this->data['paginate']		=	$this->core->tendoo->paginate(12,$this->data['ttFiles'],1,'on','off',$y,$this->core->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'ajax','selection')).'/',$ajaxis_link=null);
+			$this->data['paginate']		=	$this->instance->tendoo->paginate(12,$this->data['ttFiles'],1,'on','off',$y,$this->instance->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'ajax','selection')).'/',$ajaxis_link=null);
 			$this->data['files']		=	$this->file_contentAdmin->getUploadedFiles($this->data['paginate'][1],$this->data['paginate'][2]);
 			
-			$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_load_files',$this->data,true,TRUE);
+			$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_load_files',$this->data,true,TRUE);
 			return array(
 				'MCO'		=>		TRUE,
 				'RETURNED'	=>		$this->data['body']
@@ -63,170 +56,170 @@ class tendoo_contents_admin_controller
 	}
 	public function upload()
 	{
-		$this->core->load->library('form_validation');
+		$this->load->library('form_validation');
 		if(isset($_FILES['file']))
 		{
-			$this->core->form_validation->set_rules('file_human_name','Le nom du fichier','trim|required|min_length[5]|max_length[40]');
-			$this->core->form_validation->set_rules('file_description','La description du fichier','trim|required|min_length[5]|max_length[200]');
-			if($this->core->form_validation->run())
+			$this->instance->form_validation->set_rules('file_human_name','Le nom du fichier','trim|required|min_length[5]|max_length[40]');
+			$this->instance->form_validation->set_rules('file_description','La description du fichier','trim|required|min_length[5]|max_length[200]');
+			if($this->instance->form_validation->run())
 			{
 				$query	=	$this->file_contentAdmin->uploadFile(
 					'file',
-					$this->core->input->post('file_human_name'),
-					$this->core->input->post('file_description')
+					$this->instance->input->post('file_human_name'),
+					$this->instance->input->post('file_description')
 				);
 				if($query)
 				{
-					$this->core->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
+					$this->instance->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
 				}
 			}
 		}
 		if(!$this->tendoo_admin->actionAccess('tendoo_contents_upload','tendoo_contents'))
 		{
-			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
+			$this->instance->url->redirect(array('admin','index?notice=accessDenied'));
 		}
-		$this->tendoo->setTitle('Gestionnaire de contenu - Envoyer un fichier');
+		set_page('title','Gestionnaire de contenu - Envoyer un fichier');
 		
 		$this->data['loadSection']	=	'upload';
-		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/upload',$this->data,true,TRUE);
+		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/upload',$this->data,true,TRUE);
 		return $this->data['body'];
 	}
 	public function manage($id)
 	{
 		if(!$this->tendoo_admin->actionAccess('tendoo_contents_upload','tendoo_contents'))
 		{
-			$this->core->url->redirect(array('admin','index?notice=accessDenied'));
+			$this->instance->url->redirect(array('admin','index?notice=accessDenied'));
 		}
-		$this->core->file->js_url	=	$this->core->url->main_url().$this->data['module_dir'].'/js/';
-		$this->core->file->css_url	=	$this->core->url->main_url().$this->data['module_dir'].'/css/';
-		$this->core->file->js_push('jquery.Jcrop.min');
-		$this->core->file->css_push('jquery.Jcrop.min');
-		$this->core->load->library('form_validation');
-		if($this->core->input->post('delete_file'))
+		$this->instance->file->js_url	=	$this->instance->url->main_url().$this->data['module_dir'].'/js/';
+		$this->instance->file->css_url	=	$this->instance->url->main_url().$this->data['module_dir'].'/css/';
+		$this->instance->file->js_push('jquery.Jcrop.min');
+		$this->instance->file->css_push('jquery.Jcrop.min');
+		$this->load->library('form_validation');
+		if($this->instance->input->post('delete_file'))
 		{
 			if(!$this->tendoo_admin->actionAccess('tendoo_contents_delete','tendoo_contents'))
 			{
-				$this->core->url->redirect(array('admin','index?notice=accessDenied'));
+				$this->instance->url->redirect(array('admin','index?notice=accessDenied'));
 			}
-			$this->core->form_validation->set_rules('delete_file','','trim|required');
-			$this->core->form_validation->set_rules('content_id','','trim|required|is_numeric');
-			if($this->core->form_validation->run()) // File drop
+			$this->instance->form_validation->set_rules('delete_file','','trim|required');
+			$this->instance->form_validation->set_rules('content_id','','trim|required|is_numeric');
+			if($this->instance->form_validation->run()) // File drop
 			{
-				$query	=	$this->file_contentAdmin->fileDrop($this->core->input->post('content_id'));
+				$query	=	$this->file_contentAdmin->fileDrop($this->instance->input->post('content_id'));
 				if($query)
 				{
-					$this->core->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
+					$this->instance->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
 				}
 				else
 				{
-					$this->core->notice->push_notice(notice('error_occured'));
+					$this->instance->notice->push_notice(fetch_error('error_occured'));
 				}
 			}
 		}
-		if($this->core->input->post('edit_file'))
+		if($this->instance->input->post('edit_file'))
 		{
-			$this->core->load->library('form_validation');
-			$this->core->form_validation->set_rules('file_name','Le nom du fichier','trim|required|min_length[5]|max_length[40]');
-			$this->core->form_validation->set_rules('file_description','La description du fichier','trim|required|min_length[5]|max_length[200]');
-			$this->core->form_validation->set_rules('content_id','','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('edit_file','','trim|required|min_length[1]');
-			if($this->core->form_validation->run()) // edit file
+			$this->load->library('form_validation');
+			$this->instance->form_validation->set_rules('file_name','Le nom du fichier','trim|required|min_length[5]|max_length[40]');
+			$this->instance->form_validation->set_rules('file_description','La description du fichier','trim|required|min_length[5]|max_length[200]');
+			$this->instance->form_validation->set_rules('content_id','','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('edit_file','','trim|required|min_length[1]');
+			if($this->instance->form_validation->run()) // edit file
 			{
 				$query	=	$this->file_contentAdmin->editFile(
-					$this->core->input->post('content_id'),
-					$this->core->input->post('file_name'),
-					$this->core->input->post('file_description')
+					$this->instance->input->post('content_id'),
+					$this->instance->input->post('file_name'),
+					$this->instance->input->post('file_description')
 				);
 				if($query)
 				{
-					$this->core->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
+					$this->instance->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
 				}
 				else
 				{
-					$this->core->notiec->push_notice(notice('error_occured'));				
+					$this->instance->notiec->push_notice(fetch_error('error_occured'));				
 				}
 			}
 		}
-		if($this->core->input->post('overwrite_file'))
+		if($this->instance->input->post('overwrite_file'))
 		{
-			$this->core->load->library('form_validation');
-			$this->core->form_validation->set_rules('overwrite_file','Ecraser l\'image','trim|required|min_length[5]|max_length[40]');
-			$this->core->form_validation->set_rules('x1','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('y1','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('x2','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('y2','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('w','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('h','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('image_id','Index de l\'image','trim|required|min_length[1]');
-			if($this->core->form_validation->run())
+			$this->load->library('form_validation');
+			$this->instance->form_validation->set_rules('overwrite_file','Ecraser l\'image','trim|required|min_length[5]|max_length[40]');
+			$this->instance->form_validation->set_rules('x1','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('y1','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('x2','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('y2','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('w','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('h','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('image_id','Index de l\'image','trim|required|min_length[1]');
+			if($this->instance->form_validation->run())
 			{
 				$query	=	$this->lib->overwrite_image(
-					$this->core->input->post('image_id'),
-					$this->core->input->post('x1'),
-					$this->core->input->post('y1'),
-					$this->core->input->post('x2'),
-					$this->core->input->post('y2'),
-					$this->core->input->post('w'),
-					$this->core->input->post('h')
+					$this->instance->input->post('image_id'),
+					$this->instance->input->post('x1'),
+					$this->instance->input->post('y1'),
+					$this->instance->input->post('x2'),
+					$this->instance->input->post('y2'),
+					$this->instance->input->post('w'),
+					$this->instance->input->post('h')
 				);
 				if($query)
 				{
-					$this->core->notice->push_notice(notice('done'));
+					$this->instance->notice->push_notice(fetch_error('done'));
 				}
 				else
 				{
-					$this->core->notice->push_notice(notice('error_occured'));
+					$this->instance->notice->push_notice(fetch_error('error_occured'));
 				}
 			}
 		}
-		if($this->core->input->post('change_file'))
+		if($this->instance->input->post('change_file'))
 		{
-			$this->core->load->library('form_validation');
-			$this->core->form_validation->set_rules('content_id','cordonn&eacute;e','trim|required|min_length[1]');
-			if($this->core->form_validation->run())
+			$this->load->library('form_validation');
+			$this->instance->form_validation->set_rules('content_id','cordonn&eacute;e','trim|required|min_length[1]');
+			if($this->instance->form_validation->run())
 			{
-				$query	=	$this->lib->fileReplace($this->core->input->post('content_id'),'new_file');
-				$this->core->notice->push_notice(notice($query));
+				$query	=	$this->lib->fileReplace($this->instance->input->post('content_id'),'new_file');
+				$this->instance->notice->push_notice(fetch_error($query));
 			}
 		}
-		if($this->core->input->post('create_new_file'))
+		if($this->instance->input->post('create_new_file'))
 		{
-			$this->core->load->library('form_validation');
-			$this->core->form_validation->set_rules('create_new_file','Ecraser l\'image','trim|required|min_length[5]|max_length[40]');
-			$this->core->form_validation->set_rules('x1','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('y1','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('x2','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('y2','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('w','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('h','cordonn&eacute;e','trim|required|min_length[1]');
-			$this->core->form_validation->set_rules('image_id','Index de l\'image','trim|required|min_length[1]');
-			if($this->core->form_validation->run())
+			$this->load->library('form_validation');
+			$this->instance->form_validation->set_rules('create_new_file','Ecraser l\'image','trim|required|min_length[5]|max_length[40]');
+			$this->instance->form_validation->set_rules('x1','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('y1','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('x2','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('y2','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('w','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('h','cordonn&eacute;e','trim|required|min_length[1]');
+			$this->instance->form_validation->set_rules('image_id','Index de l\'image','trim|required|min_length[1]');
+			if($this->instance->form_validation->run())
 			{
 				$query	=	$this->lib->create_new_image(
-					$this->core->input->post('image_id'),
-					$this->core->session->userdata('fileNewName'),
-					$this->core->input->post('x1'),
-					$this->core->input->post('y1'),
-					$this->core->input->post('x2'),
-					$this->core->input->post('y2'),
-					$this->core->input->post('w'),
-					$this->core->input->post('h')
+					$this->instance->input->post('image_id'),
+					$this->instance->session->userdata('fileNewName'),
+					$this->instance->input->post('x1'),
+					$this->instance->input->post('y1'),
+					$this->instance->input->post('x2'),
+					$this->instance->input->post('y2'),
+					$this->instance->input->post('w'),
+					$this->instance->input->post('h')
 				);
-				$this->core->notice->push_notice(notice($query));
+				$this->instance->notice->push_notice(fetch_error($query));
 			}
 		}
 		
-		$this->tendoo->setTitle('Gestionnaire de contenu - Edition d\'un fichier');
+		set_page('title','Gestionnaire de contenu - Edition d\'un fichier');
 		$this->data['fileNewName']	=	$this->lib->getName();
-		$this->core->session->set_userdata('fileNewName',$this->data['fileNewName']);
+		$this->instance->session->set_userdata('fileNewName',$this->data['fileNewName']);
 		$this->data['getFile']		=	$this->file_contentAdmin->getUploadedFiles($id);
 		if(count($this->data['getFile']) == 0)
 		{
-			$this->core->url->redirect(array('error','code','page404'));
+			$this->instance->url->redirect(array('error','code','page404'));
 		}
 		$this->data['id']			=	$id;
 		$this->data['loadSection']	=	'manage';
-		$this->data['body']			=	$this->core->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/manage',$this->data,true,TRUE);
+		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/manage',$this->data,true,TRUE);
 		return $this->data['body'];
 	}
 }

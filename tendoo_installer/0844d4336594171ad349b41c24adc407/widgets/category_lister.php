@@ -4,7 +4,7 @@ class aflecatdi_news_common_widget
 	private $data;
 	public function __construct($data)
 	{
-		$this->core		=	Controller::instance();
+		$this->instance		=	get_instance();
 		$this->data		=&	$data;
 		$this->theme	=&	$this->data['theme'];
 		$this->location	=	MODULES_DIR.$this->data['currentWidget']['WIDGET_MODULE']['ENCRYPTED_DIR'];
@@ -29,10 +29,10 @@ class aflecatdi_news_common_widget
 		$this->data['ttCat']	=	$this->news->getCatForWidgets(0,$LIMIT);
 		
 		$end			=	'<ul>';
-		$controller		=	$this->core->tendoo->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['NAMESPACE']);
+		$controller		=	$this->instance->tendoo->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['NAMESPACE']);
 		foreach($this->data['ttCat'] as $t)
 		{
-			$end		.=	'<li><a href="'.$this->core->url->site_url(array($controller[0]['PAGE_CNAME'])).'/categorie/'.$this->core->tendoo->urilizeText($t['CATEGORY_NAME']).'/'.$t['ID'].'">'.$t['CATEGORY_NAME'].' ('.$t['TOTAL_ARTICLES'].')</a></li>';
+			$end		.=	'<li><a href="'.$this->instance->url->site_url(array($controller[0]['PAGE_CNAME'])).'/categorie/'.$t['URL_TITLE'].'">'.$t['CATEGORY_NAME'].' ('.$t['TOTAL_ARTICLES'].')</a></li>';
 		}
 		$end			.=	'</ul>';
 		// For Each Zone

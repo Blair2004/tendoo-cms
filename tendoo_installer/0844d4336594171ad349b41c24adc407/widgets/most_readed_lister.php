@@ -3,7 +3,7 @@ class aflearlep_news_common_widget
 {
 	public function __construct($data)
 	{
-		$this->core		=	Controller::instance();
+		$this->instance		=	get_instance();
 		$this->data		=&	$data;
 		$this->theme	=&	$this->data['theme'];
 		$this->location	=	MODULES_DIR.$this->data['currentWidget']['WIDGET_MODULE']['ENCRYPTED_DIR'];
@@ -20,10 +20,10 @@ class aflearlep_news_common_widget
 		
 		$this->data['mostViewed']	=	$this->news->getMostViewed(0,$LIMIT);
 		$end			=	'<ul>';
-		$controller		=	$this->core->tendoo->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['NAMESPACE']);
+		$controller		=	$this->instance->tendoo->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['NAMESPACE']);
 		foreach($this->data['mostViewed'] as $t)
 		{
-			$end		.=	'<li><a href="'.$this->core->url->site_url(array($controller[0]['PAGE_CNAME'])).'/lecture/'.$t['ID'].'/'.$this->core->tendoo->urilizeText($t['TITLE']).'">'.$t['TITLE'].'</a></li>';
+			$end		.=	'<li><a href="'.$this->instance->url->site_url(array($controller[0]['PAGE_CNAME'])).'/lecture/'.$t['URL_TITLE'].'">'.$t['TITLE'].'</a></li>';
 		}
 		$end			.=	'</ul>';
 		// For Zones

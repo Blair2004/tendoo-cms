@@ -6,13 +6,13 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
-                <section class="wrapper"> <?php echo $this->core->notice->parse_notice();?> <?php echo $success;?> <?php echo notice_from_url();?> <?php echo validation_errors(); ?>
+                <section class="wrapper"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
                     <section class="panel">
                         <div class="panel-heading"> Les des messages </div>
                         <table class="table table-striped b-t text-sm">
@@ -37,7 +37,7 @@
                                 	<td><a href="<?php echo $this->url->site_url(array('admin','open','modules',$module[0]['ID'],'check',$f['ID']));?>"><?php echo $f['USER_NAME'];?></a></td>
                                     <td><?php echo $this->users_global->getUser($f['USER_ID']) == true ? 'Oui' : 'Non';?></td>
                                     <td><?php echo $f['USER_MAIL'];?></td>
-                                    <td><?php echo $this->tendoo->timespan($f['DATE']);?></td>
+                                    <td><?php echo $this->instance->date->timespan($f['DATE']);?></td>
                                     <td><?php echo $f['STATE'] == '0' ? 'Non lu' : 'Lu';?></td>
                                     <td><a href="<?php echo $this->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$f['ID']));?>">Supprimer</a></td>
                                 </tr>

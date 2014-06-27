@@ -1,9 +1,12 @@
 <?php
-class tags_news_moreClass
+class tags_news_moreClass extends Libraries
 {
 	public function __construct()
 	{
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		parent::__construct();
 		__extends($this);
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->cur_module			=	$this->tendoo_admin->getSpeMod('news',FALSE);
 		$this->encrypted_dir		=& 	$this->cur_module[0]['ENCRYPTED_DIR'];
 		$this->cur_module_dir		=	MODULES_DIR.$this->encrypted_dir;

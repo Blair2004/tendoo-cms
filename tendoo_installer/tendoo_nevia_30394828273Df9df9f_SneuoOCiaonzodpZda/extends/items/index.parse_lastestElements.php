@@ -8,7 +8,7 @@ if(count($this->lastestElements) > 0)
 		<?php
 		foreach($this->lastestElements as $lt)
 		{
-			$globals	=	$this->tendoo->time($lt['DATETIME'],TRUE);
+			$globals	=	$this->instance->date->time($lt['DATETIME'],TRUE);
 			
 		?>
 		<div class="four columns alpha">

@@ -6,16 +6,16 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
                 <section class="wrapper"> 
-					<?php echo $this->core->notice->parse_notice();?> 
-					<?php echo $success;?>
-                    <?php echo notice_from_url();?>
+					<?php echo output('notice');?> 
+					
+                    <?php echo fetch_error_from_url();?>
                 	<section class="panel">
                     	<div class="panel-heading">
                         Liste des page cr&eacute;er
@@ -38,15 +38,15 @@
                                 {
                                     foreach($getPages as $g)
                                     {
-                                        $user	=	$this->core->users_global->getUser($g['AUTHOR'])
+                                        $user	=	$this->instance->users_global->getUser($g['AUTHOR'])
                                 ?>
                                     <tr>
-                                        <td><a href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'edit',$g['ID']));?>"><?php echo $g['TITLE'];?></a></td>
+                                        <td><a href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'edit',$g['ID']));?>"><?php echo $g['TITLE'];?></a></td>
                                         <td><?php echo $g['DESCRIPTION'];?></td>
                                         <td><?php echo $g['DATE'];?></td>
                                         <td><?php echo $user['PSEUDO'];?></td>
-                                        <td><a href="<?php echo $this->core->url->site_url(array('hub_pages','index',$g['ID']));?>"><?php echo $this->core->url->site_url(array('hub_pages','index',$g['ID']));?></a></td>
-                                        <td><a onClick="if(confirm('Voulez-vous vraiment supprimer cette page ?')){return true;}else{return false};" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></td>
+                                        <td><a href="<?php echo $this->instance->url->site_url(array('hub_pages','index',$g['ID']));?>"><?php echo $this->instance->url->site_url(array('hub_pages','index',$g['ID']));?></a></td>
+                                        <td><a onClick="if(confirm('Voulez-vous vraiment supprimer cette page ?')){return true;}else{return false};" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></td>
                                     </tr>
                                 <?php
                                     }

@@ -41,7 +41,7 @@ if(is_array($lib_options) && count($lib_options) > 0)
 		$datas				=	explode('/',$o['ON_CAROUSSEL']);
 		$mod_namespace		=	$datas[0];
 		$api_namespace		=	$datas[1];
-		$mod_namespace_data	=	$this->core->tendoo->getSpeModuleByNamespace($mod_namespace);
+		$mod_namespace_data	=	$this->instance->tendoo->getSpeModuleByNamespace($mod_namespace);
 		$api_data			=	api_retreiver($mod_namespace,$api_namespace,$mod_namespace_data,$o['CAROUSSEL_LIMIT']);
 		if(is_array($api_data))
 		{
@@ -65,7 +65,7 @@ if(is_array($lib_options) && count($lib_options) > 0)
 			$datas				=	explode('/',$o['ON_FEATURED']);
 			$mod_namespace		=	$datas[0];
 			$api_namespace		=	$datas[1];
-			$mod_namespace_data	=	$this->core->tendoo->getSpeModuleByNamespace($mod_namespace);
+			$mod_namespace_data	=	$this->instance->tendoo->getSpeModuleByNamespace($mod_namespace);
 			$api_data			=	api_retreiver($mod_namespace,$api_namespace,$mod_namespace_data,$o['FEATURED_LIMIT']);
 			if(is_array($api_data))
 			{
@@ -89,7 +89,7 @@ if(is_array($lib_options) && count($lib_options) > 0)
 			$datas				=	explode('/',$o['ON_LASTEST']);
 			$mod_namespace		=	$datas[0];
 			$api_namespace		=	$datas[1];
-			$mod_namespace_data	=	$this->core->tendoo->getSpeModuleByNamespace($mod_namespace);
+			$mod_namespace_data	=	$this->instance->tendoo->getSpeModuleByNamespace($mod_namespace);
 			$api_data			=	api_retreiver($mod_namespace,$api_namespace,$mod_namespace_data,$o['LASTEST_LIMIT']);
 			if(is_array($api_data))
 			{
@@ -108,7 +108,7 @@ if(is_array($lib_options) && count($lib_options) > 0)
 			$datas				=	explode('/',$o['ON_SMALLDETAILS']);
 			$mod_namespace		=	$datas[0];
 			$api_namespace		=	$datas[1];
-			$mod_namespace_data	=	$this->core->tendoo->getSpeModuleByNamespace($mod_namespace);
+			$mod_namespace_data	=	$this->instance->tendoo->getSpeModuleByNamespace($mod_namespace);
 			$api_data			=	api_retreiver($mod_namespace,$api_namespace,$mod_namespace_data,$o['SMALLDETAILS_LIMIT']);
 			if(is_array($api_data))
 			{
@@ -127,7 +127,7 @@ if(is_array($lib_options) && count($lib_options) > 0)
 			$datas				=	explode('/',$o['ON_TABSHOWCASE']);
 			$mod_namespace		=	$datas[0];
 			$api_namespace		=	$datas[1];
-			$mod_namespace_data	=	$this->core->tendoo->getSpeModuleByNamespace($mod_namespace);
+			$mod_namespace_data	=	$this->instance->tendoo->getSpeModuleByNamespace($mod_namespace);
 			$api_data			=	api_retreiver($mod_namespace,$api_namespace,$mod_namespace_data,$o['TABSHOWCASE_LIMIT']);
 			if(is_array($api_data))
 			{
@@ -146,7 +146,7 @@ if(is_array($lib_options) && count($lib_options) > 0)
 			$datas				=	explode('/',$o['ON_GALLERY']);
 			$mod_namespace		=	$datas[0];
 			$api_namespace		=	$datas[1];
-			$mod_namespace_data	=	$this->core->tendoo->getSpeModuleByNamespace($mod_namespace);
+			$mod_namespace_data	=	$this->instance->tendoo->getSpeModuleByNamespace($mod_namespace);
 			$api_data			=	api_retreiver($mod_namespace,$api_namespace,$mod_namespace_data,$o['GALLERY_LIMIT']);
 			if(is_array($api_data))
 			{

@@ -6,16 +6,16 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
                 <section class="wrapper"> 
-					<?php echo $this->core->notice->parse_notice();?> 
-					<?php echo $success;?>
-                    <?php echo notice_from_url();?>
+					<?php echo output('notice');?> 
+					
+                    <?php echo fetch_error_from_url();?>
                     <?php echo tendoo_info('Afin de pouvoir li&eacute;er un contr&ocirc;leur que vous avez cr&eacute;e &agrave; une page HTML, ils est n&eacute;cessiare que ce contr&ocirc;leur ait comme module ce module');?>
                 	<section class="panel">
                     	<div class="panel-heading">
@@ -37,18 +37,18 @@
                                     {
                                         foreach($supportedPages as $s)
                                         {
-                                            $control	=	$this->core->tendoo_admin->get_pages($s['PAGE_CNAME']);
+                                            $control	=	$this->instance->tendoo_admin->get_pages($s['PAGE_CNAME']);
                                             $isAttached	=	$rtp_lib->isAttached($s['ID']);
                                             ?>
                                     <tr>
-                                        <td><a href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'page_edit',$s['PAGE_CNAME']));?>"><?php echo $s['PAGE_NAMES'];?></a></td>
+                                        <td><a href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'page_edit',$s['PAGE_CNAME']));?>"><?php echo $s['PAGE_NAMES'];?></a></td>
                                         <td><?php echo $isAttached == true ? "Oui" : "Non";?></td>
                                         <td>
                                             <?php
                                             if($isAttached)
                                             {
                                                 ?>
-                                                <a href="<?php echo $this->core->url->site_url(array('admin','open','modules',$isAttached['MODULE']['ID'],'page_edit',$isAttached['PAGE_HTML'][0]['ID']));?>"><?php echo $s['PAGE_NAMES'];?></a>
+                                                <a href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$isAttached['MODULE']['ID'],'page_edit',$isAttached['PAGE_HTML'][0]['ID']));?>"><?php echo $s['PAGE_NAMES'];?></a>
                                                 <?php
                                             }
                                             else
@@ -57,7 +57,7 @@
                                             }
                                             ?>
                                         </td>
-                                        <td><a href="<?php echo $this->core->url->site_url(array($s['PAGE_CNAME']));?>"><?php echo $this->core->url->site_url(array($s['PAGE_CNAME']));?></a></td>
+                                        <td><a href="<?php echo $this->instance->url->site_url(array($s['PAGE_CNAME']));?>"><?php echo $this->instance->url->site_url(array($s['PAGE_CNAME']));?></a></td>
                                     </tr>
                                             <?php
                                         }

@@ -18,7 +18,7 @@ if(is_array($fields))
 				'name'				=>	'contact_user_name',
 				'subtype'			=>	'text',
 				'placeholder'		=>	'Votre nom',
-				'value'				=>	$this->core->users_global->isConnected() ? $this->core->users_global->current('PSEUDO') : ''
+				'value'				=>	$this->instance->users_global->isConnected() ? $this->instance->users_global->current('PSEUDO') : ''
 			));
 		}
 		if($f['SHOW_MAIL']	== '1')
@@ -28,7 +28,7 @@ if(is_array($fields))
 				'name'				=>	'contact_user_mail',
 				'subtype'			=>	'text',
 				'placeholder'		=>	'Votre email',
-				'value'				=>	$this->core->users_global->isConnected() ? $this->core->users_global->current('EMAIL') : ''
+				'value'				=>	$this->instance->users_global->isConnected() ? $this->instance->users_global->current('EMAIL') : ''
 			));
 		}
 		if($f['SHOW_WEBSITE']	== '1')
@@ -78,7 +78,7 @@ $theme->defineForm(array(
 	'name'				=>	'user_id',
 	'subtype'			=>	'hidden',
 	'placeholder'		=>	'Votre ville',
-	'value'				=>	$this->core->users_global->isConnected() ? $this->core->users_global->current('ID') : 0
+	'value'				=>	$this->instance->users_global->isConnected() ? $this->instance->users_global->current('ID') : 0
 ));
 $theme->defineForm(array(
 	'type'	=>	'textarea',

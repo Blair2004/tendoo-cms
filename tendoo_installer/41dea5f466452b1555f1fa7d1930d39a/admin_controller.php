@@ -1,12 +1,16 @@
 <?php
-class tendoo_index_manager_admin_controller
+class tendoo_index_manager_admin_controller extends Libraries
 {
 	public function __construct($data)
 	{
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		parent::__construct();
 		__extends($this);
-		
+		$this->instance					=	get_instance();
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->data						=	$data;
 		$this->moduleData				=&	$this->data['module'][0];
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		if(!$this->tendoo_admin->actionAccess('tendoo_index_manager','tendoo_index_manager'))
 		{
 			$this->url->redirect(array('admin','index?notice=accessDenied'));
@@ -151,7 +155,7 @@ class tendoo_index_manager_admin_controller
 			{
 				$notice['error']++;
 			}
-			$this->notice->push_notice(tendoo_info($notice['success'].' élément(s) enregistré(s), '.$notice['error'].' erreur(s)'));
+			notice('push',tendoo_info($notice['success'].' élément(s) enregistré(s), '.$notice['error'].' erreur(s)'));
 		}
 		
 		if($this->input->post('section5'))
@@ -162,11 +166,11 @@ class tendoo_index_manager_admin_controller
 			{
 				if($this->lib->setQuadOptions($_POST['aboutUsContent']))
 				{
-					$this->notice->push_notice(notice('done'));
+					notice('push',fetch_error('done'));
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 		}
@@ -179,17 +183,17 @@ class tendoo_index_manager_admin_controller
 			{
 				if($this->lib->setSixOptions($this->input->post('ourPartner')))
 				{
-					$this->notice->push_notice(notice('done'));
+					notice('push',fetch_error('done'));
 				}
 				else
 				{
-					$this->notice->push_notice(notice('error_occured'));
+					notice('push',fetch_error('error_occured'));
 				}
 			}
 		}
 		$this->data['lib_options']		=	$this->lib->getOptions();
-		$this->tendoo->setTitle('tendoo Index Manager');
-		$this->tendoo->loadEditor(1);
+		set_page('title','tendoo Index Manager');
+		$this->instance->visual_editor->loadEditor(1);
 		
 		return $this->data['body']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/main.php',$this->data,TRUE,TRUE,$this);
 	}

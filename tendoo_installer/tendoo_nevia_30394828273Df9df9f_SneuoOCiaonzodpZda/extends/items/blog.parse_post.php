@@ -1,7 +1,7 @@
 <?php		if(count($this->blogPost) > 0)		{	?>
   		<?php foreach($this->blogPost as $p){	
-			$global	=	$this->tendoo->time($p['TIMESTAMP'],TRUE); 
-			$base		=	$this->tendoo->time($p['TIMESTAMP']);
+			$global	=	$this->instance->date->time($p['TIMESTAMP'],TRUE); 
+			$base		=	$this->instance->date->time($p['TIMESTAMP']);
 		?>
 <article class="post">
 

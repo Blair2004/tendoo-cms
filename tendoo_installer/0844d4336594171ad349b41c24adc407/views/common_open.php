@@ -1,6 +1,6 @@
 <?php
 // ARTICLE SECTION
-$userdata				=	$this->core->users_global->getUser($GetNews[0]['AUTEUR']);
+$userdata				=	$this->instance->users_global->getUser($GetNews[0]['AUTEUR']);
 $date					=	$GetNews[0]['DATE'];
 $Ccategory				=	$news->getArticlesRelatedCategory($GetNews[0]['ID']);
 // Recupération des catégories
@@ -12,18 +12,17 @@ if($Ccategory)
 		$categories[]		=	array(
 			'TITLE'			=>	$category['CATEGORY_NAME'],
 			'DESCRIPTION'	=>	$category['CATEGORY_DESCRIPTION'],
-			'LINK'			=>	$this->core->url->site_url(array($page[0]['PAGE_CNAME'],'categorie',$this->core->tendoo->urilizeText($category['CATEGORY_NAME'],'-'),1))
+			'LINK'			=>	$this->instance->url->site_url(array($page[0]['PAGE_CNAME'],'categorie',$category['CATEGORY_URL_TITLE']))
 		);
 	}
 }
-// COMMENT SECTIONo
 // Preparing Keywords
 $keywords	=	array();
 foreach($getKeywords as $key)
 {
 	$keywords[]			=	array(
 		'TITLE'			=>	$key['TITLE'],
-		'LINK'			=>	$this->core->url->site_url(array($page[0]['PAGE_CNAME'],'tags',$key['TITLE'])),
+		'LINK'			=>	$this->instance->url->site_url(array($page[0]['PAGE_CNAME'],'tags',$key['URL_TITLE'])),
 		'DESCRIPTION'	=>	$key['DESCRIPTION']
 	);
 }
@@ -43,7 +42,7 @@ if(count($Comments) >0)
 {
 	foreach($Comments as $c)
 	{
-		$userdata		=	$this->core->users_global->getUser($c['AUTEUR']);
+		$userdata		=	$this->instance->users_global->getUser($c['AUTEUR']);
 		$final_user		=	$userdata;
 		if(!$userdata)
 		{
@@ -67,10 +66,10 @@ $theme->set_pagination_datas(array(
 	'currentPage'		=>		$currentPage
 ));
 // Intégration du formulaire de réponse.
-if($this->core->users_global->isConnected())
+if($this->instance->users_global->isConnected())
 {
-	$pseudo	=	$this->core->users_global->current('PSEUDO');
-	$email	=	$this->core->users_global->current('EMAIL');
+	$pseudo	=	$this->instance->users_global->current('PSEUDO');
+	$email	=	$this->instance->users_global->current('EMAIL');
 }
 else
 {
@@ -110,7 +109,7 @@ if($setting['EVERYONEPOST'] == 0)
 	}
 	else
 	{
-		$core->notice->push_notice(notice('connectToComment'));
+		$core->notice->push_notice(fetch_error('connectToComment'));
 	}
 }
 else

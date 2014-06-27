@@ -1,9 +1,13 @@
 <?php
-	class widhandler_lib
+	class widhandler_lib extends Libraries
 	{
 		public function __construct()
 		{
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			parent::__construct();
 			__extends($this);
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			$this->instance	=	get_instance();
 		}
 		public function save_widgets($e)
 		{
@@ -48,7 +52,7 @@
 							// When there is no used connecte, the one  who creating widget is the super administrator.
 							$user_id		=	$this->users_global->isConnected() ? $this->users_global->current('ID') : 1;
 							//
-							$date						=		$this->tendoo->datetime();
+							$date						=		$this->instance->date->datetime();
 							if($this->db->insert('tendoo_widget_administrator_'.$table,array(
 								'WIDGET_TITLE'			=>		$w_content['title'],
 								'WIDGET_NAMESPACE'		=>		$w_content['namespace'],
@@ -229,11 +233,14 @@
 			}
 		}
 	}
-	class widhandler_common
+	class widhandler_common extends Libraries
 	{
 		public function __construct($data)
 		{
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			parent::__construct();
 			__extends($this);
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 			$this->data		=&	$data;
 		}
 		public function getWidgets($zone)

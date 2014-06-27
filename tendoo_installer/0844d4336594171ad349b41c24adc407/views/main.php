@@ -36,17 +36,16 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             
             <section class="vbox">
                 <section class="wrapper"> 
-					<?php echo $this->core->notice->parse_notice();?> 
-					<?php echo $success;?>
-                    <?php echo notice_from_url();?>
+					<?php echo output('notice');?> 
+                    <?php echo fetch_error_from_url();?>
 					<div class="row">
 						<div class="col-lg-8">
 						<section class="panel">
@@ -71,12 +70,12 @@
 										{
 											$allCategory[]	=	$news->getSpeCat($rC['CATEGORY_REF_ID']);
 										}
-										$user		=	$this->core->users_global->getUser($g['AUTEUR']);
+										$user		=	$this->instance->users_global->getUser($g['AUTEUR']);
 								?>
 									<tr>
 										<td class="action articlePanel" style="padding-top:10px;padding-bottom:10px">
 											<strong>
-											<a class="view" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'edit',$g['ID']));?>"><?php echo $g['TITLE'];?></a>
+											<a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'edit',$g['ID']));?>"><?php echo $g['TITLE'];?></a>
 											</strong>
 											<hr class="line line-dashed" style="margin:5px 0">
 											<small><?php 
@@ -109,9 +108,9 @@
                                                 <?php
 											}
 											;?></small> | 
-											<small>Par <strong><a href="<?php echo $this->core->url->site_url(array('account','profile',$user['PSEUDO']));?>"><?php echo $user['PSEUDO'];?></a></strong></small> |
-											<small><?php echo $this->core->tendoo->timespan($g['DATE']);?></small> |
-											<small><a data-doAction style="color:#FF7F7F" href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></small>
+											<small>Par <strong><a href="<?php echo $this->instance->url->site_url(array('account','profile',$user['PSEUDO']));?>"><?php echo $user['PSEUDO'];?></a></strong></small> |
+											<small><?php echo $this->instance->date->timespan($g['DATE']);?></small> |
+											<small><a data-doAction style="color:#FF7F7F" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$g['ID']));?>">Supprimer</a></small>
 											<small><input style="display:none;" type="checkbox" name="art_id[]" value="<?php echo $g['ID'];?>"></small>
 										</td>
 									</tr>
@@ -237,7 +236,7 @@
 									foreach($lastestComments as $g)
 									{
 										$news_concerned	=	$news->getSpeNews($g['REF_ART']);
-										$user			=	$this->core->users_global->getUser($g['AUTEUR']);
+										$user			=	$this->instance->users_global->getUser($g['AUTEUR']);
 										$pseudo			=	$g['AUTEUR'];
 										if(is_array($user) && count($user) > 0)
 										{

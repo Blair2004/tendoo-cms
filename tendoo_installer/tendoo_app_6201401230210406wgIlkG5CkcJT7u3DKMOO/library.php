@@ -52,7 +52,7 @@ class tendoo_contact_handler_class
 		$array	=	array(
 			'FIELD_CONTENT'		=>		$content,
 			'AUTHOR'			=>		$this->users_global->current('ID'),
-			'DATE'				=>		$this->tendoo->datetime()
+			'DATE'				=>		$this->instance->date->datetime()
 		);
 		if(count($query->result_array()) > 0)
 		{
@@ -80,7 +80,7 @@ class tendoo_contact_handler_class
 		{
 			$userid			=	0;
 		}
-		$date	=	$this->tendoo->datetime();
+		$date	=	$this->instance->date->datetime();
 		return $this->db->insert('tendoo_contact_handler',array(
 			'USER_ID'			=>	$userid,
 			'USER_NAME'			=>	$username,

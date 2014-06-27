@@ -144,7 +144,7 @@ class nevia_theme_handler
 	/*	Méthodes communues
 	*/
 	private $pageTitle			=	'Page Sans Titre'; // Titre de la page
-	private $pageDescription	=	''; // Description de la page
+	private $pageDescription	= ''; // Description de la page
 	private $pageKeywords		=	'';
 	public function definePageTitle($title) // Définir le titre de la page
 	{

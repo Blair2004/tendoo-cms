@@ -6,16 +6,16 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
                 <section class="wrapper"> 
-					<?php echo $this->core->notice->parse_notice();?> 
-					<?php echo $success;?>
-                    <?php echo notice_from_url();?>
+					<?php echo output('notice');?> 
+					
+                    <?php echo fetch_error_from_url();?>
                 	<section class="panel">
                     	<div class="panel-heading">
                         Liste des commentaires
@@ -39,7 +39,7 @@
                                     {
                                         if($g['AUTEUR'] != '0')
                                         {
-                                            $user				=	$this->core->users_global->getUser($g['AUTEUR']);
+                                            $user				=	$this->instance->users_global->getUser($g['AUTEUR']);
                                         }
                                         else
                                         {
@@ -48,7 +48,7 @@
                                 ?>
                                     <tr>
                                         <td><?php echo $user['PSEUDO'];?></td>
-                                        <td><a href="<?php echo $this->core->url->site_url(array('admin','open','modules',$module[0]['ID'],'comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],20);?></a></td>
+                                        <td><a href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],20);?></a></td>
                                         <td><?php 
                                         $article	=	$news->getSpeNews($g['REF_ART']);
                                         echo $article[0]['TITLE'];

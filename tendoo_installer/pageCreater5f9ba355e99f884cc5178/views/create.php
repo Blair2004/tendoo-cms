@@ -6,16 +6,16 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo $this->core->tendoo->getTitle();?></h4>
-                        <p class="block text-muted"><?php echo $pageDescription;?></p>
+                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                        <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                 </div>
             </header>
             <section class="vbox">
                 <section class="wrapper"> 
-					<?php echo $this->core->notice->parse_notice();?> 
-					<?php echo $success;?> 
-					<?php echo notice_from_url();?>
+					<?php echo output('notice');?> 
+					 
+					<?php echo fetch_error_from_url();?>
 					<?php echo validation_errors(); ?> 
                     <section class="panel">
                         <div class="panel-heading"> Cr&eacute;er une nouvelle page </div>
@@ -28,7 +28,7 @@
                                     <input class="form-control" type="text" name="page_description" placeholder="Description">
                                 </div>
                                 <div class="form-group textarea">
-                                    <?php echo $this->core->tendoo->getEditor(array('name'=>'page_content','id'=>'editor'));?>
+                                    <?php echo $this->instance->visual_editor->getEditor(array('name'=>'page_content','id'=>'editor'));?>
                                 </div>
                                 <input class="btn btn-info btn-sm" type="submit" value="Cr&eacute;er la page">
                             </form>

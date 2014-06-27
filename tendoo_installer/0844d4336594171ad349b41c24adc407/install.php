@@ -1,7 +1,7 @@
 	<?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.5);
+$this->appVers(0.6);
 $this->appTendooVers(0.98);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'news',
@@ -31,6 +31,7 @@ $this->appSql(
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `TITLE` varchar(200) NOT NULL,
+  `URL_TITLE` varchar(200) NOT NULL,
   `CONTENT` text NOT NULL,
   `DATE` datetime NOT NULL,
   `AUTEUR` int(11) NOT NULL,
@@ -54,6 +55,7 @@ $this->appSql(
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news_keywords` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `TITLE` text(200) NOT NULL,
+  `URL_TITLE` varchar(200) NOT NULL,
   `DESCRIPTION` text,
   `AUTEUR` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
@@ -80,6 +82,7 @@ $this->appSql(
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_news_category` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `CATEGORY_NAME` varchar(100) NOT NULL,
+  `URL_TITLE` varchar(200) NOT NULL,
   `DESCRIPTION` text NOT NULL,
   `DATE` datetime NOT NULL,
   PRIMARY KEY (`ID`)

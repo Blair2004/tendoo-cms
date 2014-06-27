@@ -8,9 +8,9 @@ class tendoo_widget_administrator_module_controller
 	
 	public function __construct($data)
 	{
-		$this->core					=		Controller::instance();
+		$this->instance					=		get_instance();
 		$this->data					=		$data;
-		$this->tendoo				=&		$this->core->tendoo;
+		$this->tendoo				=&		$this->instance->tendoo;
 		$this->lib					=		new widhandler_common($this->data);
 		$this->data['widgetHandler']=&		$this->lib;
 		$this->data['getRightWidget']=		$this->lib->getWidgets('RIGHT');
@@ -41,7 +41,7 @@ class tendoo_widget_administrator_module_controller
 						$this->data['currentWidget']								=&	$WIDGET_CONFIG[$w['WIDGET_NAMESPACE']]; // Ajoute les informations sur widget au super tablea $this->data, qui sera utilisé plus tard.
 						$this->data['widgets']['requestedZone']						=	'RIGHT'; // Set Requested Zone
 						include_once($path.$WIDGET_CONFIG[$w['WIDGET_NAMESPACE']]['WIDGET_FILES']); // Include widget controller;
-						$w_output	=	$this->core->tendoo->interpreter(
+						$w_output	=	$this->instance->tendoo->interpreter(
 							$w['WIDGET_NAMESPACE'].'_'.$w['WIDGET_MODNAMESPACE'].'_common_widget',
 							'index',
 							array(), // valeur envoyé au controlleur d widget.
@@ -51,7 +51,7 @@ class tendoo_widget_administrator_module_controller
 				}
 				else
 				{
-					$this->core->notice->push_notice('<strong>Une erreur s\'est produite durant le chargement des widgets');
+					$this->instance->notice->push_notice('<strong>Une erreur s\'est produite durant le chargement des widgets');
 				}
 				
 			}
@@ -84,7 +84,7 @@ class tendoo_widget_administrator_module_controller
 						$this->data['currentWidget']								=&	$WIDGET_CONFIG[$w['WIDGET_NAMESPACE']]; // Ajoute les informations sur widget au super tablea $this->data, qui sera utilisé plus tard.
 						$this->data['widgets']['requestedZone']						=	'BOTTOM'; // Set Requested Zone
 						include_once($path.$WIDGET_CONFIG[$w['WIDGET_NAMESPACE']]['WIDGET_FILES']); // Include widget controller;
-						$w_output	=	$this->core->tendoo->interpreter(
+						$w_output	=	$this->instance->tendoo->interpreter(
 							$w['WIDGET_NAMESPACE'].'_'.$w['WIDGET_MODNAMESPACE'].'_common_widget',
 							'index',
 							array(), // valeur envoyé au controlleur d widget.
@@ -94,7 +94,7 @@ class tendoo_widget_administrator_module_controller
 				}
 				else
 				{
-					$this->core->notice->push_notice('<strong>Une erreur s\'est produite durant le chargement des widgets');
+					$this->instance->notice->push_notice('<strong>Une erreur s\'est produite durant le chargement des widgets');
 				}
 			}
 		}
@@ -111,7 +111,7 @@ class tendoo_widget_administrator_module_controller
 				}
 				else // Sinon
 				{
-					$module			=	$this->core->tendoo->getSpeMod($w['WIDGET_REFERING_OBJ_NAMESPACE'],FALSE); // Recuperation du module en question
+					$module			=	$this->instance->tendoo->getSpeMod($w['WIDGET_REFERING_OBJ_NAMESPACE'],FALSE); // Recuperation du module en question
 					$module			=&	$module[0];	// Modification de la variable.
 					$path			=	MODULES_DIR.$module['ENCRYPTED_DIR'].'/'; // Chemin d'accès
 					$configFile		=	MODULES_DIR.$module['ENCRYPTED_DIR'].'/config/widget_config.php'; // Chemin d'accès configuration
@@ -124,7 +124,7 @@ class tendoo_widget_administrator_module_controller
 							$WIDGET_CONFIG[$w['WIDGET_REFERING_NAME']]['WIDGET_INFO']		=&	$w; // Ajoute les informations spécifies par l'utilisatuer
 							$this->data['currentWidget']	=&	$WIDGET_CONFIG[$w['WIDGET_REFERING_NAME']]; // Ajoute les informations sur widget au super tablea $this->data, qui sera utilisé plus tard.
 							include_once($path.$WIDGET_CONFIG[$w['WIDGET_REFERING_NAME']]['WIDGET_FILES']); // Include widget controller;
-							$w_output	=	$this->core->tendoo->interpreter(
+							$w_output	=	$this->instance->tendoo->interpreter(
 								$w['WIDGET_REFERING_NAME'].'_'.$module['NAMESPACE'].'_common_widget',
 								'index',
 								array(), // valeur envoyé au controlleur d widget.
@@ -134,7 +134,7 @@ class tendoo_widget_administrator_module_controller
 					}
 					else
 					{
-						$this->core->notice->push_notice('<strong>Une erreur s\'est produite durant le chargement des widgets');
+						$this->instance->notice->push_notice('<strong>Une erreur s\'est produite durant le chargement des widgets');
 					}
 				}
 			}

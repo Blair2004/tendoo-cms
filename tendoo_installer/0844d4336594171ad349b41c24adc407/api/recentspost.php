@@ -17,23 +17,38 @@ class news_recentspost_api
 		$query		=	$this->lib->getNews(0,$limitation);
 		$controler	=	$this->tendoo->getControllersAttachedToModule('news');
 		$final		=	array();
-		foreach($query as $q)
+		if($controler)
 		{
-			$category_datas				=	$this->lib->getArticlesRelatedCategory($q['ID']);
-			$category_datas				=	$this->lib->getArticlesRelatedCategory($q['ID']);
-			foreach($category_datas as &$i)
+			foreach($query as $q)
 			{
-				$i['CATEGORY_LINK']	=	$this->url->site_url(array($controler[0]['PAGE_CNAME'],'categorie',$this->tendoo->urilizeText($i['CATEGORY_NAME']),$i['CATEGORY_ID']));
+				$category_datas				=	$this->lib->getArticlesRelatedCategory($q['ID']);
+				$category_datas				=	$this->lib->getArticlesRelatedCategory($q['ID']);
+				foreach($category_datas as &$i)
+				{
+					$i['CATEGORY_LINK']	=	$this->url->site_url(array($controler[0]['PAGE_CNAME'],'categorie',$i['CATEGORY_URL_TITLE']));
+				}
+				$user						=	$this->users_global->getUser($q['AUTEUR']);
+				$final[]					=	array(
+					'LINK'					=>	$this->url->site_url(array($controler[0]['PAGE_CNAME'],'lecture',$q['URL_TITLE'])),
+					'TITLE'					=>	$q['TITLE'],
+					'CONTENT'				=>	$q['CONTENT'],
+					'DATE'					=>	$q['DATE'],
+					'AUTEUR'				=>	$user['PSEUDO'],
+					'THUMB'					=>	$q['IMAGE'],
+					'CATEGORIES'			=>	$category_datas
+				);
 			}
-			$user						=	$this->users_global->getUser($q['AUTEUR']);
+		}
+		else
+		{
 			$final[]					=	array(
-				'LINK'					=>	$this->url->site_url(array($controler[0]['PAGE_CNAME'],'lecture',$q['ID'],$this->tendoo->urilizeText($q['TITLE']))),
-				'TITLE'					=>	$q['TITLE'],
-				'CONTENT'				=>	$q['CONTENT'],
-				'DATE'					=>	$q['DATE'],
-				'AUTEUR'				=>	$user['PSEUDO'],
-				'THUMB'					=>	$q['IMAGE'],
-				'CATEGORIES'			=>	$category_datas
+				'LINK'					=>	'http://tendoo.org/index.php/faq/bind-module-to-page',
+				'TITLE'					=>	'Blogster non affecté à une page',
+				'CONTENT'				=>	'Le module Blogster n\'est pas attaché à une page',
+				'DATE'					=>	'',
+				'AUTEUR'				=>	'',
+				'THUMB'					=>	img_url('Hub_back.png'),
+				'CATEGORIES'			=>	array()
 			);
 		}
 		return $final;
