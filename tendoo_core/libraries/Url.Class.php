@@ -12,9 +12,16 @@ Class Url
 
 	public function __construct()
 	{
-		if(file_exists('.htaccess'))
+		if(file_exists('tendoo_core/config/tendoo_base_config.php'))
 		{
-			$this->rewrite	=	TRUE;
+			include('tendoo_core/config/tendoo_base_config.php');
+			if(isset($tendoo_base_config))
+			{
+				if($tendoo_base_config['use_rewrite_cond'] == TRUE)
+				{
+					$this->rewrite	=	TRUE;					
+				}
+			}
 		}
 		$host	=	(in_array($_SERVER['HTTP_HOST'],array('localhost','127.0.0.1'))) ? 
 						(($_SERVER['HTTP_HOST'] == 'localhost') ? 
