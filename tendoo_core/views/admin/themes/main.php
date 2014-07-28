@@ -1,7 +1,7 @@
-<?php echo $lmenu;?>
+<?php echo get_core_vars( 'lmenu' );?>
 
 <section id="content">
-<section class="vbox"> <?php echo $inner_head;?>
+<section class="vbox"> <?php echo get_core_vars( 'inner_head' );?>
 	<footer class="footer bg-white b-t">
         <div class="row m-t-sm text-center-xs">
             <div class="col-sm-4" id="ajaxLoading" style="visibility: hidden;"></div>
@@ -36,11 +36,11 @@
             <section class="wrapper w-f"> <?php echo output('notice');?> 
                 <div class="row themes_grid">
                     <?php 
-	if(isset($Themes))
+	if(isset($themes_list))
 	{
-		if(count($Themes) > 0)
+		if(count($themes_list) > 0)
 		{
-			foreach($Themes as $t)
+			foreach($themes_list as $t)
 			{
 				$color	=	'';
 				$success_color	=	'panel-success';
@@ -72,7 +72,16 @@
                             <div class="panel-body clearfix"> <img src="<?php echo $this->instance->tendoo_admin->getThemeThumb($t['ID']);?>" style="width:100%;min-height:203px;"> </div>
                             <footer class="panel-footer">
                                 <div class="actions">
-                                    <button type="button" data-action="ADMITSETDEFAULT" class="btn btn-white btn-sm">Activer</button>
+                                    <button type="button"
+                                    <?php
+									if($t['ACTIVATED'] == 'Activ&eacute;')
+									{
+										?>
+                                        disabled="disabled"
+                                        <?php
+									}
+									?>
+                                     data-action="ADMITSETDEFAULT" class="btn btn-white btn-sm">Activer</button>
                                     <button type="button" data-action="ADMITDELETETHEME" class="btn btn-white btn-sm">Supprimer</button>
                                     <button type="button" data-action="OPENDETAILS" class="btn btn-white btn-sm">Détails</button>
                                 </div>
@@ -98,6 +107,7 @@
                                             </ul>
                                         </div>
                                         <div class="col-sm-8 text-right text-center-xs">
+                                        	<input controller_save_edits="" type="button" data-action="activate" class="btn btn-sm <?php echo theme_button_class();?>" value="Activer">
                                             <input controller_save_edits="" type="button" data-dismiss="modal" class="btn btn-sm <?php echo theme_button_class();?>" value="Quitter">
                                         </div>
                                     </div>
@@ -170,6 +180,10 @@
 						}
 						else if($(this).data('action')	==	'OPENDETAILS')
 						{
+							var	papa				=	$(this).closest('.theme_head');
+							var nextPapaBrother		=	$(papa).next();
+							var prevPapaBrother		=	$(papa).prev();
+
 							var parent			=	$(this).closest('.theme_head');
 							var themePrototype	=	$('#theme_details_prototype');
 							var clone			=	$(themePrototype).clone();
@@ -180,10 +194,45 @@
 							$(clone).find('.theme_version').html($(parent).data('theme_version'));
 							$(clone).find('.theme_details').html($(parent).find('.theme_details').val());
 							var content			=	$(clone).html();
-							tendoo.window
+							var modal			=	tendoo.window
 								.size(800,device.height)
 								.title('Détails &raquo; '+$(parent).data('theme_name'))
+								.openBy('scale-in')
+								.closeBy('scale-out')
 								.show(content);
+							$(modal).find('.modal-body .pagination li').eq(0).bind('click',function(){
+								if($(prevPapaBrother).length > 0)
+								{
+									$(modal).find('[data-dismiss="modal"]').trigger('click');
+									setTimeout(function(){
+										$(prevPapaBrother).find('[data-action="OPENDETAILS"]').trigger('click');
+									},0);
+								}
+								return false;
+							});
+							$(modal).find('.modal-body .pagination li').eq(1).bind('click',function(){
+								
+								if($(nextPapaBrother).length > 0)
+								{
+									$(modal).find('[data-dismiss="modal"]').trigger('click');
+									setTimeout(function(){
+										$(nextPapaBrother).find('[data-action="OPENDETAILS"]').trigger('click');
+									},0);
+								}
+								return false;
+							});
+							if(tools.isDefined($(papa).find('[data-action="ADMITSETDEFAULT"]').attr('disabled')))
+							{
+								$(modal).find('.modal-body').find('[data-action="activate"]').attr('disabled','disabled');
+							}
+							$(modal).find('.modal-body').find('[data-action="activate"]').bind('click',function(){
+								if($(papa).length > 0)
+								{
+									$(papa).find('[data-action="ADMITSETDEFAULT"]').trigger('click');
+									$(modal).find('.modal-body').find('[data-action="activate"]').attr('disabled','disabled');
+								}
+								return false;
+							});
 						}
 					});
 				});

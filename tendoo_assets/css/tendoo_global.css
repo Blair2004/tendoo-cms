@@ -55,7 +55,7 @@
 	text-align:center;
 	box-shadow: linear-gradient(top #EEE #333);
 	float:left;
-	margin: 0 20px 20px 0;
+	margin: 0 10px 10px 0;
 	background:#EEE;
 }
 .tendoo-icon-set .badge
@@ -77,4 +77,18 @@
 .placeholder
 {
 	border:dashed 1px #BBB;background:#EEE;text-align:center;padding:20px 15px;margin-bottom:20px;
+}
+.gridster > ul li
+{
+	list-style:none;
+}
+.widget-placeholder
+{
+	border:dashed 2px #999;
+	background:#EEE;
+	margin-bottom:16px;
+}
+.draggable_widgets
+{
+	min-height:300px;
 }

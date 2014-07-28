@@ -31,7 +31,11 @@ class Loader
 		}
 		else
 		{
-			return isset($this->parent) ? $this->parent->$var : false;
+			if(isset($this->parent))
+			{
+				return isset($this->parent->$var) ? $this->parent->$var : get_core_vars( $var );
+			}
+			return false;
 		}
 	}
 	/*public function __set($var,$value)
@@ -56,10 +60,15 @@ class Loader
 	}
 	private function load_ext($data,$lfmd)
 	{
-		// Set the default data variables
+		// Set the default data variables : Study This Case
 		foreach (array('_Tendoo_view', '_Tendoo_vars', '_Tendoo_path', '_Tendoo_return') as $_values)
 		{
 			$$_values = ( ! isset($data[$_values])) ? FALSE : $data[$_values];
+		}
+		// Get Core Vars 
+		foreach (get_core_vars() as $core_keys	=>	$core_vars)
+		{
+			$$core_keys 	=	$core_vars;
 		}
 		$file_exists = FALSE;
 		// Set the path to the requested file
@@ -156,8 +165,15 @@ class Loader
 		// to standard PHP echo statements.
 
 		if ((bool) @ini_get('short_open_tag') === FALSE)
-		{		
-			include($_Tendoo_path);
+		{	
+			if(is_file($_Tendoo_path))
+			{	
+				include($_Tendoo_path);
+			}
+			else
+			{
+				get_instance()->exceptions->show_error('Fichier introuvable', 'Le fichier : "'.$_Tendoo_path.'" est introuvable ou le chemin d\'accès est incorrect.', $template = 'error_general', $status_code = 500);
+			}
 			
 			/* $return = eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($_Tendoo_path)))); */
 			
@@ -364,9 +380,9 @@ class Loader
 	}
 	public function helper_includer($h)
 	{
-		if(file_exists(HELPERS_DIR.$h.'.php'))
+		if(file_exists(HELPERS_DIR.$h.'_helper.php'))
 		{
-			include_once(HELPERS_DIR.$h.'.php');
+			include_once(HELPERS_DIR.$h.'_helper.php');
 			array_push($this->loadedHelper,$h);
 		}
 	}

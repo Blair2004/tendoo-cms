@@ -58,7 +58,9 @@ class Installation extends Libraries
 		  `HAS_API`	int(11) NOT NULL,
           `HAS_ICON` int(11) NOT NULL,
           `HAS_ADMIN_API` int(11) NOT NULL,
-		  `HAS_OUTPUT_SCRIPTING` int(11) NOT NULL,
+		  `HAS_PASSIVE_SCRIPTING` int(11) NOT NULL,
+		  `HANDLE` varchar(200) NOT NULL,
+		  `SELF_URL_HANDLE` int(11) NOT NULL,
 		  `TYPE` varchar(50) NOT NULL,
 		  `ACTIVE` int(11) NOT NULL,
 		  `TENDOO_VERS` varchar(100) NOT NULL,
@@ -85,6 +87,7 @@ class Installation extends Libraries
 		`ACTIVATE_STATS` int(11) NOT NULL,
 		`ADMIN_ICONS` text NOT NULL,
 		`CONNECT_TO_STORE` int(11) NOT NULL,
+		`LIGHT_DATA` text,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->db->query($sql))
@@ -133,18 +136,18 @@ class Installation extends Libraries
 			`ADMIN_THEME` int(11) NOT NULL,
 			`FIRST_VISIT` int(11) NOT NULL,
 			`OPEN_APP_TAB` int(11) NOT NULL,
-			`SHOW_WELCOME` varchar(10) NOT NULL,
-			`SHOW_ADMIN_INDEX_STATS` int(110) NOT NULL,
 			`ADMIN_INDEX_VISIT` int(11) NOT NULL,
 			`ADMIN_PAGES_VISIT` int(11) NOT NULL,
 			`ADMIN_APPS_VISIT` int(11) NOT NULL,
 			`ADMIN_SETTINGS_VISIT` int(11) NOT NULL,
 			`ADMIN_SYSTEM_VISIT` int(11) NOT NULL,
+			`ADMIN_WIDGETS_DISABLED` text NOT NULL,
 			`AVATAR_LINK` varchar(200) NOT NULL,
 			`AVATAR_TYPE` varchar(200) NOT NULL,
 			`GOOGLE_PROFILE` varchar(200),
 			`FACEBOOK_PROFILE` varchar(200),
 			`TWITTER_PROFILE` varchar(200),
+			`LIGHT_DATA` text,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->db->query($sql))

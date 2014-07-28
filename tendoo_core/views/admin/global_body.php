@@ -1,4 +1,6 @@
 <?php
+	$options	=	get_core_vars( 'options' );
+	$body		=	get_core_vars( 'body' );
 	function page_header()
 	{
 	?>
@@ -263,7 +265,7 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
 		}
 
 	}
-	if(is_array($body))
+	if(is_array(get_core_vars( 'body' )))
 	{
 		if(array_key_exists('MCO',$body))
 		{

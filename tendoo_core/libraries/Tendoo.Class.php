@@ -102,7 +102,7 @@ class Tendoo
 				array(
 					'PAGE_TITLE'				=>		$this->getTitle(),
 					'PAGE_CNAME'				=>		$page,
-					'PAGE_DESCRIPTION'		=>		$this->getDescription()
+					'PAGE_DESCRIPTION'			=>		$this->getDescription()
 				)
 			);
 		}
@@ -421,33 +421,61 @@ class Tendoo
 	{
 		include(SYSTEM_DIR.'presentation.php');
 	}
-	public function interpreter($Class,$Method,$Parameters,$Init = NULL)
+	public function interpreter($Class,$Method,$Parameters,$Init	=	array(),$module_datas	=	array())
 	{
-		if($Init == NULL)
+		if(class_exists($Class))
 		{
-            if(class_exists($Class))
-            {
-			     eval('$objet	= new '.$Class.'();'); // Création de l'objet
-            }
-            else
-            {
-                $this->error('controllerNotWellDefined');
-                die();
-            }
+			 eval('$objet	= new '.$Class.'($Init);'); // Création de l'objet
 		}
 		else
 		{
-            if(class_exists($Class))
-            {
-			     eval('$objet	= new '.$Class.'($Init);'); // Création de l'objet
-            }
-            else
-            {
-                $this->error('controllerNotWellDefined');
-                die();
-            }
+			$this->error('controllerNotWellDefined');
+			die();
 		}
-		if(method_exists($objet,$Method))
+		// Default Else
+		$BODY	=	'404';
+		if($module_datas == TRUE)
+		{
+			array_unshift($Parameters,$Method);
+			// On laisse la prise en charge du contrôleur au module si le souhaite
+			if((int)$module_datas[0]['SELF_URL_HANDLE'] == 1)
+			{
+				eval('$BODY 	=	$objet->index($Parameters);');
+			}
+			else if(method_exists($objet,$Method))
+			{
+				$param_text		=	'';
+				$i = 0;
+				foreach($Parameters as $p)
+				{
+					if($p != '') // Les parametres vide ne sont pas accepté
+					{
+					//	var_dump($p);
+						if($i+1 < count($Parameters)) // Tant que l'on n'a pas atteind la fin du tableau.
+						{
+							if(strlen($Parameters[$i+1]) > 0) // Si le nombre de caractère est supérieur a 0
+							{
+								$param_text .= '"'.$p.'",'; // ajouté une virgule à la fin de la chaine de caractère personnalisée.
+							}
+							else
+							{
+								$param_text .= '"'.$p.'"'; // omettre la virgule.	
+							}
+						}
+						else
+						{
+							$param_text .= '"'.$p.'"'; // omettre la virgule.
+						}
+					}
+					$i++;
+				}		
+				//var_dump($param_text);
+				eval('$BODY 	=	$objet->'.$Method.'('.$param_text.');'); // exécution du controller.
+				
+				return $BODY;
+			}
+		}
+		else if(method_exists($objet,$Method))
 		{
 			$param_text		=	'';
 			$i = 0;
@@ -479,18 +507,15 @@ class Tendoo
 			
 			return $BODY;
 		}
-		else
-		{
-			return '404';
-		}
+		return $BODY;
 	}
 	public function error($notice)
 	{
-		$this->setTitle('Erreur');
-		$this->instance->load->library('file');
-		$this->instance->file->css_push('app.v2');
-		$this->instance->file->css_push('tendoo_global');
-		$error	=	notice($notice);
+		set_page('title','Erreur');
+		get_instance()->load->library('file');
+		get_instance()->file->css_push('app.v2');
+		get_instance()->file->css_push('tendoo_global');
+		$error	=	fetch_error($notice);
 		
 		include_once(VIEWS_DIR.'warning.php');
 	}

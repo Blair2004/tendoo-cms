@@ -21,6 +21,7 @@
 <style type="text/css">
     #backgroundLogin{
         background:url(<?php echo img_url($this->instance->tendoo->getBackgroundImage());?>) ;
+		backgrond-size:100px 100%;
         background-position:0 0;
         background-repeat: no-repeat;
     }

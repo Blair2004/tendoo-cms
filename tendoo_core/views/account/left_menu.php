@@ -1,20 +1,27 @@
-<aside class="aside nav-vertical <?php echo theme_class();?> b-r" id="nav">
+<aside class="aside <?php echo theme_class();?> <?php echo get_user_data( 'admin-left-menu-status' );?> b-r" id="nav">
     <section class="vbox">
-        <header class="nav-bar"> 
+        <header class="dker nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 
             	<i class="fa fa-reorder"></i> 
 			</a> 
-            <a href="#" class="nav-brand" data-toggle="fullscreen">
-            	<i class="fa fa-group"></i> 
-            </a> 
+            <span href="#" class="nav-brand <?php echo theme_class();?>">
+            	<img style="max-height:30px;" src="<?php echo $this->instance->url->img_url('logo_minim.png');?>" alt="logo">
+            </span> 
             <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-user"> 
-            	<i class="fa fa-comment-alt"></i> 
+            	<i class="fa fa-comment-alt"></i>
 			</a> 
 		</header>
         <?php
 		$redirective	=	urlencode($this->instance->url->request_uri());
 		?>
-        <footer class="footer bg-gradient hidden-xs"> <a href="<?php echo $this->instance->url->site_url(array('logoff','tologin?ref='.$redirective));?>" data-toggle="ajaxModal" class="btn btn-sm btn-link m-r-n-xs pull-right"> <i class="fa fa-off"></i> </a> <a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm"> <i class="fa fa-reorder"></i> </a> </footer>
+        <footer class="footer bg-gradient hidden-xs"> 
+			<a data-intro="Cliquez-ici pour ouvrir la fenêtre des applications installées. Utilisez cette fenêtre pour rapidment accéder aux différentes applications." data-step="10" data-position="top" href="javascript:void(0)" class="showAppTab btn btn-sm pull-right"> 
+				<i class="fa fa-th-large"></i> 
+			</a> 
+			<a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm"> 
+				<i class="fa fa-arrows-h"></i> 
+			</a> 
+		</footer>
         <section>
             <nav class="nav-primary">
                 <ul class="nav">

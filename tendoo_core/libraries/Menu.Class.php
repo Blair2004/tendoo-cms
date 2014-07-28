@@ -24,7 +24,7 @@ class Menu extends Libraries
 						{
 						?>
 		<li class="<?php echo $liclass;?>"><a href="<?php echo $p['PAGE_LINK'];?>"><?php echo ucwords($p['PAGE_NAMES']);?></a>
-			<?php $this->getControllerSubmenu($p);?>
+			<?php $this->getControllerSubmenu($p,$ulclass,$liclass);?>
 		</li>
 		<?php
 						}
@@ -32,7 +32,7 @@ class Menu extends Libraries
 						{
 							?>
 		<li class="<?php echo $liclass;?>"><a href="<?php echo $this->url->site_url(array($p['PAGE_CNAME']));?>"><?php echo ucwords($p['PAGE_NAMES']);?></a>
-			<?php $this->getControllerSubmenu($p);?>
+			<?php $this->getControllerSubmenu($p,$ulclass,$liclass);?>
 		</li>
 		<?php
 						}

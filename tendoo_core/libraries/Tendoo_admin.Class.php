@@ -6,9 +6,9 @@ class Tendoo_admin extends Libraries
 	public function __construct()
 	{
 		parent::__construct();
-		$this->db						=	get_db();
+		__extends($this);
 		$this->instance					=	get_instance();
-		if(isset($this->users_global)) // Chargement de la classe utilisateur si n'existe pas.
+		if(!isset($this->users_global))
 		{
 			$this->load->library('users_global');
 		}

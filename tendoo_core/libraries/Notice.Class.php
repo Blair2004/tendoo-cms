@@ -33,4 +33,8 @@ class notice
 			return $this->notice;
 		}
 	}
+	public function get_notice_array()
+	{
+		return $this->notice;
+	}
 }

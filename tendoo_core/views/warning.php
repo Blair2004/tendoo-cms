@@ -15,7 +15,7 @@
             </div>
             <?php echo $error;?>
             <div class="list-group m-b-sm bg-white m-b-lg"> 
-            	<a href="<?php echo $this->instance->url->main_url();?>" class="list-group-item"> <i class="fa fa-chevron-right"></i> <i class="fa fa-home"></i> Accueil </a> 
+            	<a href="<?php echo get_instance()->url->main_url();?>" class="list-group-item"> <i class="fa fa-chevron-right"></i> <i class="fa fa-home"></i> Accueil </a> 
 			</div>
         </div>
     </div>
@@ -25,7 +25,7 @@
 </body>
 <style type="text/css">
     #backgroundLogin{
-        background:url(<?php echo img_url($this->instance->tendoo->getBackgroundImage());?>) ;
+        background:url(<?php echo img_url(get_instance()->tendoo->getBackgroundImage());?>) ;
         background-position:0 0;
         background-repeat: no-repeat;
     }

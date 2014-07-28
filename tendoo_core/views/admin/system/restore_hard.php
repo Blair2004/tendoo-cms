@@ -6,7 +6,7 @@
                 <h1><?php echo $pageTitle;?><small></small></h1>
             <a class="back-button big page-back" href="<?php echo $this->instance->url->site_url(array('admin','menu'));?>"></a></div>
         </div>
-        <?php echo $lmenu;?>          
+        <?php echo get_core_vars( 'lmenu' );?>          
         <div class="page-region">
             <div class="page-region-content">
                 <div class="body-text">

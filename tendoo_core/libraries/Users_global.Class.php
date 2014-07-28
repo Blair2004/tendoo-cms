@@ -39,6 +39,8 @@ Class users_global extends Libraries
 	**/
 	public function setAvatarSetting($facebook_profile,$google_plus_profile,$twitter_profile,$avatar_usage = 'system',$avatar_file = null)
 	{
+		$notice['error']	=	0;
+		$notice['success']	=	0;
 		if(isset($_FILES[ $avatar_file ]))
 		{
 			$config['upload_path'] 		= ASSETS_DIR.'img/avatars';
@@ -55,6 +57,11 @@ Class users_global extends Libraries
 			{
 				$upload_data				=	$this->upload->data();
 				$this->setUserElement('AVATAR_LINK',$this->url->main_url().$config[ 'upload_path' ] .'/'. $upload_data[ 'file_name' ]);
+				$notice['success']++;
+			}
+			else
+			{
+				$notice['error']++;
 			}
 		}
 		if(in_array($avatar_usage,array('facebook','twitter','google','system')))
@@ -64,7 +71,8 @@ Class users_global extends Libraries
 		$this->setUserElement('FACEBOOK_PROFILE',$facebook_profile);
 		$this->setUserElement('GOOGLE_PROFILE',$google_plus_profile);
 		$this->setUserElement('TWITTER_PROFILE',$twitter_profile);
-		return true;
+		
+		return $notice;
 	}
 	public function cookiesLogin()
 	{
@@ -302,6 +310,11 @@ Class users_global extends Libraries
 				$this->current['GOOGLE_PROFILE']		=	$data[0]['GOOGLE_PROFILE'];
 				$this->current['FACEBOOK_PROFILE']		=	$data[0]['FACEBOOK_PROFILE'];
 				$this->current['TWITTER_PROFILE']		=	$data[0]['TWITTER_PROFILE'];
+				$this->current['ADMIN_WIDGETS_DISABLED']	=	$data[0]['ADMIN_WIDGETS_DISABLED'];
+				// Tendoo 0.1.2
+				$this->current['LIGHT_DATA']			=	$data[0]['LIGHT_DATA'];
+				$light_data								=	json_decode($data[0]['LIGHT_DATA'],true);
+				$this->current['BIO']					=	array_key_exists( 'user_bio', $light_data ) ? $light_data[ 'user_bio'] : false;
 				if($data[0]['AVATAR_TYPE'] == 'system')
 				{
 					$this->current['AVATAR']			=	($data[0]['AVATAR_LINK'] == '') ? img_url('avatar_default.jpg') : $data[0]['AVATAR_LINK'];
@@ -332,7 +345,7 @@ Class users_global extends Libraries
 	}
 	public function refreshUser() // rafraichir les données de l'utilisateur connecté.
 	{
-		$this->authUser($this->current('PSEUDO'),$this->current('PASSWORD'));
+		$this->authUser($this->current('PSEUDO'),$this->current('PASSWORD'),FALSE,FALSE);
 	}
 	public function sendValidationMail($email)
 	{
@@ -537,11 +550,12 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	{
 		if($this->isConnected() && $this->menuStatus == 'show_menu')
 		{
+			$this->load->library('tendoo_admin');
 		?>
-            <div id="user_menu">
-                <div class="logo">
-                    <img src="<?php echo $this->url->img_url('logo_minim.png');?>" />
-                </div>
+        	<div id="tendoo_userbar">
+            	<span class="logo">
+                    <img src="<?php echo $this->url->img_url('tendoo_darken.png');?>" />
+                </span>
                 <ul>
                 <?php
 				if($this->isAdmin() || $this->isSuperAdmin())
@@ -551,102 +565,117 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 				<?php
 				}
 				?>
-                    <li><a href="<?php echo $this->url->site_url(array('account'));?>">Mon profil</a></li>
-                    <li><a href="<?php echo $this->url->site_url(array('account','messaging','home'));?>">Messagerie 
+                <li><a href="<?php echo $this->url->site_url(array('account'));?>">Mon profil</a></li>
+                <li><a href="<?php echo $this->url->site_url(array('account','messaging','home'));?>">Messagerie 
+                <?php
+                $unread	=	$this->getUnreadMsg();
+                if($unread > 0)
+                {
+                ?><span class="counter"><?php echo $unread;?></span>
+                <?php
+                }
+                ?>
+                </a>
+                </li>
+                <?php
+				if(is_array(get('declared_shortcuts')) && count(get('declared_shortcuts')) > 0)
+				{
+				?>
+                <li><a href="javascript:void(0);"> + Raccourcis</a>
+                    <ul>
                     <?php
-					$unread	=	$this->getUnreadMsg();
-					if($unread > 0)
+					foreach(get('declared_shortcuts') as $s)
 					{
-                    ?><em class="number"><?php echo $unread;?></em>
-                    <?php
+						?>
+						<li>
+							<a href="<?php echo $s['link'];?>"><?php echo $s['text'];?></a>
+						</li>
+						<?php
 					}
 					?>
-					</a></li>
-                </ul>
-                <div style="line-height:30px;float:right;margin-right:20px;">
-                    <a href="<?php echo $this->url->site_url(array('logoff'));?>" style="text-decoration:none;color:#F90;">Deconnexion</a>
-                </div>
-            </div>            
-            <style type="text/css">
-			.number
-			{
-				margin:0 5px;
-				border:solid 1px #B70000;
-				background:#F00000;
-				background:-moz-linear-gradient(top,#F40000,#C10000);
-				background:-webkit-linear-gradient(top,#F40000,#C10000);
-				background:-o-linear-gradient(top,#F40000,#C10000);
-				background:-ms-linear-gradient(top,#F40000,#C10000);
-				color:#FFF;
-				line-height:normal;
-				padding:2px 5px;
-				font-style:normal;
-				text-shadow:0px 0px 1px #333;
-				border-radius:10px;
-			}
-			.logo
-			{
-				margin: 5px;
-				line-height: 20px;
-				height: 20px;
-				float:left;
-				padding: 0;
-				font-weight: normal;
-				font-size: 10pt;
-				color: #fff;
-				margin-left:20px;
-				margin-right:20px;
-			}
-			.logo img
-			{
-				float: left;
-				height: 30px;
-				position: relative;
-				top:-5px;
-			}
-			#user_menu
-			{
-				height:30px;
-				width:100%;
-				position:fixed;
-				top:0;
-				left:0;
-				background: url(data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAGklEQVR42mMQhAEJCQkGOAtIMsBZIA6cBQQAW5wDhYzvi1MAAAAASUVORK5CYII%3D) repeat;
-				z-index:9000;
-				border:solid 1px #000;
-				box-shadow:0px 1px 2px #333;
-			}
-            #user_menu ul
-			{
-				float:left;
-				margin:0;
-				padding:0;
-				list-style: none;
-			}
-			#user_menu ul li
-			{
-				float:left;
-			}
-			#user_menu ul li a
-			{
-				height:30px;
-				line-height:30px;
-				padding:0 10px;
-				text-decoration:none;
-				color:#FFF;
-				display:block;
-			}
-			#user_menu ul li a:hover
-			{
-				box-shadow:inset 0px 1px 1px #333;
-				background:#F2F2F2;
-				background:-moz-linear-gradient(top,#F2F2F2,#DDD);
-				background:-webkit-linear-gradient(top,#F2F2F2,#DDD);
-				background:-ms-linear-gradient(top,#F2F2F2,#DDD);
-				background:-o-linear-gradient(top,#F2F2F2,#DDD);
-				color:#333;
-			}
-            </style>
+                    </ul>
+                </li>
+                <?php
+					if($this->isAdmin() || $this->isSuperAdmin())
+					{
+					?>
+					<li><a href="javascript:void(0);"> + Tâches </a>
+						<ul>
+                        	<?php
+							if($this->tendoo_admin->adminAccess('system','gestpa',$this->current('PRIVILEGE')) || $this->isSuperAdmin())
+							{
+								?>
+                                <li>
+                                <a href="<?php echo $this->url->site_url(array('admin','controllers'));?>">Contrôleurs</a>
+                                </li>
+                                <?php
+							}
+							?>
+                            <?php
+							if($this->tendoo_admin->adminAccess('system','gestmo',$this->current('PRIVILEGE')) || $this->isSuperAdmin())
+							{
+								?>
+                                <li>
+                                <a href="<?php echo $this->url->site_url(array('admin','modules'));?>">Modules</a>
+                                </li>
+                                <?php
+							}
+							?>
+                            <?php
+							if($this->tendoo_admin->adminAccess('system','gestheme',$this->current('PRIVILEGE')) || $this->isSuperAdmin())
+							{
+								?>
+                                <li>
+                                <a href="<?php echo $this->url->site_url(array('admin','themes'));?>">Thèmes</a>
+                                </li>
+                                <?php
+							}
+							?>
+                            <?php
+							if($this->tendoo_admin->adminAccess('system','gestapp',$this->current('PRIVILEGE')) || $this->isSuperAdmin())
+							{
+								?>
+                                <li>
+                                <a href="<?php echo $this->url->site_url(array('admin','installer'));?>">Ajouter une App</a>
+                                </li>
+                                <?php
+							}
+							?>
+                            <?php
+							if($this->isSuperAdmin())
+							{
+								?>
+                                <li>
+                                <a href="<?php echo $this->url->site_url(array('admin','system','createAdmin'));?>">Créer un utilisateur</a>
+                                </li>
+                                <li>
+                                <a href="<?php echo $this->url->site_url(array('admin','system','adminMain'));?>">Liste des utilisateurs</a>
+                                </li>
+                                <li>
+                                <a href="<?php echo $this->url->site_url(array('admin','system','create_privilege'));?>">Créer un privilège</a>
+                                </li>
+                                <li>
+                                <a href="<?php echo $this->url->site_url(array('admin','system','privilege_list'));?>">Liste des privilèges</a>
+                                </li>
+                                <li>
+                                <a href="<?php echo $this->url->site_url(array('admin','system','manage_actions'));?>">Gérer les actions</a>
+                                </li>
+                                <?php
+							}
+							?>
+						</ul>
+					</li>
+					<?php
+					}
+				}
+				?>
+            </ul>
+            <ul style="float:right">
+            	<li>
+                	<a href="<?php echo $this->url->site_url(array('logoff'));?>" style="text-decoration:none;color:#F90;">Deconnexion</a>
+                </li>
+            </ul>
+        </div>
         <?php
 		}
 	}
@@ -682,9 +711,68 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function setUserElement($element, $value)
 	{
-		if($this->current($element) !== false)
+		if(in_array( $element , array( 'user_bio' ) ) )
+		{
+			return set_user_data( $element , $value );
+		}
+		else if($this->current($element) !== false)
 		{
 			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array($element=>$value));
+		}
+		return false;
+	}
+	/**
+	*	Implémentation de la fonction tendoo.switchButton()
+	**/
+	public function setAdminWidgets($data)
+	{
+		if(is_array($data))
+		{
+			$data['widget_action']	=	array_key_exists('widget_action',$data) ? $data['widget_action'] : array();
+			$final_values	=	array_diff($data['widget_namespace'],$data['widget_action']);
+			// Retreive all widgets
+			$widget[0]		=	get_user_data( 'widget_0' );			
+			$widget[1]		=	get_user_data( 'widget_1' );
+			$widget[2]		=	get_user_data( 'widget_2' );
+			// Fill null values
+			$widget[0]		=	is_array($widget[0]) ? $widget[0] : array();
+			$widget[1]		=	is_array($widget[1]) ? $widget[1] : array();
+			$widget[2]		=	is_array($widget[2]) ? $widget[2] : array();
+			// Adding activated to admin dashboard if doesn't exist
+			foreach($data['widget_action'] as $w)
+			{
+				if(is_array($widget[1]))
+				{
+					// Si le widget n'existe dans aucun section des widgets (3)
+					if(!in_array($w,$widget[1]) && !in_array($w,$widget[0]) && !in_array($w,$widget[2]))
+					{
+						$widget[1][]	=	$w;
+					}
+				}
+			}
+			set_user_data( 'widget_1' , $widget[1] );
+			// Removed unactivated to admin dashboard position ifset 			
+			for($i = 0;$i < 3;$i++)
+			{
+				if(array_key_exists($i,$widget))
+				{
+					if(is_array($widget[ $i ]))
+					{
+						$restoring	=	array();
+						foreach($widget[ $i ] as $_w)
+						{
+							if(!in_array($_w,$final_values,true))
+							{
+								$restoring[]	=	$_w;
+							}
+						}
+						$widget[ $i ] = $restoring;
+					}
+					set_user_data('widget_'.$i, $widget[ $i ] );
+				}
+			}
+			// var_dump(get_user_data('widget_1'));
+			return $this->setUserElement('ADMIN_WIDGETS_DISABLED',json_encode($final_values,JSON_FORCE_OBJECT));
 		}
 		return false;
 	}
@@ -886,39 +974,6 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		{
 			case 'RELPIMSUSE' : return 'Utilisateur';break;
 		}
-	}
-	// News 0.9.7
-	/*
-		Active / Désactive la fonctionnalité qui affiche le message de bienvenue sur l'emplacement "admin/index"
-			retourne true/false
-	*/
-	public function toggleWelcomeMessage()
-	{
-		if(in_array($this->current('SHOW_WELCOME'),array('1','TRUE')))
-		{
-			$int	=	0;
-		}
-		else
-		{
-			$int	=	1;
-		}
-		return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('SHOW_WELCOME'=>$int));
-	}
-	/*
-		Active / désactive les statistiques sur l'emplacement "admin/index"
-			retourn true/false
-	*/
-	public function switchShowAdminIndex()
-	{
-		if((int)$this->current('SHOW_ADMIN_INDEX_STATS') ==  1)
-		{
-			$int	=	0;
-		}
-		else
-		{
-			$int	=	1;
-		}
-		return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('SHOW_ADMIN_INDEX_STATS'=>$int));
 	}
 	/*
 		Plie / Déplie le panel des applications sur l'emplacement "admin/index"
@@ -1137,5 +1192,42 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			));
 		}
 		return false; // page non reconnue
+	}
+	/**
+	*	isWidgetEnabled
+	**/
+	public function isAdminWidgetEnabled($widget_id)
+	{
+		$adminWidgetsDisabled	=	json_decode(current_user('ADMIN_WIDGETS_DISABLED'),true);
+		$adminWidgetsDisabled	=	$adminWidgetsDisabled	==	null ? array() : $adminWidgetsDisabled;
+		if(in_array($widget_id,array_values($adminWidgetsDisabled)))
+		{
+			return false;
+		}
+		return true;
+	}
+	/**
+	*	resetUserWidgetInterface : Reorganise les widgets sur le tableau de bord
+	**/ 
+	public function resetUserWidgetInterface()
+	{
+		// Suppression préalable
+		set_user_data('widget_0',array());
+		set_user_data('widget_1',array());
+		set_user_data('widget_2',array());
+		// Boucle la !!!
+		for($i = 0;$i < 3;$i++)
+		{
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			if(array_key_exists('widget_'.$i,$_POST))
+			{
+				$values			=	array();
+				if( is_array( $_POST[ 'widget_'.$i ] ) )
+				{
+					$values		=	array_values( $_POST[ 'widget_'.$i ] );
+				}
+				set_user_data( 'widget_'.$i , $values );
+			}
+		}
 	}
 }

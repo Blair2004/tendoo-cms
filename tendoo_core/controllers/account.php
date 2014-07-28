@@ -52,14 +52,22 @@ class Account extends Libraries
 		$this->form_validation->set_rules('avatar_usage','','trim|required');
 		if($this->form_validation->run())
 		{
-			$this->users_global->setAvatarSetting(
+			$status	=	$this->users_global->setAvatarSetting(
 				$this->input->post(	'facebook_profile' ),
 				$this->input->post(	'google_profile' ),
 				$this->input->post( 'twitter_profile' ),
 				$this->input->post( 'avatar_usage' ),
 				'avatar_file'
 			);
-			$this->url->redirect(array('account','update?notice=done'));
+			if($status['error'] > 0)
+			{
+				$text	=	'Mise à jour des champs, une erreur lors de l\'envoi du fichier, vérifier la taille de votre fichier et essayer à nouveau.';
+			}
+			else
+			{
+				$text	=	'Mise à jour des champs et de l\'avatar.';
+			}
+			$this->url->redirect(array('account','update?info='.$text));
 			exit;
 		}
 		$this->load->library('form_validation');
@@ -83,6 +91,11 @@ class Account extends Libraries
 		{
 			$this->users_global->setUserElement('TOWN', $this->input->post('user_town'));
 			$this->url->redirect(array('account','update?notice=userTownUpdated'));
+		}
+		if($this->input->post('user_bio'))
+		{
+			$this->users_global->setUserElement('BIO', $this->input->post('user_bio'));
+			$this->url->redirect(array('account','update?notice=userBioUpdated'));
 		}
 		$user_pseudo 						=	$this->users_global->current('PSEUDO');
 		set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Mise &agrave; jour du profil');
@@ -307,6 +320,29 @@ class Account extends Libraries
 					'response'	=>	array()
 				);
 			}
+		}
+		elseif($action	==	"set_user_data")
+		{
+			if($_POST[ 'key' ] && $_POST[ 'value' ])
+			{
+				if(json_encode(set_user_data($_POST[ 'key' ], $_POST[ 'value' ])))
+				{
+					$result	= array(
+						'status'	=>	'success',
+						'message'	=>	'Les éléments ont correctement été mis à jour.',
+						'alertType'	=>	'notice',
+						'response'	=>	array()
+					);
+				}
+			}
+		}
+		elseif($action	==	"get_user_data")
+		{
+			if($this->input->post( 'key' ))
+			{
+				$result	= json_encode(get_user_data($this->input->post( 'key' )));
+			}
+			$result		= '{}';
 		}
 		echo json_encode($result);
 	}

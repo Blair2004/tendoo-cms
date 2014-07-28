@@ -1,7 +1,7 @@
-<?php echo $lmenu;?>
+<?php echo get_core_vars( 'lmenu' );?>
 <section id="content">
     <section class="vbox">
-        <?php echo $inner_head;?>
+        <?php echo get_core_vars( 'inner_head' );?>
         <section class="scrollable" id="pjax-container">
             <header>
                 <div class="row b-b m-l-none m-r-none">
@@ -17,10 +17,10 @@
                     
                     <div class="row">
                     	<div class="col-lg-8">
-                        	<header class="panel-heading text-center">
-                                Cr&eacute;er un contr&ocirc;leur
-                            </header>
                         	<section class="panel">
+                                <header class="panel-heading text-center">
+                                    Cr&eacute;er un contr&ocirc;leur
+                                </header>
                                 <form method="post" class="panel-body">
                                     <div class="form-group">
                                     	<label class="label-control">Nom du privil&egrave;ge</label>
@@ -42,22 +42,22 @@
                                     	<label class="label-control">Description du privil&egrave;ge</label>
                                         <textarea class="form-control" name="priv_description" placeholder="Description du privil&egrave;ge" title="Description du privil&egrave;ge"><?php echo $getPriv[0]['DESCRIPTION'];?></textarea>
                                     </div>
-                                    <input class="btn <?php echo theme_button_class();?>" type="submit" value="Cr&eacute;er le privil&egrave;ge" />
+                                    <input class="btn <?php echo theme_button_class();?>" type="submit" value="Modifier le privil&egrave;ge" />
                                     <input class="btn btn-danger" type="reset" value="Annuler" />
                                 </form>
                             </section>
                         </div>
                         <div class="col-lg-4">
-                        	<header class="panel-heading text-center">
-                                Plus d'information
-                            </header>
 <?php
 $field_1	=	(form_error('priv_name')) ? form_error('priv_name') : '';
 $field_2	=	(form_error('priv_encoding')) ? form_error('priv_encoding') : '';
 $field_3	=	(form_error('priv_description')) ? form_error('priv_description') : '';
 ?>
     						<section class="panel">
-                            	<div class="wrapper">
+                            	<header class="panel-heading text-center">
+                                    Plus d'information
+                                </header>
+                            	<div class="panel-body">
                                 	<p>Un privil&egrave;ge est un grade qui regroupe un certain nombre d'action. Les actions sont syst&egrave;me et commune. Syst&egrave;me en ce sens o&ugrave; certaines actions natives sont d&eacute;j&agrave; pr&eacute;d&eacute;finies, commune en ce sens o&ugrave; certains modules peuvent ajouter des actions au syst&egrave;me. Vous pouvez attribuer &agrave; un privil&egrave;ge des actions syst&egrave;mes et des actions communes. Le syst&egrave;me de privil&egrave;ge permet de r&eacute;guler les activit&eacute;s des administrateurs.<br /><a href="<?php echo $this->instance->url->site_url(array('admin','system','privilege_list'));?>">Administrer les privil&egrave;ges d&eacute;j&agrave; cr&eacute;e ici.</a></p>
                                 	<ul>
                                     	<?php if(strlen($field_1) > 0):;?><li><?php echo $field_1; ?></li><?php endif;?>

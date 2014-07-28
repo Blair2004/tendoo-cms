@@ -121,6 +121,8 @@ if(!function_exists('fetch_error'))
 		$array['cantHeritFromItSelf']		=	tendoo_error('Ce contr&ocirc;leur ne peut pas &ecirc;tre un sous menu de lui m&ecirc;me. La modification de l\'emplacement &agrave; &eacute;chou&eacute;.');
 		$array['cantSendMsgToYou']			=	tendoo_error('Une erreur s\'est produite, vous ne pouvez pas vous envoyer un message.');
 		$array['unkConSpeAsParent']			=	tendoo_error('Le contr&ocirc;leur (Menu), d&eacute;finie comme parent est introuvable. La modification du contr&ocirc;leur &agrave; &eacute;chou&eacute;.');
+		$array['module_success_enabled']	=	tendoo_success('Le module à correctement été activé.');
+		$array['module_success_disabled']	=	tendoo_success('Le module à correctement été désactivé.');
 		$array['addingActionFailure']		=	tendoo_error('La cr&eacute;ation d\'action pour ce module &agrave; &eacute;chou&eacute;.');
 		$array['subMenuLevelReach']			=	tendoo_error('Impossible de cr&eacute;er ou de modifier ce contr&ocirc;leur, la limitation en terme de sous menu &agrave; &eacute;t&eacute; atteinte. Veuillez choisir un autre menu ou en cr&eacute;er un nouveau.');
 		$array['cantUserReservedCNames']	=	tendoo_error('Ce code du contr&ocirc;leur est un code reserv&eacute;, vous ne pouvez pas l\'utiliser.');
@@ -208,7 +210,7 @@ if(!function_exists('fetch_error'))
 		$array['userStateUpdated']				=	tendoo_success(' Pays correctement mis &agrave; jour.');
 		$array['userSurnameUpdated']			=	tendoo_success(' Pr&eacute;nom correctement mis &agrave; jour.');
 		$array['userNameUpdated']				=	tendoo_success(' Nom correctement mis &agrave; jour.');
-		
+		$array['active_theme_does_not_handle_that']	=	tendoo_warning(' Le thème actif ne prend pas en charge le module attaché à ce contrôleur.');
 		
 		if($e === TRUE)
 		{

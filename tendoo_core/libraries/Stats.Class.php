@@ -132,7 +132,7 @@ class stats
 		else
 		{
 			$currentDate	=	$this->instance->date->datetime();
-			$timeDecompose	=	$this->instance->date->datetime($currentDate,TRUE);
+			$timeDecompose	=	$this->instance->date->time($currentDate,TRUE);
 			$array['statistics']['global'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	0;
 			$array['statistics']['unique'][$timeDecompose['y']][$timeDecompose['M']]['totalVisits']	=	0;
 			$array['ordered']	=	null;

@@ -5,15 +5,11 @@ class Visual_editor
 	public function __construct()
 	{
 		$this->instance		=	get_instance();
+		$this->instance->file->js_push('ckeditor/ckeditor');
+		$this->instance->file->js_push('ckeditor/adapters/jquery');
 	}
-	public function loadEditor($id=1)
+	public function loadEditor($id=1)// Obsolète
 	{
-		$this->loaded_editor	=	$id;
-		if($id == 1)
-		{
-			$this->instance->file->js_push('ckeditor/ckeditor');
-			$this->instance->file->js_push('ckeditor/adapters/jquery');
-		}
 	}
 	public function getEditor($values,$type	=	'editor')
 	{
@@ -98,22 +94,17 @@ class Visual_editor
 		{
 			$defValue	=	'';
 		}
-		switch($this->loaded_editor)
-		{
-			case 1	:
-				if(!array_key_exists('id',$values)): $values['id']		=	'';endif;
-				if(!array_key_exists('name',$values)): $values['name']	=	'';endif;
-			return "<textarea class=\"cked\" name=\"".$values['name']."\" id=\"".$values['id']."\" style='height:".$default['height']."px;width:".$default['width']."px;'>".$defValue."</textarea>
-			<script>
-			".$customConfig."
-			var ".$values['id']."	=	
-			CKEDITOR.replace('".$values['id']."',{
-				".$toolBarConfig.",
-				heigth	:	'500px'
-			});
-			</script>
-				";
-			break;
-		}
+		if(!array_key_exists('id',$values)): $values['id']		=	'';endif;
+		if(!array_key_exists('name',$values)): $values['name']	=	'';endif;
+		return "<textarea class=\"cked\" name=\"".$values['name']."\" id=\"".$values['id']."\" style='height:".$default['height']."px;width:".$default['width']."px;'>".$defValue."</textarea>
+		<script>
+		".$customConfig."
+		var ".$values['id']."	=	
+		CKEDITOR.replace('".$values['id']."',{
+			".$toolBarConfig.",
+			heigth	:	'500px'
+		});
+		</script>
+			";
 	}
 }

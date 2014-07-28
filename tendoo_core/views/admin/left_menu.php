@@ -1,4 +1,4 @@
-<aside class="<?php echo theme_class();?> aside-sm nav-vertical" id="nav" data-intro="Accédez à différents emplacements à l'aide de ce menu." data-step="2" data-position="right">
+<aside class="<?php echo theme_class();?> aside-sm <?php echo get_user_data( 'admin-left-menu-status' );?>" id="nav" data-intro="Accédez à différents emplacements à l'aide de ce menu." data-step="2" data-position="right">
     <section class="vbox">
         <header class="dker nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 
@@ -25,10 +25,10 @@
 		</footer>
         <section>
 		<?php 
-		if($tendoo_core_update !== FALSE)
+		if(get_core_vars( 'tendoo_core_update' ) !== FALSE)
 		{
 			$ttNotice	=	0;
-			foreach($tendoo_core_update as $global_notices)
+			foreach(get_core_vars( 'tendoo_core_update' ) as $global_notices)
 			{
 				$ttNotice +=	count($global_notices);
 			}
@@ -55,7 +55,7 @@
 										</header> 
 										<div class="list-group"> 
 											<?php
-											foreach($tendoo_core_update as $global_notices)
+											foreach(get_core_vars( 'tendoo_core_update' ) as $global_notices)
 											{
 												foreach($global_notices as $unique_notice)
 												{
@@ -114,9 +114,10 @@
 		}
 		?>
 			<nav class="nav-primary hidden-xs">
-                <ul class="nav">					
-					<?php echo $this->instance->tendoo_admin->parseMenuBefore();?>
-                    <li> <a data-intro="Accédez à cet emplacement pour créer des pages et affecter des modules ou un lien." data-step="3" data-position="right" href="<?php echo $this->instance->url->site_url('admin/pages');?>"> <i class="fa fa-bookmark"></i> <span>Pages</span> </a>                    </li>
+                <ul class="nav">
+                	<?php echo get_admin_left_menus();?>					
+					<?php // $this->instance->tendoo_admin->parseMenuBefore();?>
+                    <li> <a data-intro="Accédez à cet emplacement pour créer des pages et affecter des modules ou un lien." data-step="3" data-position="right" href="<?php echo $this->instance->url->site_url('admin/controllers');?>"> <i class="fa fa-bookmark"></i> <span>Contrôleurs</span> </a>                    </li>
                     
                     <li class="dropdown-submenu" data-intro="Accédez à cet emplacement pour installer de nouvelles applications, gérer les modules et les thèmes déjà installés." data-step="4" data-position="right"> <a href="<?php echo $this->instance->url->site_url('admin/installer');?>"> <i class="fa fa-flask"></i> <span>Installer</span> </a>
                     </li>
@@ -143,7 +144,7 @@
                     <?php
 					}
 					?>
-                    <li> <a data-intro="Après avoir finis vos configurations, cliquez sur ce lien pour accéder à l'interface publique de votre site web." data-step="9" data-position="right" href="<?php echo $this->instance->url->site_url('index');?>"> <i class="fa fa-sign-out"></i> <span>Retour</span> </a> </li>
+                    <li> <a target="_top _blank" data-intro="Après avoir finis vos configurations, cliquez sur ce lien pour accéder à l'interface publique de votre site web." data-step="9" data-position="right" href="<?php echo $this->instance->url->site_url('index');?>"> <i class="fa fa-sign-out"></i> <span>Retour</span> </a> </li>
                     
 					<?php $this->instance->tendoo_admin->parseMenuAfter();?>
                 </ul>

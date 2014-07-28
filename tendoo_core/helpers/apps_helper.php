@@ -1,11 +1,62 @@
 <?php
 	/**
+	*	bind_event( 'event' , 'do' )
+	**/
+	function bind_event( $event , $do){ 
+		$saved_events			=	get_core_vars( 'get_core_events' ) ? get_core_vars( 'get_core_events' ) : array();
+		$current_event			=	return_if_array_key_exists( $event , $saved_events );
+		if( !$current_event ) : $saved_events[$event] = array() ; endif;
+		$saved_events[$event][]	= 	$do;
+		return set_core_vars( 'get_core_events' , $saved_events );
+	}
+	/**
+	*	trigger_events() : déclenche les évenements attachés
+	**/
+	function trigger_events( $events , $params = array() ){
+		if( $current_events = has_events( $events ) )
+		{
+			$result;
+			foreach( $current_events as $event )
+			{
+				if( is_string( $event ) )
+				{
+					if( function_exists( $event ) )
+					{
+						$result	=	$event( $params );
+					}
+				}
+				else if( is_array( $event ) )
+				{
+					if( is_object( $event[0] ) )
+					{
+						if( method_exists( $event[0] , $event[1] ) )
+						{
+							$result	= $event[0]->$event[1]( $params );
+						}
+					}
+				}
+			}
+			return ( $result != null ) ? $result : false;
+		}
+		return false;
+	}
+	function has_events( $events ){
+		$events_binded		=	get_core_vars( 'get_core_events' );
+		$current_events		=	return_if_array_key_exists( $events , $events_binded );
+		if( is_array( $current_events ) )
+		{
+			return $current_events;
+		}
+		return false;
+	};
+	/**
 	*	bootstrap_pagination_parser, génère une liste de lien au format HTML de bootstrap.
 	**/
-	function bootstrap_pagination_parser($array,$additionnal_classes = "pagination-sm m-t-none m-b-none")
+	function bootstrap_pagination_parser($array,$additionnal_class = "pagination-sm m-t-none m-b-none")
 	{
 		?>
-    <ul class="pagination <?php echo $additionnal_classes;?>">
+
+<ul class="pagination <?php echo $additionnal_class;?>">
     <?php 
 	
     if(is_array($array[1]))
@@ -15,20 +66,20 @@
 			if(isset($_GET['limit']))
 			{
 			?>
-			<li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>?limit=<?php echo $_GET['limit'];?>"><?php echo $p['text'];?></a></li>
-			<?php
+    <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>?limit=<?php echo $_GET['limit'];?>"><?php echo $p['text'];?></a></li>
+    <?php
 			}
 			else
 			{
 				?>
-			<li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
-			<?php
+    <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
+    <?php
 			}
 		}
     }
     ?>
-    </ul>
-	<?php
+</ul>
+<?php
 	}
 	/**
 	*	pagination_helper Renvoi un tableau d'une pagination effectué avec les paramètres envoyés à la fonction
@@ -118,7 +169,7 @@
 		$instance	=	get_instance();
 		if(SCRIPT_CONTEXT == 'ADMIN')
 		{
-			if(true == ($module	=	get_core_array('module')))
+			if(true == ($module	=	get_core_vars( 'opened_module' )))
 			{
 				if(is_array($segments))
 				{
@@ -132,7 +183,7 @@
 		}
 		else
 		{
-			if(true == ($page	=	get_core_array('page')))
+			if(true == ($page	=	get_core_vars('page')))
 			{
 				if(is_array($segments))
 				{
@@ -149,56 +200,55 @@
 	function module_location($segments)
 	{
 		$instance	=	get_instance();
-		if(isset($instance->data))
+		if(SCRIPT_CONTEXT == 'ADMIN')
 		{
-			if(SCRIPT_CONTEXT == 'ADMIN')
+			if(get_core_vars('module'))
 			{
-				if(array_key_exists('module',$instance->data))
+				$module	=	get_core_vars('module');
+				if(is_array($segments))
 				{
-					if(is_array($segments))
+					$baseSegments	=	array(
+					'admin','open','modules',$module[0]['ID']);
+					// Nous ajoutons les segments aux segments de base
+					foreach($segments as $seg)
 					{
-						$baseSegments	=	array(
-						'admin','open','modules',$instance->data['module'][0]['ID']);
-						// Nous ajoutons les segments aux segments de base
-						foreach($segments as $seg)
-						{
-							array_push($baseSegments,$seg);
-						}
-						$instance->url->redirect($baseSegments);
+						array_push($baseSegments,$seg);
 					}
-					else
-					{
-						$baseSegments	=	array(
-						'admin','open','modules',$instance->data['module'][0]['ID']);
-						// Nous ajoutons le segment aux segments de base
-						array_push($baseSegments,$segments);
-						$instance->url->redirect($baseSegments);
-						return $instance->url->site_url($baseSegments);
-					}
+					$instance->url->redirect($baseSegments);
+				}
+				else
+				{
+					$baseSegments	=	array(
+					'admin','open','modules',$module[0]['ID']);
+					// Nous ajoutons le segment aux segments de base
+					array_push($baseSegments,$segments);
+					$instance->url->redirect($baseSegments);
+					return $instance->url->site_url($baseSegments);
 				}
 			}
-			else
+		}
+		else
+		{
+			if(get_core_vars('module'))
 			{
-				if(array_key_exists('module',$instance->data))
+				$page	=	get_core_vars('page');
+				if(is_array($segments))
 				{
-					if(is_array($segments))
+					$baseSegments	=	array($page[0]['PAGE_CNAME']);
+					// Nous ajoutons les segments aux segments de base
+					foreach($segments as $seg)
 					{
-						$baseSegments	=	array($instance->data['page'][0]['PAGE_CNAME']);
-						// Nous ajoutons les segments aux segments de base
-						foreach($segments as $seg)
-						{
-							array_push($baseSegments,$seg);
-						}
-						$instance->url->redirect($baseSegments);
+						array_push($baseSegments,$seg);
 					}
-					else
-					{
-						$baseSegments	=	array($instance->data['page'][0]['PAGE_CNAME']);
-						// Nous ajoutons le segment aux segments de base
-						array_push($baseSegments,$segments);
-						$instance->url->redirect($baseSegments);
-						return $instance->url->site_url($baseSegments);
-					}
+					$instance->url->redirect($baseSegments);
+				}
+				else
+				{
+					$baseSegments	=	array($page[0]['PAGE_CNAME']);
+					// Nous ajoutons le segment aux segments de base
+					array_push($baseSegments,$segments);
+					$instance->url->redirect($baseSegments);
+					return $instance->url->site_url($baseSegments);
 				}
 			}
 		}
@@ -206,7 +256,7 @@
 	}
 	function theme_assets_url($url)
 	{
-		$activeTheme	=	get_core_array('activeTheme');
+		$activeTheme	=	get_core_vars('activeTheme');
 		if(is_array($url))	
 			return THEMES_DIR.$activeTheme['ENCRYPTED_DIR'].'/'.$instance->url->array2Url($url);
 		else 
@@ -278,7 +328,7 @@
 	function site_options($specified_key = null)
 	{
 		$instance	=	get_instance();
-		if($specified_key != null)
+		if($specified_key == null)
 		{
 			$options	=	$instance->options->get();
 			return $options[0];
@@ -319,7 +369,7 @@
 				return $instance->users_global->isAdmin();
 				break;
 				case "issuperadmin"	:
-				return $instance->users_global->isAdmin();
+				return $instance->users_global->isSuperAdmin();
 				break;
 				case "show_menu"	:
 				return $instance->users_global->setMenuStatus('show_menu');
@@ -327,11 +377,21 @@
 				case "hide_menu"	:
 				return $instance->users_global->setMenuStatus('hide_menu');
 				break;
-				case "margin"	:
-				return $instance->users_global->isConnected() ? 'style="margin-top:30px"' : '';
+				case "top_margin"	:
+				return $instance->users_global->isConnected() ? 'style="margin-top:38px"' : '';
+				break;
+				case "top_offset"	:	
+				return $instance->users_global->isConnected() ? 'style="top:38px"' : '';
 				break;
 				default :
-				return $instance->users_global->current($input);
+					if(method_exists($instance->users_global,$input))
+					{
+						return $instance->users_global->$input();
+					}
+					else
+					{
+						return $instance->users_global->current($input);	
+					}
 				break;
 			}
 		}
@@ -344,15 +404,41 @@
 		$instance	=	get_instance();
 		if($element == 'css')
 		{
-			return $instance->file->css_load();
+			echo $instance->file->css_load();
 		}
 		else if($element == 'js')
 		{
-			return $instance->file->js_load();
+			echo $instance->file->js_load();
 		}
 		else if($element == 'notice')
 		{
-			return notice('parse');
+			echo notice('parse');
+		}
+		else if($element == 'headers') // must be added to each theme head
+		{
+			// Including new UserBar css
+			css_push_if_not_exists('tendoo_userbar',$instance->url->main_url().'/tendoo_assets/css/');
+			// Ouputing CSS and JS
+			output('css');
+			output('js');
+		}
+		else if($element == 'headers_css') // must be added to each theme head
+		{
+			// Including new UserBar css
+			css_push_if_not_exists('tendoo_userbar',$instance->url->main_url().'/tendoo_assets/css/');
+			// Ouputing CSS and JS
+			output('css');
+		}
+		else if($element == 'footers')
+		{
+			
+		}
+		else
+		{
+			if(function_exists('ouput_'.$element))
+			{
+				eval('ouput_'.$element.'();');
+			}
 		}
 	}
 	/**
@@ -412,23 +498,50 @@
 		}
 	}
 	/**
-	*	update_core_array
+	*	set_core_vars
 	*	Ajoute une valeur au tableau du system
 	**/
-	function update_core_array($key,$value)
+	function set_core_vars($key,$value,$access = 'writable')
 	{
 		$instance	=	get_instance();
-		return $instance->update_core_array($key,$value);
+		return $instance->set_core_vars($key,$value,$access);
 	}
 	/**
-	*	get_core_array()
+	*	get_core_vars()
 	*	Recupère un champ sur le tableau du système.
 	**/
-	function get_core_array($key)
+	function get_core_vars($key = null)
 	{
 		$instance	=	get_instance();
-		return $instance->get_core_array($key);
+		if($key == null)
+		{
+			$simple_values	=	array();
+			// valeur plus accessibilité (read_only ou writable)
+			foreach($instance->get_core_vars() as $key	=>	$vars)
+			{
+				$simple_values[ $key ] =	$vars[0];
+			}
+			return $simple_values;
+		}
+		else
+		{
+			$instance	=	get_instance();
+			return $instance->get_core_vars($key);
+		}
 	}
+	/**
+	*	push_core_vars : ajoute une nouvelle valeur à un tableau déjà existant dans le tableau du noyau
+	**/
+	function push_core_vars( $key , $var , $value = null ){
+		$vars	=	get_core_vars( $key , $var );
+		if( $vars ){
+			if( $value != null ){
+				$vars[ $var ] =	$value;
+				return set_core_vars( $key , $vars );
+			}
+		};
+		return false;
+	};
 	/**
 	*	get recupère des informations sur le système.
 	**/
@@ -443,12 +556,15 @@
 			case "core_id"	:
 				return $instance->id();
 			break;
+			case "declared_shortcuts"	:
+				return get_declared_shortcuts();
+			break;				
 		}
 	}
 	/**
 	*	set_options()
 	**/
-	function set_options($array,$process = "from_admin_internface") // Modifie les options du site
+	function set_options($array,$process = "from_admin_interface") // Modifie les options du site
 	{
 		if(in_array($process,array("from_admin_interface","from_install_interface")))
 		{
@@ -464,3 +580,576 @@
 		$instance	=	get_instance();
 		return $instance->options->get();
 	}
+	/**
+	*	declare_notices : enregistre des nofication dans le système pour l'éxécution du script en cours.
+	**/
+	function declare_notice($key,$notice_text)
+	{
+		return declare_notices($key,$notice_text);
+	}
+	function declare_notices($array,$notice_text) // add to doc new tendoo 1.2
+	{
+		// Utilisation de la variable globale
+		global $NOTICE_SUPER_ARRAY;
+		if(!is_array($array))
+		{
+			$NOTICE_SUPER_ARRAY[$array]	=	$notice_text;
+		}
+		else
+		{
+			foreach($array as $k => $v)
+			{
+				$NOTICE_SUPER_ARRAY[$k]	=	$v;
+			}
+		}
+	}	
+	/**
+	*	declare_shortcut
+	**/
+	function declare_shortcut($text,$link,$mod_namespace = '',$mod_name = '')
+	{
+		if(is_array($text))
+		{
+			if(array_key_exists('text',$text) &&
+			array_key_exists('link',$text) &&
+			array_key_exists('mod_namespace',$text) &&
+			array_key_exists('mod_name',$text))
+			{
+				return declare_shortcut($text['text'],$text['link'],$text['mod_namespace'],$text['mod_name']);
+			}
+			return false;
+		}
+		else
+		{
+			$declared	=	get_core_vars('declared_shortcuts') ? get_core_vars('declared_shortcuts') : array();
+			$shortcut	=	array(
+				'link'				=>	$link,
+				'text'				=>	$text,
+				'mod_namespace'		=>	$mod_namespace,
+				'mod_name'			=>	$mod_name
+			);
+			array_push($declared,$shortcut);
+			return set_core_vars('declared_shortcuts',$declared);
+		}
+	}
+	function declare_shortcuts($text,$link,$mod_namespace = '',$mod_name = '')
+	{
+		return declare_shorcut($text,$link,$mod_namespace,$mod_name);
+	}
+	function get_declared_shortcuts()
+	{
+		return get_core_vars('declared_shortcuts');
+	}
+	/**
+	*	get_module()
+	**/
+	function get_modules($element = 'all',$filter = 'filter_id',$where = '', $value = '')
+	{
+		// Must Specify a valid filter
+		if(!in_array($filter,array('filter_id','filter_namespace','filter_nothing')))
+		{
+			return false;
+		}
+		$DB	=	get_db();
+		if($where != '' && $value != '')
+		{
+			$DB->where($where,$value);
+		}
+		if($filter == 'filter_id')
+		{
+			$DB->where('ID',$element);
+		}
+		else if($filter == 'filter_namespace')
+		{
+			$DB->where('NAMESPACE',$element);
+		}
+		$query	=	$DB->get('tendoo_modules');
+		return $query->result_array();
+	}
+	/**
+	*	get_themes()
+	**/
+	function get_themes( $element = 'all', $filter = 'filter_id' , $where = '', $value = '')
+	{
+		// Must Specify a valid filter
+		if(!in_array($filter,array('filter_id','filter_namespace','filter_active')))
+		{
+			return false;
+		}
+		$DB	=	get_db();
+		if($where != '' && $value != '')
+		{
+			$DB->where($where,$value);
+		}
+		if($filter == 'filter_id')
+		{
+			$DB->where('ID',$element);
+		}
+		else if($filter == 'filter_namespace')
+		{
+			$DB->where('NAMESPACE',$element);
+		}
+		else if($filter == 'filter_active')
+		{
+			$DB->where('ACTIVATED',"TRUE");
+		}
+		$query	=	$DB->get('tendoo_themes');
+		return $query->result_array();
+	}
+	/**
+	*	does_active_theme_support : vérifie la compatibilité du thème actif, avec les applications insallés, affiche une
+	*	alerte dans le cas contraire.
+	*	"activeTheme" est déclaré sur tendoo_core/controllers/admin.php ::__construct()
+	* 	"activeTheme" est déclaré sur tendoo_core/Systeme.Core.php ::boot()
+	**/
+	function does_active_theme_support($APP)
+	{
+		$active_theme	=	get_core_vars( 'activeTheme' );
+
+		if( $active_theme )	{
+			$app_supported	=	return_if_array_key_exists( 'APPS_COMPATIBILITY' , $active_theme );			
+			if( is_array( $app_supported ) )
+			{
+				if( in_array( $APP , $app_supported ) )
+				{
+					return true;
+				}
+			}
+			// Si la valeur renvoyé n'est pas un booléen, alors le thème sera utilisé pour afficher l'alerte.
+			return $active_theme;
+		}
+		
+		return false;
+	}
+	/**
+	*	set_app_compatibility() : définit une compatibilité pour un thème.
+	**/
+	function active_theme_compatibility( $APP ){
+		if( is_array( $APP ) )
+		{
+			foreach( $APP as $_app )
+			{
+				active_theme_compatibility( $_app );
+			}
+			return true;
+		}
+		else
+		{
+			$apps_supported	=	get_active_theme_vars( 'APPS_COMPATIBILITY' )
+				? get_active_theme_vars( 'APPS_COMPATIBILITY' ) : array();
+				$apps_supported[]	=	$APP;			
+			return set_active_theme_vars( 'APPS_COMPATIBILITY' , $apps_supported );
+		}
+		return false;
+	}
+	function set_active_theme_vars( $key , $value ){
+		$active_theme	=	get_core_vars( 'activeTheme' );
+		if( $active_theme ) {
+			$active_theme[ $key ] =	$value;
+			return set_core_vars( 'activeTheme' , $active_theme );
+		}
+		return false;
+	}
+	function get_active_theme_vars( $key ){
+		$active_theme	=	get_core_vars( 'activeTheme' );
+		return return_if_array_key_exists( $key , $active_theme );
+	}
+	/**
+	*	declare_admin_widget()
+	*	Autorise la déclaration des widgets qui seront affiché à l'accueil du tableau de bord via tepas.
+	**/
+	function declare_admin_widget($widget,$widget_form = "normal_form") // allowed form collapsible_form, normal_form...
+	{	
+		$process	=	true;
+		$widget['widget_form']	=	$widget_form;
+		foreach(array('module_namespace','widget_namespace','widget_title','widget_description','widget_content') as $keys)
+		{
+			if(!in_array($keys,array_keys($widget)))
+			{
+				$process	=	false;
+			}
+		}
+		if($process == true)
+		{
+			if(!get_core_vars('admin_widgets'))
+			{
+				set_core_vars('admin_widgets',array());
+			}
+			// Lorsque le control de l'accéssibilité à une action a échoué, le widget n'est pas chargé
+			if(array_key_exists('action_control',$widget))
+			{
+				if($widget['action_control'] !== true)
+				{
+					return false;
+				}
+			}
+			$declared_admin_widgets	=	get_core_vars('admin_widgets');
+			array_push($declared_admin_widgets,$widget);
+			return set_core_vars('admin_widgets',$declared_admin_widgets);
+		}
+		return false;
+	}
+	function get_declared_admin_widgets()
+	{
+		return get_core_vars('admin_widgets');
+	}
+	function ouput_admin_widgets()
+	{
+		function __get_sections_widgets($admin_widgets, $section = 0)
+		{
+			$widget		=	array();
+			$widget[0]	=	get_data('widget_0', 'from_user_options' );
+			$widget[1]	=	get_data('widget_1', 'from_user_options' );
+			$widget[2]	=	get_data('widget_2', 'from_user_options' );
+			// var_dump($widget);
+			// Uniquement si le widget est disponible, on l'ajoute
+			if(array_key_exists($section,$widget))
+			{
+				if($widget[$section] != null)
+				{
+					// Parcours de l'ordre des widgets
+					for($i=0; $i < count($widget[$section]); $i++)
+					{
+						foreach($admin_widgets as $value)
+						{
+							$widget_id	=	$value['widget_namespace'].'/'.$value['module_namespace'];
+							// Verifie si le widget existe ou s'il vient d'être ajouté
+							if($section == 1)
+							{
+								$new_widget_exists	=	FALSE;
+								foreach($widget as $_s)
+								{
+									if(in_array($widget_id,$_s))
+									{
+										// Si le widget existe, déclare qu'il existe, donc il ne faut pas l'ajouter en plus
+										$new_widget_exists	=	TRUE;
+									}
+								}
+								// On ajoute le nouveau widget par défaut dans la colonne 1
+								if($new_widget_exists == FALSE)
+								{
+									array_push($widget[$section],$widget_id);
+								}
+							}
+							if($widget_id	==	$widget[$section][$i])
+							{
+								// Filtre, ne seront affiché que ceux qui sont activés.
+								if(admin_widget_is_enabled($value['widget_namespace'].'/'.$value['module_namespace']))
+								{
+									
+									?>
+									<div 
+										widget_id="<?php echo $value['widget_namespace'];?>/<?php echo $value['module_namespace'];?>"
+									>
+										<?php 
+										if($value['widget_form']	==	"normal_form") // ideas : collapsible_form
+										{
+											echo $value[ 'widget_content' ];
+										}
+										?>
+									</div>
+									<?php
+			
+								}
+							}
+							// For new Admin Widget
+						}
+					}
+				}
+			}
+		}
+		// 5 colonnes par défaut
+		$admin_widgets	=	get_core_vars( 'admin_widgets' );
+		// var_dump( $admin_widgets );
+		if(is_array($admin_widgets))
+		{
+			for($i = 0;$i < 3;$i++)
+			{
+				if($i == 0)
+				{
+			?>
+            <div class="col-lg-4 draggable_widgets">
+            	<?php echo __get_sections_widgets($admin_widgets,0);?>
+            </div>
+            <?php
+				}
+				else if($i == 1)
+				{
+					?>
+            <div class="col-lg-5 draggable_widgets">
+            	<?php echo __get_sections_widgets($admin_widgets,1);?>
+            </div>
+            <?php
+				}
+				else
+				{
+					?>
+			<div class="col-lg-3 draggable_widgets">
+            	<?php echo __get_sections_widgets($admin_widgets,2);?>
+            </div>
+                    <?Php
+				}
+			}
+			?>
+            <script>
+				$(document).ready(function(){
+					function __doSort(event,ui){
+						ui.item.closest(".draggable_widgets").parent().find('.draggable_widgets').each(function(){
+							$(this).children(function(){
+								alert($(this).attr('widget_id'));
+							})
+						});
+						var tab		=	new Array;
+						var section	=	0;
+						var newSet	=	{};
+						$('.draggable_widgets').each(function(){
+							if(typeof tab[section] == 'undefined')
+							{
+								tab[section] = new Array;
+							}
+							$(this).find('div[widget_id]').each(function(){
+								tab[section].push($(this).attr('widget_id'));
+							});
+							// Saving Each Fields	
+							_.extend(newSet,_.object([ "widget_"+section ],[ tab [ section ] ]));
+							section++;
+						});
+						$.ajax(tendoo.url.site_url('admin/ajax/resetUserWidgetInterface'),{
+							dataType	:	'json',
+							type		:	'POST',
+							data		:	newSet
+						});
+					}
+					var actionAllower	=	{};
+					$('.draggable_widgets').sortable({
+						grid			:	[ 10 , 10 ],
+						connectWith		: 	".draggable_widgets",
+						items			:	"div[widget_id]",
+						placeholder		:	"widget-placeholder",
+						forceHelperSize	:	false,
+						forcePlaceholderSize	:	true,
+						stop			:	function(event, ui){
+							__doSort(event, ui);
+						},
+						delay			: 	150 
+					});
+				});
+				</script>
+            <?php
+		}
+		return false;
+	}
+	function admin_widget_is_enabled($widget_id) // "widget_namespace_module_namespace"
+	{
+		//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$userDisabledWidget	=	json_decode(current_user('ADMIN_WIDGETS_DISABLED'),true);
+		$userDisabledWidget	=	is_array($userDisabledWidget) ? $userDisabledWidget : array();
+		//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		if(in_array($widget_id,$userDisabledWidget))
+		{
+			return false;
+		}
+		return true;
+	}
+	/**
+	*	Engage passive Scripting
+	**/
+	function engage_tepas()
+	{
+		if(!defined('TEPAS_CALLED'))
+		{
+			define( 'TEPAS_CALLED' , 'TRUE');
+			$tos_module_enabled	=	get_modules( 'all' , 'filter_nothing' , 'HAS_PASSIVE_SCRIPTING' , 1 );
+			if($tos_module_enabled)
+			{
+				foreach($tos_module_enabled as $m)
+				{
+					$tepas_file	=	MODULES_DIR.$m['ENCRYPTED_DIR'].'/tepas.php';
+					if(is_file($tepas_file))
+					{
+						include_once($tepas_file);
+						if(class_exists($m['NAMESPACE'].'_tepas_class'))
+						{
+							eval('new '.$m['NAMESPACE'].'_tepas_class($m);');
+						}
+					}
+				}
+			}
+			// Tepas enabled only on active theme
+			$active_theme		=	get_themes( 'all' , 'filter_active' );
+			$tepas_file			=	THEMES_DIR . $active_theme[0][ 'ENCRYPTED_DIR' ] . '/tepas.php';
+			if( is_file( $tepas_file ) )
+			{
+				include_once( $tepas_file );
+				if( class_exists( $active_theme[0][ 'NAMESPACE' ] . '_theme_tepas_class' ) )
+				{
+					eval( 'new '. $active_theme[0][ 'NAMESPACE' ] . '_theme_tepas_class($active_theme);' );
+				}
+			}
+		}
+	}
+	/**
+	*	get_data()
+	**/
+	function get_data($key,$source	=	"from_options") // to doc
+	{
+		if($source	==	"from_options")
+		{
+			$options			=	get_options();
+			$decoded			=	json_decode($options[0][ 'LIGHT_DATA' ],TRUE);
+			if(!in_array($decoded,array(null,false),true))
+			{
+				if(array_key_exists($key,$decoded))
+				{
+					return $decoded[ $key ];
+				}
+			}
+		}
+		else if($source	==	"from_user_options")
+		{
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			get_instance()->users_global->refreshUser();
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			$decoded			=	json_decode( current_user( 'LIGHT_DATA' ), TRUE );
+			if(!in_array($decoded,array(null,false),true))
+			{
+				if(array_key_exists($key,$decoded))
+				{
+					return $decoded[ $key ];
+				}
+			}
+		}
+		return false;
+	}
+	/**
+	*	set_data()
+	*	futur : ajouter un timestamp à une clé et leur donner uen valeur d'un mois.
+	**/
+	function set_data($key,$value,$source	=	 "from_options")
+	{
+		if($source	==	"from_options")
+		{
+			$options		=	get_options();
+			$decoded		=	json_decode($options[0][ 'LIGHT_DATA' ],TRUE);
+			$light_array	=	array();
+			if(!in_array($decoded,array(null,false),true))
+			{
+				$light_array	=	 $decoded;
+			}
+			$light_array[ $key ] 	=	$value;
+			return set_options(array(
+				'LIGHT_DATA' =>	json_encode($light_array, JSON_FORCE_OBJECT)
+			));
+		}
+		else if($source	==	"from_user_options")
+		{
+			// -=-=-=-=
+			get_instance()->users_global->refreshUser();
+			// -=-=-=-=
+			$userOptions	=	json_decode(current_user( 'LIGHT_DATA' ),TRUE);
+			if(in_array($userOptions,array(null,false),true))
+			{
+				$userOptions	=	array();
+			}
+			$userOptions[ $key ]	=	 $value;
+			get_instance()->users_global->setUserElement( 'LIGHT_DATA' , json_encode( $userOptions , JSON_FORCE_OBJECT ) );
+		}
+	}
+	/**
+	*	unset_data()
+	**/
+	function unset_data($key, $source	=	"from_options")
+	{
+		if($source	==	"from_options")
+		{
+			$options		=	get_options();
+			$decoded		=	json_decode($options[0][ 'LIGHT_DATA' ],TRUE);
+			if(!in_array($decoded,array(null,false),true))
+			{
+				if(array_key_exists($key,$decoded))
+				{
+					unset($decoded[ $key ]);
+				}
+			}
+			return set_options(array(
+				'LIGHT_DATA' =>	json_encode($decoded)
+			));
+		}
+		else if($source	==	"from_user_options")
+		{
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+				get_instance()->users_global->refreshUser();
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			$userOptions	=	json_decode(current_user( 'LIGHT_DATA' ),TRUE);
+			if(!in_array($userOptions,array(null,false),true))
+			{
+				if(array_key_exists( $key , $userOptions ))
+				{
+					unset( $userOptions[ $key ] );
+				}
+			}
+			get_instance()->users_global->setUserElement( "LIGHT_DATA" , json_encode($userOptions, JSON_FORCE_OBJECT) );
+		}
+	}
+	/**
+	*	set_admin_menu
+	**/
+	function setup_admin_left_menu( $title , $icon ){
+		return set_core_vars( 'admin_left_menu' , array(
+			'text'		=>	$title,
+			'icon'		=>	$icon
+		) );
+	}
+	function add_admin_left_menu( $title , $link ){
+		$saved_menus	=	get_core_vars( 'admin_left_menus' ) ? get_core_vars( 'admin_left_menus' ) : array();
+		$saved_menus[]	=	array(
+			'text'		=>	$title,
+			'link'		=>	$link
+		);
+		set_core_vars( 'admin_left_menus' , $saved_menus );
+	};
+	function get_admin_left_menus(){
+		$saved_menu			=		get_core_vars( 'admin_left_menus' );
+		$left_menu_config	=		get_core_vars( 'admin_left_menu' );
+		if( $left_menu_config )
+		{
+		?>
+        <li class="dropdown-submenu">
+        	<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+            	<i class="fa fa-<?php echo $left_menu_config[ 'icon' ];?>"></i>
+				<?php echo $left_menu_config[ 'text' ];?>
+			</a>
+            <?php if(is_array( $saved_menu ) ) : ?>
+            <ul class="dropdown-menu">
+            	<?php foreach( $saved_menu as $menu ){ ?>
+					<li><a href="<?php echo $menu[ 'link' ];?>"> <?php echo $menu[ 'text' ];?></a></li>
+                <?php }?>
+            </ul>
+            <?php endif;?>
+        </li>
+        <?php
+		}
+	}
+	/**
+	*	declare_api( $api_namespace , $callback_api )
+	* 	Les API ne sont définie qu'une seule fois !!
+	**/
+	function declare_api( $api_namespace, $human_name , $callback_api ){
+		$declared_api	=	get_core_vars( 'api_declared' ) ? get_core_vars( 'api_declared' ) : array();
+		if( !return_if_array_key_exists( $api_namespace , $declared_api ) ){
+			$declared_api[ $api_namespace ] = array(
+				'callback'		=>	$callback_api ,
+				'human_name'	=>	$human_name,
+				'namespace'		=>	$api_namespace
+			); // CallBack API cant be a function declared on public context on array with object and method
+			return set_core_vars( 'api_declared' , $declared_api );
+		}
+		return false;
+	}
+	/**
+	*	Return Declared API
+	**/
+	function get_apis(){
+		return get_core_vars( 'api_declared' );
+	};
+ 

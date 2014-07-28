@@ -51,11 +51,11 @@
 		$visitLine	=	'';
 	}
  ?>
-<?php echo $lmenu;?>
+<?php echo get_core_vars( 'lmenu' );?>
 
 <section id="content">
   <section class="vbox">
-    <?php echo $inner_head;?>
+    <?php echo get_core_vars( 'inner_head' );?>
     <section class="scrollable" id="pjax-container">
       <header>
       <div class="row b-b m-l-none m-r-none">

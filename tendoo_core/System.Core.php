@@ -4,6 +4,7 @@ Class instance extends Libraries
 	private $is_installed			=	false;
 	private $db_connected			=	false;
 	private $data					=	array();
+	private $core_vars				=	array();
 	public static $instance;
 	public function __construct()
 	{
@@ -189,30 +190,46 @@ Class instance extends Libraries
 					$this->tendoo->error('db_connect_error');
 					die();
 				}
-				$this->load->library(	'stats'	);
-				$this->load->library(	'menu'	);
+				$this->load->library( 'stats' );
 				// LOAD SYSTEME VARS
 				$this->data['url_module']	=		$Teurmola[1];
 				
-				$this->data['options']		=		get_options();
-				$this->data['controllers']	=		$this->tendoo->get_pages('',FALSE); // Get every page with their childrens instead of getController() who is now obsolete
-				$this->data['activeTheme']	=		$this->tendoo->getSiteTheme();
-				$this->data['Tendoo']		=		$this->tendoo;
+				set_core_vars(	'options'	,	($this->data['options']	=	$this->options->get())	);
+				set_core_vars(	'controllers'	,	($this->data['controllers']	=	$this->tendoo->get_pages('',FALSE))	);
+				set_core_vars(	'page'	,	($this->data['page']	=	$this->tendoo->getPage($Class))	);
+				set_core_vars(	'activeTheme'	,	($this->data['activeTheme']	= $this->tendoo->getSiteTheme()));
+				set_core_vars(	'tendoo'	,	($this->data['Tendoo']		=		$this->tendoo)	);
+				set_core_vars(	'module_url'	,	($this->data['module_url']	=		$this->url->site_url(array('tendoo@'.$Teurmola[1]))));
+				set_core_vars(	'module'	,  ($this->data['module']		=		$this->tendoo->getSpeModuleByNamespace($this->data['url_module'])));
+				set_core_vars(	'globalModule'	,	($this->data['GlobalModule']	=		$this->tendoo->getGlobalModules(1)));
+
 				$this->data['module_url']	=		$this->url->site_url(array('tendoo@'.$Teurmola[1]));
 				$this->stats->addVisit(); // Add visit to global stat;				
 
-				$this->data['module']		=		$this->tendoo->getSpeModuleByNamespace($this->data['url_module']);
+				/**
+				*		TENDOO PASSIVE SCRIPTING
+				**/
+				
+				$this->engage_tepas();
+				
+				/**
+				*		END
+				**/	
 				if($this->data['activeTheme'] === FALSE)
 				{
 					$this->url->redirect(array('error','code','noThemeInstalled'));
 				}
 				else
 				{
+					if(TRUE !== ($active_theme = does_active_theme_support($this->data['module'][0]['HANDLE'])))
+					{
+						$this->url->redirect(array('error','code','active_theme_does_not_handle_that'));
+					}
 					// LOAD THEME HANDLER
 					include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/theme-items-class.php');
 					if(class_exists($this->data['activeTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
 					{
-						eval('$this->data["theme"] = new '.$this->data['activeTheme']['NAMESPACE'].'_theme_handler($this->data);'); // Initialize Theme handler;
+						eval('set_core_vars("activeTheme_object", new '.$this->data['activeTheme']['NAMESPACE'].'_theme_handler());'); // Initialize Theme handler;
 					}
 					else // Erreur theme.
 					{
@@ -269,29 +286,47 @@ Class instance extends Libraries
 					$this->tendoo->error('db_connect_error');
 					die();
 				}
-				$this->load->library(	'stats'	);
-				$this->load->library(	'menu'	);
+				$this->load->library( 'stats' );
 				// Tendoo 0.9.9
-				update_core_array(	'options'	,	($this->data['options']	=	$this->options->get())	);
-				update_core_array(	'controllers'	,	($this->data['controllers']	=	$this->tendoo->get_pages('',FALSE))	);
-				update_core_array(	'page'	,	($this->data['page']	=	$this->tendoo->getPage($Class))	);
-				
+				set_core_vars(	'options'	,	($this->data['options']	=	$this->options->get())	,'readonly');
+				set_core_vars(	'controllers'	,	($this->data['controllers']	=	$this->tendoo->get_pages('',FALSE))	,'readonly');
+				set_core_vars(	'page'	,	($this->data['page']	=	$this->tendoo->getPage($Class))	,'readonly');		
 				if(is_string($this->data['page']))
 				{
 					$this->url->redirect(array('error','code',$this->data['page']));
 				}
 				else
 				{
-					update_core_array(	'activeTheme'	,	($this->data['activeTheme']	= $this->tendoo->getSiteTheme()));
-					update_core_array(	'tendoo'	,	($this->data['Tendoo']		=		$this->tendoo)	);
-					update_core_array(	'module_url'	,	($this->data['module_url']	=		$this->url->get_controller_url()));
-					update_core_array(	'bypage_theme'	,  ($this->data['module']	= $this->tendoo->getSpeModuleByNamespace($this->data['page'][0]['PAGE_MODULES'])));
-					update_core_array(	'globalModule'	,	($this->data['GlobalModule']	=		$this->tendoo->getGlobalModules(1)));
-
-					set_page(	'keywords'	, $this->data['page'][0]['PAGE_KEYWORDS']);
+					set_core_vars(	'activeTheme'	,	($this->data['activeTheme']	= $this->tendoo->getSiteTheme()));
+					set_core_vars(	'tendoo'	,	($this->data['Tendoo']		=		$this->tendoo)	,'readonly');
+					set_core_vars(	'module_url'	,	($this->data['module_url']	=		$this->url->get_controller_url()) ,'readonly');
+					set_core_vars(	'module'	,  ($this->data['module']	= $this->tendoo->getSpeModuleByNamespace($this->data['page'][0]['PAGE_MODULES'])) ,'readonly');
+					set_core_vars(	'globalModule'	,	($this->data['GlobalModule']	=		$this->tendoo->getGlobalModules(1)));
+					set_page( 'title' , $this->data['page'][0]['PAGE_TITLE'] );
+					set_page( 'description' , $this->data['page'][0]['PAGE_DESCRIPTION'] );
+					set_page( 'keywords' , $this->data['page'][0]['PAGE_KEYWORDS']);
+					// Saved First BreadCrumbs
+					$INDEX	=	$this->tendoo->getPage( 'index' );
+					set_bread( array (
+						'link'	=>	$this->data['module_url'],
+						'text'	=>	$INDEX[0][ 'PAGE_NAMES' ]
+					) );
+					// End BreadCrumbs
+					// Tendoo 1.2
+					/**
+					*		TENDOO PASSIVE SCRIPTING
+					**/
 					
+					$this->engage_tepas();
+					
+					/**
+					*		END
+					**/	
 					$this->stats->addVisit(); // Add visit to global stats
-					
+					if(TRUE !== ($active_theme = does_active_theme_support($this->data['module'][0]['HANDLE'])))
+					{
+						$this->url->redirect(array('error','code','active_theme_does_not_handle_that'));
+					}
 					if($this->data['module_url']	==	'noMainPage')
 					{
 						$this->url->redirect(array('error','code','noMainPage'));
@@ -303,10 +338,10 @@ Class instance extends Libraries
 					else
 					{
 						// LOAD THEME HANDLER
-						include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/theme-items-class.php');
+						include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/handler.php');
 						if(class_exists($this->data['activeTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
 						{
-							eval('$this->data["theme"] = new '.$this->data['activeTheme']['NAMESPACE'].'_theme_handler($this->data);'); // Initialize Theme handler;
+							eval('set_core_vars("activeTheme_object",new '.$this->data['activeTheme']['NAMESPACE'].'_theme_handler());'); // Initialize Theme handler;
 						}
 						else // Erreur theme.
 						{
@@ -400,16 +435,46 @@ Class instance extends Libraries
 	/**
 	*	Mise à jour du tableau du noyau
 	**/
-	public function update_core_array($key,$value) // Restreindre la modification du système
+	public function set_core_vars($key,$value,$access ="writable") // Restreindre la modification du système
 	{
-		$this->data[$key]	=	$value;
+		$access		=	in_array($access,array('writable','readonly','read_only')) ? $access : 'writable';
+		$exists		=	$this->get_core_vars($key,'complete');
+		if($exists)
+		{
+			if(in_array($exists[1],array('readonly','read_only')))
+			{
+				return false;
+			}
+		}
+		$this->core_vars[$key]	=	array($value,$access);
 		return true;
 	}
 	/**
 	*	Recupértion d'un champ du tableau du système.
 	**/
-	public function get_core_array($key)
+	public function get_core_vars($key = null,$process = "normal")
 	{
-		return array_key_exists($key,$this->data) ? $this->data[$key] : false;
+		if($key == null)
+		{
+			return $this->core_vars;
+		}
+		else
+		{
+			if($process == 'normal')
+			{
+				return array_key_exists($key,$this->core_vars) ? $this->core_vars[$key][0] : false;
+			}
+			else if($process == 'complete')
+			{
+				return array_key_exists($key,$this->core_vars) ? $this->core_vars[$key] : false;
+			}
+		}
+	}
+	/**
+	*	Script Passif Tendoo
+	**/
+	private function engage_tepas()
+	{
+		engage_tepas();
 	}
 }

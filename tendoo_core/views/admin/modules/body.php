@@ -1,6 +1,6 @@
 <?php echo $lmenu;?>
 <section id="content">
-    <section class="vbox"><?php echo $inner_head;?>
+    <section class="vbox"><?php echo get_core_vars( 'inner_head' );?>
         
         <footer class="footer bg-white b-t">
             <div class="row m-t-sm text-center-xs">
@@ -37,7 +37,7 @@
             <section class="vbox">
                 <section class="wrapper"> <?php echo output('notice');?>
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div class="col-lg-12">
                             <section class="panel">
                                 <div class="panel-heading"> Liste des modules installés </div>
                                 <table class="table table-striped">
@@ -45,10 +45,10 @@
                                         <?php
                                             if($mod_nbr > 0)
                                             {
-                                                foreach($modules as $mod)
+                                                foreach($modules_list as $mod)
                                                 {
                                                     $appIcon	=	$this->instance->tendoo_admin->getAppImgIco($mod['NAMESPACE']);
-                                                    ?>
+													?>
                                         <tr>
                                             <td>
                                             <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['ID']));?>">
@@ -68,10 +68,25 @@
                                                     ?>
                                                     </a></td>
                                             <td class="action"><strong> <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['ID']));?>"><?php echo $mod['HUMAN_NAME'];?></a> </strong> <br>
-                                                <em><small><?php echo $mod['AUTHOR'];?></small></em> <br>
                                                 <?php echo $mod['DESCRIPTION'];?> <br>
-                                                <small title="Unique : S'applique à un contr&ocirc;leur uniquement. Globale : S'applique &agrave; tous les contr&ocirc;leurs" style="font-size:10px;"><?php echo ($mod['TYPE'] == 'GLOBAL') ? 'Globale' : 'Unique';?></small>
-                                                <strong><small style="float:right;font-size:10px;"><?php echo ($mod['APP_VERS'] == '') ? 'Version Inconnue' : 'v.'.$mod['APP_VERS'];?></small></strong></td>
+                                                <br>
+                                                <small>Auteur : <?php echo $mod['AUTHOR'];?></small> 
+                                                |
+                                                <small title="Unique : S'applique à un contr&ocirc;leur uniquement. Globale : S'applique &agrave; tous les contr&ocirc;leurs">Type : <?php echo ($mod['TYPE'] == 'GLOBAL') ? 'Globale' : 'Unique';?></small> 
+                                                |
+                                                <small>Spécification : <?php echo (in_array($mod['HANDLE'],array('BLOG','INDEX','FORUM','CONTACT','HTML','MEDIA','PORTFOLIO'))) ? $mod['HANDLE'] : 'Inconnu';?></small>
+                                                <strong><small style="float:right;font-size:10px;"><?php echo ($mod['APP_VERS'] == '') ? 'Version Inconnue' : 'v.'.$mod['APP_VERS'];?></small></strong>
+                                                <?php
+												if(TRUE !== ($active_theme	=	does_active_theme_support($mod['HANDLE'])))
+												{
+												?>
+                                                <hr class="line-dashed" style="margin:5px 0;">
+											<div style="color:#FF6464"><i class="fa fa-warning" style="font-size:20px;"></i> 
+											Le thème actif <strong>"<?php echo $active_theme['HUMAN_NAME'];?>"</strong> n'est pas compatible avec ce module.</div>
+												<?php
+												}
+												?>
+                                                </td>
                                             <td class="action"><a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','uninstall','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-trash-o" title="D&eacute;sintaller"></i></a></td>
                                             <td><?php
                                                     if($mod['ACTIVE'] == '0')
@@ -102,37 +117,6 @@
                                             ?>
                                     </tbody>
                                 </table>
-                            </section>
-                        </div>
-                        <div class="col-lg-4">
-                            <section class="panel">
-                                <div class="panel-heading">Rechercher une application</div>
-                                <div class="panel-body">
-                                	<p>Vous rechercher une application, tapez les mots cl&eacute;s qui caract&eacute;risent votre application. Exemple : "boutique eCommerce", "sitemap", "facebook". Assurez-vous d'avoir choisi le type de votre application (module ou th&egrave;me) et lancer votre recherche.</p>
-                                    <div class="input-group">
-                                        <input type="text" id="appendedInput" class="input-sm form-control">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"> 
-                                                <span class="dropdown-label">Choisir le type</span> 
-                                                <span class="caret"></span> 
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-select pull-right">
-                                                <li class=""> 
-                                                	<a href="#">
-                                                    <input type="radio" value="Modules" name="type">
-                                                    Module</a> 
-												</li>
-                                                <li class="active"> 
-                                                	<a href="#">
-                                                    <input type="radio" value="Themes" name="type">
-                                                    Th&egrave;me</a> 
-												</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <hr class="line line-dashed" />
-                                    <input type="submit" value="Rechercher" class="btn <?php echo theme_button_class();?> btn-sm" />
-                                </div>
                             </section>
                         </div>
                     </div>

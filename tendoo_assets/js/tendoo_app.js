@@ -182,7 +182,8 @@ $(document).ready(function(){
 				return count++;
 			};
 			this.show		=	function(){
-				var modal	=	'<div style="z-index:'+tendoo.zIndex.modal+';display:block;width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(76,85,102,0.5)">'+
+				var id		=	getId();
+				var modal	=	'<div modal_id="'+id+'" style="z-index:'+tendoo.zIndex.modal+';display:block;width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(76,85,102,0.5)">'+
 									'<div class="modal-dialog">'+
 										'<div class="modal-content">'+
 											'<div class="modal-header">'+
@@ -304,7 +305,19 @@ $(document).ready(function(){
 				activateAjax	=	e;
 				return this;
 			};
-			var	ajaxBinder	=	function(currentId){
+			var openBy		=	"normal";
+			var openTimeout	=	500;
+			var closeBy		=	"normal";
+			var closeTimeout=	300;
+			this.openBy		=	function(action){ // Scale-in, Scale-out
+				openBy		=	action;
+				return this;
+			};
+			this.closeBy	=	function(action){ // Scale-in, Scale-out
+				closeBy		=	action;
+				return this;
+			};
+			var	ajaxBinder		=	function(currentId){
 				var currentE	=	'[data-modal-id="'+currentId+'"]';
 				$('[data-modal-id="'+currentId+'"]').find('a[href!="#"]').each(function(){
 					if(typeof $(this).attr('ajax_binder_escapeThis') === 'undefined')
@@ -369,7 +382,7 @@ $(document).ready(function(){
 					}
 				});
 			};
-			this.size		=	function(width,height){ // modifier la taille de la boite modal, remplacera les valeurs device.height et device.width
+			this.size			=	function(width,height){ // modifier la taille de la boite modal, remplacera les valeurs device.height et device.width
 				modalWidth	=	width;
 				modalHeight	=	height;
 				return this;
@@ -378,10 +391,24 @@ $(document).ready(function(){
 				modalWidth	=	device.width;
 				modalHeight	=	device.height;
 			}
+			var addOverlay		=	function(overlayID){
+				if($('body').find('[modal-window-overlay]').length == 0)
+				{
+					$('body').append('<div data-overlay-id="'+overlayID+'" style="z-index:'+parseInt(tendoo.zIndex.window)+';display:block;width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(76,85,102,0.5);"/>');
+				}
+				else
+				{
+					$('[data-overlay-id]').attr('data-overlay-id', overlayID);
+				}
+			};
+			var	removeOverlay	=	function(overlayID){
+				$('[data-overlay-id="'+overlayID+'"]').remove();
+			};
 			this.show		=	function(e){
 				var currentId	=	this.getId();
 				var currentE	=	'[data-modal-id="'+currentId+'"]';
-				var modal	=	'<div data-modal-id="'+currentId+'" style="z-index:'+tendoo.zIndex.window+';display:block;width:100%;height:100%;position:fixed;top:0;left:0;background:rgba(76,85,102,0.5);overflow:hidden">'+
+				addOverlay(currentId);
+				var modal	=	'<div data-modal-id="'+currentId+'" style="z-index:'+tendoo.zIndex.window+';display:block;width:100%;height:100%;position:fixed;top:0;left:0;overflow:hidden">'+
 									'<div class="modal-dialog" id="modalBox" style="width:'+parseInt(modalWidth-50)+'px;">'+
 										'<div class="modal-content" style="-webkit-border-radius:2px;-moz-border-radius:2px;-ms-border-radius:2px">'+
 											'<div class="modal-header bg-primary" style="border-bottom:solid 0px;">'+
@@ -398,15 +425,69 @@ $(document).ready(function(){
 									'</div>'+
 								'</div>';
 				$('body').append(modal);
+				if(openBy != 'normal')
+				{
+					if(openBy == 'scale-in')
+					{
+						$('[data-modal-id="'+currentId+'"]').find('.modal-dialog').transit({
+							opacity	:	0,
+							scale	:	0.75
+						},0).transit({
+							opacity	:	1,
+							scale	:	1
+						},openTimeout);
+					}
+					if(openBy == 'scale-out')
+					{
+						$('[data-modal-id="'+currentId+'"]').find('.modal-dialog').transit({
+							opacity	:	0,
+							scale	:	1.25
+						},0).transit({
+							opacity	:	1,
+							scale	:	1
+						},openTimeout);
+					}
+				}
 				if(activateAjax == true){
 					ajaxBinder(currentId);
 				};
 				$('[data-modal-id="'+currentId+'"]').find('[data-dismiss="modal"]').bind('click',function(){
-					$('*[data-modal-id="'+currentId+'"] #modalBox').fadeOut(0,function(){
-						$('[data-modal-id="'+currentId+'"]').remove();
-					})
+					var closeWindow	=	function(){
+						$('*[data-modal-id="'+currentId+'"] #modalBox').fadeOut(0,function(){
+							$('[data-modal-id="'+currentId+'"]').remove();
+						})
+					};
+					if(closeBy != 'normal')
+					{
+						if(closeBy == 'scale-in')
+						{
+							$('[data-modal-id="'+currentId+'"]').find('.modal-dialog').transit({
+								opacity	:	0,
+								scale	:	0.75
+							},closeTimeout,function(){
+								closeWindow();
+								removeOverlay(currentId);
+							});
+						}
+						if(closeBy == 'scale-out')
+						{
+							$('[data-modal-id="'+currentId+'"]').find('.modal-dialog').transit({
+								opacity	:	0,
+								scale	:	1.25
+							},closeTimeout,function(){
+								closeWindow();
+								removeOverlay(currentId);
+							})
+						}
+					}
+					else
+					{
+						closeWindow();
+						removeOverlay(currentId);
+					}
 				});
 				this.restoreSize();
+				return $('[data-modal-id="'+currentId+'"]');
 			};
 		};
 /**
@@ -601,7 +682,7 @@ $(document).ready(function(){
 				type		:	"POST",
 				data		:	object
 			})
-		;}
+		}
 /**
 *		tendoo.triggerAlert	: Exécute une réponse JSON et génère le cas échéant une erreur
 **/
@@ -797,9 +878,13 @@ $(document).ready(function(){
 										$this.closest('form').append('<input type="hidden" name="'+name+'" value="'+value+'">');
 										$this.closest('form').trigger('submit');
 									}
-									else ($this.attr('confirm-do') == 'fadeOutParent') // Supprime le parent "confirm-parent" après une requête ajax fructueuse.
+									else if ($this.attr('confirm-do') == 'fadeOutParent') // Supprime le parent "confirm-parent" après une requête ajax fructueuse.
 									{
 										// in process
+									}
+									else if($this.attr('confirm-do') == 'follow-link')
+									{
+										document.location	=	$this.attr('href');
 									}
 								});
 								return false;
@@ -865,6 +950,57 @@ $(document).ready(function(){
 					}
 				});
 			};
+		};
+/**
+*		tendoo.set_data	: équivalent de la fonction php set_data de tendoo
+**/	
+		tendoo.set_data		=	function(key,value,callback){
+			$.ajax(tendoo.url.site_url('admin/ajax/set_data'),{
+				type		:	'POST',
+				dataType	:	'json',
+				data		:	{
+					"key"	:	key,
+					"value"	:	value
+				},
+				complete	:	function(){
+					if( typeof callback == "function" ){
+						callback();
+					}
+				}
+			});
+		}
+/**
+*		tendoo.set_user_data : équivalent de la fonction php set_user_data pour les données utilisateurs
+**/
+		tendoo.set_user_data		=	function(key,value,callback){
+			$.ajax(tendoo.url.site_url('admin/ajax/set_user_data'),{
+				type		:	'POST',
+				dataType	:	'json',
+				data		:	{
+					"key"	:	key,
+					"value"	:	value
+				},
+				complete	:	function(){
+					if( typeof callback == "function" ){
+						callback();
+					}
+				}
+			});
+		}
+/**
+*		tendoo.toggleLeftMenu : sauvegarde le statut de menu gauche
+**/	
+		tendoo.toggleLeftMenu		=	new function(){
+			$('[data-toggle="class:nav-vertical"]').bind('click',function(){
+				var currentStatus		=	$('body > section.hbox > aside').hasClass('nav-vertical');
+				if( currentStatus ){
+					tendoo.set_user_data( 'admin-left-menu-status' , 'nav-expanded' );
+				}
+				else
+				{
+					tendoo.set_user_data( 'admin-left-menu-status' , 'nav-vertical' );
+				}
+			});
 		};
 	}
 });
