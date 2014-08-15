@@ -1,21 +1,20 @@
 Tendoo-cms
 =========
-v.1.1
+v.1.2
 ---------
 Mise à jour
 ---------
+ - Vérification automatique des mises à jour
+ - Connexion au Store pour les mises à jour automatique
+ - Correction des bugs
+ - Traduction des l'en-tête du panneau de configuration
+ - Ckeditor version mono
+ - Ajout des liens d'aide vers Tendoo.org
+ - Nouvelles fonctions (trigger_events, bind_event, etc...)
+ - Initialisation du GUI helper
+ - Création d'un nouveau menu horizontal hors /admin, /account, /error, /registration, /login et tout autre interface système
+ - Création du fichier d'aide theme_helper
+ - Standardisation des normes pour les thèmes
+ - En attente... mise à jour des modules
 
-    *	Reorganisation générale du code Source.
-	* 	Mise à jour des modules et thèmes aux nouvelles normes.
-	*	Amélioration du système d'installation.
-	*	Traduction en cours (support : Français).
-	*	Ajout de nouvelles fonctionnaltiés à l'espace membre
-
-En attente :
-
-	*	Création d'une extension pour réseaux sociaux (Google+, Facebook et Twitter).
-	*	Nouveau thème par défaut.
-	*	Conception de "Tforum" (module de gestion des forums).
-	*	Déployement de la plateforme (Tendoo.org).
-
-Laissez-nous vos impressions sur carlosjohnsonluv2004@gmail.com
+<a href="http://tendoo.org">Tendoo - CMS</a>

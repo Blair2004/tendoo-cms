@@ -9,6 +9,10 @@
                         <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
                         <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
+                    <div class="col-sm-8">
+                        <a href="http://tendoo.org/index.php/apprendre/le-panneau-de-configuration/comment-modifier-un-privilege" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
+                        </a>
+                    </div>
                 </div>
             </header>
             <section class="vbox">

@@ -1,12 +1,20 @@
 <?php
 	/**
+	*	include_if_file_exists() : 
+	**/
+	function include_if_file_exists( $path ){
+		if( is_file( $path ) ){
+			include_once( $path );
+		}
+	}
+	/**
 	*	bind_event( 'event' , 'do' )
 	**/
 	function bind_event( $event , $do){ 
-		$saved_events			=	get_core_vars( 'get_core_events' ) ? get_core_vars( 'get_core_events' ) : array();
-		$current_event			=	return_if_array_key_exists( $event , $saved_events );
-		if( !$current_event ) : $saved_events[$event] = array() ; endif;
-		$saved_events[$event][]	= 	$do;
+		$saved_events				=	get_core_vars( 'get_core_events' ) ? get_core_vars( 'get_core_events' ) : array();
+		$current_event			 	=	return_if_array_key_exists( $event , $saved_events );
+		if( !$current_event ) : $saved_events[ $event ] = array() ; endif;
+		$saved_events[ $event ][]	= 	$do;
 		return set_core_vars( 'get_core_events' , $saved_events );
 	}
 	/**
@@ -202,9 +210,9 @@
 		$instance	=	get_instance();
 		if(SCRIPT_CONTEXT == 'ADMIN')
 		{
-			if(get_core_vars('module'))
+			if(get_core_vars('opened_module'))
 			{
-				$module	=	get_core_vars('module');
+				$module	=	get_core_vars('opened_module');
 				if(is_array($segments))
 				{
 					$baseSegments	=	array(
@@ -664,7 +672,10 @@
 			$DB->where('NAMESPACE',$element);
 		}
 		$query	=	$DB->get('tendoo_modules');
-		return $query->result_array();
+		$result	=	$query->result_array();
+		$result[0]['URI_PATH']	=	MODULES_DIR.$result[0]['ENCRYPTED_DIR'].'/';
+		$result[0]['URL_PATH']	=	get_instance()->url->main_url().MODULES_DIR.$result[0]['ENCRYPTED_DIR'].'/';
+		return $result;
 	}
 	/**
 	*	get_themes()
@@ -1149,7 +1160,11 @@
 	/**
 	*	Return Declared API
 	**/
-	function get_apis(){
-		return get_core_vars( 'api_declared' );
+	function get_apis( $namespace = null ){
+		if( $namespace != null ){
+			return return_if_array_key_exists( $namespace , get_core_vars( 'api_declared' ) );
+		} else if ( $namespace == null ){
+			return get_core_vars( 'api_declared' );
+		}	
 	};
  

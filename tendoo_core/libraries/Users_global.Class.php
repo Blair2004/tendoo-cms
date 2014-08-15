@@ -314,7 +314,7 @@ Class users_global extends Libraries
 				// Tendoo 0.1.2
 				$this->current['LIGHT_DATA']			=	$data[0]['LIGHT_DATA'];
 				$light_data								=	json_decode($data[0]['LIGHT_DATA'],true);
-				$this->current['BIO']					=	array_key_exists( 'user_bio', $light_data ) ? $light_data[ 'user_bio'] : false;
+				$this->current['BIO']					=	return_if_array_key_exists( 'user_bio' , $light_data ) ? return_if_array_key_exists( 'user_bio' , $light_data ) : false;
 				if($data[0]['AVATAR_TYPE'] == 'system')
 				{
 					$this->current['AVATAR']			=	($data[0]['AVATAR_LINK'] == '') ? img_url('avatar_default.jpg') : $data[0]['AVATAR_LINK'];

@@ -46,7 +46,7 @@ if(class_exists($Class.'_module_controller'))
 		/**
 		*
 		**/
-		if($this->tendoo->interpreter($Class.'_module_controller',$Method,$Parameters,get_core_vars('module')) === '404')
+		if($this->tendoo->interpreter($Class.'_module_controller',$Method,$Parameters,array(),get_core_vars('module')) === '404')
 		{
 			$this->tendoo->error('page404');
 		}

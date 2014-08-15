@@ -10,7 +10,7 @@ Class instance extends Libraries
 	{
 		parent::__construct();
 		self::$instance			=&	$this;
-		$this->is_installed		=	is_file('tendoo_core/config/tendoo_config.php') ? true : false;
+		$this->is_installed		=	is_file('tendoo_core/config/db_config.php') ? true : false;
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->description		=	'Page Sans Description | Tendoo CMS';
 		$this->title			=	'Page Sans Titre | Tendoo CMS';
@@ -200,7 +200,10 @@ Class instance extends Libraries
 				set_core_vars(	'activeTheme'	,	($this->data['activeTheme']	= $this->tendoo->getSiteTheme()));
 				set_core_vars(	'tendoo'	,	($this->data['Tendoo']		=		$this->tendoo)	);
 				set_core_vars(	'module_url'	,	($this->data['module_url']	=		$this->url->site_url(array('tendoo@'.$Teurmola[1]))));
+				//
+				set_core_vars(	'opened_moule'	,  ($this->data['module']		=		$this->tendoo->getSpeModuleByNamespace($this->data['url_module'])));
 				set_core_vars(	'module'	,  ($this->data['module']		=		$this->tendoo->getSpeModuleByNamespace($this->data['url_module'])));
+				//
 				set_core_vars(	'globalModule'	,	($this->data['GlobalModule']	=		$this->tendoo->getGlobalModules(1)));
 
 				$this->data['module_url']	=		$this->url->site_url(array('tendoo@'.$Teurmola[1]));
@@ -300,7 +303,13 @@ Class instance extends Libraries
 					set_core_vars(	'activeTheme'	,	($this->data['activeTheme']	= $this->tendoo->getSiteTheme()));
 					set_core_vars(	'tendoo'	,	($this->data['Tendoo']		=		$this->tendoo)	,'readonly');
 					set_core_vars(	'module_url'	,	($this->data['module_url']	=		$this->url->get_controller_url()) ,'readonly');
-					set_core_vars(	'module'	,  ($this->data['module']	= $this->tendoo->getSpeModuleByNamespace($this->data['page'][0]['PAGE_MODULES'])) ,'readonly');
+					$this->data['module']					= $this->tendoo->getSpeModuleByNamespace($this->data['page'][0]['PAGE_MODULES']);
+					$this->data['module'][0]['URI_PATH']	=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/';
+					$this->data['module'][0]['URL_PATH']	=	$this->url->main_url().MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/';
+					//
+					set_core_vars(	'module'	,  $this->data['module'] ,'readonly');
+					set_core_vars(	'opened_module'	,  $this->data['module'] ,'readonly');
+					//
 					set_core_vars(	'globalModule'	,	($this->data['GlobalModule']	=		$this->tendoo->getGlobalModules(1)));
 					set_page( 'title' , $this->data['page'][0]['PAGE_TITLE'] );
 					set_page( 'description' , $this->data['page'][0]['PAGE_DESCRIPTION'] );
@@ -356,14 +365,14 @@ Class instance extends Libraries
 								foreach($this->data['GlobalModule'] as $r)
 								{
 									$TENDOO_MODULE	=	$r;
-									include_once(MODULES_DIR.$r['ENCRYPTED_DIR'].'/library.php');
+									include_if_file_exists( MODULES_DIR.$r['ENCRYPTED_DIR'].'/library.php' );
 									include_once(MODULES_DIR.$r['ENCRYPTED_DIR'].'/module_controller.php');
 								}
 							}
 							// $this->SAG has been removed, ever used
 							// LOAD ON PAGE MODULE
 							$TENDOO_MODULE	=	$this->data['module'][0];
-							include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library.php');
+							include_if_file_exists( MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library.php' );
 							include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/module_controller.php');
 							$Class	=	$this->data['module'][0]['NAMESPACE']; // REAFFECT CLASS VALUE DUE TO EXISTENT MODULE CLASS
 						}
@@ -388,7 +397,7 @@ Class instance extends Libraries
 			// Pour ne pas multiplier les connexion vers la base de données.
 			if(!$this->db_connected())
 			{
-				include_once(SYSTEM_DIR.'config/tendoo_config.php');
+				include_once(SYSTEM_DIR.'config/db_config.php');
 				$this->db	=	DB($db,TRUE);
 				set_db($this->db);
 				$this->db_connected	=	true;

@@ -1,4 +1,5 @@
 [#]autorisations::Autorisations[#]
+[#]app_store::Magasin d'application[#]
 [#]connecting_database::Connexion &agrave; la base de donn&eacute;es[#]
 [#]choose_options::Choisir une option[#]
 [#]continue::Continuer[#]
@@ -32,8 +33,12 @@
 [#]options::Options[#]
 [#]results::Résultats[#]
 [#]save_settings::Enregistrer les modifications[#]
-[#]show::Afficher[#]
+[#]search::Rechercher[#]
 [#]security::Sécurité[#]
+[#]seo_tools::Outils SEO[#]
+[#]show::Afficher[#]
+[#]stats::Statistiques[#]
+[#]calendar::Calendrier[#]
 [#]tendoo_install_second_step::Assistant d'installation &rsaquo; Deuxième étape[#]
 [#]tendoo_install_first_step::Assistant d'installation &rsaquo; Première étape[#]
 [#]tendoo_install_final_step_title::Assistant d'installation &rsaquo; Installation Terminée[#]
@@ -52,6 +57,8 @@
 	</div>
 	<div style="font-size:12px;"> <span></span> </div>
 </div>Connectez vous &agrave; l'espace administrateur pour modifier les informations de votre site, cr&eacute;er des administrateurs, installer les th&egrave;mes et modules.[#]
+[#]unavaiable_for_this_tendoo::Indisponible pour cette version de Tendoo[#]
 [#]user_name::Nom de l'utilisateur[#]
 [#]user_password::Mot de passe de l'utilisateur[#]
 [#]website_setting::Réglages généraux[#]
+[#]you_got::Vous avez[#]

@@ -9,6 +9,7 @@
 					</p>
 				</div>
 			</footer>
+            <img src="<?php echo img_url($this->instance->tendoo->getBackgroundImage());?>" style="width:100%;float:left">
 			<section id="content" class="scrollable wrapper-md animated fadeInUp"> 
 				<a class="nav-brand" href="<?php echo $this->instance->url->main_url();?>"><h3><img style="max-height:80px;margin-top:-3px;" src="<?php echo $this->instance->url->img_url("logo_4.png");?>"> </h3></a>
 				<?php echo $body;?>
@@ -18,12 +19,4 @@
 		</section>
 	</section>
 </body>
-<style type="text/css">
-    #backgroundLogin{
-        background:url(<?php echo img_url($this->instance->tendoo->getBackgroundImage());?>) ;
-		backgrond-size:100px 100%;
-        background-position:0 0;
-        background-repeat: no-repeat;
-    }
-</style>
 </html>

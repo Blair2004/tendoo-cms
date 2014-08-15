@@ -41,8 +41,8 @@ define('ASSETS_DIR','tendoo_assets/'); // T098
 define('MODULES_DIR','tendoo_modules/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('INSTALLER_DIR','tendoo_installer/');
-/* =-=-=-=-=-=-=-=-=-=-=-=-= GLOBAL VARS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-$database;$instance;
+/* =-=-=-=-=-=-=-=-=-=-=-=-= INITIAL CONFIG -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+include_once(CONFIG_DIR.'base_config.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= SYSTEM SCRIPT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 include_once(SYSTEM_DIR.'System.Libraries.php');
 include_once(SYSTEM_DIR.'System.Core.php');

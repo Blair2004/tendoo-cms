@@ -12,16 +12,9 @@ Class Url
 
 	public function __construct()
 	{
-		if(file_exists('tendoo_core/config/tendoo_base_config.php'))
+		if( defined( 'REWRITE_URL' ) )
 		{
-			include('tendoo_core/config/tendoo_base_config.php');
-			if(isset($tendoo_base_config))
-			{
-				if($tendoo_base_config['use_rewrite_cond'] == TRUE)
-				{
-					$this->rewrite	=	TRUE;					
-				}
-			}
+			$this->rewrite	=	REWRITE_URL;					
 		}
 		$host	=	(in_array($_SERVER['HTTP_HOST'],array('localhost','127.0.0.1'))) ? 
 						(($_SERVER['HTTP_HOST'] == 'localhost') ? 
@@ -33,6 +26,7 @@ Class Url
 		$this->splited_url			=	explode('/',substr($this->explode_get[0],7));
 		$this->execution_dir		=	getcwd();
 		$this->projet_dir			=	'';
+
 		// Si la re-écriture est activé, on réduit l'index. 
 		$index	=	($this->rewrite	==	true) ? 1 : 0;
 		if(preg_match("#\\\#",$this->execution_dir))
@@ -55,7 +49,8 @@ Class Url
 			$copy_new_url			=	true;
 		}
 		// Splited URL restructuration. To detect Base Root on URL
-		foreach($this->splited_url as $p)
+		// Supprésion des paramètres qui n'ont aucune valeur
+		foreach($this->splited_url as $key => $p)
 		{
 			if($p == 'index.php')
 			{
@@ -65,6 +60,10 @@ Class Url
 			{
 				$newSpliterUrl[]	=	$p;
 				$copy_new_url		= 	TRUE;
+			}
+			// Suppréssion des paramètres vides exemple http://exemple.com/index.php/foo////bar
+			if( $p == ''){
+				unset( $this->splited_url[ $key ] );
 			}
 		}
 		if(in_array($this->projet_dir,$this->splited_url))

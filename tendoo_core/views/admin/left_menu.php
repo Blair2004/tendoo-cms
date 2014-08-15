@@ -25,13 +25,10 @@
 		</footer>
         <section>
 		<?php 
-		if(get_core_vars( 'tendoo_core_update' ) !== FALSE)
+		if( count( get_core_vars( 'tendoo_core_update' ) ) > 0  && is_array( get_core_vars( 'tendoo_core_update' ) ) )
 		{
 			$ttNotice	=	0;
-			foreach(get_core_vars( 'tendoo_core_update' ) as $global_notices)
-			{
-				$ttNotice +=	count($global_notices);
-			}
+			$ttNotice	=	count( get_core_vars( 'tendoo_core_update' ) );
 		?>
 			<nav class="nav-primary hidden-xs">
                 <ul class="nav">					
@@ -44,39 +41,38 @@
 								if($ttNotice > 0)
 								{
 								?>
-								<a href="javascript:void(0)">
-									<b class="badge badge-white count-n"><?php echo $ttNotice;?></b> 
-								</a> 
+								<span href="javascript:void(0)">
+									<b class="badge badge-white count-n" style="right:-3px;"><?php echo $ttNotice;?></b> 
+								</span> 
 								<section class="dropdown-menu m-l-sm pull-left animated fadeInRight"> 
 									<div class="arrow left"></div> 
 									<section class="panel bg-white"> 
 										<header class="panel-heading"> 
-											<strong>Vous avez <span class="count-n"><?php echo $ttNotice;?></span> notification(s)</strong> 
+											<strong>Vous avez <?php echo $ttNotice;?> notification(s)</strong> 
 										</header> 
 										<div class="list-group"> 
 											<?php
-											foreach(get_core_vars( 'tendoo_core_update' ) as $global_notices)
-											{
-												foreach($global_notices as $unique_notice)
+											if( is_array( get_core_vars( 'tendoo_core_update' ) ) ){
+												foreach(get_core_vars( 'tendoo_core_update' ) as $unique_notice)
 												{
-												?>
-												<a href="<?php echo $unique_notice['link'];?>" class="media list-group-item">
-													<?php 
-													if($unique_notice['thumb'] != false)
-													{
 													?>
-													<span class="pull-left thumb-sm"> 
-														<img src="<?php echo $unique_notice['thumb'];?>" alt="image" class="img-circle"> 
-													</span> 
+													<a href="<?php echo $unique_notice['link'];?>" class="media list-group-item">
+														<?php 
+														if( ( $thumb	=	return_if_array_key_exists( 'thumb' , $unique_notice ) ) != false)
+														{
+														?>
+														<span class="pull-left thumb-sm"> 
+															<img src="<?php echo $thumb;?>" alt="image" class="img-circle"> 
+														</span> 
+														<?php
+														}
+														?>
+														<span class="media-body block m-b-none"><strong><?php echo word_limiter($unique_notice['title'],6);?></strong><br> 
+															<?php echo word_limiter($unique_notice['content'],20);?><br>
+															<small class="text-muted"><?php echo $unique_notice['date'];?></small> 
+														</span> 
+													</a>
 													<?php
-													}
-													?>
-													<span class="media-body block m-b-none"><strong><?php echo word_limiter($unique_notice['title'],6);?></strong><br> 
-														<?php echo word_limiter($unique_notice['content'],20);?><br>
-														<small class="text-muted"><?php echo $unique_notice['date'];?></small> 
-													</span> 
-												</a>
-												<?php
 												}
 											}
 											?>

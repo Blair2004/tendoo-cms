@@ -94,6 +94,21 @@ class Installation extends Libraries
 		{
 			return false;
 		};
+		/* CREATE tendoo_fash */
+		$sql = 
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_flash_data` (
+			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+			`KEYS` varchar(255) NOT NULL,
+			`VALUE` text,
+			`AUTHOR` int(11) NOT NULL,
+			`DATE` datetime NOT NULL,
+			`APP` varchar(255) NOT NULL,
+		PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB;';
+		if(!$this->db->query($sql))
+		{
+			return false;
+		};
 		/* 
 		 int(11) NOT NULL, Removed, only admin can access private stats.
 		*/
@@ -277,7 +292,7 @@ class Installation extends Libraries
 				// Fist Comments
 				$lib_->postComment(
 					1,
-					"Bravo ce blog est désormais fonctionnel. Consultez les dernières actualités sur <a href=\"http://blog.tendoo.org/\">blog.tendoo.org</a>.",
+					"Bravo ce blog est désormais fonctionnel. Consultez les dernières actualités sur <a href=\"http://tendoo.org/index.php/blog\">tendoo.org/blog</a>.",
 					"John Doe",
 					"support@tendoo.org",
 					$interface	=	'system',
@@ -352,7 +367,7 @@ class Installation extends Libraries
 				'title'			=>	array('Accueil','blog','contact'),
 				'description'	=>	array('Accueil du site','Section blog','Section de contact'),
 				'main'			=>	array('TRUE','FALSE','FALSE'),
-				'module'		=>	array('tendoo_index_manager','news','tendoo_contact_handler'),
+				'module'		=>	array('tim','news','tendoo_contact_handler'),
 				'parent'		=>	array('none','none','none'),
 				'name'			=>	array('accueil','blog','contact'),
 				'cname'			=>	array('accueil','blog','contact'),
@@ -390,7 +405,7 @@ class Installation extends Libraries
 			define('DB_ROOT',\$db['dbprefix']);
 		}
 		";
-		$file = fopen('tendoo_core/config/tendoo_config.php','w+');
+		$file = fopen('tendoo_core/config/db_config.php','w+');
 		fwrite($file,$string_config);
 		fclose($file);
 	}

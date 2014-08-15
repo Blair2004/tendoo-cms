@@ -19,30 +19,9 @@
                         <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                     <div class="col-sm-8">
-                        <button data-step="1" data-position="left" data-intro="<strong>Bienvenue sur Tendoo <?php echo TENDOO_VERSION;?></strong><br>Nous allons maintenant vous présenter Tendoo, si vous êtes prêt cliquez sur 'Suivant'.<br><br>Vous pouvez également utiliser les flèches directionnelles pour naviguer dans cette visite guidée." launch_visit type="button" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
-                        <?php 
-		  if($this->users_global->current('ADMIN_INDEX_VISIT') == '0')
-		  {
-		  ?>
-                        <span>Cliquez pour une visite</span>
-                        <?php
-		  }
-		  ?>
-                        </button>
+                        <a href="http://tendoo.org/index.php/apprendre/le-panneau-de-configuration/accueil" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
+                        </a>
                     </div>
-                    <?php 
-		  if($this->users_global->current('ADMIN_INDEX_VISIT') == '0')
-		  {
-		  ?>
-                    <script type="text/javascript">
-				$('[launch_visit]').bind('click',function(){
-					tendoo.doAction('<?php echo $this->url->site_url(array('admin','ajax','setViewed?page=ADMIN_INDEX_VISIT'));?>',function(){
-					},{});
-				});
-			</script>
-                    <?php
-		  }
-		  ?>
                 </div>
             </header>
             <section class="scrollable wrapper"> <?php echo fetch_error_from_url();?> 
@@ -53,4 +32,5 @@
             </section>
         </section>
     </section>
-    <a class="hide nav-off-screen-block" data-target="body" data-toggle="class:nav-off-screen" href="#"></a> </section>
+    <a class="hide nav-off-screen-block" data-target="body" data-toggle="class:nav-off-screen" href="#"></a> 
+</section>

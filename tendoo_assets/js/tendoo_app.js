@@ -82,11 +82,11 @@ $(document).ready(function(){
 			this.loader		=	16000;
 			this.window		=	9500;
 		};
-/**
-*		tools.notice : Permet d'afficher les notification en haut à droite de l'écran.
-			a pour méthode ".alert([message à afficher],[format de l'alerte]);
-			l'alerte peut avoir pour format (success,warning,danger).
-**/
+		/**
+		*		tools.notice : Permet d'afficher les notification en haut à droite de l'écran.
+					a pour méthode ".alert([message à afficher],[format de l'alerte]);
+					l'alerte peut avoir pour format (success,warning,danger).
+		**/
 		tendoo.notice		=	new function(){
 			var parent		=	'#appendNoticeHere';
 			var noticeId	=	0;
@@ -169,11 +169,11 @@ $(document).ready(function(){
 				
 			}
 		};
-/**
-		tendoo.modal	: Permet d'afficher une boite modale permanente soit d'alerte soit de confirmation.
-			.alert([message])
-			.confirm([message],callback)
-**/
+		/**
+				tendoo.modal	: Permet d'afficher une boite modale permanente soit d'alerte soit de confirmation.
+					.alert([message])
+					.confirm([message],callback)
+		**/
 		tendoo.modal		=	new function(){ 
 			var count		=	0;
 			var confirmTitle=	'Confirmez votre action';
@@ -276,13 +276,13 @@ $(document).ready(function(){
 				$('.modal-dialog').find('[data-dismiss="modal"]').trigger('click');
 			};
 		};
-/**
-*		tools.window : Permet d'afficher une boite modale sur une page. A pour méthodes.
-			".title([titre de la boite modale])"
-			".icon([icône de la boite modale])" // utiliser les icones fontawesome.
-			".ajax([true ou false pour activer ajax dans la boite modale])"
-			".show([contenu de la boite modale])"
-**/
+		/**
+		*		tools.window : Permet d'afficher une boite modale sur une page. A pour méthodes.
+					".title([titre de la boite modale])"
+					".icon([icône de la boite modale])" // utiliser les icones fontawesome.
+					".ajax([true ou false pour activer ajax dans la boite modale])"
+					".show([contenu de la boite modale])"
+		**/
 		tendoo.window		=	new function(){
 			var ttWindows	=	0;
 			this.getId		=	function(){
@@ -490,9 +490,9 @@ $(document).ready(function(){
 				return $('[data-modal-id="'+currentId+'"]');
 			};
 		};
-/**
-*		tools.app : // Bientôt déprécié.
-**/
+		/**
+		*		tools.app : // Bientôt déprécié.
+		**/
 		tendoo.app			=	new function(){
 			this.bind		=	function(){
 				$(document).ready(function(){
@@ -540,9 +540,9 @@ $(document).ready(function(){
 			};
 			this.bind();
 		};
-/**
-*		tools.loader : Cette méthode affiche un indice de chargement AJAX dans les pages qui dispose d'espace spécifié pour l'élément.
-**/
+		/**
+		*		tools.loader : Cette méthode affiche un indice de chargement AJAX dans les pages qui dispose d'espace spécifié pour l'élément.
+		**/
 		tendoo.loader		=	new function(){
 			this.show		=	function(x,obj){
 				var cSpeed=9;
@@ -618,9 +618,9 @@ $(document).ready(function(){
 				this.dontdisplay();
 			}
 		};
-/**
-*		tendoo.boot : Démarrage du script.
-**/	
+		/**
+		*		tendoo.boot : Démarrage du script.
+		**/	
 		tendoo.boot			=	new function(){
 			var tASE	=	'#tendooAppStore'; // TENDOO APP STORE DOM BUTTON ELEMENT
 			var tTab	=	'.showAppTab'; // Tendoo Tab, panel d'application disponible partout.
@@ -638,6 +638,7 @@ $(document).ready(function(){
 			{
 				$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
 			}
+			$.ajax(tendoo.url.base_url()+'admin/ajax/check_updates');
 			var interval 	=	setInterval(function(){
 				if($('.alert').length > 0)
 				{
@@ -665,10 +666,10 @@ $(document).ready(function(){
 				}
 			});
 		};
-/**
-/**
-*		tendoo.doAction		: Effectue une requete AJAX en attente d'un format JSON
-**/
+		/**
+		/**
+		*		tendoo.doAction		: Effectue une requete AJAX en attente d'un format JSON
+		**/
 		tendoo.doAction		=	function(url,callback,object){
 			$.ajax(url,{
 				beforeSend	:	function(e){
@@ -683,9 +684,9 @@ $(document).ready(function(){
 				data		:	object
 			})
 		}
-/**
-*		tendoo.triggerAlert	: Exécute une réponse JSON et génère le cas échéant une erreur
-**/
+		/**
+		*		tendoo.triggerAlert	: Exécute une réponse JSON et génère le cas échéant une erreur
+		**/
 		tendoo.triggerAlert=	function(object){
 			if(object.alertType	==	'notice'){
 				if(_.inArray(object.status,['warning','success','danger','info']))
@@ -700,9 +701,10 @@ $(document).ready(function(){
 				}			
 			};
 		};			
-/**
-		tendoo.dropDown : Attache un évènement afin de transformer le dropdown du twitter bootstrap en un réel input de type select. Le button d'avoir avoir pour attribut "select" et les sélections doivent avoir comme attribut "value" afin que la valeur soit récupérée et attribuée au champ masqué. Tendoo. 0.9.8
-**/
+		/**
+				tendoo.dropDown : Attache un évènement afin de transformer le dropdown du twitter bootstrap en un réel input de type select. 
+				Le button d'avoir avoir pour attribut "select" et les sélections doivent avoir comme attribut "value" afin que la valeur soit récupérée et attribuée au champ masqué. Tendoo. 0.9.8
+		**/
 		tendoo.dropdown		=	new function(){
 			this.bind		=	function(){
 				$('[data-toggle="dropdown"][select]').each(function(){
@@ -730,9 +732,9 @@ $(document).ready(function(){
 			}
 			this.bind();
 		}
-/**
-*		tendoo.tableMultiSelect	: Permet d'attacher un évènement de selection dans un tableau <table> donc l'attribut tableMultiSelect est définie.
-**/
+		/**
+		*		tendoo.tableMultiSelect	: Permet d'attacher un évènement de selection dans un tableau <table> donc l'attribut tableMultiSelect est définie.
+		**/
 		tendoo.tableMultiSelect	=	new function(){
 			this.bind		=	function(){
 				$('table[tableMultiSelect]').each(function(){
@@ -760,9 +762,10 @@ $(document).ready(function(){
 			}
 			this.bind();
 		};
-/**
-*		tendoo.bulkselect		: Attache un évènement de selection sur des éléments hors formulaire et les insères en tant que champ de type "hidden", avec les valeurs sélectionnées.
-**/
+		/**
+		*		tendoo.bulkselect		: Attache un évènement de selection sur des éléments hors formulaire et les insères en tant que champ de type "hidden", 
+				avec les valeurs sélectionnées.
+		**/
 		tendoo.bulkSelect		=	new function(){
 			this.bind			=	function(){
 				$('[bulkSelect]').each(function(){
@@ -783,10 +786,11 @@ $(document).ready(function(){
 			};
 			this.bind();
 		};
-/**		tendoo.formAjax : Permet d'attacher un évènement AJAX au formulaire ayant pour attribue "fjax", les formulaires doivent avoir les attributs "action" et "method".
-		Tendoo 0.9.8
-			fjaxson		:	Effectue une requête AJAX POST en attente d'un JSON.
-**/			
+		/**		tendoo.formAjax : Permet d'attacher un évènement AJAX au formulaire ayant pour attribue "fjax", 
+				les formulaires doivent avoir les attributs "action" et "method".
+				Tendoo 0.9.8
+					fjaxson		:	Effectue une requête AJAX POST en attente d'un JSON.
+		**/			
 		tendoo.formAjax		=	new function(){ // For Post Method Only
 			this.bind		=	function(){
 				$('form[fjax]').each(function(){
@@ -857,9 +861,9 @@ $(document).ready(function(){
 			}
 			this.bind();
 		};
-/**
-*		tendoo.confirmEvent : Attache un évènement sur un élément du DOM, pour qu'en cas de clic, une action déterminé dans l'attribut confirm-do="" s'exécute, après avoir afficher une boite de confirmation, dont le contenu se trouve dans l'attribut confirm-text=""
-**/
+		/**
+		*		tendoo.confirmEvent : Attache un évènement sur un élément du DOM, pour qu'en cas de clic, une action déterminé dans l'attribut confirm-do="" s'exécute, après avoir afficher une boite de confirmation, dont le contenu se trouve dans l'attribut confirm-text=""
+		**/
 		tendoo.confirmEvent	=	new function(){
 			this.bind		=	function(){
 				$('[confirm-do]').each(function(index, element) {
@@ -899,9 +903,9 @@ $(document).ready(function(){
 			this.bind();
 		};
 
-/**
-*		tools.silentAjax : Attache un évènement AJAX au clic sur un élément ayant l'attribut 'data-requestType="silent"' et "data-url" indiquant l'adresse de la requêtes. Ne prend aucun paramêtre.
-**/					
+		/**
+		*		tools.silentAjax : Attache un évènement AJAX au clic sur un élément ayant l'attribut 'data-requestType="silent"' et "data-url" indiquant l'adresse de la requêtes. Ne prend aucun paramêtre.
+		**/					
 		tendoo.silentAjax	=	new function(){
 			this.bind		=	function(){
 				$('[data-requestType="silent"]').each(function(){
@@ -927,9 +931,9 @@ $(document).ready(function(){
 			}
 			this.bind();
 		}
-/**
-*		tools.tab : Affiche un panel d'applications (modules).
-**/
+		/**
+		*		tools.tab : Affiche un panel d'applications (modules).
+		**/
 		tendoo.tab			=	new function(){
 			this.show		=	function(){
 				$.ajax(tendoo.url.base_url()+'admin/ajax/get_app_tab',{
@@ -951,9 +955,9 @@ $(document).ready(function(){
 				});
 			};
 		};
-/**
-*		tendoo.set_data	: équivalent de la fonction php set_data de tendoo
-**/	
+		/**
+		*		tendoo.set_data	: équivalent de la fonction php set_data de tendoo
+		**/	
 		tendoo.set_data		=	function(key,value,callback){
 			$.ajax(tendoo.url.site_url('admin/ajax/set_data'),{
 				type		:	'POST',
@@ -969,9 +973,9 @@ $(document).ready(function(){
 				}
 			});
 		}
-/**
-*		tendoo.set_user_data : équivalent de la fonction php set_user_data pour les données utilisateurs
-**/
+		/**
+		*		tendoo.set_user_data : équivalent de la fonction php set_user_data pour les données utilisateurs
+		**/
 		tendoo.set_user_data		=	function(key,value,callback){
 			$.ajax(tendoo.url.site_url('admin/ajax/set_user_data'),{
 				type		:	'POST',
@@ -987,9 +991,9 @@ $(document).ready(function(){
 				}
 			});
 		}
-/**
-*		tendoo.toggleLeftMenu : sauvegarde le statut de menu gauche
-**/	
+		/**
+		*		tendoo.toggleLeftMenu : sauvegarde le statut de menu gauche
+		**/	
 		tendoo.toggleLeftMenu		=	new function(){
 			$('[data-toggle="class:nav-vertical"]').bind('click',function(){
 				var currentStatus		=	$('body > section.hbox > aside').hasClass('nav-vertical');
@@ -1002,5 +1006,21 @@ $(document).ready(function(){
 				}
 			});
 		};
+		/**
+				tendoo.indirect_form. Déclenche la soumission d'un formulaire par un bouton qui ne se trouve pas dans le formulaire.
+				<x link-to-form=".primary-form">Soumettre</x>
+		**/
+		tendoo.indirect_form		=	new function(){
+			$(document).ready(function(e) {
+               $('[link-to-form]').each(function(){
+					var form_ref	=	$(this).attr('link-to-form');
+					if( $(form_ref).length > 0 ){
+						$(this).bind( 'click' , function(){
+							$(form_ref).submit();
+						});
+					}
+				}); 
+            });
+		}
 	}
 });

@@ -44,24 +44,24 @@ if($this->instance->users_global->current('ADMIN_THEME') == 1)
 		<header id="headish" class="header b-b <?php echo theme_class();?>">
             <div class="collapse navbar-collapse pull-in">
             	<form class="navbar-form navbar-left m-t-sm" role="search">
-                    <a onclick="document.location	=	'<?php echo $this->instance->url->site_url(array('admin'));?>'" type="submit" class="btn btn-sm btn-white"><i class="fa fa-dashboard"></i> Administration</a>
+                    <a onclick="document.location	=	'<?php echo $this->instance->url->site_url(array('admin'));?>'" type="submit" class="btn btn-sm btn-white"><i class="fa fa-dashboard"></i> <?php echo translate( 'dashboard' );?></a>
                 </form>
 				<?php
-				if($options[0]['CONNECT_TO_STORE'] == "1")
+				if(true == false) // NOT YET ACTIVE $options[0]['CONNECT_TO_STORE'] == "1"
 				{
 				?>
                 <form class="navbar-form navbar-left m-t-sm" role="search">
-                    <a href="javascript:void(0)" id="tendooAppStore" class="btn btn-sm btn-white"><i class="fa fa-shopping-cart"></i> Magasin d'application</a>
+                    <a href="javascript:void(0)" id="tendooAppStore" class="btn btn-sm btn-white"><i class="fa fa-shopping-cart"></i> <?php echo translate( 'app_store' );?></a>
                 </form>
 				<?php
 				}
 				?>
-                <ul class="nav navbar-nav m-l-n" style="margin-left:10px;" data-intro="En accédant à l'empacement 'Outils &raquo; Statistiques' vous retrouverez en permance les statistques. Utilisez également les outils pour gérer votre calendrier et optimiser votre site web pour les moteurs de recherche." data-step="14" data-position="bottom">
+                <ul class="nav navbar-nav m-l-n" style="margin-left:10px;">
                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus-sign-alt"></i> Outils <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li> <a href="<?php echo $this->instance->url->site_url('admin/tools/stats');?>">Statistiques</a> </li>
-                            <li> <a href="<?php echo $this->instance->url->site_url('admin/tools/calendar');?>">Calendrier</a> </li>
-							<li> <a href="<?php echo $this->instance->url->site_url('admin/tools/seo');?>">Outils SEO</a> </li>
+                            <li> <a href="<?php echo $this->instance->url->site_url('admin/tools/stats');?>"><?php echo translate( 'stats' );?></a> </li>
+                            <li> <a href="<?php echo $this->instance->url->site_url('admin/tools/calendar');?>"><?php echo translate( 'calendar' );?></a> </li>
+							<li> <a href="<?php echo $this->instance->url->site_url('admin/tools/seo');?>"><?php echo translate( 'seo_tools' );?></a> </li>
 							<!--<li> <a href="<?php echo $this->instance->url->site_url('admin/tools/filExplorer');?>">Explorateur de fichiers</a> </li>-->
                         </ul>
                     </li>
@@ -69,7 +69,7 @@ if($this->instance->users_global->current('ADMIN_THEME') == 1)
                 <form class="navbar-form navbar-left m-t-sm" role="search">
                     <div class="form-group">
                         <div class="input-group input-s">
-                            <input type="text" class="form-control input-sm no-border bg-white" placeholder="Rechercher">
+                            <input type="text" class="form-control input-sm no-border bg-white" placeholder="<?php echo translate( 'search' );?>">
                             <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-info btn-icon" id="toolbarSearch"><i class="fa fa-search"></i></button>
                             </span> 
@@ -78,7 +78,7 @@ if($this->instance->users_global->current('ADMIN_THEME') == 1)
                 </form>
                 <script>
 				$('#toolbarSearch').bind('click',function(){
-					tendoo.notice.alert('Indisponible pour cette version de tendoo','info');
+					tendoo.notice.alert('<?php echo translate( 'unavaiable_for_this_tendoo' );?>','info');
 				});
 				</script>
                 <ul class="nav navbar-nav navbar-right">
@@ -86,7 +86,7 @@ if($this->instance->users_global->current('ADMIN_THEME') == 1)
                     $sysNot			=	$this->instance->tendoo_admin->get_sys_not();
                     $ttSystNot		=	count($sysNot);
                     ?>
-                    <li class="hidden-xs" data-intro="Gardez un oeil sur ce menu déroulant, qui affichera constamment les notifications système ou provenant de certains modules." data-step="15" data-position="bottom"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell text-white"></i> 
+                    <li class="hidden-xs"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell text-white"></i> 
                     	<?php 
 						if($ttSystNot > 0)
 						{
@@ -98,7 +98,7 @@ if($this->instance->users_global->current('ADMIN_THEME') == 1)
                         <section class="dropdown-menu animated fadeInUp input-s-lg">
                             <section class="panel bg-white">
                                 <header class="panel-heading"> 
-                                	<strong>Vous avez : <span class="count-n"><?php echo $ttSystNot;?></span> notification(s)</strong> 
+                                	<strong><?php echo translate( 'you_got' );?> : <span class="count-n"><?php echo $ttSystNot;?></span> notification(s)</strong> 
 								</header>
                                 <?php
 								if($ttSystNot > 0)

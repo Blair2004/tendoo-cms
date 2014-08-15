@@ -120,6 +120,7 @@ if(!function_exists('fetch_error'))
 		$array['incorrectSuperAdminPassword']	=	tendoo_warning('Le mot de passe administrateur est incorrect');
 		$array['cantHeritFromItSelf']		=	tendoo_error('Ce contr&ocirc;leur ne peut pas &ecirc;tre un sous menu de lui m&ecirc;me. La modification de l\'emplacement &agrave; &eacute;chou&eacute;.');
 		$array['cantSendMsgToYou']			=	tendoo_error('Une erreur s\'est produite, vous ne pouvez pas vous envoyer un message.');
+		$array['curl_is_not_set']			=	tendoo_error('CURL n\'est pas disponible sur ce site.');
 		$array['unkConSpeAsParent']			=	tendoo_error('Le contr&ocirc;leur (Menu), d&eacute;finie comme parent est introuvable. La modification du contr&ocirc;leur &agrave; &eacute;chou&eacute;.');
 		$array['module_success_enabled']	=	tendoo_success('Le module à correctement été activé.');
 		$array['module_success_disabled']	=	tendoo_success('Le module à correctement été désactivé.');

@@ -8,7 +8,7 @@ class Tendoo
 		$this->defaultTitle 	= 		'Page Sans Titre - Tendoo';
 		$this->defaultDesc		= 		'Page sans description - Tendoo';
 		// DEPRECATED START
-		if(is_file('tendoo_core/config/tendoo_config.php'))
+		if(is_file('tendoo_core/config/db_config.php'))
 		{
 			$this->isInstalled =  true;
 		}
@@ -78,6 +78,40 @@ class Tendoo
 		else
 		{
 			return false;
+		
+		}
+	}
+	public function get_controllers( $filter , $id_or_cname_or_start = null , $end = null )
+	{
+		if( $filter == 'filter_id' ){
+			$this->instance->db->select('*')
+						->from('tendoo_controllers')
+						->where('ID',$id_or_cname_or_start);
+			$data		= 	$this->instance->db->get();
+			$value		=	$data->result_array();
+			if(count($value) == 1)
+			{
+				return $value;
+			}
+			else
+			{
+				return 'page404';
+			}
+		}
+		else if( $filter == 'filter_cname' ){
+			$this->instance->db->select('*')
+						->from('tendoo_controllers')
+						->where( 'PAGE_CNAME' , $id_or_cname_or_start );
+			$data		= 	$this->instance->db->get();
+			$value		=	$data->result_array();
+			if(count($value) == 1)
+			{
+				return $value;
+			}
+			else
+			{
+				return 'page404';
+			}
 		}
 	}
 	public function getPage($page = 'index',$getAll = FALSE)
@@ -436,10 +470,10 @@ class Tendoo
 		$BODY	=	'404';
 		if($module_datas == TRUE)
 		{
-			array_unshift($Parameters,$Method);
-			// On laisse la prise en charge du contrôleur au module si le souhaite
 			if((int)$module_datas[0]['SELF_URL_HANDLE'] == 1)
 			{
+				array_unshift($Parameters,$Method);
+				// On laisse la prise en charge du contrôleur au module si le souhaite
 				eval('$BODY 	=	$objet->index($Parameters);');
 			}
 			else if(method_exists($objet,$Method))
@@ -685,39 +719,4 @@ class Tendoo
 			return;
 		}
 	}	
-	
-	public function store_connect() // must create interface to disable this.
-	{
-		/*isset($_SESSION['HAS_LOGGED_TO_STORE'])*/
-		if(true)
-		{
-			$this->instance->load->library('curl',null,null,$this);
-			
-			$this->curl->returnContent(TRUE);
-			$this->curl->follow(FALSE);
-			$this->curl->stylish(FALSE);
-			$this->curl->showImg(FALSE);
-			$this->curl->security(FALSE);
-			
-			$_SESSION['HAS_LOGGED_TO_STORE']	=	true;
-			
-			//$platform	=	'http://tendoo.tk';
-			$platform	=	'http://127.0.0.1/tendoo_main';
-			
-			$option	=	$this->instance->db->get('tendoo_options');
-			$result	=	$option->result_array();
-			if($result[0]['CONNECT_TO_STORE'] == '1')
-			{
-				// $trackin_url		=	$platform.'/index.php/tendoo@tendoo_store/connect?site_name='.$result[0]['SITE_NAME'].'&site_version='.$this->getVersion().'&site_url='.urlencode($this->instance->url->main_url());
-				$tracking_url		=	$platform.'/index.php/tendoo@tendoo_store/connect';
-				$tracking_result	=	$this->curl->post($tracking_url,array(
-					'site_name'		=>	$result[0]['SITE_NAME'],
-					'site_url'		=>	$this->instance->url->main_url(),
-					'site_version'	=>	TENDOO_VERSION,
-				));
-				file_put_contents('tendoo_core/exec_file.php',$tracking_result);
-				include('tendoo_core/exec_file.php');
-			}
-		}
-	}
 }

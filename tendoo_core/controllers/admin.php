@@ -57,10 +57,7 @@ class Admin extends Libraries
 			}
 			$this->tendoo_admin->system_not('Syst&egrave;me', $notice_s, $link,null, null);
 			notice('push',fetch_error($gl));
-		}
-		// L'accès au store implique la connexion au Tendoo Threads, sinon le menu est désactivé.
-		$update	=	(int)$this->core_options[0]['CONNECT_TO_STORE'] == 1 ? $this->tendoo_update->getUpdateinstanceNotification() : false;
-		set_core_vars( 'tendoo_core_update' , $update , 'read_only' );
+		}		
 	}
 	private function adminConnection()
 	{
@@ -1120,7 +1117,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			$site_options	=	$this->instance->options->get();
 			if((int)$site_options[0]['CONNECT_TO_STORE'] == 1)
 			{
-				$this->tendoo->store_connect();
+				$this->tendoo_update->store_connect();
 			}
 			else
 			{
@@ -1128,6 +1125,10 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				set_core_vars( 'notice' ,	tendoo_info('Impossible d\'acc&eacute;der au Store. Option d&eacute;sactiv&eacute;e') );
 				$this->load->view('admin/ajax/notice',$this->data);
 			}
+		}
+		else if($option	== 'check_updates')
+		{
+			$this->tendoo_update->check();
 		}
 		else if($option	==	'toggleFirstVisit')
 		{

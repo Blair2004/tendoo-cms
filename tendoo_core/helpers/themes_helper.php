@@ -288,6 +288,9 @@
 	/**
 	*	set_form
 	**/
+	function declare_form( $namespace , $config ){
+		set_active_theme_vars( $namespace . '_dom' , $config );
+	}
 	function set_form($name_space, $array){
 		$saved_fields				=	get_active_theme_vars( $name_space ) ? get_active_theme_vars( $name_space ) : array();
 		$new_field =	new stdClass;
@@ -300,9 +303,10 @@
 		
 		set_active_theme_vars( $name_space , $saved_fields );
 	}
-	function parse_form( $form_namespace , $array ){
+	function parse_form( $form_namespace ){
 		if( get_active_theme_vars( $form_namespace ))
 		{
+			$array						=	get_active_theme_vars( $form_namespace . '_dom' );
 			$do_use_text				=	return_if_array_key_exists( 'do_use_text' , $array );
 			$each_input_field_class		=	return_if_array_key_exists( 'each_input_field_class' , $array );
 			$each_input_field_id		=	return_if_array_key_exists( 'each_input_field_id' , $array );
@@ -319,7 +323,7 @@
 			$before_each_field_text		=	return_if_array_key_exists( 'before_each_field_text' , $array );
 			$after_each_field_text		=	return_if_array_key_exists( 'after_each_field_text' , $array );
 			
-			foreach( get_active_theme_vars( 'blog_single_reply_form' ) as $field )
+			foreach( get_active_theme_vars( $form_namespace ) as $field )
 			{
 				if(in_array($field->type, array('text','password')))
 				{
@@ -824,21 +828,24 @@
 	*	declare_item() : pour l'enregistrement des items
 	**/
 	function declare_item( $namespace , $config , $callback  = false){
-		$saved_item					=	get_active_theme_vars( 'items_prototype' ) ? get_active_theme_vars( 'items_prototype' ) : array();
+		$saved_item					=	get_active_theme_vars( 'theme_items' ) ? get_active_theme_vars( 'theme_items' ) : array();
 
-		$final[ 'has_loop' ]		=	return_if_array_key_exists( 'has_loop' , $config );
-		$final[ 'before_loop' ]		=	return_if_array_key_exists( 'before_loop' , $config );
-		$final[ 'after_loop' ]		=	return_if_array_key_exists( 'after_loop' , $config );
-		$final[ 'the_loop_item' ]	=	return_if_array_key_exists( 'the_loop_item' , $config );
-		$final[ 'draggable' ]		=	return_if_array_key_exists( 'draggable' , $config );
-		$final[ 'description' ]		=	return_if_array_key_exists( 'description' , $config );
-		$final[ 'human_name' ]		=	return_if_array_key_exists( 'human_name' , $config );
-		$final[ 'namespace'	]		=	$namespace;
-		$final[ 'callback' ]		=	$callback;
+		$final[ 'has_loop' ]				=	return_if_array_key_exists( 'has_loop' , $config );
+		$final[ 'before_loop' ]				=	return_if_array_key_exists( 'before_loop' , $config );
+		$final[ 'after_loop' ]				=	return_if_array_key_exists( 'after_loop' , $config );
+		$final[ 'the_loop_item' ]			=	return_if_array_key_exists( 'the_loop_item' , $config );
+		$final[ 'draggable' ]				=	return_if_array_key_exists( 'draggable' , $config );
+		$final[ 'description' ]				=	return_if_array_key_exists( 'description' , $config );
+		$final[ 'human_name' ]				=	return_if_array_key_exists( 'human_name' , $config );
+		$final[ 'namespace'	]				=	$namespace;
+		$final[ 'callback' ]				=	$callback;
+		$final[ 'is_static' ]				=	return_if_array_key_exists( 'is_static' , $config );
+		$final[ 'item_loopable_fields' ]	=	return_if_array_key_exists( 'item_loopable_fields' , $config );
+		$final[ 'item_global_fields' ]		=	return_if_array_key_exists( 'item_global_fields' , $config );
 		
 		$saved_item[ $namespace ]	=	$final;		
 		
-		return set_active_theme_vars( "items_prototype" , $saved_item );
+		return set_active_theme_vars( "theme_items" , $saved_item );
 	}
 	/**
 	*	set_item
@@ -855,19 +862,28 @@
 	*	events : set_items_vars
 	**/
 	function get_items( $namespace ){
-		$saved_items	=	get_active_theme_vars( 'items_prototype' );
+		$saved_items	=	get_active_theme_vars( 'theme_items' );
 		$style			=	return_if_array_key_exists( $namespace , $saved_items );
-		
 		if( $style ){
 			
 			$has_loop		=	return_if_array_key_exists( 'has_loop' , $style );
 			$before_loop	=	return_if_array_key_exists( 'before_loop' , $style );
 			$after_loop		=	return_if_array_key_exists( 'after_loop' , $style );
 			$the_loop_item	=	return_if_array_key_exists( 'the_loop_item' , $style );
-			
-			$global_data	=	get_active_theme_vars( "items_datas" );
-			$datas			=	return_if_array_key_exists( $namespace , $global_data );
-
+			$is_static		=	return_if_array_key_exists( 'item_loopable_fields' , $style ) && return_if_array_key_exists( 'item_global_fields' , $style );
+			// Si l'élément est statique
+			if( $is_static ){
+				// $datas		=	$style;
+				$th_setting	=	get_active_theme_vars( 'theme_settings' );
+				$datas		=	return_if_array_key_exists( $namespace , $th_setting );
+			} 
+			else 
+			{
+				// Recupération depuis l'API
+				$global_data	=	get_active_theme_vars( "items_datas" );
+				// Recupérations depuis les données renvoyés
+				$datas			=	return_if_array_key_exists( $namespace , $global_data );
+			}
 			if( is_array( $datas ) )
 			{
 				if( has_events( 'handle_' . $namespace ) )
@@ -883,19 +899,21 @@
 						
 							foreach( $datas as $value )
 							{
-								foreach( $value as $key => $value )
-								{
-									$$key	=	$value;
-									// If there are events declared
-									if( has_events ( 'set_'.$namespace.'_items_vars' ) )
+								if( is_array( $value ) ){
+									foreach( $value as $key => $value )
 									{
-										$$key	=	trigger_events( 'set_'.$namespace.'_items_vars' , array( $key , $value ) );
-										// if triggered events return null, we don't consider events
-										if( $$key == null )
+										$$key	=	$value;
+										// If there are events declared
+										if( has_events ( 'set_'.$namespace.'_items_vars' ) )
 										{
-											$$key	=	$value;
-										}
-									}							
+											$$key	=	trigger_events( 'set_'.$namespace.'_items_vars' , array( $key , $value ) );
+											// if triggered events return null, we don't consider events
+											if( $$key == null )
+											{
+												$$key	=	$value;
+											}
+										}							
+									}
 								}
 								// Looping the_loop_item as set on declare_items
 								if( is_array( $the_loop_item ) )
@@ -925,3 +943,11 @@
 			}
 		}
 	}
+	/**
+	*	get_static_items() : return available static items, as they are defined.
+	**/
+	function get_static_items(){
+		return get_active_theme_vars( 'theme_sItems' );
+	};
+	
+	

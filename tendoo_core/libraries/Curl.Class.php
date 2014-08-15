@@ -9,7 +9,14 @@ class Curl
 	private $returnContent= TRUE;
 	public function __construct()
 	{
-		$this->co		=	curl_init();
+		if( function_exists( 'curl_init' ) ){
+			$this->co		=	curl_init();
+		}
+		else {
+			get_instance()->tendoo->error( "curl_is_not_set" );
+			die();
+		}
+		
 	}
 	public function _setOpt($opts,$value)
 	{
@@ -88,6 +95,7 @@ class Curl
 	public function security($option)
 	{
 		if(is_bool($option)):$this->_setOpt(CURLOPT_SSL_VERIFYPEER,$option);endif;
+		return $this;
 	}
 	public function returnContent($e)
 	{
