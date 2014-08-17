@@ -949,5 +949,29 @@
 	function get_static_items(){
 		return get_active_theme_vars( 'theme_sItems' );
 	};
-	
-	
+	/**
+	*	form_exists( '' ) : verifie si un formulaire à été déclaré
+	**/
+	function form_dom_exists( $form_namespace ){
+		return get_active_theme_vars( $form_namespace . '_dom' );
+	}
+	/**
+	*	set_contact_page
+	**/
+	function set_contact_page( $datas ){
+		$final[ 'address_title' ]		=	return_if_array_key_exists( 'address_title' , $datas );
+		$final[ 'addresses' ]			=	return_if_array_key_exists( 'addresses' , $datas );
+		$final[ 'about_us_title' ]		=	return_if_array_key_exists( 'about_us_title' , $datas );
+		$final[ 'about_us' ]			=	return_if_array_key_exists( 'about_us' , $datas );
+		$final[ 'form_title' ]			=	return_if_array_key_exists( 'form_title' , $datas );
+		$final[ 'form_description' ]	=	return_if_array_key_exists( 'form_description' , $datas );
+		$final[ 'map_code' ]			=	return_if_array_key_exists( 'map_code' , $datas );
+		return set_active_theme_vars( 'contact_form_page' , $final );
+	}
+	function get_contact_page( $specific_key = null ){
+		$contact_form_page				= 	get_active_theme_vars( 'contact_form_page' );
+		if( $specific_key != null ){
+			return return_if_array_key_exists( $specific_key , $contact_form_page );
+		}
+		return $contact_form_page;
+	}

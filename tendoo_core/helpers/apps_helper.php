@@ -761,8 +761,11 @@
 		}
 		return false;
 	}
-	function get_active_theme_vars( $key ){
+	function get_active_theme_vars( $key = null ){
 		$active_theme	=	get_core_vars( 'activeTheme' );
+		if( $key == null ) {
+			return $active_theme;
+		}
 		return return_if_array_key_exists( $key , $active_theme );
 	}
 	/**
