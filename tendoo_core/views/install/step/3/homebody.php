@@ -8,6 +8,7 @@
 					</p>
 				</div>
 			</footer>
+            <img src="<?php echo img_url($this->instance->tendoo->getBackgroundImage());?>" style="width:100%;float:left">
 			<section id="content" class="wrapper-md animated fadeInDown scrollable"> 
 				<section class="wrapper">
 					
@@ -269,11 +270,4 @@
 		</section>
 	</section>
 </body>
-<style type="text/css">
-    #backgroundLogin{
-        background:url(<?php echo img_url($this->instance->tendoo->getBackgroundImage());?>) ;
-        background-position:0 0;
-        background-repeat: no-repeat;
-    }
-</style>
 </html>

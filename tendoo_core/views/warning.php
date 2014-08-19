@@ -16,7 +16,7 @@
 					</p>
 				</div>
 			</footer>
-            <img src="<?php echo img_url($this->instance->tendoo->getBackgroundImage());?>" style="width:100%;float:left">
+            <img src="<?php echo img_url(get_instance()->tendoo->getBackgroundImage());?>" style="width:100%;float:left">
             <section id="content">
                 <div class="row m-n">
                     <div class="col-sm-6 col-sm-offset-3">
