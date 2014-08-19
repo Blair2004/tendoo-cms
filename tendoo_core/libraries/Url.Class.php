@@ -329,6 +329,9 @@ Class Url
 				$this->controller		=	'index';
 			}
 		}
+		echo '<pre>';
+		print_r( $this );
+		echo '</pre>';
 	}
 	public function getRewrite()
 	{
