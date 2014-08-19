@@ -7,23 +7,38 @@ class Pages_editor_module_controller extends Libraries
 		parent::__construct();
 		__extends($this);
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->data							=		$data;
-		$this->moduleData					=&		$this->data['module'][0];
-		include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library_2.php');
-		$this->data['ftp_libSmart']			=		new tendoo_refToPage_smart($this->data);
-		$this->data['userUtil']				=&		$this->instance->users_global;		
+		$this->module	=	get_core_vars( 'opened_module' );
+		$this->lib		=	new page_library;
+		$this->data		=	array();
+		$this->data['current_page']		=	get_core_vars( 'page' );
+		set_bread( array (
+			'link'	=>	get_instance()->url->site_url(array($this->data['current_page'][0]['PAGE_CNAME'])),
+			'text'	=>	$this->data['current_page'][0]['PAGE_CNAME']
+		) );
 	}
-	public function index($page= 0)
+	public function index($parameters)
 	{
-		$controller							=		$page == 0 ? $this->url->controller() : $page;
-		set_page('title',$this->data['page'][0]['PAGE_TITLE']);
-		set_page('description',$this->data['page'][0]['PAGE_DESCRIPTION']);
-		// Load View		
-		$this->data['fileContent']			=		$this->data['ftp_libSmart']->getContent($controller);
-		$this->data['section']				=		'main';
-		$this->data['module_content']		=		$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/module_view',$this->data,true,TRUE);
+		// var_dump( $parameters );
+		set_core_vars( 'pages_editor_parameters' , $parameters );
+		set_core_vars( 'pages_editor_loaded_page' , $static_page	=	$this->lib->get_static_page( $parameters ) , 'read_only' );
+		if( is_array( $static_page ) ){
+			if( is_array( return_if_array_key_exists( 'THREAD' , $static_page[0] ) ) ){
+				foreach( $static_page[0][ 'THREAD' ] as $_thread ){
+					$_current_page	=	$this->lib->get_pages( 'filter_title_url' , $_thread );
+					if( $_current_page ){
+						if( return_if_array_key_exists( 'THREAD' , $_current_page[0] ) ){
+							set_bread( array (
+								'link'	=>	get_instance()->url->site_url( $_current_page[0][ 'THREAD' ]),
+								'text'	=>	$_current_page[0][ 'TITLE' ]
+							) );
+						}
+					}
+				}
+			}
+		}
+		set_core_vars( 'module_content' , $this->load->view($this->module[0]['URI_PATH'].'/views/common',$this->data,true,TRUE) );
 		
-		$this->data['theme']->head($this->data);
-		$this->data['theme']->body($this->data);
+		get_core_vars('activeTheme_object')->head($this->data);
+		get_core_vars('activeTheme_object')->body($this->data);
 	}
 }

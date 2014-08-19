@@ -18,7 +18,7 @@
                      <section class="panel">
                         <div class="panel-body">
                            <?php
-								$user	=	$this->users_global->getUser($getSpeContact[0]['USER_ID']);
+								$user	=	get_user($getSpeContact[0]['USER_ID'],'as_id');
 								if($user)
 								{
 									$nameSurname	=	$user['NAME'].' - '.$user['SURNAME'];
@@ -28,7 +28,7 @@
 									$nameSurname	=	'';
 								}
 								?>
-                           <div class="clearfix m-b"> <small class="text-muted pull-right"><?php echo $this->instance->date->timespan($getSpeContact[0]['DATE']);?></small> <a href="#" class="thumb-sm pull-left m-r"> <img src="" class="img-circle bg-danger"> </a>
+                           <div class="clearfix m-b"> <small class="text-muted pull-right"><?php echo $this->date->timespan($getSpeContact[0]['DATE']);?></small> <a href="#" class="thumb-sm pull-left m-r"> <img src="<?php echo $user['AVATAR'];?>" class="img-circle bg-danger"> </a>
                               <div class="clear"> <a href="#"><strong><?php echo ucwords($getSpeContact[0]['USER_NAME']).' ['.$nameSurname.']';?></strong></a> <small class="block text-muted"><?php echo $getSpeContact[0]['USER_COUNTRY'] == '0' ? 'Pays Inconnu' : $getSpeContact[0]['USER_COUNTRY'];?>, <?php echo $getSpeContact[0]['USER_CITY']  == '0' ? 'Ville Inconnu' : $getSpeContact[0]['USER_CITY'];?></small> </div>
                            </div>
                            <p> <?php echo $getSpeContact[0]['USER_CONTENT'];?> </p>

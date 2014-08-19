@@ -9,13 +9,6 @@ $NOTICE_SUPER_ARRAY = $or;
 	{
 		class file_contentAdmin extends Libraries
 		{
-			private $data;
-			private $dir;
-			private $cp_dir;
-			private $core;
-			private $tendoo;
-			private $tendoo_admin;
-			private $users_global;
 			public function __construct($data)
 			{
 				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -27,7 +20,8 @@ $NOTICE_SUPER_ARRAY = $or;
 				$this->tendoo		=&	$this->instance->tendoo;
 				$this->tendoo_admin	=&	$this->instance->tendoo_admin;
 				$this->users_global	=&	$this->instance->users_global;
-				$this->dir			=	'tendoo_modules/'.$this->data['module'][0]['ENCRYPTED_DIR'];
+				$module				=	get_core_vars( 'opened_module' );
+				$this->dir			=	'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'];
 				if(!is_dir($this->dir.'/content_repository'))
 				{
 					mkdir($this->dir.'/content_repository');

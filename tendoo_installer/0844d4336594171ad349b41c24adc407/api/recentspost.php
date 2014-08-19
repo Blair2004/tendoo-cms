@@ -1,14 +1,13 @@
 <?php
 class news_recentspost_api
 {
-	function __construct($data)
+	function __construct($module)
 	{
 		__extends($this);
-		
-		$this->data		=&	$data;
+		$this->module	=	$module;
 		if(!class_exists('News_smart'))
 		{
-			include_once($this->data['MODULE_DIR'].'/library.php');
+			include_once($this->module['URI_PATH'].'/library.php');
 		}
 		$this->lib		=	new News_smart;
 	}
@@ -29,20 +28,20 @@ class news_recentspost_api
 				}
 				$user						=	$this->users_global->getUser($q['AUTEUR']);
 				$final[]					=	array(
-					'LINK'					=>	$this->url->site_url(array($controler[0]['PAGE_CNAME'],'lecture',$q['URL_TITLE'])),
-					'TITLE'					=>	$q['TITLE'],
-					'CONTENT'				=>	$q['CONTENT'],
-					'DATE'					=>	$q['DATE'],
-					'AUTEUR'				=>	$user['PSEUDO'],
-					'THUMB'					=>	$q['IMAGE'],
-					'CATEGORIES'			=>	$category_datas
+					'link'					=>	$this->url->site_url(array($controler[0]['PAGE_CNAME'],'lecture',$q['URL_TITLE'])),
+					'title'					=>	$q['TITLE'],
+					'content'				=>	$q['CONTENT'],
+					'date'					=>	$q['DATE'],
+					'author'				=>	$user,
+					'thumb'					=>	$q['IMAGE'],
+					'categories'			=>	$category_datas
 				);
 			}
 		}
 		else
 		{
 			$final[]					=	array(
-				'LINK'					=>	'http://tendoo.org/index.php/faq/bind-module-to-page',
+				'LINK'					=>	'http://tendoo.org/index.php/apprendre/astuces/comment-attacher-un-module',
 				'TITLE'					=>	'Blogster non affecté à une page',
 				'CONTENT'				=>	'Le module Blogster n\'est pas attaché à une page',
 				'DATE'					=>	'',

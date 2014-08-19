@@ -37,7 +37,7 @@
                                 	<td><a href="<?php echo $this->url->site_url(array('admin','open','modules',$module[0]['ID'],'check',$f['ID']));?>"><?php echo $f['USER_NAME'];?></a></td>
                                     <td><?php echo $this->users_global->getUser($f['USER_ID']) == true ? 'Oui' : 'Non';?></td>
                                     <td><?php echo $f['USER_MAIL'];?></td>
-                                    <td><?php echo $this->instance->date->timespan($f['DATE']);?></td>
+                                    <td><?php echo $this->date->timespan($f['DATE']);?></td>
                                     <td><?php echo $f['STATE'] == '0' ? 'Non lu' : 'Lu';?></td>
                                     <td><a href="<?php echo $this->url->site_url(array('admin','open','modules',$module[0]['ID'],'delete',$f['ID']));?>">Supprimer</a></td>
                                 </tr>

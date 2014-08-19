@@ -247,7 +247,7 @@ class Installation extends Libraries
 	}
 	public function defaultsApp($app)
 	{
-		if($app	==	'nevia')
+		if($app	==	'default_theme')
 		{
 			// Installe le thème par défaut.
 			$appFile				=		array();
@@ -312,10 +312,10 @@ class Installation extends Libraries
 		{
 			// Install "Tendoo_index_mod"
 			$appFile				=		array();
-			$appFile['temp_dir']	=		'41dea5f466452b1555f1fa7d1930d39a';
-			$option					=		$this->options->get("from_install_interface");
+			$appFile['temp_dir']	=		'3aa067f9608858e0898965b2ca683291';
+			$option					=		$this->options->get( "from_install_interface" );
 			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$module					=		$this->tendoo_admin->moduleActivation('tendoo_index_manager',"using_namespace");
+			$module					=		$this->tendoo_admin->moduleActivation( 'tim' ,"using_namespace");
 		}
 		else if($app	==	'file_manager')
 		{

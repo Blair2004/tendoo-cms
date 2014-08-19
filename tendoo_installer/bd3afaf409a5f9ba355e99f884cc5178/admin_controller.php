@@ -5,7 +5,7 @@
 /// -------------------------------------------------------------------------------------------------------------------///
 global $NOTICE_SUPER_ARRAY;
 /// -------------------------------------------------------------------------------------------------------------------///
-$or['widgetCreated']			=	tendoo_success('Le widget &agrave; &eacute;t&eacute; cr&eacute;e.');
+declare_notice( 'widgetCreated' , tendoo_success('Le widget &agrave; &eacute;t&eacute; cr&eacute;e.') );
 $or['errorOccured']				=	tendoo_error('Une erreur s\'est produite durant la cr&eacute;ation du widget.');
 $or['widgetAlreadyExists']		=	tendoo_error('Le widget ne peut pas &ecirc;tre cr&eacute;e. Un autre widget contenant le m&ecirc;me intitul&eacute; existe d&eacute;j&agrave;.');
 $or['unknowWidget']				=	tendoo_error('Ce widget est introuvable.');
@@ -26,13 +26,15 @@ class tendoo_widget_administrator_admin_controller extends Libraries
 		parent::__construct();
 		$this->instance					=	get_instance();
 		$this->tendoo					=	$this->instance->tendoo;
-		$this->moduleNamespace			=	$data['module'][0]['NAMESPACE']; // retreive namespace
+		$this->module					=	get_core_vars( 'opened_module' );
+		$this->moduleNamespace			=	$this->module[0]['NAMESPACE']; // retreive namespace
 		$this->tendoo_admin				=&	$this->instance->tendoo_admin;
 		$this->data						=&	$data;
 		$this->notice					=&	$this->instance->notice;
-		$this->data['module_dir']		=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
+		$this->data['module_dir']		=	$this->module[0]['URI_PATH'];
 		$this->lib						=	new widhandler_lib($this->data);
 		$this->data['lib']				=&	$this->lib;
+		$this->data['options']			=	$this->instance->options->get();
 		
 		// $this->instance->tendoo_admin->menuExtendsBefore($this->load->view($this->data['module_dir'].'/views/menu',$this->data,true,TRUE));
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);

@@ -1,19 +1,21 @@
 	<?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.6);
-$this->appTendooVers(0.98);
+$this->appVers(0.7);
+$this->appTendooVers(1.2);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'news',
-	'HUMAN_NAME'	=> 'Blogster - Le gestionnaire d\'articles',
+	'HUMAN_NAME'	=> 'Blogster - Gestionnaire de blog',
 	'AUTHOR'		=> 'tendoo Group',
 	'DESCRIPTION'	=> 'Créez, modifiez et publiez des articles pour votre blog.',
 	'TYPE'			=> 'BYPAGE',
 	'HAS_WIDGET'	=>	1,
 	'HAS_MENU'		=>	1,
 	'HAS_API'		=>	1,
+	'HAS_PASSIVE_SCRIPTING'	=>	1,
 	'HAS_ICON'		=>	1,
-	'TENDOO_VERS'	=> 0.98
+	'TENDOO_VERS'	=> 1.2,
+	'HANDLE'		=>	'BLOG'
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_comments` (

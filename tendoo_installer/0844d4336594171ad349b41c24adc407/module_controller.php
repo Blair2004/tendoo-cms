@@ -1,35 +1,40 @@
 <?php
 class News_module_controller extends Libraries
 {
-	public function __construct($data)
+	public function __construct()
 	{
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		parent::__construct();
 		__extends($this);
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->data					=		$data;
-		$this->news					=	new News_smart($this->data);
-		$this->data['news']			=&		$this->news;
-		$this->data['userUtil']		=&		$this->users_global;	
-		$this->data['setting']		=		$this->data['news']->getBlogsterSetting();	
+		$this->news						=		new News_smart;
+		$this->data['page']				=		get_core_vars('page');
+		$this->data['theme']			=		get_core_vars('activeTheme_object');
+		$this->data['module']			=		get_core_vars('module');		
+
+		$this->data['news']				=&		$this->news;
+		$this->data['userUtil']			=&		$this->users_global;	
+		$this->data['setting']			=		$this->news->getBlogsterSetting();	
+		// Setting Bread
+		$this->data['current_page']		=	get_core_vars( 'page' );
+		set_bread( array (
+			'link'	=>	get_instance()->url->site_url(array($this->data['current_page'][0]['PAGE_CNAME'])),
+			'text'	=>	$this->data['current_page'][0]['PAGE_CNAME']
+		) );
+		// End
 	}
 	public function index($page=1)
 	{		
-		set_page('title',$this->data['page'][0]['PAGE_TITLE']);
-		set_page('description',$this->data['page'][0]['PAGE_DESCRIPTION']);
-		$this->data['theme']->definePageTitle($this->data['page'][0]['PAGE_TITLE']);
-		$this->data['theme']->definePageDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
-		
-		$this->data['ttNews']				=		$this->data['news']->countNews();
-		// Load View		
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$this->data['ttNews']				=	$this->data['news']->countNews();
 		$this->data['pagination']			=	$this->tendoo->paginate(5,$this->data['ttNews'],1,'on','off',$page,$this->url->site_url(array('blog','index')).'/',$ajaxis_link=null);
 		$this->data['pagination'][3]=== false ? $this->url->redirect(array('error','code','page404')) : null;
-		$this->data['getNews']				=		$this->data['news']->getNews($this->data['pagination'][1],$this->data['pagination'][2]);
+		$this->data['getNews']				=	$this->data['news']->getNews($this->data['pagination'][1],$this->data['pagination'][2]);
 		$this->data['currentPage']			=	$page;
-		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_main',$this->data,true,TRUE);
+		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_main',$this->data,true,TRUE) );
 		
-		$this->data['theme']->head($this->data);
-		$this->data['theme']->body($this->data);
+		get_core_vars('activeTheme_object')->head($this->data);
+		get_core_vars('activeTheme_object')->body($this->data);
 	}
 	public function lecture($text,$page=1)
 	{
@@ -53,6 +58,17 @@ class News_module_controller extends Libraries
 		{
 			module_location(array('index?unknowArticle'));
 		}
+		// Setting Bread
+		$current_page	=	get_core_vars( 'page' );
+		set_bread( array (
+			'link'	=>	get_instance()->url->site_url(array($this->data['current_page'][0]['PAGE_CNAME'],'lecture',$this->data['GetNews'][0]['URL_TITLE'])),
+			'text'	=>	'lecture'
+		) );
+		set_bread( array (
+			'link'	=>	"#",
+			'text'	=>	$this->data['GetNews'][0]['TITLE']
+		) );
+		// End
 		$this->load->library('form_validation',null,null,$this);
 		$this->form_validation->set_rules('pseudo','Pseudo','required|min_length[3]|max_length[15]');
 		$this->form_validation->set_rules('mail','Email','required|valid_email');
@@ -103,15 +119,15 @@ class News_module_controller extends Libraries
 		set_page('description',strip_tags($this->data['GetNews'][0]['CONTENT']));
 		set_page('keywords',$keyWords);
 		
-		$this->data['theme']->definePageTitle($this->data['page'][0]['PAGE_TITLE']);
-		$this->data['theme']->definePageDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
+		get_core_vars('activeTheme_object')->definePageTitle($this->data['page'][0]['PAGE_TITLE']);
+		get_core_vars('activeTheme_object')->definePageDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
 		
 		
 		// Load View		
-		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_open',$this->data,true,TRUE);
+		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_open',$this->data,true,TRUE) );
 		// Load View From Theme selected;
-		$this->data['theme']->head($this->data);
-		$this->data['theme']->body($this->data);
+		get_core_vars('activeTheme_object')->head($this->data);
+		get_core_vars('activeTheme_object')->body($this->data);
 	}
 	public function categorie($cat_text, $page = 1) // OK
 	{
@@ -140,8 +156,8 @@ class News_module_controller extends Libraries
 		// 
 		set_page('title',$title);
 		set_page('description',$description);
-		$this->data['theme']->definePageTitle($title);
-		$this->data['theme']->definePageDescription($description);
+		get_core_vars('activeTheme_object')->definePageTitle($title);
+		get_core_vars('activeTheme_object')->definePageDescription($description);
 		// 
 		if($this->data['getArticles']== false)
 		{
@@ -160,10 +176,10 @@ class News_module_controller extends Libraries
 		}
 		
 		$this->data['section']	=		'category';
-		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_category',$this->data,true,TRUE);
+		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_category',$this->data,true,TRUE) );
 		// ----------------------------------------------------------------------------------------------------------------------------------//
-		$this->data['theme']->head($this->data);
-		$this->data['theme']->body($this->data);
+		get_core_vars('activeTheme_object')->head($this->data);
+		get_core_vars('activeTheme_object')->body($this->data);
 	}
 	public function tags($tags_name = '',$page	=	1)
 	{
@@ -194,8 +210,8 @@ class News_module_controller extends Libraries
 		set_page('title',$title);
 		set_page('description',$description);
 		// 
-		$this->data['theme']->definePageTitle($title);
-		$this->data['theme']->definePageDescription($description);
+		get_core_vars('activeTheme_object')->definePageTitle($title);
+		get_core_vars('activeTheme_object')->definePageDescription($description);
 		//
 		
 		if($this->data['tagArticles']== false)
@@ -214,10 +230,10 @@ class News_module_controller extends Libraries
 		}
 		
 		$this->data['section']				=	'keywords';
-		$this->data['module_content']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_keywords',$this->data,true,TRUE);
+		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_keywords',$this->data,true,TRUE) );
 		// ----------------------------------------------------------------------------------------------------------------------------------//
-		$this->data['theme']->head($this->data);
-		$this->data['theme']->body($this->data);
+		get_core_vars('activeTheme_object')->head($this->data);
+		get_core_vars('activeTheme_object')->body($this->data);
 	}
 	
 }

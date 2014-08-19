@@ -7,8 +7,8 @@ class tags_news_common_widget
 			Reçois la zone dans laquelle le widget est appellé, voir clé ['widgets']['requestedZone'] : (LEFT, RIGHT, BOTTOM).
 		*/
 		$this->instance		=	get_instance();
-		$this->data		=&	$data;
-		$this->theme	=&	$this->data['theme'];
+		$this->data		=	$data;
+		$this->theme	=	get_core_vars('activeTheme_object');
 		$this->location	=	MODULES_DIR.$this->data['currentWidget']['WIDGET_MODULE']['ENCRYPTED_DIR'];
 		
 		if(!class_exists('News_smart'))
@@ -23,28 +23,19 @@ class tags_news_common_widget
 		// Recupération du contrôleur attaché au module.
 		
 		$controler		=	$this->instance->tendoo->getControllersAttachedToModule('news');
-		
-		$tags			=	'<ul>';
+		$tags			=	array();
 		foreach($this->data['getTotalKeyWords']  as $gtk)
 		{
-			$tags		.=	'<a href="'.$this->instance->url->site_url(array($controler[0]['PAGE_CNAME'],'tags',$gtk['URL_TITLE'])).'">'.$gtk['TITLE'].'</a> ';
+			$tags[]		=	array(
+				'link'	=>	$this->instance->url->site_url(array($controler[0]['PAGE_CNAME'],'tags',$gtk['URL_TITLE'])),
+				'text'	=>	$gtk['TITLE']
+			);
 		}
-		$tags			.=	'</ul>';
 		if(in_array($this->data['widgets']['requestedZone'],array('LEFT','BOTTOM','RIGHT')))
 		{
-			$rZone		=&	$this->data['widgets']['requestedZone']; // requestedZone
-			if($rZone == 'LEFT')
-			{
-				$this->theme->defineLeftWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$tags);
-			}
-			elseif($rZone == 'RIGHT')
-			{
-				$this->theme->defineRightWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$tags);
-			}
-			else
-			{
-				$this->theme->defineBottomWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$tags);
-			}
+			$widget_title	=	$this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'];
+			$rZone			=	$this->data['widgets']['requestedZone']; // requestedZone
+			set_widget( strtolower($rZone) , $widget_title , $tags , 'tags' );
 		}
 	}
 }

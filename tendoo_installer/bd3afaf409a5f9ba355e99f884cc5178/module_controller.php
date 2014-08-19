@@ -22,7 +22,7 @@ class tendoo_widget_administrator_module_controller
 			{
 				if($w['WIDGET_NAMESPACE'] == 'texte')
 				{
-					$this->data['theme']->defineRightWidget($w['WIDGET_TITLE'],$w['WIDGET_PARAMETERS']);
+					set_widget( "right" , $w['WIDGET_TITLE'] , $w['WIDGET_PARAMETERS'] , "text" );
 				}
 			}
 			else 
@@ -44,8 +44,8 @@ class tendoo_widget_administrator_module_controller
 						$w_output	=	$this->instance->tendoo->interpreter(
 							$w['WIDGET_NAMESPACE'].'_'.$w['WIDGET_MODNAMESPACE'].'_common_widget',
 							'index',
-							array(), // valeur envoyé au controlleur d widget.
-							$this->data
+							array(),
+							$this->data					
 						);
 					}
 				}
@@ -65,7 +65,7 @@ class tendoo_widget_administrator_module_controller
 			{
 				if($w['WIDGET_NAMESPACE'] == 'texte')
 				{
-					$this->data['theme']->defineBottomWidget($w['WIDGET_TITLE'],$w['WIDGET_PARAMETERS']);
+					set_widget( "bottom" , $w['WIDGET_TITLE'] , $w['WIDGET_PARAMETERS'] , "text" );
 				}
 			}
 			else
@@ -87,7 +87,7 @@ class tendoo_widget_administrator_module_controller
 						$w_output	=	$this->instance->tendoo->interpreter(
 							$w['WIDGET_NAMESPACE'].'_'.$w['WIDGET_MODNAMESPACE'].'_common_widget',
 							'index',
-							array(), // valeur envoyé au controlleur d widget.
+							array(),
 							$this->data
 						);
 					}
@@ -99,43 +99,43 @@ class tendoo_widget_administrator_module_controller
 			}
 		}
 		// End Bootom widgets
-		
-		return;
-		if(count($this->data['ttActivWid']) > 0 && is_array($this->data['ttActivWid']))
+		$this->data['getLeftWidget']=		$this->lib->getWidgets('LEFT');
+		foreach($this->data['getLeftWidget'] as $w)
 		{
-			foreach($this->data['ttActivWid'] as $w) // Récupération des widgets activé depuis l'espace d'admin (ESAD)
+			if(strtolower($w['WIDGET_MODNAMESPACE']) == 'system')
 			{
-				if($w['WIDGET_REFERING_OBJ_NAMESPACE'] == '') // Si aucun module n'est indexé, alors c un simple widget.
+				if($w['WIDGET_NAMESPACE'] == 'texte')
 				{
-					$this->data['theme']->defineWidget($w['WIDGET_HEAD'],$w['WIDGET_CONTENT']);
+					set_widget( "left" , $w['WIDGET_TITLE'] , $w['WIDGET_PARAMETERS'] , "text" );
 				}
-				else // Sinon
+			}
+			else
+			{
+				$module				=	$this->tendoo->getSpeModuleByNamespace($w['WIDGET_MODNAMESPACE']);
+				$module				=&	$module[0];	// Modification de la variable.
+				$configFile			=	MODULES_DIR.$module['ENCRYPTED_DIR'].'/config/widget_config.php';
+				$path				=	MODULES_DIR.$module['ENCRYPTED_DIR'].'/'; // Chemin d'accès
+				if(is_file($configFile)) // Test sur l'exitence des fichiers.
 				{
-					$module			=	$this->instance->tendoo->getSpeMod($w['WIDGET_REFERING_OBJ_NAMESPACE'],FALSE); // Recuperation du module en question
-					$module			=&	$module[0];	// Modification de la variable.
-					$path			=	MODULES_DIR.$module['ENCRYPTED_DIR'].'/'; // Chemin d'accès
-					$configFile		=	MODULES_DIR.$module['ENCRYPTED_DIR'].'/config/widget_config.php'; // Chemin d'accès configuration
-					if(is_file($configFile)) // Test sur l'exitence des fichiers.
+					include_once($configFile); // Intégration des fichiers testé
+					if(array_key_exists($w['WIDGET_NAMESPACE'],$WIDGET_CONFIG)) // verification sur l'existence de la clé porteuse d'un tableau
 					{
-						include_once($configFile); // Intégration des fichiers testé
-						if(array_key_exists($w['WIDGET_REFERING_NAME'],$WIDGET_CONFIG)) // verification sur l'existence de la clé porteuse d'un tableau
-						{
-							$WIDGET_CONFIG[$w['WIDGET_REFERING_NAME']]['WIDGET_MODULE']		=&	$module; // AJoute le module concerné au widget
-							$WIDGET_CONFIG[$w['WIDGET_REFERING_NAME']]['WIDGET_INFO']		=&	$w; // Ajoute les informations spécifies par l'utilisatuer
-							$this->data['currentWidget']	=&	$WIDGET_CONFIG[$w['WIDGET_REFERING_NAME']]; // Ajoute les informations sur widget au super tablea $this->data, qui sera utilisé plus tard.
-							include_once($path.$WIDGET_CONFIG[$w['WIDGET_REFERING_NAME']]['WIDGET_FILES']); // Include widget controller;
-							$w_output	=	$this->instance->tendoo->interpreter(
-								$w['WIDGET_REFERING_NAME'].'_'.$module['NAMESPACE'].'_common_widget',
-								'index',
-								array(), // valeur envoyé au controlleur d widget.
-								$this->data
-							);
-						}
+						$WIDGET_CONFIG[$w['WIDGET_NAMESPACE']]['WIDGET_MODULE']		=&	$module; // AJoute le module concerné au widget
+						$WIDGET_CONFIG[$w['WIDGET_NAMESPACE']]['WIDGET_INFO']		=&	$w; // Ajoute les informations spécifies par l'utilisatuer
+						$this->data['currentWidget']								=&	$WIDGET_CONFIG[$w['WIDGET_NAMESPACE']]; // Ajoute les informations sur widget au super tablea $this->data, qui sera utilisé plus tard.
+						$this->data['widgets']['requestedZone']						=	'BOTTOM'; // Set Requested Zone
+						include_once($path.$WIDGET_CONFIG[$w['WIDGET_NAMESPACE']]['WIDGET_FILES']); // Include widget controller;
+						$w_output	=	$this->instance->tendoo->interpreter(
+							$w['WIDGET_NAMESPACE'].'_'.$w['WIDGET_MODNAMESPACE'].'_common_widget',
+							'index',
+							array(),
+							$this->data
+						);
 					}
-					else
-					{
-						$this->instance->notice->push_notice('<strong>Une erreur s\'est produite durant le chargement des widgets');
-					}
+				}
+				else
+				{
+					$this->instance->notice->push_notice('<strong>Une erreur s\'est produite durant le chargement des widgets');
 				}
 			}
 		}

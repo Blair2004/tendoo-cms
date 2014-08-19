@@ -8,7 +8,7 @@ class comments_news_common_widget
 		*/
 		$this->instance		=	get_instance();
 		$this->data		=&	$data;
-		$this->theme	=&	$this->data['theme'];
+		$this->theme	=	get_core_vars('activeTheme_object');
 		$this->location	=	MODULES_DIR.$this->data['currentWidget']['WIDGET_MODULE']['ENCRYPTED_DIR'];
 		
 		if(!class_exists('News_smart'))
@@ -47,19 +47,9 @@ class comments_news_common_widget
 		$end			.=	'</ul>';
 		if(in_array($this->data['widgets']['requestedZone'],array('LEFT','BOTTOM','RIGHT')))
 		{
-			$rZone		=&	$this->data['widgets']['requestedZone']; // requestedZone
-			if($rZone == 'LEFT')
-			{
-				$this->theme->defineLeftWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$end);
-			}
-			elseif($rZone == 'RIGHT')
-			{
-				$this->theme->defineRightWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$end);
-			}
-			else
-			{
-				$this->theme->defineBottomWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$end);
-			}
+			$widget_title	=	$this->data['currentWidget'][ 'WIDGET_INFO' ][ 'WIDGET_TITLE' ];
+			$zone			=	$this->data['widgets']['requestedZone']; // requestedZone
+			set_widget( strtolower($zone) , $widget_title , $end , 'text' );
 		}
 	}
 }

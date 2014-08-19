@@ -93,7 +93,7 @@
 		var installStatus		=	true;
 		var defaultsApp			=	new Array();
 			defaultsApp[1]		=	"tendoo_index_mod";
-			defaultsApp[2]		=	"nevia";
+			defaultsApp[2]		=	"default_theme";
 			defaultsApp[3]		=	"news";
 			defaultsApp[4]		=	"file_manager";
 			defaultsApp[5]		=	"widget_admin";
@@ -102,7 +102,7 @@
 			defaultsApp[8]		=	"final_config";
 		var defaultsAppText		=	new Array();
 			defaultsAppText[1]	=	'Installation du module Index Manager...';
-			defaultsAppText[2]	=	'Installation du thème Nevia...';
+			defaultsAppText[2]	=	'Installation du thème par defaut...';
 			defaultsAppText[3]	=	'Installation du module Blogster...';
 			defaultsAppText[4]	=	'Installation du module Bibiothèque Multimédia...';
 			defaultsAppText[5]	=	'Installation du module Gestionnaire de widgets...';
@@ -111,7 +111,7 @@
 			defaultsAppText[8]	=	'Configuration du site...';
 		var defaultsAppFinish	=	new Array();
 			defaultsAppFinish[1]=	'<span style="color:green">Installation du module terminée</span>';
-			defaultsAppFinish[2]=	'<span style="color:green">Installation du thème Nevia terminée</span>';
+			defaultsAppFinish[2]=	'<span style="color:green">Installation du thème terminée</span>';
 			defaultsAppFinish[3]=	'<span style="color:green">Installation du module Blogster terminée</span>';
 			defaultsAppFinish[4]=	'<span style="color:green">Installation du "Bibiothèque Multimédia" terminée</span>';
 			defaultsAppFinish[5]=	'<span style="color:green">Installation du Gestionnaire de widgets terminée</span>';
@@ -145,8 +145,8 @@
 						case "news"	:
 							action	=	"<?php echo $this->instance->url->site_url(array('install','installApp'));?>/news";
 						break;
-						case "nevia"	:
-							action	=	"<?php echo $this->instance->url->site_url(array('install','installApp'));?>/nevia";
+						case "default_theme"	:
+							action	=	"<?php echo $this->instance->url->site_url(array('install','installApp'));?>/default_theme";
 						break;	
 						case "tendoo_index_mod":
 							action	=	"<?php echo $this->instance->url->site_url(array('install','installApp'));?>/tendoo_index_mod";									

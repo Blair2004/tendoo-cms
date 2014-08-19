@@ -1,8 +1,9 @@
 <?php
 // ARTICLE SECTION
-$userdata				=	$this->instance->users_global->getUser($GetNews[0]['AUTEUR']);
+$userdata				=	get_user($GetNews[0]['AUTEUR'],'as_id');
 $date					=	$GetNews[0]['DATE'];
 $Ccategory				=	$news->getArticlesRelatedCategory($GetNews[0]['ID']);
+$getKeywords			=	$news->getNewsKeyWords($GetNews[0]['ID']);
 // Recupération des catégories
 $categories				=	array();
 if($Ccategory)
@@ -26,24 +27,25 @@ foreach($getKeywords as $key)
 		'DESCRIPTION'	=>	$key['DESCRIPTION']
 	);
 }
-$theme->defineSingleBlogPost(
-	$title				=	$GetNews[0]['TITLE'],
-	$content			=	$GetNews[0]['CONTENT'],
-	$thumb				=	$GetNews[0]['IMAGE'],
-	$full				=	$GetNews[0]['IMAGE'],
-	$author				=	$userdata,
-	$timestamp			=	$GetNews[0]['DATE'],
-	$categories,
-	$keywords
-);
-$theme->defineTT_SBP_comments($news->countComments($GetNews[0]['ID']));
+set_blog_single( array (
+	'title'			=>		$GetNews[0]['TITLE'],
+	'content'		=>		$GetNews[0]['CONTENT'],
+	'thumb'			=>		$GetNews[0]['IMAGE'],
+	'full'			=>		$GetNews[0]['IMAGE'],
+	'author'		=>		$userdata,
+	'timestamp'		=>		$GetNews[0]['DATE'],
+	'categories'	=>		$categories,
+	'keywords'		=>		$keywords,
+	'comments'		=>		$news->countComments($GetNews[0]['ID'])
+) );
 // intégration des commentaires
 if(count($Comments) >0)
 {
 	foreach($Comments as $c)
 	{
-		$userdata		=	$this->instance->users_global->getUser($c['AUTEUR']);
+		$userdata		=	get_user( $c['AUTEUR'] , 'as_id' );
 		$final_user		=	$userdata;
+		
 		if(!$userdata)
 		{
 			$final_user	=	array(
@@ -51,20 +53,24 @@ if(count($Comments) >0)
 				'ID'		=>	0,
 				'EMAIL'		=>	'',
 			);
+			$author_link	=	'#';
 		}
-		$theme->defineSBP_comments(
-			$author			=	$final_user,
-			$authorLink		=	'#',
-			$content		=	$c['CONTENT'],
-			$timestamp		=	$c['DATE']
-		);
+		else
+		{
+			$author_link	=	get_instance()->url->site_url(array('account','profile',$userdata['PSEUDO']));
+		}
+		set_blog_comment( array (
+			'author'		=>	$final_user,
+			'authorlink'	=>	$author_link,
+			'content'		=>	$c['CONTENT'],
+			'timestamp'		=>	$c['DATE']
+		) );
 	}
 }
-// Pagination
-$theme->set_pagination_datas(array(
+set_pagination( array(
 	'innerLink'			=>		$pagination[4],
 	'currentPage'		=>		$currentPage
-));
+) );
 // Intégration du formulaire de réponse.
 if($this->instance->users_global->isConnected())
 {
@@ -81,67 +87,64 @@ if($setting['EVERYONEPOST'] == 0)
 {
 	if($userUtil->isConnected())
 	{
-		$theme->defineForm(array(
-			'text'			=>	'Pseudo',
+		set_form( 'blog_single_reply_form' , array(
+			'type'			=>	'text',
 			'name'			=>	'pseudo',
 			'value'			=>	$pseudo,
-			'subtype'		=>	'text',
-			'type'			=>	'input'
+			'placeholder'	=>	'Entrez votre pseudo',
+			'text'			=>	'Entrez votre pseudo'
 		));
-		$theme->defineForm(array(
-			'text'			=>	'Entrez votre email',
+		set_form( 'blog_single_reply_form' , array(
+			'type'			=>	'text',
 			'name'			=>	'mail',
 			'value'			=>	$email,
-			'subtype'		=>	'text',
-			'type'			=>	'input'
+			'placeholder'	=>	'Entrez votre email',
+			'text'			=>	'Entrez votre email'
 		));
-		$theme->defineForm(array(
-			'text'			=>	'Entrez votre commentaire',
+		set_form( 'blog_single_reply_form' , array(
+			'type'			=>	'textarea',
 			'name'			=>	'content',
-			'subtype'		=>	'text',
-			'type'			=>	'textarea'
+			'placeholder'	=>	'Entrez votre commentaire',
+			'text'			=>	'Entrez votre commentaire'
 		));
-		$theme->defineForm(array(
-			'subtype'		=>	'submit',
-			'value'			=>	'Poster',
-			'type'			=>	'input'
+		set_form( 'blog_single_reply_form' , array(
+			'type'			=>	'submit',
+			'value'			=>	'Publier le commentaire'
 		));
 	}
 	else
 	{
-		$core->notice->push_notice(fetch_error('connectToComment'));
+		get_instance()->notice->push_notice(fetch_error('connectToComment'));
 	}
 }
 else
 {
-	
-		$theme->defineForm(array(
-			'text'			=>	'Pseudo',
-			'name'			=>	'pseudo',
-			'value'			=>	$pseudo,
-			'subtype'		=>	'text',
-			'type'			=>	'input'
-		));
-		$theme->defineForm(array(
-			'text'			=>	'Entrez votre email',
-			'name'			=>	'mail',
-			'value'			=>	$email,
-			'subtype'		=>	'text',
-			'type'			=>	'input'
-		));
-		$theme->defineForm(array(
-			'text'			=>	'Entrez votre commentaire',
-			'name'			=>	'content',
-			'subtype'		=>	'text',
-			'type'			=>	'textarea'
-		));
-		$theme->defineForm(array(
-			'subtype'		=>	'submit',
-			'value'			=>	'Poster',
-			'type'			=>	'input'
-		));
+	set_form( 'blog_single_reply_form' , array(
+		'type'			=>	'text',
+		'name'			=>	'pseudo',
+		'value'			=>	$pseudo,
+		'placeholder'	=>	'Entrez votre pseudo',
+		'text'			=>	'Entrez votre pseudo'
+	));
+	set_form( 'blog_single_reply_form' , array(
+		'type'			=>	'text',
+		'name'			=>	'mail',
+		'value'			=>	$email,
+		'placeholder'	=>	'Entrez votre email',
+		'text'			=>	'Entrez votre email'
+	));
+	set_form( 'blog_single_reply_form' , array(
+		'type'			=>	'textarea',
+		'name'			=>	'content',
+		'placeholder'	=>	'Entrez votre commentaire',
+		'text'			=>	'Entrez votre commentaire'
+	));
+	set_form( 'blog_single_reply_form' , array(
+		'type'			=>	'submit',
+		'value'			=>	'Publier le commentaire'
+	));
 	
 }		
 // Affichage du single article
-$theme->parseBlog();
+$theme->blog_single();
 	

@@ -1,20 +1,21 @@
 <?php
-/// -------------------------------------------------------------------------------------------------------------------///
-global $NOTICE_SUPER_ARRAY;
-/// -------------------------------------------------------------------------------------------------------------------///
-$or['unknowContactMessage']			=	tendoo_error('Discussion introuvable ou indisponible.');
-
-/// -------------------------------------------------------------------------------------------------------------------///
-$NOTICE_SUPER_ARRAY = $or;
-/// -------------------------------------------------------------------------------------------------------------------///
-
-class tendoo_contact_handler_admin_controller
+class tendoo_contact_handler_admin_controller extends Libraries
 {
 	public function __construct($data)
 	{
-		$this->data						=&	$data;
+		parent::__construct();
 		__extends($this);
-		
+		// **
+		// Setup Admin Menu
+		setup_admin_left_menu( 'Contact Manager' , 'comments' );
+		add_admin_left_menu( 'Accueil' , module_url( array( 'index' ) ) );
+		add_admin_left_menu( 'Réglages' , module_url( array( 'setting' ) ) );
+		// End Setup Admin Menu
+		declare_notices( 'posted' , tendoo_success( 'Message envoyé.' ) );
+		declare_notices( 'unknowContactMessage' , tendoo_error( 'Discussion introuvable ou indisponible.' ) );
+		// **
+		$this->data						=&	$data;		
+		$this->data['module']			=	$data['module']	=	get_core_vars( 'opened_module' );
 		$this->module_dir				=	MODULES_DIR.$data['module'][0]['ENCRYPTED_DIR'];
 		$this->module_namespace			=	$data['module'][0]['NAMESPACE']; // retreive namespace
 		$this->module_id				=	$data['module'][0]['ID'];
@@ -27,6 +28,7 @@ class tendoo_contact_handler_admin_controller
 		$this->tendoo_admin->menuExtendsBefore($this->load->view($this->module_dir.'/views/menu',$this->data,true,TRUE));
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true,FALSE,$this);
 		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE,$this);
+		set_page('description',$this->data['module'][0]['HUMAN_NAME']);
 		
 	}
 	public function index($page	=	1,$action = "",$element	=	'')
@@ -37,7 +39,7 @@ class tendoo_contact_handler_admin_controller
 
 
 		$this->data['retreiContact']	=	$this->lib->getSendedContact($this->data['paginate'][1],$this->data['paginate'][2]);
-		set_page('title',$this->data['module'][0]['HUMAN_NAME'].' - Liste des messages');
+		set_page('title','Liste des messages');
 		
 		$this->data['body']			=	$this->load->view($this->module_dir.'/views/body',$this->data,true,TRUE,$this);
 		return $this->data['body'];
@@ -45,7 +47,6 @@ class tendoo_contact_handler_admin_controller
 	public function setting()
 	{
 		$this->load->library('form_validation');
-		__extends($this);
 		if(isset($_POST['addContact']))
 		{
 			$this->form_validation->set_rules('contactType','Le champ du type','trim|required');
@@ -113,8 +114,8 @@ class tendoo_contact_handler_admin_controller
 		$this->data['getFields']	=	$this->lib->getToggledFields();
 		$this->data['getContact']	=	$this->lib->getContact();
 		
-		set_page('title',$this->data['module'][0]['HUMAN_NAME'].' - Param&ecirc;tres');
-		$this->instance->visual_editor->loadEditor(1);
+		set_page('title','Param&ecirc;tres');
+		$this->visual_editor->loadEditor(1);
 		$this->data['body']			=	$this->load->view($this->module_dir.'/views/setting',$this->data,true,TRUE,$this);
 		return $this->data['body'];
 	}
@@ -128,7 +129,7 @@ class tendoo_contact_handler_admin_controller
 		$this->data['getSpeContact']	=	$this->lib->getSendedContact($id);
 		if($this->data['getSpeContact'] == FALSE): $this->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
 		
-		set_page('title',$this->data['module'][0]['HUMAN_NAME'].' - Lire un message');
+		set_page('title','Lecture d\'un message');
 		
 		$this->data['body']			=	$this->load->view($this->module_dir.'/views/read',$this->data,true,TRUE,$this);
 		return $this->data['body'];

@@ -41,7 +41,7 @@ class news_featuredpost_api
 		else
 		{
 			$final[]					=	array(
-				'LINK'					=>	'http://tendoo.org/index.php/faq/bind-module-to-page',
+				'LINK'					=>	'http://tendoo.org/index.php/apprendre/astuces/comment-attacher-un-module',
 				'TITLE'					=>	'Blogster non affecté à une page',
 				'CONTENT'				=>	'Le module Blogster n\'est pas attaché à une page',
 				'DATE'					=>	'',

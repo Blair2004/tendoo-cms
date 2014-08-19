@@ -1,4 +1,5 @@
 <?php 
+$theme	=	get_core_vars('activeTheme_object');
 if(is_array($lib_options) && count($lib_options) > 0)
 {
 	$o	=&	$lib_options[0];
@@ -48,16 +49,23 @@ if(is_array($lib_options) && count($lib_options) > 0)
 			$theme->defineCarousselTitle($o['CAROUSSEL_TITLE']);
 			foreach($api_data as $a)
 			{
-				$theme->defineCaroussel(
+				set_item( 'slider' , array(
+					'title'		=>	$a[ 'TITLE' ],
+					'content'	=>	word_limiter(strip_tags($a[ 'CONTENT' ]), 100),
+					'thumb'		=>	$a[ 'THUMB' ],
+					'link'		=>	$a[ 'LINK' ]
+				) );
+				/*$theme->defineCaroussel(
 					$a['TITLE'],
 					$a['CONTENT'],
 					$a['THUMB'],
 					$a['LINK'],
 					null
-				);
+				);*/
 			}
 		}
 	}
+	$theme->home();
 	if($o['SHOW_FEATURED'] == '1')
 	{
 		if($o['ON_FEATURED'] != '')
@@ -163,5 +171,4 @@ if(is_array($lib_options) && count($lib_options) > 0)
 		$theme->definePartnersTitle($o['PARTNER_TITLE']);
 		$theme->definePartnersContent($o['PARTNERS_CONTENT']);
 	}
-	$theme->parseIndex();
 }

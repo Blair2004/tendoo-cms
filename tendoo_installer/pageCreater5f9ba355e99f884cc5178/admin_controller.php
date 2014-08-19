@@ -1,167 +1,106 @@
 <?php
 class Pages_editor_admin_controller extends Libraries
 {
-	public function __construct($data)
+	public function __construct()
 	{
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		parent::__construct();
 		__extends($this);
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->data						=	$data;
-		$this->moduleData				=	$this->data['module'][0];
-		$this->page_handler				=	new Pages_admin($this->data);
-		
-		$this->moduleData				=	$this->data['module'][0];
-		$this->moduleNamespace			=&	$this->data['module'][0]['NAMESPACE'];
-		include_once(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/library_2.php');
-		$this->rtp_lib					=	new refToPage_lib($this->data);
-		$this->data['rtp_lib']			=&	$this->rtp_lib;
-		$this->dir						=	MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'];
-		$this->tendoo_admin->menuExtendsBefore($this->load->view($this->dir.'/views/menu',$this->data,TRUE,TRUE));
+		$this->config();
+		declare_notice( 'page_created' , tendoo_success( 'La page à correctement été créé.' ) );
+		declare_notice( 'successfully_updated' , tendoo_success( 'La page à correctement été mise à jour.' ) );
+		// --------------------------------------------------------------------
+		$this->data						=	array();
 		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
+		$this->opened_module			=	get_core_vars( 'opened_module' );
+		$this->opened_module			=	$this->opened_module[0];
+		$this->lib						=	new page_library;
+	}
+	private function config()
+	{
+		setup_admin_left_menu( 'Page Editor' , 'edit' );
+		add_admin_left_menu( 'Accueil' , module_url( array( 'index' ) ) );
+		add_admin_left_menu( 'Créer une page' , module_url( array( 'create' ) ) );
+		add_admin_left_menu( 'Réglages' , module_url( array( 'settings' ) ) );
 	}
 	public function index($page = 1)
 	{
-		set_page('title','Page Editor - Page d\'administration');
+		notice( 'push' , tendoo_info( 'Les fils d\'une page ne seront pas accéssibles sur l\'interface public, si cette page est un brouillon.' ) );
+		if( isset( $_POST[ 'page_id' ] ) && return_if_array_key_exists( 'action' , $_POST ) == 'delete' ){
+			if( is_array( $_POST[ 'page_id' ] ) ){
+				foreach( $_POST[ 'page_id' ] as $_page_id ){
+					$this->lib->delete_page( $_page_id );					
+				}
+				notice( fetch_error( 'done' ) );
+			}
+		}
+		$totalPerPages = isset( $_GET[ 'limit' ] ) ? $_GET[ 'limit' ] : 10 ;
 		
-		$this->data['countPages']		=	count($this->page_handler->getPages());
-		$this->data['paginate']			=	$this->tendoo->paginate(10,$this->data['countPages'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
-		if($this->data['paginate'][3] == FALSE): $this->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
-			
-		$this->data['getPages']			=	$this->page_handler->getPages($this->data['paginate'][1],$this->data['paginate'][2]);
-		$this->data['body']				=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/main',$this->data,true,TRUE);
+		set_core_vars( 'totalPages' , $totalPages = count( $this->lib->get_pages( 'all_available' ) ) );
+		$paginate 		=	pagination_helper($totalPerPages,$totalPages,$page,module_url( array( 'index' ) ),$RedirectUrl = array('error','code','page404') ) ;
+		set_core_vars( 'paginate' , $paginate );
+		$get_pages		=	$this->lib->get_pages( 'all_limited' , $paginate[ 'start' ] , $paginate[ 'end' ] );
+		set_core_vars( 'get_pages' , $get_pages );
+		set_page( 'title' , 'Page Editor - Page d\'administration' );
 		
-		return $this->data['body'];
+		return $this->load->view($this->opened_module['URI_PATH'].'/views/main',$this->data,true,TRUE);
 	}
 	public function create()
 	{
-		if($this->tendoo_admin->actionAccess('create_page','pages_editor') === FALSE)
-		{
-			$this->url->redirect(array('admin','index?notice=accessDenied'));
-		}
-		set_page('title','Page Editor - Créer une nouvelle page');
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('page_description','Description de la page','trim|required|min_lenght[5]|max_length[200]');
-		$this->form_validation->set_rules('page_title','Titre de la page','trim|required|min_lenght[5]|max_length[1000]');
-		$this->form_validation->set_rules('page_content','Contenu de la page','trim|required|min_lenght[5]|max_length[100000]');		
-		if($this->form_validation->run())
-		{
-			$this->data['result']	=	$this->page_handler->create(
-				$this->input->post('page_title'),
-				$this->input->post('page_description'),
-				$this->input->post('page_content')
+		$this->load->library( 'form_validation' );
+		$this->form_validation->set_rules( 'page_title' , 'Titre de la page' , 'trim|required' );
+		$this->form_validation->set_rules( 'page_description' , 'Description de la page' , 'trim|required' );
+		$this->form_validation->set_rules( 'page_content' , 'le champ du contenu' , 'trim|required' );
+		if( $this->form_validation->run() ){
+			$post_page	=	$this->lib->set_page( 
+				$this->input->post( 'page_title' ) , 
+				$this->input->post( 'page_content' ) , 
+				$this->input->post( 'page_description' ) , 
+				$this->input->post( 'page_parent' ) ? $this->input->post( 'page_parent' ) : 0 , 
+				$this->input->post( 'page_controller_id' ) ? $this->input->post( 'page_controller_id' ) : 0 , 
+				$process_type = 'create' , 
+				( $this->input->post( 'page_status' ) ? 1 : 0 ) 
 			);
-			if($this->data['result'])
-			{
-				notice('push',fetch_error('done'));
-			}
-			else
-			{
-				notice('push',fetch_error('error'));
-			}
-		}
-		$this->visual_editor->loadEditor(1);
-		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/create',$this->data,true,TRUE);
-		return $this->data['body'];
-	}
-	public function edit($e)
-	{
-		if($this->tendoo_admin->actionAccess('edit_pages','pages_editor') === FALSE)
-		{
-			$this->url->redirect(array('admin','index?notice=accessDenied'));
-		}
-		// Control Sended Form Datas
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('page_description','Description de la page','trim|required|min_lenght[5]|max_length[200]');
-		$this->form_validation->set_rules('page_title','Titre de la page','trim|required|min_lenght[5]|max_length[1000]');
-		$this->form_validation->set_rules('page_content','Contenu de la page','trim|required|min_lenght[5]|max_length[100000]');		
-		$this->form_validation->set_rules('page_id','Identifiant de la page','required|min_lenght[1]');	
-		if($this->form_validation->run())
-		{
-			$this->data['result']	=	$this->page_handler->edit(
-				$this->input->post('page_id'),
-				$this->input->post('page_title'),
-				$this->input->post('page_description'),
-				$this->input->post('page_content')
-			);
-			if($this->data['result'])
-			{
-				notice('push',fetch_error('done'));
-			}
-			else
-			{
-				notice('push',fetch_error('error'));
-			}
-		}
-		// Retreiving News Data
-		$this->data['pageInfo']		=	$this->page_handler->getSpePage($e);
-		set_page('title','Page Editor - Modifier une page');
-		$this->visual_editor->loadEditor(1);		
-		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/edit',$this->data,true,TRUE);
-		return $this->data['body'];
-	}
-	public function delete($e)
-	{
-		if($this->tendoo_admin->actionAccess('delete_page','pages_editor') === FALSE)
-		{
-			$this->url->redirect(array('admin','index?notice=access_denied'));
-		}
-		$code	=	$this->page_handler->deletePage($e);
-		if($code)
-		{
-			$this->url->redirect(array('admin','open','modules',$this->moduleData['ID'].'?notice=done'));
-			return true;
-		}
-		$this->url->redirect(array('admin','open','modules',$this->moduleData['ID'].'?notice=error_occured'));
-		return false;
-	}
-	public function page_linker()
-	{
-		set_page('title','Attributeur de contenu - Page d\'administration');
-				
-		$this->data['supportedPages']	=	array();
-		$pages			=	$this->tendoo_admin->get_pages(null,TRUE);	
-		foreach($pages as $p)
-		{
 			
-			if($p['PAGE_MODULES'] 	==	$this->moduleNamespace)
-			{
-				$this->data['supportedPages'][]	=	$p;
-			}
+			module_location( array( 'edit' , $post_page[ 'ID' ] . '?notice=page_created' ) );
 		}
-		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/page_linker_main',$this->data,true,TRUE);
+				
+		set_page( 'title' , 'Page Editor - Créer une nouvelle page' );		
+		set_core_vars( 'available_controllers' , $this->lib->get_available_controllers() );
+		set_core_vars( 'available_pages' , $this->lib->get_pages( 'all_available' ) );
 		
-		return $this->data['body'];
+		$this->visual_editor->loadEditor(1);
+		return $this->load->view($this->opened_module['URI_PATH'].'/views/create',$this->data,true,TRUE);
 	}
-	public function page_edit($page)
+	public function edit( $page_id )
 	{
-		set_page('title','Attributeur de contenu - Page d\'administration');
-		
-		$this->data['control']		=	$this->tendoo_admin->get_pages($page);
-		if($this->data['control'] == false)
-		{
-			$this->url->redirect(array('error','code','page404'));
+		$this->load->library( 'form_validation' );
+		$this->form_validation->set_rules( 'page_title' , 'Titre de la page' , 'trim|required' );
+		$this->form_validation->set_rules( 'page_id' , 'Identifiant de la page' , 'trim|required' );
+		$this->form_validation->set_rules( 'page_description' , 'Description de la page' , 'trim|required' );
+		$this->form_validation->set_rules( 'page_content' , 'le champ du contenu' , 'trim|required' );
+		if( $this->form_validation->run() ){
+			$post_page	=	$this->lib->set_page( 
+				$this->input->post( 'page_title' ) , 
+				$this->input->post( 'page_content' ) , 
+				$this->input->post( 'page_description' ) , 
+				$this->input->post( 'page_parent' ) ? $this->input->post( 'page_parent' ) : 0 , 
+				$this->input->post( 'page_controller_id' ) ? $this->input->post( 'page_controller_id' ) : 0 , 
+				$process_type = 'edit' , 
+				( $this->input->post( 'page_status' ) ? 1 : 0 ),
+				$this->input->post( 'page_id' )
+			);
+			notice( 'push' , fetch_error( $post_page ) );
 		}
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('content_id','Contenu','trim|required|min_length[1]');
-		$this->form_validation->set_rules('page_id','Identifiant du contr&ocirc;leur','trim|required|min_length[1]');
-		if($this->form_validation->run())
-		{
-			$query	=	$this->rtp_lib->attach($this->input->post('page_id'),$this->input->post('content_id'));
-			if($query)
-			{
-				notice('push',fetch_error('done'));
-			}
-			else
-			{
-				notice('push',fetch_error('error_occured'));
-			}
-		}
-		$this->data['attachement']	=	$this->rtp_lib->isAttached($this->data['control'][0]['ID']);
-		$this->data['pageList']		=	$this->rtp_lib->getContentList();
-		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/page_linker_edit',$this->data,true,TRUE);
+				
+		set_page( 'title' , 'Page Editor - modifier une page' );		
+		set_core_vars( 'available_controllers' , $this->lib->get_available_controllers( $page_id ) );
+		set_core_vars( 'available_pages' , $this->lib->get_pages( 'all_but_not' , $page_id ) );
+		set_core_vars( 'current_page' ,  $this->lib->get_pages( 'filter_id' , $page_id ) );
 		
-		return $this->data['body'];
+		$this->visual_editor->loadEditor(1);
+		return $this->load->view($this->opened_module['URI_PATH'].'/views/edit',$this->data,true,TRUE);
 	}
 }

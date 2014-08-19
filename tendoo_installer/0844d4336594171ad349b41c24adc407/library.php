@@ -27,16 +27,17 @@ $NOTICE_SUPER_ARRAY = $or;
 		class News extends Libraries
 		{
 			private $data;
-			public function __construct($data)
+			public function __construct()
 			{
 				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 				parent::__construct();
 				__extends($this);
 				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-				$this->data		=	$data;
+				$this->module	=	get_core_vars( 'opened_module' );
+				$this->data		=	array();
 				$this->instance	=	get_instance();
 				$this->user		=&	$this->users_global;
-				$this->mod_repo	=	MODULES_DIR.$data['module'][0]['ENCRYPTED_DIR'].'/';
+				$this->mod_repo	=	MODULES_DIR.$this->module[0]['ENCRYPTED_DIR'].'/';
 				// Post les articles programmés.
 				$this->postScheduledArt();
 			}
@@ -68,10 +69,6 @@ $NOTICE_SUPER_ARRAY = $or;
 			{
 				return $this->date->datetime();
 			}
-			public function getMenu()
-			{
-				return $this->load->view($this->mod_repo.'views/menu.php',$this->data,true,true);
-			}
 			public function countNews($action = 'default')
 			{
 				if($action == 'mines')
@@ -81,6 +78,13 @@ $NOTICE_SUPER_ARRAY = $or;
 				else if($action == 'scheduled')
 				{
 					$this->db->where('SCHEDULED',1);
+				}
+				else if( $action == 'published' ){
+					$this->db->where( 'SCHEDULED' , 0 );
+					$this->db->where( 'ETAT' , 1 );
+				}
+				else if( $action == 'draft' ){
+					$this->db->where( 'ETAT' , 0 );
 				}
 				$query = $this->db->get('tendoo_news');
 				return count($query->result_array());

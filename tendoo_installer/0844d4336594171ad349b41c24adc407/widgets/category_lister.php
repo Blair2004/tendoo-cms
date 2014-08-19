@@ -6,7 +6,7 @@ class aflecatdi_news_common_widget
 	{
 		$this->instance		=	get_instance();
 		$this->data		=&	$data;
-		$this->theme	=&	$this->data['theme'];
+		$this->theme	=	get_core_vars('activeTheme_object');
 		$this->location	=	MODULES_DIR.$this->data['currentWidget']['WIDGET_MODULE']['ENCRYPTED_DIR'];
 		
 		if(!class_exists('News_smart'))
@@ -27,30 +27,22 @@ class aflecatdi_news_common_widget
 		
 		//eval($LIMIT)
 		$this->data['ttCat']	=	$this->news->getCatForWidgets(0,$LIMIT);
-		
-		$end			=	'<ul>';
 		$controller		=	$this->instance->tendoo->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['NAMESPACE']);
+		$final_array	=	array();
 		foreach($this->data['ttCat'] as $t)
 		{
-			$end		.=	'<li><a href="'.$this->instance->url->site_url(array($controller[0]['PAGE_CNAME'])).'/categorie/'.$t['URL_TITLE'].'">'.$t['CATEGORY_NAME'].' ('.$t['TOTAL_ARTICLES'].')</a></li>';
+			$final_array[]	=	array(
+				'text'		=>	$t['CATEGORY_NAME'].' ('.$t['TOTAL_ARTICLES'].')',
+				'link'		=>	$this->instance->url->site_url(array($controller[0]['PAGE_CNAME'])).'/categorie/'.$t['URL_TITLE']
+			);
 		}
-		$end			.=	'</ul>';
+		$widget_title		=	$this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'];
 		// For Each Zone
 		if(in_array($this->data['widgets']['requestedZone'],array('LEFT','BOTTOM','RIGHT')))
 		{
-			$rZone		=&	$this->data['widgets']['requestedZone']; // requestedZone
-			if($rZone == 'LEFT')
-			{
-				$this->theme->defineLeftWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$end);
-			}
-			elseif($rZone == 'RIGHT')
-			{
-				$this->theme->defineRightWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$end);
-			}
-			else
-			{
-				$this->theme->defineBottomWidget($this->data['currentWidget']['WIDGET_INFO']['WIDGET_TITLE'],$end);
-			}
+			$widget_title	=	$this->data['currentWidget'][ 'WIDGET_INFO' ][ 'WIDGET_TITLE' ];
+			$zone			=	$this->data['widgets']['requestedZone']; // requestedZone
+			set_widget( strtolower($zone) , $widget_title , $final_array , 'categories' );
 		}
 	}
 }

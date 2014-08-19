@@ -7,16 +7,18 @@ class News_admin_controller extends Libraries
 		parent::__construct();
 		__extends($this);
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$this->_config();
 		$this->data						=	$data;
 		$this->instance					=	get_instance();
-		$this->moduleData				=	$this->data['module'][0];
+		$this->opened_module			=	get_core_vars( 'opened_module' );
+		$this->opened_module			=	$this->opened_module[0];
+		$this->data['module']			=	get_core_vars( 'opened_module' );
 		$this->news						=	new News($this->data);
 		$this->data['news']				=&	$this->news;
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->tendoo_admin->menuExtendsBefore($this->news->getMenu());
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
-		$this->link						=	MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/';
+		$this->link						=	MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/';
 		/*
 			Intégration de la librarie FILE MANAGER : Gestionnaire des fichiers médias.
 		*/
@@ -28,6 +30,16 @@ class News_admin_controller extends Libraries
 			$this->data['fmlib']	=	new tendoo_contents_utility(); // Loading library
 		}
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	}
+	private function _config()
+	{
+		setup_admin_left_menu( 'Blogster' , 'file-text-o' );
+		add_admin_left_menu( 'Accueil' , module_url( array( 'index' ) ) );
+		add_admin_left_menu( 'Ajouter un article' , module_url( array( 'publish' ) ) );
+		add_admin_left_menu( 'Gestion des catégories' , module_url( array( 'category' ) ) );
+		add_admin_left_menu( 'Gestion des commentaires' , module_url( array( 'comments' ) ) );
+		add_admin_left_menu( 'Gestion des mots-clés' , module_url( array( 'tags' ) ) );
+		add_admin_left_menu( 'Réglages' , module_url( array( 'setting' ) ) );
 	}
 	public function index($page	= 1)
 	{
@@ -112,11 +124,11 @@ class News_admin_controller extends Libraries
 		}
 		$this->data['lastestComments']	=	$this->news->getComments(0,5);	
 		$this->data['paginate']	=	
-			$this->tendoo->paginate(10,$count,1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'index')).'/',$ajaxis_link=null);
+			$this->tendoo->paginate(10,$count,1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->url->site_url(array('admin','open','modules',$this->opened_module['ID'],'index')).'/',$ajaxis_link=null);
 		if($this->data['paginate'][3] == FALSE): $this->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
 		set_page('title','Blogster - Page d\'administration');
 		$this->data['getNews']		=	$this->news->getNews($this->data['paginate'][1],$this->data['paginate'][2],FALSE,$filter);
-		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/main',$this->data,true,TRUE);
+		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/main',$this->data,true,TRUE);
 		return $this->data['body'];
 	}
 	public function publish()
@@ -129,7 +141,7 @@ class News_admin_controller extends Libraries
 			$this->data['categories']	=	$this->news->getCat();
 			if(count($this->data['categories']) == 0)
 			{
-				$this->url->redirect(array('admin','open','modules',$this->moduleData['ID'],'category','create?notice=noCategoryCreated'));
+				$this->url->redirect(array('admin','open','modules',$this->opened_module['ID'],'category','create?notice=noCategoryCreated'));
 			}
 			set_page('title','Blogster - Créer un nouvel article');
 			$this->load->library('form_validation');
@@ -167,13 +179,13 @@ class News_admin_controller extends Libraries
 			$this->instance->visual_editor->loadEditor(1);
 			// Ajout des fichier du plugin bootstrap mutiselect
 			$this->file->js_url	=	$this->url->main_url();
-			js_push_if_not_exists(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/js/bootstrap-multiselect');
+			js_push_if_not_exists(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/js/bootstrap-multiselect');
 			$this->file->css_url=	$this->url->main_url();
-			css_push_if_not_exists(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/css/bootstrap-multiselect');
+			css_push_if_not_exists(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/css/bootstrap-multiselect');
 			// Loading Bloster Script
 			$this->file->js_url	=	$this->url->main_url();
-			js_push_if_not_exists(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/js/blogster.script');
-			return $this->data['body']	=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/publish',$this->data,true,TRUE,$this);
+			js_push_if_not_exists(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/js/blogster.script');
+			return $this->data['body']	=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/publish',$this->data,true,TRUE,$this);
 		}
 		else
 		{
@@ -192,7 +204,7 @@ class News_admin_controller extends Libraries
 		$this->data['categories']	=	$this->news->getCat();
 		if(count($this->data['categories']) == 0)
 		{
-			$this->url->redirect(array('admin','open','modules',$this->moduleData['ID'],'category','create?notice=noCategoryCreated'));
+			$this->url->redirect(array('admin','open','modules',$this->opened_module['ID'],'category','create?notice=noCategoryCreated'));
 		}
 		// Control Sended Form Datas
 		$this->load->library('form_validation');
@@ -244,15 +256,15 @@ class News_admin_controller extends Libraries
 		$this->instance->visual_editor->loadEditor(1);
 		// Ajout des fichier du plugin bootstrap mutiselect
 		$this->file->js_url	=	$this->url->main_url();
-		js_push_if_not_exists(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/js/bootstrap-multiselect');
+		js_push_if_not_exists(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/js/bootstrap-multiselect');
 		$this->file->css_url=	$this->url->main_url();
-		css_push_if_not_exists(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/css/bootstrap-multiselect');
+		css_push_if_not_exists(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/css/bootstrap-multiselect');
 		// Loading Bloster Script
 		$this->file->js_url	=	$this->url->main_url();
-		js_push_if_not_exists(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/js/blogster.script');
+		js_push_if_not_exists(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/js/blogster.script');
 		
 	
-		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/edit',$this->data,true,TRUE,$this);
+		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/edit',$this->data,true,TRUE,$this);
 		return $this->data['body'];
 	}
 	public function category($e = 'index',$i = null)
@@ -271,13 +283,13 @@ class News_admin_controller extends Libraries
 			if($i	==	null): $i		=	1;endif; // affecte un lorsque la page n\'est pas correctement défini
 			$page						=&	$i; // don't waste memory
 			$this->data['ttCat']		=	$this->news->countCat();
-			$this->data['paginate']		=	$this->tendoo->paginate(10,$this->data['ttCat'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'category','index')).'/',$ajaxis_link=null);
+			$this->data['paginate']		=	$this->tendoo->paginate(10,$this->data['ttCat'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->url->site_url(array('admin','open','modules',$this->opened_module['ID'],'category','index')).'/',$ajaxis_link=null);
 			if($this->data['paginate'][3] == FALSE): $this->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
 			$this->data['getCat']		=	$this->news->getCat($this->data['paginate'][1],$this->data['paginate'][2]);
 			set_page('title','Blogster - Gestion des cat&eacute;gories');
 			if(isset($_GET['ajax']))
 			{
-				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_category',$this->data,true,TRUE);
+				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/ajax_category',$this->data,true,TRUE);
 				return array(
 					'RETURNED'			=>	$this->data['body'],
 					'MCO'				=>	TRUE
@@ -285,7 +297,7 @@ class News_admin_controller extends Libraries
 			}
 			else
 			{
-				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/category',$this->data,true,TRUE);
+				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/category',$this->data,true,TRUE);
 				return $this->data['body'];
 			}
 		}
@@ -309,7 +321,7 @@ class News_admin_controller extends Libraries
 			
 			if(isset($_GET['ajax']))
 			{
-				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_create_cat',$this->data,true,TRUE);
+				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/ajax_create_cat',$this->data,true,TRUE);
 				return array(
 					'RETURNED'			=>	$this->data['body'],
 					'MCO'				=>	TRUE
@@ -317,7 +329,7 @@ class News_admin_controller extends Libraries
 			}
 			else
 			{
-				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/create_cat',$this->data,true,TRUE);
+				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/create_cat',$this->data,true,TRUE);
 				return $this->data['body'];
 			}
 		}
@@ -350,7 +362,7 @@ class News_admin_controller extends Libraries
 					);
 					if($this->data['notice']	==	'CatDeleted')
 					{
-						$this->url->redirect(array('admin','open','modules',$this->moduleData['ID'],'category?notice='.$this->data['notice']));
+						$this->url->redirect(array('admin','open','modules',$this->opened_module['ID'],'category?notice='.$this->data['notice']));
 					}
 					notice('push',fetch_error($this->data['notice']));
 				}
@@ -358,7 +370,7 @@ class News_admin_controller extends Libraries
 			$this->data['cat']			=	$this->news->retreiveCat($i);
 			if(isset($_GET['ajax']))
 			{
-				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_manage_cat',$this->data,true,TRUE);
+				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/ajax_manage_cat',$this->data,true,TRUE);
 				return array(
 					'RETURNED'			=>	$this->data['body'],
 					'MCO'				=>	TRUE
@@ -366,7 +378,7 @@ class News_admin_controller extends Libraries
 			}
 			else
 			{
-				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/manage_cat',$this->data,true,TRUE);
+				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/manage_cat',$this->data,true,TRUE);
 				return $this->data['body'];
 			}
 		}
@@ -407,11 +419,11 @@ class News_admin_controller extends Libraries
 		{	
 			$this->data['setting']			=	$this->news->getBlogsterSetting();
 			$this->data['ttComments']		=	$this->news->countComments();
-			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttComments'],1,'bg-color-red fg-color-white','bg-color-green fg-color-white',$page,$this->url->site_url(array('admin','open','modules',$this->moduleData['ID'],'comments')).'/');
+			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttComments'],1,'bg-color-red fg-color-white','bg-color-green fg-color-white',$page,$this->url->site_url(array('admin','open','modules',$this->opened_module['ID'],'comments')).'/');
 			$this->data['getComments']		=	$this->news->getComments($this->data['paginate'][1],$this->data['paginate'][2]);
 			if(isset($_GET['ajax']))
 			{
-				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_list_comments',$this->data,true,TRUE);
+				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/ajax_list_comments',$this->data,true,TRUE);
 				return array(
 					'RETURNED'			=>	$this->data['body'],
 					'MCO'				=>	TRUE
@@ -419,10 +431,10 @@ class News_admin_controller extends Libraries
 			}
 			else
 			{
-				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/list_comments',$this->data,true,TRUE);
+				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/list_comments',$this->data,true,TRUE);
 				return $this->data['body'];
 			}
-			$this->data['body']				=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/list_comments',$this->data,true,TRUE);
+			$this->data['body']				=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/list_comments',$this->data,true,TRUE);
 			return $this->data['body'];
 		}
 		else
@@ -474,16 +486,16 @@ class News_admin_controller extends Libraries
 				{
 					if($this->news->deleteComment($this->input->post('hiddenId')))
 					{
-						$this->url->redirect(array('admin','open','modules',$this->moduleData['ID'],'comments?notice=commentDeleted'));
+						$this->url->redirect(array('admin','open','modules',$this->opened_module['ID'],'comments?notice=commentDeleted'));
 					}
 				}
 			}
 			$this->data['speComment']	=	$this->news->getSpeComment($id);
-			if(!$this->data['speComment']): $this->url->redirect(array('admin','open','modules',$this->moduleData['ID'],'comments?notice=unknowComments'));endif; // redirect if comment doesn't exist.
+			if(!$this->data['speComment']): $this->url->redirect(array('admin','open','modules',$this->opened_module['ID'],'comments?notice=unknowComments'));endif; // redirect if comment doesn't exist.
 			set_page('title','Blogster - Gestion de commentaire');
 			if(isset($_GET['ajax']))
 			{
-				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/ajax_manage_comments',$this->data,true,TRUE);
+				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/ajax_manage_comments',$this->data,true,TRUE);
 				return array(
 					'RETURNED'			=>	$this->data['body'],
 					'MCO'				=>	TRUE
@@ -491,7 +503,7 @@ class News_admin_controller extends Libraries
 			}
 			else
 			{
-				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/manage_comments',$this->data,true,TRUE);
+				$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/manage_comments',$this->data,true,TRUE);
 				return $this->data['body'];
 			}
 		}
@@ -556,7 +568,7 @@ class News_admin_controller extends Libraries
 			$this->data['setting']		=	$this->news->getBlogsterSetting();
 			set_page('title','Blogster - Param&ecirc;tres avanc&eacute;');
 			
-			$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/setting',$this->data,true,TRUE);
+			$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/setting',$this->data,true,TRUE);
 			return $this->data['body'];
 		}
 		else
@@ -583,7 +595,7 @@ class News_admin_controller extends Libraries
 			// Set Page Title
 			set_page('title','Blogster - Gestion des mots clés');
 			
-			$this->data['body']			=	$this->load->view(MODULES_DIR.$this->moduleData['ENCRYPTED_DIR'].'/views/keywords_main',$this->data,true,TRUE,$this);
+			$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/views/keywords_main',$this->data,true,TRUE,$this);
 			return $this->data['body'];
 		}
 		else

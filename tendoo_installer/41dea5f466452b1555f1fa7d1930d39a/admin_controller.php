@@ -9,7 +9,7 @@ class tendoo_index_manager_admin_controller extends Libraries
 		$this->instance					=	get_instance();
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->data						=	$data;
-		$this->moduleData				=&	$this->data['module'][0];
+		$this->opened_module				=	get_core_vars( 'opened_module' );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		if(!$this->tendoo_admin->actionAccess('tendoo_index_manager','tendoo_index_manager'))
 		{
@@ -195,6 +195,6 @@ class tendoo_index_manager_admin_controller extends Libraries
 		set_page('title','tendoo Index Manager');
 		$this->instance->visual_editor->loadEditor(1);
 		
-		return $this->data['body']		=	$this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/main.php',$this->data,TRUE,TRUE,$this);
+		return $this->data['body']		=	$this->load->view(MODULES_DIR.$this->opened_module[0]['ENCRYPTED_DIR'].'/views/main.php',$this->data,TRUE,TRUE,$this);
 	}
 }

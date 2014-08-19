@@ -1,15 +1,15 @@
 <?php
 $this->installSession();
 $this->appType('MODULE');
-$this->appVers(0.3);
-$this->appTendooVers(0.94);
+$this->appVers(0.5);
+$this->appTendooVers(1.1);
 $this->appTableField(array(
 	'NAMESPACE'		=> 'tendoo_contents',
 	'HUMAN_NAME'	=> 'Librarie multimedia',
 	'AUTHOR'		=> 'tendoo Group',
 	'DESCRIPTION'	=> 'G&eacute;rer vos contenus de type image, video ou musique.',
-	'TYPE'			=> 'BYPAGE',
-	'TENDOO_VERS'	=> 0.94,
+	'TYPE'			=> 'INTERNAL',
+	'TENDOO_VERS'	=> 1.1,
 	'HAS_ICON'		=>	1
 ));
 $this->appSql(	

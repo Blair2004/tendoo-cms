@@ -1,8 +1,9 @@
 <?php
-class tendoo_contact_handler_class
+class tendoo_contact_handler_class extends Libraries
 {
 	public function __construct()
 	{
+		parent::__construct();
 		__extends($this);
 	}
 	public function toogleFields($name = false,$email = false,$phone = false,$website = false,$country	=	false,$city = false)
@@ -52,7 +53,7 @@ class tendoo_contact_handler_class
 		$array	=	array(
 			'FIELD_CONTENT'		=>		$content,
 			'AUTHOR'			=>		$this->users_global->current('ID'),
-			'DATE'				=>		$this->instance->date->datetime()
+			'DATE'				=>		$this->date->datetime()
 		);
 		if(count($query->result_array()) > 0)
 		{
@@ -80,7 +81,7 @@ class tendoo_contact_handler_class
 		{
 			$userid			=	0;
 		}
-		$date	=	$this->instance->date->datetime();
+		$date	=	$this->date->datetime();
 		return $this->db->insert('tendoo_contact_handler',array(
 			'USER_ID'			=>	$userid,
 			'USER_NAME'			=>	$username,

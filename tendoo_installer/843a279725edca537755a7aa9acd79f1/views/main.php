@@ -4,15 +4,9 @@
         <footer class="footer bg-white b-t">
             <div class="row m-t-sm text-center-xs">
                 <div class="col-sm-4">
-                    <select class="input-sm form-control input-s-sm inline">
-                        <option value="0">Bulk action</option>
-                        <option value="1">Delete selected</option>
-                        <option value="2">Bulk edit</option>
-                        <option value="3">Export</option>
-                    </select>
-                    <button class="btn btn-sm btn-white">Apply</button>
+                    
                 </div>
-                <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small> </div>
+                <div class="col-sm-4 text-center">  </div>
                 <div class="col-sm-4 text-right text-center-xs">
                     <ul class="pagination pagination-sm m-t-none m-b-none">
                         <?php 
@@ -63,10 +57,10 @@
                             $user	=	$this->instance->users_global->getUser($t['AUTHOR']);
                     ?>
                                 <tr>
-                                    <td><img style="width:50px;height:50px;" src="<?php echo $this->instance->url->main_url().'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>" alt="<?php echo $t['FILE_NAME'];?>"></td>
-                                    <td><a href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[0]['ID'],'manage',$t['ID']));?>"><?php echo $t['TITLE'];?></a></td>
+                                    <td><img style="width:50px;height:50px;" src="<?php echo $this->instance->url->main_url().'tendoo_modules/'.$opened_module[0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>" alt="<?php echo $t['FILE_NAME'];?>"></td>
+                                    <td><a href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$opened_module[0]['ID'],'manage',$t['ID']));?>"><?php echo $t['TITLE'];?></a></td>
                                     <td><?php echo word_limiter($t['DESCRIPTION'],200);?></td>
-                                    <td><a href="<?php echo $this->instance->url->main_url().'tendoo_modules/'.$module[0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>"><?php echo $t['FILE_NAME'];?></a></td>
+                                    <td><a href="<?php echo $this->instance->url->main_url().'tendoo_modules/'.$opened_module[0]['ENCRYPTED_DIR'].'/content_repository/'.$t['FILE_NAME'];?>"><?php echo $t['FILE_NAME'];?></a></td>
                                     <td><?php echo $t['FILE_TYPE'];?></td>
                                     <td><?php echo $user == true ? $user['PSEUDO'] : "Utilisateur Introuvable";?></td>
                                 </tr>
