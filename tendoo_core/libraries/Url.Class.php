@@ -327,11 +327,9 @@ Class Url
 			else
 			{
 				$this->controller		=	'index';
+				$this->method			=	'index';
 			}
 		}
-		echo '<pre>';
-		print_r( $this );
-		echo '</pre>';
 	}
 	public function getRewrite()
 	{
