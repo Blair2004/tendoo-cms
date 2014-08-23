@@ -1003,7 +1003,7 @@
 			}
 			// Tepas enabled only on active theme
 			$active_theme		=	get_themes( 'all' , 'filter_active' );
-			if( $get_themes ) { // Si le thème existe
+			if( is_array( $active_theme ) && count( $active_theme ) >  0 ) { // Si le thème existe
 				$tepas_file			=	THEMES_DIR . $active_theme[0][ 'ENCRYPTED_DIR' ] . '/tepas.php';
 				if( is_file( $tepas_file ) )
 				{
