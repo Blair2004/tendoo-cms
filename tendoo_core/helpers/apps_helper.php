@@ -1003,13 +1003,15 @@
 			}
 			// Tepas enabled only on active theme
 			$active_theme		=	get_themes( 'all' , 'filter_active' );
-			$tepas_file			=	THEMES_DIR . $active_theme[0][ 'ENCRYPTED_DIR' ] . '/tepas.php';
-			if( is_file( $tepas_file ) )
-			{
-				include_once( $tepas_file );
-				if( class_exists( $active_theme[0][ 'NAMESPACE' ] . '_theme_tepas_class' ) )
+			if( $get_themes ) { // Si le thème existe
+				$tepas_file			=	THEMES_DIR . $active_theme[0][ 'ENCRYPTED_DIR' ] . '/tepas.php';
+				if( is_file( $tepas_file ) )
 				{
-					eval( 'new '. $active_theme[0][ 'NAMESPACE' ] . '_theme_tepas_class($active_theme);' );
+					include_once( $tepas_file );
+					if( class_exists( $active_theme[0][ 'NAMESPACE' ] . '_theme_tepas_class' ) )
+					{
+						eval( 'new '. $active_theme[0][ 'NAMESPACE' ] . '_theme_tepas_class($active_theme);' );
+					}
 				}
 			}
 		}
