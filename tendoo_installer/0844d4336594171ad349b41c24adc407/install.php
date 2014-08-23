@@ -10,7 +10,6 @@ $this->appTableField(array(
 	'DESCRIPTION'	=> 'Créez, modifiez et publiez des articles pour votre blog.',
 	'TYPE'			=> 'BYPAGE',
 	'HAS_WIDGET'	=>	1,
-	'HAS_MENU'		=>	1,
 	'HAS_API'		=>	1,
 	'HAS_PASSIVE_SCRIPTING'	=>	1,
 	'HAS_ICON'		=>	1,

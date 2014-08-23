@@ -255,7 +255,7 @@ class Installation extends Libraries
 			// Installe le thème par défaut.
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'19348a97150f23e4782fbcfb83e962f0';
-			$this->tendoo_admin->tendoo_core_installer($appFile);
+			var_dump( $this->tendoo_admin->tendoo_core_installer($appFile) );
 			$installed_theme		=		$this->tendoo_admin->getThemes();
 			// Set first Installed theme as default
 			$this->tendoo_admin->setDefault($installed_theme[0]['ID']); // retreiving IDs
@@ -265,8 +265,7 @@ class Installation extends Libraries
 			// Install "Blogster"
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'0844d4336594171ad349b41c24adc407';
-			$option					=		$this->options->get("from_install_interface");
-			$this->tendoo_admin->tendoo_core_installer($appFile);
+			var_dump( $this->tendoo_admin->tendoo_core_installer($appFile) );
 			$module					=		$this->tendoo_admin->moduleActivation('news',"using_namespace");
 			if($module)
 			{
@@ -324,7 +323,7 @@ class Installation extends Libraries
 			// Install "Tendoo_index_mod"
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'843a279725edca537755a7aa9acd79f1';
-			$this->tendoo_admin->tendoo_core_installer($appFile);
+			var_dump( $this->tendoo_admin->tendoo_core_installer($appFile) );
 
 			$module					=		$this->tendoo_admin->moduleActivation('tendoo_contents',"using_namespace");
 		}

@@ -125,7 +125,7 @@ class Install extends Libraries
 					$this->url->redirect('install/etape/1');
 				}
 			}
-			if( isset( $_POST[ 'web_access' ] , $_POST[ 'admin_access' ] ) ){
+			if( isset( $_POST[ 'web_access' ] ) || isset( $_POST[ 'admin_access' ] ) ){
 				// Execute control
 				unset($_SESSION['secur_access']);
 				$this->installation->createConfigFile(); // Créer le fichier de configuration.
@@ -198,7 +198,6 @@ class Install extends Libraries
 	{
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->instance->db_connect(); // En utilisant les données de la session
-		$this->instance		=	get_instance();
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->load->library('installation'); // Refreshing installation class
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
