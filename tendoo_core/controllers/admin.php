@@ -112,27 +112,21 @@ class Admin extends Libraries
 			"widget_namespace"		=>	"welcome",
 			"widget_title"			=>	"Message de bienvenue",
 			"widget_content"		=>	$this->load->view('admin/others/widgets/welcome-message',null,true),
-			"widget_description"	=>	'affiche le message de bienvenue',
-			"widget_width"			=>	2,
-			"widget_height"			=>	2
+			"widget_description"	=>	'affiche le message de bienvenue'
 		));
 		declare_admin_widget(array(
 			"module_namespace"		=>	"system",
 			"widget_namespace"		=>	"generals_stats",
 			"widget_title"			=>	"Statistiques Globales",
 			"widget_content"		=>	$this->load->view('admin/others/widgets/generals-stats',null,true),
-			"widget_description"	=>	'Affiche les statistiques globales',
-			"widget_width"			=>	1,
-			"widget_height"			=>	2
+			"widget_description"	=>	'Affiche les statistiques globales'
 		));
 		declare_admin_widget(array(
 			"module_namespace"		=>	"system",
 			"widget_namespace"		=>	"app_icons",
 			"widget_title"			=>	"Icônes des applications",
 			"widget_content"		=>	$this->load->view('admin/others/widgets/app-icons',null,true),
-			"widget_description"	=>	'Affiche les icônes disponibles',
-			"widget_width"			=>	3,
-			"widget_height"			=>	2
+			"widget_description"	=>	'Affiche les icônes disponibles'
 		));
 		engage_tepas();
 	}
@@ -464,6 +458,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 						$newFormat	=	$this->tendoo_admin->editTimeFormat($this->input->post('newFormat'));
 					}
 				}
+				// Moved to Account controller
 				$this->load->library('form_validation');
 				$this->form_validation->set_rules('theme_style','"Nom du thème"','required|min_length[1]|max_length[15]');
 				
@@ -471,6 +466,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				{
 					$themeName	=	$this->users_global->editThemeStyle($this->input->post('theme_style'));
 				}
+				// Moved to Account controller
 				if($newName || $newLogo || $newHoraire || $newFormat || $themeName)
 				{
 					$this->url->redirect(array('admin','setting?notice=done'));
@@ -533,8 +529,6 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				$this->url->redirect(array('admin','setting?notice=done'));
 			}
 			set_core_vars( 'appIconApi' , $this->tendoo_admin->getAppIcon(), 'read_only' );
-			$this->core_options			=	$this->instance->options->get();
-			
 			set_page('title','Param&egrave;tres du site');
 			set_core_vars( 'body' ,	$this->load->view('admin/setting/body',$this->data,true) , 'read_only' );
 			
@@ -1077,15 +1071,6 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
     }
 	public function ajax($option,$x	=	'',$y = '',$z = '')
 	{
-		if($option == 'toogle_app_tab')
-		{
-			if(!$this->users_global->toggleAppTab())
-			{
-				set_core_vars( 'type' ,	'danger' );
-				set_core_vars( 'notice' ,	notice('error_occured') );
-				$this->load->view('admin/ajax/notice',$this->data);
-			}
-		}
 		if($option == 'setViewed')
 		{
 			$page	=	isset($_GET['page']) ? $_GET['page'] : '';

@@ -248,30 +248,39 @@
                                                         $declared_admin_widgets	=	get_core_vars('admin_widgets');
                                                         if(count($declared_admin_widgets) > 0)
                                                         {
-                                                            foreach($declared_admin_widgets as $w)
-                                                            {
-                                                                ?>
+															if( is_array( $declared_admin_widgets ) ){
+																foreach($declared_admin_widgets as $w)
+																{
+																	?>
+															<tr>
+																<td><?php echo $w['widget_title'];?></td>
+																<td><?php echo $w['module_namespace'];?></td>
+																<td><label class="label-control switch">
+																		<input <?php
+																if($this->users_global->isAdminWidgetEnabled($w['widget_namespace'].'/'.$w['module_namespace']) && get_instance()->users_global->adminWidgetHasWidget() )
+																{
+																	echo "checked";
+																}
+																?> type="checkbox" name="widget_action[]" value="<?php echo $w['widget_namespace'];?>/<?php echo $w['module_namespace'];?>" />
+																		<span></span> </label>
+																	<input type="hidden" name="widget_namespace[]" value="<?php echo $w['widget_namespace'];?>/<?php echo $w['module_namespace'];?>"></td>
+															</tr>
+															<?php
+																}
+															}
+															else {
+																?>
                                                         <tr>
-                                                            <td><?php echo $w['widget_title'];?></td>
-                                                            <td><?php echo $w['module_namespace'];?></td>
-                                                            <td><label class="label-control switch">
-                                                                    <input <?php
-                                                            if($this->users_global->isAdminWidgetEnabled($w['widget_namespace'].'/'.$w['module_namespace']) && get_instance()->users_global->adminWidgetHasWidget() )
-                                                            {
-                                                                echo "checked";
-                                                            }
-                                                            ?> type="checkbox" name="widget_action[]" value="<?php echo $w['widget_namespace'];?>/<?php echo $w['module_namespace'];?>" />
-                                                                    <span></span> </label>
-                                                                <input type="hidden" name="widget_namespace[]" value="<?php echo $w['widget_namespace'];?>/<?php echo $w['module_namespace'];?>"></td>
+                                                            <td colspan="3">Auncun widget disponible</td>
                                                         </tr>
                                                         <?php
-                                                            }
+															}
                                                         }
                                                         else
                                                         {
                                                             ?>
                                                         <tr>
-                                                            <td colspan="2">Auncun widget disponible</td>
+                                                            <td colspan="3">Auncun widget disponible</td>
                                                         </tr>
                                                         <?php
                                                         }

@@ -774,11 +774,11 @@
 	**/
 	function declare_admin_widget($widget,$widget_form = "normal_form") // allowed form collapsible_form, normal_form...
 	{	
-		$process	=	true;
+		$process	=	true; // Controle la déclaration d'un widget
 		$widget['widget_form']	=	$widget_form;
-		foreach(array('module_namespace','widget_namespace','widget_title','widget_description','widget_content') as $keys)
+		foreach(array_keys($widget) as $keys)
 		{
-			if(!in_array($keys,array_keys($widget)))
+			if(!in_array($keys,array('module_namespace','widget_namespace','widget_title','widget_description','widget_content','action_control','widget_form')))
 			{
 				$process	=	false;
 			}

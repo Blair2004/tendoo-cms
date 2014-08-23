@@ -1,16 +1,6 @@
 <?php
 $appIconApi	=	get_core_vars('admin_icons');
 $options	=	get_options();
-if(current_user('OPEN_APP_TAB') == '0')
-{
-  $icon_1	=	'';
-  $collapse	=	'collapse';
-}
-else
-{
-  $icon_1	=	'active';
-  $collapse	=	'';
-}
 ?>
 <div class="icon-grid panel-body" style="margin:0;padding:0;">
 <?php
@@ -47,16 +37,3 @@ else
 }
 ?>
 </div>
-<!-- <div class="panel">
-    <header class="panel-heading">
-        <ul class="nav nav-pills pull-right">
-            <li> <a data-requestType="silent" data-url="<?php echo $this->url->site_url(array('admin','ajax','toogle_app_tab'));?>" href="#" class="panel-toggle text-muted <?php echo $icon_1;?>"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
-        </ul>
-        Applications </header>
-    <div class="panel-body clearfix <?php echo $collapse;?>">
-        
-            
-        </div>
-    </div>
-</div>
--->

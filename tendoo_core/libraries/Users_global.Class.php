@@ -283,7 +283,6 @@ Class users_global extends Libraries
 				$this->current['TOWN']			=	($data[0]['TOWN'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['TOWN'];
 				$this->current['PHONE']			=	($data[0]['PHONE'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['PHONE'];
 				$this->current['ADMIN_THEME']	=	$data[0]['ADMIN_THEME'];
-				$this->current['OPEN_APP_TAB']	=	$data[0]['OPEN_APP_TAB'];
 				$this->current['FIRST_VISIT']	=	$data[0]['FIRST_VISIT'];
 				/* Page Status  Tendoo 0.9.8 */
 				/* Enregistrement du statut de visites des pages dans l'espace administration */
@@ -338,7 +337,7 @@ Class users_global extends Libraries
 	}
 	public function refreshUser() // rafraichir les données de l'utilisateur connecté.
 	{ 
-		$this->authUser($this->current('PSEUDO'),$this->session->userdata( 'PASSWORD' ),FALSE,TRUE);
+		$this->authUser($this->current('PSEUDO'),$this->session->userdata( 'PASSWORD' ),FALSE,FALSE);
 	}
 	public function sendValidationMail($email)
 	{
@@ -734,16 +733,16 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			// Adding activated to admin dashboard if doesn't exist
 			foreach($data['widget_action'] as $w)
 			{
-				if(is_array($widget[1]))
+				if(is_array($widget[0]))
 				{
 					// Si le widget n'existe dans aucun section des widgets (3)
 					if(!in_array($w,$widget[1]) && !in_array($w,$widget[0]) && !in_array($w,$widget[2]))
 					{
-						$widget[1][]	=	$w;
+						$widget[0][]	=	$w;
 					}
 				}
 			}
-			set_user_data( 'widget_1' , $widget[1] );
+			set_user_data( 'widget_0' , $widget[0] );
 			// Removed unactivated to admin dashboard position ifset 			
 			for($i = 0;$i < 3;$i++)
 			{
@@ -969,32 +968,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		}
 	}
 	/*
-		Plie / Déplie le panel des applications sur l'emplacement "admin/index"
-			retourn true/false
-	*/
-	public function toggleAppTab() // method used on users_global class.
-	{
-		$option =	$this->db->where('ID',$this->current('ID'))->get('tendoo_users');
-		$result	=	$option->result_array();
-		if($result[0]['OPEN_APP_TAB'] == '0')
-		{
-			return $this->db
-				->where('ID',$this->current('ID'))
-				->update('tendoo_users',array(
-				'OPEN_APP_TAB'			=>		'1'
-			));
-		}
-		else
-		{
-			return $this->db
-				->where('ID',$this->current('ID'))
-				->update('tendoo_users',array(
-				'OPEN_APP_TAB'			=>		'0'
-			));
-		}
-	}
-	/*
-		Active / Désactive la visite guidé (lors de la première visite)
+		Active / Désactive la visite gusetAdminWidgetsidé (lors de la première visite)
 			retourne true/false
 	*/
 	public function toggleFirstVisit()

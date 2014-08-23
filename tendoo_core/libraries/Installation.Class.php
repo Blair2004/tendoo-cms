@@ -150,7 +150,6 @@ class Installation extends Libraries
 			`ACTIVE` varchar(100) NOT NULL,
 			`ADMIN_THEME` int(11) NOT NULL,
 			`FIRST_VISIT` int(11) NOT NULL,
-			`OPEN_APP_TAB` int(11) NOT NULL,
 			`ADMIN_INDEX_VISIT` int(11) NOT NULL,
 			`ADMIN_PAGES_VISIT` int(11) NOT NULL,
 			`ADMIN_APPS_VISIT` int(11) NOT NULL,
