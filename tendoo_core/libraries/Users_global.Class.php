@@ -767,7 +767,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 				}
 			}
 			// var_dump(get_user_data('widget_1'));
-			return $this->setUserElement('ADMIN_WIDGETS_DISABLED',json_encode($final_values,JSON_FORCE_OBJECT));
+			return $this->setUserElement('ADMIN_WIDGETS_DISABLED',json_encode($final_values));
 		}
 		return false;
 	}

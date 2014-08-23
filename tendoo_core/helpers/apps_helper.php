@@ -1064,7 +1064,7 @@
 			}
 			$light_array[ $key ] 	=	$value;
 			return set_options(array(
-				'LIGHT_DATA' =>	json_encode($light_array, JSON_FORCE_OBJECT)
+				'LIGHT_DATA' =>	json_encode($light_array)
 			));
 		}
 		else if($source	==	"from_user_options")
@@ -1078,7 +1078,7 @@
 				$userOptions	=	array();
 			}
 			$userOptions[ $key ]	=	 $value;
-			get_instance()->users_global->setUserElement( 'LIGHT_DATA' , json_encode( $userOptions , JSON_FORCE_OBJECT ) );
+			get_instance()->users_global->setUserElement( 'LIGHT_DATA' , json_encode( $userOptions ) );
 		}
 	}
 	/**
@@ -1114,7 +1114,7 @@
 					unset( $userOptions[ $key ] );
 				}
 			}
-			get_instance()->users_global->setUserElement( "LIGHT_DATA" , json_encode($userOptions, JSON_FORCE_OBJECT) );
+			get_instance()->users_global->setUserElement( "LIGHT_DATA" , json_encode($userOptions) );
 		}
 	}
 	/**
