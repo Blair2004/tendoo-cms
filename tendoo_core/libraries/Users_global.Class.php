@@ -168,9 +168,6 @@ Class users_global extends Libraries
 			$array['ACTIVE']	=	'TRUE';
 			$array['ADMIN_THEME']	=	1; // Added 0.9.7
 			$array['FIRST_VISIT']	=	1; // 
-			$array['OPEN_APP_TAB']	=	0; //
-			$array['SHOW_WELCOME']	= 	1; // 
-			$array['SHOW_ADMIN_INDEX_STATS']	=	1; // 
 			$this->db->insert('tendoo_users',$array);
 			return 'userCreated';
 		}
@@ -198,9 +195,6 @@ Class users_global extends Libraries
 			$array['ACTIVE']	=	$active;
 			$array['ADMIN_THEME']	=	1; // Added 0.9.7
 			$array['FIRST_VISIT']	=	1; // 
-			$array['OPEN_APP_TAB']	=	0; //
-			$array['SHOW_WELCOME']	= 	1; // 
-			$array['SHOW_ADMIN_INDEX_STATS']	=	0; // 
 			$this->db->insert('tendoo_users',$array);
 			$this->sendValidationMail($array['EMAIL']);
 			return 'userCreated';
@@ -228,9 +222,6 @@ Class users_global extends Libraries
 			$array['ACTIVE']	=	$active;
 			$array['ADMIN_THEME']	=	1; // Added 0.9.7
 			$array['FIRST_VISIT']	=	1; // 
-			$array['OPEN_APP_TAB']	=	1; //
-			$array['SHOW_WELCOME']	= 	1; // 
-			$array['SHOW_ADMIN_INDEX_STATS']	=	1; // 
 			$this->db->insert('tendoo_users',$array);
 			return 'adminCreated';
 		}
