@@ -12,7 +12,7 @@ if(class_exists($Class.'_module_controller'))
 			'PAGE_PARENT'			=>		'FALSE'
 		));
 		$this->load->library('users_global'); // 0.9.4
-		$theme						=	get_core_vars('activeTheme_object'); // Added - Tendoo 0.9.2
+		$theme						=	get_core_vars('active_theme_object'); // Added - Tendoo 0.9.2
 		// GLOBAL MODULES
 		$GlobalModule				=&	$this->data['GlobalModule'];
 		if(is_array($GlobalModule))
@@ -30,7 +30,7 @@ if(class_exists($Class.'_module_controller'))
 	else
 	{
 		$this->load->library('users_global'); // 0.9.4
-		$theme			=	get_core_vars('activeTheme_object'); // Added - Tendoo 0.9.2
+		$theme			=	get_core_vars('active_theme_object'); // Added - Tendoo 0.9.2
 		// GLOBAL MODULES
 		/**
 		* 	Pourquoi envoyer des paramètres sur l'url au modules de type GLOBAL ?
@@ -56,7 +56,7 @@ else if(class_exists('Tendoo_'.$Class))
 {
 	if($this->tendoo->interpreter('Tendoo_'.$Class,$Method,$Parameters) === '404')
 	{
-		$theme						=	get_core_vars('activeTheme_object'); // Added - Tendoo 0.9.2
+		$theme						=	get_core_vars('active_theme_object'); // Added - Tendoo 0.9.2
 		// GLOBAL MODULES
 		$this->tendoo->error('page404');
 	}

@@ -197,7 +197,7 @@ Class instance extends Libraries
 				set_core_vars(	'options'	,	($this->data['options']	=	$this->options->get())	);
 				set_core_vars(	'controllers'	,	($this->data['controllers']	=	$this->tendoo->get_pages('',FALSE))	);
 				set_core_vars(	'page'	,	($this->data['page']	=	$this->tendoo->getPage($Class))	);
-				set_core_vars(	'activeTheme'	,	($this->data['activeTheme']	= $this->tendoo->getSiteTheme()));
+				set_core_vars(	'active_theme'	,	($this->data['active_theme']	= $this->tendoo->getSiteTheme()));
 				set_core_vars(	'tendoo'	,	($this->data['Tendoo']		=		$this->tendoo)	);
 				set_core_vars(	'module_url'	,	($this->data['module_url']	=		$this->url->site_url(array('tendoo@'.$Teurmola[1]))));
 				//
@@ -218,7 +218,7 @@ Class instance extends Libraries
 				/**
 				*		END
 				**/	
-				if($this->data['activeTheme'] === FALSE)
+				if($this->data['active_theme'] === FALSE)
 				{
 					$this->url->redirect(array('error','code','noThemeInstalled'));
 				}
@@ -229,10 +229,10 @@ Class instance extends Libraries
 						$this->url->redirect(array('error','code','active_theme_does_not_handle_that'));
 					}
 					// LOAD THEME HANDLER
-					include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/theme-items-class.php');
-					if(class_exists($this->data['activeTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
+					include_once(THEMES_DIR.$this->data['active_theme']['ENCRYPTED_DIR'].'/theme-items-class.php');
+					if(class_exists($this->data['active_theme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
 					{
-						eval('set_core_vars("activeTheme_object", new '.$this->data['activeTheme']['NAMESPACE'].'_theme_handler());'); // Initialize Theme handler;
+						eval('set_core_vars("active_theme_object", new '.$this->data['active_theme']['NAMESPACE'].'_theme_handler());'); // Initialize Theme handler;
 					}
 					else // Erreur theme.
 					{
@@ -300,7 +300,7 @@ Class instance extends Libraries
 				}
 				else
 				{
-					set_core_vars(	'activeTheme'	,	($this->data['activeTheme']	= $this->tendoo->getSiteTheme()));
+					set_core_vars(	'active_theme'	,	($this->data['active_theme']	= $this->tendoo->getSiteTheme()));
 					set_core_vars(	'tendoo'	,	($this->data['Tendoo']		=		$this->tendoo)	,'readonly');
 					set_core_vars(	'module_url'	,	($this->data['module_url']	=		$this->url->get_controller_url()) ,'readonly');
 					$this->data['module']					= $this->tendoo->getSpeModuleByNamespace($this->data['page'][0]['PAGE_MODULES']);
@@ -340,17 +340,17 @@ Class instance extends Libraries
 					{
 						$this->url->redirect(array('error','code','noMainPage'));
 					}
-					if($this->data['activeTheme'] === FALSE)
+					if($this->data['active_theme'] === FALSE)
 					{
 						$this->url->redirect(array('error','code','noThemeInstalled'));
 					}
 					else
 					{
 						// LOAD THEME HANDLER
-						include_once(THEMES_DIR.$this->data['activeTheme']['ENCRYPTED_DIR'].'/handler.php');
-						if(class_exists($this->data['activeTheme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
+						include_once(THEMES_DIR.$this->data['active_theme']['ENCRYPTED_DIR'].'/handler.php');
+						if(class_exists($this->data['active_theme']['NAMESPACE'].'_theme_handler')) // Chargement du theme handler
 						{
-							eval('set_core_vars("activeTheme_object",new '.$this->data['activeTheme']['NAMESPACE'].'_theme_handler());'); // Initialize Theme handler;
+							eval('set_core_vars("active_theme_object",new '.$this->data['active_theme']['NAMESPACE'].'_theme_handler());'); // Initialize Theme handler;
 						}
 						else // Erreur theme.
 						{
