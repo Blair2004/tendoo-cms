@@ -69,7 +69,7 @@ class Tendoo
 	}
 	public function getSiteTheme()
 	{
-		$query	=	$this->instance->db->where('ACTIVATED','TRUE')->get('tendoo_themes');
+		$query	=	get_db()->where('ACTIVATED','TRUE')->get('tendoo_themes');
 		$data	=	$query->result_array();
 		if(array_key_exists(0,$data))
 		{
