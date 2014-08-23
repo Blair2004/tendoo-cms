@@ -283,9 +283,7 @@ Class users_global extends Libraries
 				$this->current['TOWN']			=	($data[0]['TOWN'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['TOWN'];
 				$this->current['PHONE']			=	($data[0]['PHONE'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['PHONE'];
 				$this->current['ADMIN_THEME']	=	$data[0]['ADMIN_THEME'];
-				$this->current['SHOW_WELCOME']	=	$data[0]['SHOW_WELCOME'];
 				$this->current['OPEN_APP_TAB']	=	$data[0]['OPEN_APP_TAB'];
-				$this->current['SHOW_ADMIN_INDEX_STATS']	=	$data[0]['SHOW_ADMIN_INDEX_STATS'];
 				$this->current['FIRST_VISIT']	=	$data[0]['FIRST_VISIT'];
 				/* Page Status  Tendoo 0.9.8 */
 				/* Enregistrement du statut de visites des pages dans l'espace administration */
