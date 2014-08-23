@@ -1078,12 +1078,12 @@ class Tendoo_admin extends Libraries
 		}
 		return $access;
 	}
-	public function getactive_theme()
+	public function getActiveTheme()
 	{
 		$query	=	$this->db->where('ACTIVATED','TRUE')->get('tendoo_themes');
 		return $query->result_array();
 	}
-	public function getactive_themeSupportedItems()
+	public function getActiveThemeSupportedItems()
 	{
 		// Default Featuring
 		$supportedItems		=	array();
@@ -1094,7 +1094,7 @@ class Tendoo_admin extends Libraries
 		// authorised Childs
 		$authorisedChildItems	=	array('carousssel','lastestElements','featuredElements','tabShowCase','listElements','galleryShowCase','aboutUs','Partners');
 		$authorisedParentItems	=	array('index','blog','contact');
-		$active				=	$this->getactive_theme();
+		$active				=	$this->getActiveTheme();
 		$compatibilityFile	=	THEMES_DIR.$active[0]['ENCRYPTED_DIR'].'/supported_items.php';
 		if(file_exists($compatibilityFile))
 		{

@@ -264,11 +264,11 @@
 	}
 	function theme_assets_url($url)
 	{
-		$activeTheme	=	get_core_vars('activeTheme');
+		$active_theme	=	get_core_vars('active_theme');
 		if(is_array($url))	
-			return THEMES_DIR.$activeTheme['ENCRYPTED_DIR'].'/'.$instance->url->array2Url($url);
+			return THEMES_DIR.$active_theme['ENCRYPTED_DIR'].'/'.$instance->url->array2Url($url);
 		else 
-			return THEMES_DIR.$activeTheme['ENCRYPTED_DIR'].'/'.$url;
+			return THEMES_DIR.$active_theme['ENCRYPTED_DIR'].'/'.$url;
 	}
 	function define_css_base_url($url)
 	{
@@ -298,7 +298,7 @@
 	function theme_dir()
 	{
 		$instance	=	get_instance();
-		return $instance->main_url().THEMES_DIR.$instance->data['activeTheme']['ENCRYPTED_DIR'];
+		return $instance->main_url().THEMES_DIR.$instance->data['active_theme']['ENCRYPTED_DIR'];
 	}
 	/**
 	*	theme_include() include_once() en utilisant le dossier du thème dont l'interface est visité via open/themes/xx où xx est l'espace nom d'un thème valide.
@@ -710,12 +710,12 @@
 	/**
 	*	does_active_theme_support : vérifie la compatibilité du thème actif, avec les applications insallés, affiche une
 	*	alerte dans le cas contraire.
-	*	"activeTheme" est déclaré sur tendoo_core/controllers/admin.php ::__construct()
-	* 	"activeTheme" est déclaré sur tendoo_core/Systeme.Core.php ::boot()
+	*	"active_theme" est déclaré sur tendoo_core/controllers/admin.php ::__construct()
+	* 	"active_theme" est déclaré sur tendoo_core/Systeme.Core.php ::boot()
 	**/
 	function does_active_theme_support($APP)
 	{
-		$active_theme	=	get_core_vars( 'activeTheme' );
+		$active_theme	=	get_core_vars( 'active_theme' );
 
 		if( $active_theme )	{
 			$app_supported	=	return_if_array_key_exists( 'APPS_COMPATIBILITY' , $active_theme );			
@@ -754,15 +754,15 @@
 		return false;
 	}
 	function set_active_theme_vars( $key , $value ){
-		$active_theme	=	get_core_vars( 'activeTheme' );
+		$active_theme	=	get_core_vars( 'active_theme' );
 		if( $active_theme ) {
 			$active_theme[ $key ] =	$value;
-			return set_core_vars( 'activeTheme' , $active_theme );
+			return set_core_vars( 'active_theme' , $active_theme );
 		}
 		return false;
 	}
 	function get_active_theme_vars( $key = null ){
-		$active_theme	=	get_core_vars( 'activeTheme' );
+		$active_theme	=	get_core_vars( 'active_theme' );
 		if( $key == null ) {
 			return $active_theme;
 		}
