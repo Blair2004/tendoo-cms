@@ -81,6 +81,7 @@ $(document).ready(function(){
 			this.notice		=	15000;
 			this.loader		=	16000;
 			this.window		=	9500;
+			this.draggable	=	9000;
 		};
 		/**
 		*		tools.notice : Permet d'afficher les notification en haut à droite de l'écran.
@@ -637,8 +638,8 @@ $(document).ready(function(){
 			if($(tASE).length > 0)
 			{
 				$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
+				$.ajax(tendoo.url.base_url()+'admin/ajax/check_updates');
 			}
-			$.ajax(tendoo.url.base_url()+'admin/ajax/check_updates');
 			var interval 	=	setInterval(function(){
 				if($('.alert').length > 0)
 				{

@@ -316,7 +316,6 @@ class Installation extends Libraries
 			// Install "Tendoo_index_mod"
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'3aa067f9608858e0898965b2ca683291';
-			$option					=		$this->options->get( "from_install_interface" );
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 			$module					=		$this->tendoo_admin->moduleActivation( 'tim' ,"using_namespace");
 		}
@@ -325,7 +324,6 @@ class Installation extends Libraries
 			// Install "Tendoo_index_mod"
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'843a279725edca537755a7aa9acd79f1';
-			$option					=		$this->options->get("from_install_interface");
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 
 			$module					=		$this->tendoo_admin->moduleActivation('tendoo_contents',"using_namespace");
@@ -335,16 +333,13 @@ class Installation extends Libraries
 			// Install "Widget_admin"
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'bd3afaf409a5f9ba355e99f884cc5178';
-			$option					=		$this->options->get("from_install_interface");
 			$this->tendoo_admin->tendoo_core_installer($appFile);
-
 			$module					=		$this->tendoo_admin->moduleActivation('tendoo_widget_administrator',"using_namespace");
 		}
 		else if($app	==	'pageEditor')
 		{
 			$appFile				=		array();
 			$appFile['temp_dir']	=		'pageCreater5f9ba355e99f884cc5178';
-			$option					=		$this->options->get("from_install_interface");
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 			$this->tendoo_admin->moduleActivation('pages_editor',"using_namespace");
 		}
@@ -357,7 +352,7 @@ class Installation extends Libraries
 			$module				=	$this->tendoo_admin->moduleActivation('tendoo_contact_handler',"using_namespace");
 			if($module)
 			{
-				$this->db->insert('Tendoo_contact_handler_option',array(
+				$this->db->insert('tendoo_contact_handler_option',array(
 					'SHOW_NAME'			=>		1,
 					'SHOW_MAIL'			=>		1
 				));
