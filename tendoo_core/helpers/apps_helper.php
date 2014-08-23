@@ -811,10 +811,10 @@
 	{
 		function __get_sections_widgets($admin_widgets, $section = 0)
 		{
-			$widget		=	array();
-			$widget[0]	=	get_data('widget_0', 'from_user_options' );
-			$widget[1]	=	get_data('widget_1', 'from_user_options' );
-			$widget[2]	=	get_data('widget_2', 'from_user_options' );
+			$widget				=	array();
+			$widget[0]			=	get_data('widget_0', 'from_user_options' );
+			$widget[1]			=	get_data('widget_1', 'from_user_options' );
+			$widget[2]			=	get_data('widget_2', 'from_user_options' );
 			// var_dump($widget);
 			// Uniquement si le widget est disponible, on l'ajoute
 			if(array_key_exists($section,$widget))
@@ -874,82 +874,94 @@
 		}
 		// 5 colonnes par défaut
 		$admin_widgets	=	get_core_vars( 'admin_widgets' );
-		// var_dump( $admin_widgets );
 		if(is_array($admin_widgets))
 		{
-			for($i = 0;$i < 3;$i++)
-			{
-				if($i == 0)
+			$disabled_widgets	=	json_decode( current_user( 'ADMIN_WIDGETS_DISABLED' ) ,  true );
+			if( !get_data('widget_0', 'from_user_options' ) && !get_data('widget_1', 'from_user_options' ) && !get_data('widget_2', 'from_user_options' ) ){
+				?>
+                <div class="col-lg-12">
+                <?php
+				echo tendoo_info( 'Aucun widget n\'a été activé depuis les <strong><a href="'.get_instance()->url->site_url( array( 'admin' , 'setting' ) ).'">paramètres</a></strong>' );
+				?>
+                </div>
+                <?php
+			} else {
+				for($i = 0;$i < 3;$i++)
 				{
-			?>
-            <div class="col-lg-4 draggable_widgets">
-            	<?php echo __get_sections_widgets($admin_widgets,0);?>
-            </div>
-            <?php
-				}
-				else if($i == 1)
-				{
-					?>
-            <div class="col-lg-5 draggable_widgets">
-            	<?php echo __get_sections_widgets($admin_widgets,1);?>
-            </div>
-            <?php
-				}
-				else
-				{
-					?>
-			<div class="col-lg-3 draggable_widgets">
-            	<?php echo __get_sections_widgets($admin_widgets,2);?>
-            </div>
-                    <?Php
-				}
-			}
-			?>
-            <script>
-				$(document).ready(function(){
-					function __doSort(event,ui){
-						ui.item.closest(".draggable_widgets").parent().find('.draggable_widgets').each(function(){
-							$(this).children(function(){
-								alert($(this).attr('widget_id'));
-							})
-						});
-						var tab		=	new Array;
-						var section	=	0;
-						var newSet	=	{};
-						$('.draggable_widgets').each(function(){
-							if(typeof tab[section] == 'undefined')
-							{
-								tab[section] = new Array;
-							}
-							$(this).find('div[widget_id]').each(function(){
-								tab[section].push($(this).attr('widget_id'));
-							});
-							// Saving Each Fields	
-							_.extend(newSet,_.object([ "widget_"+section ],[ tab [ section ] ]));
-							section++;
-						});
-						$.ajax(tendoo.url.site_url('admin/ajax/resetUserWidgetInterface'),{
-							dataType	:	'json',
-							type		:	'POST',
-							data		:	newSet
-						});
+					if($i == 0)
+					{
+				?>
+				<div class="col-lg-4 draggable_widgets">
+					<?php echo __get_sections_widgets($admin_widgets,0);?>
+				</div>
+				<?php
 					}
-					var actionAllower	=	{};
-					$('.draggable_widgets').sortable({
-						grid			:	[ 10 , 10 ],
-						connectWith		: 	".draggable_widgets",
-						items			:	"div[widget_id]",
-						placeholder		:	"widget-placeholder",
-						forceHelperSize	:	false,
-						forcePlaceholderSize	:	true,
-						stop			:	function(event, ui){
-							__doSort(event, ui);
-						},
-						delay			: 	150 
+					else if($i == 1)
+					{
+						?>
+				<div class="col-lg-5 draggable_widgets">
+					<?php echo __get_sections_widgets($admin_widgets,1);?>
+				</div>
+				<?php
+					}
+					else
+					{
+						?>
+				<div class="col-lg-3 draggable_widgets">
+					<?php echo __get_sections_widgets($admin_widgets,2);?>
+				</div>
+						<?Php
+					}
+				}
+				?>
+				<script>
+					$(document).ready(function(){
+						function __doSort(event,ui){
+							ui.item.closest(".draggable_widgets").parent().find('.draggable_widgets').each(function(){
+								$(this).children(function(){
+									alert($(this).attr('widget_id'));
+								})
+							});
+							var tab		=	new Array;
+							var section	=	0;
+							var newSet	=	{};
+							$('.draggable_widgets').each(function(){
+								if(typeof tab[section] == 'undefined')
+								{
+									tab[section] = new Array;
+								}
+								$(this).find('div[widget_id]').each(function(){
+									tab[section].push($(this).attr('widget_id'));
+								});
+								// Saving Each Fields	
+								_.extend(newSet,_.object([ "widget_"+section ],[ tab [ section ] ]));
+								section++;
+							});
+							$.ajax(tendoo.url.site_url('admin/ajax/resetUserWidgetInterface'),{
+								dataType	:	'json',
+								type		:	'POST',
+								data		:	newSet
+							});
+						}
+						var actionAllower	=	{};
+						$('.draggable_widgets').sortable({
+							grid			:	[ 10 , 10 ],
+							connectWith		: 	".draggable_widgets",
+							items			:	"div[widget_id]",
+							placeholder		:	"widget-placeholder",
+							forceHelperSize	:	false,
+							// zIndex			:	tendoo.zIndex.draggable,
+							forcePlaceholderSize	:	true,
+							stop			:	function(event, ui){
+								__doSort(event, ui);
+							},
+							delay			: 	150 
+						});
 					});
-				});
-				</script>
-            <?php
+                </script>
+				<?php
+				
+			}
 		}
 		return false;
 	}

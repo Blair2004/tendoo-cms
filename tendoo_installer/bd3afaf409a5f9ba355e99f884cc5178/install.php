@@ -10,7 +10,8 @@ $this->appTableField(array(
 	'DESCRIPTION'	=> 'Permet de créer et d\'administrer des widgets',
 	'TYPE'			=> 'GLOBAL',
 	'TENDOO_VERS'	=> 0.98,
-	'HAS_ICON'		=>	1
+	'HAS_ICON'		=>	1,
+	'HANDLE'		=>	'WIDGETS'
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_widget_administrator_left` (

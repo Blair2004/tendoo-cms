@@ -120,27 +120,12 @@ class Install extends Libraries
 			}
 			else
 			{
-			
 				if($_SESSION['secur_access'] != 4)
 				{
 					$this->url->redirect('install/etape/1');
 				}
 			}
-			if(isset($_POST['web_access']))
-			{
-				// Execute control
-				unset($_SESSION['secur_access']);
-				$this->installation->createConfigFile(); // Créer le fichier de configuration.
-				$this->instance	=	get_instance();
-				$this->instance->db_connect(); // Connecting to database
-				$this->options->set(array(
-					'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"tendoo_contents/main_icon";$icons[]	=	"pages_editor/main_icon";$icons[]	=	"tendoo_contact_handler/main_icon";$icons[]	=	"tendoo_widget_administrator/main_icon";',	
-					'SITE_LOGO'			=>	img_url('tendoo_darken.png')
-				));
-				$this->url->redirect('index');
-			}
-			if(isset($_POST['admin_access']))
-			{
+			if( isset( $_POST[ 'web_access' ] , $_POST[ 'admin_access' ] ) ){
 				// Execute control
 				unset($_SESSION['secur_access']);
 				$this->installation->createConfigFile(); // Créer le fichier de configuration.
@@ -150,6 +135,13 @@ class Install extends Libraries
 					'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"tendoo_contents/main_icon";$icons[]	=	"pages_editor/main_icon";$icons[]	=	"tendoo_contact_handler/main_icon";$icons[]	=	"tendoo_widget_administrator/main_icon";',	
 					'SITE_LOGO'			=>	img_url('tendoo_darken.png')	
 				));
+			}
+			if(isset($_POST['web_access']))
+			{
+				$this->url->redirect('index');
+			}
+			if(isset($_POST['admin_access']))
+			{
 				$this->url->redirect('admin');
 			}
 			set_page('title',translate('tendoo_install_final_step_title'));
@@ -208,9 +200,6 @@ class Install extends Libraries
 		$this->instance->db_connect(); // En utilisant les données de la session
 		$this->instance		=	get_instance();
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->load->library('tendoo'); // Refreshing Tendoo Clss
-		$this->load->library('tendoo_admin'); // loading Admin Class
-		$this->load->library('options');
 		$this->load->library('installation'); // Refreshing installation class
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->installation->defaultsApp($namespace);

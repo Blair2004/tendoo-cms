@@ -20,9 +20,12 @@ Class users_global extends Libraries
 			if($this->session->started())
 			{
 				$this->authUser(
-					$this->session->userdata('PSEUDO'),
-					$this->session->userdata('PASSWORD')
+					$this->session->userdata( 'PSEUDO' ),
+					$this->session->userdata( 'PASSWORD' ),
+					FALSE,
+					TRUE
 				);
+				
 			}
 		}
 		$this->menuStatus	=	'show_menu';
@@ -337,6 +340,7 @@ Class users_global extends Libraries
 				}
 				$this->session->set_userdata(array('PSEUDO'		=>$data[0]['PSEUDO']));
 				$this->session->set_userdata(array('PASSWORD'	=>$password));
+
 				$this->connection_status	=	TRUE;
 				return 'userLoggedIn';
 			}
@@ -344,8 +348,8 @@ Class users_global extends Libraries
 		return 'PseudoOrPasswordWrong';
 	}
 	public function refreshUser() // rafraichir les données de l'utilisateur connecté.
-	{
-		$this->authUser($this->current('PSEUDO'),$this->current('PASSWORD'),FALSE,FALSE);
+	{ 
+		$this->authUser($this->current('PSEUDO'),$this->session->userdata( 'PASSWORD' ),FALSE,TRUE);
 	}
 	public function sendValidationMail($email)
 	{
@@ -1200,8 +1204,15 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	{
 		$adminWidgetsDisabled	=	json_decode(current_user('ADMIN_WIDGETS_DISABLED'),true);
 		$adminWidgetsDisabled	=	$adminWidgetsDisabled	==	null ? array() : $adminWidgetsDisabled;
+		// var_dump( current_user('ADMIN_WIDGETS_DISABLED') );
 		if(in_array($widget_id,array_values($adminWidgetsDisabled)))
 		{
+			return false;
+		}
+		return true;
+	}
+	public function adminWidgetHasWidget(){
+		if( !get_data('widget_0', 'from_user_options' ) && !get_data('widget_1', 'from_user_options' ) && !get_data('widget_2', 'from_user_options' ) ){
 			return false;
 		}
 		return true;

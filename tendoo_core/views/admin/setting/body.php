@@ -95,45 +95,6 @@
                                         <div class="col-lg-3">
                                             <h4>Principales</h4>
                                             <?php
-											if($this->instance->users_global->isSuperAdmin() || $this->instance->tendoo_admin->adminAccess('system','toolsAccess',$this->instance->users_global->current('PRIVILEGE')) != FALSE)
-											{
-											?>
-                                            <form fjax method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','toggleAdminStats'));?>">
-                                                <div class="form-group">
-                                                    <label>
-                                                        <?php 
-														if((int)$this->instance->users_global->current('SHOW_ADMIN_INDEX_STATS') == 1)
-														{
-														?>
-                                                        <input type="submit" name="showAdminStats" class="btn btn-sm <?php echo theme_button_class();?>" value="Cacher les statistiques &agrave; l'accueil">
-                                                        <?php
-														}
-														else
-														{
-														?>
-                                                        <input type="submit" name="showAdminStats" class="btn btn-sm <?php echo theme_button_class();?>" value="Afficher les statistiques à l'accueil">
-                                                        <?php
-														}
-														;?>
-                                                    </label>
-                                                    <script>
-													$(document).ready(function(){
-														$('[name="showAdminStats"]').bind('click',function(){
-															if($(this).val() == 'Afficher les statistiques à l\'accueil')
-															{
-																$(this).attr('value','Cacher les statistiques à l\'accueil');
-															}
-															else
-															{
-																$(this).attr('value','Afficher les statistiques à l\'accueil');
-															}
-														});
-													});
-													</script> 
-                                                </div>
-                                            </form>
-                                            <?php
-											}
 											if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 											{
 											?>
@@ -208,49 +169,7 @@
 													</script> 
                                                 </div>
                                             </form>
-                                            <!-- Modifier le status des visites -->
-                                            <form fjaxson method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','restorePagesVisits'));?>">
-                                                <div class="form-group">
-                                                    <label>
-                                                        <input type="submit" name="page_status" class="btn btn-sm <?php echo theme_button_class();?>" value="Restaurer le statut des visites des pages">
-                                                    </label>
-                                                </div>
-                                            </form>
                                             <!-- Fin "modifier le statut des pages"-->
-                                            <form fjax method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','toggleWelcomeMessage'));?>">
-                                                <div class="form-group">
-                                                    <label>
-                                                        <?php 
-														if((int)$this->instance->users_global->current('SHOW_WELCOME') == 1)
-														{
-														?>
-                                                        <input type="submit" name="welcomeToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="Cacher le message de bienvenue">
-                                                        <?php
-														}
-														else
-														{
-														?>
-                                                        <input type="submit" name="welcomeToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="Afficher le message de bienvenue">
-                                                        <?php
-														}
-														;?>
-                                                    </label>
-                                                    <script>
-													$(document).ready(function(){
-														$('[name="welcomeToggle"]').bind('click',function(){
-															if($(this).val() == 'Afficher le message de bienvenue')
-															{
-																$(this).attr('value','Cacher le message de bienvenue');
-															}
-															else
-															{
-																$(this).attr('value','Afficher le message de bienvenue');
-															}
-														});
-													});
-													</script> 
-                                                </div>
-                                            </form>
                                         </div>
                                         <div class="col-lg-4">
                                             <h4>Ic&ocirc;nes et applications</h4>
@@ -337,7 +256,7 @@
                                                             <td><?php echo $w['module_namespace'];?></td>
                                                             <td><label class="label-control switch">
                                                                     <input <?php
-                                                            if($this->users_global->isAdminWidgetEnabled($w['widget_namespace'].'/'.$w['module_namespace']))
+                                                            if($this->users_global->isAdminWidgetEnabled($w['widget_namespace'].'/'.$w['module_namespace']) && get_instance()->users_global->adminWidgetHasWidget() )
                                                             {
                                                                 echo "checked";
                                                             }

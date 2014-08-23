@@ -247,11 +247,14 @@ class Installation extends Libraries
 	}
 	public function defaultsApp($app)
 	{
+		$this->load->library('tendoo'); // Refreshing Tendoo Clss
+		$this->load->library('tendoo_admin'); // loading Admin Class
+		$this->load->library('options');
 		if($app	==	'default_theme')
 		{
 			// Installe le thème par défaut.
 			$appFile				=		array();
-			$appFile['temp_dir']	=		'tendoo_nevia_30394828273Df9df9f_SneuoOCiaonzodpZda';
+			$appFile['temp_dir']	=		'19348a97150f23e4782fbcfb83e962f0';
 			$this->tendoo_admin->tendoo_core_installer($appFile);
 			$installed_theme		=		$this->tendoo_admin->getThemes();
 			// Set first Installed theme as default

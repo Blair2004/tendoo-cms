@@ -10,7 +10,8 @@ $this->appTableField(array(
 	'DESCRIPTION'	=> 'G&eacute;rer vos contenus de type image, video ou musique.',
 	'TYPE'			=> 'INTERNAL',
 	'TENDOO_VERS'	=> 1.1,
-	'HAS_ICON'		=>	1
+	'HAS_ICON'		=>	1,
+	'HANDLE'		=>	'APP'
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_contents` (

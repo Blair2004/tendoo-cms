@@ -6,12 +6,12 @@ class Session
 	public function __construct(&$instance)
 	{
 		$this->instance			=&	$instance;
-		if(!isset($_SESSION['Session_user_data']))
+		if(!isset($_SESSION['Session_User_data']))
 		{
-			$_SESSION['Session_user_data']	=	array();
+			$_SESSION['Session_User_data']	=	array();
 		}
 		
-		$this->_user_data	=& $_SESSION['Session_user_data'];
+		$this->_user_data	=& $_SESSION['Session_User_data'];
 		if(!is_array($this->_user_data))
 		{
 			$this->_user_data	= 	array();
