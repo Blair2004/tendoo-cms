@@ -45,6 +45,25 @@ class Installation extends Libraries
 		{
 			return false;
 		};
+		/* CREATE tendoo_themes */
+		$sql = 
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_themes` (
+			`ID` int(11) NOT NULL AUTO_INCREMENT,
+			`NAMESPACE` varchar(100) NOT NULL,
+			`HUMAN_NAME` varchar(200) NOT NULL,
+			`AUTHOR` varchar(100) NOT NULL,
+			`DESCRIPTION` text NOT NULL,
+			`ACTIVATED` varchar(20) NOT NULL,
+			`TENDOO_VERS` varchar(100) NOT NULL,
+			`ENCRYPTED_DIR` text NOT NULL,
+			`APP_VERS` varchar(100) NOT NULL,
+			`HAS_PASSIVE_SCRIPTING` int(11) NOT NULL,
+		  PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB;';
+		if(!$this->db->query($sql))
+		{
+			return false;
+		};
 		/* CREATE tendoo_modules */
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_modules` (
@@ -112,25 +131,6 @@ class Installation extends Libraries
 		/* 
 		 int(11) NOT NULL, Removed, only admin can access private stats.
 		*/
-		
-		/* CREATE tendoo_themes */
-		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_themes` (
-			`ID` int(11) NOT NULL AUTO_INCREMENT,
-			`NAMESPACE` varchar(100) NOT NULL,
-			`HUMAN_NAME` varchar(200) NOT NULL,
-			`AUTHOR` varchar(100) NOT NULL,
-			`DESCRIPTION` text NOT NULL,
-			`ACTIVATED` varchar(20) NOT NULL,
-			`TENDOO_VERS` varchar(100) NOT NULL,
-			`ENCRYPTED_DIR` text NOT NULL,
-			`APP_VERS` varchar(100) NOT NULL,
-		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB;';
-		if(!$this->db->query($sql))
-		{
-			return false;
-		};
 		/* CREATE tendoo_users */
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_users` (

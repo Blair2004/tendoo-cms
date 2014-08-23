@@ -1143,7 +1143,7 @@ class Tendoo_admin extends Libraries
 	// New methods
 	/// Deprecated on 1.3
 	private $appAllowedType					=	array('MODULE','THEME');
-	private $appModuleAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HAS_MENU','HAS_API','HAS_ICON','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','TENDOO_VERS','ENCRYPTED_DIR','APP_VERS','HANDLE', 'HAS_PASSIVE_SCRIPTING');
+	private $appModuleAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HAS_MENU','HAS_API','HAS_ICON','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','TENDOO_VERS','ENCRYPTED_DIR','APP_VERS','HANDLE', 'HAS_PASSIVE_SCRIPTING','SELF_URL_HANDLE','HAS_ADMIN_API');
 	private $appThemeAllowedTableField		=	array('NAMESPACE','HAS_WIDGET','HAS_MENU','HAS_API','HAS_ICON','HUMAN_NAME','AUTHOR','DESCRIPTION','TYPE','TENDOO_VERS','ENCRYPTED_DIR','APP_VERS','HANDLE', 'HAS_PASSIVE_SCRIPTING');
 	/// Deprecated on 1.3
 	public function tendoo_installer($source)
