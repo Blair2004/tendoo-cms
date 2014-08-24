@@ -19,7 +19,7 @@ class Admin extends Libraries
 		$this->loadOuputFile();
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		set_core_vars( 'admin_icons' , $this->tendoo_admin->getAppIcon() , 'read_only' );
-		set_core_vars( 'activeTheme' , site_theme() );
+		set_core_vars( 'active_theme' , site_theme() );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->__admin_widgets(); // USING core WiDGET and thoses defined through tepas
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -109,17 +109,17 @@ class Admin extends Libraries
 	{
 		declare_admin_widget(array(
 			"module_namespace"		=>	"system",
-			"widget_namespace"		=>	"welcome",
-			"widget_title"			=>	"Message de bienvenue",
-			"widget_content"		=>	$this->load->view('admin/others/widgets/welcome-message',null,true),
-			"widget_description"	=>	'affiche le message de bienvenue'
-		));
-		declare_admin_widget(array(
-			"module_namespace"		=>	"system",
 			"widget_namespace"		=>	"generals_stats",
 			"widget_title"			=>	"Statistiques Globales",
 			"widget_content"		=>	$this->load->view('admin/others/widgets/generals-stats',null,true),
 			"widget_description"	=>	'Affiche les statistiques globales'
+		));
+		declare_admin_widget(array(
+			"module_namespace"		=>	"system",
+			"widget_namespace"		=>	"welcome",
+			"widget_title"			=>	"Message de bienvenue",
+			"widget_content"		=>	$this->load->view('admin/others/widgets/welcome-message',null,true),
+			"widget_description"	=>	'affiche le message de bienvenue'
 		));
 		declare_admin_widget(array(
 			"module_namespace"		=>	"system",

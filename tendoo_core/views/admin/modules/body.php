@@ -81,7 +81,7 @@
                                                 <small>Spécification : <?php echo (in_array($mod['HANDLE'],array('BLOG','INDEX','FORUM','CONTACT','STATIC','MEDIA','PORTFOLIO','APP','WIDGETS'))) ? $mod['HANDLE'] : 'Inconnu';?></small>
                                                 <strong><small style="float:right;font-size:10px;"><?php echo ($mod['APP_VERS'] == '') ? 'Version Inconnue' : 'v.'.$mod['APP_VERS'];?></small></strong>
                                                 <?php
-												if( TRUE !== ( $active_theme	=	does_active_theme_support( $mod['HANDLE'] ) ) || $mod[ 'HANDLE' ] != 'APP' )
+												if( TRUE !== ( $active_theme	=	does_active_theme_support( $mod['HANDLE'] ) ) && $mod[ 'HANDLE' ] != 'APP' )
 												{
 												?>
                                                 <hr class="line-dashed" style="margin:5px 0;">

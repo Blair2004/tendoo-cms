@@ -23,7 +23,7 @@ Class users_global extends Libraries
 					$this->session->userdata( 'PSEUDO' ),
 					$this->session->userdata( 'PASSWORD' ),
 					FALSE,
-					TRUE
+					FALSE
 				);
 				
 			}
@@ -327,7 +327,11 @@ Class users_global extends Libraries
 					}
 				}
 				$this->session->set_userdata(array('PSEUDO'		=>$data[0]['PSEUDO']));
-				$this->session->set_userdata(array('PASSWORD'	=>$password));
+				if( $encrypt_password == true ){
+					$this->session->set_userdata(array('PASSWORD'	=> sha1( $password ) ) );
+				} else {
+					$this->session->set_userdata(array('PASSWORD'	=>$password));
+				}
 
 				$this->connection_status	=	TRUE;
 				return 'userLoggedIn';
@@ -743,7 +747,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 				}
 			}
 			set_user_data( 'widget_0' , $widget[0] );
-			// Removed unactivated to admin dashboard position ifset 			
+			// Removed unactivated to admin dashboard position ifset 	
 			for($i = 0;$i < 3;$i++)
 			{
 				if(array_key_exists($i,$widget))
@@ -763,7 +767,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 					set_user_data('widget_'.$i, $widget[ $i ] );
 				}
 			}
-			// var_dump(get_user_data('widget_1'));
+			$this->refreshUser();
 			return $this->setUserElement('ADMIN_WIDGETS_DISABLED',json_encode($final_values,JSON_FORCE_OBJECT));
 		}
 		return false;
