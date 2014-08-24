@@ -21,7 +21,7 @@ class tendoo_index_manager_admin_controller extends Libraries
 	}
 	public function index()
 	{
-		$this->data['supportedELement']	=	$this->tendoo_admin->getActiveThemeSupportedItems();
+		$this->data['supportedELement']	=	$this->tendoo_admin->getactive_themeSupportedItems();
 		$this->data['apizedMod']		=	$this->lib->getApiModules();
 		// 
 		$this->load->library('form_validation');

@@ -38,7 +38,7 @@ class Pages_editor_module_controller extends Libraries
 		}
 		set_core_vars( 'module_content' , $this->load->view($this->module[0]['URI_PATH'].'/views/common',$this->data,true,TRUE) );
 		
-		get_core_vars('activeTheme_object')->head($this->data);
-		get_core_vars('activeTheme_object')->body($this->data);
+		get_core_vars('active_theme_object')->head($this->data);
+		get_core_vars('active_theme_object')->body($this->data);
 	}
 }

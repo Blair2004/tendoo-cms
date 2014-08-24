@@ -10,7 +10,8 @@ $this->appTableField(array(
 	'DESCRIPTION'	=> 'Recevez les messages envoy&eacute;s par les utilisateurs via l\'interface de contact.',
 	'TYPE'			=> 'BYPAGE',
 	'TENDOO_VERS'	=> 0.94,
-	'HAS_ICON'		=>	1
+	'HAS_ICON'		=>	1,
+	'HANDLE'		=>	'CONTACT'
 ));
 $this->appSql(	
 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_contact_handler` (

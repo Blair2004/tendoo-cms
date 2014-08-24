@@ -8,7 +8,7 @@ class comments_news_common_widget
 		*/
 		$this->instance		=	get_instance();
 		$this->data		=&	$data;
-		$this->theme	=	get_core_vars('activeTheme_object');
+		$this->theme	=	get_core_vars('active_theme_object');
 		$this->location	=	MODULES_DIR.$this->data['currentWidget']['WIDGET_MODULE']['ENCRYPTED_DIR'];
 		
 		if(!class_exists('News_smart'))

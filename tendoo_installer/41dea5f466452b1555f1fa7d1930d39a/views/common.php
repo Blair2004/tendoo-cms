@@ -1,5 +1,5 @@
 <?php 
-$theme	=	get_core_vars('activeTheme_object');
+$theme	=	get_core_vars('active_theme_object');
 if(is_array($lib_options) && count($lib_options) > 0)
 {
 	$o	=&	$lib_options[0];

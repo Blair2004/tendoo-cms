@@ -9,7 +9,7 @@ class News_module_controller extends Libraries
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->news						=		new News_smart;
 		$this->data['page']				=		get_core_vars('page');
-		$this->data['theme']			=		get_core_vars('activeTheme_object');
+		$this->data['theme']			=		get_core_vars('active_theme_object');
 		$this->data['module']			=		get_core_vars('module');		
 
 		$this->data['news']				=&		$this->news;
@@ -33,8 +33,8 @@ class News_module_controller extends Libraries
 		$this->data['currentPage']			=	$page;
 		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_main',$this->data,true,TRUE) );
 		
-		get_core_vars('activeTheme_object')->head($this->data);
-		get_core_vars('activeTheme_object')->body($this->data);
+		get_core_vars('active_theme_object')->head($this->data);
+		get_core_vars('active_theme_object')->body($this->data);
 	}
 	public function lecture($text,$page=1)
 	{
@@ -119,15 +119,15 @@ class News_module_controller extends Libraries
 		set_page('description',strip_tags($this->data['GetNews'][0]['CONTENT']));
 		set_page('keywords',$keyWords);
 		
-		get_core_vars('activeTheme_object')->definePageTitle($this->data['page'][0]['PAGE_TITLE']);
-		get_core_vars('activeTheme_object')->definePageDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
+		get_core_vars('active_theme_object')->definePageTitle($this->data['page'][0]['PAGE_TITLE']);
+		get_core_vars('active_theme_object')->definePageDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
 		
 		
 		// Load View		
 		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_open',$this->data,true,TRUE) );
 		// Load View From Theme selected;
-		get_core_vars('activeTheme_object')->head($this->data);
-		get_core_vars('activeTheme_object')->body($this->data);
+		get_core_vars('active_theme_object')->head($this->data);
+		get_core_vars('active_theme_object')->body($this->data);
 	}
 	public function categorie($cat_text, $page = 1) // OK
 	{
@@ -156,8 +156,8 @@ class News_module_controller extends Libraries
 		// 
 		set_page('title',$title);
 		set_page('description',$description);
-		get_core_vars('activeTheme_object')->definePageTitle($title);
-		get_core_vars('activeTheme_object')->definePageDescription($description);
+		get_core_vars('active_theme_object')->definePageTitle($title);
+		get_core_vars('active_theme_object')->definePageDescription($description);
 		// 
 		if($this->data['getArticles']== false)
 		{
@@ -178,8 +178,8 @@ class News_module_controller extends Libraries
 		$this->data['section']	=		'category';
 		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_category',$this->data,true,TRUE) );
 		// ----------------------------------------------------------------------------------------------------------------------------------//
-		get_core_vars('activeTheme_object')->head($this->data);
-		get_core_vars('activeTheme_object')->body($this->data);
+		get_core_vars('active_theme_object')->head($this->data);
+		get_core_vars('active_theme_object')->body($this->data);
 	}
 	public function tags($tags_name = '',$page	=	1)
 	{
@@ -210,8 +210,8 @@ class News_module_controller extends Libraries
 		set_page('title',$title);
 		set_page('description',$description);
 		// 
-		get_core_vars('activeTheme_object')->definePageTitle($title);
-		get_core_vars('activeTheme_object')->definePageDescription($description);
+		get_core_vars('active_theme_object')->definePageTitle($title);
+		get_core_vars('active_theme_object')->definePageDescription($description);
 		//
 		
 		if($this->data['tagArticles']== false)
@@ -232,8 +232,8 @@ class News_module_controller extends Libraries
 		$this->data['section']				=	'keywords';
 		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module'][0]['ENCRYPTED_DIR'].'/views/common_keywords',$this->data,true,TRUE) );
 		// ----------------------------------------------------------------------------------------------------------------------------------//
-		get_core_vars('activeTheme_object')->head($this->data);
-		get_core_vars('activeTheme_object')->body($this->data);
+		get_core_vars('active_theme_object')->head($this->data);
+		get_core_vars('active_theme_object')->body($this->data);
 	}
 	
 }

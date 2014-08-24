@@ -83,4 +83,4 @@ set_form( 'contact_form' , array(
 	'name'			=>	'yourField',
 	'value'			=>	'Envoyer un message'
 ) );
-get_core_vars( 'activeTheme_object' )->include_template( 'contact' );
+get_core_vars( 'active_theme_object' )->include_template( 'contact' );

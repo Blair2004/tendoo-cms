@@ -11,7 +11,8 @@ $this->appTableField(array(
 	'TYPE'			=> 'BYPAGE',
 	'TENDOO_VERS'	=> 1.2,
 	'HAS_ICON'		=>	1,
-	'HAS_WIDGET'	=>	1
+	'HAS_WIDGET'	=>	1,
+	'HANDLE'		=>	'STATIC'
 ));
 $this->appAction(array(
 	'action'				=>	'create_page',

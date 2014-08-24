@@ -223,59 +223,60 @@
 						
 						</div>
                         <div class="col-lg-4">
-                        	<div class="panel-heading">
-                            	<h4>Commentaires récents</h4>
-                            </div>
-                            <div class="panel">
-                            <table class="table">
-								<form method="POST">
-								<tbody>
-								<?php
-								if(count($lastestComments) > 0)
-								{
-									foreach($lastestComments as $g)
-									{
-										$news_concerned	=	$news->getSpeNews($g['REF_ART']);
-										$user			=	$this->instance->users_global->getUser($g['AUTEUR']);
-										$pseudo			=	$g['AUTEUR'];
-										if(is_array($user) && count($user) > 0)
-										{
-											$pseudo	=	$user['PSEUDO'];
-											?>
-												<tr>
-													<td><h5><?php echo $pseudo;?> dit :
-                                                    	<a style="font-weight:600;" href="<?php echo module_url(array('comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],10);?></a> dans
-                                                    	<a style="font-weight:600;" href="<?php echo module_url(array('edit',$news_concerned[0]['ID']));?>"><?php echo $news_concerned[0]['TITLE'];?></a> </h5>
-													</td>
-												</tr>
-											<?php
-										}
-										else
-										{
-											?>
-												<tr>
-													<td><h5><?php echo $pseudo;?> dit : 
-                                                    <a style="font-weight:600;" href="<?php echo module_url(array('comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],10);?></a> dans
-                                                    	<a style="font-weight:600;" href="<?php echo module_url(array('edit',$news_concerned[0]['ID']));?>"><?php echo $news_concerned[0]['TITLE'];?></a> </h5>
-                                                    </td>
-												</tr>
-											<?php
-										}
-								
-									}
-								}
-								else
-								{
-									?>
-									<tr>
-										<td colspan="5">Aucun commentaires disponible</td>
-									</tr>
-									<?php
-								}
-								?>
-                                </tbody>
-								</form>
-							</table>
+                        	<div class="panel">
+                                <div class="panel-heading">
+                                    <h4>Commentaires récents</h4>
+                                </div>
+                                <table class="table panel-body">
+                                    <form method="POST">
+                                    <tbody>
+                                    <?php
+                                    if(count($lastestComments) > 0)
+                                    {
+                                        foreach($lastestComments as $g)
+                                        {
+                                            $news_concerned	=	$news->getSpeNews($g['REF_ART']);
+                                            $user			=	$this->instance->users_global->getUser($g['AUTEUR']);
+                                            $pseudo			=	$g['AUTEUR'];
+                                            if(is_array($user) && count($user) > 0)
+                                            {
+                                                $pseudo	=	$user['PSEUDO'];
+                                                ?>
+                                                    <tr>
+                                                        <td><h5><?php echo $pseudo;?> dit :
+                                                            <a style="text-decoration:underline" href="<?php echo module_url(array('comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],10);?></a> dans
+                                                            <a style="text-decoration:underline" href="<?php echo module_url(array('edit',$news_concerned[0]['ID']));?>"><?php echo $news_concerned[0]['TITLE'];?></a> </h5>
+                                                        </td>
+                                                    </tr>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                $pseudo	=	$g[ 'OFFLINE_AUTEUR' ];
+                                                ?>
+                                                    <tr>
+                                                        <td><h5><?php echo $pseudo;?> dit : 
+                                                        <a style="text-decoration:underline" href="<?php echo module_url(array('comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],10);?></a> dans
+                                                            <a style="text-decoration:underline" href="<?php echo module_url(array('edit',$news_concerned[0]['ID']));?>"><?php echo $news_concerned[0]['TITLE'];?></a> </h5>
+                                                        </td>
+                                                    </tr>
+                                                <?php
+                                            }
+                                    
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ?>
+                                        <tr>
+                                            <td colspan="5">Aucun commentaires disponible</td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                    </tbody>
+                                    </form>
+                                </table>
                             </div>
                         </div>
 					</div>

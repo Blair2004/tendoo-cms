@@ -9,6 +9,7 @@ class tendoo_contents_admin_controller extends Libraries
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->data						=	$data;
 		$module							=	get_core_vars( 'opened_module' );
+		$this->config();
 		$this->opened_module			=	$module[0];
 		$this->lib						=	$this->data['lib']				=	// no is not an error;
 		$this->file_contentAdmin		=	new file_contentAdmin($this->data);
@@ -17,6 +18,11 @@ class tendoo_contents_admin_controller extends Libraries
 		$this->data['repository_dir']	=	MODULES_DIR.$this->opened_module['ENCRYPTED_DIR'].'/content_repository';
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
+	}
+	private function config(){
+		setup_admin_left_menu( 'File Manager' , 'file' );
+		add_admin_left_menu( 'Accueil' , module_url( array( 'index' ) ) );
+		add_admin_left_menu( 'Ajouter un fichier' , module_url( array( 'upload' ) ) );
 	}
 	public function index($page	=	1)
 	{
@@ -132,11 +138,11 @@ class tendoo_contents_admin_controller extends Libraries
 				);
 				if($query)
 				{
-					$this->url->redirect(array('admin','open','modules',$this->data['module'][0]['ID'].'?notice=done'));
+					module_location( array( 'manage' , $this->input->post( 'content_id' ) . '?notice=done' ) );
 				}
 				else
 				{
-					$this->notiec->push_notice(fetch_error('error_occured'));				
+					$this->notice->push_notice(fetch_error('error_occured'));				
 				}
 			}
 		}
