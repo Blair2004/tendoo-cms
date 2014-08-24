@@ -168,6 +168,7 @@ Class users_global extends Libraries
 			$array['ACTIVE']	=	'TRUE';
 			$array['ADMIN_THEME']	=	1; // Added 0.9.7
 			$array['FIRST_VISIT']	=	1; // 
+			$array[ 'LIGHT_DATA' ] 	=	'{"widget_0":{"0":"generals_stats\/system","1":"articles_stats\/blogster"},"widget_1":{"0":"welcome\/system","1":"app_icons\/system"},"widget_2":{"0":"recents_commentaires\/blogster"},"admin-left-menu-status":"nav-expanded"}';
 			$this->db->insert('tendoo_users',$array);
 			return 'userCreated';
 		}
@@ -195,6 +196,7 @@ Class users_global extends Libraries
 			$array['ACTIVE']	=	$active;
 			$array['ADMIN_THEME']	=	1; // Added 0.9.7
 			$array['FIRST_VISIT']	=	1; // 
+			$array[ 'LIGHT_DATA' ] 	=	'{"widget_0":{"0":"generals_stats\/system","1":"articles_stats\/blogster"},"widget_1":{"0":"welcome\/system","1":"app_icons\/system"},"widget_2":{"0":"recents_commentaires\/blogster"},"admin-left-menu-status":"nav-expanded"}';
 			$this->db->insert('tendoo_users',$array);
 			$this->sendValidationMail($array['EMAIL']);
 			return 'userCreated';
@@ -222,6 +224,7 @@ Class users_global extends Libraries
 			$array['ACTIVE']	=	$active;
 			$array['ADMIN_THEME']	=	1; // Added 0.9.7
 			$array['FIRST_VISIT']	=	1; // 
+			$array[ 'LIGHT_DATA' ] 	=	'{"widget_0":{"0":"generals_stats\/system","1":"articles_stats\/blogster"},"widget_1":{"0":"welcome\/system","1":"app_icons\/system"},"widget_2":{"0":"recents_commentaires\/blogster"},"admin-left-menu-status":"nav-expanded"}';
 			$this->db->insert('tendoo_users',$array);
 			return 'adminCreated';
 		}
@@ -306,15 +309,14 @@ Class users_global extends Libraries
 				$this->current['LIGHT_DATA']			=	$data[0]['LIGHT_DATA'];
 				$light_data								=	json_decode($data[0]['LIGHT_DATA'],true);
 				$this->current['BIO']					=	return_if_array_key_exists( 'user_bio' , $light_data ) ? return_if_array_key_exists( 'user_bio' , $light_data ) : false;
-				if($data[0]['AVATAR_TYPE'] == 'system')
+				if(in_array( $data[0]['AVATAR_TYPE'] , array('system','') , true ) )
 				{
 					$this->current['AVATAR']			=	($data[0]['AVATAR_LINK'] == '') ? img_url('avatar_default.jpg') : $data[0]['AVATAR_LINK'];
 				}
 				else if(in_array($data[0]['AVATAR_TYPE'],array('facebook','google','twitter')))
 				{
 					$this->current['AVATAR']			=	($data[0][strtoupper($data[0]['AVATAR_TYPE']). '_PROFILE'] == '') ? img_url('avatar_default.jpg') : $data[0][strtoupper($data[0]['AVATAR_TYPE']). '_PROFILE'];
-				}
-				
+				}				
 				if($stay == TRUE)
 				{
 					if($encrypt_password == TRUE)

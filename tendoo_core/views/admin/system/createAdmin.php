@@ -18,7 +18,7 @@
             <section class="vbox">
                 <section class="wrapper w-f"> 
 					<?php echo output('notice');?>
-                    
+                    <?php echo validation_errors();?>
                     <?php echo fetch_error_from_url();?>
                     <div class="row">
                     	<div class="col-lg-8">

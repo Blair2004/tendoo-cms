@@ -108,7 +108,7 @@ if(!function_exists('fetch_error'))
 	function fetch_error($e,$extends_msg= '',$sort = FALSE)
 	{
 		$array['config_1']					=	tendoo_info('Un fichier de configuration est d&eacute;j&agrave; existant. Si vous enregistrer de nouvelles donn&eacute;es, l\'ancien sera &eacute;cras&eacute;');
-		$array['accessDenied']				=	tendoo_warning('Vous n\'avez pas ou plus acc&egrave;s &agrave; cette page.');
+		$array['accessDenied']		=		$array[ 'access_denied' ]				=	tendoo_warning('Vous n\'avez pas ou plus acc&egrave;s &agrave; cette page.');
 		$array['config_2']					=	tendoo_warning('Une erreur fatale s\'est produite durant l\'installation, veuillez re-installer tendoo.');
 		$array['noThemeInstalled']			=	tendoo_warning(' Une erreur s\'est produite durant l\'acc&egrave;s au th&egrave;me. Il est possible qu\'aucun th&egrave;me ne soit install&eacute; ou d&eacute;finit comme th&egrave;me par d&eacute;faut.');
 		$array['mustCreatePrivilege']		=	tendoo_warning(' Il est n&eacute;cessaire de cr&eacute;er des privil&egrave;ges avant de g&eacute;rer des administrateurs');
