@@ -49,64 +49,72 @@
                                         <?php
                                             if($mod_nbr > 0)
                                             {
-                                                foreach($modules_list as $mod)
-                                                {
-                                                    $appIcon	=	module_icon( $mod[ 'namespace' ] );
-													?>
-                                        <tr>
-                                            <td>
-                                            <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['namespace']));?>">
-											<?php
-                                                    if($appIcon)
-                                                    {
-                                                    ?>
-                                                <img src="<?php echo $appIcon;?>" style="height:70px;width:70px;">
-                                                <?php
-                                                    }
-                                                    else
-                                                    {
-                                                        ?>
-                                                <i class="fa fa-puzzle-piece" style="font-size:70px;float:left;height:70px;width:70px;"></i>
-                                                <?php
-                                                    }
-                                                    ?>
-                                                    </a></td>
-                                            <td class="action"><strong> <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['namespace']));?>"><?php echo $mod['human_name'];?></a> </strong> <br>
-                                                <?php echo $mod['description'];?> <br>
-                                                <br>
-                                                <small>Auteur : <?php echo $mod['author'];?></small> 
-                                                |
-                                                <small>Spécification : <?php echo (in_array($mod['handle'],array('BLOG','INDEX','FORUM','CONTACT','STATIC','MEDIA','PORTFOLIO','APP','WIDGETS'))) ? $mod['handle'] : 'Inconnu';?></small>
-                                                <strong><small style="float:right;font-size:10px;"><?php echo ($mod['version'] == '') ? 'Version Inconnue' : 'v.'.$mod['version'];?></small></strong>
-                                                <?php
-												if( TRUE !== ( $active_theme	=	does_active_theme_support( $mod['handle'] ) ) && $mod[ 'handle' ] != 'APP' )
-												{
-												?>
-                                                <hr class="line-dashed" style="margin:5px 0;">
-											<div style="color:#FF6464"><i class="fa fa-warning" style="font-size:20px;"></i> 
-											Le thème actif <strong>"<?php echo $active_theme['HUMAN_NAME'];?>"</strong> n'est pas compatible avec ce module.</div>
+												if( is_array( $modules_list )  && $modules_list ){
+													foreach($modules_list as $mod)
+													{
+														$appIcon	=	module_icon( $mod[ 'namespace' ] );
+														?>
+											<tr>
+												<td>
+												<a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['namespace']));?>">
 												<?php
+														if($appIcon)
+														{
+														?>
+													<img src="<?php echo $appIcon;?>" style="height:70px;width:70px;">
+													<?php
+														}
+														else
+														{
+															?>
+													<i class="fa fa-puzzle-piece" style="font-size:70px;float:left;height:70px;width:70px;"></i>
+													<?php
+														}
+														?>
+														</a></td>
+												<td class="action"><strong> <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['namespace']));?>"><?php echo $mod['human_name'];?></a> </strong> <br>
+													<?php echo $mod['description'];?> <br>
+													<br>
+													<small>Auteur : <?php echo $mod['author'];?></small> 
+													|
+													<small>Spécification : <?php echo (in_array($mod['handle'],array('BLOG','INDEX','FORUM','CONTACT','STATIC','MEDIA','PORTFOLIO','APP','WIDGETS'))) ? $mod['handle'] : 'Inconnu';?></small>
+													<strong><small style="float:right;font-size:10px;"><?php echo ($mod['version'] == '') ? 'Version Inconnue' : 'v.'.$mod['version'];?></small></strong>
+													<?php
+													if( TRUE !== ( $active_theme	=	does_active_theme_support( $mod['handle'] ) ) && $mod[ 'handle' ] != 'APP' )
+													{
+													?>
+													<hr class="line-dashed" style="margin:5px 0;">
+												<div style="color:#FF6464"><i class="fa fa-warning" style="font-size:20px;"></i> 
+												Le thème actif <strong>"<?php echo $active_theme['HUMAN_NAME'];?>"</strong> n'est pas compatible avec ce module.</div>
+													<?php
+													}
+													?>
+													</td>
+												<td class="action"><a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','uninstall','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-trash-o" title="D&eacute;sintaller"></i></a></td>
+												<td><?php
+														if($mod['active'] === false )
+														{
+															?>
+													<a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','active','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-times-circle" title="Clickez pour activer"></i></a>
+													<?php
+														}
+														else
+														{
+															?>
+													<a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','unactive','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-check" title="Cliquez pour d&eacute;sactiver"></i></a>
+													<?php
+														}
+														?></td>
+											</tr>
+											<?php
+													}
+												} else {
+													?>
+                                                    <tr>
+                                                        <td colspan="6"><?php echo tendoo_info( translate( 'no_module_installed' ) );?></p></td>
+                                                    </tr>
+                                                    <?php
 												}
-												?>
-                                                </td>
-                                            <td class="action"><a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','uninstall','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-trash-o" title="D&eacute;sintaller"></i></a></td>
-                                            <td><?php
-                                                    if($mod['active'] === false )
-                                                    {
-                                                        ?>
-                                                <a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','active','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-times-circle" title="Clickez pour activer"></i></a>
-                                                <?php
-                                                    }
-                                                    else
-                                                    {
-                                                        ?>
-                                                <a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','unactive','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-check" title="Cliquez pour d&eacute;sactiver"></i></a>
-                                                <?php
-                                                    }
-                                                    ?></td>
-                                        </tr>
-                                        <?php
-                                                }
                                             }
                                             else
                                             {

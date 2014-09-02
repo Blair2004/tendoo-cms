@@ -133,7 +133,8 @@ if(!function_exists('fetch_error'))
 		$array['controler_edited']			=	tendoo_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
 		$array['db_unable_to_connect']		=	tendoo_warning('Il est impossible de se connecter &agrave; la base de donn&eacute;es avec les informations fournies.');
 		$array['db_unable_to_select']		=	tendoo_warning('La connexion &agrave; &eacute;t&eacute; &eacute;tablie, cependant il est impossible d\'acc&eacute;der &agrave; la base de donn&eacute;e.');
-		$array['error_occured']				=	tendoo_warning(' Une erreur s\'est produite durant l\'op&eacute;ration.');
+		$array['error_occured']				=	tendoo_warning( translate( 'error_occured' ) );
+		$array['errorOccured']				=	tendoo_warning( translate( 'error_occured' ) );
 		$array['adminDeleted']				=	tendoo_success(' L\'utilisateur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
 		$array['controller_not_found']		=	tendoo_warning(' Ce contr&ocirc;leur est introuvable.');
 		$array['no_main_controller_created']=	tendoo_warning(' Aucun contr&ocirc;leur d&eacute;finit comme principale n\'a &eacute;t&eacute; retrouv&eacute;, le nouveau contr&ocirc;leur &agrave; &eacute;t&eacute; d&eacute;finit comme contr&ocirc;leur par d&eacute;faut.');
@@ -143,8 +144,8 @@ if(!function_exists('fetch_error'))
 		$array['CantDeleteDir']				=	tendoo_warning('Une erreur s\'est produite durant la suppr&eacute;ssion d\'un dossier.');
 		$array['module_corrupted']			= 	tendoo_warning('Ce module ne peut pas &ecirc;tre install&eacute;. Il est corrompu ou incompatible.');	
 		$array['errorInstallModuleFirst']	= 	tendoo_warning('Vous devez installer les tables avant d\'installer le module');	
-		$array['moduleInstalled']			=	tendoo_success(' L\'installation du module est termin&eacute;.');
-		$array['module_alreadyExist']		= 	tendoo_warning('Ce module &agrave; d&eacute;j&agrave; &eacute;t&eacute; install&eacute;.');	
+		$array['module_installed']			=	tendoo_success( translate( 'module_installed' ) );
+		$array['module_alreadyExist']		= 	tendoo_warning( translate( 'module_already_exists') );	
 		$array['unknowModule']				=	tendoo_warning('Ce module est introuvable.');
 		$array['module_uninstalled']		=	tendoo_success('Le module &agrave; &eacute;t&eacute; d&eacute;sinstall&eacute;.');
 		$array['InvalidPage']				=	tendoo_warning('Cette page n\'a pas pu &ecirc;tre charg&eacute; car le contr&ocirc;leur correspondant &agrave; cette adresse est introuvable ou indisponible.'); // Deprecated ?
@@ -162,7 +163,8 @@ if(!function_exists('fetch_error'))
 		$array['notAllowed']				=	tendoo_warning('Il ne vous est pas permis d\'effctuer cette op&eacute;ration. Soit compte tenu de votre privil&egrave;ge actuel, soit compte tenu de l\'indisponibilit&eacute; du service.');
 		$array['theme_alreadyExist']		=	tendoo_info('Ce th&egrave;me avait d&eacute;j&agrave; &eacute;t&eacute; install&eacute;.');
 		$array['NoCompatibleTheme']			=	tendoo_warning('Ce th&egrave;me n\'est pas compatible avec la version actuelle d\'tendoo.');
-		$array['NoCompatibleModule']		=	tendoo_warning('Ce module n\'est pas compatible avec la version actuelle d\'tendoo.');
+		$array['NoCompatibleModule']		=	tendoo_warning( translate( 'module_compatibility_issues' ) );
+		$array['module_updated']			=	tendoo_success( translate( 'module_updated' ) );
 		$array['SystemDirNameUsed']			=	tendoo_warning('Ce th&egrave;me ne peut pas s\'installer car il &agrave; tenter d\'utiliser des ressources syst&egrave;me.');
 		$array['theme_installed']			=	tendoo_success('Le th&egrave;me a &eacute;t&eacute; install&eacute; correctement.');
 		$array['no_theme_selected']			=	tendoo_warning('Aucun th&egrave;me n\'a &eacute;t&eacute; choisi comme th&egrave;me par d&eacute;faut.');

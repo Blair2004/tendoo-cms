@@ -37,7 +37,7 @@ class Admin extends Libraries
 		set_core_vars( 'global_notice' , $this->tendoo_admin->get_global_info() , 'read_only' );
 		foreach(get_core_vars( 'global_notice' ) as $gl)
 		{
-			$notice_s	=	strip_tags(fetch_error($gl));
+			$notice_s	=	strip_tags(fetch_notice_output($gl));
 			switch($gl)  
 			{
 				case 'no_theme_selected' :
@@ -57,7 +57,7 @@ class Admin extends Libraries
 				break;
 			}
 			$this->tendoo_admin->system_not('Syst&egrave;me', $notice_s, $link,null, null);
-			notice('push',fetch_error($gl));
+			notice('push',fetch_notice_output($gl));
 		}		
 	}
 	private function adminConnection()
@@ -166,7 +166,7 @@ class Admin extends Libraries
 						{
 							notice('push',tendoo_error($ttError.' erreurs trouvée(s), la création à été ignorée pour ces erreurs.'));
 						}
-						notice('push',fetch_error('controllers_updated'));
+						notice('push',fetch_notice_output('controllers_updated'));
 					}
 				}
 				css_push_if_not_exists('controller_style');
@@ -225,8 +225,7 @@ class Admin extends Libraries
 				return; 
 			}
 			$this->load->library('form_validation');
-$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			$this->form_validation->set_rules('mod_id','','required|trim|alpha_dash|min_length[1]');
+			$this->form_validation->set_rules( 'module_namespace' ,'','required|trim|alpha_dash|min_length[1]');
 			if($this->form_validation->run())
 			{
 				set_core_vars( 'module' ,	$module 	= get_modules( 'filter_namespace' , $this->input->post( 'module_namespace' ) ), 'read_only' );
@@ -458,7 +457,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				}
 				else
 				{
-					notice('push',fetch_error('error_occured'));
+					notice('push',fetch_notice_output('error_occured'));
 				}
 			}
 			if($this->users_global->isSuperAdmin()) // this Setting is now reserved to super admin
@@ -471,7 +470,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					}
 					else
 					{
-						notice('push',fetch_error('error_occured'));
+						notice('push',fetch_notice_output('error_occured'));
 					}
 				}
 				if($this->input->post('allow_priv_selection_button')) // Setting notice go here.
@@ -482,7 +481,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					}
 					else
 					{
-						notice('push',fetch_error('error_occured'));
+						notice('push',fetch_notice_output('error_occured'));
 					}
 				}
 				if($this->input->post('publicPrivAccessAdmin_button')) // Setting notice go here.
@@ -493,7 +492,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					}
 					else
 					{
-						notice('push',fetch_error('error_occured'));
+						notice('push',fetch_notice_output('error_occured'));
 					}
 				}
 				if($this->input->post('appicons')) // Setting notice go here.
@@ -504,7 +503,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					}
 					else
 					{
-						notice('push',fetch_error('error_occured'));
+						notice('push',fetch_notice_output('error_occured'));
 					}
 				}
 			}
@@ -691,6 +690,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			if(isset($_FILES['installer_file']))
 			{
 				$query	=	$this->tendoo_admin->_install_app( 'installer_file' );
+				notice( 'push' , fetch_notice_output( $query ) );
 			}
 			if(isset($_POST['installer_link'],$_POST['downloadType']))
 			{
@@ -698,7 +698,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					$this->input->post('installer_link'),
 					$this->input->post('downloadType')
 				);
-				notice('push',fetch_error($query));
+				notice( 'push' , fetch_notice_output( $query ) );
 			}
 			set_page('title','Installer une application - Tendoo');
 			set_core_vars( 'body' ,	$this->load->view('admin/installer/install',$this->data,true) , 'read_only' );
@@ -746,7 +746,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				switch($creation_status)
 				{
 					case 'notAllowedPrivilege'	:
-						notice('push',fetch_error('adminCreationFailed'));
+						notice('push',fetch_notice_output('adminCreationFailed'));
 						break;
 					case 'adminCreated'	:
 						$this->url->redirect(array('admin','system','createAdmin?notice=adminCreated'));
@@ -786,7 +786,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				}
 				else
 				{
-					notice('push',fetch_error('error_occured'));
+					notice('push',fetch_notice_output('error_occured'));
 				}
 			}
 			
@@ -822,7 +822,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				}
 				else
 				{
-					notice('push',fetch_error('error_occured'));
+					notice('push',fetch_notice_output('error_occured'));
 				}
 			}
 			set_core_vars( 'getPriv' , $this->tendoo_admin->getPrivileges($option_2));
@@ -914,7 +914,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				if($this->form_validation->run())
 				{
 					$query	=	$this->users_global->setAdminPrivilege($this->input->post('edit_priv'),$this->input->post('current_admin'),$this->input->post('user_email'));
-					notice('push',fetch_error($query));
+					notice('push',fetch_notice_output($query));
 				}
 			}
 			if($this->input->post('delete_admin'))
@@ -929,7 +929,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					}
 					else
 					{
-						notice('push',fetch_error('error_occured'));
+						notice('push',fetch_notice_output('error_occured'));
 					}
 				}
 			}
@@ -953,11 +953,11 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				{
 					if($this->tendoo_admin->cmsRestore($this->input->post('admin_password')))
 					{
-						notice('push',fetch_error('cmsRestored'));
+						notice('push',fetch_notice_output('cmsRestored'));
 					}
 					else
 					{
-						notice('push',fetch_error('cmsRestorationFailed'));
+						notice('push',fetch_notice_output('cmsRestorationFailed'));
 					}
 				}
 				set_page('title','Restauration souple du syst&egrave;me - Tendoo');
@@ -1217,7 +1217,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				else
 				{
 					$this->load->view('admin/ajax/controller_create_fail_2',$this->data);
-					//notice('push',fetch_error(set_core_vars( 'error']));
+					//notice('push',fetch_notice_output(set_core_vars( 'error']));
 				}
 			}
 			else
@@ -1260,7 +1260,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					$this->input->post('page_link'),
 					$this->input->post('page_keywords')
 				) );
-				notice('push',fetch_error(get_core_vars( 'notice' )));
+				notice('push',fetch_notice_output(get_core_vars( 'notice' )));
 				if(get_core_vars( 'notice' )	==	'controler_edited')
 				{
 					$this->load->view('admin/ajax/controller_edit_success',$this->data);

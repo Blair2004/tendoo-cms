@@ -83,10 +83,11 @@ class Meta_datas extends Libraries
 		}
 		return false;
 	}
-	public function set_user_meta( $key , $value ){
+	public function set_user_meta( $key , $value , $user_pseudo = null ){
 		$datetime	=	get_instance()->date->datetime();
+		$user_pseudo=	( $user_pseudo != null ) ? $user_pseudo : current_user( 'PSEUDO' );
 		$key 		=	strtolower( $key );
-		$query				=	$this->db->where( 'USER' , current_user( 'PSEUDO' ) )->where( 'KEY' , $key )->get( 'tendoo_meta' );  
+		$query				=	$this->db->where( 'USER' , $user_pseudo )->where( 'KEY' , $key )->get( 'tendoo_meta' );  
 		// Convert value
 		if( is_array( $value ) ){
 			$value			=	json_encode( $value , JSON_FORCE_OBJECT );

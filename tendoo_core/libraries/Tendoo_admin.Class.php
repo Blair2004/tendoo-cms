@@ -1089,11 +1089,21 @@ class Tendoo_admin extends Libraries
 **********************************************************************************************************************/
 	private $leftMenuExtentionBefore 	= '';
 	private $leftMenuExtentionAfter 	= '';
-	public function encrypted_name()
+	public function encrypted_name( $prefix = null )
 	{
 		$alphabet	=	array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','W','X','Y','Z','1','2','3','4','5','6','7','8','9');
 		$index		=	count($alphabet)-1;
-		return 'tendoo_app_'.rand(0,9).date('Y').date('m').date('d').date('H').date('i').date('s').$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)];
+		$prefixing	=	( $prefix != null ) ? $prefix . '_' : $prefix ;
+		return 'app_' . $prefixing .rand(0,9).date('Y').date('m').date('d').date('H').date('i').date('s').$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)];
+	}
+	public function _action_keys_is_allowed( $actions_keys )
+	{
+		foreach( $actions_keys as $key ){
+			if( !in_array( $key , array( 'action' , 'action_name' , 'action_description' , 'mod_namespace' ) ) ){
+				return false;
+			}
+		}
+		return true;
 	}
 	public function _install_app( $source )
 	{
@@ -1108,19 +1118,47 @@ class Tendoo_admin extends Libraries
 		if($this->upload->do_upload($source))
 		{
 			$appFile	=	$this->_unzip_file( $file_unzip_location = MODULES_DIR . $this->upload->file_name );
+			// If config.php exists, that mean we're installing a module app.
 			if( file_exists( $file = MODULES_DIR . $appFile['temp_dir'] . '/config.php' ) ){
 				include_once( $file );
 				foreach( get_modules( 'from_maintenance_mode' ) as $namespace => $app_datas ){
-					if( $app_datas[ 'compatible' ] == get( 'core_version' ) ){
-						if( ! $module 		=	get_modules( 'filter_namespace' , $namespace ) ){ // If module doesnt exist
-							echo 'PROCEED INSTALL';
+					if( $app_datas[ 'compatible' ] == get( 'core_id' ) ){
+						$module 		=	get_modules( 'filter_namespace' , $namespace );
+						if( ! $module ){ // If module doesnt exist
+							$this->copy( substr( $file_unzip_location , 0 , -4 ) , MODULES_DIR . $this->encrypted_name( $namespace ) );
+							$this->drop( substr( $file_unzip_location , 0 , -4 ) );
+							// Executing Sql queries
+							if( is_array( $queries =	riake( 'sql_queries' , $app_datas ) ) ){
+								foreach( $queries as $sql_line ){
+									get_db()->query( $sql_line );
+								}
+							}
+							// Registering Actions
+							if( is_array( $actions	=	riake ( 'declared_actions' , $app_datas ) ) ){
+								foreach( $actions  as $_action ){
+									if( $this->_action_keys_is_allowed( array_keys( $_action ) ) ){
+										foreach( $_action as $key => $value ){
+											$$key	=	$value;
+										}
+										$this->createModuleAction($mod_namespace,$action,$action_name,$action_description);
+									}
+								}
+							}
+							return 'module_installed';
+							
 						} else if (  $module[ 'version' ] < $app_datas[ 'version' ] ){
-							echo 'PROCEED UPDATE';
+							// Updating
+							$this->copy( substr( $file_unzip_location , 0 , -4 ) , $module[ 'uri_path' ] );
+							// Drop Source
+							$this->drop( substr( $file_unzip_location , 0 , -4 ) );
+							return 'module_updated';
 						} else {
-							$this->drop( $file_unzip_location );
+							// substr( $file_unzip_location , 0 , -4 ) coz $file_unzip_location is a uri path to a zip file, we just remove extension.
+							$this->drop( substr( $file_unzip_location , 0 , -4 ) );
 							return 'module_alreadyExist';
 						}
 					} else {
+						$this->drop( substr( $file_unzip_location , 0 , -4 ) );
 						return 'NoCompatibleModule';
 					}
 				}

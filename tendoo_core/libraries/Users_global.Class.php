@@ -166,9 +166,11 @@ Class users_global extends Libraries
 			$array['PRIVILEGE']	=	'NADIMERPUS';
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	'TRUE';
-			$array['ADMIN_THEME']	=	1; // Added 0.9.7
-			$array['FIRST_VISIT']	=	1; // 
-			$array[ 'LIGHT_DATA' ] 	=	'{"widget_0":{"0":"generals_stats\/system","1":"articles_stats\/blogster"},"widget_1":{"0":"welcome\/system","1":"app_icons\/system"},"widget_2":{"0":"recents_commentaires\/blogster"},"admin-left-menu-status":"nav-expanded"}';
+			get_instance()->metas_data->set_user_meta( 'frist_visit' , true , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'dashboard_theme' , 1 , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'widget_2' , '{"0":"recents_commentaires\/blogster"}' , $array[ 'PSEUDO' ] );
 			$this->db->insert('tendoo_users',$array);
 			return 'userCreated';
 		}
@@ -194,9 +196,11 @@ Class users_global extends Libraries
 			$array['PRIVILEGE']	=	$priv_id;
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	$active;
-			$array['ADMIN_THEME']	=	1; // Added 0.9.7
-			$array['FIRST_VISIT']	=	1; // 
-			$array[ 'LIGHT_DATA' ] 	=	'{"widget_0":{"0":"generals_stats\/system","1":"articles_stats\/blogster"},"widget_1":{"0":"welcome\/system","1":"app_icons\/system"},"widget_2":{"0":"recents_commentaires\/blogster"},"admin-left-menu-status":"nav-expanded"}';
+			get_instance()->metas_data->set_user_meta( 'frist_visit' , true , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'dashboard_theme' , 1 , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'widget_2' , '{"0":"recents_commentaires\/blogster"}' , $array[ 'PSEUDO' ] );
 			$this->db->insert('tendoo_users',$array);
 			$this->sendValidationMail($array['EMAIL']);
 			return 'userCreated';
@@ -222,9 +226,11 @@ Class users_global extends Libraries
 			$array['PRIVILEGE']	=	($privilege == 'NADIMERPUS') ? 'RELPIMSUSE' : $privilege;
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	$active;
-			$array['ADMIN_THEME']	=	1; // Added 0.9.7
-			$array['FIRST_VISIT']	=	1; // 
-			$array[ 'LIGHT_DATA' ] 	=	'{"widget_0":{"0":"generals_stats\/system","1":"articles_stats\/blogster"},"widget_1":{"0":"welcome\/system","1":"app_icons\/system"},"widget_2":{"0":"recents_commentaires\/blogster"},"admin-left-menu-status":"nav-expanded"}';
+			get_instance()->metas_data->set_user_meta( 'frist_visit' , true , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'dashboard_theme' , 1 , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $array[ 'PSEUDO' ] );
+			get_instance()->metas_data->set_user_meta( 'widget_2' , '{"0":"recents_commentaires\/blogster"}' , $array[ 'PSEUDO' ] );
 			$this->db->insert('tendoo_users',$array);
 			return 'adminCreated';
 		}

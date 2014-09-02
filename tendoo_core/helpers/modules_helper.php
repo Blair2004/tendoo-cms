@@ -29,12 +29,15 @@ function get_modules( $filter = 'filter_namespace' , $namespace = null , $limit 
 	if( $filter == 'filter_active' )
 	{
 		$actives		=	array();
-		foreach( $declared_modules as $_module ){
-			if( $_module[ 'active' ] == true ){
-				$actives[]	=	$_module;
+		if( is_array( $declared_modules ) ){
+			foreach( $declared_modules as $_module ){
+				if( riake ( 'active' , $_module ) == true ){
+					$actives[]	=	$_module;
+				}
 			}
+			return $actives;
 		}
-		return $actives;
+		return false;
 	}
 	else if( $filter == 'filter_unactive' )
 	{
@@ -154,22 +157,24 @@ function get_modules( $filter = 'filter_namespace' , $namespace = null , $limit 
 		// Create A loopable List
 		$the_list	=	array();
 		$the_list_index	=	0;
-		foreach( $filtred as $_filtred ){
-			$the_list[ $the_list_index ] = $_filtred;
-			$the_list_index++;
-		}
-		if( riake( $namespace , $the_list ) ){
-			$index		=	0;
-			$actives	=	array();	
-			foreach( $the_list as $_module ){
-				if( $index <= $limit ){ // namespace as int
-					$actives[]	=	$_module;
-				} else {
-					break;
-				}
-				$index++;
+		if( is_array( $filtred ) ){
+			foreach( $filtred as $_filtred ){
+				$the_list[ $the_list_index ] = $_filtred;
+				$the_list_index++;
 			}
-			return $actives;
+			if( riake( $namespace , $the_list ) ){
+				$index		=	0;
+				$actives	=	array();	
+				foreach( $the_list as $_module ){
+					if( $index <= $limit ){ // namespace as int
+						$actives[]	=	$_module;
+					} else {
+						break;
+					}
+					$index++;
+				}
+				return $actives;
+			}
 		}
 		return false;
 	}
@@ -203,15 +208,10 @@ function load_modules(){
 **	push_module_action
 **/
 function push_module_action( $namespace , $array ){
-	if( get_core_vars( 'core_mode' ) == 'maintenance' ){
-		$declared_modules	=	get_core_vars( 'maintenance_declared_modules' );
-		$declared_modules[ $namespace ][ 'declared_actions' ][] =	$array;
-		return set_core_vars( 'maintenance_declared_modules' , $declared_modules );
-	} else {
-		$declared_modules	=	get_core_vars( 'declared_modules' );
-		$declared_modules[ $namespace ][ 'declared_actions' ][] =	$array;
-		return set_core_vars( 'declared_modules' , $declared_modules );
-	}
+	$declared_modules	=	get_core_vars( _get_module_declaration_prefix() . 'declared_modules' );
+	$array[ 'mod_namespace' ]	=	$namespace;
+	$declared_modules[ $namespace ][ 'declared_actions' ][] =	$array;
+	return set_core_vars( _get_module_declaration_prefix() . 'declared_modules' , $declared_modules );
 }
 /***
 **	_set_module_array
@@ -281,6 +281,13 @@ function active_module( $namespace ){
 }
 function uninstall_module( $namespace ){
 	$module	= get_modules( 'filter_namespace' , $namespace );
+	// Disabling Module
+	unactive_module( $namespace );
+	// Removing module actions
+	get_db()->where( 'MOD_NAMESPACE' , $module[ 'namespace' ] )->delete( 'tendoo_modules_actions' );
+	// Include uninstall.php for more uninstall task
+	include_if_file_exists( $module[ 'uri_path' ] . 'uninstall.php' );
+	// Droping module repository
 	return get_instance()->tendoo_admin->drop( $module[ 'uri_path' ] );
 }
 /**

@@ -12,7 +12,7 @@
 												<br>Si des erreurs persistent, vous pouvez toujours vous connecter à la communauté Tendoo pour signaler cette erreur.[#]
 [#]database_type::Type de la base de données[#]
 [#]dont_show::Ne pas afficher[#]
-[#]error_occured::Erreur est survenue[#]
+[#]error_occured::Une erreur s'est produite. L'opération n'a pas pu aboutir.[#]
 [#]error_on_form::Erreur sur le formulaire[#]
 [#]home::Accueil[#]
 [#]host_name::Nom de l'h&ocirc;te[#]
@@ -28,6 +28,18 @@
 [#]install_step1_tendoo_device_title::Tendoo pour appareil mobile[#]
 [#]install_step1_tendoo_device_description::<span>Tendoo offre un espace d'administration qui est compatible avec la plus part des supports mobiles. L'interface intuitif vous permet de gérer votre site web depuis un terminal mobile. Cet interface s'apadapte correctement aux dimensions de votre appareil, pour que le plaisir de naviguer sur votre appareil mobile soit identique &agrave; celui ressenti depuis un ordinateur.</span>[#]
 [#]limit_to::Limiter à[#]
+
+[#]module_already_exists::Ce module à déjà &eacute;t&eacute; install&eacute. La mise à jour ne peut être faite que lorsque la version déjà installée est inférieure à la nouvelle. Vous pouvez cependant procéder manuellement à la désinstallation de l'ancienne version et essayer à nouveau.[#]
+
+[#]module_compatibility_issues::Ce module n'est pas compatible avec la version actuelle de tendoo.[#]
+
+[#]module_updated::Le module a correctement été mis à jour. La mise à jour n'opère qu'un remplacement des fichiers du module. Aucune action n'est effectuée sur la base de données.[#]
+
+[#]module_installed::Le module a correctement été installé. Consultez la page des modules pour l'activer.[#]
+
+[#]no_module_installed::Aucun module n'est disponible. Veuillez vous connecter à la <a href="http://tendoo.org/index.php/">plateforme</a> pour télécharger de nouvelles applications.[#]
+
+
 [#]remove_module_bypage_notice::En décidant de supprimer ce module, la page sur laquelle ce dernièr à été affecté, pourrait ne plus fonctionner correctement. En outre, vous perdrez toutes les modifications apportés par ce module. Cette action est irreversible.[#]
 [#]install_tendoo_title::Assistant d'installation &rsaquo; %%[#]
 [#]options::Options[#]
