@@ -26,10 +26,10 @@ class tendoo_update
 				'link'			=>	return_if_array_key_exists( 'zipball_url' , $lastest_release ),
 			);
 			$tendoo_update[ 'core' ] = $lastest_release;
-			set_data( 'tendoo_core_update' , $tendoo_update );
+			set_meta( 'tendoo_core_update' , $tendoo_update );
 		}
 		$core_id			=	(float) get( 'core_id' );
-		if( $tendoo_update = get_data( 'tendoo_core_update' ) )
+		if( $tendoo_update = get_meta( 'tendoo_core_update' ) )
 		{
 			$array	=	array();
 			// Setting Core Warning

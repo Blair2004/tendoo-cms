@@ -99,169 +99,6 @@
 		if($result[0] == 'page404'): $instance->url->redirect($RedirectUrl);endif;
 		return $result;
 	}
-	/**
-	*	module assets url, renvoi le chemin d'accès vers le dossier du module actif (actuellement ouvert depuis l'interface d'admininstration), à utiliser uniquement dans l'environnement du module.
-	**/
-	function module_assets_url($segments)
-	{
-		$instance	=	get_instance();
-		if(isset($instance->data))
-		{
-			if(array_key_exists('module',$instance->data))
-			{
-				if(is_array($segments))
-				{
-					return $instance->url->main_url().MODULES_DIR.$instance->data['module'][0]['ENCRYPTED_DIR'].'/'.$instance->url->array2Url($segments);
-				}
-				else
-				{
-					return $instance->url->main_url().MODULES_DIR.$instance->data['module'][0]['ENCRYPTED_DIR'].'/'.$segments;
-				}
-			}
-		}
-		return false;
-	}
-	/**
-	*	module_include('module_namespace','path');
-	*	utilise la méthode include_once pour un fichier contenu dans le dossier du module dont l'espace nom est fourni comme premier paramètre.
-	**/
-	function module_include($mod_namespace,$path)
-	{
-		$instance	=	get_instance();
-		if(isset($instance->tendoo_admin))
-		{
-			$mod	=	$instance->tendoo_admin->getSpeModuleByNamespace($mod_namespace);
-			if($mod)
-			{
-				include_once(MODULES_DIR.$mod[0]['ENCRYPTED_DIR'].'/'.$mod_namespace);
-			}
-		}
-		return false;
-	}
-	/**
-	*	Module action
-	*	Vérifie l'accès à une action d'un module pour le privilège en cours (Celui utilisé par l'utilisateur courant, voir "current_user").
-	**/
-	function module_action($mod_namespace,$mod_action)
-	{
-		$instance	=	get_instance();
-		if(SCRIPT_CONTEXT	== 	'ADMIN')
-		{
-			return $instance->tendoo_admin->actionAccess($mod_action,$mod_namespace);
-		}
-		return false;
-	}
-	/**
-	*		module_action_location
-	*	Opère redirection lorsqu'une action n'est pas autorisé au privilège en cours.
-	*	Le privilège en cause est celui actuellement connecté voir "current_user"
-	**/
-	function module_action_location($mod_namespace,$mod_action,$segment_location)
-	{
-		if(!module_action($mod_namespace,$mod_action))
-		{
-			module_location($segment_location);
-		}
-	}
-/*
-	Tendoo 0.9.8 Only
-	
-	Facilite l'utilisation des ressources sans nécessairement avoir besoin d'utiliser l'objet get_instance();
-	module_...()
-	module_url()
-		Renvoie l'url du module actuellement en cours d'exécution. Fait usage des méthodes $this->instance->url... et du tableau $this->data;
-*/
-	
-	function module_url($segments)
-	{
-		$instance	=	get_instance();
-		if(SCRIPT_CONTEXT == 'ADMIN')
-		{
-			if(true == ($module	=	get_core_vars( 'opened_module' )))
-			{
-				if(is_array($segments))
-				{
-					return $instance->url->site_url('admin/open/modules/'.$module[0]['ID'].'/'.$instance->url->array2Url($segments));
-				}
-				else
-				{
-					return $instance->url->site_url('admin/open/modules/'.$module[0]['ID'].'/'.$segments);
-				}
-			}
-		}
-		else
-		{
-			if(true == ($page	=	get_core_vars('page')))
-			{
-				if(is_array($segments))
-				{
-					return $instance->url->site_url($page[0]['PAGE_CNAME'].'/'.$instance->url->array2Url($segments));
-				}
-				else
-				{
-					return $instance->url->site_url($page[0]['PAGE_CNAME'].'/'.$segments);
-				}
-			}
-		}
-		return false;
-	}
-	function module_location($segments)
-	{
-		$instance	=	get_instance();
-		if(SCRIPT_CONTEXT == 'ADMIN')
-		{
-			if(get_core_vars('opened_module'))
-			{
-				$module	=	get_core_vars('opened_module');
-				if(is_array($segments))
-				{
-					$baseSegments	=	array(
-					'admin','open','modules',$module[0]['ID']);
-					// Nous ajoutons les segments aux segments de base
-					foreach($segments as $seg)
-					{
-						array_push($baseSegments,$seg);
-					}
-					$instance->url->redirect($baseSegments);
-				}
-				else
-				{
-					$baseSegments	=	array(
-					'admin','open','modules',$module[0]['ID']);
-					// Nous ajoutons le segment aux segments de base
-					array_push($baseSegments,$segments);
-					$instance->url->redirect($baseSegments);
-					return $instance->url->site_url($baseSegments);
-				}
-			}
-		}
-		else
-		{
-			if(get_core_vars('module'))
-			{
-				$page	=	get_core_vars('page');
-				if(is_array($segments))
-				{
-					$baseSegments	=	array($page[0]['PAGE_CNAME']);
-					// Nous ajoutons les segments aux segments de base
-					foreach($segments as $seg)
-					{
-						array_push($baseSegments,$seg);
-					}
-					$instance->url->redirect($baseSegments);
-				}
-				else
-				{
-					$baseSegments	=	array($page[0]['PAGE_CNAME']);
-					// Nous ajoutons le segment aux segments de base
-					array_push($baseSegments,$segments);
-					$instance->url->redirect($baseSegments);
-					return $instance->url->site_url($baseSegments);
-				}
-			}
-		}
-		return false;
-	}
 	function theme_assets_url($url)
 	{
 		$active_theme	=	get_core_vars('active_theme');
@@ -333,76 +170,10 @@
 		$instance	=	get_instance();
 		return $instance->date->datetime();
 	}
-	function site_options($specified_key = null)
-	{
-		$instance	=	get_instance();
-		if($specified_key == null)
-		{
-			$options	=	$instance->options->get();
-			return $options[0];
-		}
-		else
-		{
-			$options	=	$instance->options->get();			
-			if(array_key_exists($specified_key,$options[0]))
-			{
-				return $options[0][$specified_key];
-			}
-			return false;
-		}
-	}
 	function site_theme()
 	{
 		$instance	=	get_instance();
 		return $instance->tendoo->getSiteTheme();
-	}
-	/**
-	*	current_user
-	*	Renvoi les informations à propos de l'utilisateur actuel.
-	**/
-	function current_user($input)
-	{
-		$instance	=	get_instance();
-		if(isset($instance->users_global))
-		{
-			switch(strtolower($input))
-			{
-				case "menu"	:
-				return $instance->users_global->getUserMenu();
-				break;
-				case "isconnected"	:
-				return $instance->users_global->isConnected();
-				break;
-				case "isadmin"	:
-				return $instance->users_global->isAdmin();
-				break;
-				case "issuperadmin"	:
-				return $instance->users_global->isSuperAdmin();
-				break;
-				case "show_menu"	:
-				return $instance->users_global->setMenuStatus('show_menu');
-				break;
-				case "hide_menu"	:
-				return $instance->users_global->setMenuStatus('hide_menu');
-				break;
-				case "top_margin"	:
-				return $instance->users_global->isConnected() ? 'style="margin-top:38px"' : '';
-				break;
-				case "top_offset"	:	
-				return $instance->users_global->isConnected() ? 'style="top:38px"' : '';
-				break;
-				default :
-					if(method_exists($instance->users_global,$input))
-					{
-						return $instance->users_global->$input();
-					}
-					else
-					{
-						return $instance->users_global->current($input);	
-					}
-				break;
-			}
-		}
 	}
 	/**
 	*
@@ -581,14 +352,6 @@
 		}
 	}
 	/**
-	*	get_options()
-	**/
-	function get_options()
-	{
-		$instance	=	get_instance();
-		return $instance->options->get();
-	}
-	/**
 	*	declare_notices : enregistre des nofication dans le système pour l'éxécution du script en cours.
 	**/
 	function declare_notice($key,$notice_text)
@@ -647,35 +410,6 @@
 	function get_declared_shortcuts()
 	{
 		return get_core_vars('declared_shortcuts');
-	}
-	/**
-	*	get_module()
-	**/
-	function get_modules($element = 'all',$filter = 'filter_id',$where = '', $value = '')
-	{
-		// Must Specify a valid filter
-		if(!in_array($filter,array('filter_id','filter_namespace','filter_nothing')))
-		{
-			return false;
-		}
-		$DB	=	get_db();
-		if($where != '' && $value != '')
-		{
-			$DB->where($where,$value);
-		}
-		if($filter == 'filter_id')
-		{
-			$DB->where('ID',$element);
-		}
-		else if($filter == 'filter_namespace')
-		{
-			$DB->where('NAMESPACE',$element);
-		}
-		$query	=	$DB->get('tendoo_modules');
-		$result	=	$query->result_array();
-		$result[0]['URI_PATH']	=	MODULES_DIR.$result[0]['ENCRYPTED_DIR'].'/';
-		$result[0]['URL_PATH']	=	get_instance()->url->main_url().MODULES_DIR.$result[0]['ENCRYPTED_DIR'].'/';
-		return $result;
 	}
 	/**
 	*	get_themes()
@@ -812,9 +546,9 @@
 		function __get_sections_widgets($admin_widgets, $section = 0)
 		{
 			$widget				=	array();
-			$widget[0]			=	get_data('widget_0', 'from_user_options' );
-			$widget[1]			=	get_data('widget_1', 'from_user_options' );
-			$widget[2]			=	get_data('widget_2', 'from_user_options' );
+			$widget[0]			=	get_meta('widget_0', 'from_user_meta' );
+			$widget[1]			=	get_meta('widget_1', 'from_user_meta' );
+			$widget[2]			=	get_meta('widget_2', 'from_user_meta' );
 			// var_dump($widget);
 			// Uniquement si le widget est disponible, on l'ajoute
 			if(array_key_exists($section,$widget))
@@ -877,7 +611,7 @@
 		if(is_array($admin_widgets))
 		{
 			$disabled_widgets	=	json_decode( current_user( 'ADMIN_WIDGETS_DISABLED' ) ,  true );
-			if( !get_data('widget_0', 'from_user_options' ) && !get_data('widget_1', 'from_user_options' ) && !get_data('widget_2', 'from_user_options' ) ){
+			if( !get_meta('widget_0', 'from_user_meta' ) && !get_meta('widget_1', 'from_user_meta' ) && !get_meta('widget_2', 'from_user_meta' ) ){
 				?>
                 <div class="col-lg-12">
                 <?php
@@ -985,18 +719,18 @@
 		if(!defined('TEPAS_CALLED'))
 		{
 			define( 'TEPAS_CALLED' , 'TRUE');
-			$tos_module_enabled	=	get_modules( 'all' , 'filter_nothing' , 'HAS_PASSIVE_SCRIPTING' , 1 );
+			$tos_module_enabled	=	get_modules( 'filter_active' );
 			if($tos_module_enabled)
 			{
 				foreach($tos_module_enabled as $m)
 				{
-					$tepas_file	=	MODULES_DIR.$m['ENCRYPTED_DIR'].'/tepas.php';
+					$tepas_file	=	MODULES_DIR.$m['encrypted_dir'].'/tepas.php';
 					if(is_file($tepas_file))
 					{
 						include_once($tepas_file);
-						if(class_exists($m['NAMESPACE'].'_tepas_class'))
+						if(class_exists($m[ 'namespace' ].'_tepas_class'))
 						{
-							eval('new '.$m['NAMESPACE'].'_tepas_class($m);');
+							eval('new '.$m[ 'namespace' ].'_tepas_class($m);');
 						}
 					}
 				}
@@ -1017,106 +751,62 @@
 		}
 	}
 	/**
-	*	get_data()
+	*	get_meta()
 	**/
-	function get_data($key,$source	=	"from_options") // to doc
+	function get_meta($key = 'all',$source	=	"from_options") // to doc
 	{
 		if($source	==	"from_options")
 		{
-			$options			=	get_options();
-			$decoded			=	json_decode($options[0][ 'LIGHT_DATA' ],TRUE);
-			if(!in_array($decoded,array(null,false),true))
-			{
-				if(array_key_exists($key,$decoded))
-				{
-					return $decoded[ $key ];
+			if( $key != 'all' ){
+				return get_instance()->meta_datas->get( $key );
+			} else {
+				$query	=	get_db()->where( 'USER' , 0 )->get( 'tendoo_meta' );
+				$new_array	=	array();
+				foreach( $result	=	$query->result_array() as $_key => $_result ){
+					if( json_decode( $_result[ 'VALUE' ] ) != null ){
+						$new_array[ $_result [ 'KEY' ] ] = json_decode( $_result[ 'VALUE' ] , TRUE );
+					} else if( in_array( strtolower(  $_result[ 'VALUE' ] ) , array( 'true' , 'false' ) ) ){
+						$new_array[ $_result [ 'KEY' ] ] = $_result[ 'VALUE' ] == 'true' ? true : false ;
+					} else {
+						$new_array[ $_result [ 'KEY' ] ] = $_result[ 'VALUE' ];
+					}
 				}
+				return $new_array;
 			}
 		}
-		else if($source	==	"from_user_options")
+		else if($source	==	"from_user_meta")
 		{
-			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-			get_instance()->users_global->refreshUser();
-			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-			$decoded			=	json_decode( current_user( 'LIGHT_DATA' ), TRUE );
-			if(!in_array($decoded,array(null,false),true))
-			{
-				if(array_key_exists($key,$decoded))
-				{
-					return $decoded[ $key ];
-				}
-			}
+			return get_instance()->meta_datas->get_user_meta( $key );
 		}
 		return false;
 	}
 	/**
-	*	set_data()
+	*	set_meta()
 	*	futur : ajouter un timestamp à une clé et leur donner uen valeur d'un mois.
 	**/
-	function set_data($key,$value,$source	=	 "from_options")
+	function set_meta($key,$value,$source	=	 "from_options")
 	{
 		if($source	==	"from_options")
 		{
-			$options		=	get_options();
-			$decoded		=	json_decode($options[0][ 'LIGHT_DATA' ],TRUE);
-			$light_array	=	array();
-			if(!in_array($decoded,array(null,false),true))
-			{
-				$light_array	=	 $decoded;
-			}
-			$light_array[ $key ] 	=	$value;
-			return set_options(array(
-				'LIGHT_DATA' =>	json_encode($light_array, JSON_FORCE_OBJECT)
-			));
+			return get_instance()->meta_datas->set( $key , $value );
 		}
-		else if($source	==	"from_user_options")
+		else if($source	==	"from_user_meta")
 		{
-			// -=-=-=-=
-			get_instance()->users_global->refreshUser();
-			// -=-=-=-=
-			$userOptions	=	json_decode(current_user( 'LIGHT_DATA' ),TRUE);
-			if(in_array($userOptions,array(null,false),true))
-			{
-				$userOptions	=	array();
-			}
-			$userOptions[ $key ]	=	 $value;
-			get_instance()->users_global->setUserElement( 'LIGHT_DATA' , json_encode( $userOptions , JSON_FORCE_OBJECT ) );
+			return get_instance()->meta_datas->set_user_meta( $key , $value );
 		}
 	}
 	/**
-	*	unset_data()
+	*	unset_meta()
 	**/
-	function unset_data($key, $source	=	"from_options")
+	function unset_meta($key, $source	=	"from_options")
 	{
 		if($source	==	"from_options")
 		{
-			$options		=	get_options();
-			$decoded		=	json_decode($options[0][ 'LIGHT_DATA' ],TRUE);
-			if(!in_array($decoded,array(null,false),true))
-			{
-				if(array_key_exists($key,$decoded))
-				{
-					unset($decoded[ $key ]);
-				}
-			}
-			return set_options(array(
-				'LIGHT_DATA' =>	json_encode($decoded)
-			));
+			return get_instance()->meta_datas->_unset( $key );
 		}
-		else if($source	==	"from_user_options")
+		else if($source	==	"from_user_meta")
 		{
-			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-				get_instance()->users_global->refreshUser();
-			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-			$userOptions	=	json_decode(current_user( 'LIGHT_DATA' ),TRUE);
-			if(!in_array($userOptions,array(null,false),true))
-			{
-				if(array_key_exists( $key , $userOptions ))
-				{
-					unset( $userOptions[ $key ] );
-				}
-			}
-			get_instance()->users_global->setUserElement( "LIGHT_DATA" , json_encode($userOptions, JSON_FORCE_OBJECT) );
+			return get_instance()->meta_datas->_unset_user_datat( $key );
 		}
 	}
 	/**

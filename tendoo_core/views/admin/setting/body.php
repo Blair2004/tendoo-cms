@@ -1,5 +1,4 @@
 <?php echo get_core_vars( 'lmenu' );?>
-
 <section id="content">
     <section class="vbox"> <?php echo get_core_vars( 'inner_head' );?>
         <section class="scrollable" id="pjax-container">
@@ -42,12 +41,12 @@
 										?>
                                         <div class="form-group">
                                             <label class="control-label">D&eacute;finir fuseau horaire</label>
-                                            <?php $default	=	$options[0]['SITE_TIMEZONE'] == '' ? 'UTC' : $options[0]['SITE_TIMEZONE'];?>
+                                            <?php $default	=	riake( 'site_timezone' , $options ) == '' ? 'UTC' : riake( 'site_timezone' , $options );?>
                                             <select name="newHoraire" class="input-sm form-control">
                                                 <?php $fuso		=	$this->instance->date->getFuseau();
 											foreach($fuso as $f)
 											{
-												if($options[0]['SITE_TIMEZONE'] == $f['Code'])
+												if( riake( 'site_timezone' , $options ) == $f['Code'])
 												{
 												?>
                                                 <option selected="selected" value="<?php echo $f['Code'];?>"><?php echo $f['Index'].' - '.$f['States'];?></option>
@@ -65,16 +64,16 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Nom du site web</label>
-                                            <input type="text" name="newName" class="form-control" value="<?php echo $options[0]['SITE_NAME'];?>">
+                                            <input type="text" name="newName" class="form-control" value="<?php echo riake( 'site_name' , $options );?>">
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Lien vers logo</label>
-                                            <input type="text" name="newLogo" value="<?php echo $options[0]['SITE_LOGO'];?>" class="form-control">
-                                            <div class=""> <span class="bg-white input-group-addon"><img src="<?php echo $options[0]['SITE_LOGO'];?>"></span> </div>
+                                            <input type="text" name="newLogo" value="<?php echo riake( 'site_logo' , $options );?>" class="form-control">
+                                            <div class=""> <span class="bg-white input-group-addon"><img src="<?php echo riake( 'site_logo' , $options );?>"></span> </div>
                                         </div>
                                         <div class="form-group">
                                             <?php
-											$format	=	$options[0]['SITE_TIMEFORMAT'];
+											$format	=	riake( 'site_timeformat' , $options );
 											?>
                                             <label class="control-label">D&eacute;finir format horaire</label>
                                             <select name="newFormat" class="input-sm form-control inline">
@@ -101,8 +100,8 @@
                                             <form fjax method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','toogleStoreAccess'));?>">
                                                 <div class="form-group">
                                                     <label>
-                                                        <?php 
-														if($options[0]['CONNECT_TO_STORE'] == "1")
+                                                        <?php
+														if( riake( 'connect_to_store' , $options ) == "1")
 														{
 														?>
                                                         <input type="submit" name="storeToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="Désactiver la connexion au Store">
@@ -139,7 +138,7 @@
                                                 <div class="form-group">
                                                     <label>
                                                         <?php 
-														if((int)$this->instance->users_global->current('FIRST_VISIT') == 1)
+														if( get_user_meta( 'first_visit' ) == 1)
 														{
 														?>
                                                         <input type="submit" name="firstVisitToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="Cacher la visite guidée">
@@ -191,7 +190,7 @@
 																	foreach($appIconApi as $_a)
 																	{
 																		
-																			eval($options[0]['ADMIN_ICONS']);
+																			eval(riake( 'admin_icons' , $options ));
 																			if(!isset($icons))
 																			{
 																				$icons	=	array(0);
@@ -292,6 +291,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                
+                                <!-- SECURITY -->
+                                
+                                
                                 <?php
 								if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 								{
@@ -300,7 +304,7 @@
                                     <div class="row">
                                         <div class="col-lg-8">
                                             <?php
-											$checked	=	($options[0]['ALLOW_PRIVILEGE_SELECTION'] == "1") ? 'checked="checked"' : "";
+											$checked	=	( riake( 'allow_privilege_selection' , $options ) == "1") ? 'checked="checked"' : "";
 											?>
                                             <form method="post">
                                                 <h3>Privil&egrave;ges</h3>
@@ -320,14 +324,14 @@
                                                     <select name="publicPrivAccessAdmin" class="form-control">
                                                         <option value="">Choisir...</option>
                                                         <?php
-														if($options[0]['PUBLIC_PRIV_ACCESS_ADMIN'] == 0)
+														if( riake( 'public_priv_access_admin' , $options ) == 0)
 														{
 															?>
                                                         <option value="1">Oui</option>
                                                         <option selected="selected" value="0">Non</option>
                                                         <?php
 														}
-														else if($options[0]['PUBLIC_PRIV_ACCESS_ADMIN'] == 1)
+														else if( riake( 'public_priv_access_admin' , $options ) == 1)
 														{
 															?>
                                                         <option selected="selected" value="1">Oui</option>
@@ -355,14 +359,14 @@
                                                     <select name="allowRegistration" class="form-control">
                                                         <option value="">Choisir...</option>
                                                         <?php
-														if($options[0]['ALLOW_REGISTRATION'] == 0)
+														if( riake( 'allow_registration' , $options ) == 0)
 														{
 															?>
                                                         <option value="1">Oui</option>
                                                         <option selected="selected" value="0">Non</option>
                                                         <?php
 														}
-														else if($options[0]['ALLOW_REGISTRATION'] == 1)
+														else if( riake( 'allow_registration' , $options ) == 1)
 														{
 															?>
                                                         <option selected="selected" value="1">Oui</option>

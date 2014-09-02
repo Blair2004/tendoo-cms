@@ -252,7 +252,7 @@ class CI_Profiler {
 		$output  = "\n\n";
 		$output .= '<fieldset id="ci_profiler_get" style="border:1px solid #cd6e00;padding:6px 10px 10px 10px;margin:20px 0 20px 0;background-color:#eee">';
 		$output .= "\n";
-		$output .= '<legend style="color:#cd6e00;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_get_data').'&nbsp;&nbsp;</legend>';
+		$output .= '<legend style="color:#cd6e00;">&nbsp;&nbsp;'.$this->CI->lang->line('profiler_get_meta').'&nbsp;&nbsp;</legend>';
 		$output .= "\n";
 
 		if (count($_GET) == 0)

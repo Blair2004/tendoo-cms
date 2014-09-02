@@ -13,33 +13,24 @@
             </header>
             <section class="vbox">
                 <section class="wrapper"> <?php echo output('notice');?> 
+                	<div class="row">
+                    	<div class="col-lg-5">
                 	<section class="panel">
-                    	<div class="panel-heading">
-                        D&eacute;sinstaller un module
+                            <div class="panel-heading">
+                            Attention, soyez prudent !!!
+                            </div>
+                            <div class="panel-body">
+                                <?php output('notice');?>
+                                <p>Vous êtes sur le point de supprimer un module. Cette action est irreversible, en outre il est probable que d'autres modules et/ou pages ne s'affichent plus correctement. <br /><br />Veuillez confirmer votre action pour continuer.</p>
+                                    <form method="post">
+                                        <div>
+                                                <input type="hidden" name="module_namespace" value="<?php echo $module['namespace'];?>">
+                                                <input type="submit" class="btn btn-sm btn-danger" value="Je confirme mon action">
+                                        </div>
+                                    </form>
+                            </div>
+                        </section>
                         </div>
-                        <div class="panel-body">
-                        	<?php output('notice');?>
-			<?php
-			if($module[0]['TYPE'] == 'GLOBAL')
-			{
-				?>
-				<div class="span12 bg-color-orangeDark fg-color-white padding10"><strong>"<?php echo $module[0]['NAMESPACE'];?>" est un module syst&egrave;me.</strong><br>Certains modules comme <strong>l'espace membre</strong> sont nécessaire au fonctionnement de l'espace administration, si vous surpprimez un tel module, Il est fort probable que cela compromette le fonctionnement de la plus part des modules qui fonctionne avec ses ressources, de plus, l'accès à l'espace administrateur sera ouverte au public.</div>
-				<?php
-			}
-			else if($module[0]['TYPE'] == 'BYPAGE')
-			{
-				?>
-                <div><?php echo translate('remove_module_bypage_notice');?></div>
-                <br>
-                <?php
-			}
-			?>
-                                <form method="post">
-                                    <div>
-                                            <input type="hidden" name="mod_id" value="<?php echo $module[0]['ID'];?>">
-                                            <input type="submit" class="btn btn-sm btn-danger" value="Confirmer">
-                                    </div>
-                                </form>
                         </div>
                     </section>
                 </section>

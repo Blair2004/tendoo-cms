@@ -172,7 +172,7 @@
                 <div class="col-lg-6">
                 	<div class="panel">
                     	<div class="panel-heading">Ma bio</div>
-                        <form fjaxson method="post" class="panel-body" action="<?php echo $this->instance->url->site_url(array('account','ajax','set_user_data'));?>">
+                        <form fjaxson method="post" class="panel-body" action="<?php echo $this->instance->url->site_url(array('account','ajax','set_user_meta'));?>">
                             <div class="form-group">
                             	<input type="hidden" name="key" value="user_bio">
                                 <textarea name="value" rows="10" class="form-control"><?php echo current_user( 'BIO' );?></textarea>

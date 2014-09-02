@@ -91,39 +91,18 @@ class Installation extends Libraries
 		{
 			return false;
 		};
-		/* CREATE tendoo_options */
+		/* CREATE tendoo_meta */
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_options` (
-		`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-		`SITE_NAME` varchar(200) NOT NULL,
-		`SITE_LOGO` varchar(200) NOT NULL,
-		`SITE_LANG` varchar(200) NOT NULL,
-		`ALLOW_REGISTRATION` int(11) NOT NULL,
-		`SITE_TIMEZONE` varchar(30) NOT NULL,
-		`SITE_TIMEFORMAT` varchar(10) NOT NULL,
-		`ALLOW_PRIVILEGE_SELECTION` int(11) NOT NULL,
-		`PUBLIC_PRIV_ACCESS_ADMIN` int(11) NOT NULL,
-		`ACTIVATE_STATS` int(11) NOT NULL,
-		`ADMIN_ICONS` text NOT NULL,
-		`CONNECT_TO_STORE` int(11) NOT NULL,
-		`LIGHT_DATA` text,
-		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB;';
-		if(!$this->db->query($sql))
-		{
-			return false;
-		};
-		/* CREATE tendoo_fash */
-		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_flash_data` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_metas` (
 			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-			`KEYS` varchar(255) NOT NULL,
+			`KEY` varchar(255) NOT NULL,
 			`VALUE` text,
-			`AUTHOR` int(11) NOT NULL,
+			`AUTHOR` varchar(255) NOT NULL,
 			`DATE` datetime NOT NULL,
 			`APP` varchar(255) NOT NULL,
 		PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
+		// APP eg. theme_nevia, module_blogster, module_static_pages, module_eshopping etc
 		if(!$this->db->query($sql))
 		{
 			return false;
@@ -141,27 +120,10 @@ class Installation extends Libraries
 			`SURNAME` varchar(100) NOT NULL,
 			`EMAIL` varchar(100) NOT NULL,
 			`SEX` varchar(50) NOT NULL,
-			`STATE` varchar(100) NOT NULL,
-			`PHONE` varchar(100) NOT NULL,
-			`TOWN` varchar(100) NOT NULL,
 			`REG_DATE` datetime NOT NULL,
 			`LAST_ACTIVITY` datetime NOT NULL,
 			`PRIVILEGE` varchar(100) NOT NULL,
 			`ACTIVE` varchar(100) NOT NULL,
-			`ADMIN_THEME` int(11) NOT NULL,
-			`FIRST_VISIT` int(11) NOT NULL,
-			`ADMIN_INDEX_VISIT` int(11) NOT NULL,
-			`ADMIN_PAGES_VISIT` int(11) NOT NULL,
-			`ADMIN_APPS_VISIT` int(11) NOT NULL,
-			`ADMIN_SETTINGS_VISIT` int(11) NOT NULL,
-			`ADMIN_SYSTEM_VISIT` int(11) NOT NULL,
-			`ADMIN_WIDGETS_DISABLED` text NOT NULL,
-			`AVATAR_LINK` varchar(200) NOT NULL,
-			`AVATAR_TYPE` varchar(200) NOT NULL,
-			`GOOGLE_PROFILE` varchar(200),
-			`FACEBOOK_PROFILE` varchar(200),
-			`TWITTER_PROFILE` varchar(200),
-			`LIGHT_DATA` text,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->db->query($sql))

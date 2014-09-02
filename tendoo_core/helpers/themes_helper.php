@@ -10,6 +10,12 @@
 		return false;
 	}
 	/**
+	*	riake @lias return_if_array_key_exists( )
+	**/
+	function riake( $key  , $array ){
+		return return_if_array_key_exists( $key , $array );
+	}
+	/**
 	*	get_blog_post() : Recupère tous les articles du blog (Not Documented)
 	**/
 	function get_blog_posts(){
@@ -902,6 +908,7 @@
 								if( is_array( $value ) ){
 									foreach( $value as $key => $value )
 									{
+										// les key sont celles sur le tableau renvoyé par l'API
 										$$key	=	$value;
 										// If there are events declared
 										if( has_events ( 'set_'.$namespace.'_items_vars' ) )

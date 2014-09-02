@@ -15,7 +15,7 @@ class error extends Libraries
 		if($this->instance->db_connected()) // On connecte si 
 		{
 			$this->load->library('users_global');
-			$this->data['options']		=	$this->options->get();
+			$this->data['options']		=	get_meta( 'all' );
 		}
 		else
 		{

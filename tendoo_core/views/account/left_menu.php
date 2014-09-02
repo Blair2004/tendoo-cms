@@ -1,4 +1,4 @@
-<aside class="aside <?php echo theme_class();?> <?php echo get_user_data( 'admin-left-menu-status' );?> b-r" id="nav">
+<aside class="aside <?php echo theme_class();?> <?php echo get_user_meta( 'admin-left-menu-status' );?> b-r" id="nav">
     <section class="vbox">
         <header class="dker nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 

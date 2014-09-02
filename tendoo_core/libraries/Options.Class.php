@@ -1,5 +1,5 @@
 <?php
-class Options extends Libraries
+class Meta_datas extends Libraries
 {
 	public function __construct()
 	{
@@ -14,12 +14,11 @@ class Options extends Libraries
 			$this->db	=	DB($config,TRUE);
 		}
 		$this->db		->select('*')
-						->from('tendoo_options')
-						->limit(1,0);
+						->from('tendoo_meta');
 		$r				=	$this->db->get();
 		return $r->result_array();
 	}
-	public function set($array,$process = 'from_admin_interface')
+	public function set($key , $value , $process = 'from_admin_interface' , $app = 'system' , $user = 0)
 	{		
 		if($process == 'from_install_interface')
 		{
@@ -30,21 +29,28 @@ class Options extends Libraries
 		{
 			$this->db		=	get_db(); // Refreshing
 		}
-		$q = $this->db->get('tendoo_options');
-		$r = $q->result();
-		if(count($r) == 1)
-		{	
-			$this->db->where('ID',1);
-			$result = $this->db->update('tendoo_options',$array);
+		$query			=	$this->db->where( 'KEY' , $key )->get( 'tendoo_meta' );  
+		if( count( $query->result_array() ) > 0 ){
+			return $this->db->where( 'KEY' , $key )->update( 'tendoo_meta' , array(
+				'VALUE'		=>		$value,
+				'USER'		=>		$user,
+				'APP'		=>		$app,
+				'DATE'		=>		0 // Provisoire
+			) );
+		} else {
+			return $this->db->insert( 'tendoo_options' , array(
+				'KEY'		=>		$key,
+				'VALUE'		=>		$value,
+				'USER'		=>		$user,
+				'APP'		=>		$app,
+				'DATE'		=>		0 // Provisoire
+			) );
 		}
-		else if(count($r) == 0)
-		{
-			$result = $this->db->insert('tendoo_options',$array);
+	}
+	public function get_meta( $key ){
+		$query			=	$this->db->where( 'KEY' , $key )->get( 'tendoo_meta' );  
+		if( count($result = $query->result_array() ) > 0 ){
+			
 		}
-		if($result == false)
-		{
-			return false;
-		}
-		return true;
 	}
 }

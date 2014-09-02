@@ -5,7 +5,7 @@
                 {
                     foreach($appIconApi as $a)
                     {
-                        eval($options[0]['ADMIN_ICONS']);
+                        eval( riake( 'admin_icons' , $options) );
                         if(isset($icons) && count($icons) > 1)
                         {
                             foreach($icons as $i)

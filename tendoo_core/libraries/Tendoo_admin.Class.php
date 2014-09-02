@@ -59,7 +59,6 @@ class Tendoo_admin extends Libraries
 				}
 			}
 		}
-		$options				=	$this->instance->options->get();
 		$e['PAGE_CNAME']		=	strtolower($cname);
 		$e['PAGE_NAMES']		=	strtolower($name);
 		$e['PAGE_TITLE']		=	$title;
@@ -98,7 +97,7 @@ class Tendoo_admin extends Libraries
 					<input type="hidden" controller_title name="controller[title][]" value="<?php echo $g['PAGE_TITLE'];?>">
 					<input type="hidden" controller_description name="controller[description][]" value="<?php echo $g['PAGE_DESCRIPTION'];?>">
 					<input type="hidden" controller_main name="controller[main][]" value="<?php echo $g['PAGE_MAIN'];?>">
-					<input type="hidden" controller_module name="controller[module][]" value="<?php echo is_array($g['PAGE_MODULES']) ? $g['PAGE_MODULES'][0]['NAMESPACE'] : $g['PAGE_MODULES'];?>">
+					<input type="hidden" controller_module name="controller[module][]" value="<?php echo is_array($g['PAGE_MODULES']) ? $g['PAGE_MODULES'][ 'namespace' ] : $g['PAGE_MODULES'];?>">
 					<input type="hidden" controller_parent name="controller[parent][]" value="<?php echo $g['PAGE_PARENT'];?>">
 					<input type="hidden" controller_name name="controller[name][]" value="<?php echo $g['PAGE_NAMES'];?>">
 					<input type="hidden" controller_cname name="controller[cname][]" value="<?php echo $g['PAGE_CNAME'];?>">
@@ -315,28 +314,6 @@ class Tendoo_admin extends Libraries
 												End File Methods
 **********************************************************************************************************************/
 /**********************************************************************************************************************
-												Menu Methods
-**********************************************************************************************************************/
-	public function menuExtendsAfter($e) // Ajout menu après le menu systeme
-	{
-		$this->leftMenuExtentionAfter = $e;
-	}
-	public function menuExtendsBefore($e) // Ajout avant le menu système
-	{
-		$this->leftMenuExtentionBefore = $e;
-	}
-	public function parseMenuBefore()
-	{
-		return $this->leftMenuExtentionBefore;
-	}
-	public function parseMenuAfter()
-	{
-		return $this->leftMenuExtentionAfter;
-	}
-/**********************************************************************************************************************
-												End Menu Methods
-**********************************************************************************************************************/
-/**********************************************************************************************************************
 												Module Methods
 **********************************************************************************************************************/
 	public function getSpeModuleByNamespace($namespace) // La même méthode pour Tendoo ne recupère que ce qui est déjà activé.
@@ -466,7 +443,7 @@ class Tendoo_admin extends Libraries
 		}
 		return false;		
 	}
-	public function getAppImgIco($appNameSpace)
+	public function getAppImgIco($appNameSpace) // Deprecated
 	{
 		$app	=	$this->getSpeModuleByNamespace($appNameSpace);
 		if($app)
@@ -516,7 +493,7 @@ class Tendoo_admin extends Libraries
 			{
 				$content	.=	'$icons[]	=	"'.$a.'";';
 			}
-			return $this->db->update('tendoo_options',array('ADMIN_ICONS'=>$content));
+			return set_meta( 'admin_icons' , $content );
 		}
 		return false;
 	}
@@ -908,7 +885,7 @@ class Tendoo_admin extends Libraries
 	private $statsLimitation	=	5;
 	public function editSiteName($e)
 	{
-		return $this->db->update('tendoo_options',array('SITE_NAME'=>$e));
+		return set_meta( 'site_name' , $e );
 	}
 	public function editRegistration($e)
 	{
@@ -920,45 +897,36 @@ class Tendoo_admin extends Libraries
 		{
 			$e	=	0;
 		}
-		return $this->db->update('tendoo_options',array('ALLOW_REGISTRATION'=>$e));
+		return set_meta( 'allow_registration' , $e );
 	}
 	public function editLogoUrl($e)
 	{
-		return $this->db->update('tendoo_options',array('SITE_LOGO'=>$e));
+		return set_meta( 'site_logo' , $e );
 	}
 	public function editTimeZone($e)
 	{
-		return $this->db->update('tendoo_options',array('SITE_TIMEZONE'=>$e));
+		return set_meta( 'site_timezone' , $e );
 	}
 	public function editTimeFormat($e)
 	{
-		return $this->db->update('tendoo_options',array('SITE_TIMEFORMAT'=>$e));
+		return set_meta( 'site_timeformat' , $e );
 	}
 	public function editPrivilegeAccess($e)
 	{
 		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0;
-		return $this->db->update('tendoo_options',array('ALLOW_PRIVILEGE_SELECTION'=>$int));
+		return set_meta( 'allow_privilege_selection' , $e );
 	}
 	public function editAllowAccessToPublicPriv($e)
 	{
-			$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0;
-		return $this->db->update('tendoo_options',array('PUBLIC_PRIV_ACCESS_ADMIN'=>$int));
+		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0;
+		return set_meta( 'public_priv_access_admin' , $e );
 	}
 	public function toogleStoreConnexion()
 	{
-		$option =	$this->db->get('tendoo_options');
-		$result	=	$option->result_array();
-		if($result[0]['CONNECT_TO_STORE'] == '0')
-		{
-			$this->db->update('tendoo_options',array(
-				'CONNECT_TO_STORE'			=>		'1'
-			));
-		}
-		else
-		{
-			$this->db->update('tendoo_options',array(
-				'CONNECT_TO_STORE'			=>		'0'
-			));
+		if( get_meta( 'cant_access_store' ) ){
+			set_meta( 'cant_access_store' , false );
+		} else {
+			set_meta( 'cant_access_store' , true );
 		}
 	}
 /**********************************************************************************************************************

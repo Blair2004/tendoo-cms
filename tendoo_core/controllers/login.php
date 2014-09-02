@@ -20,12 +20,10 @@ Class login extends Libraries
 		($this->users_global->hasAdmin()=== FALSE) ? $this->url->redirect(array('registration','superAdmin')) : false;
 		// is Connected ?
 		($this->users_global->isConnected()=== TRUE) ? $this->url->redirect(array('index')) : false;
+		$this->data['options']		=	get_meta( 'all' );
 	}
 	public function index() // OK for 0.99
 	{
-		// Library
-		$this->data['options']		=	$this->instance->options->get();
-		// Method
 		$this->form_validation->set_rules('admin_pseudo','Pseudo','trim|required|min_length[5]|max_length[15]');
 		$this->form_validation->set_rules('admin_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
 		if($this->form_validation->run())
@@ -61,7 +59,7 @@ Class login extends Libraries
 			}
 		}
 		// var_dump($this->load);
-		$this->data['pageTitle']	=	'Connexion - '.$this->data['options'][0]['SITE_NAME'];
+		$this->data['pageTitle']	=	'Connexion - '.riake( 'site_name' , $this->data['options'] );
 		set_page('title',$this->data['pageTitle']);
 		
 		$this->data['body']	=	$this->load->view('login/connect',$this->data,true);
@@ -69,12 +67,12 @@ Class login extends Libraries
 		$this->load->view('header',$this->data);
 		$this->load->view('global_body',$this->data);	
 	}
-	public function modal()
+	public function modal() // Disabled
 	{
 		$redirect	=	isset($_GET['ref']) ? $_GET['ref'] : '';
 		// Library
 		
-		$this->data['options']		=	$this->instance->options->get();
+		$this->data['options']		=	get_meta( 'all' );
 		// Method
 		$this->data['redirect']		=	$redirect;
 		$this->data['body']	=	$this->load->view('login/connect_modal',$this->data,true);
@@ -85,9 +83,7 @@ Class login extends Libraries
 	public function recovery($action	=	'home')
 	{
 		// Library
-		
-		$this->data['options']		=	$this->instance->options->get();
-		if($this->data['options'][0]['ALLOW_REGISTRATION'] == "0")
+		if( riake( 'allow_registration' , $this->data['options'] ) == "0")
 		{
 			$this->url->redirect(array('error','code','regisAndAssociatedFunLocked'));
 		}
@@ -186,8 +182,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				// Library
 				
 				$this->load->library('Tendoo_admin');	
-				$this->data['options']			=	$this->instance->options->get();
-				if($this->data['options'][0]['ALLOW_REGISTRATION'] == "0")
+				if( riake( 'allow_registration' , $this->data['options'] ) == "0")
 				{
 					$this->url->redirect(array('error','code','regisAndAssociatedFunLocked'));
 				}

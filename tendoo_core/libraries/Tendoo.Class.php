@@ -28,31 +28,11 @@ class Tendoo
 	{
 		return $this->isInstalled;
 	}
-	public function setOptions($options)
-	{
-		$q = $this->instance->db->get('tendoo_options');
-		$r = $q->result();
-		
-		if(count($r) == 1)
-		{	
-			$this->instance->db->where('ID',1);
-			$result = $this->instance->db->update('tendoo_options',$options);
-		}
-		else if(count($r) == 0)
-		{
-			$result = $this->instance->db->insert('tendoo_options',$options);
-		}
-		if($result == false)
-		{
-			return false;
-		}
-		return true;
-	}
 	public function firstController($name,$cname,$mod,$title,$description,$main,$visible)
 	{
-		$this->instance	->db->select('*')
+		get_db()->select('*')
 					->from('tendoo_controllers');
-		$query		=	$this->instance->db->get();
+		$query		=	get_db()->get();
 		if($query->num_rows == 0)
 		{
 			$e['PAGE_CNAME']		=	strtolower($cname);
@@ -63,7 +43,7 @@ class Tendoo
 			$e['PAGE_MODULES']		=	$mod;
 			$e['PAGE_VISIBLE']		=	$visible;
 			$e['PAGE_PARENT']		=	'none'; // Par défaut le premier lien est à la racine puisqu'il s'agit du premier contrôleur.
-			return $this->instance			->db->insert('tendoo_controllers',$e);			
+			return get_db()->insert('tendoo_controllers',$e);			
 		}
 		return false;
 	}
@@ -84,10 +64,10 @@ class Tendoo
 	public function get_controllers( $filter , $id_or_cname_or_start = null , $end = null )
 	{
 		if( $filter == 'filter_id' ){
-			$this->instance->db->select('*')
+			get_db()->select('*')
 						->from('tendoo_controllers')
 						->where('ID',$id_or_cname_or_start);
-			$data		= 	$this->instance->db->get();
+			$data		= 	get_db()->get();
 			$value		=	$data->result_array();
 			if(count($value) == 1)
 			{
@@ -99,10 +79,10 @@ class Tendoo
 			}
 		}
 		else if( $filter == 'filter_cname' ){
-			$this->instance->db->select('*')
+			get_db()->select('*')
 						->from('tendoo_controllers')
 						->where( 'PAGE_CNAME' , $id_or_cname_or_start );
-			$data		= 	$this->instance->db->get();
+			$data		= 	get_db()->get();
 			$value		=	$data->result_array();
 			if(count($value) == 1)
 			{
@@ -118,10 +98,10 @@ class Tendoo
 	{
 		if($page == 'index')
 		{
-			$this->instance->db->select('*')
+			get_db()->select('*')
 						->from('tendoo_controllers')
 						->where('PAGE_MAIN','TRUE');
-			$data 		=	$this->instance->db->get();
+			$data 		=	get_db()->get();
 			$value		=	$data->result_array();
 			if(count($value) == 1)
 			{
@@ -142,10 +122,10 @@ class Tendoo
 		}
 		else if($getAll == FALSE && $page != null)
 		{
-			$this->instance->db->select('*')
+			get_db()->select('*')
 						->from('tendoo_controllers')
 						->where('PAGE_CNAME',$page);
-			$data		= 	$this->instance->db->get();
+			$data		= 	get_db()->get();
 			$value		=	$data->result_array();
 			if(count($value) == 1)
 			{
@@ -158,18 +138,18 @@ class Tendoo
 		}
 		else
 		{
-			$this->instance->db->select('*')
+			get_db()->select('*')
 						->from('tendoo_controllers');
-			$data		= 	$this->instance->db->get();
+			$data		= 	get_db()->get();
 			$value		=	$data->result_array();
 			return $value;
 		}
 	}
 	public function getControllers()
 	{
-		$this->instance->db->select('*')
+		get_db()->select('*')
 					->from('tendoo_controllers')->where('PAGE_VISIBLE','TRUE')->order_by('PAGE_POSITION','asc');
-		$r			=	$this->instance->db->get();
+		$r			=	get_db()->get();
 		return $r->result_array();
 	}
 	private $levelLimit					= 20; // limitation en terme de sous menu
@@ -180,13 +160,13 @@ class Tendoo
 		{
 			if($showHidden == FALSE)// ??
 			{
-				$this->instance->db->where('PAGE_VISIBLE','TRUE');
+				get_db()->where('PAGE_VISIBLE','TRUE');
 			}
-			$this->instance	->db->select('*')
+			get_db()->select('*')
 						->where('PAGE_PARENT',$cname) // On recupère le menu de base
 						->order_by('PAGE_POSITION','asc')
 						->from('tendoo_controllers');
-			$query 		=	$this->instance->db->get();
+			$query 		=	get_db()->get();
 			if($query->num_rows > 0)
 			{
 				$array		=	array();
@@ -220,19 +200,16 @@ class Tendoo
 	*/
 	public function get_pages($page =NULL,$showHidden=TRUE,$getModuleData = TRUE,$getChild = TRUE) 
 	{
-		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->instance->db	=	get_db();
-		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		if(in_array($page,array('',NULL))) 
 		{
 			if($showHidden == FALSE)
 			{
-				$this->instance->db->where('PAGE_VISIBLE','TRUE');
+				get_db()->where('PAGE_VISIBLE','TRUE');
 			}
-			$this->instance	->db->select('*')
+			get_db()->select('*')
 						->where('PAGE_PARENT','none') // On recupère le menu de base
 						->from('tendoo_controllers');
-			$query 	=	$this->instance->db->get();
+			$query 	=	get_db()->get();
 			$array		=	array();
 			foreach($query->result() as $obj)
 			{
@@ -243,7 +220,7 @@ class Tendoo
 						'PAGE_CNAME'	=>$obj->PAGE_CNAME,
 						'PAGE_PARENT'	=>$obj->PAGE_PARENT,
 						'PAGE_NAMES'	=>$obj->PAGE_NAMES,
-						'PAGE_MODULES'	=>$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : $this->getSpeModuleByNamespace($obj->PAGE_MODULES),
+						'PAGE_MODULES'	=>$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : get_modules( 'filter_active_namespace' , $obj->PAGE_MODULES ),
 						'PAGE_TITLE'	=>$obj->PAGE_TITLE,
 						'PAGE_DESCRIPTION'		=>$obj->PAGE_DESCRIPTION,
 						'PAGE_MAIN'		=>	$obj->PAGE_MAIN,
@@ -282,22 +259,22 @@ class Tendoo
 			$array		=	FALSE;
 			if($showHidden == FALSE)
 			{
-				$this->instance->db->where('PAGE_VISIBLE','TRUE');
+				get_db()->where('PAGE_VISIBLE','TRUE');
 			}
 			if($getChild == TRUE)
 			{
-				$this->instance->db->where('PAGE_PARENT',$page) // On recupère le menu de base
+				get_db()->where('PAGE_PARENT',$page) // On recupère le menu de base
 							// ->order_by('PAGE_POSITION','asc')
 							->from('tendoo_controllers');
-				$query 	=	$this->instance->db->get();
+				$query 	=	get_db()->get();
 				// var_dump($query);
 			}
 			else
 			{
-				$this->instance	->db->select('*')
+				get_db()->select('*')
 							->from('tendoo_controllers')
 							->where('PAGE_CNAME',$page);
-				$query 	=	$this->instance->db->get();
+				$query 	=	get_db()->get();
 			}
 			if(count(get_object_vars($query)) > 0)
 			{
@@ -311,7 +288,7 @@ class Tendoo
 							'PAGE_CNAME'	=>	$obj->PAGE_CNAME,
 							'PAGE_PARENT'	=>	$obj->PAGE_PARENT,
 							'PAGE_NAMES'	=>	$obj->PAGE_NAMES,
-							'PAGE_MODULES'	=>	$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : $this->getSpeModuleByNamespace($obj->PAGE_MODULES),
+							'PAGE_MODULES'	=>	$obj->PAGE_MODULES == '#LINK#' ? $obj->PAGE_MODULES : get_modules( 'filter_active_namespace' , $obj->PAGE_MODULES ),
 							'PAGE_TITLE'	=>	$obj->PAGE_TITLE,
 							'PAGE_DESCRIPTION'	=>$obj->PAGE_DESCRIPTION,
 							'PAGE_MAIN'		=>	$obj->PAGE_MAIN,
@@ -349,15 +326,16 @@ class Tendoo
 	}
 	public function getControllersAttachedToModule($module) // Recupere la page qui embarque le module spécifié.
 	{
-		$this->instance->db->select('*')
+		get_db()->select('*')
 					->from('tendoo_controllers')->where('PAGE_MODULES',$module); // Nous avons choisi de ne pas exiger la selection des controleur visible "->where('PAGE_VISIBLE','TRUE')"
-		$r			=	$this->instance->db->get();
+		$r			=	get_db()->get();
 		return $r->result_array();
 	}
 	/// MODULES LOADER
 	public function getGlobalModules() // Récupération de tous les modules de type GLOBAL
 	{
-		$query	=	$this->instance->db	->where('TYPE','GLOBAL')
+		return false;
+		$query	=	get_db()	->where('TYPE','GLOBAL')
 									->where('ACTIVE','1')
 									->get('tendoo_modules');
 		$data	=	$query->result_array();
@@ -373,18 +351,18 @@ class Tendoo
 	}
 	public function getSpeMod($value,$option = TRUE)
 	{
-		$this->instance->db		->select('*')
+		get_db()		->select('*')
 							->from('tendoo_modules');
 		if($option == TRUE)
 		{
-			$this->instance->db->where('ID',$value);
+			get_db()->where('ID',$value);
 		}
 		else
 		{
-			$this->instance->db->where('NAMESPACE',$value);
+			get_db()->where('NAMESPACE',$value);
 		}
 							
-		$query				= $this->instance->db->get();
+		$query				= get_db()->get();
 		$data				=	 $query->result_array();
 		if(count($data) > 0)
 		{
@@ -394,11 +372,11 @@ class Tendoo
 	}
 	public function getSpeModuleByNamespace($namespace)
 	{
-		$this->instance->db		->select('*')
+		get_db()		->select('*')
 							->from('tendoo_modules')
 							->where('NAMESPACE',$namespace)
 							->where('ACTIVE','1');
-		$query				= $this->instance->db->get();
+		$query				= get_db()->get();
 		$data				= $query->result_array();
 		if(count($data) > 0)
 		{
@@ -463,18 +441,17 @@ class Tendoo
 		}
 		else
 		{
-			$this->error('controllerNotWellDefined');
-			die();
+			$this->error('controllerNotWellDefined');die;
 		}
 		// Default Else
 		$BODY	=	'404';
 		if($module_datas == TRUE)
 		{
-			if((int)$module_datas[0]['SELF_URL_HANDLE'] == 1)
+			if( riake( 'self_url_handle' , $module_datas ) == true )
 			{
 				array_unshift($Parameters,$Method);
 				// On laisse la prise en charge du contrôleur au module si le souhaite
-				eval('$BODY 	=	$objet->index($Parameters);');
+				eval( '$BODY 	=	$objet->index($Parameters);' );
 			}
 			else if(method_exists($objet,$Method))
 			{

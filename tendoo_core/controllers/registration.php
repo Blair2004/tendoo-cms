@@ -49,7 +49,7 @@ $this->instance->form_validation->set_error_delimiters('<div class="alert alert-
 		$this->loadLibraries();				//	Affecting Libraries */
 		$this->construct_end();				// 	Fin du constructeur
 		
-		$this->data['options']		=	$this->instance->options->get();
+		$this->data['options']		=	$this->instance->meta_datas->get();
 		if($this->data['options'][0]['ALLOW_REGISTRATION'] == '0')
 		{
 			$this->instance->url->redirect(array('error','code','registrationNotAllowed'));

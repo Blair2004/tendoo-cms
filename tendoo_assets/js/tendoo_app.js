@@ -959,8 +959,8 @@ $(document).ready(function(){
 		/**
 		*		tendoo.set_data	: équivalent de la fonction php set_data de tendoo
 		**/	
-		tendoo.set_data		=	function(key,value,callback){
-			$.ajax(tendoo.url.site_url('admin/ajax/set_data'),{
+		tendoo.set_meta		=	function(key,value,callback){
+			$.ajax(tendoo.url.site_url('admin/ajax/set_meta'),{
 				type		:	'POST',
 				dataType	:	'json',
 				data		:	{
@@ -975,10 +975,10 @@ $(document).ready(function(){
 			});
 		}
 		/**
-		*		tendoo.set_user_data : équivalent de la fonction php set_user_data pour les données utilisateurs
+		*		tendoo.set_user_meta : équivalent de la fonction php set_user_meta pour les données utilisateurs
 		**/
-		tendoo.set_user_data		=	function(key,value,callback){
-			$.ajax(tendoo.url.site_url('admin/ajax/set_user_data'),{
+		tendoo.set_user_meta		=	function(key,value,callback){
+			$.ajax(tendoo.url.site_url('admin/ajax/set_user_meta'),{
 				type		:	'POST',
 				dataType	:	'json',
 				data		:	{
@@ -999,11 +999,11 @@ $(document).ready(function(){
 			$('[data-toggle="class:nav-vertical"]').bind('click',function(){
 				var currentStatus		=	$('body > section.hbox > aside').hasClass('nav-vertical');
 				if( currentStatus ){
-					tendoo.set_user_data( 'admin-left-menu-status' , 'nav-expanded' );
+					tendoo.set_user_meta( 'admin-left-menu-status' , 'nav-expanded' );
 				}
 				else
 				{
-					tendoo.set_user_data( 'admin-left-menu-status' , 'nav-vertical' );
+					tendoo.set_user_meta( 'admin-left-menu-status' , 'nav-vertical' );
 				}
 			});
 		};

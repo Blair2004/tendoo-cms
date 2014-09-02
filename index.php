@@ -14,7 +14,7 @@ date_default_timezone_set('UTC');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('SITE_TIMEZONE',date_default_timezone_get());
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('TENDOO_VERSION','1.2');
+define('TENDOO_VERSION','1.3');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('TENDOO_SIGNATURE','Tendoo - CMS('.TENDOO_VERSION.')');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -48,7 +48,7 @@ include_once(SYSTEM_DIR.'System.Libraries.php');
 include_once(SYSTEM_DIR.'System.Core.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LOAD CLASSES -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 /* Chargement des diffirentes classes qui seront utilisées dans le noyau */
-include_once(LIBRARIES_DIR.'Options.Class.php');
+include_once(LIBRARIES_DIR.'Meta.Class.php');
 include_once(LIBRARIES_DIR.'Stats.Class.php');
 include_once(LIBRARIES_DIR.'String.Class.php');
 include_once(LIBRARIES_DIR.'Tdate.Class.php');
@@ -74,6 +74,7 @@ include_once(HELPERS_DIR.'date.php');
 include_once(HELPERS_DIR.'text.php');
 include_once(HELPERS_DIR.'cookie_helper.php');
 include_once(HELPERS_DIR.'themes_helper.php');
+include_once(HELPERS_DIR.'modules_helper.php');
 include_once(HELPERS_DIR.'users_helper.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= BOOT HANDLERS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 //set_error_handler('tendoo_error'); // Aborded

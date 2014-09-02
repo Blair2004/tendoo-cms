@@ -1,5 +1,5 @@
 <?php
-if(class_exists($Class.'_module_controller'))
+if(class_exists($Class.'_frontend'))
 {
 	if($Teurmola[0] == 'tendoo') // Not ready for SELF_URL_HANDLE
 	{
@@ -19,36 +19,32 @@ if(class_exists($Class.'_module_controller'))
 		{
 			foreach($GlobalModule as $g)
 			{
-				$this->tendoo->interpreter($g['NAMESPACE'].'_module_controller',$Method,$Parameters); // We do not control if there is 404 result.
+				$this->tendoo->interpreter($g['NAMESPACE'].'_frontend',$Method,$Parameters); // We do not control if there is 404 result.
 			}
 		}
-		if($this->tendoo->interpreter($Class.'_module_controller',$Method,$Parameters) === '404')
+		if($this->tendoo->interpreter($Class.'_frontend',$Method,$Parameters) === '404')
 		{
 			$this->tendoo->error('page404');
 		}
 	}
 	else
 	{
-		$this->load->library('users_global'); // 0.9.4
-		$theme			=	get_core_vars('active_theme_object'); // Added - Tendoo 0.9.2
-		// GLOBAL MODULES
-		/**
-		* 	Pourquoi envoyer des paramètres sur l'url au modules de type GLOBAL ?
-		**/
-		$GlobalModule	=&	$this->data['GlobalModule'];
-		if(is_array($GlobalModule))
+		// Revisé 1.3
+		// $this->load->library('users_global'); // 0.9.4
+		// $theme			=	get_core_vars( 'active_theme_object' ); // Added - Tendoo 0.9.2
+		// Les modules de type APP ne possè en principe aucune interface utilisateur pour le frontend, la gestion des erreur des requetes n'est donc pas prise en charge.
+		if(is_array( get_core_vars( 'app_module' ) ))
 		{
-			foreach($GlobalModule as $g)
+			foreach( get_core_vars( 'app_module' ) as $_module )
 			{
-				$this->tendoo->interpreter($g['NAMESPACE'].'_module_controller',$Method,$Parameters); // We do not control if there is 404 result.
+				$this->tendoo->interpreter( $_module[ 'namespace' ] . '_frontend' , $Method , $Parameters ); // We do not control if there is 404 result.
 			}
 		}	
-		/**
-		*
-		**/
-		if($this->tendoo->interpreter($Class.'_module_controller',$Method,$Parameters,array(),get_core_vars('module')) === '404')
+		// Initialisation des modules simple.
+		// Ce module utilisent l'obect get_core_vars( 'active_theme_object' ); et génèrent une vue.
+		if($this->tendoo->interpreter( $Class . '_frontend' , $Method , $Parameters , array() , get_core_vars('module') ) === '404' )
 		{
-			$this->tendoo->error('page404');
+			$this->tendoo->error( 'page404' );
 		}
 	}
 }
@@ -71,5 +67,5 @@ else if(class_exists($Class))
 }
 else
 {
-	$this->tendoo->error('page404');
+	$this->tendoo->error('page404_or_moduleBug');
 }

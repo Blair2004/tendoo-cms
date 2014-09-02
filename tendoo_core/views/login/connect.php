@@ -19,7 +19,7 @@
                 <button type="submit" class="form-control btn btn-info"><i class="fa fa-signin"></i>Connexion</button>
                 <br>
                 <?php
-						if($options[0]['ALLOW_REGISTRATION'] == '1')
+						if( get_meta( 'allow_registration' ) == '1')
 						{
 							?>
                         <div class="line line-dashed"></div>

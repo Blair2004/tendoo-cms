@@ -9,9 +9,7 @@ class Tdate extends Libraries
 	// New Tendoo 0.9.8 retourne le timezone enregistré
 	public function getTimeZone()
 	{
-		$options	=	$this->instance->getOptions();
-		$timezone	=	$options[0]['SITE_TIMEZONE'];
-		return $timezone;
+		return get_meta( 'SITE_TIMEZONE' );
 	}
 	// Crée un objet date sur la base d'un format et d'une chaine de caractère donnée. en utilisant le TimeZone définie
 	// Renvoi un objet DateTime; T098
@@ -24,9 +22,8 @@ class Tdate extends Libraries
 	{
 		$timestamp	=	strtotime($timestamp);
 		$this->load->helper('date');
-		$options	=	$this->instance->options->get();
-		$timezone	=	$options[0]['SITE_TIMEZONE'];
-		$timeformat	=	$options[0]['SITE_TIMEFORMAT'];
+		$timezone	=	get_meta( 'SITE_TIMEZONE' );
+		$timeformat	=	get_meta( 'SITE_TIMEFORMAT' );
 		if($timezone== '')
 		{
 			$timezone 		= 'UTC';
@@ -90,9 +87,8 @@ class Tdate extends Libraries
 	public function timestamp()
 	{		
 		// $this->load->helper('date');
-		$options	=	$this->instance->options->get();
-		$timezone	=	$options[0]['SITE_TIMEZONE'];
-		if($timezone== '')
+		$timezone	=	get_meta( 'SITE_TIMEZONE' );
+		if($timezone == false)
 		{
 			$timezone 		= 'Etc/UTC';
 		}

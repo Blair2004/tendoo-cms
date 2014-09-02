@@ -10,7 +10,7 @@
     }
 	function page_bottom($options,$obj)
 	{
-		if(current_user('FIRST_VISIT') == 1)	 // Set 1 after creating
+		if( get_user_meta( 'new_comer' ) === true )	 // Set 1 after creating
 		{
 			?>
 <!-- Step 1 -->

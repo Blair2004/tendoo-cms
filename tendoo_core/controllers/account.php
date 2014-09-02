@@ -25,7 +25,7 @@ class Account extends Libraries
 		js_push_if_not_exists('tendoo_loader');
 		js_push_if_not_exists('tendoo_app');
 		
-		$this->data['options']	=	$this->instance->options->get();
+		set_core_vars( 'options' , $this->data['options'] = get_meta( 'all' ) );
 		
 		if(!$this->users_global->isConnected())
 		{
@@ -39,7 +39,7 @@ class Account extends Libraries
 	public function index()
 	{
 		$user_pseudo 						=	$this->users_global->current('PSEUDO');
-		set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Mon profil');
+		set_page('title', riake( 'site_name' , $this->data['options'] ) . ' | '.ucfirst($user_pseudo).' &raquo; Mon profil');
 		set_page('description','Mon profil');
 		$this->data['body']			=	$this->load->view('account/profile/body',$this->data,true);
 		
@@ -98,7 +98,7 @@ class Account extends Libraries
 			$this->url->redirect(array('account','update?notice=userBioUpdated'));
 		}
 		$user_pseudo 						=	$this->users_global->current('PSEUDO');
-		set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Mise &agrave; jour du profil');
+		set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; Mise &agrave; jour du profil');
 		set_page('description','Mettre mon profil &agrave; jour');
 		
 		$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
@@ -146,7 +146,7 @@ class Account extends Libraries
 				}
 			}
 			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Messagerie');
+			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; Messagerie');
 			set_page('description','Messagerie de '.$user_pseudo);
 			$this->data['ttMessage']	=	$this->users_global->countMessage();
 			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttMessage'],1,'ClasseOn','ClasseOff',$start,$this->url->site_url(array('account','messaging','home')).'/',null);
@@ -179,7 +179,7 @@ class Account extends Libraries
 			}
 			
 			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Ecrire un nouveau message');
+			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; Ecrire un nouveau message');
 			set_page('description','Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/write',$this->data,true);
 			
@@ -215,7 +215,7 @@ class Account extends Libraries
 			$this->data['getMsgContent']=	$this->users_global->getMsgContent($start,$this->data['paginate'][1],$this->data['paginate'][2]);
 			
 			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user_pseudo).' &raquo; Lecture d\'un message');
+			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; Lecture d\'un message');
 
 			set_page('description','Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/read',$this->data,true);
@@ -235,7 +235,7 @@ class Account extends Libraries
 		{
 			$this->data['user'] =& $user;
 			
-			set_page('title',$this->data['options'][0]['SITE_NAME'].' | '.ucfirst($user[0]['PSEUDO']).' &raquo; profil de l\'utilisateur');
+			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user[0]['PSEUDO']).' &raquo; profil de l\'utilisateur');
 			set_page('description',$user[0]['PSEUDO'].' - Profil');
 			
 			$this->data['body']			=	$this->load->view('account/profile/user_profil_body',$this->data,true);
@@ -321,11 +321,11 @@ class Account extends Libraries
 				);
 			}
 		}
-		elseif($action	==	"set_user_data")
+		elseif($action	==	"set_user_meta")
 		{
 			if($_POST[ 'key' ] && $_POST[ 'value' ])
 			{
-				if(json_encode(set_user_data($_POST[ 'key' ], $_POST[ 'value' ])))
+				if(json_encode(set_user_meta($_POST[ 'key' ], $_POST[ 'value' ])))
 				{
 					$result	= array(
 						'status'	=>	'success',
@@ -336,11 +336,11 @@ class Account extends Libraries
 				}
 			}
 		}
-		elseif($action	==	"get_user_data")
+		elseif($action	==	"get_user_meta")
 		{
 			if($this->input->post( 'key' ))
 			{
-				$result	= json_encode(get_user_data($this->input->post( 'key' )));
+				$result	= json_encode(get_user_meta($this->input->post( 'key' )));
 			}
 			$result		= '{}';
 		}

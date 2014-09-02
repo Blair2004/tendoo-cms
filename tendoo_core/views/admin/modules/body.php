@@ -41,7 +41,7 @@
             <section class="vbox">
                 <section class="wrapper"> <?php echo output('notice');?>
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-8">
                             <section class="panel">
                                 <div class="panel-heading"> Liste des modules installés </div>
                                 <table class="table table-striped">
@@ -51,11 +51,11 @@
                                             {
                                                 foreach($modules_list as $mod)
                                                 {
-                                                    $appIcon	=	$this->instance->tendoo_admin->getAppImgIco($mod['NAMESPACE']);
+                                                    $appIcon	=	module_icon( $mod[ 'namespace' ] );
 													?>
                                         <tr>
                                             <td>
-                                            <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['ID']));?>">
+                                            <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['namespace']));?>">
 											<?php
                                                     if($appIcon)
                                                     {
@@ -71,17 +71,15 @@
                                                     }
                                                     ?>
                                                     </a></td>
-                                            <td class="action"><strong> <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['ID']));?>"><?php echo $mod['HUMAN_NAME'];?></a> </strong> <br>
-                                                <?php echo $mod['DESCRIPTION'];?> <br>
+                                            <td class="action"><strong> <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['namespace']));?>"><?php echo $mod['human_name'];?></a> </strong> <br>
+                                                <?php echo $mod['description'];?> <br>
                                                 <br>
-                                                <small>Auteur : <?php echo $mod['AUTHOR'];?></small> 
+                                                <small>Auteur : <?php echo $mod['author'];?></small> 
                                                 |
-                                                <small title="Unique : S'applique à un contr&ocirc;leur uniquement. Globale : S'applique &agrave; tous les contr&ocirc;leurs">Type : <?php echo ($mod['TYPE'] == 'GLOBAL') ? 'Globale' : 'Unique';?></small> 
-                                                |
-                                                <small>Spécification : <?php echo (in_array($mod['HANDLE'],array('BLOG','INDEX','FORUM','CONTACT','STATIC','MEDIA','PORTFOLIO','APP','WIDGETS'))) ? $mod['HANDLE'] : 'Inconnu';?></small>
-                                                <strong><small style="float:right;font-size:10px;"><?php echo ($mod['APP_VERS'] == '') ? 'Version Inconnue' : 'v.'.$mod['APP_VERS'];?></small></strong>
+                                                <small>Spécification : <?php echo (in_array($mod['handle'],array('BLOG','INDEX','FORUM','CONTACT','STATIC','MEDIA','PORTFOLIO','APP','WIDGETS'))) ? $mod['handle'] : 'Inconnu';?></small>
+                                                <strong><small style="float:right;font-size:10px;"><?php echo ($mod['version'] == '') ? 'Version Inconnue' : 'v.'.$mod['version'];?></small></strong>
                                                 <?php
-												if( TRUE !== ( $active_theme	=	does_active_theme_support( $mod['HANDLE'] ) ) && $mod[ 'HANDLE' ] != 'APP' )
+												if( TRUE !== ( $active_theme	=	does_active_theme_support( $mod['handle'] ) ) && $mod[ 'handle' ] != 'APP' )
 												{
 												?>
                                                 <hr class="line-dashed" style="margin:5px 0;">
@@ -91,18 +89,18 @@
 												}
 												?>
                                                 </td>
-                                            <td class="action"><a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','uninstall','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-trash-o" title="D&eacute;sintaller"></i></a></td>
+                                            <td class="action"><a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','uninstall','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-trash-o" title="D&eacute;sintaller"></i></a></td>
                                             <td><?php
-                                                    if($mod['ACTIVE'] == '0')
+                                                    if($mod['active'] === false )
                                                     {
                                                         ?>
-                                                <a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','active','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-times-circle" title="Clickez pour activer"></i></a>
+                                                <a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','active','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-times-circle" title="Clickez pour activer"></i></a>
                                                 <?php
                                                     }
                                                     else
                                                     {
                                                         ?>
-                                                <a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','unactive','module',$mod['ID']));?>"><i style="font-size:25px;" class="fa fa-check" title="Cliquez pour d&eacute;sactiver"></i></a>
+                                                <a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','unactive','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-check" title="Cliquez pour d&eacute;sactiver"></i></a>
                                                 <?php
                                                     }
                                                     ?></td>

@@ -69,7 +69,7 @@
 												<li> <a href="#" class="panel-toggle text-muted"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
 											</ul>
 											<?php echo return_if_array_key_exists( 'title' , $value );?> </header>
-										<div class="panel-body <?php echo get_user_data( 'gui_'.$value[ 'namespace' ] );?> clearfix">
+										<div class="panel-body <?php echo get_user_meta( 'gui_'.$value[ 'namespace' ] );?> clearfix">
 											<?php 
 											$form_wrap	=	return_if_array_key_exists( 'form_wrap' , $value );
 												$action	=	return_if_array_key_exists( 'action' , $form_wrap );
@@ -270,7 +270,7 @@
 								var parent	=	$(this);
 								$(this).find('ul.nav li a.panel-toggle').bind('click',function(){
 									var status	=	$(parent).find('div.panel-body').hasClass('collapse') ? "uncollapse" : "collapse";
-									tendoo.set_user_data( 'gui_'+ $(parent).attr('namespace') , status );
+									tendoo.set_user_meta( 'gui_'+ $(parent).attr('namespace') , status );
 								});
 							});
                         });

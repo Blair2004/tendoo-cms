@@ -163,7 +163,7 @@
 												foreach($get_mod as $g) 
 												{
 													?>
-                                                <option value="<?php echo $g['NAMESPACE'];?>"><?php echo $g['HUMAN_NAME'];?></option>
+                                                <option value="<?php echo $g['namespace'];?>"><?php echo $g['human_name'];?></option>
                                                 <?php
 												}
 												?>
@@ -209,14 +209,14 @@
 									if($get_pages)
 									{
 										foreach($get_pages as $g)
-										{						
+										{		
 											?>
 										<!--  data-id="1"  -->
 										<li class="dd-item" controllers c_id="<?php echo $g['ID'];?>" c_name="<?php echo $g['PAGE_NAMES'];?>" c_cname="<?php echo $g['PAGE_CNAME'];?>" c_title="<?php echo $g['PAGE_TITLE'];?>">
 											<input type="hidden" controller_title name="controller[title][]" value="<?php echo $g['PAGE_TITLE'];?>">
 											<input type="hidden" controller_description name="controller[description][]" value="<?php echo $g['PAGE_DESCRIPTION'];?>">
 											<input type="hidden" controller_main name="controller[main][]" value="<?php echo $g['PAGE_MAIN'];?>">
-											<input type="hidden" controller_module name="controller[module][]" value="<?php echo is_array($g['PAGE_MODULES']) ? $g['PAGE_MODULES'][0]['NAMESPACE'] : $g['PAGE_MODULES'];?>">
+											<input type="hidden" controller_module name="controller[module][]" value="<?php echo is_array($g['PAGE_MODULES']) ? $g['PAGE_MODULES']['namespace'] : $g['PAGE_MODULES'];?>">
 											<input type="hidden" controller_parent name="controller[parent][]" value="<?php echo $g['PAGE_PARENT'];?>">
 											<input type="hidden" controller_name name="controller[name][]" value="<?php echo $g['PAGE_NAMES'];?>">
 											<input type="hidden" controller_cname name="controller[cname][]" value="<?php echo $g['PAGE_CNAME'];?>">
@@ -495,7 +495,7 @@
                                                         foreach($get_mod as $g) 
                                                         {
                                                             ?>
-                                                                                <option value="<?php echo $g['NAMESPACE'];?>"><?php echo $g['HUMAN_NAME'];?></option>
+                                                                                <option value="<?php echo $g['namespace'];?>"><?php echo $g['human_name'];?></option>
                                                                                 <?php
                                                         }
                                                         ?>

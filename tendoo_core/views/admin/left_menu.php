@@ -1,4 +1,4 @@
-<aside class="<?php echo theme_class();?> aside-sm <?php echo get_user_data( 'admin-left-menu-status' );?>" id="nav" data-intro="Accédez à différents emplacements à l'aide de ce menu." data-step="2" data-position="right">
+<aside class="<?php echo theme_class();?> aside-sm <?php echo get_user_meta( 'admin-left-menu-status' );?>" id="nav" data-intro="Accédez à différents emplacements à l'aide de ce menu." data-step="2" data-position="right">
     <section class="vbox">
         <header class="dker nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 
@@ -142,7 +142,6 @@
 					?>
                     <li> <a target="_top _blank" data-intro="Après avoir finis vos configurations, cliquez sur ce lien pour accéder à l'interface publique de votre site web." data-step="9" data-position="right" href="<?php echo $this->instance->url->site_url('index');?>"> <i class="fa fa-sign-out"></i> <span>Retour</span> </a> </li>
                     
-					<?php $this->instance->tendoo_admin->parseMenuAfter();?>
                 </ul>
             </nav>
         </section>

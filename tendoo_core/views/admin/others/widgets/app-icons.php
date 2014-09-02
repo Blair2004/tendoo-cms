@@ -1,6 +1,5 @@
 <?php
 $appIconApi	=	get_core_vars('admin_icons');
-$options	=	get_options();
 ?>
 <div class="icon-grid panel-body" style="margin:0;padding:0;">
 <?php
@@ -8,7 +7,7 @@ if($appIconApi)
 {
     foreach($appIconApi as $a)
     {
-        eval($options[0]['ADMIN_ICONS']);
+        eval( get_meta( 'ADMIN_ICONS' ) );
         if(isset($icons) && count($icons) > 1)
         {
             foreach($icons as $i)

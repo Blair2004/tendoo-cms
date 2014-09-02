@@ -258,7 +258,10 @@ Class users_global extends Libraries
 	{
 		if($encrypt_password == TRUE)
 		{
-			$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->where('PASSWORD',sha1($password))->get('tendoo_users');
+			$query	=	$this->db
+							->join( 'tendoo_meta' , 'tendoo_meta.USER = tendoo_users.PSEUDO' )
+							->where('PSEUDO',strtolower($pseudo))
+							->where('PASSWORD',sha1($password))->get('tendoo_users');
 		}
 		else
 		{
@@ -280,43 +283,6 @@ Class users_global extends Libraries
 				$this->current['EMAIL']			=	$data[0]['EMAIL'];
 				$this->current['PRIVILEGE']		=	$data[0]['PRIVILEGE'];
 				$this->current['LAST_ACTIVITY']	=	$data[0]['LAST_ACTIVITY'];
-				$this->current['NAME']			=	($data[0]['NAME'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['NAME'];
-				$this->current['SURNAME']		=	($data[0]['SURNAME'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['SURNAME'];
-				$this->current['STATE']			=	($data[0]['STATE'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['STATE'];
-				$this->current['TOWN']			=	($data[0]['TOWN'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['TOWN'];
-				$this->current['PHONE']			=	($data[0]['PHONE'] == "") ? "Non sp&eacute;cifi&eacute;" : $data[0]['PHONE'];
-				$this->current['ADMIN_THEME']	=	$data[0]['ADMIN_THEME'];
-				$this->current['FIRST_VISIT']	=	$data[0]['FIRST_VISIT'];
-				/* Page Status  Tendoo 0.9.8 */
-				/* Enregistrement du statut de visites des pages dans l'espace administration */
-				$this->current['ADMIN_INDEX_VISIT']		=	$data[0]['ADMIN_INDEX_VISIT'];
-				$this->current['ADMIN_PAGES_VISIT']		=	$data[0]['ADMIN_PAGES_VISIT'];
-				$this->current['ADMIN_APPS_VISIT']		=	$data[0]['ADMIN_APPS_VISIT'];
-				$this->current['ADMIN_SETTINGS_VISIT']	=	$data[0]['ADMIN_SETTINGS_VISIT'];
-				// Tendoo 0.9.9
-				// Avatar Support
-				$this->current['ADMIN_SYSTEM_VISIT']	=	$data[0]['ADMIN_SYSTEM_VISIT'];
-				$this->current['AVATAR_LINK']			=	
-					$data[0]['AVATAR_LINK'] == '' ? 
-						img_url('avatar_default.jpg')	:	$data[0]['AVATAR_LINK'];				
-					
-				$this->current['AVATAR_TYPE']			=	($data[0]['AVATAR_TYPE'] == '') ? 'system' : $data[0]['AVATAR_TYPE'];
-				$this->current['GOOGLE_PROFILE']		=	$data[0]['GOOGLE_PROFILE'];
-				$this->current['FACEBOOK_PROFILE']		=	$data[0]['FACEBOOK_PROFILE'];
-				$this->current['TWITTER_PROFILE']		=	$data[0]['TWITTER_PROFILE'];
-				$this->current['ADMIN_WIDGETS_DISABLED']	=	$data[0]['ADMIN_WIDGETS_DISABLED'];
-				// Tendoo 0.1.2
-				$this->current['LIGHT_DATA']			=	$data[0]['LIGHT_DATA'];
-				$light_data								=	json_decode($data[0]['LIGHT_DATA'],true);
-				$this->current['BIO']					=	return_if_array_key_exists( 'user_bio' , $light_data ) ? return_if_array_key_exists( 'user_bio' , $light_data ) : false;
-				if(in_array( $data[0]['AVATAR_TYPE'] , array('system','') , true ) )
-				{
-					$this->current['AVATAR']			=	($data[0]['AVATAR_LINK'] == '') ? img_url('avatar_default.jpg') : $data[0]['AVATAR_LINK'];
-				}
-				else if(in_array($data[0]['AVATAR_TYPE'],array('facebook','google','twitter')))
-				{
-					$this->current['AVATAR']			=	($data[0][strtoupper($data[0]['AVATAR_TYPE']). '_PROFILE'] == '') ? img_url('avatar_default.jpg') : $data[0][strtoupper($data[0]['AVATAR_TYPE']). '_PROFILE'];
-				}				
 				if($stay == TRUE)
 				{
 					if($encrypt_password == TRUE)
@@ -347,7 +313,7 @@ Class users_global extends Libraries
 	}
 	public function sendValidationMail($email)
 	{
-		$option	=	$this->instance->options->get();
+		$option	=	$this->instance->meta_datas->get();
 		$user	=	$this->emailExist($email);
 		if($user)
 		{
@@ -389,7 +355,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function sendPassChanger($email)
 	{
-		$option	=	$this->instance->options->get();
+		$option	=	$this->instance->meta_datas->get();
 		$user	=	$this->emailExist($email);
 		if($user)
 		{
@@ -432,7 +398,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	{
 		if(!array_key_exists($element,$this->current))
 		{
-			return false;
+			return get_user_meta( $element );
 		}
 		if($element == NULL)
 		{
@@ -709,9 +675,9 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function setUserElement($element, $value)
 	{
-		if(in_array( $element , array( 'user_bio' ) ) )
+		if(in_array( $element , array( 'user_bio' , 'dashboard_theme' , 'first_visit' ) ) )
 		{
-			return set_user_data( $element , $value );
+			return set_user_meta( $element , $value );
 		}
 		else if($this->current($element) !== false)
 		{
@@ -729,9 +695,9 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			$data['widget_action']	=	array_key_exists('widget_action',$data) ? $data['widget_action'] : array();
 			$final_values	=	array_diff($data['widget_namespace'],$data['widget_action']);
 			// Retreive all widgets
-			$widget[0]		=	get_user_data( 'widget_0' );			
-			$widget[1]		=	get_user_data( 'widget_1' );
-			$widget[2]		=	get_user_data( 'widget_2' );
+			$widget[0]		=	get_user_meta( 'widget_0' );			
+			$widget[1]		=	get_user_meta( 'widget_1' );
+			$widget[2]		=	get_user_meta( 'widget_2' );
 			// Fill null values
 			$widget[0]		=	is_array($widget[0]) ? $widget[0] : array();
 			$widget[1]		=	is_array($widget[1]) ? $widget[1] : array();
@@ -748,7 +714,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 					}
 				}
 			}
-			set_user_data( 'widget_0' , $widget[0] );
+			set_user_meta( 'widget_0' , $widget[0] );
 			// Removed unactivated to admin dashboard position ifset 	
 			for($i = 0;$i < 3;$i++)
 			{
@@ -766,7 +732,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 						}
 						$widget[ $i ] = $restoring;
 					}
-					set_user_data('widget_'.$i, $widget[ $i ] );
+					set_user_meta('widget_'.$i, $widget[ $i ] );
 				}
 			}
 			$this->refreshUser();
@@ -941,7 +907,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	public function editThemeStyle($e)
 	{
 		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1,2,3,4,5,6))  ? $e : 0; // If there is new theme just add it there
-		return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('ADMIN_THEME'=>$int));
+		return set_user_meta( 'dashboard_theme' , $int );
 	}
 	private function hasAccessToConv($ref_id)
 	{
@@ -979,17 +945,13 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	*/
 	public function toggleFirstVisit()
 	{
-		if($this->current('FIRST_VISIT') == '0')
+		if( $this->current('new_comer') === true )
 		{
-			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array(
-				'FIRST_VISIT'			=>		'1'
-			));
+			return set_user_meta( 'new_comer' , false );
 		}
 		else
 		{
-			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array(
-				'FIRST_VISIT'			=>		'0'
-			));
+			return set_user_meta( 'new_comer' , true );
 		}
 	}
 	/*
@@ -998,7 +960,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	*/
 	public function getCurrentThemeClass()
 	{
-		$options	=	$this->current('ADMIN_THEME');
+		$options	=	get_user_meta( 'dashboard_theme' );
 		if((int)$options == 0) // darken
 		{
 			return "bg-dark";
@@ -1034,7 +996,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	*/
 	public function getCurrentThemeButtonClass()
 	{
-		$options	=	$this->current('ADMIN_THEME');
+		$options	=	get_user_meta( 'dashboard_theme' );
 		if((int)$options == 0) // darken
 		{
 			return "btn-dark";
@@ -1070,7 +1032,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	*/
 	public function getCurrentThemeButtonFalseClass()
 	{
-		$options	=	$this->current('ADMIN_THEME');
+		$options	=	get_user_meta( 'dashboard_theme' );
 		if((int)$options == 0) // darken
 		{
 			return "btn-warning";
@@ -1106,7 +1068,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	*/
 	public function getCurrentThemeBackgroundColor()
 	{
-		$options	=	$this->current('ADMIN_THEME');
+		$options	=	get_user_meta( 'dashboard_theme' );
 		if((int)$options == 0) // darken
 		{
 			return "#F9F9F9";
@@ -1136,36 +1098,6 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			return "url(".img_url('bg.jpg').")";
 		}
 	}
-	/*
-		Tendoo.0.9.8
-			Reinitialise le statut des visites des pages de l'espace administration
-			Retourne true/false
-	*/
-	public function restorePagesVisit()
-	{
-		return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array(
-			'ADMIN_INDEX_VISIT'		=>		0,
-			'ADMIN_PAGES_VISIT'		=>		0,
-			'ADMIN_APPS_VISIT'		=>		0,
-			'ADMIN_SETTINGS_VISIT'	=>		0,
-			'ADMIN_SYSTEM_VISIT'	=>		0
-		));
-	}
-	/* 
-		Tendoo.0.9.8
-		Modifie le statut de visite d'une page définie
-		retourne true/false
-	*/
-	public function setPageViewed($page_name)
-	{
-		if(in_array($page_name,array('ADMIN_INDEX_VISIT','ADMIN_PAGES_VISIT','ADMIN_APPS_VISIT','ADMIN_SETTINGS_VISIT','ADMIN_SYSTEM_VISIT')))
-		{
-			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array(
-				$page_name			=>		1
-			));
-		}
-		return false; // page non reconnue
-	}
 	/**
 	*	isWidgetEnabled
 	**/
@@ -1181,7 +1113,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 		return true;
 	}
 	public function adminWidgetHasWidget(){
-		if( !get_data('widget_0', 'from_user_options' ) && !get_data('widget_1', 'from_user_options' ) && !get_data('widget_2', 'from_user_options' ) ){
+		if( !get_meta('widget_0', 'from_user_meta' ) && !get_meta('widget_1', 'from_user_meta' ) && !get_meta('widget_2', 'from_user_meta' ) ){
 			return false;
 		}
 		return true;
@@ -1192,9 +1124,9 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	public function resetUserWidgetInterface()
 	{
 		// Suppression préalable
-		set_user_data('widget_0',array());
-		set_user_data('widget_1',array());
-		set_user_data('widget_2',array());
+		set_user_meta('widget_0',array());
+		set_user_meta('widget_1',array());
+		set_user_meta('widget_2',array());
 		// Boucle la !!!
 		for($i = 0;$i < 3;$i++)
 		{
@@ -1206,7 +1138,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 				{
 					$values		=	array_values( $_POST[ 'widget_'.$i ] );
 				}
-				set_user_data( 'widget_'.$i , $values );
+				set_user_meta( 'widget_'.$i , $values );
 			}
 		}
 	}
