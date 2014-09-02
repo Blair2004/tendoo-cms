@@ -28,8 +28,8 @@ class Admin extends Libraries
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		/*$this->tendoo_admin->system_not('Modifier vos param&ecirc;tre de s&eacute;curit&eacute;', 'Mettez vous &agrave; jour avec cette version', '#', '10 mai 2013', null);*/	
 		// Set Default View	
-		set_core_vars( 'inner_head' ,	$this->load->view('admin/inner_head',array(),true,false) , 'read_only' );		
-		set_core_vars( 'lmenu' , $this->load->view('admin/left_menu',array(),true,false) , 'read_only' );
+		set_core_vars( 'inner_head' ,	$this->load->view('admin/inner_head',array() , true , false) , 'read_only' );		
+		set_core_vars( 'lmenu' , $this->load->view('admin/left_menu' , array() , true , false) , 'read_only' );
 	}
 	private function construct_end()
 	{
@@ -320,7 +320,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					$this->exceptions->show_error('Erreur Importante','Certains fichiers important à l\'éxecution de ce module sont manquants. La reinstalaltion pourra corriger ce problème.');
 					exit;
 				}
-				include_once(MODULES_DIR.$module[ 'encrypted_dir' ].'/library.php');
+				include_if_file_exists(MODULES_DIR.$module[ 'encrypted_dir' ].'/library.php');
 				include_once(MODULES_DIR.$module[ 'encrypted_dir' ].'/backend.php');
 				$Parameters			=	$this->url->http_request(TRUE);
 				if(array_key_exists(4-$index,$Parameters))
@@ -690,7 +690,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			
 			if(isset($_FILES['installer_file']))
 			{
-				$query	=	$this->tendoo_admin->tendoo_installer('installer_file');
+				$query	=	$this->tendoo_admin->_install_app( 'installer_file' );
 			}
 			if(isset($_POST['installer_link'],$_POST['downloadType']))
 			{

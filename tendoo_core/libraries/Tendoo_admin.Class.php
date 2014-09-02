@@ -314,7 +314,7 @@ class Tendoo_admin extends Libraries
 												End File Methods
 **********************************************************************************************************************/
 /**********************************************************************************************************************
-												Module Methods
+												Module Methods OBSOLETE SOON
 **********************************************************************************************************************/
 	public function getSpeModuleByNamespace($namespace) // La même méthode pour Tendoo ne recupère que ce qui est déjà activé.
 	{
@@ -445,15 +445,15 @@ class Tendoo_admin extends Libraries
 	}
 	public function getAppImgIco($appNameSpace) // Deprecated
 	{
-		$app	=	$this->getSpeModuleByNamespace($appNameSpace);
+		$app	=	$globalMod	=	get_modules( 'filter_active_namespace' , $appNameSpace );
 		if($app)
 		{
-			$file	=	MODULES_DIR.$app[0]['ENCRYPTED_DIR'].'/app_icon.';
+			$file	=	MODULES_DIR . $app[ 'encrypted_dir' ] . '/app_icon.';
 			foreach(array('png','jpg','gif') as $g)
 			{
 				if(is_file($file.$g))
 				{
-					return $this->url->main_url().$file.$g;
+					return $this->url->main_url() . $file . $g;
 				}
 			}
 		}
@@ -461,18 +461,18 @@ class Tendoo_admin extends Libraries
 	}
 	public function getAppIcon()
 	{
-		$globalMod	=	$this->get_modules();
+		$globalMod	=	get_modules( 'filter_active' );
 		$finalIcons	=	array();
 		if(is_array($globalMod))
 		{
 			foreach($globalMod as $modules)
 			{
-				if($modules['HAS_ICON'] == "1")
+				if( $modules[ 'has_icon' ] == true ) // Change this and check if current module has icon declaration with his datas
 				{
-					$files	=	MODULES_DIR.$modules['ENCRYPTED_DIR'].'/config/icon_config.php';
+					$files	=	$modules[ 'uri_path' ] . '/config/icon_config.php';
 					if(is_file($files))
 					{
-						include($files);
+						include( $files );
 						if(isset($ICON_CONFIG))
 						{
 							$finalIcons[]	=	$ICON_CONFIG;
@@ -496,19 +496,6 @@ class Tendoo_admin extends Libraries
 			return set_meta( 'admin_icons' , $content );
 		}
 		return false;
-	}
-	// New 0.9.8
-	/*
-		Recupère tous les modules qui exécute un script hors interface embarqué.
-		Renvoi un tableau avec le nom du module et le code renvoyé par le 
-	*/
-	public function getModByOutputScripting($start,$end)
-	{
-		if(is_numeric($start) && is_numeric($end))
-		{
-			$this->db->limit($end,$start);
-		}
-		$this->db->where('HAS_OUTPUT_SCRIPTING','1')->get('tendoo_modules');
 	}
 /**********************************************************************************************************************
 												End Module Methods
@@ -1108,6 +1095,254 @@ class Tendoo_admin extends Libraries
 		$index		=	count($alphabet)-1;
 		return 'tendoo_app_'.rand(0,9).date('Y').date('m').date('d').date('H').date('i').date('s').$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)].$alphabet[rand(0,$index)];
 	}
+	public function _install_app( $source )
+	{
+		set_core_mode( 'maintenance' );
+		// Setup Upload Class
+		$config['upload_path'] 			= 	MODULES_DIR;
+		$config['allowed_types'] 		= 	'zip';
+		$config['max_size']				= 	'2048';
+		$config['encrypt_name']			=	TRUE;
+		$this->load->library('upload',$config);
+		// 
+		if($this->upload->do_upload($source))
+		{
+			$appFile	=	$this->_unzip_file( $file_unzip_location = MODULES_DIR . $this->upload->file_name );
+			if( file_exists( $file = MODULES_DIR . $appFile['temp_dir'] . '/config.php' ) ){
+				include_once( $file );
+				foreach( get_modules( 'from_maintenance_mode' ) as $namespace => $app_datas ){
+					if( $app_datas[ 'compatible' ] == get( 'core_version' ) ){
+						if( ! $module 		=	get_modules( 'filter_namespace' , $namespace ) ){ // If module doesnt exist
+							echo 'PROCEED INSTALL';
+						} else if (  $module[ 'version' ] < $app_datas[ 'version' ] ){
+							echo 'PROCEED UPDATE';
+						} else {
+							$this->drop( $file_unzip_location );
+							return 'module_alreadyExist';
+						}
+					} else {
+						return 'NoCompatibleModule';
+					}
+				}
+				die;
+			}
+			return;
+			$appInfo	=	$this->datas(); // got declared info datas
+			$appInfo['appTableField']['ENCRYPTED_DIR']	=	$appFile['temp_dir'];
+			if(in_array($appInfo['appType'],$this->appAllowedType))
+			{
+				if($appInfo['appType'] == 'MODULE')
+				{
+					if(count($appInfo['appTableField']) > 0)
+					{
+						foreach(array_keys($appInfo['appTableField']) as $_appTableField)
+						{
+							if(!in_array($_appTableField,$this->appModuleAllowedTableField))
+							{
+								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+								notice('push',fetch_notice_output('invalidApp'));
+								return 'invalidApp';
+							}
+						}
+					}
+					else
+					{
+						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+						notice('push',fetch_notice_output('invalidApp'));
+						return 'invalidApp';
+					}
+					if($appInfo['appTendooVers'] <= $this->instance->id())
+					{
+						$this->db		->select('*')
+											->from('tendoo_modules')
+											->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
+						$query = $this->db->get();
+						// -----------------------------------------------------------------------------------------
+						if($query->num_rows == 0)
+						{
+							if(is_array($appInfo['appSql']))
+							{
+								foreach($appInfo['appSql'] as $sql)
+								{
+									$this->db->query($sql);
+								}
+							}
+							$this->db->insert('tendoo_modules',$appInfo['appTableField']);
+							if(is_dir($temp_dir))
+							{
+								$this->extractor($temp_dir,MODULES_DIR.$appFile['temp_dir']);
+								notice('push',fetch_notice_output('moduleInstalled'));
+								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+								
+								if(array_key_exists('appAction',$appInfo)) // If this app allow action for privileges
+								{
+									for($i = 0;$i < count($appInfo['appAction']);$i++)
+									{
+										if(
+										!array_key_exists('mod_namespace',$appInfo['appAction'][$i]) ||
+										!array_key_exists('action',$appInfo['appAction'][$i]) ||
+										!array_key_exists('action_name',$appInfo['appAction'][$i]) ||
+										!array_key_exists('action_description',$appInfo['appAction'][$i])
+										)
+										{
+											notice('push',fetch_notice_output('creatingHiddenControllerFailure'));
+											return 'installFailed';
+										}
+										$this->createModuleAction(
+											$appInfo['appAction'][$i]['mod_namespace'],
+											$appInfo['appAction'][$i]['action'],
+											$appInfo['appAction'][$i]['action_name'],
+											$appInfo['appAction'][$i]['action_description']
+										);
+									}
+								}
+								if(array_key_exists('appHiddenController',$appInfo)) // Créer un controlleur pendant l'installation
+								{
+									if(is_array($appInfo['appHiddenController']))
+									{
+									if(
+										!array_key_exists('NAME',$appInfo['appHiddenController']) ||
+										!array_key_exists('CNAME',$appInfo['appHiddenController']) ||
+										!array_key_exists('ATTACHED_MODULE',$appInfo['appHiddenController']) ||
+										!array_key_exists('TITLE',$appInfo['appHiddenController']) ||
+										!array_key_exists('DESCRIPTION',$appInfo['appHiddenController'])
+										)
+										{
+											notice('push',fetch_notice_output('creatingHiddenControllerFailure'));
+											return 'installFailed';
+										}
+									$this->controller(
+										$appInfo['appHiddenController']['NAME'],
+										$appInfo['appHiddenController']['CNAME'],
+										$appInfo['appHiddenController']['ATTACHED_MODULE'],
+										$appInfo['appHiddenController']['TITLE'],
+										$appInfo['appHiddenController']['DESCRIPTION'],
+										FALSE,
+										'create',
+										null,
+										'FALSE'
+									); // Creating hidden Controller
+								}
+								}
+								return 'moduleInstalled';
+							}
+						}
+						else
+						{
+							notice('push',fetch_notice_output('module_alreadyExist'));
+							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+							return 'module_alreadyExist';
+						}
+					}
+					notice('push',fetch_notice_output('NoCompatibleModule'));
+					$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+					return 'NoCompatibleModule';
+				}
+				else if($appInfo['appType'] == 'THEME')
+				{
+					if(count($appInfo['appTableField']) > 0)
+					{
+						foreach(array_keys($appInfo['appTableField']) as $_appTableField)
+						{
+							if(!in_array($_appTableField,$this->appThemeAllowedTableField))
+							{
+								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+								notice('push',fetch_notice_output('invalidApp'));
+								
+								return 'invalidApp';
+							}
+						}
+					}
+					else
+					{
+						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+						notice('push',fetch_notice_output('invalidApp'));
+						return 'invalidApp';
+					}
+					if($appInfo['appTendooVers'] <= $this->instance->id())
+					{
+						$this->db		->select('*')
+											->from('tendoo_themes')
+											->where('NAMESPACE',$appInfo['appTableField']['NAMESPACE']);
+						$query = $this->db->get();
+						// -----------------------------------------------------------------------------------------
+						if($query->num_rows == 0)
+						{
+							if(is_array($appInfo['appSql']))
+							{
+								foreach($appInfo['appSql'] as $sql)
+								{
+									$this->db->query($sql);
+								}
+							}
+							$this->db->insert('tendoo_themes',$appInfo['appTableField']);
+							if(is_dir($temp_dir))
+							{
+								$this->extractor($temp_dir,THEMES_DIR.$appFile['temp_dir']);
+								notice('push',fetch_notice_output('theme_installed'));
+								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+								return 'theme_installed';
+							}
+						}
+						else
+						{
+							notice('push',fetch_notice_output('theme_alreadyExist'));
+							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+							return 'theme_alreadyExist';
+						}
+					}
+					notice('push',fetch_notice_output('NoCompatibleTheme'));
+					$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+					return 'NoCompatibleTheme';
+				}
+			}
+			$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
+			notice('push',fetch_notice_output('invalidApp'));
+			return 'invalidApp';
+		}
+		return 'errorOccured';
+		set_core_mode( 'normal' );
+	}
+	function _unzip_file($zip)
+	{
+		$myZip						=	new ZipArchive;
+		$myZip->open($zip);
+		if($myZip->getStatusString() == 'No error')
+		{
+			$installDir				=	MODULES_DIR;
+			$temporaryDir			=	explode('.',$zip);
+			$temporaryDir			=	explode('/',$temporaryDir[0]);
+			$temporaryDir			=	$temporaryDir[1];
+			if( ! is_dir( $installDir . $temporaryDir ) )
+			{
+				mkdir( $installDir . $temporaryDir );
+			}
+			if($myZip->extractTo( $installDir . $temporaryDir ) )
+			{
+				$notice	=	 fopen( $installDir . $temporaryDir . '/notice.html','r');
+				$myZip->close();
+				unlink($zip);
+				return array(
+					'temp_dir'		=> $temporaryDir,
+					'notice'		=> fread($notice,filesize($installDir . $temporaryDir . '/notice.html'))
+				);
+			}
+			else
+			{
+				$myZip->close();
+				unlink($zip);
+				$this->drop($installDir.$temporaryDir);
+				return 'errorOccurred';
+			}
+			$myZip->close();
+		}
+		$myZip->close();
+		if(is_file($zip))
+		{
+			unlink($zip);
+		}
+		return 'CorruptedArchive';
+	}
 	// New methods
 	/// Deprecated on 1.3
 	private $appAllowedType					=	array('MODULE','THEME');
@@ -1182,7 +1417,7 @@ class Tendoo_admin extends Libraries
 							if(!in_array($_appTableField,$this->appModuleAllowedTableField))
 							{
 								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-								notice('push',fetch_error('invalidApp'));
+								notice('push',fetch_notice_output('invalidApp'));
 								return 'invalidApp';
 							}
 						}
@@ -1190,7 +1425,7 @@ class Tendoo_admin extends Libraries
 					else
 					{
 						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-						notice('push',fetch_error('invalidApp'));
+						notice('push',fetch_notice_output('invalidApp'));
 						return 'invalidApp';
 					}
 					if($appInfo['appTendooVers'] <= $this->instance->id())
@@ -1213,7 +1448,7 @@ class Tendoo_admin extends Libraries
 							if(is_dir($temp_dir))
 							{
 								$this->extractor($temp_dir,MODULES_DIR.$appFile['temp_dir']);
-								notice('push',fetch_error('moduleInstalled'));
+								notice('push',fetch_notice_output('moduleInstalled'));
 								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 								
 								if(array_key_exists('appAction',$appInfo)) // If this app allow action for privileges
@@ -1227,7 +1462,7 @@ class Tendoo_admin extends Libraries
 										!array_key_exists('action_description',$appInfo['appAction'][$i])
 										)
 										{
-											notice('push',fetch_error('creatingHiddenControllerFailure'));
+											notice('push',fetch_notice_output('creatingHiddenControllerFailure'));
 											return 'installFailed';
 										}
 										$this->createModuleAction(
@@ -1250,7 +1485,7 @@ class Tendoo_admin extends Libraries
 										!array_key_exists('DESCRIPTION',$appInfo['appHiddenController'])
 										)
 										{
-											notice('push',fetch_error('creatingHiddenControllerFailure'));
+											notice('push',fetch_notice_output('creatingHiddenControllerFailure'));
 											return 'installFailed';
 										}
 									$this->controller(
@@ -1271,12 +1506,12 @@ class Tendoo_admin extends Libraries
 						}
 						else
 						{
-							notice('push',fetch_error('module_alreadyExist'));
+							notice('push',fetch_notice_output('module_alreadyExist'));
 							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 							return 'module_alreadyExist';
 						}
 					}
-					notice('push',fetch_error('NoCompatibleModule'));
+					notice('push',fetch_notice_output('NoCompatibleModule'));
 					$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 					return 'NoCompatibleModule';
 				}
@@ -1289,7 +1524,7 @@ class Tendoo_admin extends Libraries
 							if(!in_array($_appTableField,$this->appThemeAllowedTableField))
 							{
 								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-								notice('push',fetch_error('invalidApp'));
+								notice('push',fetch_notice_output('invalidApp'));
 								
 								return 'invalidApp';
 							}
@@ -1298,7 +1533,7 @@ class Tendoo_admin extends Libraries
 					else
 					{
 						$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-						notice('push',fetch_error('invalidApp'));
+						notice('push',fetch_notice_output('invalidApp'));
 						return 'invalidApp';
 					}
 					if($appInfo['appTendooVers'] <= $this->instance->id())
@@ -1321,25 +1556,25 @@ class Tendoo_admin extends Libraries
 							if(is_dir($temp_dir))
 							{
 								$this->extractor($temp_dir,THEMES_DIR.$appFile['temp_dir']);
-								notice('push',fetch_error('theme_installed'));
+								notice('push',fetch_notice_output('theme_installed'));
 								$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 								return 'theme_installed';
 							}
 						}
 						else
 						{
-							notice('push',fetch_error('theme_alreadyExist'));
+							notice('push',fetch_notice_output('theme_alreadyExist'));
 							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 							return 'theme_alreadyExist';
 						}
 					}
-					notice('push',fetch_error('NoCompatibleTheme'));
+					notice('push',fetch_notice_output('NoCompatibleTheme'));
 					$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 					return 'NoCompatibleTheme';
 				}
 			}
 			$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
-			notice('push',fetch_error('invalidApp'));
+			notice('push',fetch_notice_output('invalidApp'));
 			return 'invalidApp';
 		}
 		return 'errorOccured';
@@ -1394,7 +1629,7 @@ class Tendoo_admin extends Libraries
 						if(is_dir($temp_dir))
 						{
 							$this->extractor($temp_dir,MODULES_DIR.$appFile['temp_dir']);
-							notice('push',fetch_error('moduleInstalled'));
+							notice('push',fetch_notice_output('moduleInstalled'));
 							$this->drop(INSTALLER_DIR.$appFile['temp_dir']);
 							if(array_key_exists('appAction',$appInfo)) // If this app allow action for privileges
 							{
@@ -1429,7 +1664,7 @@ class Tendoo_admin extends Libraries
 										!array_key_exists('DESCRIPTION',$appInfo['appHiddenController'])
 										)
 									{
-										notice('push',fetch_error('creatingHiddenControllerFailure'));
+										notice('push',fetch_notice_output('creatingHiddenControllerFailure'));
 									}
 									$this->controller(
 										$appInfo['appHiddenController']['NAME'],

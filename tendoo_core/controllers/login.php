@@ -51,11 +51,11 @@ Class login extends Libraries
 			else if($login_status	===	'PseudoOrPasswordWrong')
 			{
 				// Redirection a la page index.
-				notice('push',fetch_error('userNotFoundOrWrongPass'));
+				notice('push',fetch_notice_output('userNotFoundOrWrongPass'));
 			}
 			else
 			{
-				notice('push',fetch_error($login_status));
+				notice('push',fetch_notice_output($login_status));
 			}
 		}
 		// var_dump($this->load);
@@ -109,7 +109,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				{
 					$this->url->redirect(array('login?notice='.$query)); // redirect to login
 				}
-				notice(fetch_error($query));
+				notice(fetch_notice_output($query));
 			}
 			$this->data['pageTitle']	=	'Recevoir le mail d\'activation';
 			set_page('title',$this->data['pageTitle']);
@@ -130,7 +130,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				{
 					$this->url->redirect(array('login?notice='.$query)); // redirect to login
 				}
-				notice(fetch_error($query));
+				notice(fetch_notice_output($query));
 			}
 			$this->data['pageTitle']	=	'Mot de passe perdu';
 			set_page('title',$this->data['pageTitle']);
@@ -202,7 +202,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 						}
 						else
 						{
-							notice(fetch_error($query));
+							notice(fetch_notice_output($query));
 						}
 					}
 					$this->data['pageTitle']	=	'Changer le mot de passe';

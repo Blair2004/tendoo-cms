@@ -395,7 +395,7 @@ class Installation extends Libraries
 			$_SESSION['db_datas']	=	$config;
 			return true;
 		}
-		notice('push',fetch_error($this->connexion_status));
+		notice('push',fetch_notice_output($this->connexion_status));
 
 		return false;
 	}

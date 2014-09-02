@@ -128,7 +128,7 @@ class Account extends Libraries
 						}
 						else
 						{
-							notice('push',fetch_error('done'));
+							notice('push',fetch_notice_output('done'));
 						}
 					}
 				}
@@ -141,7 +141,7 @@ class Account extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_error('done'));
+						notice('push',fetch_notice_output('done'));
 					}
 				}
 			}
@@ -174,7 +174,7 @@ class Account extends Libraries
 				}
 				else
 				{
-					notice('push',fetch_error('error_occured'));
+					notice('push',fetch_notice_output('error_occured'));
 				}
 			}
 			
@@ -198,7 +198,7 @@ class Account extends Libraries
 				$result	=	$this->users_global->addPost($this->input->post('convid'),$this->input->post('reply'));
 				if($result	==	true)
 				{
-					notice('push',fetch_error('done'));
+					notice('push',fetch_notice_output('done'));
 				}
 				else
 				{

@@ -2,11 +2,23 @@
 /***
 **	Déclaration d'un module
 **/
+function set_core_mode( $mode ){ // allowed Install|Normal
+	if( in_array( $mode , array( 'maintenance' , 'normal' ) ) ){
+		set_core_vars( 'core_mode' , $mode );
+	}
+}
 function declare_module( $namespace , $config ){
-	$declared_modules	=	is_array( $declared_modules = get_core_vars( 'declared_modules' ) ) ? $declared_modules : array();
-	$declared_modules[ $namespace ] =	$config;
-	set_core_vars( 'temp_declared_module' , $namespace );
-	return set_core_vars( 'declared_modules' , $declared_modules );
+	if( get_core_vars( 'core_mode' ) == 'maintenance' ){
+		$declared_modules	=	is_array( $declared_modules = get_core_vars( 'maintenance_declared_modules' ) ) ? $declared_modules : array();
+		$declared_modules[ $namespace ] =	$config;
+		set_core_vars( 'maintenance_temp_declared_module' , $namespace );
+		return set_core_vars( 'maintenance_declared_modules' , $declared_modules );
+	} else {
+		$declared_modules	=	is_array( $declared_modules = get_core_vars( 'declared_modules' ) ) ? $declared_modules : array();
+		$declared_modules[ $namespace ] =	$config;
+		set_core_vars( 'temp_declared_module' , $namespace );
+		return set_core_vars( 'declared_modules' , $declared_modules );
+	}
 }
 /**
 *	get_module()
@@ -33,6 +45,10 @@ function get_modules( $filter = 'filter_namespace' , $namespace = null , $limit 
 			}
 		}
 		return $actives;
+	}
+	else if( $filter == 'from_maintenance_mode' )
+	{
+		return get_core_vars( 'maintenance_declared_modules' );
 	}
 	else if( $filter == 'filter_active_unapp' )
 	{
@@ -187,22 +203,33 @@ function load_modules(){
 **	push_module_action
 **/
 function push_module_action( $namespace , $array ){
-	$declared_modules	=	get_core_vars( 'declared_modules' );
-	$declared_modules[ $namespace ][ 'declared_actions' ][] =	$array;
-	return set_core_vars( 'declared_modules' , $declared_modules );
+	if( get_core_vars( 'core_mode' ) == 'maintenance' ){
+		$declared_modules	=	get_core_vars( 'maintenance_declared_modules' );
+		$declared_modules[ $namespace ][ 'declared_actions' ][] =	$array;
+		return set_core_vars( 'maintenance_declared_modules' , $declared_modules );
+	} else {
+		$declared_modules	=	get_core_vars( 'declared_modules' );
+		$declared_modules[ $namespace ][ 'declared_actions' ][] =	$array;
+		return set_core_vars( 'declared_modules' , $declared_modules );
+	}
 }
 /***
 **	_set_module_array
 **/
+function _get_module_declaration_prefix(){
+	if( get_core_vars( 'core_mode' ) == 'maintenance' ){
+		return 'maintenance_';
+	}
+}
 function _set_module_array( $namespace , $key , $value ){
-	$declared_modules	=	get_core_vars( 'declared_modules' );
+	$declared_modules	=	get_core_vars( _get_module_declaration_prefix() . 'declared_modules' );
 	$declared_modules[ $namespace ][ $key ][] =	$value;
-	return set_core_vars( 'declared_modules' , $declared_modules );
+	return set_core_vars( _get_module_declaration_prefix() . 'declared_modules' , $declared_modules );
 }
 function _set_module_vars( $namespace , $key , $value ){
-	$declared_modules	=	get_core_vars( 'declared_modules' );
+	$declared_modules	=	get_core_vars( _get_module_declaration_prefix() . 'declared_modules' );
 	$declared_modules[ $namespace ][ $key ] =	$value;
-	return set_core_vars( 'declared_modules' , $declared_modules );
+	return set_core_vars( _get_module_declaration_prefix() . 'declared_modules' , $declared_modules );
 }
 /**
 *	push_module_sql
@@ -264,15 +291,15 @@ function uninstall_module( $namespace ){
 		$instance	=	get_instance();
 		if(isset($instance->data))
 		{
-			if(array_key_exists('module',$instance->data))
+			if($module = get_core_vars( 'opened_module' ) )
 			{
 				if(is_array($segments))
 				{
-					return $instance->url->main_url().MODULES_DIR.$instance->data['module'][0]['ENCRYPTED_DIR'].'/'.$instance->url->array2Url($segments);
+					return $instance->url->main_url() . $module[ 'uri_path' ] . '/' . $instance->url->array2Url($segments);
 				}
 				else
 				{
-					return $instance->url->main_url().MODULES_DIR.$instance->data['module'][0]['ENCRYPTED_DIR'].'/'.$segments;
+					return $instance->url->main_url() . $module[ 'uri_path' ] . '/' . $segments;
 				}
 			}
 		}
@@ -287,10 +314,10 @@ function uninstall_module( $namespace ){
 		$instance	=	get_instance();
 		if(isset($instance->tendoo_admin))
 		{
-			$mod	=	$instance->tendoo_admin->getSpeModuleByNamespace($mod_namespace);
-			if($mod)
+			$_module	=	get_modules( 'filter_namespace' , $mod_namespace );
+			if($_module)
 			{
-				include_once(MODULES_DIR.$mod[0]['ENCRYPTED_DIR'].'/'.$mod_namespace);
+				include_once( $_module[ 'uri_path' ] . '/' . $mod_namespace);
 			}
 		}
 		return false;

@@ -526,7 +526,7 @@ class Tendoo
 		get_instance()->load->library('file');
 		get_instance()->file->css_push('app.v2');
 		get_instance()->file->css_push('tendoo_global');
-		$error	=	fetch_error($notice);
+		$error	=	fetch_notice_output($notice);
 		
 		include_once(VIEWS_DIR.'warning.php');
 	}

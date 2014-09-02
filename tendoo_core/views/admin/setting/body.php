@@ -199,7 +199,7 @@
 																			$val	=	'';
 																			foreach($visibleIcons as $s)
 																			{
-																				if($s	===	$_a['ICON_MODULE']['NAMESPACE'].'/'.$_a['ICON_NAMESPACE'])
+																				if($s	===	$_a['ICON_MODULE']['namespace'].'/'.$_a['ICON_NAMESPACE'])
 																				{
 																					$val	=	'checked="checked"';
 																					break;
@@ -208,9 +208,9 @@
 																				
 																		?>
                                                             <tr>
-                                                                <td><?php echo $_a['ICON_MODULE']['HUMAN_NAME'];?></td>
+                                                                <td><?php echo $_a['ICON_MODULE']['human_name'];?></td>
                                                                 <td><label class="label-control switch">
-                                                                        <input type="checkbox" name="showIcon[]" <?php echo $val;?>  value="<?php echo $_a['ICON_MODULE']['NAMESPACE'].'/'.$_a['ICON_NAMESPACE'];?>"  />
+                                                                        <input type="checkbox" name="showIcon[]" <?php echo $val;?>  value="<?php echo $_a['ICON_MODULE']['namespace'].'/'.$_a['ICON_NAMESPACE'];?>"  />
                                                                         <span style="height:20px;"></span> </label></td>
                                                             </tr>
                                                             <?php

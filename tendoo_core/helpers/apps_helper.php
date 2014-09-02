@@ -333,7 +333,7 @@
 				return $instance->version();
 			break;
 			case "core_id"	:
-				return $instance->id();
+				return (float) $instance->id();
 			break;
 			case "declared_shortcuts"	:
 				return get_declared_shortcuts();

@@ -105,7 +105,7 @@ if(!function_exists('tendoo_info'))
 }
 if(!function_exists('fetch_error'))
 {
-	function fetch_error($e,$extends_msg= '',$sort = FALSE)
+	function fetch_notice_output($e,$extends_msg= '',$sort = FALSE)
 	{
 		$array['config_1']					=	tendoo_info('Un fichier de configuration est d&eacute;j&agrave; existant. Si vous enregistrer de nouvelles donn&eacute;es, l\'ancien sera &eacute;cras&eacute;');
 		$array['accessDenied']		=		$array[ 'access_denied' ]				=	tendoo_warning('Vous n\'avez pas ou plus acc&egrave;s &agrave; cette page.');
@@ -308,7 +308,7 @@ if(!function_exists('fetch_error_from_url'))
 	{
 		if(isset($_GET['notice']))
 		{
-			return fetch_error($_GET['notice']);
+			return fetch_notice_output($_GET['notice']);
 		}
 		else if(isset($_GET['info']))
 		{

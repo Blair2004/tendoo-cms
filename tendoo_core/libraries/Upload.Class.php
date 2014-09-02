@@ -906,12 +906,12 @@ class Upload {
 		{
 			foreach ($msg as $val)
 			{
-				$CI->notice->push_notice(fetch_error($val));
+				$CI->notice->push_notice(fetch_notice_output($val));
 			}
 		}
 		else
 		{
-			$CI->notice->push_notice(fetch_error($msg));
+			$CI->notice->push_notice(fetch_notice_output($msg));
 		}
 	}
 

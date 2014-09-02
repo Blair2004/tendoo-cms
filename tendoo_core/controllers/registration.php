@@ -77,7 +77,7 @@ $this->instance->form_validation->set_error_delimiters('<div class="alert alert-
 			{
 				$this->instance->url->redirect(array('login?notice='.$query));
 			}
-			notice('push',fetch_error($query));
+			notice('push',fetch_notice_output($query));
 		}
 		$this->data['allowPrivilege']	=	$this->instance->tendoo_admin->getPublicPrivilege();
 		$this->instance->session->set_userdata('captcha_code',$this->instance->captcha->get());
@@ -113,7 +113,7 @@ $this->instance->form_validation->set_error_delimiters('<div class="alert alert-
 			{
 				$this->instance->url->redirect(array('login?notice=adminCreated&ref='.urlencode($this->instance->url->site_url(array('admin','index')))));
 			}
-			notice('push',fetch_error('SuperAdminCreationError'));
+			notice('push',fetch_notice_output('SuperAdminCreationError'));
 		}
 		$this->data['pageTitle']	=	'Cr&eacute;er un super administrateur - Tendoo';
 		set_page(	'title'	,	$this->data['pageTitle']);
