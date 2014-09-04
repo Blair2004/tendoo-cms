@@ -1,0 +1,30 @@
+Tendoo 1.3 Final Test
+
+Corriger les URL disponibles sur le widget welcome-message
+Corriger la selection de l'aperçu
+Controller - OK
+
+Install - Installation en utilisant URL désactivé sur cette version.
+
+Modules - OK
+	Blogster - Correcion des dates dans les commmentaires
+		Réglages télécharger une version.
+		Modifier le chemin de la prévisualisation (ne plus utiliser Teurmola)
+	Page editor - Suppression du lien réglages
+		frontend - corriger erreurs
+	Contact manager - 
+		frontend
+	File Manager - OK
+	Midate - Bug déplacement d'un widget d'une zone vers une autre, perte de champ d'options.
+	TiM - OK
+Themes - désactiver l'interface des thèmes.
+réglages - Ok
+Système - Ok
+	- Erreur gestion des actions
+	- Création des administrateurs et gestion des metas données
+	
+----------------------
+account
+	Modification du nom - modification non sauvegardée
+	// Erreur envoi des messages - destinataire...
+	Affichage des informations de l'utilisateur

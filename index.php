@@ -18,7 +18,7 @@ define('TENDOO_VERSION','1.3');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('TENDOO_SIGNATURE','Tendoo - CMS('.TENDOO_VERSION.')');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('SYSTEM_DIR','tendoo_core/');
+define('SYSTEM_DIR','tendoo-core/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('HELPERS_DIR',SYSTEM_DIR.'helpers/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -34,13 +34,13 @@ define('CONFIG_DIR',SYSTEM_DIR.'config/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('DATABASE_DIR',SYSTEM_DIR.'libraries/database/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('THEMES_DIR','tendoo_themes/');
+define('THEMES_DIR','tendoo-themes/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('ASSETS_DIR','tendoo_assets/'); // T098
+define('ASSETS_DIR','tendoo-assets/'); // T098
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('MODULES_DIR','tendoo_modules/');
+define('MODULES_DIR','tendoo-modules/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('INSTALLER_DIR','tendoo_installer/');
+define('INSTALLER_DIR','tendoo-installer/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= INITIAL CONFIG -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 include_once(CONFIG_DIR.'base_config.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= SYSTEM SCRIPT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
