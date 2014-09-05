@@ -45,10 +45,13 @@
 
 [#]module_installed::Le module a correctement été installé. Consultez la page des modules pour l'activer.[#]
 
+[#]next::Suivant[#]
+
 [#]no_module_installed::Aucun module n'est disponible. Veuillez vous connecter à la <a href="http://tendoo.org/index.php/">plateforme</a> pour télécharger de nouvelles applications.[#]
 
 [#]no theme was installed, check out on store for new app(themes and modules)::Aucun thème n'est disponible, connectez-vous à la plateforme tendoo pour télécharger de nouvelles applications (thèmes et modules).[#]
 
+[#]previous::Précédent[#]
 
 [#]remove_module_bypage_notice::En décidant de supprimer ce module, la page sur laquelle ce dernièr à été affecté, pourrait ne plus fonctionner correctement. En outre, vous perdrez toutes les modifications apportés par ce module. Cette action est irreversible.[#]
 [#]install_tendoo_title::Assistant d'installation &rsaquo; %%[#]
@@ -81,6 +84,13 @@
 </div>Connectez vous &agrave; l'espace administrateur pour modifier les informations de votre site, cr&eacute;er des administrateurs, installer les th&egrave;mes et modules.[#]
 [#]unavaiable_for_this_tendoo::Indisponible pour cette version de Tendoo[#]
 [#]user_name::Nom de l'utilisateur[#]
+
+[#]User geographical informations was succefully updated::Les informations géographiques de l'utilisateur ont été correctement modifiés.[#]
+
+[#]User names was succefully updated::Les noms et prénoms de l'utilisateur ont été correctement modifiés[#]
+
+[#]User names::Noms et prénoms de l'utilisateur[#]
+
 [#]user_password::Mot de passe de l'utilisateur[#]
 [#]website_setting::Réglages généraux[#]
 [#]you_got::Vous avez[#]

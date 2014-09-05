@@ -34,7 +34,6 @@ class Account extends Libraries
 		}
 		$this->data['left_menu']			=	$this->load->view('account/left_menu',$this->data,true);
 		$this->data['smallHeader']			=	$this->load->view('account/smallHeader',$this->data,true);
-
 	}
 	public function index()
 	{
@@ -72,30 +71,18 @@ class Account extends Libraries
 		}
 		$this->load->library('form_validation');
 		$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-		if($this->input->post('user_name'))
+		if($this->input->post('user_name') && $this->input->post('user_surname'))
 		{
-			$this->users_global->setUserElement('NAME', $this->input->post('user_name'));
-			$this->url->redirect(array('account','update?notice=userNameUpdated'));
+			set_user_meta( 'name' , $this->input->post( 'user_name' ) );
+			set_user_meta( 'surname' , $this->input->post( 'user_surname' ) );
+			
+			$this->url->redirect(array('account','update?notice=user_names_updated'));
 		}
-		if($this->input->post('user_surname'))
+		if($this->input->post('user_state') && $this->input->post('user_town'))
 		{
-			$this->users_global->setUserElement('SURNAME', $this->input->post('user_surname'));
-			$this->url->redirect(array('account','update?notice=userSurnameUpdated'));
-		}
-		if($this->input->post('user_state'))
-		{
-			$this->users_global->setUserElement('STATE', $this->input->post('user_state'));
-			$this->url->redirect(array('account','update?notice=userStateUpdated'));
-		}
-		if($this->input->post('user_town'))
-		{
-			$this->users_global->setUserElement('TOWN', $this->input->post('user_town'));
-			$this->url->redirect(array('account','update?notice=userTownUpdated'));
-		}
-		if($this->input->post('user_bio'))
-		{
-			$this->users_global->setUserElement('BIO', $this->input->post('user_bio'));
-			$this->url->redirect(array('account','update?notice=userBioUpdated'));
+			set_user_meta( 'state' , $this->input->post( 'user_state' ) );
+			set_user_meta( 'town' , $this->input->post( 'user_town' ) );
+			$this->url->redirect(array('account','update?notice=user_geographical_data_updated'));
 		}
 		$user_pseudo 						=	$this->users_global->current('PSEUDO');
 		set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; Mise &agrave; jour du profil');

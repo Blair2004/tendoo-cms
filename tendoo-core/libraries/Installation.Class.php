@@ -64,8 +64,8 @@ class Installation extends Libraries
 		{
 			return false;
 		};
-		/* CREATE tendoo_modules */
-		$sql = 
+		/* CREATE tendoo_modules : Replace by new module declaration process */
+		/* $sql = 
 		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_modules` (
 		  `ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 		  `NAMESPACE` varchar(200) NOT NULL,
@@ -90,7 +90,7 @@ class Installation extends Libraries
 		if(!$this->db->query($sql))
 		{
 			return false;
-		};
+		}; */
 		/* CREATE tendoo_meta */
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_metas` (
@@ -211,131 +211,20 @@ class Installation extends Libraries
 		$this->load->library('tendoo'); // Refreshing Tendoo Clss
 		$this->load->library('tendoo_admin'); // loading Admin Class
 		$this->load->library('options');
-		if($app	==	'default_theme')
-		{
-			// Installe le thème par défaut.
-			$appFile				=		array();
-			$appFile['temp_dir']	=		'19348a97150f23e4782fbcfb83e962f0';
-			var_dump( $this->tendoo_admin->tendoo_core_installer($appFile) );
-			$installed_theme		=		$this->tendoo_admin->getThemes();
-			// Set first Installed theme as default
-			$this->tendoo_admin->setDefault($installed_theme[0]['ID']); // retreiving IDs
-		}
-		else if($app	==	'news')
-		{
-			// Install "Blogster"
-			$appFile				=		array();
-			$appFile['temp_dir']	=		'0844d4336594171ad349b41c24adc407';
-			var_dump( $this->tendoo_admin->tendoo_core_installer($appFile) );
-			$module					=		$this->tendoo_admin->moduleActivation('news',"using_namespace");
-			if($module)
-			{
-				$module				=		$this->tendoo->getSpeModuleByNamespace('news');
-				include_once(MODULES_DIR.$module[0]['encrypted_dir'].'/library.php');
-				$lib				=		new News(array(
-					'module'		=>		$module
-				));
-				$lib_				=		new News_smart(array(
-					'module'		=>		$module
-				));
-				$lib->createCat('Cat&eacute;gorie sans nom','Tous les articles listés dans la catégor');
-				// First Article
-				$lib->publish_news(
-					$title 			=	'Bienvenue sur Tendoo '.get('core_id'),
-					$content 		=	'Voici votre premier article, connectez-vous &agrave; l\'espace administration pour le modifier, supprimer ou poster d\'autres articles. Vous pouvez également effectuer des programmations d\'articles, afin que ces derniers soient publiés automatiquement à des dates précises. <br>Merci d\'avoir choisi Tendoo.',
-					$state			=	1,
-					$image			=	$this->url->img_url('Hub_back.png'),
-					$thumb			=	$this->url->img_url('Hub_back.png'),
-					$cat 			= 	array(1),
-					$first_admin 	= 	TRUE,
-					$key_words		= 	array('tendoo','blog'),
-					$scheduledDate	=	FALSE,
-					$scheduledTime	=	FALSE
-				);
-				// Fist Comments
-				$lib_->postComment(
-					1,
-					"Bravo ce blog est désormais fonctionnel. Consultez les dernières actualités sur <a href=\"http://tendoo.org/index.php/blog\">tendoo.org/blog</a>.",
-					"John Doe",
-					"support@tendoo.org",
-					$interface	=	'system',
-					$user_id	=	0
-				);
-				$lib_->postComment(
-					1,
-					"Nous sommes vos premiers participants, vous avez le contrôle sur les commentaire depuis l'interface de l'application Blogster.",
-					"Cathy Verana",
-					"support@tendoo.org",
-					$interface	=	'system',
-					$user_id	=	0
-				);
-			}
-		}
-		else if($app	==	'tendoo_index_mod')
-		{
-			// Install "Tendoo_index_mod"
-			$appFile				=		array();
-			$appFile['temp_dir']	=		'3aa067f9608858e0898965b2ca683291';
-			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$module					=		$this->tendoo_admin->moduleActivation( 'tim' ,"using_namespace");
-		}
-		else if($app	==	'file_manager')
-		{
-			// Install "Tendoo_index_mod"
-			$appFile				=		array();
-			$appFile['temp_dir']	=		'843a279725edca537755a7aa9acd79f1';
-			var_dump( $this->tendoo_admin->tendoo_core_installer($appFile) );
-
-			$module					=		$this->tendoo_admin->moduleActivation('tendoo_contents',"using_namespace");
-		}
-		else if($app	==	'widget_admin')
-		{
-			// Install "Widget_admin"
-			$appFile				=		array();
-			$appFile['temp_dir']	=		'bd3afaf409a5f9ba355e99f884cc5178';
-			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$module					=		$this->tendoo_admin->moduleActivation('tendoo_widget_administrator',"using_namespace");
-		}
-		else if($app	==	'pageEditor')
-		{
-			$appFile				=		array();
-			$appFile['temp_dir']	=		'pageCreater5f9ba355e99f884cc5178';
-			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$this->tendoo_admin->moduleActivation('pages_editor',"using_namespace");
-		}
-		else if($app	==	'contact_manager')
-		{
-			$appFile				=		array();
-			$appFile['temp_dir']	=		'tendoo_app_6201401230210406wgIlkG5CkcJT7u3DKMOO';
-			$option					=		$this->options->get("from_install_interface");
-			$this->tendoo_admin->tendoo_core_installer($appFile);
-			$module				=	$this->tendoo_admin->moduleActivation('tendoo_contact_handler',"using_namespace");
-			if($module)
-			{
-				$this->db->insert('tendoo_contact_handler_option',array(
-					'SHOW_NAME'			=>		1,
-					'SHOW_MAIL'			=>		1
-				));
-			}
-		}
-		else if($app	==	'final_config')
-		{
-			// Creating All Pages controllers here
-			$this->tendoo_admin->createControllers(array(
-				'title'			=>	array('Accueil','blog','contact'),
-				'description'	=>	array('Accueil du site','Section blog','Section de contact'),
-				'main'			=>	array('TRUE','FALSE','FALSE'),
-				'module'		=>	array('tim','news','tendoo_contact_handler'),
-				'parent'		=>	array('none','none','none'),
-				'name'			=>	array('accueil','blog','contact'),
-				'cname'			=>	array('accueil','blog','contact'),
-				'keywords'		=>	array('accueil','blog','contact'),
-				'link'			=>	array('','',''),
-				'visible'		=>	array('TRUE','TRUE','TRUE'),
-				'id'			=>	array(1,2,3),
-			));	
-		}
 		
+		$this->tendoo_admin->createControllers(array(
+			'title'			=>	array('Accueil','blog','contact'),
+			'description'	=>	array('Accueil du site','Section blog','Section de contact'),
+			'main'			=>	array('TRUE','FALSE','FALSE'),
+			'module'		=>	array('tim','news','tendoo_contact_handler'),
+			'parent'		=>	array('none','none','none'),
+			'name'			=>	array('accueil','blog','contact'),
+			'cname'			=>	array('accueil','blog','contact'),
+			'keywords'		=>	array('accueil','blog','contact'),
+			'link'			=>	array('','',''),
+			'visible'		=>	array('TRUE','TRUE','TRUE'),
+			'id'			=>	array(1,2,3),
+		));			
 	}
 	public function createConfigFile()
 	{

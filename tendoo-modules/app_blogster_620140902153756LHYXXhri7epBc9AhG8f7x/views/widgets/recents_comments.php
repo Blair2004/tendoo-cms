@@ -32,7 +32,7 @@ if( class_exists( 'blogster_library' ) ){
 					{
 						$AUTEUR			=	get_user( $C['AUTEUR'] ,'as_id');
 						$AUTEUR_METAS	=	get_user_meta( 'all' , $C['AUTEUR'] , 'as_id' );
-						$avatar			=	return_if_array_key_exists( 'avatar' , $AUTEUR_METAS ) ? return_if_array_key_exists( 'avatar' , $AUTEUR_METAS ) : img_url( 'avatar_default.jpg' );
+						$avatar			=	return_if_array_key_exists( 'avatar_link' , $AUTEUR_METAS ) ? return_if_array_key_exists( 'avatar_link' , $AUTEUR_METAS ) : img_url( 'avatar_default.jpg' );
 						?>
 		<div class="panel-body">
 			<div class="clearfix m-b"> <small class="text-muted pull-right"><?php echo $timespan;?></small> <a href="#" class="thumb-sm pull-left m-r"> <img src="<?php echo $avatar; ?>" class="img-circle"> </a>

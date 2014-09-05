@@ -65,7 +65,7 @@ $page	=	get_core_vars( 'page' );
 								<div class="pull-left"> <img style="height:60px;" class="avatar img-circle" src="<?php 
 										if(is_array($comment->author))
 										{
-											echo $comment->author['AVATAR_LINK'];
+											echo $comment->author['avatar_link'];
 										}
 										else
 										{

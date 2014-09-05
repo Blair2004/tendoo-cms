@@ -69,7 +69,9 @@
 		if( $id_or_pseudo != null ){
 			$user	=	get_user( $id_or_pseudo , $filter );
 			if( $key != 'all' ){
-				$query	=	get_db()->where( 'USER' , $user[ 'PSEUDO' ] )->where( 'KEY' , $key )->get( 'tendoo_meta' );
+				if( $user ){
+					$query	=	get_db()->where( 'USER' , $user[ 'PSEUDO' ] )->where( 'KEY' , $key )->get( 'tendoo_meta' );
+				}
 			} else {
 				$query	=	get_db()->where( 'USER' , $user[ 'PSEUDO' ] )->get( 'tendoo_meta' );
 				$new_array	=	array();
@@ -127,6 +129,22 @@
 		}
 		$query	=	$Core->db->get('tendoo_users');
 		$result	=	$query->result_array();
+		// Adding Meta to retreived data
+		if( $result ){
+			$all_meta_query	=	get_db()->where( 'USER' , $result[0][ 'PSEUDO' ] )->get( 'tendoo_meta' );
+			$all_meta 		=	$all_meta_query->result_array();
+			if( $all_meta ){
+				foreach( $all_meta  as $meta_key => $meta_value ){
+					$_returned	=	$meta_value[ 'VALUE' ];
+					if( json_decode( $_returned ) != null ){
+						$_returned = json_decode( $_returned , TRUE );
+					} else if( in_array( strtolower( $_returned ) , array( 'true' , 'false' ) ) ){
+						$_returned =  ( $_returned == 'true' ) ? true : false ;
+					} 
+					$result[0][ $meta_value[ 'KEY' ] ] = $meta_value[ 'VALUE' ];
+				}
+			}
+		}
 		/**
 		*	Pause jusqu'a la prise en chager des avatars des autes réseaux sociaux.
 		**/

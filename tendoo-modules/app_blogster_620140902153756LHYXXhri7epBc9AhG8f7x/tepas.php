@@ -12,7 +12,7 @@ class blogster_tepas_class extends Libraries
 			if(SCRIPT_CONTEXT == 'ADMIN')
 			{
 				$this->admin_context();
-				get_instance()->tendoo_admin->system_not('2 Nouveaux commentaires disponibles', 'Deux nouveaux commentaires sont dans la liste d\'attentes des [Lire la suite] ', '#', '10 mai 2013', null);
+				// get_instance()->tendoo_admin->system_not('2 Nouveaux commentaires disponibles', 'Deux nouveaux commentaires sont dans la liste d\'attentes des [Lire la suite] ', '#', '10 mai 2013', null);
 			}
 			else
 			{

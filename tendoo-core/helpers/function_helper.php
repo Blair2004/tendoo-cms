@@ -211,9 +211,8 @@ if(!function_exists('fetch_error'))
 		$array['upload_no_file_selected']		=	tendoo_warning(' Aucun fichier n\'a &eacute;t&eacute; envoy&eacute;.');
 		$array['cannotDeleteUsedPrivilege']		=	tendoo_warning(' Vous ne pouvez pas supprimer un privil&egrave;ge en cours d\'utilisation.');
 		$array['userTownUpdated']				=	tendoo_success(' Ville correctement mis &agrave; jour.');
-		$array['userStateUpdated']				=	tendoo_success(' Pays correctement mis &agrave; jour.');
-		$array['userSurnameUpdated']			=	tendoo_success(' Pr&eacute;nom correctement mis &agrave; jour.');
-		$array['userNameUpdated']				=	tendoo_success(' Nom correctement mis &agrave; jour.');
+		$array['user_geographical_data_updated']=	tendoo_success( translate( 'User geographical informations was succefully updated' ) );
+		$array['user_names_updated']			=	tendoo_success( translate( 'User names was succefully updated' ) );
 		$array['active_theme_does_not_handle_that']	=	tendoo_warning(' Le thème actif ne prend pas en charge le module attaché à ce contrôleur.');
 		
 		if($e === TRUE)

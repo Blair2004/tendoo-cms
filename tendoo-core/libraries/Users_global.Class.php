@@ -404,7 +404,15 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	{
 		if(!array_key_exists($element,$this->current))
 		{
-			return get_user_meta( $element );
+			// Special avatar_link working case
+			if( strtolower( $element ) == 'avatar_link' ){
+				if( $avatar	=	get_user_meta( $element ) ){
+					return $avatar;
+				} 
+				return img_url( 'avatar_default.jpg' );
+			} else {
+				return get_user_meta( $element );
+			}
 		}
 		if($element == NULL)
 		{
@@ -681,15 +689,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	}
 	public function setUserElement($element, $value)
 	{
-		if(in_array( $element , array( 'user_bio' , 'dashboard_theme' , 'first_visit' ) ) )
-		{
-			return set_user_meta( $element , $value );
-		}
-		else if($this->current($element) !== false)
-		{
-			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array($element=>$value));
-		}
-		return false;
+		return set_user_meta( $element , $value );
 	}
 	/**
 	*	Implémentation de la fonction tendoo.switchButton()

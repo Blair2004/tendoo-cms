@@ -15,7 +15,7 @@
                         <section class="vbox">
                             <section class="scrollable">
                                 <div class="wrapper">
-                                    <div class="clearfix m-b"> <a href="#" class="pull-left thumb m-r"> <img src="<?php echo current_user('AVATAR');?>" class="img-circle"> </a>
+                                    <div class="clearfix m-b"> <a href="#" class="pull-left thumb m-r"> <img src="<?php echo current_user('avatar_link');?>" class="img-circle"> </a>
                                         <div class="clear">
                                             <div class="h3 m-t-xs m-b-xs"><?php echo ucwords($this->instance->users_global->current('PSEUDO'));?></div>
                                                 <small class="text-muted"><i class="fa fa-map-marker"></i> <?php echo $this->instance->users_global->current('TOWN');?>, <?php echo $this->instance->users_global->current('STATE');?></small> 
