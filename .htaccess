@@ -1,5 +1,0 @@
-# CUSTOM TENDOO URL CONDITION #
-Options -Indexes
-RewriteEngine on
-RewriteCond $1 !^(index\.php|tendoo-assets/|tendoo-modules/|tendoo-themes|tendoo-core/|robots\.txt|sitemap\.(xml|txt))
-RewriteRule ^(.*)$ index.php/$1 [L]
