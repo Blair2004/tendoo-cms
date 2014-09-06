@@ -133,6 +133,8 @@
 		}
 		$query	=	$Core->db->get('tendoo_users');
 		$result	=	$query->result_array();
+		// Special Case of "avatar_link"
+		$result[0][ 'avatar_link' ]		=	img_url( 'avatar_default.jpg' );
 		// Adding Meta to retreived data
 		if( $result ){
 			$all_meta_query	=	get_db()->where( 'USER' , $result[0][ 'PSEUDO' ] )->get( 'tendoo_meta' );
