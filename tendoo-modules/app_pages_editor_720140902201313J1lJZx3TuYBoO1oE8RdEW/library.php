@@ -75,7 +75,7 @@ class page_library extends Libraries
 			$this->db->where( 'ID' , $edit_id )->update( 'tendoo_pages' , $final );
 			return 'successfully_updated';
 		}
-		return 'error_occured';
+		return 'error_occurred';
 	}
 	/**
 	 * Create or Read Specific file and return namespace or content

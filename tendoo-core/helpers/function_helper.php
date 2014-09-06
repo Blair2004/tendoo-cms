@@ -133,8 +133,8 @@ if(!function_exists('fetch_error'))
 		$array['controler_edited']			=	tendoo_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
 		$array['db_unable_to_connect']		=	tendoo_warning('Il est impossible de se connecter &agrave; la base de donn&eacute;es avec les informations fournies.');
 		$array['db_unable_to_select']		=	tendoo_warning('La connexion &agrave; &eacute;t&eacute; &eacute;tablie, cependant il est impossible d\'acc&eacute;der &agrave; la base de donn&eacute;e.');
-		$array['error_occured']				=	tendoo_warning( translate( 'error_occured' ) );
-		$array['errorOccured']				=	tendoo_warning( translate( 'error_occured' ) );
+		$array['error_occurred']				=	tendoo_warning( translate( 'error_occurred' ) );
+		$array['erroroccurred']				=	tendoo_warning( translate( 'error_occurred' ) );
 		$array['adminDeleted']				=	tendoo_success(' L\'utilisateur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
 		$array['controller_not_found']		=	tendoo_warning(' Ce contr&ocirc;leur est introuvable.');
 		$array['no_main_controller_created']=	tendoo_warning(' Aucun contr&ocirc;leur d&eacute;finit comme principale n\'a &eacute;t&eacute; retrouv&eacute;, le nouveau contr&ocirc;leur &agrave; &eacute;t&eacute; d&eacute;finit comme contr&ocirc;leur par d&eacute;faut.');
@@ -404,7 +404,11 @@ if(!function_exists('translate')) // gt = Get Text
 			}
 			else
 			{
-				return '<strong>'.$code.'</strong> does\'nt match any lang code';
+				if( SAFE_MODE ){
+					return $code;
+				} else {
+					return '<strong>'.$code.'</strong> does\'nt match any lang code';
+				}
 			}
 		}
 	}

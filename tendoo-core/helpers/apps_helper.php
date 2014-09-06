@@ -173,7 +173,7 @@
 	function site_theme()
 	{
 		$instance	=	get_instance();
-		return $instance->tendoo->getSiteTheme();
+		return get_themes( 'filter_active' );
 	}
 	/**
 	*
@@ -239,10 +239,20 @@
 	/**
 	*	db() return current mysql connexion
 	**/
-	function get_db() // add to doc
+	function get_db( $process = 'from_install_interface' ) // add to doc
 	{
-		global $database;
-		return $database;
+		if( $process == 'from_install_interface' ){
+			global $database;
+			if( !isset( $database ) ){
+				$config		=	$_SESSION['db_datas'];
+				$database	=	DB( $config , TRUE );
+			}
+			return $database;
+		}
+		else {
+			global $database;
+			return $database;
+		}
 	}
 	function set_db($db) // add to doc
 	{

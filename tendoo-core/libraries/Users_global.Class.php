@@ -166,7 +166,7 @@ Class users_global extends Libraries
 			$array['PRIVILEGE']	=	'NADIMERPUS';
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	'TRUE';
-			get_instance()->meta_datas->set_user_meta( 'frist_visit' , true , $array[ 'PSEUDO' ] );
+			get_instance()->meta_datas->set_user_meta( 'first_visit' , true , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'dashboard_theme' , 1 , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $array[ 'PSEUDO' ] );
@@ -196,7 +196,7 @@ Class users_global extends Libraries
 			$array['PRIVILEGE']	=	$priv_id;
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	$active;
-			get_instance()->meta_datas->set_user_meta( 'frist_visit' , true , $array[ 'PSEUDO' ] );
+			get_instance()->meta_datas->set_user_meta( 'first_visit' , true , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'dashboard_theme' , 1 , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $array[ 'PSEUDO' ] );
@@ -226,7 +226,7 @@ Class users_global extends Libraries
 			$array['PRIVILEGE']	=	($privilege == 'NADIMERPUS') ? 'RELPIMSUSE' : $privilege;
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	$active;
-			get_instance()->meta_datas->set_user_meta( 'frist_visit' , true , $array[ 'PSEUDO' ] );
+			get_instance()->meta_datas->set_user_meta( 'first_visit' , true , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'dashboard_theme' , 1 , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $array[ 'PSEUDO' ] );
@@ -763,7 +763,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 			{
 				return 'passwordChanged';
 			}
-			return 'error_occured';
+			return 'error_occurred';
 		}
 		return 'samePassword';
 	}

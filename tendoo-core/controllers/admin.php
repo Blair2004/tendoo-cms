@@ -57,7 +57,6 @@ class Admin extends Libraries
 				break;
 			}
 			$this->tendoo_admin->system_not('Syst&egrave;me', $notice_s, $link,null, null);
-			notice('push',fetch_notice_output($gl));
 		}		
 	}
 	private function adminConnection()
@@ -260,13 +259,13 @@ class Admin extends Libraries
 					if( active_module( $namespace ) ){
 						$this->url->redirect(array('admin','modules?info='.strip_tags('Le module <strong>'.$module['human_name'].' a été correctement activé')));
 					}
-					$this->url->redirect(array('admin','modules?notice=error_occured'));
+					$this->url->redirect(array('admin','modules?notice=error_occurred'));
 				}
 				$this->url->redirect(array('admin','index?notice=unknowModule'));
 			}
 			$this->url->redirect(array('admin','index?notice=accessDenied'));
 		}
-		$this->url->redirect(array('admin','modules?notice=error_occured'));
+		$this->url->redirect(array('admin','modules?notice=error_occurred'));
 	}
 	public function unactive($e,$namespace)
 	{
@@ -279,13 +278,13 @@ class Admin extends Libraries
 					if( unactive_module( $namespace ) ){
 						$this->url->redirect(array('admin','modules?info='.strip_tags('Le module <strong>'.$module['human_name'].' a été correctement désactivé')));
 					}
-					$this->url->redirect(array('admin','modules?notice=error_occured'));
+					$this->url->redirect(array('admin','modules?notice=error_occurred'));
 				}
 				$this->url->redirect(array('admin','index?notice=unknowModule'));
 			}
 			$this->url->redirect(array('admin','index?notice=accessDenied'));
 		}
-		$this->url->redirect(array('admin','index?notice=error_occured'));
+		$this->url->redirect(array('admin','index?notice=error_occurred'));
 	}
 	public function open($e='',$a='',$b	= '')
 	{
@@ -457,7 +456,7 @@ class Admin extends Libraries
 				}
 				else
 				{
-					notice('push',fetch_notice_output('error_occured'));
+					notice('push',fetch_notice_output('error_occurred'));
 				}
 			}
 			if($this->users_global->isSuperAdmin()) // this Setting is now reserved to super admin
@@ -470,7 +469,7 @@ class Admin extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_notice_output('error_occured'));
+						notice('push',fetch_notice_output('error_occurred'));
 					}
 				}
 				if($this->input->post('allow_priv_selection_button')) // Setting notice go here.
@@ -481,7 +480,7 @@ class Admin extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_notice_output('error_occured'));
+						notice('push',fetch_notice_output('error_occurred'));
 					}
 				}
 				if($this->input->post('publicPrivAccessAdmin_button')) // Setting notice go here.
@@ -492,7 +491,7 @@ class Admin extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_notice_output('error_occured'));
+						notice('push',fetch_notice_output('error_occurred'));
 					}
 				}
 				if($this->input->post('appicons')) // Setting notice go here.
@@ -503,7 +502,7 @@ class Admin extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_notice_output('error_occured'));
+						notice('push',fetch_notice_output('error_occurred'));
 					}
 				}
 			}
@@ -785,7 +784,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				}
 				else
 				{
-					notice('push',fetch_notice_output('error_occured'));
+					notice('push',fetch_notice_output('error_occurred'));
 				}
 			}
 			
@@ -821,7 +820,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				}
 				else
 				{
-					notice('push',fetch_notice_output('error_occured'));
+					notice('push',fetch_notice_output('error_occurred'));
 				}
 			}
 			set_core_vars( 'getPriv' , $this->tendoo_admin->getPrivileges($option_2));
@@ -928,7 +927,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					}
 					else
 					{
-						notice('push',fetch_notice_output('error_occured'));
+						notice('push',fetch_notice_output('error_occurred'));
 					}
 				}
 			}
@@ -1229,7 +1228,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			if(!$this->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE')))
 			{
 				set_core_vars( 'type' ,	'danger' );
-				set_core_vars( 'notice' ,	notice('error_occured') );
+				set_core_vars( 'notice' ,	notice('error_occurred') );
 				$this->load->view('admin/ajax/notice',$this->data);
 				return;
 			}
@@ -1279,7 +1278,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			if(!$this->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE')))
 			{
 				set_core_vars( 'type' ,	'danger' );
-				set_core_vars( 'notice' ,	notice('error_occured') );
+				set_core_vars( 'notice' ,	notice('error_occurred') );
 				$this->load->view('admin/ajax/notice',$this->data);
 				return;
 			}

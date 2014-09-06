@@ -161,7 +161,7 @@ class Account extends Libraries
 				}
 				else
 				{
-					notice('push',fetch_notice_output('error_occured'));
+					notice('push',fetch_notice_output('error_occurred'));
 				}
 			}
 			

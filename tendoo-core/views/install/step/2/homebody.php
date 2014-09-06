@@ -55,7 +55,7 @@
 										?>
 									<div class="col-lg-13">
 										<div class="panel-body">
-											<?php echo tendoo_error('<strong>'.translate('error_occured').'</strong><br><br>'.$query_error);?>
+											<?php echo tendoo_error('<strong>'.translate('error_occurred').'</strong><br><br>'.$query_error);?>
 										</div>
 									</div>
 										<?php
@@ -66,11 +66,11 @@
 										<h4><i class="fa fa-bullseye"></i><?php echo translate('database_information_form_title');?></h3>
 										<div class="form-group">
 											<label class="host_name"><?php echo translate('host_name');?></label>
-											<input name="host_name" type="text" placeholder="exemple : localhost" class="form-control">
+											<input name="host_name" value="localhost" type="text" placeholder="exemple : localhost" class="form-control">
 										</div>
 										<div class="form-group">
 											<label class="user_name"><?php echo translate('user_name');?></label>
-											<input name="user_name" type="text" placeholder="Nom de l'utilisateur" class="form-control">
+											<input name="user_name" value="root" type="text" placeholder="Nom de l'utilisateur" class="form-control">
 										</div>
 										<div class="form-group">
 											<label class="host_password"><?php echo translate('user_password');?></label>
@@ -78,16 +78,16 @@
 										</div>
 										<div class="form-group">
 											<label class="db_name"><?php echo translate('database_name');?></label>
-											<input name="db_name" type="text" placeholder="Base de donn&eacute;e" class="form-control">
+											<input name="db_name" value="tendoo" type="text" placeholder="Base de donn&eacute;e" class="form-control">
 										</div>
 										<div class="form-group">
 											<label class="extension_name"><?php echo translate('database_extension');?></label>
-											<input name="extension_name" type="text" placeholder="Exemple : Tendoo_" class="form-control">
+											<input name="extension_name" type="text" placeholder="Exemple : lumax_" class="form-control" value="lumax_">
 										</div>
 										<div class="form-group">
 											<select class="input-sm form-control input-s-sm inline" name="db_type" style="color:#333;background:#FFF;">
 												<option value="" style="color:#333"><?php echo translate('database_type');?></option>
-												<option value="mysql" style="color:#333">Mysql</option>
+												<option value="mysql" selected style="color:#333">Mysql</option>
 												<option value="mysqli" style="color:#333">Mysql Lite</option>
 												<option value="sqlite" style="color:#333">Sql Lite</option>
 											</select>

@@ -10,49 +10,53 @@
 	*	current_user
 	*	Renvoi les informations à propos de l'utilisateur actuel.
 	**/
-	function current_user($input)
+	function current_user( $input = false )
 	{
-		$instance	=	get_instance();
-		if(isset($instance->users_global))
-		{
-			switch(strtolower($input))
+		if( $input != false ){
+			$instance	=	get_instance();
+			if(isset($instance->users_global))
 			{
-				case "menu"	:
-				return $instance->users_global->getUserMenu();
-				break;
-				case "isconnected"	:
-				return $instance->users_global->isConnected();
-				break;
-				case "isadmin"	:
-				return $instance->users_global->isAdmin();
-				break;
-				case "issuperadmin"	:
-				return $instance->users_global->isSuperAdmin();
-				break;
-				case "show_menu"	:
-				return $instance->users_global->setMenuStatus('show_menu');
-				break;
-				case "hide_menu"	:
-				return $instance->users_global->setMenuStatus('hide_menu');
-				break;
-				case "top_margin"	:
-				return $instance->users_global->isConnected() ? 'style="margin-top:38px"' : '';
-				break;
-				case "top_offset"	:	
-				return $instance->users_global->isConnected() ? 'style="top:38px"' : '';
-				break;
-				default :
-					if(method_exists($instance->users_global,$input))
-					{
-						return $instance->users_global->$input();
-					}
-					else
-					{
-						return $instance->users_global->current($input);	
-					}
-				break;
+				switch(strtolower($input))
+				{
+					case "menu"	:
+					return $instance->users_global->getUserMenu();
+					break;
+					case "isconnected"	:
+					return $instance->users_global->isConnected();
+					break;
+					case "isadmin"	:
+					return $instance->users_global->isAdmin();
+					break;
+					case "issuperadmin"	:
+					return $instance->users_global->isSuperAdmin();
+					break;
+					case "show_menu"	:
+					return $instance->users_global->setMenuStatus('show_menu');
+					break;
+					case "hide_menu"	:
+					return $instance->users_global->setMenuStatus('hide_menu');
+					break;
+					case "top_margin"	:
+					return $instance->users_global->isConnected() ? 'style="margin-top:38px"' : '';
+					break;
+					case "top_offset"	:	
+					return $instance->users_global->isConnected() ? 'style="top:38px"' : '';
+					break;
+					default :
+						if(method_exists($instance->users_global,$input))
+						{
+							return $instance->users_global->$input();
+						}
+						else
+						{
+							return $instance->users_global->current($input);	
+						}
+					break;
+				}
 			}
-		}
+		} else {
+			return get_instance()->users_global;
+		}		
 	}
 	/**
 	*	set_user_meta

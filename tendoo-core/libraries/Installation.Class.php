@@ -45,59 +45,13 @@ class Installation extends Libraries
 		{
 			return false;
 		};
-		/* CREATE tendoo_themes */
-		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_themes` (
-			`ID` int(11) NOT NULL AUTO_INCREMENT,
-			`NAMESPACE` varchar(100) NOT NULL,
-			`HUMAN_NAME` varchar(200) NOT NULL,
-			`AUTHOR` varchar(100) NOT NULL,
-			`DESCRIPTION` text NOT NULL,
-			`ACTIVATED` varchar(20) NOT NULL,
-			`TENDOO_VERS` varchar(100) NOT NULL,
-			`encrypted_dir` text NOT NULL,
-			`APP_VERS` varchar(100) NOT NULL,
-			`HAS_PASSIVE_SCRIPTING` int(11) NOT NULL,
-		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB;';
-		if(!$this->db->query($sql))
-		{
-			return false;
-		};
-		/* CREATE tendoo_modules : Replace by new module declaration process */
-		/* $sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_modules` (
-		  `ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-		  `NAMESPACE` varchar(200) NOT NULL,
-		  `HUMAN_NAME` varchar(200) NOT NULL,
-		  `AUTHOR` varchar(200) DEFAULT NULL,
-		  `DESCRIPTION` text,
-		  `HAS_WIDGET` int(11) NOT NULL,
-		  `HAS_MENU` int(11) NOT NULL,
-		  `HAS_API`	int(11) NOT NULL,
-          `HAS_ICON` int(11) NOT NULL,
-          `HAS_ADMIN_API` int(11) NOT NULL,
-		  `HAS_PASSIVE_SCRIPTING` int(11) NOT NULL,
-		  `HANDLE` varchar(200) NOT NULL,
-		  `SELF_URL_HANDLE` int(11) NOT NULL,
-		  `TYPE` varchar(50) NOT NULL,
-		  `ACTIVE` int(11) NOT NULL,
-		  `TENDOO_VERS` varchar(100) NOT NULL,
-		  `APP_VERS` varchar(100) NOT NULL,
-		  `encrypted_dir` text,
-		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB;';
-		if(!$this->db->query($sql))
-		{
-			return false;
-		}; */
 		/* CREATE tendoo_meta */
 		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_metas` (
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_meta` (
 			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 			`KEY` varchar(255) NOT NULL,
 			`VALUE` text,
-			`AUTHOR` varchar(255) NOT NULL,
+			`USER` varchar(255) NOT NULL,
 			`DATE` datetime NOT NULL,
 			`APP` varchar(255) NOT NULL,
 		PRIMARY KEY (`ID`)
@@ -206,25 +160,76 @@ class Installation extends Libraries
 		};
 		return true;
 	}
-	public function defaultsApp($app)
+	public function app_step( $step )
 	{
 		$this->load->library('tendoo'); // Refreshing Tendoo Clss
 		$this->load->library('tendoo_admin'); // loading Admin Class
-		$this->load->library('options');
-		
-		$this->tendoo_admin->createControllers(array(
-			'title'			=>	array('Accueil','blog','contact'),
-			'description'	=>	array('Accueil du site','Section blog','Section de contact'),
-			'main'			=>	array('TRUE','FALSE','FALSE'),
-			'module'		=>	array('tim','news','tendoo_contact_handler'),
-			'parent'		=>	array('none','none','none'),
-			'name'			=>	array('accueil','blog','contact'),
-			'cname'			=>	array('accueil','blog','contact'),
-			'keywords'		=>	array('accueil','blog','contact'),
-			'link'			=>	array('','',''),
-			'visible'		=>	array('TRUE','TRUE','TRUE'),
-			'id'			=>	array(1,2,3),
-		));			
+		// Base config, creating tables and saving firt name
+		if( $step == 1 ){
+			// Working 100%
+			if( $this->createTables() && get_instance()->meta_datas->set( 'site_name' , $this->input->post( 'site_name' ) , 'from_install_interface' , 'system' ) ){ 
+				// Get all module and exec sql queries
+				load_modules();
+				$modules	=	get_modules( 'all' );
+				if( $modules ){
+					foreach( $modules as $namespace	=>	$app_datas ){
+						// Activate module 
+						active_module( $namespace );
+						// Executing Sql queries
+						if( is_array( $queries =	riake( 'sql_queries' , $app_datas ) ) ){
+							foreach( $queries as $sql_line ){
+								get_db( 'from_install_interface' )->query( $sql_line );
+							}
+						}
+						// Registering Actions
+						if( is_array( $actions	=	riake ( 'declared_actions' , $app_datas ) ) ){
+							foreach( $actions  as $_action ){
+								if( $this->tendoo_admin->_action_keys_is_allowed( array_keys( $_action ) ) ){
+									foreach( $_action as $key => $value ){
+										$$key	=	$value;
+									}
+									$this->tendoo_admin->createModuleAction($mod_namespace,$action,$action_name,$action_description);
+								}
+							}
+						}
+					}
+				}
+				// Get unique available theme
+				load_themes();
+				$themes		=	get_themes( 'all' );
+				// Creating Config File
+				$this->createConfigFile();
+				if( $themes ){
+					foreach( $themes as $namespace	=>	$app_datas ){
+						// Activate module 
+						active_theme( $namespace );
+						// Executing Sql queries
+						if( is_array( $queries =	riake( 'sql_queries' , $app_datas ) ) ){
+							foreach( $queries as $sql_line ){
+								get_db( 'from_install_interface' )->query( $sql_line );
+							}
+						}
+					}
+				}
+				return json_encode( array( 
+					'response'	=>	translate( "Installation is now complete. We're taking you to your new website. This install process won't be no more visible..." ),
+					'type'		=>	'warning',
+					'step'		=>	2,
+					'progress'	=>	100
+				) );
+			} else {
+				return json_encode( array( 
+					'response'	=>	translate( 'Error occurred during tables creation. Please check out the connectivity between your configuration and the server.' ),
+					'type'		=>	'warning',
+					'step'		=>	0,
+					'progress'	=>	0
+				) );
+			}
+		}
+		return json_encode( array( 
+			'response'	=>	translate( 'Unknow install step, please try again.' ),
+			'type'		=>	'warning'
+		) );		
 	}
 	public function createConfigFile()
 	{

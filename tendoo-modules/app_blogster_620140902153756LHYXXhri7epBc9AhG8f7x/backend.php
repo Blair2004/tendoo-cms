@@ -35,6 +35,7 @@ class blogster_backend extends Libraries
 		setup_admin_left_menu( 'Blogster' , 'file-text-o' );
 		add_admin_left_menu( 'Accueil' , module_url( array( 'index' ) ) );
 		add_admin_left_menu( 'Ajouter un article' , module_url( array( 'publish' ) ) );
+		add_admin_left_menu( 'Ajouter une catégorie' , module_url( array( 'category' , 'create' ) ) );
 		add_admin_left_menu( 'Gestion des catégories' , module_url( array( 'category' ) ) );
 		add_admin_left_menu( 'Gestion des commentaires' , module_url( array( 'comments' ) ) );
 		add_admin_left_menu( 'Gestion des mots-clés' , module_url( array( 'tags' ) ) );
@@ -303,20 +304,21 @@ class blogster_backend extends Libraries
 		else if($e == 'create')
 		{
 			$this->load->library('form_validation');
-			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-
 			$this->form_validation->set_rules('cat_name','Nom de la cat&eacute;gorie','required|min_length[3]|max_length[50]');
 			$this->form_validation->set_rules('cat_description','Description de la cat&eacute;gorie','required|min_length[3]|max_length[200]');
 			if($this->form_validation->run())
 			{
-				$this->data['notice']	=	$this->news->createCat(
+				$result	=	$this->news->createCat(
 					$this->input->post('cat_name'),
 					$this->input->post('cat_description')
 				);
-				notice('push',fetch_notice_output($this->data['notice']));
+				if( $result ){
+					notice( 'push' , fetch_notice_output( 'categoryCreated' ) );
+				} else {
+					notice( 'push' , fetch_notice_output( 'error_occurred' ) );
+				}
 			}
-			notice('push',validation_errors('<p class="error">','</p>'));
-			set_page('title','Blogster - Cr&eacute;e une categorie');
+			set_page( 'title' , 'Blogster - Cr&eacute;e une categorie' );
 			
 			if(isset($_GET['ajax']))
 			{
@@ -459,7 +461,7 @@ class blogster_backend extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_notice_output('error_occured'));
+						notice('push',fetch_notice_output('error_occurred'));
 					}
 				}
 			}
@@ -474,7 +476,7 @@ class blogster_backend extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_notice_output('error_occured'));
+						notice('push',fetch_notice_output('error_occurred'));
 					}
 				}
 			}
@@ -531,7 +533,7 @@ class blogster_backend extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_notice_output('error_occured'));
+						notice('push',fetch_notice_output('error_occurred'));
 					}; // modification des parametres
 				}
 			}

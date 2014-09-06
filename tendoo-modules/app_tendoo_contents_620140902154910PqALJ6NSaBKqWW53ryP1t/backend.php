@@ -118,7 +118,7 @@ class tendoo_contents_backend extends Libraries
 				}
 				else
 				{
-					$this->notice->push_notice(fetch_notice_output('error_occured'));
+					$this->notice->push_notice(fetch_notice_output('error_occurred'));
 				}
 			}
 		}
@@ -142,7 +142,7 @@ class tendoo_contents_backend extends Libraries
 				}
 				else
 				{
-					$this->notice->push_notice(fetch_notice_output('error_occured'));				
+					$this->notice->push_notice(fetch_notice_output('error_occurred'));				
 				}
 			}
 		}
@@ -174,7 +174,7 @@ class tendoo_contents_backend extends Libraries
 				}
 				else
 				{
-					$this->notice->push_notice(fetch_notice_output('error_occured'));
+					$this->notice->push_notice(fetch_notice_output('error_occurred'));
 				}
 			}
 		}

@@ -6,7 +6,7 @@
 global $NOTICE_SUPER_ARRAY;
 /// -------------------------------------------------------------------------------------------------------------------///
 declare_notice( 'widgetCreated' , tendoo_success('Le widget &agrave; &eacute;t&eacute; cr&eacute;e.') );
-$or['errorOccured']				=	tendoo_error('Une erreur s\'est produite durant la cr&eacute;ation du widget.');
+$or['erroroccurred']				=	tendoo_error('Une erreur s\'est produite durant la cr&eacute;ation du widget.');
 $or['widgetAlreadyExists']		=	tendoo_error('Le widget ne peut pas &ecirc;tre cr&eacute;e. Un autre widget contenant le m&ecirc;me intitul&eacute; existe d&eacute;j&agrave;.');
 $or['unknowWidget']				=	tendoo_error('Ce widget est introuvable.');
 $or['WidgetActivated']			=	tendoo_success('Le widget &agrave; &eacute;t&eacute; correctement activ&eacute;.');

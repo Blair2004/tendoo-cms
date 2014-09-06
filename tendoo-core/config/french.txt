@@ -1,20 +1,43 @@
 [#]autorisations::Autorisations[#]
+
+[#]An unexpected error occurred, please check out your internet connection and try again.::Une erreur inattendue s'est produit, s'il vous plait vérifier votre connection internet et essayer à nouveau.[#]
+
 [#]app_store::Magasin d'application[#]
+
 [#]connecting_database::Connexion &agrave; la base de donn&eacute;es[#]
+
 [#]choose_options::Choisir une option[#]
+
+[#]Connexion established::Connexion établie[#]
+
 [#]continue::Continuer[#]
+
 [#]dashboard::Panneau d'administration[#]
+
 [#]database::Base de données[#]
+
 [#]database_extension::Extension des tables[#]
+
 [#]database_information_form_title::Information sur la base de données[#]
+
 [#]database_name::Nom de la base de donn&eacute;es[#]
+
 [#]database_notice::Nous allons procéder à la création de votre site web. vous devez spécifier toutes les informations d'accès à la base de données. <br><br>La base de donn&eacute;es que vous devez fournir doit exister et l'utilisateur doit avoir les privil&egrave;ges necessaire &agrave; la cr&eacute;ation des tables. Dans le cas contraire, le site ne pourra pas &ecirc;tre installé. <br><br>Verifiez que le nom de la base de donn&eacute;es, de l'h&ocirc;te et le mot de passe correspondent &agrave; ceux que vous sp&eacute;cifiez ci-apr&egrave;s.
 												<br>Si des erreurs persistent, vous pouvez toujours vous connecter à la communauté Tendoo pour signaler cette erreur.[#]
 [#]database_type::Type de la base de données[#]
+
 [#]dont_show::Ne pas afficher[#]
-[#]error_occured::Une erreur s'est produite. L'opération n'a pas pu aboutir.[#]
+
+[#]error_occurred::Une erreur s'est produite. L'opération n'a pas pu aboutir.[#]
+
 [#]error_on_form::Erreur sur le formulaire[#]
+
+[#]error on the form::Erreur sur le formulaire[#]
+
+[#]end of intallation::Fin de l'installation[#]
+
 [#]home::Accueil[#]
+
 [#]host_name::Nom de l'h&ocirc;te[#]
 
 [#]install a new application::Installer une nouvelle application[#]
@@ -22,15 +45,26 @@
 [#]install_end::Fin de l'installation[#]
 
 [#]install_end::Fin de l'installation[#]
+
 [#]install_details::Détails de l'installation[#]
+
 [#]install_step_1_text_3::Cette installation se fera en 3 étapes, vous avez donc au moins 4 minutes pour créer votre site web.[#]
+
 [#]install_step_1_text_4::Première étape : Information sur la base de donnée[#]
+
 [#]install_step_1_text_5::Deuxième étape : Nom du site[#]
+
 [#]install_step_1_text_6::Troisième étape : Fin de l'installation[#]
+
 [#]install_step_1_text_7::Connectez vous &agrave; l'espace administrateur pour modifier les informations de votre site, créer des administrateurs, installer les thèmes et modules.[#][#]continue::Continuer[#]
+
 [#]install_step1_tendoo_community::Besoin d'aide et d'assitance ? connectez-vous &agrave; la communauté et exposer vos problèmes liés &agrave; l'utilisation du CMS Tendoo.<br>Télécharger des applications depuis le Store et augmentez considérablement le potentiel de Tendoo.[#]
+
 [#]install_step1_tendoo_device_title::Tendoo pour appareil mobile[#]
+
 [#]install_step1_tendoo_device_description::<span>Tendoo offre un espace d'administration qui est compatible avec la plus part des supports mobiles. L'interface intuitif vous permet de gérer votre site web depuis un terminal mobile. Cet interface s'apadapte correctement aux dimensions de votre appareil, pour que le plaisir de naviguer sur votre appareil mobile soit identique &agrave; celui ressenti depuis un ordinateur.</span>[#]
+
+[#]Installation is now complete. We're taking you to your new website. This install process won't be no more visible...::Installation complète. Vous serez maintenant reirigé vers votre nouveau site. Ce processus d'installation ne sera plus disponible[#]
 
 [#]limit_to::Limiter à[#]
 
@@ -54,21 +88,41 @@
 [#]previous::Précédent[#]
 
 [#]remove_module_bypage_notice::En décidant de supprimer ce module, la page sur laquelle ce dernièr à été affecté, pourrait ne plus fonctionner correctement. En outre, vous perdrez toutes les modifications apportés par ce module. Cette action est irreversible.[#]
+
 [#]install_tendoo_title::Assistant d'installation &rsaquo; %%[#]
+
 [#]options::Options[#]
+
 [#]results::Résultats[#]
+
 [#]save_settings::Enregistrer les modifications[#]
+
 [#]search::Rechercher[#]
+
 [#]security::Sécurité[#]
+
 [#]seo_tools::Outils SEO[#]
+
 [#]show::Afficher[#]
+
 [#]stats::Statistiques[#]
+
 [#]calendar::Calendrier[#]
+
 [#]tendoo_install_second_step::Assistant d'installation &rsaquo; Deuxième étape[#]
+
 [#]tendoo_install_first_step::Assistant d'installation &rsaquo; Première étape[#]
+
 [#]tendoo_install_final_step_title::Assistant d'installation &rsaquo; Installation Terminée[#]
+
 [#]tendoo_community::Tendoo Community[#]
+
+[#]Tendoo can now gain access to your database. Then now, you can provide information about your new website.::Tendoo peut désormais se connecter à la base de données. Maintenant, vous pouvez enregistrer certaines informations sur votre nouveau site web.[#]	
+
+[#]Tendoo is installing, just wait a while.::Tendoo est en cours d'installation, vueillez patienter s'il vous plait[#]
+
 [#]tendoo_for_mobile::Tendoo pour appareil mobile[#]
+
 [#]T01::<h4><i class="fa fa-list"></i> D&eacute;tails de l'installation</h4>
 <div>
 	<span>Cette installation se fera en 3 étapes, vous avez donc au moins 4 minutes pour créer votre site web.</span> <br>
@@ -82,7 +136,15 @@
 	</div>
 	<div style="font-size:12px;"> <span></span> </div>
 </div>Connectez vous &agrave; l'espace administrateur pour modifier les informations de votre site, cr&eacute;er des administrateurs, installer les th&egrave;mes et modules.[#]
+
 [#]unavaiable_for_this_tendoo::Indisponible pour cette version de Tendoo[#]
+
+[#]Unexpected error occurred.::Une erreur inattendue s'est produite.[#]
+
+[#]Unfortunately i can't register a new website unnamed. Please consider give a name, and try again.::Malheuresement, je ne peux pas enregistrer un site web sans nom. Veuillez s'il vous plait fournir un nom et essayez à nouveau.[#]
+
+[#]Unknow install step, please try again.::Processus d'installation incorrect, essayez à nouveau.[#]
+
 [#]user_name::Nom de l'utilisateur[#]
 
 [#]User geographical informations was succefully updated::Les informations géographiques de l'utilisateur ont été correctement modifiés.[#]
@@ -92,5 +154,7 @@
 [#]User names::Noms et prénoms de l'utilisateur[#]
 
 [#]user_password::Mot de passe de l'utilisateur[#]
+
 [#]website_setting::Réglages généraux[#]
+
 [#]you_got::Vous avez[#]

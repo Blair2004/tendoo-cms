@@ -8,10 +8,6 @@ class Tendoo_admin extends Libraries
 		parent::__construct();
 		__extends($this);
 		$this->instance					=	get_instance();
-		if(!isset($this->users_global))
-		{
-			$this->load->library('users_global');
-		}
 	}
 /**********************************************************************************************************************
 												Controlers Methods
@@ -82,7 +78,7 @@ class Tendoo_admin extends Libraries
 					return 'controler_created';
 			}
 		}
-		return 'error_occured';
+		return 'error_occurred';
 	}
 	public function getChildren($child,$compress = FALSE)
 	{
@@ -380,13 +376,13 @@ class Tendoo_admin extends Libraries
 	{
 		// About Controllers;
 		$this	->db->select('*')
-					->from('tendoo_controllers');
+				->from('tendoo_controllers');
 		$query = $this->db->get();
 		// About Themes
-		$tendoo_themes_request		=	$this->db->where('ACTIVATED','TRUE')->get('tendoo_themes');
+		$themes		=	get_themes( 'filter_active' );
 		// Array Error Contener
 		$array	=	array();
-		if(count($tendoo_themes_request->result_array()) == 0)
+		if( ! $themes )
 		{
 			$array[]	= 'no_theme_selected';
 		}
@@ -468,7 +464,7 @@ class Tendoo_admin extends Libraries
 			{
 				return 'done';
 			}
-			return 'error_occured';
+			return 'error_occurred';
 		}
 		return 'cannotDeleteUsedPrivilege';
 	}
@@ -610,14 +606,14 @@ class Tendoo_admin extends Libraries
 	}
 	public function createModuleAction($mod_namespace,$action,$action_name,$action_description) // Create action for modules
 	{
-		$query	=	$this->db
+		$query	=	get_db( 'from_install_interface' )
 			->where('MOD_NAMESPACE',$mod_namespace)
 			->where('ACTION',$action)
 			->get('tendoo_modules_actions');
 		$result	=	$query->result_array();
 		if(count($result) > 0)
 		{
-			return $this->db
+			return get_db( 'from_install_interface' )
 			->where('MOD_NAMESPACE',$mod_namespace)
 			->where('ACTION',$action)
 			->update('tendoo_modules_actions',array(
@@ -625,7 +621,7 @@ class Tendoo_admin extends Libraries
 				'ACTION_DESCRIPTION'	=>	$action_description
 			));
 		}
-		return $this->db->insert('tendoo_modules_actions',array(
+		return get_db( 'from_install_interface' )->insert('tendoo_modules_actions',array(
 			'MOD_NAMESPACE'			=>	$mod_namespace,
 			'ACTION'				=>	$action,
 			'ACTION_NAME'			=>	$action_name,
@@ -651,7 +647,7 @@ class Tendoo_admin extends Libraries
 	}
 	public function actionAccess($action,$module_namespace) // Vérifie si l'utilisateur actuel peut acceder au module par l'action
 	{
-		if(!$this->instance->users_global->isSuperAdmin()	&& !$this->adminAccess('modules',$action,$this->instance->users_global->current('PRIVILEGE'),$module_namespace))
+		if(!current_user()->isSuperAdmin()	&& !$this->adminAccess('modules',$action,current_user()->current('PRIVILEGE'),$module_namespace))
 		{
 			return false;
 		}
@@ -881,7 +877,7 @@ class Tendoo_admin extends Libraries
 			return 'invalidApp';
 		}
 		set_core_mode( 'normal' );
-		return 'errorOccured';
+		return 'erroroccurred';
 	}
 	function _unzip_file($zip)
 	{

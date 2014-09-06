@@ -60,9 +60,9 @@ class Install extends Libraries
 			}
 			if(isset($_POST['host_name'],$_POST['user_name']))
 			{
-				$this->form_validation->set_rules('host_name','Nom de l\'hôte','trim|required|min_length[3]');
+				$this->form_validation->set_rules('host_name','Nom de l\'hôte','trim|required');
 				$this->form_validation->set_rules('user_name','Nom de l\'utilisateur','trim|required');
-				$this->form_validation->set_rules('host_password','mot de passe','trim|required');
+				// $this->form_validation->set_rules('host_password','mot de passe','trim|required'); // to allow empty password usage.
 				$this->form_validation->set_rules('db_name','nom de la base de donn&eacute;e','trim|required');
 				$this->form_validation->set_rules('db_type','type du serveur','trim|required');
 				$this->form_validation->set_rules('extension_name','Extension des tables','trim|required');
@@ -111,7 +111,7 @@ class Install extends Libraries
 				$this->url->redirect('install/etape/1/installError');
 			}
 		}
-		else if($i == 4)
+		else if($i == 4) // Deprecated
 		{
 			if(!isset($_SESSION['secur_access']))
 			{
@@ -193,14 +193,11 @@ class Install extends Libraries
 			echo 'nositename';
 		}
 	}
-	public function installApp($namespace)
+	public function app_step( $step_id = 1 )
 	{
-		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->instance->db_connect(); // En utilisant les données de la session
-		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->load->library('installation'); // Refreshing installation class
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->installation->defaultsApp($namespace);
+		echo $this->installation->app_step( $step_id );
 	}
 	public function defineLang()
 	{

@@ -47,20 +47,6 @@ class Tendoo
 		}
 		return false;
 	}
-	public function getSiteTheme()
-	{
-		$query	=	get_db()->where('ACTIVATED','TRUE')->get('tendoo_themes');
-		$data	=	$query->result_array();
-		if(array_key_exists(0,$data))
-		{
-			return $data[0];
-		}
-		else
-		{
-			return false;
-		
-		}
-	}
 	public function get_controllers( $filter , $id_or_cname_or_start = null , $end = null )
 	{
 		if( $filter == 'filter_id' ){
@@ -332,58 +318,6 @@ class Tendoo
 		return $r->result_array();
 	}
 	/// MODULES LOADER
-	public function getGlobalModules() // Récupération de tous les modules de type GLOBAL
-	{
-		return false;
-		$query	=	get_db()	->where('TYPE','GLOBAL')
-									->where('ACTIVE','1')
-									->get('tendoo_modules');
-		$data	=	$query->result_array();
-		if(count($data) > 0)
-		{
-			return $data;
-		}
-		return false;
-	}
-	public function getSpeModule($id,$option =	TRUE) // Obsolete Transit
-	{
-		return $this->getSpeMod($id,$option);
-	}
-	public function getSpeMod($value,$option = TRUE)
-	{
-		get_db()		->select('*')
-							->from('tendoo_modules');
-		if($option == TRUE)
-		{
-			get_db()->where('ID',$value);
-		}
-		else
-		{
-			get_db()->where('NAMESPACE',$value);
-		}
-							
-		$query				= get_db()->get();
-		$data				=	 $query->result_array();
-		if(count($data) > 0)
-		{
-			return $data;
-		}
-		return false;		
-	}
-	public function getSpeModuleByNamespace($namespace)
-	{
-		get_db()		->select('*')
-							->from('tendoo_modules')
-							->where('NAMESPACE',$namespace)
-							->where('ACTIVE','1');
-		$query				= get_db()->get();
-		$data				= $query->result_array();
-		if(count($data) > 0)
-		{
-			return $data;
-		}
-		return false;
-	}
 	public function setTitle($e)
 	{
 		$this->defaultTitle = $e;

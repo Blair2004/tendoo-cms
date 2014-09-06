@@ -74,7 +74,7 @@ if(isset($loadSection))
 else
 {
 	?>
-    Error Occured During loading.
+    Error occurred During loading.
     <?php
 }
 ?>

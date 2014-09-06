@@ -76,6 +76,9 @@ push_module_sql( 'blogster' , 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_new
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 ');
+push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_category` 
+	(ID,CATEGORY_NAME,URL_TITLE,DESCRIPTION,DATE) values
+	(1, 'Catégorie sans nom', 'categorie-sans-nom', 'Ceci est votre première catégorie, vous pouvez en ajouter', '".get_instance()->date->datetime()."')");
 push_module_action( 'blogster' , array(
 	'action'				=>	'publish_news',
 	'action_name'			=>	'Publier les articles',

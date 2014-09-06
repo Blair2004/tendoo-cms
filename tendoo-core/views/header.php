@@ -22,33 +22,9 @@ var tendoo				=	new Object();
 				{
 					completed	+=	e+'/';
 				}
-				<?php if($this->instance->url->getRewrite())
-				{
-				?>
 				return '<?php echo $this->instance->url->base_url();?>'+completed;
-				<?php
-				}
-				else
-				{
-					?>
-				return '<?php echo $this->instance->url->base_url();?>index.php/'+completed;					
-					<?php
-				}
-				?>
 			}
-			<?php if($this->instance->url->getRewrite())
-			{
-			?>
 			return '<?php echo $this->instance->url->base_url();?>'+e;
-			<?php
-			}
-			else
-			{
-				?>
-			return '<?php echo $this->instance->url->base_url();?>index.php/'+e;					
-				<?php
-			}
-			?>
 		};
 	};
 </script>
