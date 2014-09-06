@@ -169,7 +169,7 @@ class Install extends Libraries
 		$this->form_validation->set_rules('lang','Selection de la langue / Lang selection','trim|required|min_length[3]');
 		if($this->form_validation->run())
 		{
-			$this->instance->lang->defineLang('FRE'); // $this->input->post('lang')
+			$this->instance->lang->defineLang('fr_FR'); // $this->input->post('lang')
 			$this->url->redirect(array('install','etape','1'));
 		}
 		set_page('title','Tendoo &raquo; Choose installation language, Choissisez la langue d\'installation');

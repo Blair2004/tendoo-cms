@@ -30,7 +30,7 @@ Class Lang
 	/*	TFC	=	Tendoo File Code;
 	*/
 
-	private $supportedLang	=	array('ENG','FRE');
+	private $supportedLang	=	array('en_US','fr_FR');
 	public function isLangSelected()
 	{
 		if(is_file(SYSTEM_DIR.'/config/lang.tfc'))
@@ -47,7 +47,7 @@ Class Lang
 		}
 		else
 		{
-			$langDefined	=	'FRE';
+			$langDefined	=	'fr_FR';
 		}
 		file_put_contents(SYSTEM_DIR.'/config/lang.tfc',$langDefined);
 	}
@@ -57,13 +57,13 @@ Class Lang
 		{
 			return file_get_contents(SYSTEM_DIR.'/config/lang.tfc');
 		}
-		return 'FRE';
+		return 'fr_FR';
 	}
 	public function line($type)
 	{
 		if($this->current == 'form_val')
 		{
-			if($this->getSystemLang() == "ENG")
+			if($this->getSystemLang() == "en_US")
 			{
 				$lang['required']			= "The \"%s\" field is required.";
 				$lang['isset']				= "The \"%s\" field must have a value.";
@@ -89,7 +89,7 @@ Class Lang
 				$lang['less_than']			= "The \"%s\" field must contain a number less than \"%s\".";
 				$lang['greater_than']		= "The \"%s\" field must contain a number greater than \"%s\".";
 			}
-			else if($this->getSystemLang() == "FRE")
+			else if($this->getSystemLang() == "fr_FR")
 			{
 				$lang['required']			= "Le champ \"%s\" est requis.";
 				$lang['isset']				= "Le champ \"%s\" doit avoir une valeur.";

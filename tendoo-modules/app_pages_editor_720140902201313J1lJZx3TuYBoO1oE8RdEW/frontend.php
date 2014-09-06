@@ -36,7 +36,7 @@ class Pages_editor_frontend extends Libraries
 				}
 			}
 		}
-		set_core_vars( 'module_content' , $this->load->view($this->module[0]['URI_PATH'].'/views/common',$this->data,true,TRUE) );
+		set_core_vars( 'module_content' , $this->load->view($this->module['uri_path'].'/views/common',$this->data,true,TRUE) );
 		
 		get_core_vars('active_theme_object')->head($this->data);
 		get_core_vars('active_theme_object')->body($this->data);

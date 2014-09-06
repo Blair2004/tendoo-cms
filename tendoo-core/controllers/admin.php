@@ -144,6 +144,8 @@ class Admin extends Libraries
 	}
 	public function controllers($e = '',$f = '')
 	{
+		//var_dump( $this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE') ) );
+		//die;
 		if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE')))
 		{
 			if($e == '')
@@ -843,9 +845,9 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			}
 			set_core_vars( 'ttPrivileges' ,	$this->tendoo_admin->countPrivileges());
 			set_core_vars( 'getPrivileges' ,	$this->tendoo_admin->getPrivileges() );
-			set_core_vars( 'ttModules' , 	count($this->tendoo_admin->get_modules()) );
+			set_core_vars( 'ttModules' , 	count( get_modules( 'all' ) ) );
 			set_core_vars( 'paginate' ,	$paginate	=	$this->tendoo->paginate(10,get_core_vars( 'ttModules' ),1,'bg-color-red fg-color-white','',$option_2,$this->url->site_url(array('admin','system','manage_actions')).'/') );
-			set_core_vars( 'getModules' ,	$this->tendoo_admin->get_modules($paginate[1],$paginate[2]) );
+			set_core_vars( 'getModules' ,	get_modules( 'list_filter_active' , $paginate[1],$paginate[2] ) );
 			set_page('title','Gestionnaire d\'actions - Tendoo');
 			
 			set_core_vars( 'body' ,	$this->load->view('admin/system/privileges_and_actions',$this->data,true));

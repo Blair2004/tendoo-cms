@@ -1,28 +1,14 @@
 <div class="panel">
     <div class="panel-body">
-        <div class="carousel slide auto" id="c-slide">
-            <ol class="carousel-indicators out" style="bottom:10px;">
-                <li data-target="#c-slide" data-slide-to="0" class=""></li>
-                <li data-target="#c-slide" data-slide-to="1" class=""></li>
-                <li data-target="#c-slide" data-slide-to="2" class="active"></li>
-            </ol>
-            <div class="carousel-inner" style="min-height:180px;" >
-                <div class="item">
-                    <p class="text-center"> <em class="h4 text-mute">Premier pas sur Tendoo</em><br>
-                        <br/>
-                        D&eacute;couvrer comment publier votre premier article en suivant <a href="http://tendoo.org/index.php/guide/write_article"><strong>ces instructions</strong></a>. Vous pouvez aussi apprendre &agrave; configurer votre site web en suivant <a href="http://tendoo.org/index.php/guide/settings"><strong>ces instructions</strong></a>. Apprenez &eacute;galement &agrave; g&eacute;rer le fonctionnement de votre site web dans la section <a href="http://tendoo.org/index.php/guide/manage_system"><strong>Syst&egrave;me</strong></a> et dans la section <a href="http://tendoo.org/index.php/guide/about_security"><strong>S&eacute;curit&eacute;</strong></a> </p>
-                </div>
-                <div class="item">
-                    <p class="text-center"> <em class="h4 text-mute">C'est quoi Tendoo ?</em><br>
-                        <br/>
-                        <small class="text-muted">Tendoo vous permet de rapidement cr&eacute;er votre site web, sans avoir n&eacute;cessairement besoin d'un expert. La cr&eacute;ation et la gestion d'un site web ne pourra pas &ecirc;tre plus facile. Si vous d&eacute;butez, <a href="#">vous devez savoir ceci</a>, cependant si vous &ecirc;tes un habitu&eacute; de CMS, ce petit aper&ccedil;u vous sera utile.</small> </p>
-                </div>
-                <div class="item active">
-                    <p class="text-center"> <em class="h4 text-mute">Bienvenue sur <strong><?php echo get('core_version');?></strong></em><br>
-                        <br/>
-                        <small class="text-muted">L'&eacute;quipe vous remercie d'avoir choisi Tendoo comme application pour la cr&eacute;ation de votre site web / application web. Si vous demarrez sur Tendoo, consultez <a href="http://tendoo.org/index.php/guide/discover">le guide d'utilisation</a> sur les premiers pas, et commercez &agrave; personnaliser tendoo.</small> </p>
-                </div>
-            </div>
-            <a class="left carousel-control" href="#c-slide" data-slide="prev"> <i class="fa fa-angle-left"></i> </a> <a class="right carousel-control" href="#c-slide" data-slide="next"> <i class="fa fa-angle-right"></i> </a> </div>
+        <h2 style="margin:0;"><?php echo translate( 'Welcome on tendoo' );?></h2>
+        <hr class="line" />
+        <p><?php echo translate( "We're glad to see you trust in our services. Let's us introduce a new version of tendoo, with more flexibility and excelling performance. With tutorials, you'll be able to create easilly a very professionnal website.") ;?>
+		<h4><?php echo translate( "As start task, you can : " );?></h4>
+		<ul>
+			<li><a href="<?php echo get_instance()->url->site_url( array( 'admin' , 'open' , 'modules' , 'blogster' , 'publish' ) );?>"><?php echo translate( "Publish new blog post, to share something with the world." );?></a></li>
+            <li><a href="<?php echo get_instance()->url->site_url( array( 'admin' , 'setting' ) );?>"><?php echo translate( "Editing your website setting. You can enable registration there." );?></a></li>
+		</ul>
+        <hr class="line" />
+        <p><?php echo translate( "To remove this widget, get to settings and disable \"Welcome Widget\". You can either disable and enable every widget you want. Some widgets won't be visible due to user permission, as admin only you can allow widget access using permission management interface." );?></p>
     </div>
 </div>

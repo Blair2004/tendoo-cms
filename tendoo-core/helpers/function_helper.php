@@ -362,14 +362,15 @@ if(!function_exists('translate')) // gt = Get Text
 {
 	function translate($code,$templating = null)
 	{
-		$instance	=	get_instance();
-		if($instance->lang->getSystemLang() == 'ENG')
+		$final_lines	=	array();
+		$instance		=	get_instance();
+		if($instance->lang->getSystemLang() == 'en_US')
 		{
 			// not yet
 		}
-		else if($instance->lang->getSystemLang() == 'FRE')
+		else if($instance->lang->getSystemLang() == 'fr_FR')
 		{
-			$text	=	file_get_contents(SYSTEM_DIR.'/config/french.txt');
+			$text	=	file_get_contents( SYSTEM_DIR . '/config/fr_FR.txt' );
 			$exploded	=	explode('[#]',$text);
 			$final_lines=	array();
 			foreach($exploded as $translate_line)
@@ -398,17 +399,17 @@ if(!function_exists('translate')) // gt = Get Text
 					$final_lines[$line_exploder[0]]	=	$final_string;
 				}
 			}
-			if(array_key_exists($code,$final_lines))
-			{
-				return $final_lines[$code];
-			}
-			else
-			{
-				if( SAFE_MODE ){
-					return $code;
-				} else {
-					return '<strong>'.$code.'</strong> does\'nt match any lang code';
-				}
+		}
+		if(array_key_exists($code,$final_lines))
+		{
+			return $final_lines[$code];
+		}
+		else
+		{
+			if( SAFE_MODE ){
+				return $code;
+			} else {
+				return '<strong>'.$code.'</strong> does\'nt match any lang code';
 			}
 		}
 	}

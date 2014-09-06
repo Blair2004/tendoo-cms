@@ -20,7 +20,7 @@
                         <p>
 							<?php 
 								$contact	=	get_contact_page( 'about_us' );
-								echo return_if_array_key_exists( 'FIELD_CONTENT' , $contact[0] );
+								echo return_if_array_key_exists( 'FIELD_CONTENT' , riake( 0 , $contact ) );
 							?>
 						</p>
                     </div>

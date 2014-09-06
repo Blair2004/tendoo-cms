@@ -203,17 +203,17 @@
                                  <ul class="nav nav-pills pull-right">
                                     <li> <a href="#" class="panel-toggle text-muted active"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
                                  </ul>
-                                 Action du module <strong><?php echo $g['HUMAN_NAME'];?></strong></header>
+                                 Action du module <strong><?php echo $g['human_name'];?></strong></header>
                               <div class="panel-body clearfix collapse">
                               	<?php
                                         foreach($getPrivileges as $p)
                                         {
-                                            $action	=	$this->instance->tendoo_admin->getModuleAction($g['NAMESPACE']);
+                                            $action	=	$this->instance->tendoo_admin->getModuleAction($g['namespace']);
                                             if(is_array($action))
                                             {
                                     ?>
                                     <h4>pour le privil&egrave;ge : <strong><?php echo $p['HUMAN_NAME'];?></strong></h4>
-                              <li class="list-group-item" data-form-name="<?php echo $p['PRIV_ID'];?>" data-additionnal="<?php echo $g['NAMESPACE'];?>">
+                              <li class="list-group-item" data-form-name="<?php echo $p['PRIV_ID'];?>" data-additionnal="<?php echo $g['namespace'];?>">
                                     <ul class="nav nav-pills listview fluid">
                                        <?php
                                                 foreach($action as $a)

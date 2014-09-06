@@ -45,7 +45,7 @@ class blogster_backend extends Libraries
 	{
 		if($this->input->post('draftSelected'))
 		{
-			if($this->tendoo_admin->actionAccess('edit_news','news'))
+			if($this->tendoo_admin->actionAccess('edit_news','blogster'))
 			{
 				foreach($_POST['art_id'] as $id)
 				{
@@ -63,7 +63,7 @@ class blogster_backend extends Libraries
 		}
 		if($this->input->post('publishSelected'))
 		{
-			if($this->tendoo_admin->actionAccess('edit_news','news'))
+			if($this->tendoo_admin->actionAccess('edit_news','blogster'))
 			{
 				foreach($_POST['art_id'] as $id)
 				{
@@ -81,7 +81,7 @@ class blogster_backend extends Libraries
 		}
 		if($this->input->post('deleteSelected'))
 		{
-			if($this->tendoo_admin->actionAccess('delete_news','news'))
+			if($this->tendoo_admin->actionAccess('delete_news','blogster'))
 			{
 				$status	=	array();
 				$status['error']	=	0;
@@ -133,7 +133,7 @@ class blogster_backend extends Libraries
 	}
 	public function publish()
 	{
-		if($this->tendoo_admin->actionAccess('publish_news','news'))
+		if($this->tendoo_admin->actionAccess('publish_news','blogster'))
 		{
 			js_push_if_not_exists('jquery-ui-1.10.4.custom.min');
 			css_push_if_not_exists('jquery-ui-1.10.4.custom.min');
@@ -197,7 +197,7 @@ class blogster_backend extends Libraries
 		js_push_if_not_exists('jquery-ui-1.10.4.custom.min');
 		css_push_if_not_exists('jquery-ui-1.10.4.custom.min');
 		
-		if(!$this->tendoo_admin->actionAccess('edit_news','news'))
+		if(!$this->tendoo_admin->actionAccess('edit_news','blogster'))
 		{
 			$this->url->redirect(array('admin','index?notice=accessDenied'));
 		}
@@ -269,7 +269,7 @@ class blogster_backend extends Libraries
 	}
 	public function category($e = 'index',$i = null)
 	{
-		if(!$this->tendoo_admin->actionAccess('category_manage','news'))
+		if(!$this->tendoo_admin->actionAccess('category_manage','blogster'))
 		{
 			$this->url->redirect(array('admin','index?notice=accessDenied'));
 		}
@@ -386,7 +386,7 @@ class blogster_backend extends Libraries
 	}
 	public function delete($se)
 	{
-		if(!$this->tendoo_admin->actionAccess('delete_news','news'))
+		if(!$this->tendoo_admin->actionAccess('delete_news','blogster'))
 		{
 			$result	= array(
 				'status'	=>		'warning',
@@ -416,7 +416,7 @@ class blogster_backend extends Libraries
 	}
 	public function comments($page	=	1)
 	{
-		if($this->tendoo_admin->actionAccess('blogster_manage_comments','news'))
+		if($this->tendoo_admin->actionAccess('blogster_manage_comments','blogster'))
 		{	
 			$this->data['setting']			=	$this->news->getBlogsterSetting();
 			$this->data['ttComments']		=	$this->news->countComments();
@@ -445,7 +445,7 @@ class blogster_backend extends Libraries
 	}
 	public function comments_manage($id)
 	{
-		if($this->tendoo_admin->actionAccess('blogster_manage_comments','news'))
+		if($this->tendoo_admin->actionAccess('blogster_manage_comments','blogster'))
 		{
 			$this->load->library('form_validation');
 			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
@@ -515,7 +515,7 @@ class blogster_backend extends Libraries
 	}
 	public function setting()
 	{
-		if($this->tendoo_admin->actionAccess('blogster_setting','news'))
+		if($this->tendoo_admin->actionAccess('blogster_setting','blogster'))
 		{
 			if(isset($_POST['update']))
 			{
@@ -579,7 +579,7 @@ class blogster_backend extends Libraries
 	}
 	public function tags($action = 'index', $page	=	1)
 	{
-		if(module_action('blogster_manage_tags','news'))
+		if(module_action('blogster_manage_tags','blogster'))
 		{
 			// Get All keyWords
 			$this->data['totalKeyWords']=	count($this->news->getAllPopularKeyWords('all'));

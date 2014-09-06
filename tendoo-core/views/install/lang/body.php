@@ -23,8 +23,8 @@
 										<label class="control-label">Choose your language / Choissisez votre langue</label> 
 										<select name="lang" class="form-control">
 											<option value="">Choose / Choisir</option>
-											<option value="FRE">French / Français</option>
-											<!--<option value="ENG">English / Anglais</option>-->
+											<option value="fr_FR">French / Français</option>
+											<!-- <option value="en_US">English / Anglais</option>-->
 										</select>
 									</div> 
 									<div class="line line-dashed"></div> 

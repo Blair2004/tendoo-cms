@@ -162,4 +162,6 @@
 
 [#]website_setting::Réglages généraux[#]
 
+[#]Welcome on tendoo::Bienvenue sur tendoo[#]
+
 [#]you_got::Vous avez[#]

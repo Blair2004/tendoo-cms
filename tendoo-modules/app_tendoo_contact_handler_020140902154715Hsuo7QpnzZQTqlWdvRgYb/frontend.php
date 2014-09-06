@@ -8,7 +8,7 @@ class tendoo_contact_handler_frontend extends Libraries
 		$this->data			=	$data;
 		$this->data[ 'page'	]	=	get_core_vars( 'page' );
 		$this->data[ 'module']	=	get_core_vars( 'module' );
-		$this->module_dir	=	MODULES_DIR.$this->data['module'][0]['encrypted_dir'];
+		$this->module_dir		=	MODULES_DIR . $this->data['module']['encrypted_dir'];
 		include_once($this->module_dir.'/library.php');
 		$this->lib			=	new tendoo_contact_handler_class();
 	}
@@ -42,7 +42,7 @@ class tendoo_contact_handler_frontend extends Libraries
 		get_core_vars('active_theme_object')->definePageTitle($this->data['page'][0]['PAGE_TITLE']);
 		get_core_vars('active_theme_object')->definePageDescription($this->data['page'][0]['PAGE_DESCRIPTION']);
 		
-		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module'][0]['encrypted_dir'].'/views/common_main',$this->data,true,TRUE) );
+		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module']['encrypted_dir'].'/views/common_main',$this->data,true,TRUE) );
 		
 		get_core_vars('active_theme_object')->head($this->data);
 		get_core_vars('active_theme_object')->body($this->data);

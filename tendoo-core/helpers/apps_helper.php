@@ -552,7 +552,7 @@
 					else if($i == 1)
 					{
 						?>
-				<div class="col-lg-5 draggable_widgets">
+				<div class="col-lg-4 draggable_widgets">
 					<?php echo __get_sections_widgets($admin_widgets,1);?>
 				</div>
 				<?php
@@ -560,7 +560,7 @@
 					else
 					{
 						?>
-				<div class="col-lg-3 draggable_widgets">
+				<div class="col-lg-4 draggable_widgets">
 					<?php echo __get_sections_widgets($admin_widgets,2);?>
 				</div>
 						<?Php

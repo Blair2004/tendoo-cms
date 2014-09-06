@@ -573,6 +573,8 @@ class Tendoo_admin extends Libraries
 	}
 	public function adminAccess($action_namespace,$action,$privilege,$object_namespace = '')
 	{
+		//var_dump( $action_namespace , $action , $privilege , $object_namespace );
+		//var_dump( '---------------' );
 		$query	=	$this->db->where('OBJECT_NAMESPACE',$object_namespace)->where('TYPE_NAMESPACE',$action_namespace)->where('REF_TYPE_ACTION',$action)->where('REF_PRIVILEGE',$privilege)->get('tendoo_privileges_actions');
 		$result = $query->result_array();
 		if(count($result) > 0)

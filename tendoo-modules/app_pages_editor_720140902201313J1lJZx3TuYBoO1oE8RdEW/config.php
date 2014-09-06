@@ -8,7 +8,8 @@ declare_module( 'pages_editor' , array(
 	'has_icon'			=>		TRUE,
 	'handle'			=>		'STATIC',
 	'compatible'		=>		1.3,
-	'version'			=>		0.5
+	'version'			=>		0.5,
+	'self_url_handle'	=>		TRUE
 ) ); 
 push_module_sql( 'pages_editor' , 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_pages` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
