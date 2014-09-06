@@ -64,9 +64,11 @@
 
 [#]install_step1_tendoo_device_description::<span>Tendoo offre un espace d'administration qui est compatible avec la plus part des supports mobiles. L'interface intuitif vous permet de gérer votre site web depuis un terminal mobile. Cet interface s'apadapte correctement aux dimensions de votre appareil, pour que le plaisir de naviguer sur votre appareil mobile soit identique &agrave; celui ressenti depuis un ordinateur.</span>[#]
 
-[#]Installation is now complete. We're taking you to your new website. This install process won't be no more visible...::Installation complète. Vous serez maintenant reirigé vers votre nouveau site. Ce processus d'installation ne sera plus disponible[#]
+[#]Installation is now complete. We're taking you to your new website. This install process won't be no more visible...::Installation complète. Vous serez maintenant redirigé vers votre nouveau site. Ce processus d'installation ne sera plus disponible.[#]
 
 [#]limit_to::Limiter à[#]
+
+[#]Log off::Déconnexion[#]
 
 [#]list of installed themes::Liste des thèmes installés[#]
 
@@ -119,7 +121,10 @@
 
 [#]Tendoo can now gain access to your database. Then now, you can provide information about your new website.::Tendoo peut désormais se connecter à la base de données. Maintenant, vous pouvez enregistrer certaines informations sur votre nouveau site web.[#]	
 
-[#]Tendoo is installing, just wait a while.::Tendoo est en cours d'installation, vueillez patienter s'il vous plait[#]
+/**
+**	tendoo-core/views/install/step/3/homebody.php [111]
+**/
+[#]Tendoo is installing, just wait a while.::Tendoo est en cours d'installation, veuillez patienter s'il vous plait[#]
 
 [#]tendoo_for_mobile::Tendoo pour appareil mobile[#]
 

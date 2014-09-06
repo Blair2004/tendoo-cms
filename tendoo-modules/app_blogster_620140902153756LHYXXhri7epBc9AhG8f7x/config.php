@@ -76,9 +76,25 @@ push_module_sql( 'blogster' , 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_new
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 ');
+push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news` 
+	(ID,TITLE,URL_TITLE,CONTENT,DATE,AUTEUR,ETAT,IMAGE,THUMB) values
+	(1, 'Bienvenue sur tendoo 1.3', 'bienvenue-sur-tendoo-1-3', \"Bienvenue sur tendoo,<br> Ceci est votre premier article. Vous pouvez le modifier, le supprimer ou en ajouter un autre en vous connectant au panneau d'administration. La rédaction d'article est assez simple en réalité, vous pouvez tout apprendre sur Tendoo en vous connectant à la plateforme et en suivant les différents tutoriels qui y sont. Vous pouvez également contribuer à la communauté en apportant vos avis et en aidant la communauté à créer un code beaucoup plus performant.En cas de souci, vous pouvez également contact l'équipe de développement.\", '".get_instance()->date->datetime()."', '1' , '1', '".img_url( 'Hub_back.png' )."', '".img_url( 'Hub_back.png' )."')"
+);	
 push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_category` 
 	(ID,CATEGORY_NAME,URL_TITLE,DESCRIPTION,DATE) values
 	(1, 'Catégorie sans nom', 'categorie-sans-nom', 'Ceci est votre première catégorie, vous pouvez en ajouter', '".get_instance()->date->datetime()."')");
+push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_keywords` 
+	(ID,TITLE,URL_TITLE,DESCRIPTION,AUTEUR) values
+	(1, 'tendoo', 'tendoo', 'Vous avez la possibilité d\'utiliser plusieurs mots-clés', '1')"
+);
+push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_ref_category` 
+	(ID,NEWS_REF_ID,CATEGORY_REF_ID) values
+	(1, '1', '1')"
+);
+push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_ref_keywords` 
+	(ID,NEWS_REF_ID,KEYWORDS_REF_ID) values
+	(1, '1', '1')"
+);
 push_module_action( 'blogster' , array(
 	'action'				=>	'publish_news',
 	'action_name'			=>	'Publier les articles',

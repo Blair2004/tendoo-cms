@@ -199,6 +199,58 @@ class Installation extends Libraries
 				$themes		=	get_themes( 'all' );
 				// Creating Config File
 				$this->createConfigFile();
+				// Consider changing the way admin icons are reconnized. Saving Admin Icon
+				get_instance()->meta_datas->set( 'admin_icons' , '$icons	=	array();$icons[]	=	"";$icons[]	=	"blogster/main_icon";$icons[]	=	"pages_editor/main_icon";$icons[]	=	"tendoo_contact_handler/main_icon";$icons[]	=	"tendoo_contents/main_icon";$icons[]	=	"tendoo_widget_administrator/main_icon";$icons[]	=	"tim/main_icon";' );
+				// Setting Logo URL
+				get_instance()->meta_datas->set( 'site_logo' , img_url( 'start_logo.png' ) );
+				// Creating Controllers
+				// Home
+				$this->tendoo_admin->controller(
+					"Accueil",
+					"home",
+					"tim",
+					"Accueil - " . get_meta( 'site_name' ),
+					"Un site Web utilisant Tendoo.",
+					"TRUE",
+					$obj = 'create',
+					$id = '',
+					$visible	=	'TRUE',
+					$childOf= 'none',
+					$page_link	=	'',
+					$keywords = 'tendoo, cms'
+				);
+				// Blog
+				$this->tendoo_admin->controller(
+					"Blog",
+					"blog",
+					"blogster",
+					"Blog - " . get_meta( 'site_name' ),
+					"Un site Web utilisant Tendoo.",
+					"FALSE",
+					$obj = 'create',
+					$id = '',
+					$visible	=	'TRUE',
+					$childOf= 'none',
+					$page_link	=	'',
+					$keywords = 'tendoo, cms, blog'
+				);
+				// Static
+				$this->tendoo_admin->controller(
+					"Nouvelle page",
+					"nouvelle-page",
+					"page_editor",
+					"Nouvelle page",
+					"Un site Web utilisant Tendoo.",
+					"FALSE",
+					$obj = 'create',
+					$id = '',
+					$visible	=	'TRUE',
+					$childOf= 'none',
+					$page_link	=	'',
+					$keywords = 'tendoo, cms, new page'
+				);				
+				// Setting Theme Config
+				get_instance()->meta_datas->set( 'flaty_theme_settings' , '{"slider":{"api_limit":"10","declared_apis":"blogster_get_blog_post","declared_item":"slider"},"testimony":{"testimony_big_title":"Tendoo c\'est \u00e9galement","testimony_big_description":"Plusieurs fonctionnalit\u00e9s, plusieurs th\u00e8mes et une communaut\u00e9 qui grandit chaque jour. Pourquoi utiliser Tendoo ?","testimony_content":{"level":{"0":"Je le trouve tr\u00e8s abouti pour un projet r\u00e9alis\u00e9 par une petite \u00e9quipe de b\u00e9n\u00e9voles.","1":"Je ne m\'attendais pas \u00e0 autant de succ\u00e8s, mais surtout de s\u00e9rieux dans le travail de mes coll\u00e8gues.","2":"C\'est certainement un projet qui ira loin. De toutes les fa\u00e7ons je suis d\u00e9cid\u00e9 \u00e0 apporter mon expertise.","3":"Nous avons beaucoup travaill\u00e9 pour atteindre ce r\u00e9sultat et nous en sommes fiers. Nous comptons proposer une v\u00e9ritable application gratuite pour tous les utilisateurs."}},"testimony_authors":{"level":{"0":"B. Jersyer","1":"Afromaster","2":"Lucas Ferry","3":"Sergey Rakovsky"}}},"list_services":{"section_text":"","section_textarea":"","title":{"level":{"0":"Suivez-nous sur Facebook","1":"Suivez-nous sur Twitter","2":"Google+"}},"link":{"level":{"0":"http:\/\/facebook.com\/tendoocms","1":"http:\/\/twitter.com\/","2":"http:\/\/plus.google.com"}},"description":{"level":{"0":"Toutes les actualit\u00e9s, les mises \u00e0 jours, les \u00e9v\u00e9nements sont disponibles sur facebook.","1":"Nous sommes \u00e9galement sur Twitter, ne manquez aucun de nos tweets.","2":"Ne ratez aucune de nos actualit\u00e9s sur Google+. Ajoutez-nous \u00e0 vos cercles."}},"icons":{"level":{"0":"facebook","1":"twitter","2":"google-plus"}}}}' );
 				if( $themes ){
 					foreach( $themes as $namespace	=>	$app_datas ){
 						// Activate module 

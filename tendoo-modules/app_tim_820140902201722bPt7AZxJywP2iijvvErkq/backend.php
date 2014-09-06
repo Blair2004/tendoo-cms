@@ -18,7 +18,7 @@ class tim_backend extends Libraries
 	public function index()
 	{
 		$active_theme 		= 	get_core_vars( 'active_theme' );
-		$setting_key		=	$active_theme[ 'NAMESPACE' ] . '_theme_settings';
+		$setting_key		=	$active_theme[ 'namespace' ] . '_theme_settings';
 		
 		$this->load->library( 'form_validation' );
 		
@@ -36,7 +36,7 @@ class tim_backend extends Libraries
 					'declared_apis'	=>	$this->input->post( 'declared_apis' ),
 					'declared_item'	=>	$this->input->post( 'declared_item' )
 				);
-				if( set_meta( $active_theme[ 'NAMESPACE' ] . '_theme_settings' , $saved_settings ) ){
+				if( set_meta( $active_theme[ 'namespace' ] . '_theme_settings' , $saved_settings ) ){
 					notice( 'push' , fetch_notice_output( 'done' ) );
 				}
 			}
@@ -47,7 +47,7 @@ class tim_backend extends Libraries
 			if( $static	= return_if_array_key_exists( 'static' , $_POST ) ){
 				if( is_array( $static ) ){
 					$active_theme	=	get_core_vars( 'active_theme' );
-					$saved_settings	=	get_meta( $active_theme[ 'NAMESPACE' ] . '_theme_settings' );
+					$saved_settings	=	get_meta( $active_theme[ 'namespace' ] . '_theme_settings' );
 					foreach( $static  as $namespace	=> $item ){
 						if( is_array( $item ) ){
 							foreach( $item as $name	=> $fields ){
@@ -55,7 +55,7 @@ class tim_backend extends Libraries
 							}
 						}
 					};
-					if( set_meta( $active_theme[ 'NAMESPACE' ] . '_theme_settings' , $saved_settings ) ){
+					if( set_meta( $active_theme[ 'namespace' ] . '_theme_settings' , $saved_settings ) ){
 						notice( 'push' , fetch_notice_output( 'done' ) );
 					}
 				}				

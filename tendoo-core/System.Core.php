@@ -35,9 +35,9 @@ Class instance extends Libraries
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		if( $this->is_installed == true ){
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-		load_modules();
-		load_themes();
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */ // Pourkoi pas tepas ici ?
+			load_modules();
+			load_themes();
+		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		}
 		if(strtolower($this->url->controller()) == 'install')
 		{
@@ -192,11 +192,12 @@ Class instance extends Libraries
 				// Connecte toi ou meurt, étrange connexion impossible à la bd.
 				if(!$this->db_connected())
 				{
-					$this->tendoo->error('db_connect_error');
-					die();
+					$this->tendoo->error('db_connect_error');die;
 				}
 				// Et les stats ?, on initialise
 				$this->load->library( 'stats' );
+				// As we do engage tepas, users_global should be loaded once.
+				$this->load->library( 'users_global' );
 				// Première super variable Tendoo
 				set_core_vars(	'options'	,	($this->data['options']				=	get_meta( 'all' ) )	,'readonly');
 				set_core_vars(	'controllers'	,	($this->data['controllers']		=	$this->tendoo->get_pages('',FALSE))	,'readonly');

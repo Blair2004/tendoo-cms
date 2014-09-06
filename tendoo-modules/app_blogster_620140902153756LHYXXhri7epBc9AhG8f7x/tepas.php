@@ -41,7 +41,7 @@ class blogster_tepas_class extends Libraries
 	}
 	public function public_context()
 	{
-		if(function_exists('declare_shortcut') && get_instance()->users_global->isConnected()){
+		if( function_exists('declare_shortcut') && get_instance()->users_global->isConnected()){
 			if($this->admin->actionAccess('publish_news',$this->module['namespace']))
 			{
 				declare_shortcut('Ecrire un article',$this->url->site_url(array('admin','open','modules',$this->module['namespace'],'publish')));

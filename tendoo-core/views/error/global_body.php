@@ -37,9 +37,9 @@
                                 else
                                 {
                                     ?>
-                            <a href="<?php echo $this->instance->url->site_url(array('login'));?>" class="list-group-item"> <i class="fa fa-chevron-right"></i> <i class="fa fa-signin"></i> Connexion </a> 
+                            <a href="<?php echo $this->instance->url->site_url(array('login'));?>" class="list-group-item"> <i class="fa fa-chevron-right"></i> <i class="fa fa-sign-in"></i> Connexion </a> 
                                     <?php
-                                    if($options[0]['ALLOW_REGISTRATION'] == '1')
+                                    if( riake( 'allow_registration' , $options ) == '1')
                                     {
                                     ?>
                             <a href="<?php echo $this->instance->url->site_url(array('registration'));?>" class="list-group-item"> <i class="fa fa-chevron-right"></i> <i class="fa fa-group"></i> Inscription </a> 

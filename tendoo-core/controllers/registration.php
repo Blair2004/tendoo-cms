@@ -24,7 +24,6 @@ Class registration extends Libraries
 	{
 		$this->load->library('pagination');
 		$this->load->library('form_validation');
-$this->instance->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
 		$this->input				=&	$this->instance->input;
 		$this->notice				=&	$this->instance->notice;
 		$this->file					=&	$this->instance->file;
@@ -48,13 +47,13 @@ $this->instance->form_validation->set_error_delimiters('<div class="alert alert-
 	{
 		$this->loadLibraries();				//	Affecting Libraries */
 		$this->construct_end();				// 	Fin du constructeur
+				
+		set_core_vars( 'options' , $options		=	get_meta( 'all' ) , 'read_only' );
 		
-		$this->data['options']		=	$this->instance->meta_datas->get();
-		if($this->data['options'][0]['ALLOW_REGISTRATION'] == '0')
+		if( riake( 'allow_registration' , $options ) == '0')
 		{
 			$this->instance->url->redirect(array('error','code','registrationNotAllowed'));
 		}
-		$this->instance->form_validation->set_error_delimiters('<span style="color:red">','</span>');
 		$this->instance->form_validation->set_rules('user_pseudo','Pseudo','trim|required|min_length[5]|max_length[15]');
 		$this->instance->form_validation->set_rules('user_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
 		$this->instance->form_validation->set_rules('user_password_confirm','Confirmer le mot de passe','trim|required|min_length[6]|max_length[15]');
@@ -62,7 +61,7 @@ $this->instance->form_validation->set_error_delimiters('<div class="alert alert-
 		$this->instance->form_validation->set_rules('user_sex','Selection du sexe','trim|required|min_length[3]|max_length[4]');
 		$this->instance->form_validation->set_rules('priv_id','Selection du privil&egrave;ge','trim|min_length[11]');
 		$this->instance->form_validation->set_rules('captchaCorrespondance','Code captcha','trim|required|min_length[6]');
-		$this->instance->form_validation->set_rules('user_captcha',' ','matches[captchaCorrespondance]|trim|required|min_length[6]');
+		$this->instance->form_validation->set_rules('user_captcha','Code de validation Captcha','matches[captchaCorrespondance]|trim|required|min_length[6]');
 		if($this->instance->form_validation->run())
 		{
 			$query	=	$this->instance->users_global->createUser(
@@ -82,7 +81,7 @@ $this->instance->form_validation->set_error_delimiters('<div class="alert alert-
 		$this->data['allowPrivilege']	=	$this->instance->tendoo_admin->getPublicPrivilege();
 		$this->instance->session->set_userdata('captcha_code',$this->instance->captcha->get());
 		$this->data['captcha']	=	$this->instance->session->userdata('captcha_code');
-		$this->data['pageTitle']	=	'Cr&eacute;er un compte - '.$this->data['options'][0]['SITE_NAME'];
+		$this->data['pageTitle']	=	'Cr&eacute;er un compte - '. riake( 'site_name' , $options );
 		set_page('title',$this->data['pageTitle']);
 		
 		$this->data['body']	=	$this->load->view('registration/createUser',$this->data,true);

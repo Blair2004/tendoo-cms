@@ -111,42 +111,6 @@ class Install extends Libraries
 				$this->url->redirect('install/etape/1/installError');
 			}
 		}
-		else if($i == 4) // Deprecated
-		{
-			if(!isset($_SESSION['secur_access']))
-			{
-				$this->url->redirect('install/etape/1');
-			}
-			else
-			{
-				if($_SESSION['secur_access'] != 4)
-				{
-					$this->url->redirect('install/etape/1');
-				}
-			}
-			if( isset( $_POST[ 'web_access' ] ) || isset( $_POST[ 'admin_access' ] ) ){
-				// Execute control
-				unset($_SESSION['secur_access']);
-				$this->installation->createConfigFile(); // Créer le fichier de configuration.
-				$this->instance	=	get_instance();
-				$this->instance->db_connect(); // Connecting to database
-				$this->options->set(array(
-					'ADMIN_ICONS'		=>	'$icons	=	array();$icons[]	=	"";$icons[]	=	"tendoo_index_manager/main_icon";$icons[]	=	"news/main_icon";$icons[]	=	"tendoo_contents/main_icon";$icons[]	=	"pages_editor/main_icon";$icons[]	=	"tendoo_contact_handler/main_icon";$icons[]	=	"tendoo_widget_administrator/main_icon";',	
-					'SITE_LOGO'			=>	img_url('tendoo_darken.png')	
-				));
-			}
-			if(isset($_POST['web_access']))
-			{
-				$this->url->redirect('index');
-			}
-			if(isset($_POST['admin_access']))
-			{
-				$this->url->redirect('admin');
-			}
-			set_page('title',translate('tendoo_install_final_step_title'));
-			$this->load->view('header',$this->data);
-			$this->load->view('install/step/4/homebody',$this->data);
-		}
 	}
 	public function createTables()
 	{

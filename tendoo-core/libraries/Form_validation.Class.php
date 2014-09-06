@@ -179,7 +179,7 @@ class Form_validation {
 	 * @param	string	the field name
 	 * @return	void
 	 */
-	public function error($field = '', $prefix = '', $suffix = '')
+	public function error($field = '', $prefix = '', $suffix = '' , $use_tendoo_wrapping_tag = true )
 	{
 		if ( ! isset($this->_field_data[$field]['error']) OR $this->_field_data[$field]['error'] == '')
 		{
@@ -195,8 +195,13 @@ class Form_validation {
 		{
 			$suffix = $this->_error_suffix;
 		}
-
-		return tendoo_warning($this->_field_data[$field]['error']);
+		if( $use_tendoo_wrapping_tag == true ){
+			return tendoo_warning($this->_field_data[$field]['error']);
+		}
+		else {
+			return $prefix . $this->_field_data[$field]['error'] . $suffix;
+		}
+		
 	}
 
 	// --------------------------------------------------------------------

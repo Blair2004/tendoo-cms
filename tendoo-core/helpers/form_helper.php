@@ -869,7 +869,7 @@ if ( ! function_exists('set_radio'))
  */
 if ( ! function_exists('form_error'))
 {
-	function form_error($field = '', $prefix = '', $suffix = '')
+	function form_error($field = '', $prefix = '', $suffix = '' , $user_tendoo_wrapping_tag = true )
 	{
 
 		if (FALSE === ($OBJ =& _get_validation_object()))
@@ -877,7 +877,7 @@ if ( ! function_exists('form_error'))
 			return '';
 		}
 
-		return $OBJ->error($field, $prefix, $suffix);
+		return $OBJ->error($field, $prefix, $suffix , $user_tendoo_wrapping_tag );
 	}
 }
 

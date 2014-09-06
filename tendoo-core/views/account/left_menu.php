@@ -45,7 +45,8 @@
                     <?php
 					}
 					?>
-                    <li> <a href="<?php echo $this->instance->url->site_url('index');?>"> <i class="fa fa-sign-out"></i> <span>Retour</span> </a> </li>
+                    <li> <a href="<?php echo $this->instance->url->site_url('index');?>"> <i class="fa fa-eye"></i> <span>Retour</span> </a> </li>
+                    <li> <a href="<?php echo $this->instance->url->site_url(array('logoff'));?>"> <i class="fa fa-sign-out"></i> <span><?php echo translate( 'Log off' );?></span> </a> </li>
                 </ul>
             </nav>
         </section>

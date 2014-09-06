@@ -1,12 +1,12 @@
 <?php
-$field_1	=	(form_error('user_pseudo')) ? form_error('user_pseudo') : '';
-$field_2	=	(form_error('user_password')) ? form_error('user_password') : '';
-$field_3	=	(form_error('user_password_confirm')) ? form_error('user_password_confirm') : '';
+$field_1	=	(form_error('user_pseudo')) ? form_error('user_pseudo' , '<span style="color:red">' , '</span>' , false ) : '';
+$field_2	=	(form_error('user_password')) ? form_error('user_password' , '<span style="color:red">' , '</span>' , false ) : '';
+$field_3	=	(form_error('user_password_confirm')) ? form_error('user_password_confirm' , '<span style="color:red">' , '</span>' , false ) : '';
 ;
-$field_4	=	(form_error('user_mail')) ? form_error('user_mail') : '';
-$field_5	=	(form_error('user_sex')) ? form_error('user_sex') : '';
-$field_6	=	(form_error('user_captcha')) ? form_error('user_captcha') : '';
-$field_7	=	(form_error('priv_id')) ? form_error('priv_id') : '';
+$field_4	=	(form_error('user_mail')) ? form_error('user_mail' , '<span style="color:red">' , '</span>' , false ) : '';
+$field_5	=	(form_error('user_sex')) ? form_error('user_sex' , '<span style="color:red">' , '</span>' , false ) : '';
+$field_6	=	(form_error('user_captcha')) ? form_error('user_captcha' , '<span style="color:red">' , '</span>' , false ) : '';
+$field_7	=	(form_error('priv_id')) ? form_error('priv_id' , '<span style="color:red">' , '</span>' , false ) : '';
 ;
 ?>
 <?php echo output('notice');?>
@@ -34,7 +34,7 @@ $field_7	=	(form_error('priv_id')) ? form_error('priv_id') : '';
                             <input class="form-control" type="text" name="user_mail" placeholder="Email"/>
                         </div>
                          <?php
-                        if($options[0]['ALLOW_PRIVILEGE_SELECTION'] == "1")
+                        if( riake( 'allow_privilege_selection' , $options ) == "1")
                         {
                         ?>
                         <div class="form-group">
