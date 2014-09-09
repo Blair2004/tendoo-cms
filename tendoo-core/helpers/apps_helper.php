@@ -529,7 +529,7 @@
 		$admin_widgets	=	get_core_vars( 'admin_widgets' );
 		if(is_array($admin_widgets))
 		{
-			$disabled_widgets	=	json_decode( current_user( 'ADMIN_WIDGETS_DISABLED' ) ,  true );
+			$disabled_widgets	=	current_user( 'ADMIN_WIDGETS_DISABLED' );
 			if( !get_meta('widget_0', 'from_user_meta' ) && !get_meta('widget_1', 'from_user_meta' ) && !get_meta('widget_2', 'from_user_meta' ) ){
 				?>
                 <div class="col-lg-12">
@@ -621,7 +621,7 @@
 	function admin_widget_is_enabled($widget_id) // "widget_namespace_module_namespace"
 	{
 		//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$userDisabledWidget	=	json_decode(current_user('ADMIN_WIDGETS_DISABLED'),true);
+		$userDisabledWidget	=	current_user('ADMIN_WIDGETS_DISABLED');
 		$userDisabledWidget	=	is_array($userDisabledWidget) ? $userDisabledWidget : array();
 		//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		if(in_array($widget_id,$userDisabledWidget))

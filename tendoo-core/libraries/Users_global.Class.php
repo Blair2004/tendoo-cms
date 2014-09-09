@@ -1112,7 +1112,7 @@ Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de
 	**/
 	public function isAdminWidgetEnabled($widget_id)
 	{
-		$adminWidgetsDisabled	=	json_decode(current_user('ADMIN_WIDGETS_DISABLED'),true);
+		$adminWidgetsDisabled	=	current_user( 'ADMIN_WIDGETS_DISABLED' );
 		$adminWidgetsDisabled	=	$adminWidgetsDisabled	==	null ? array() : $adminWidgetsDisabled;
 		// var_dump( current_user('ADMIN_WIDGETS_DISABLED') );
 		if(in_array($widget_id,array_values($adminWidgetsDisabled)))
