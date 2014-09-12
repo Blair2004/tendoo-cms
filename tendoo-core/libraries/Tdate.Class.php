@@ -51,6 +51,20 @@ class Tdate extends Libraries
 			11	=>	'Novembre',
 			12	=>	'Decembre'
 		);
+		$smonth					=	array(
+			1	=>	'Jan',
+			2	=>	'Fev',
+			3	=>	'Mar',
+			4	=>	'Avr',
+			5	=>	'Mai',
+			6	=>	'Jun',
+			7	=>	'Juil',
+			8	=>	'Aou',
+			9	=>	'Sept',
+			10	=>	'Oct',
+			11	=>	'Nov',
+			12	=>	'Dec'
+		);
 		$timeToArray			=	array(
 			'd'=>mdate('%d',$timestamp),
 			'y'=>mdate('%Y',$timestamp),
@@ -60,7 +74,8 @@ class Tdate extends Libraries
 			'i'=>mdate('%i',$timestamp),
 			's'=>mdate('%s',$timestamp),
 			't'=>mdate('%t',$timestamp),
-			'month'	=>	$month[mdate('%n',$timestamp)]
+			'smonth'	=>	$month[mdate('%n',$timestamp)],
+			'month'		=>	$month[mdate('%n',$timestamp)]
 		);
 		
 		if($toArray	==	true)

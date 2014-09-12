@@ -134,7 +134,7 @@
 	/**
 	*	loop_tags()	:	Parcours les mots-clés
 	**/
-	function loop_tags($tags,$options){
+	function loop_tags($tags,$options = array()){
 		return loop_helper($tags,$options);
 	}
 	function loop_helper($array,$options = array())	{
@@ -545,7 +545,7 @@
 								}
 							}
 							?>
-</<?php echo $li_parent;?>
+</<?php echo $li_parent;?>>
 <?php
 					}
 				}
@@ -776,7 +776,8 @@
 			'container'			=>		'div',
 			'container_class'	=>		'container-class',
 			'container_id'		=>		'container-id',
-			'word_limiter'		=>		10
+			'word_limiter'		=>		10,
+			'text_before_bread_loop'	=>	''
 		);
 		$config		=	array_merge( $default , $config );
 		return set_active_theme_vars( 'breadcrumbs_setup' , $config );
@@ -808,6 +809,7 @@
 		echo '<' . $config['container'] . ' class="' . $config['container_class'] . '" id="'. $config['container_id'] . '" >';
 			echo $config[ 'text_before_bread' ];
 			echo '<' . $config['wrapper'] . ' class="' . $config['wrapper_class'] . '" id="'. $config['wrapper_id'] . '" >';
+				echo $config[ 'text_before_bread_loop' ];
 				for( $i = 0; $i < count( $saved_bread ) ; $i++ )
 				{
 					if( isset( $saved_bread[$i + 1 ] ) )
@@ -871,12 +873,11 @@
 		$saved_items	=	get_active_theme_vars( 'theme_items' );
 		$style			=	return_if_array_key_exists( $namespace , $saved_items );
 		if( $style ){
-			
 			$has_loop		=	return_if_array_key_exists( 'has_loop' , $style );
 			$before_loop	=	return_if_array_key_exists( 'before_loop' , $style );
 			$after_loop		=	return_if_array_key_exists( 'after_loop' , $style );
 			$the_loop_item	=	return_if_array_key_exists( 'the_loop_item' , $style );
-			$is_static		=	return_if_array_key_exists( 'item_loopable_fields' , $style ) && return_if_array_key_exists( 'item_global_fields' , $style );
+			$is_static		=	return_if_array_key_exists( 'item_loopable_fields' , $style ) || return_if_array_key_exists( 'item_global_fields' , $style );
 			// Si l'élément est statique
 			if( $is_static ){
 				// $datas		=	$style;

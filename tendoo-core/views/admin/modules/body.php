@@ -85,7 +85,7 @@
 													?>
 													<hr class="line-dashed" style="margin:5px 0;">
 												<div style="color:#FF6464"><i class="fa fa-warning" style="font-size:20px;"></i> 
-												Le thème actif <strong>"<?php echo $active_theme['HUMAN_NAME'];?>"</strong> n'est pas compatible avec ce module.</div>
+												Le thème actif <strong>"<?php echo $active_theme['human_name'];?>"</strong> n'est pas compatible avec ce module.</div>
 													<?php
 													}
 													?>

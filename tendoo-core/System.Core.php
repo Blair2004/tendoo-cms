@@ -240,7 +240,7 @@ Class instance extends Libraries
 					$this->stats->addVisit(); // Add visit to global stats
 					if( TRUE !== ( $active_theme = does_active_theme_support( $module[ 'handle' ] ) ) )
 					{
-						// $this->url->redirect(array('error','code','active_theme_does_not_handle_that'));
+						$this->url->redirect(array('error','code','active_theme_does_not_handle_that'));
 					}
 					if($this->data['module_url']	==	'noMainPage')
 					{
@@ -260,7 +260,6 @@ Class instance extends Libraries
 						}
 						else 
 						{
-							die;
 							$this->url->redirect(array('error','code','themeCrashed'));
 						}
 						// Gestion des modules globaux ? déprécié ?

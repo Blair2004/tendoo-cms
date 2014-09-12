@@ -32,7 +32,7 @@ class tendoo_theme_tepas_class
 	}
 	public function set_compatibility()
 	{
-		active_theme_compatibility( array( 'BLOG' , 'INDEX' , 'CONTACT' , 'STATIC' , 'WIDGETS' ) );
+		active_theme_compatibility( array( 'BLOG' , 'CONTACT' , 'STATIC' , 'WIDGETS' ) );
 	}
 	private function widget_definition()
 	{
