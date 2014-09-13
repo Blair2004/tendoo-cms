@@ -5,15 +5,33 @@ class tim_backend extends Libraries
 	{
 		parent::__construct();
 		__extends($this);
-		// $this->load->library( 'GUI' );
-		$this->module_metas	=	get_core_vars( 'opened_module' );
-		setup_admin_left_menu( 'TIM' , 'star' );
-		add_admin_left_menu( 'Accueil' , module_url( array( 'index' ) ) );
-		// **
-		// declare_notices( 'posted' ,tendoo_success( 'Message envoyé.' ) );
-		// **
-		set_core_vars( 'page_title' , "Bonjour" );
+		$this->_config();
+		$this->data						=	$data;
+		$this->instance					=	get_instance();
+		$this->opened_module			=	get_core_vars( 'opened_module' );
+		$this->data['module']			=	get_core_vars( 'opened_module' );
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$fileManager					=	get_modules( 'filter_namespace' , 'tendoo_contents' );
+		if($fileManager)
+		{
+			include_once(MODULES_DIR.$fileManager['encrypted_dir'].'/utilities.php');
+			set_core_vars( 'fmlib' ,	new tendoo_contents_utility() ); // Loading library
+		}
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
+		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
+		$this->link						=	MODULES_DIR.$this->opened_module['encrypted_dir'].'/';
+		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		
+		// ???
+		$this->module_metas				=&	$this->opened_module;
+		// ???
+		// $this->load->library( 'GUI' );
+	}
+	private function _config()
+	{
+		setup_admin_left_menu( 'Theme Customizer' , 'star' );
+		add_admin_left_menu( 'Accueil' , module_url( array( 'index' ) ) );
 	}
 	public function index()
 	{
@@ -66,6 +84,6 @@ class tim_backend extends Libraries
 				
 		set_page( 'title' , 'TIM | ' . get( 'core_version' ) );
 		
-		return $this->load->view( $this->module_metas[ 'uri_path' ].'views/body', array() , true , true );
+		return $this->load->view( $this->module_metas[ 'uri_path' ].'views/body', $this->data , true , true );
 	}
 }

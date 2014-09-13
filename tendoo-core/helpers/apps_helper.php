@@ -748,7 +748,7 @@
 	function get_admin_left_menus(){
 		$saved_menu			=		get_core_vars( 'admin_left_menus' );
 		$left_menu_config	=		get_core_vars( 'admin_left_menu' );
-		if( $left_menu_config )
+		if( $left_menu_config || $saved_menu )
 		{
 		?>
         <li class="dropdown-submenu">

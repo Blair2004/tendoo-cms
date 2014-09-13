@@ -8,9 +8,20 @@ class tim_frontend extends Libraries
 		$this->data			=	$data;
 		$this->data[ 'page'	]	=	get_core_vars( 'page' );
 		$this->data[ 'module']	=	get_core_vars( 'module' );
+		$this->data['current_page']		=	get_core_vars( 'page' );
+		// Setting Bread
+		$this->data['current_page']		=	get_core_vars( 'page' );
+		set_bread( array (
+			'link'	=>	get_instance()->url->site_url(array($this->data['current_page'][0]['PAGE_CNAME'])),
+			'text'	=>	$this->data['current_page'][0]['PAGE_CNAME']
+		) );
+		// End
 	}
 	public function index()
 	{
+		// Bread
+		
+		//
 		set_page('title',$this->data['page'][0]['PAGE_TITLE']);
 		set_page('description',$this->data['page'][0]['PAGE_DESCRIPTION']);
 		get_core_vars('active_theme_object')->definePageTitle($this->data['page'][0]['PAGE_TITLE']);

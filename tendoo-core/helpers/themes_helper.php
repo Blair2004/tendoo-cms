@@ -895,7 +895,7 @@
 			{
 				if( has_events( 'handle_' . $namespace ) )
 				{
-					trigger_events( 'handle_' . $namespace , $datas );
+					return trigger_events( 'handle_' . $namespace , $datas );
 				}
 				else
 				{

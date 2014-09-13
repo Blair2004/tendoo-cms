@@ -17,14 +17,13 @@ window.onload = loadScript;
  * define the coordinates of your company
  */
 
-lat = 28.65850;
-lng = 77.20341;
+lat = site_latitude;
+lng = site_longitude;
 
 var map;
 var MY_MAPTYPE_ID = 'custom_style';
  
 function initialize() {
-
 	  var featureOpts = [
 		 {
 				"featureType": "landscape",

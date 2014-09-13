@@ -106,7 +106,7 @@ class eva_theme_tepas_class
 	private function items_definition()
 	{
 		// <li data-target="#main-slider" data-slide-to="0" class="active"></li>
-		$config		=	array(
+		/* declare_item( 'slider' , array(
 			'has_loop'		=>		true,
 			'before_loop'	=>		
 			'<section id="main-slider" class="no-margin">
@@ -153,29 +153,10 @@ class eva_theme_tepas_class
 			'human_name'		=>	'Slider',
 			'draggable'			=>	false,
 			'description'		=>	'Ajouter un slider à votre page d\'accueil'
-		);
-		declare_item( 'slider' , $config  );
-		$config		=	array(
+		)  ); */
+		declare_item( 'list_services' , array(
 			'has_loop'			=>	true, 
-			'before_loop'		=>	'<section id="services" class="emerald"><div class="container"><div class="row">',
-			'after_loop'		=>	'</div></div></section>',
-			'the_loop_item'		=>	array(
-				'<div class="col-md-4 col-sm-6">',
-                    '<div class="media">',
-                        '<div class="pull-left">',
-                            '<i class="icon-google-plus icon-md"></i>',
-                        '</div>',
-                        '<div class="media-body">',
-                            '<h3 class="media-heading">',
-							'[title]',
-							'</h3>',
-                            '<p>',
-							'[content]',
-							'</p>',
-                        '</div>',
-                    '</div>',
-                '</div>'),
-			'human_name'		=>	'Liste des services',
+			'human_name'		=>	'[ Accueil - 1 ] Liste des services',
 			'draggable'		=>	false,
 			'item_loopable_fields'		=>	array(
 				array(
@@ -196,32 +177,80 @@ class eva_theme_tepas_class
 				array(
 					'input_type'		=>	'select',
 					'input_value'		=>	array(
+						array( 'text' =>	'icone Malette' , 'value'	=>	'briefcase' ),
+						array( 'text' =>	'icone MégaPhone' , 'value'	=>	'bullhorn' ),
+						array( 'text' =>	'icone Archive' , 'value'	=>	'archive' ),
+						array( 'text' =>	'icone Graphisme statistique' , 'value'	=>	'area-chart' ),
+						array( 'text' =>	'icone Maison' , 'value'	=>	'home' ),
+						array( 'text' =>	'icone Fusée' , 'value'	=>	'rocket' ),
+						array( 'text' =>	'icone Pouce Ok' , 'value'	=>	'thumbs-o-up' ),
+						array( 'text' =>	'icone Ordinateur' , 'value'	=>	'laptop' ),
+						array( 'text' =>	'icone cadeau' , 'value'	=>	'gift' ),
+						array( 'text' =>	'icone Groupe de personnes' , 'value'	=>	'group' ),						
+						array( 'text' =>	'icone Note musicale' , 'value'	=>	'music' ),
+						array( 'text' =>	'icone Etoile+' , 'value'	=>	'star-o' ),
+						array( 'text' =>	'icone Windows' , 'value'	=>	'windows' ),
+						array( 'text' =>	'icone WordPress' , 'value'	=>	'Wordpress' ),
+						array( 'text' =>	'icone yahoo' , 'value'	=>	'yahoo' ),
 						array( 'text' =>	'icone facebook' , 'value'	=>	'facebook' ),
-						array( 'text' =>	'icone twitter' , 'value'	=>	'twitter' ),
-						array( 'text' =>	'icone google+' , 'value'	=>	'google-plus' ),
+						array( 'text' =>	'icone dribbble' , 'value'	=>	'dribbble' ),
+						array( 'text' =>	'icone Github' , 'value'	=>	'github-alt' ),
+						array( 'text' =>	'icone Google +' , 'value'	=>	'google-plus' ),
+						array( 'text' =>	'icone Linkedin' , 'value'	=>	'linkedin-square' ),
+						array( 'text' =>	'icone Pinterest' , 'value'	=>	'pinterest-square' ),
+						array( 'text' =>	'icone Twitter' , 'value'	=>	'twitter-square' ),
+						array( 'text' =>	'icone Youtube' , 'value'	=>	'youtube' ),
 					),
 					'input_name'		=>	'icons',
 					'input_title'		=>	'Attribuer une icone'
 				)
 			),
-			'item_global_fields'	=>	array(
-				array(
-					'input_type'		=>	'text',
-					'input_name'		=>	'section_text',
-					'input_title'		=>	'Titre de la section',
-					'input_placeholder'	=>	'Entrez le titre ici'
-				),
-				array(
-					'input_type'		=>	'textarea',
-					'input_name'		=>	'section_textarea',
-					'input_title'		=>	'Description de la section'
-				)
-			),
 			'is_static'			=>	true,
 			'description'		=>	'Afficher les différents services que vous proposez'
-		);
-		declare_item( 'list_services' , $config );
-		$config		=	array(
+		) );
+		declare_item( 'recents_works' , array(
+			'has_loop'			=>	true, 
+			'human_name'		=>	'[ Accueil - 1 ] Travaux récents',
+			'draggable'		=>	false,
+			'item_global_fields'		=>	array(
+				array(
+					'input_type'			=>	'text',
+					'input_name'			=>	'global_title',
+					'input_title'			=>	'Titre de la section',
+					'input_placeholder'		=>	'"Nos projets récents" par exemple'
+				),
+			),
+			'item_loopable_fields'		=>	array(
+				array(
+					'input_type'		=>	'text',
+					'input_name'		=>	'title',
+					'input_title'		=>	'Titre'
+				),
+				array(
+					'input_type'		=>	'text',
+					'input_name'		=>	'category',
+					'input_title'		=>	'Categorie'
+				),
+				array(
+					'input_type'		=>	'media_lib',
+					'input_name'		=>	'full_image',
+					'input_title'		=>	'Lien Image Dimensions réelles'
+				),
+				array(
+					'input_type'		=>	'media_lib',
+					'input_name'		=>	'thumb_image',
+					'input_title'		=>	'Lien Image Aperçu'
+				),
+				array(
+					'input_type'		=>	'text',
+					'input_name'		=>	'link',
+					'input_title'		=>	'Lien Vers le projet'
+				),
+			),
+			'is_static'			=>	true,
+			'description'		=>	'Affichez vos derniers travaux sur la page d\'accueil'
+		) );
+		/* declare_item( 'testimony'  , array(
 			'draggable'					=>	false,
 			'human_name'				=>	'Ajouter des témoignages',
 			'is_static'					=>	true,
@@ -254,9 +283,64 @@ class eva_theme_tepas_class
 				)
 			),
 			'description'				=>	'Vous permet d\'ajouter des témoignages sur votre page d\'accueil'
-		);
-		declare_item( 'testimony'  , $config );
-		// 
+		) ); */
+		declare_item( 'theme_color_and_style' , array(
+			'draggable'					=>	false,
+			'human_name'				=>	'[Style et Mise en page]',
+			'is_static'					=>	true,
+			'namespace'					=>	'theme_color_and_style',
+			'item_global_fields'	=>	array(
+				array(
+					'input_type'		=>	'select',
+					'input_value'		=>	array(
+						array( 'text'	=>	'rouge' , 'value'	=>	'red' ),
+						array( 'text'	=>	'rose' , 'value'	=>	'pink' ),
+						array( 'text'	=>	'bleu' , 'value'	=>	'blue' ),
+						array( 'text'	=>	'orange' , 'value'	=>	'orange' ),
+						array( 'text'	=>	'violet' , 'value'	=>	'purple' ),
+						array( 'text'	=>	'Cyan Sombre' , 'value'	=>	'darkcyan' ),
+						array( 'text'	=>	'Cyan' , 'value'	=>	'cyan' ),
+					),
+					'input_name'		=>	'background',
+					'input_title'		=>	'Choisir une style',
+					'input_placeholder'	=>	'Entrez la valeur'
+				),
+				array(
+					'input_type'		=>	'select',
+					'input_value'		=>	array(
+						array( 'text'	=>	'Pleine Largeur' , 'value'	=>	'fullwidth' ),
+						array( 'text'	=>	'Dans une boite' , 'value'	=>	'boxed' ),
+					),
+					'input_name'		=>	'box_style',
+					'input_title'		=>	'Style de la boite',
+					'input_placeholder'	=>	'Entrez la valeur'
+				),
+				array(
+					'input_type'		=>	'select',
+					'input_value'		=>	array(
+						array( 'text'	=>	'Crossed' , 'value'	=>	'crossed' ),
+						array( 'text'	=>	'Fabric' , 'value'	=>	'fabric' ),
+						array( 'text'	=>	'Linen' , 'value'	=>	'linen' ),
+						array( 'text'	=>	'Wood' , 'value'	=>	'wood' ),
+						array( 'text'	=>	'Daigmonds' , 'value'	=>	'diagmonds' ),
+						array( 'text'	=>	'Triangles' , 'value'	=>	'triangles' ),
+						array( 'text'	=>	'Black Mamba' , 'value'	=>	'black_mamba' ),
+						array( 'text'	=>	'Vichy' , 'value'	=>	'vichy' ),
+						array( 'text'	=>	'Black Pattern' , 'value'	=>	'back_pattern' ),
+						array( 'text'	=>	'Checkered Pattern' , 'value'	=>	'checkered_pattern' ),
+						array( 'text'	=>	'Diamond Upholstery' , 'value'	=>	'diamond_upholstery' ),
+						array( 'text'	=>	'Lyonnette' , 'value'	=>	'lyonnette' ),
+						array( 'text'	=>	'Graphy' , 'value'	=>	'graphy' ),
+						array( 'text'	=>	'Black Thread' , 'value'	=>	'black_thread' ),
+						array( 'text'	=>	'Subtlenet 2' , 'value'	=>	'subtlenet2' ),
+					),
+					'input_name'		=>	'bg_image',
+					'input_title'		=>	'Image d\'arrière-plan',
+					'input_placeholder'	=>	'Entrez la valeur'
+				),
+			),
+			'description'				=>	"Modifiez le style de votre thème. Attribuer une coleur générale et le type de la mise en page ('boxed' ou 'full-width')."
+		) );
 		$config		=	array(
 			'draggable'					=>	false,
 			'human_name'				=>	'[En-tête] Liens vers les réseaux sociaux',
@@ -344,7 +428,7 @@ class eva_theme_tepas_class
 		declare_item( 'footer_social_feeds'  , $config );
 		declare_item( 'contact_get_social' , array(
 			'draggable'					=>	false,
-			'human_name'				=>	'[Contact] Liens vers les réseaux sociaux',
+			'human_name'				=>	'[Contact - 1] Liens vers les réseaux sociaux',
 			'is_static'					=>	true,
 			'namespace'					=>	'contact_get_social',
 			'item_loopable_fields'		=>	array(
@@ -382,7 +466,7 @@ class eva_theme_tepas_class
 		) );
 		declare_item( 'contact_datas' , array( 
 			'draggable'					=>	false,
-			'human_name'				=>	'[Contact] Informations de la page de contact',
+			'human_name'				=>	'[Contact - 1] Informations de la page de contact',
 			'is_static'					=>	true,
 			'namespace'					=>	'contact_datas',
 			'item_global_fields'	=>	array(
@@ -411,9 +495,60 @@ class eva_theme_tepas_class
 					'input_placeholder'	=>	'Entrez le titre ici'
 				),
 			),
+			'item_loopable_fields'		=>	array(
+				array(
+					'input_type'		=>	'select',
+					'input_name'		=>	'social_feeds_icon',
+					'input_title'		=>	'Icône pour le lien vers le réseau social',
+					'input_placeholder'	=>	'Entrez le titre ici',
+					'input_value'		=>	array(
+						array( 'text' =>	'icone Map Marker' , 'value'	=>	'map-marker' ),
+						array( 'text' =>	'icone User' , 'value'	=>	'user' ),
+						array( 'text' =>	'icone Mail' , 'value'	=>	'envelope' ),
+						array( 'text' =>	'icone Terre' , 'value'	=>	'globe' ),
+					)
+				),
+				array(
+					'input_type'		=>	'text',
+					'input_name'		=>	'social_feeds_title',
+					'input_title'		=>	'Titre de l\'icône',
+					'input_placeholder'	=>	'Entrez le titre ici'
+				),
+				array(
+					'input_type'		=>	'text',
+					'input_name'		=>	'social_feeds_value',
+					'input_title'		=>	'Valeur de l\'icône',
+					'input_placeholder'	=>	'Entrez le titre ici'
+				),
+			),
 			'description'				=>	"Personnalisez les informations disponibles sur la page des contact. Cette section est considéré comme la section \"A propos de nous\"."
 		) );
+		declare_item( 'contact_gmap_data' , array( 
+			'draggable'					=>	false,
+			'human_name'				=>	'[Contact - 1] Google Map',
+			'is_static'					=>	true,
+			'namespace'					=>	'contact_gmap_data',
+			'item_global_fields'	=>	array(
+				array(
+					'input_type'		=>	'text',
+					'input_name'		=>	'gmap_longitude',
+					'input_title'		=>	'Longitude',
+					'input_placeholder'	=>	'Entrez la valeur'
+				),
+				array(
+					'input_type'		=>	'text',
+					'input_name'		=>	'gmap_latitude',
+					'input_title'		=>	'Latitude',
+					'input_placeholder'	=>	'Entrez la valeur'
+				),
+			),
+			'description'				=>	"Définissez l'emplacement géographique de votre entreprise, en longitude et latitude."
+		) );
 		// Bind Events
+		bind_event( 'handle_recents_works' , array( $this , 'recents_works' ) );
+		bind_event( 'handle_theme_color_and_style' , array( $this , 'return_values' ) ) ;
+		bind_event( 'handle_contact_gmap_data' , array( $this , 'return_values' ) ) ;
+		bind_event( 'handle_contact_datas' , array( $this , 'return_values' ) ) ;
 		bind_event( 'handle_contact_get_social' , array( $this , 'contact_get_social' ) ) ;
 		bind_event( 'handle_footer_social_feeds' , array( $this , 'footer_social_feeds' ) );
 		bind_event( 'handle_header_datas' , array( $this , 'header_datas' ) );
@@ -423,17 +558,91 @@ class eva_theme_tepas_class
 		bind_event( 'loop_slider_lines' , array( $this , 'loop_slider' ) );
 		bind_event( 'handle_testimony' , array( $this , 'testimony' ) );
 	}
+	function recents_works( $array )
+	{
+		/**
+		* 	OK
+		**/
+		$var			=	return_if_array_key_exists( 'title' , $array );
+		$titles			=	return_if_array_key_exists( 'level' , $var );
+		
+		$var			=	return_if_array_key_exists( 'category' , $array );
+		$categories		=	return_if_array_key_exists( 'level' , $var );
+		
+		$var			=	return_if_array_key_exists( 'full_image' , $array );
+		$full_images	=	return_if_array_key_exists( 'level' , $var );
+		
+		$var			=	return_if_array_key_exists( 'thumb_image' , $array );
+		$thumb_image	=	return_if_array_key_exists( 'level' , $var );
+				
+		$link_lev		=	return_if_array_key_exists( 'link' , $array );
+		$links			=	return_if_array_key_exists( 'level' , $link_lev );
+		
+		if( count( $titles ) == count( $categories ) && count( $full_images ) == count( $links ) ) // ...
+		{
+		?>
+
+<section class="latest_work">
+    <div class="container">
+        <div class="row sub_content">
+            <div class="carousel-intro">
+                <div class="col-md-12">
+                    <div class="dividerHeading">
+                        <h4><span><?php echo ( $title = riake( 'global_title' , $array ) ) ? $title : "Custom Title";?></span></h4>
+                    </div>
+                    <div class="carousel-navi">
+                        <div id="work-prev" class="arrow-left jcarousel-prev" data-jcarouselcontrol="true"><i class="fa fa-angle-left"></i></div>
+                        <div id="work-next" class="arrow-right jcarousel-next active" data-jcarouselcontrol="true"><i class="fa fa-angle-right"></i></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="jcarousel recent-work-jc" data-jcarousel="true" style="height: 162px;">
+                <ul class="jcarousel-list" style="left: 0px;">
+                    <!-- Recent Work Item -->
+                    <?php
+					if( count( $titles ) == count( $categories ) && count( $full_images ) == count( $thumb_image ) ) // :)
+					{
+						for($i = 0 ; $i < count( $titles ) ; $i ++ ){
+					?>
+                    <li class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="recent-item">
+                            <figure>
+                                <div class="touching medium"> <img src="<?php echo $thumb_image[ $i ];?>" alt="" width="530"> </div>
+                                <div class="option"> <a href="<?php echo $full_images[ $i ];?>" class="hover-zoom mfp-image"><i class="fa fa-search"></i></a> <a href="<?php echo $links[ $i ];?>" class="hover-link"><i class="fa fa-link"></i></a> </div>
+                                <figcaption class="item-description">
+                                    <h5><?php echo $titles[ $i ];?></h5>
+                                    <span><?php echo $categories[ $i ];?></span> </figcaption>
+                            </figure>
+                        </div>
+                    </li>
+                    <?php
+						}
+					}
+					?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+		}
+	}
+	function return_values( $array )
+	{
+		return $array;
+	}
 	function contact_get_social( $array )
 	{
 		?>
-        <div class="dividerHeading">
-            <h4><span><?php echo riake( 'get_social_title' , $array	 );?></span></h4>
-        </div>
-        <?php
+<div class="dividerHeading">
+    <h4><span><?php echo riake( 'get_social_title' , $array	 );?></span></h4>
+</div>
+<?php
 		$index	=	count( $array[ 'social_links' ][ 'level' ] );
 			?>
-            <ul class="widget_social">
-            <?php
+<ul class="widget_social">
+    <?php
 			for( $i = 0 ; $i < $index ; $i++ )
 			{
 				$background	=	$array[ 'social_icons' ][ 'level' ][ $i ];
@@ -450,12 +659,12 @@ class eva_theme_tepas_class
 					$background	=	'twtr';
 				}
 				?>
-                <li><a class="<?php echo $background;?>" href="<?php echo $array[ 'social_links' ][ 'level' ][ $i ];?>" data-placement="bottom" data-toggle="tooltip" title="<?php echo $array[ 'social_icons' ][ 'level' ][ $i ];?>"><i class="fa fa-<?php echo $array[ 'social_icons' ][ 'level' ][ $i ];?>"></i></a></li>
-                <?php
+    <li><a class="<?php echo $background;?>" href="<?php echo $array[ 'social_links' ][ 'level' ][ $i ];?>" data-placement="bottom" data-toggle="tooltip" title="<?php echo $array[ 'social_icons' ][ 'level' ][ $i ];?>"><i class="fa fa-<?php echo $array[ 'social_icons' ][ 'level' ][ $i ];?>"></i></a></li>
+    <?php
 			}
 			?>
-            </ul>
-            <?php
+</ul>
+<?php
 	}
 	function footer_social_feeds( $array )
 	{
@@ -463,8 +672,8 @@ class eva_theme_tepas_class
 		{
 			$index	=	count( $array[ 'social_links' ][ 'level' ] );
 			?>
-            <ul class="footbot_social">
-            <?php
+<ul class="footbot_social">
+    <?php
 			for( $i = 0 ; $i < $index ; $i++ )
 			{
 				$background	=	$array[ 'social_icons' ][ 'level' ][ $i ];
@@ -481,12 +690,12 @@ class eva_theme_tepas_class
 					$background	=	'twtr';
 				}
 				?>
-                <li><a class="<?php echo $background;?>" href="<?php echo $array[ 'social_links' ][ 'level' ][ $i ];?>" data-placement="top" data-toggle="tooltip" title="<?php echo $array[ 'social_icons' ][ 'level' ][ $i ];?>"><i class="fa fa-<?php echo $array[ 'social_icons' ][ 'level' ][ $i ];?>"></i></a></li>
-                <?php
+    <li><a class="<?php echo $background;?>" href="<?php echo $array[ 'social_links' ][ 'level' ][ $i ];?>" data-placement="top" data-toggle="tooltip" title="<?php echo $array[ 'social_icons' ][ 'level' ][ $i ];?>"><i class="fa fa-<?php echo $array[ 'social_icons' ][ 'level' ][ $i ];?>"></i></a></li>
+    <?php
 			}
 			?>
-            </ul>
-            <?php
+</ul>
+<?php
 		}
 	}
 	function header_datas( $array )
@@ -497,8 +706,8 @@ class eva_theme_tepas_class
 			for( $i = 0 ; $i < $index ; $i++ )
 			{
 				?>
-                <span><i class="fa fa-<?php echo $array[ 'header_icon' ][ 'level' ][ $i ];?>"></i><?php echo $array[ 'header_text' ][ 'level' ][ $i ];?></span>
-                <?php
+<span><i class="fa fa-<?php echo $array[ 'header_icon' ][ 'level' ][ $i ];?>"></i><?php echo $array[ 'header_text' ][ 'level' ][ $i ];?></span>
+<?php
 			}
 		}
 	}
@@ -508,17 +717,17 @@ class eva_theme_tepas_class
 		{
 			$index	=	count( $array[ 'social_links' ][ 'level' ] );
 			?>
-            <ul>
-            <?php
+<ul>
+    <?php
 			for( $i = 0 ; $i < $index ; $i++ )
 			{
 				?>
-                <li><a href="<?php echo $array[ 'social_links' ][ 'level' ][ $i ];?>" class="my-tweet"><i class="fa fa-<?php echo $array[ 'social_icons' ][ 'level' ][ $i ];?>"></i></a></li>
-                <?php
+    <li><a href="<?php echo $array[ 'social_links' ][ 'level' ][ $i ];?>" class="my-tweet"><i class="fa fa-<?php echo $array[ 'social_icons' ][ 'level' ][ $i ];?>"></i></a></li>
+    <?php
 			}
 			?>
-            </ul>
-            <?php
+</ul>
+<?php
 		}
 	}
 	public function testimony( $array )
@@ -531,52 +740,51 @@ class eva_theme_tepas_class
 		$authors		=	return_if_array_key_exists( 'level' , $test_a );
 		if( $testimonies && $authors ){
 		?>
-        <section id="testimonial" class="alizarin">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="center">
-                        <h2><?php echo $big_title;?></h2>
-                        <p><?php echo $big_desc;?></p>
-                    </div>
-                    <div class="gap"></div>
-                    <div class="row">
-                    	<?php
+<section id="testimonial" class="alizarin">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="center">
+                    <h2><?php echo $big_title;?></h2>
+                    <p><?php echo $big_desc;?></p>
+                </div>
+                <div class="gap"></div>
+                <div class="row">
+                    <?php
 						if( is_array( $testimonies ) && is_array( $authors ) )
 						{
 							if( count( $testimonies ) == count( $authors ) )
 							{
 						?>
-                        <div class="col-md-6">
-                        	<?php
+                    <div class="col-md-6">
+                        <?php
 							$_i = 0;
 								for( $i = 0 ; $i < count( $testimonies ) ; $i++ )
 								{
 									?>
-								<blockquote>
-									<p><?php echo return_if_array_key_exists( $i , $testimonies );?></p>
-									<small><?php echo return_if_array_key_exists( $i , $authors );?></small>
-								</blockquote>
-									<?php
+                        <blockquote>
+                            <p><?php echo return_if_array_key_exists( $i , $testimonies );?></p>
+                            <small><?php echo return_if_array_key_exists( $i , $authors );?></small> </blockquote>
+                        <?php
 									if( $_i == 1 ){
 										$_i = -1;
 										?>
-                            </div>
-                            <div class="col-md-6">
-										<?php	
+                    </div>
+                    <div class="col-md-6">
+                        <?php	
 									}
 									$_i++;
 								}
 							}
 						}
 						?>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-        <?php
+    </div>
+</section>
+<?php
 		}
 	}
 	public function list_services( $array )
@@ -592,34 +800,32 @@ class eva_theme_tepas_class
 		$icons			=	return_if_array_key_exists( 'level' , $icon_lev );
 		$link_lev		=	return_if_array_key_exists( 'link' , $array );
 		$links			=	return_if_array_key_exists( 'level' , $link_lev );
+		if( count( $titles ) == count( $description ) && count( $icons ) == count( $titles ) )
+		{
 		?>
-        <section id="services" class="emerald">
-        <div class="container" style="padding:40px 0px">
-            <div class="row">
-            	<?php
+<section class="info_service">
+    <div class="container">
+        <div class="row sub_content">
+            <?php
 				if( count( $titles ) == count( $description ) && count( $icons ) == count( $titles ) )
 				{
 					for($i = 0 ; $i < count( $titles ) ; $i ++ ){
 				?>
-                <div class="col-md-4 col-sm-6">
-                    <div class="media">
-                        <div class="pull-left">
-                            <i class="icon-<?php echo $icons[ $i ];?> icon-md"></i>
-                        </div>
-                        <div class="media-body">
-                            <h3 class="media-heading"><a href="<?php echo return_if_array_key_exists( $i , $links );?>"><?php echo $titles[ $i ];?></a></h3>
-                            <p><?php echo strip_tags( $description[ $i ] );?></p>
-                        </div>
-                    </div>
-                </div><!--/.col-md-4-->
-                <?php
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <div class="serviceBox_2"> <i class="fa fa-<?php echo $icons[ $i ];?>"></i>
+                    <h3><?php echo $titles[ $i ];?></h3>
+                    <p><?php echo $description[ $i ];?></p>
+                </div>
+            </div>
+            <?php
 					}
 				}
 				?>
-            </div>
         </div>
-    </section>
-        <?php
+    </div>
+</section>
+<?php
+		}
 	}
 	public function filter( $array )
 	{

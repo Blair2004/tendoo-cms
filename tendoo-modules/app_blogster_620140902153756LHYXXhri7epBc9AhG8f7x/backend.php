@@ -26,7 +26,7 @@ class blogster_backend extends Libraries
 		if($fileManager)
 		{
 			include_once(MODULES_DIR.$fileManager['encrypted_dir'].'/utilities.php');
-			$this->data['fmlib']	=	new tendoo_contents_utility(); // Loading library
+			set_core_vars( 'fmlib' , new tendoo_contents_utility() ); // Loading library
 		}
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	}

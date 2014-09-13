@@ -53,18 +53,49 @@ if( !function_exists( 'loop_items' ) ){
 </div>
 <?php
 		} 
+		else if( $type == 'media_lib' ) {
+			// This Fields does not support array
+			$value	=	is_array( $value ) ? '' : $value;
+			if( !($value	=	return_if_array_key_exists( $name , $item_setting ) ) ){
+				$value	=	'';
+			}
+			/** Si la valeur enregistré est un tableau, l'on considère qu'il s'agit d'un élément loopable
+			*	$value =  [ 'level' ][1][2][3][4]
+			*	Le moyen de parcourir ces éléments sans accéder à la boucle est de supprimer la première valeur du tableau.
+			**/
+			if( is_array( $value ) ){
+				array_shift( $item_setting[ $name ][ 'level' ] );
+				$value	=	$value[ 'level' ][0];
+			}
+			?>
+<div class="form-group">
+    <label for="global-fields-textarea-<?php echo $title;?>"><?php echo $title;?></label>
+    <?php
+	get_core_vars( 'fmlib' )->mediaLib_button(array(
+		'PLACEHOLDER'		=>		$placeholder,
+		'NAME'				=>		'static[' . $namespace . '][' . $name . ']' . $level_name . $closing_bracket,
+		'TEXT'				=>		$title,
+		'VALUE'				=>		$value
+	));	
+	?>
+</div>
+<?php
+		} 
 		else if( $type == 'select' ) {
 			// This Fields Support array
 			$selected	=	'';
 			if( is_array( $value ) ){
 				if( $field_setting	=	return_if_array_key_exists( $name , $item_setting ) ){
-					if( is_array( $item_setting[ $name ][ 'level' ] ) ){
+					if( is_array( riake( 'level' , $item_setting[ $name ] ) ) ){
 						$selected	=	$item_setting[ $name ][ 'level' ][0];
 						array_shift( $item_setting[ $name ][ 'level' ] );
+					} else if( riake( $name , $item_setting ) ) {
+						$selected	=	$item_setting[ $name ];
 					}
 				}
 			}
 			$value	=	! is_array( $value ) ? array() : $value;
+			
 			?>
 <div class="form-group">
     <div class="input-group input-group-sm"> <span class="input-group-addon"><?php echo $title;?></span>
@@ -261,12 +292,17 @@ foreach( $item_setting as $setting ){
 *	Si le nombre total d'enregistrement vaut zero, nous attribuons la valeur 1 pour qu'il y ait au moins un parcour
 **/
 	$totalFields	=	( $totalFields  == 0 ) ? 1 : $totalFields;
+	
 // S'il y a des données enregistrés pour les items loopables, on considère que le nombre de ces données équivaut le nombre des enregistrement
 if( $totalFields > 0 ){
 	/**
+	*	Si les champs "loopables" sont défini, alors il peut y avoir parcours, sinon une meta box vide sera affichée.
+	**/
+	if( return_if_array_key_exists( 'item_loopable_fields' , $item ) ) :
+	/**
 	*	à chaque appel de la fonction loop_items, la valeur attribué aux champs devront varier en fonction des enregistrements.
 	**/
-	for( $i = 0 ; $i < $totalFields ; $i++ ){
+		for( $i = 0 ; $i < $totalFields ; $i++ ){
 ?>                                                    
                                                         <section class="panel pos-rlt clearfix duplicator">
                                                             <header class="panel-heading">
@@ -274,7 +310,7 @@ if( $totalFields > 0 ){
                                                                     <li> <a href="#" class="text-muted"><i class="fa fa-plus text"></i></a> </li>
                                                                     <li> <a href="#" class="text-muted"><i class="fa fa-minus text"></i></a> </li>
                                                                 </ul>
-                                                                Dropdown </header>
+                                                                Option multiples </header>
                                                             <div class="panel-body">
 <?php 
 if( $loopable_field =	return_if_array_key_exists( 'item_loopable_fields' , $item ) ){
@@ -290,6 +326,7 @@ if( $loopable_field =	return_if_array_key_exists( 'item_loopable_fields' , $item
                                                         </section>
 <?php
 	}
+	endif;
 }
 ?>
                                                     </div>
@@ -352,3 +389,6 @@ s						});
         </section>
     </section>
     <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a> </section>
+    <?php
+	get_core_vars( 'fmlib' )->mediaLib_load();
+	?>

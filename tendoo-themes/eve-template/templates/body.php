@@ -1,4 +1,7 @@
-<body>
+<?php
+$theme_style	=	get_items( 'theme_color_and_style' );
+?>
+<body class="<?php echo riake( 'bg_image' , $theme_style );?>">
 	<?php echo current_user("menu"); ?>
     
 	<!--Start Header-->

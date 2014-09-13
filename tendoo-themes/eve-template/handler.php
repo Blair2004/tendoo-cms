@@ -19,6 +19,44 @@ class eva_theme_handler extends Libraries
 	}
 	private function output_files()
 	{
+		theme_cpush("css/font-awesome.min");
+		theme_cpush("css/bootstrap.min");
+		theme_cpush("css/switcher");
+		theme_cpush("css/style");
+		$theme_style	=	get_items( 'theme_color_and_style' );
+		if( ( $background = riake( 'background' , $theme_style ) ) == 'red' )
+		{
+			theme_cpush("css/skins/Softred");
+		} 
+		else if( $background == 'orange' ) 
+		{
+			theme_cpush("css/skins/orange");
+		} 
+		else if( $background == 'purple' ) 
+		{
+			theme_cpush("css/skins/purple");
+		} 
+		else if( $background == 'cyan' ) 
+		{
+			theme_cpush("css/skins/Strongcyan");
+		} 
+		else if( $background == 'darkcyan' ) 
+		{
+			theme_cpush("css/skins/DarkCyan");
+		}
+		else if( $background == 'blue' ) 
+		{
+			theme_cpush("css/skins/blue");
+		} 
+		// Box Style
+		if( ( $box	= riake( 'box_style' , $theme_style ) == 'boxed' ) )
+		{
+			theme_cpush("css/layout/boxed");
+		}
+		else
+		{
+			theme_cpush("css/layout/wide");
+		}
 		theme_jpush('js/jquery-1.10.2.min');
 		theme_jpush("js/bootstrap.min");
 		theme_jpush("js/jquery.easing.1.3");
@@ -33,12 +71,8 @@ class eva_theme_handler extends Libraries
 		theme_jpush("js/jquery.isotope.min");
 		theme_jpush("js/swipe");
 		theme_jpush("js/jquery-scrolltofixed-min");
+		theme_jpush("js/jquery.gmap");
 		theme_jpush("js/main");
-
-		theme_cpush("css/bootstrap.min");
-		theme_cpush("css/switcher");
-		theme_cpush("css/style");
-		theme_cpush("css/layout/wide");
 	}
     public function view($path,$do = "showDirectly")
 	{
