@@ -1,6 +1,7 @@
 <section class="wrapper"> 
     
     <!--Start Slider-->
+    <?php get_items( 'fraction_slider' );?>
     <?php if( true == false ):?>
     <div class="slider-wrapper">
         <div class="slider">
@@ -44,9 +45,9 @@
         </div>
     </div>
     <?php endif;?>
-
-    <!--End Slider--> 
     
+    <!--End Slider--> 
+    <?php get_items( 'promo_box' );?>
     <!--start info service-->
     <?php get_items( 'list_services' );?>
     <!--end info service--> 
@@ -58,67 +59,14 @@
     <section class="fetaure_bottom">
         <div class="container">
             <div class="row sub_content">
-                <div class="col-lg-6">
-                    <div class="eve-tab">
-                        <div class="dividerHeading">
-                            <h4><span>Eve Features</span></h4>
-                        </div>
-                        <div class="widget widget_tab">
-                            <ul id="myTab" class="nav nav-tabs">
-                                <li class="active"><a href="#Popular" data-toggle="tab">Popular</a></li>
-                                <li class=""><a href="#Recent" data-toggle="tab">Recent</a></li>
-                                <li class="last-tab"><a href="#Recent-Comment" data-toggle="tab"><i class="fa fa-comments-o"></i></a></li>
-                            </ul>
-                            <div id="myTabContent" class="tab-content clearfix">
-                                <div class="tab-pane fade active in" id="Popular">
-                                    <h3>Unique &amp; Clean Design</h3>
-                                    <p>Fusce lacinia tempor malesuada. Ut lacus sapien, placerat a ornare nec, elementum sit amet felis. Maecenas pretium lorem hendrerit eros sagittis fermentum. Donec in ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis cursus. Nulla eu mi magna. Etiam suscipit commodo ad gravida.</p>
-                                    <ul class="list_style circle">
-                                        <li><a href="#"><i class="fa fa-check"></i> Donec convallis, metus nec tempus aliquet</a></li>
-                                        <li><a href="#"><i class="fa fa-check"></i> Aenean commodo ligula eget dolor</a></li>
-                                        <li><a href="#"><i class="fa fa-check"></i> Cum sociis natoque penatibus mag dis parturient</a></li>
-                                    </ul>
-                                </div>
-                                <div class="tab-pane fade" id="Recent">
-                                    <h3>Easy to Customize</h3>
-                                    <p>Fusce lacinia tempor malesuada. Ut lacus sapien, placerat a ornare nec, elementum sit amet felis. Maecenas pretium lorem hendrerit eros sagittis fermentum. Donec in ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis cursus. Nulla eu mi magna. Etiam suscipit commodo ad gravida.</p>
-                                    <ul class="list_style">
-                                        <li><a href="#"><i class="fa fa-check"></i> Donec convallis, metus nec tempus aliquet</a></li>
-                                        <li><a href="#"><i class="fa fa-check"></i> Aenean commodo ligula eget dolor</a></li>
-                                        <li><a href="#"><i class="fa fa-check"></i> Cum sociis natoque penatibus mag dis parturient</a></li>
-                                    </ul>
-                                </div>
-                                <div class="tab-pane fade" id="Recent-Comment">
-                                    <h3>Free Support &amp; Updates</h3>
-                                    <p>Fusce lacinia tempor malesuada. Ut lacus sapien, placerat a ornare nec, elementum sit amet felis. Maecenas pretium lorem hendrerit eros sagittis fermentum. Donec in ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis cursus. Nulla eu mi magna. Etiam suscipit commodo ad gravida.</p>
-                                    <ul class="list_style square">
-                                        <li><a href="#"><i class="fa fa-check"></i> Donec convallis, metus nec tempus aliquet</a></li>
-                                        <li><a href="#"><i class="fa fa-check"></i> Aenean commodo ligula eget dolor</a></li>
-                                        <li><a href="#"><i class="fa fa-check"></i> Cum sociis natoque penatibus mag dis parturient</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php get_items( 'testimonials' );?>
                 <div class="col-lg-6 ">
-                    <div class="dividerHeading">
-                        <h4><span>Why Choose Us?</span></h4>
-                    </div>
-                    <p>Cras mattis consectetur purus sit amet fermen. Lorem ipsum dolor sit amet, consec adipiscing elit. Maecenas sed diam eget risus varius bland sit amet non fringilla ullamcorper magna. Nulla eu mi magna. Etiam suscipit commodo ad gravida.</p>
-                    <ul class="list_style circle">
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Donec convallis, metus nec tempus aliquet</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Aenean commodo ligula eget dolor</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Cum sociis natoque penatibus mag ipsum</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Lorem ipsum dolor sit amet cons adipiscing</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Accumsan vulputate faucibus turpis dictum</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Nullam ultrices eros accumsan vulputate</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i> Nunc aliquet tincidunt metus sit amet</a></li>
-                    </ul>
+                    <?php get_items( 'feature_list' );?>
                 </div>
             </div>
         </div>
     </section>
+    <?php if( true == false ) : ?>
     <section class="clients">
         <div class="container">
             <div class="row sub_content">
@@ -139,6 +87,5 @@
             </div>
         </div>
     </section>
+    <?php endif;?>
 </section>
-<?php get_items( 'slider' );?>
-<?php get_items( 'testimony' );?>

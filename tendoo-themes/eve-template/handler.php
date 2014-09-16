@@ -22,6 +22,8 @@ class eva_theme_handler extends Libraries
 		theme_cpush("css/font-awesome.min");
 		theme_cpush("css/bootstrap.min");
 		theme_cpush("css/switcher");
+		theme_cpush("css/fractionslider");
+		theme_cpush("css/style-fraction");
 		theme_cpush("css/style");
 		$theme_style	=	get_items( 'theme_color_and_style' );
 		if( ( $background = riake( 'background' , $theme_style ) ) == 'red' )
@@ -63,6 +65,7 @@ class eva_theme_handler extends Libraries
 		theme_jpush("js/retina-1.1.0.min");
 		theme_jpush("js/jquery.cookie");
 		theme_jpush("js/styleswitch");
+		theme_jpush("js/jquery.fractionslider");
 		theme_jpush("js/jquery.smartmenus.min");
 		theme_jpush("js/jquery.smartmenus.bootstrap.min");
 		theme_jpush("js/jquery.jcarousel");

@@ -164,8 +164,8 @@ if( $items	=	return_if_array_key_exists( 'theme_items' , $active_theme ) ){
 				
                 $settings		= return_if_array_key_exists( 'theme_settings' , get_core_vars( 'active_theme' ) );
                 $item_namespace	= return_if_array_key_exists( 'namespace' , $_item );
-                $api_limit		= return_if_array_key_exists( 'api_limit' , $settings[ $item_namespace ] );
-                $declared_apis	= return_if_array_key_exists( 'declared_apis' , $settings[ $item_namespace ] );
+                $api_limit		= return_if_array_key_exists( 'api_limit' , riake( $item_namespace , $settings ) );
+                $declared_apis	= return_if_array_key_exists( 'declared_apis' , riake( $item_namespace , $settings ) );
                 ?>
                                     <form class="panel panel-default" method="post">
                                         <div class="panel-heading">

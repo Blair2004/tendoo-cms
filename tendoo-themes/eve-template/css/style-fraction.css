@@ -4,8 +4,8 @@
     position:relative;
     overflow:hidden;
     width:100%;
-    max-height: 450px;
-    background: url("../images/fraction-slider/NEW-6.png") no-repeat;
+    max-height: 550px;
+    background: url("../images/fraction-slider/NEW-6.png");
     background-size:100%;
     margin:0 auto;
 }
