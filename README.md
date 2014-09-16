@@ -1,8 +1,9 @@
 Tendoo-cms
 =========
-v.1.3
+v.1.3.1
 ---------
-Découvrez une version beaucoup plus stable de Tendoo. S'il vous plait, Tendoo à besoin de vous, <a href="essayer.tendoo.org">testez tendoo</a> et dites-nous ce que vous en pensez.
+Découvrez une version beaucoup plus stable de Tendoo. S'il vous plait, Tendoo à besoin de vous, <a href="http://essayer.tendoo.org">testez tendoo</a> et dites-nous ce que vous en pensez. 
+Vous avez découvert une erreur ou un bug ? Dites-le nous avec des "pull-requests".
 
 Nouveauté thèmes
 ---------
