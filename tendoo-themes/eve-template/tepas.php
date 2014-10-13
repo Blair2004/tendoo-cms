@@ -387,6 +387,17 @@ class eva_theme_tepas_class
 			'has_loop'			=>	true, 
 			'human_name'		=>	'[ Accueil - 1 ] Liste des services',
 			'draggable'		=>	false,
+			'item_global_fields'	=>	array(
+				array(
+					'input_type'			=>	'select',
+					'input_title'			=>	'Afficher cette section ?',
+					'input_name'			=>	'display_list_services',
+					'input_value'			=>	array(
+						array( 'text'	=>	'Oui' , 'value'	=>	1 ),
+						array( 'text'	=>	'Non' , 'value'	=>	0 ),
+					)
+				),
+			),
 			'item_loopable_fields'		=>	array(
 				array(
 					'input_type'		=>	'text',
@@ -489,6 +500,15 @@ class eva_theme_tepas_class
 					'input_name'		=>	'testimonials_title',
 					'input_placeholder'	=>	'Ajouter un titre'
 				),
+				array(
+					'input_type'			=>	'select',
+					'input_title'			=>	'Afficher cette section ?',
+					'input_name'			=>	'display_testimonials',
+					'input_value'			=>	array(
+						array( 'text'	=>	'Oui' , 'value'	=>	1 ),
+						array( 'text'	=>	'Non' , 'value'	=>	0 ),
+					)
+				),
 				/*array( 
 					'input_type'		=>	'textarea',
 					'input_title'		=>	'Ajouter une description pour cette section',
@@ -535,6 +555,15 @@ class eva_theme_tepas_class
 					'input_name'			=>	'global_title',
 					'input_title'			=>	'Titre de la section',
 					'input_placeholder'		=>	'"Nos projets récents" par exemple'
+				),
+				array(
+					'input_type'			=>	'select',
+					'input_title'			=>	'Afficher cette section ?',
+					'input_name'			=>	'display_recents_works',
+					'input_value'			=>	array(
+						array( 'text'	=>	'Oui' , 'value'	=>	1 ),
+						array( 'text'	=>	'Non' , 'value'	=>	0 ),
+					)
 				),
 			),
 			'item_loopable_fields'		=>	array(
@@ -804,7 +833,32 @@ class eva_theme_tepas_class
 			),
 			'description'				=>	"Définissez l'emplacement géographique de votre entreprise, en longitude et latitude."
 		) );
+		declare_item( 'google_analytic_javascript_footer' , array( 
+			'draggable'					=>	false,
+			'human_name'				=>	'[ Analytics ] Code Javascript Permanent',
+			'is_static'					=>	true,
+			'namespace'					=>	'google_analytic_javascript_footer',
+			'item_global_fields'	=>	array(
+				array(
+					'input_type'			=>	'select',
+					'input_title'			=>	'Code Javascript Permanent ?',
+					'input_name'			=>	'display_google_analytic_javascript_footer',
+					'input_value'			=>	array(
+						array( 'text'	=>	'Oui' , 'value'	=>	1 ),
+						array( 'text'	=>	'Non' , 'value'	=>	0 ),
+					)
+				),
+				array(
+					'input_type'		=>	'textarea',
+					'input_name'		=>	'google_analytic_javascript_footer_code',
+					'input_title'		=>	'Entrez un code Javascript',
+					'input_placeholder'	=>	'Entrez un code Javascript'
+				),
+			),
+			'description'				=>	"Entrez un code Javascript permanent exécuté à la fin d'une page."
+		) );
 		// Bind Events
+		bind_event( 'handle_google_analytic_javascript_footer' , array( $this , 'google_analytic_javascript_footer' ) );
 		bind_event( 'handle_promo_box' , array( $this , 'promo_box' ) );
 		bind_event( 'handle_testimonials' , array( $this , 'testimonials' ) );
 		bind_event( 'handle_feature_list' , array( $this , 'feature_list' ) );
@@ -821,6 +875,13 @@ class eva_theme_tepas_class
 		// bind_event( 'loop_slider_lines' , array( $this , 'loop_slider' ) );
 		bind_event( 'handle_testimony' , array( $this , 'testimony' ) );
 		bind_event( 'handle_fraction_slider' , array( $this , 'fraction_slider' ) );
+	}
+	function google_analytic_javascript_footer( $array )
+	{
+		if( riake( 'display_google_analytic_javascript_footer' , $array ) == '1' )
+		{
+			echo riake( 'google_analytic_javascript_footer_code' , $array );
+		}
 	}
 	function fraction_slider( $array )
 	{
@@ -1016,54 +1077,57 @@ class eva_theme_tepas_class
 	}
 	function testimonials( $array )
 	{
-		$testimonials_title	=	( $testimonials_title = riake( 'testimonials_title' , $array ) ) == true ? $testimonials_title : "Custom Title";
-		
-		$var						=	return_if_array_key_exists( 'testimonial_author' , $array );
-		$testimonial_author			=	return_if_array_key_exists( 'level' , $var );
-		
-		$var						=	return_if_array_key_exists( 'testimonial_author_subinfo' , $array );
-		$testimonial_author_subinfo	=	return_if_array_key_exists( 'level' , $var );
-		
-		$var						=	return_if_array_key_exists( 'testimonial_author_img' , $array );
-		$testimonial_author_img		=	return_if_array_key_exists( 'level' , $var );
-		
-		$var						=	return_if_array_key_exists( 'testimonial_author_content' , $array );
-		$testimonial_author_content	=	return_if_array_key_exists( 'level' , $var );
-				
-		if( $testimonials_title )
+		if( riake( 'display_testimonials' , $array ) == '1' )
 		{
-		?>
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="dividerHeading">
-                <h4><span><?php echo $testimonials_title;?></span></h4>
-            </div>
-            <div id="testimonial-carousel" class="testimonial carousel slide">
-                <div class="carousel-inner">
-                	<?php
-					for( $i = 0 ; $i < count( $testimonial_author ) ; $i++ )
-					{
-						$active = ( $i == 0 ) ? "active" : "";
-					?>
-                    <div class="<?php echo $active;?> item">
-                        <div class="testimonial-item">
-                            <div class="icon"><i class="fa fa-quote-right"></i></div>
-                            <blockquote>
-                                <p><?php echo $testimonial_author_content[ $i ];?></p>
-                            </blockquote>
-                            <div class="icon-tr"></div>
-                            <div class="testimonial-review"> <img src="<?php echo $testimonial_author_img[ $i ];?>" alt="<?php echo $testimonial_author[ $i ];?>">
-                                <h1><?php echo $testimonial_author[ $i ];?>,<small><?php echo $testimonial_author_subinfo[ $i ];?></small></h1>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-					}
-					?>
-                </div>
-                <div class="testimonial-buttons"><a href="#testimonial-carousel" data-slide="prev"><i class="fa fa-chevron-left"></i></a> <a href="#testimonial-carousel" data-slide="next"><i class="fa fa-chevron-right"></i></a></div>
-            </div>
-        </div>
-        <?php
+			$testimonials_title	=	( $testimonials_title = riake( 'testimonials_title' , $array ) ) == true ? $testimonials_title : "Custom Title";
+			
+			$var						=	return_if_array_key_exists( 'testimonial_author' , $array );
+			$testimonial_author			=	return_if_array_key_exists( 'level' , $var );
+			
+			$var						=	return_if_array_key_exists( 'testimonial_author_subinfo' , $array );
+			$testimonial_author_subinfo	=	return_if_array_key_exists( 'level' , $var );
+			
+			$var						=	return_if_array_key_exists( 'testimonial_author_img' , $array );
+			$testimonial_author_img		=	return_if_array_key_exists( 'level' , $var );
+			
+			$var						=	return_if_array_key_exists( 'testimonial_author_content' , $array );
+			$testimonial_author_content	=	return_if_array_key_exists( 'level' , $var );
+					
+			if( $testimonials_title )
+			{
+			?>
+			<div class="col-lg-6 col-md-6 col-sm-6">
+				<div class="dividerHeading">
+					<h4><span><?php echo $testimonials_title;?></span></h4>
+				</div>
+				<div id="testimonial-carousel" class="testimonial carousel slide">
+					<div class="carousel-inner">
+						<?php
+						for( $i = 0 ; $i < count( $testimonial_author ) ; $i++ )
+						{
+							$active = ( $i == 0 ) ? "active" : "";
+						?>
+						<div class="<?php echo $active;?> item">
+							<div class="testimonial-item">
+								<div class="icon"><i class="fa fa-quote-right"></i></div>
+								<blockquote>
+									<p><?php echo $testimonial_author_content[ $i ];?></p>
+								</blockquote>
+								<div class="icon-tr"></div>
+								<div class="testimonial-review"> <img src="<?php echo $testimonial_author_img[ $i ];?>" alt="<?php echo $testimonial_author[ $i ];?>">
+									<h1><?php echo $testimonial_author[ $i ];?>,<small><?php echo $testimonial_author_subinfo[ $i ];?></small></h1>
+								</div>
+							</div>
+						</div>
+						<?php
+						}
+						?>
+					</div>
+					<div class="testimonial-buttons"><a href="#testimonial-carousel" data-slide="prev"><i class="fa fa-chevron-left"></i></a> <a href="#testimonial-carousel" data-slide="next"><i class="fa fa-chevron-right"></i></a></div>
+				</div>
+			</div>
+			<?php
+			}
 		}
 	}
 	function feature_list( $array )
@@ -1101,68 +1165,71 @@ class eva_theme_tepas_class
 		/**
 		* 	OK
 		**/
-		$var			=	return_if_array_key_exists( 'title' , $array );
-		$titles			=	return_if_array_key_exists( 'level' , $var );
-		
-		$var			=	return_if_array_key_exists( 'category' , $array );
-		$categories		=	return_if_array_key_exists( 'level' , $var );
-		
-		$var			=	return_if_array_key_exists( 'full_image' , $array );
-		$full_images	=	return_if_array_key_exists( 'level' , $var );
-		
-		$var			=	return_if_array_key_exists( 'thumb_image' , $array );
-		$thumb_image	=	return_if_array_key_exists( 'level' , $var );
-				
-		$link_lev		=	return_if_array_key_exists( 'link' , $array );
-		$links			=	return_if_array_key_exists( 'level' , $link_lev );
-		
-		if( count( $titles ) == count( $categories ) && count( $full_images ) == count( $links ) ) // ...
+		if( riake( 'display_recents_works' , $array ) == '1' )
 		{
-		?>
-<section class="latest_work">
-    <div class="container">
-        <div class="row sub_content">
-            <div class="carousel-intro">
-                <div class="col-md-12">
-                    <div class="dividerHeading">
-                        <h4><span><?php echo ( $title = riake( 'global_title' , $array ) ) ? $title : "Custom Title";?></span></h4>
-                    </div>
-                    <div class="carousel-navi">
-                        <div id="work-prev" class="arrow-left jcarousel-prev" data-jcarouselcontrol="true"><i class="fa fa-angle-left"></i></div>
-                        <div id="work-next" class="arrow-right jcarousel-next active" data-jcarouselcontrol="true"><i class="fa fa-angle-right"></i></div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="jcarousel recent-work-jc">
-                <ul class="jcarousel-list">
-                    <!-- Recent Work Item -->
-                    <?php
-					if( count( $titles ) == count( $categories ) && count( $full_images ) == count( $thumb_image ) ) // :)
-					{
-						for($i = 0 ; $i < count( $titles ) ; $i ++ ){
-					?>
-                    <li class="col-sm-3 col-md-3 col-lg-3">
-                        <div class="recent-item">
-                            <figure>
-                                <div class="touching medium"> <img src="<?php echo $thumb_image[ $i ];?>" alt="" width="530"> </div>
-                                <div class="option"> <a href="<?php echo $full_images[ $i ];?>" class="hover-zoom mfp-image"><i class="fa fa-search"></i></a> <a href="<?php echo $links[ $i ];?>" class="hover-link"><i class="fa fa-link"></i></a> </div>
-                                <figcaption class="item-description">
-                                    <h5><?php echo $titles[ $i ];?></h5>
-                                    <span><?php echo $categories[ $i ];?></span> </figcaption>
-                            </figure>
-                        </div>
-                    </li>
-                    <?php
+			$var			=	return_if_array_key_exists( 'title' , $array );
+			$titles			=	return_if_array_key_exists( 'level' , $var );
+			
+			$var			=	return_if_array_key_exists( 'category' , $array );
+			$categories		=	return_if_array_key_exists( 'level' , $var );
+			
+			$var			=	return_if_array_key_exists( 'full_image' , $array );
+			$full_images	=	return_if_array_key_exists( 'level' , $var );
+			
+			$var			=	return_if_array_key_exists( 'thumb_image' , $array );
+			$thumb_image	=	return_if_array_key_exists( 'level' , $var );
+					
+			$link_lev		=	return_if_array_key_exists( 'link' , $array );
+			$links			=	return_if_array_key_exists( 'level' , $link_lev );
+			
+			if( count( $titles ) == count( $categories ) && count( $full_images ) == count( $links ) ) // ...
+			{
+			?>
+	<section class="latest_work">
+		<div class="container">
+			<div class="row sub_content">
+				<div class="carousel-intro">
+					<div class="col-md-12">
+						<div class="dividerHeading">
+							<h4><span><?php echo ( $title = riake( 'global_title' , $array ) ) ? $title : "Custom Title";?></span></h4>
+						</div>
+						<div class="carousel-navi">
+							<div id="work-prev" class="arrow-left jcarousel-prev" data-jcarouselcontrol="true"><i class="fa fa-angle-left"></i></div>
+							<div id="work-next" class="arrow-right jcarousel-next active" data-jcarouselcontrol="true"><i class="fa fa-angle-right"></i></div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				<div class="jcarousel recent-work-jc">
+					<ul class="jcarousel-list">
+						<!-- Recent Work Item -->
+						<?php
+						if( count( $titles ) == count( $categories ) && count( $full_images ) == count( $thumb_image ) ) // :)
+						{
+							for($i = 0 ; $i < count( $titles ) ; $i ++ ){
+						?>
+						<li class="col-sm-3 col-md-3 col-lg-3">
+							<div class="recent-item">
+								<figure>
+									<div class="touching medium"> <img src="<?php echo $thumb_image[ $i ];?>" alt="" width="530"> </div>
+									<div class="option"> <a href="<?php echo $full_images[ $i ];?>" class="hover-zoom mfp-image"><i class="fa fa-search"></i></a> <a href="<?php echo $links[ $i ];?>" class="hover-link"><i class="fa fa-link"></i></a> </div>
+									<figcaption class="item-description">
+										<h5><?php echo $titles[ $i ];?></h5>
+										<span><?php echo $categories[ $i ];?></span> </figcaption>
+								</figure>
+							</div>
+						</li>
+						<?php
+							}
 						}
-					}
-					?>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-<?php
+						?>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	<?php
+			}
 		}
 	}
 	function return_values( $array )
@@ -1329,39 +1396,42 @@ class eva_theme_tepas_class
 		/**
 		* 	OK
 		**/
-		$title_lev		=	return_if_array_key_exists( 'title' , $array );
-		$titles			=	return_if_array_key_exists( 'level' , $title_lev );
-		$desc_lev		=	return_if_array_key_exists( 'description' , $array );
-		$description	=	return_if_array_key_exists( 'level' , $desc_lev );
-		$icon_lev		=	return_if_array_key_exists( 'icons' , $array );
-		$icons			=	return_if_array_key_exists( 'level' , $icon_lev );
-		$link_lev		=	return_if_array_key_exists( 'link' , $array );
-		$links			=	return_if_array_key_exists( 'level' , $link_lev );
-		if( count( $titles ) == count( $description ) && count( $icons ) == count( $titles ) )
+		if( riake( 'display_list_services' , $array ) == '1' )
 		{
-		?>
-<section class="info_service" style="padding-top:20px;">
-    <div class="container">
-        <div class="row sub_content" style="padding-top:-30px;">
-            <?php
-				if( count( $titles ) == count( $description ) && count( $icons ) == count( $titles ) )
-				{
-					for($i = 0 ; $i < count( $titles ) ; $i ++ ){
-				?>
-            <div class="col-sm-4 col-md-4 col-lg-4" style="margin-top:30px;" onclick="document.location= '<?php echo $links[ $i ];?>'">
-                <div class="serviceBox_2"> <i class="fa fa-<?php echo $icons[ $i ];?>"></i>
-                    <h3><?php echo $titles[ $i ];?></h3>
-                    <p><?php echo $description[ $i ];?></p>
-                </div>
-            </div>
-            <?php
+			$title_lev		=	return_if_array_key_exists( 'title' , $array );
+			$titles			=	return_if_array_key_exists( 'level' , $title_lev );
+			$desc_lev		=	return_if_array_key_exists( 'description' , $array );
+			$description	=	return_if_array_key_exists( 'level' , $desc_lev );
+			$icon_lev		=	return_if_array_key_exists( 'icons' , $array );
+			$icons			=	return_if_array_key_exists( 'level' , $icon_lev );
+			$link_lev		=	return_if_array_key_exists( 'link' , $array );
+			$links			=	return_if_array_key_exists( 'level' , $link_lev );
+			if( count( $titles ) == count( $description ) && count( $icons ) == count( $titles ) )
+			{
+			?>
+	<section class="info_service" style="padding-top:20px;">
+		<div class="container">
+			<div class="row sub_content" style="padding-top:-30px;">
+				<?php
+					if( count( $titles ) == count( $description ) && count( $icons ) == count( $titles ) )
+					{
+						for($i = 0 ; $i < count( $titles ) ; $i ++ ){
+					?>
+				<div class="col-sm-4 col-md-4 col-lg-4" style="margin-top:30px;" onclick="document.location= '<?php echo $links[ $i ];?>'">
+					<div class="serviceBox_2"> <i class="fa fa-<?php echo $icons[ $i ];?>"></i>
+						<h3><?php echo $titles[ $i ];?></h3>
+						<p><?php echo $description[ $i ];?></p>
+					</div>
+				</div>
+				<?php
+						}
 					}
-				}
-				?>
-        </div>
-    </div>
-</section>
-<?php
+					?>
+			</div>
+		</div>
+	</section>
+	<?php
+			}
 		}
 	}
 	// Deprecated

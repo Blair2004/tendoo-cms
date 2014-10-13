@@ -38,8 +38,8 @@ class Account extends Libraries
 	public function index()
 	{
 		$user_pseudo 						=	$this->users_global->current('PSEUDO');
-		set_page('title', riake( 'site_name' , $this->data['options'] ) . ' | '.ucfirst($user_pseudo).' &raquo; Mon profil');
-		set_page('description','Mon profil');
+		set_page('title', riake( 'site_name' , $this->data['options'] ) . ' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'My Profile' ) );
+		set_page('description', translate( 'My Profile' ) );
 		$this->data['body']			=	$this->load->view('account/profile/body',$this->data,true);
 		
 		$this->load->view('account/header',$this->data);
@@ -60,11 +60,11 @@ class Account extends Libraries
 			);
 			if($status['error'] > 0)
 			{
-				$text	=	'Mise à jour des champs, une erreur lors de l\'envoi du fichier, vérifier la taille de votre fichier et essayer à nouveau.';
+				$text	=	translate( 'Fields succefully updated, error occured during file upload, please check file weight and try again.' );
 			}
 			else
 			{
-				$text	=	'Mise à jour des champs et de l\'avatar.';
+				$text	=	translet( 'Avatar and fields updated' ); 
 			}
 			$this->url->redirect(array('account','update?info='.$text));
 			exit;
@@ -85,8 +85,8 @@ class Account extends Libraries
 			$this->url->redirect(array('account','update?notice=user_geographical_data_updated'));
 		}
 		$user_pseudo 						=	$this->users_global->current('PSEUDO');
-		set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; Mise &agrave; jour du profil');
-		set_page('description','Mettre mon profil &agrave; jour');
+		set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'Updating profile' ) );
+		set_page('description', translate( 'Update a profile' ) );
 		
 		$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 		$this->data['body']			=	$this->load->view('account/update_prof/body',$this->data,true);
@@ -111,7 +111,7 @@ class Account extends Libraries
 						$result	=	$this->users_global->deleteConversation($c);
 						if($result	== false)
 						{
-							notice('push','Une erreur est survenu durant la suppression du message, il ne vous est surement pas destinée ou ce message n\'existe pas');
+							notice('push', translate( 'Error occured while deleting message, maybe this one doen\'t concern you or this message doen\'t exists' ) );
 						}
 						else
 						{
@@ -124,7 +124,7 @@ class Account extends Libraries
 					$result	=	$this->users_global->deleteConversation($_POST['conv_id']);
 					if($result	== false)
 					{
-						notice('push','Une erreur est survenu durant la suppression du message, il ne vous est surement pas destinée ou ce message n\'existe pas');
+							notice('push', translate( 'Error occured while deleting message, maybe this one doen\'t concern you or this message doen\'t exists' ) );
 					}
 					else
 					{
@@ -133,8 +133,8 @@ class Account extends Libraries
 				}
 			}
 			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; Messagerie');
-			set_page('description','Messagerie de '.$user_pseudo);
+			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'Messaging' ) );
+			set_page('description', sprintf( translate( '%s messaging' ) , $user_pseudo ) );
 			$this->data['ttMessage']	=	$this->users_global->countMessage();
 			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttMessage'],1,'ClasseOn','ClasseOff',$start,$this->url->site_url(array('account','messaging','home')).'/',null);
 			$this->data['getMessage']	=	$this->users_global->getMessage($this->data['paginate'][1],$this->data['paginate'][2]);$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
@@ -147,8 +147,8 @@ class Account extends Libraries
 		{
 			$this->load->library('form_validation');
 			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			$this->form_validation->set_rules('receiver','Pseudo du correspondant','trim|required|min_length[5]|max_length[15]');
-			$this->form_validation->set_rules('content','Contenu du message','trim|required|min_length[3]|max_length[1200]');
+			$this->form_validation->set_rules('receiver', translate( 'Receiver pseudo' ),'trim|required|min_length[5]|max_length[15]');
+			$this->form_validation->set_rules('content', translate( 'Message content' ),'trim|required|min_length[3]|max_length[1200]');
 			if($this->form_validation->run())
 			{
 				$result	=	$this->users_global->write(
@@ -166,7 +166,7 @@ class Account extends Libraries
 			}
 			
 			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; Ecrire un nouveau message');
+			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo;' . translate( 'Write a new message' ) );
 			set_page('description','Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/write',$this->data,true);
 			
@@ -189,7 +189,7 @@ class Account extends Libraries
 				}
 				else
 				{
-					notice('push','Le message n\'a pas pu &ecirc;tre post&eacute; parceque vous n\'avez pas directement acc&egrave;s, soit parceque cette discution n\'existe pas ou plus.');
+					notice('push', translate( 'This message couldn\'t be posted because you don\'t have access or this message is no more availble' ) );
 				}
 			}
 			$this->users_global->editStatus($start);
@@ -202,7 +202,7 @@ class Account extends Libraries
 			$this->data['getMsgContent']=	$this->users_global->getMsgContent($start,$this->data['paginate'][1],$this->data['paginate'][2]);
 			
 			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; Lecture d\'un message');
+			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo;' . translate( 'message reading' ) );
 
 			set_page('description','Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/read',$this->data,true);
@@ -222,8 +222,8 @@ class Account extends Libraries
 		{
 			$this->data['user'] =& $user;
 			
-			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user[0]['PSEUDO']).' &raquo; profil de l\'utilisateur');
-			set_page('description',$user[0]['PSEUDO'].' - Profil');
+			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user[0]['PSEUDO']).' &raquo; ' . translate( 'user profile' ) );
+			set_page('description',$user[0]['PSEUDO'].' - Profile');
 			
 			$this->data['body']			=	$this->load->view('account/profile/user_profil_body',$this->data,true);
 			
@@ -240,7 +240,7 @@ class Account extends Libraries
 		$this->load->library('form_validation');
 		$result	= array(
 			'status'	=>	'warning',
-			'message'	=>	'Une erreur s\'est produite durant l\'opération.',
+			'message'	=>	translate( 'Error occured during the operation' ),
 			'alertType'	=>	'modal',
 			'response'	=>	array()
 		);
@@ -253,7 +253,7 @@ class Account extends Libraries
 				{
 					$result	=	 array(
 						'status'	=>	'success',
-						'message'	=>	'La modification du thème à réussi.',
+						'message'	=>	translate( 'theme options successfully saved' ),
 						'alertType'	=>	'notice',
 						'response'	=>	array(),
 						'exec'		=>	'function(){
@@ -272,7 +272,7 @@ class Account extends Libraries
 			{
 				$result	=	 array(
 					'status'	=>	'warning',
-					'message'	=>	'Une erreur s\'est produite, verifiez que l\'ancien mot de passe n\'est pas exact.',
+					'message'	=>	translate( 'Error occured, check if the old password is correct' ) ,
 					'alertType'	=>	'modal',
 					'response'	=>	array()
 				);
@@ -280,7 +280,7 @@ class Account extends Libraries
 				{
 					$result	=	 array(
 						'status'	=>	'warning',
-						'message'	=>	'L\'ancien et le nouveau mot de passe ne doivent pas être identique.',
+						'message'	=>	translate( 'The old password and the new shouldn\'t match' ),
 						'alertType'	=>	'modal',
 						'response'	=>	array()
 					);
@@ -291,7 +291,7 @@ class Account extends Libraries
 					{
 						$result	=	 array(
 							'status'	=>	'success',
-							'message'	=>	'La modification du mot de passe à réussi.',
+							'message'	=>	translate( 'Editing password success' ),
 							'alertType'	=>	'notice',
 							'response'	=>	array()
 						);
@@ -302,7 +302,7 @@ class Account extends Libraries
 			{
 				$result	=	 array(
 					'status'	=>	'warning',
-					'message'	=>	'Une erreur s\'est produite, votre mot de passe doit avoir au moins 6 lettres, et le "nouveau mot de passe" doit être identique à celui du champ "Retaper le mot de passe".',
+					'message'	=>	translate( 'An error occured, your password must have more than 5 caracters and it must match "Password confirm" field'),
 					'alertType'	=>	'modal',
 					'response'	=>	array()
 				);
@@ -316,7 +316,7 @@ class Account extends Libraries
 				{
 					$result	= array(
 						'status'	=>	'success',
-						'message'	=>	'Les éléments ont correctement été mis à jour.',
+						'message'	=>	translate( 'items successfully updated' ),
 						'alertType'	=>	'notice',
 						'response'	=>	array()
 					);
