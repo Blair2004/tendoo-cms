@@ -4607,16 +4607,16 @@ $(document).ready(function() {
             clearTimeout($resize);
             $resize = setTimeout(function() {
                 $window.width() < 767 && mobile();
-                $window.width() >= 768 && mobile('reset') && fixVbox();
+                $window.width() >= 768 && mobile('reset') && fixbigwrapper();
             }, 500);
         });
-        var fixVbox = function() {
-            $('.vbox > footer').prev('section').addClass('w-f');
-            $('.ie11 .vbox').each(function() {
+        var fixbigwrapper = function() {
+            $('.bigwrapper > footer').prev('section').addClass('w-f');
+            $('.ie11 .bigwrapper').each(function() {
                 $(this).height($(this).parent().height());
             });
         }
-        fixVbox();
+        fixbigwrapper();
         $(document).on('click', '[data-ride^="collapse"] a', function(e) {
             var $this = $(e.target), $active;
             $this.is('a') || ($this = $this.closest('a'));

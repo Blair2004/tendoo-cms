@@ -6,8 +6,8 @@
 <?php echo output('css');?>
 </head>
 <body cz-shortcut-listen="true" id="backgroundLogin">
-	<section class="hbox stretch">
-		<section class="vbox">
+	<section class="thinwrapper stretch">
+		<section class="bigwrapper">
 			<footer id="footer"> 
 				<div class="text-center padder clearfix"> 
 					<p> 

@@ -54,14 +54,14 @@ Class registration extends Libraries
 		{
 			$this->instance->url->redirect(array('error','code','registrationNotAllowed'));
 		}
-		$this->instance->form_validation->set_rules('user_pseudo','Pseudo','trim|required|min_length[5]|max_length[15]');
-		$this->instance->form_validation->set_rules('user_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
-		$this->instance->form_validation->set_rules('user_password_confirm','Confirmer le mot de passe','trim|required|min_length[6]|max_length[15]');
-		$this->instance->form_validation->set_rules('user_mail','Email','trim|valid_email|required');
-		$this->instance->form_validation->set_rules('user_sex','Selection du sexe','trim|required|min_length[3]|max_length[4]');
-		$this->instance->form_validation->set_rules('priv_id','Selection du privil&egrave;ge','trim|min_length[11]');
-		$this->instance->form_validation->set_rules('captchaCorrespondance','Code captcha','trim|required|min_length[6]');
-		$this->instance->form_validation->set_rules('user_captcha','Code de validation Captcha','matches[captchaCorrespondance]|trim|required|min_length[6]');
+		$this->instance->form_validation->set_rules('user_pseudo', translate( 'Pseudo' ),'trim|required|min_length[5]|max_length[15]');
+		$this->instance->form_validation->set_rules('user_password', __( 'Password' ),'trim|required|min_length[6]|max_length[15]');
+		$this->instance->form_validation->set_rules('user_password_confirm', __( 'Confirm Password' ),'trim|required|min_length[6]|max_length[15]');
+		$this->instance->form_validation->set_rules('user_mail', __( 'Email' ),'trim|valid_email|required');
+		$this->instance->form_validation->set_rules('user_sex', __( 'Sex' ),'trim|required|min_length[3]|max_length[4]');
+		$this->instance->form_validation->set_rules('priv_id',__( 'Select Privilege' ),'trim|min_length[11]');
+		$this->instance->form_validation->set_rules('captchaCorrespondance', __( 'Captcha Code' ),'trim|required|min_length[6]');
+		$this->instance->form_validation->set_rules('user_captcha', __( 'Captcha validation Code' ),'matches[captchaCorrespondance]|trim|required|min_length[6]');
 		if($this->instance->form_validation->run())
 		{
 			$query	=	$this->instance->users_global->createUser(
@@ -96,11 +96,11 @@ Class registration extends Libraries
 		$this->loadLibraries();				//	Affecting Libraries */
 		$this->construct_end();				// 	Fin du constructeur
 		
-		$this->instance->form_validation->set_rules('super_admin_pseudo','Pseudo','trim|required|min_length[5]|max_length[15]');
-		$this->instance->form_validation->set_rules('super_admin_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
-		$this->instance->form_validation->set_rules('super_admin_password_confirm','Confirmer le mot de passe','trim|required|min_length[6]|matches[super_admin_password]');
-		$this->instance->form_validation->set_rules('super_admin_mail','Email','trim|valid_email|required');
-		$this->instance->form_validation->set_rules('super_admin_sex','Selection du sexe','trim|required|min_length[3]|max_length[4]');
+		$this->instance->form_validation->set_rules('super_admin_pseudo', __( 'Pseudo' ),'trim|required|min_length[5]|max_length[15]');
+		$this->instance->form_validation->set_rules('super_admin_password',__( 'Password' ),'trim|required|min_length[6]|max_length[15]');
+		$this->instance->form_validation->set_rules('super_admin_password_confirm',__( 'Confirm Password' ),'trim|required|min_length[6]|matches[super_admin_password]');
+		$this->instance->form_validation->set_rules('super_admin_mail', __( 'Email' ),'trim|valid_email|required');
+		$this->instance->form_validation->set_rules('super_admin_sex', __( 'Sex selection' ),'trim|required|min_length[3]|max_length[4]');
 		if($this->instance->form_validation->run())
 		{
 			if($this->instance->users_global->createSuperAdmin(
@@ -114,9 +114,9 @@ Class registration extends Libraries
 			}
 			notice('push',fetch_notice_output('SuperAdminCreationError'));
 		}
-		$this->data['pageTitle']	=	'Cr&eacute;er un super administrateur - Tendoo';
+		$this->data['pageTitle']	=	__( 'Create Admin - Tendoo' );
 		set_page(	'title'	,	$this->data['pageTitle']);
-		set_page(	'description'	,	'Créer un super administrateur'	);
+		set_page(	'description'	,	__( 'Create Super Admin - Tendoo' )	);
 		
 		$this->data['body']	=	$this->load->view('registration/createSuperAdmin',$this->data,true);
 		

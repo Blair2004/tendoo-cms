@@ -1,7 +1,7 @@
 <?php echo $lmenu;?>
 
 <section id="content">
-    <section class="vbox"><?php echo $inner_head;?>
+    <section class="bigwrapper"><?php echo $inner_head;?>
         <footer class="footer bg-white b-t">
         <?php
 		if($getSpeNews[0]['SCHEDULED']	==	'1')
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </header>
-            <section class="vbox">
+            <section class="bigwrapper">
                 <section class="wrapper"> <?php echo output('notice');?>  <?php echo validation_errors(); ?>
                     <form method="post" class="submitForm">
                         <div class="row">

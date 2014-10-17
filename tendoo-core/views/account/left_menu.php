@@ -1,5 +1,5 @@
 <aside class="aside <?php echo theme_class();?> <?php echo get_user_meta( 'admin-left-menu-status' );?> b-r" id="nav">
-    <section class="vbox">
+    <section class="bigwrapper">
         <header class="dker nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 
             	<i class="fa fa-reorder"></i> 

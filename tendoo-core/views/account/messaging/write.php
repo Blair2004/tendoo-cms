@@ -10,20 +10,20 @@
                 </div>
                 <form method="post" class="panel-body">
                     <div class="form-group">
-                        <label class="control-label">Pseudo du correspondant</label>
-                        <input type="text" class="form-control" name="receiver" placeholder="Pseudo du correspondant" />
+                        <label class="control-label"><?php _e( 'Receiver' );?></label>
+                        <input type="text" class="form-control" name="receiver" placeholder="<?php _e( 'Type a valid pseudo' );?>" />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Contenu du message</label>
-                        <textarea class="form-control" name="content" placeholder="Contenu du message"></textarea>
+                        <label class="control-label"><?php _e( 'Message content' );?></label>
+                        <textarea class="form-control" name="content" placeholder="<?php _e( 'Message content' );?>"></textarea>
                     </div>
-                    <input class="btn btn-sm btn-info" type="submit" value="Envoyer" />
-                    <input class="btn btn-sm btn-danger" type="reset" value="Tout effacer" />
+                    <input class="btn btn-sm btn-info" type="submit" value="<?php _e( 'Send' );?>" />
+                    <input class="btn btn-sm btn-danger" type="reset" value="<?php _e( 'Reset' );?>" />
                 </form>
                 <div class="wrapper">
                     <?php
-$field_1	=	(form_error('receiver')) ? form_error('receiver') : 'Ce pseudo doit correspondre à l\'un des pseudo valide.';
-$field_2	=	(form_error('content')) ? form_error('content') : 'Le contenu du message.';
+$field_1	=	(form_error('receiver')) ? form_error('receiver') : __( 'This pseudo must be valid' );
+$field_2	=	(form_error('content')) ? form_error('content') : __( 'Message content' );
 ?>
                     <p><?php echo $field_1; ?></p>
                     <p><?php echo $field_2; ?></p>

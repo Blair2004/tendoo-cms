@@ -1,6 +1,6 @@
 <?php echo $lmenu;?>
 <section id="content">
-    <section class="vbox">
+    <section class="bigwrapper">
         <?php echo $inner_head;?>
         <footer class="footer bg-white b-t">
             <div class="row m-t-sm text-center-xs">
@@ -41,7 +41,7 @@
                 </div>
             </header>
             
-            <section class="vbox">
+            <section class="bigwrapper">
                 <section class="wrapper"> 
 					<?php echo output('notice');?> 
 					

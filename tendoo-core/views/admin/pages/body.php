@@ -1,7 +1,7 @@
 <?php echo get_core_vars( 'lmenu' );?>
 
 <section id="content">
-    <section class="vbox">
+    <section class="bigwrapper">
         <?php echo get_core_vars( 'inner_head' );?>
         <footer class="footer bg-white b-t">
 			<div class="row m-t-sm text-center-xs">
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </header>
-            <section class="vbox">
+            <section class="bigwrapper">
                 <section class="wrapper w-f">
                     <?php echo output('notice');?>
                     
@@ -360,9 +360,9 @@
 					});
 					</script>
                     <div id="prototype" style="display:none">
-                        <section class="hbox stretch">
+                        <section class="thinwrapper stretch">
                             <section id="content">
-                                <section class="vbox">
+                                <section class="bigwrapper">
                                     <footer class="footer bg-white b-t">
                                         <div class="row m-t-sm text-center-xs">
                                             <div class="col-sm-8">
@@ -373,7 +373,7 @@
                                         </div>
                                     </footer>
                                     <section class="scrollable" id="pjax-container">
-                                        <section class="vbox">
+                                        <section class="bigwrapper">
                                             <section class="wrapper">
                                                 <div class="row">
                                                     <div class="col-lg-12">

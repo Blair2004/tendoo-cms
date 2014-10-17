@@ -1,7 +1,7 @@
 <?php echo get_core_vars( 'lmenu' );?>
 
 <section id="content">
-<section class="vbox"> <?php echo get_core_vars( 'inner_head' );?>
+<section class="bigwrapper"> <?php echo get_core_vars( 'inner_head' );?>
 	<footer class="footer bg-white b-t">
         <div class="row m-t-sm text-center-xs">
             <div class="col-sm-4" id="ajaxLoading" style="visibility: hidden;"></div>
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </header>
-        <section class="vbox">
+        <section class="bigwrapper">
             <section class="wrapper w-f"> <?php echo output('notice');?> 
                 <div class="row themes_grid">
                     <?php 
@@ -102,9 +102,9 @@
 ?>
                 </div>
                 <div id="theme_details_prototype" style="display:none">
-                    <section class="hbox stretch">
+                    <section class="thinwrapper stretch">
                         <section id="content">
-                            <section class="vbox">
+                            <section class="bigwrapper">
                                 <footer class="footer bg-white b-t">
                                     <div class="row m-t-sm text-center-xs">
                                         <div class="col-sm-4">
@@ -120,7 +120,7 @@
                                     </div>
                                 </footer>
                                 <section class="scrollable" id="pjax-container">
-                                    <section class="vbox">
+                                    <section class="bigwrapper">
                                         <div class="wrapper">
                                         	<img class="theme_thumb" src="" style="max-height:90%;max-width:100%;"/>
                                             <hr class="line line-dashed"/>

@@ -1,6 +1,6 @@
 <?php echo get_core_vars( 'lmenu' );?>
 <section id="content">
-    <section class="vbox">
+    <section class="bigwrapper">
         <?php echo get_core_vars( 'inner_head' );?>
         <section class="scrollable" id="pjax-container">
             <header>
@@ -16,7 +16,7 @@
                 </div>
                
             </header>
-            <section class="vbox">
+            <section class="bigwrapper">
                 <section class="wrapper w-f"> 
                 	<?php echo validation_errors('<p class="error">', '</p>');?>
 					<?php echo fetch_error_from_url();?>

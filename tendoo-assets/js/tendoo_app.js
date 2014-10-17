@@ -997,7 +997,7 @@ $(document).ready(function(){
 		**/	
 		tendoo.toggleLeftMenu		=	new function(){
 			$('[data-toggle="class:nav-vertical"]').bind('click',function(){
-				var currentStatus		=	$('body > section.hbox > aside').hasClass('nav-vertical');
+				var currentStatus		=	$('body > section.thinwrapper > aside').hasClass('nav-vertical');
 				if( currentStatus ){
 					tendoo.set_user_meta( 'admin-left-menu-status' , 'nav-expanded' );
 				}

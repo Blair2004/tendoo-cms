@@ -5,7 +5,7 @@
 	{
 	?>
 <body style="background:<?php echo theme_background_color();?>">
-<section class="hbox stretch">
+<section class="thinwrapper stretch">
 <?php
     }
 	function page_bottom($options,$obj)

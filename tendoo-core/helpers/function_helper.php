@@ -360,6 +360,14 @@ if(!function_exists('__extends'))
 }
 if(!function_exists('translate')) // gt = Get Text
 {
+	function __( $code , $templating = null )
+	{
+		return translate( $code , $templating );
+	}
+	function _e( $code , $templating = null )
+	{
+		echo __( $code , $templating );
+	}
 	function translate($code,$templating = null)
 	{
 		$final_lines	=	array();

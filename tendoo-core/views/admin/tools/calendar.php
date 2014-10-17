@@ -1,7 +1,7 @@
 <?php echo get_core_vars( 'lmenu' );?>
 
 <section id="content">
-  <section class="vbox">
+  <section class="bigwrapper">
     <?php echo get_core_vars( 'inner_head' );?>
     <section class="scrollable" id="pjax-container">
       <header>
@@ -14,9 +14,9 @@
         </div>
       </div>
       </header>
-      <section class="hbox stretch" id="taskapp">
+      <section class="thinwrapper stretch" id="taskapp">
         <aside>
-        <section class="vbox">
+        <section class="bigwrapper">
           <header class="header bg-light lter bg-gradient b-b">
           <button class="btn btn-success btn-sm pull-right btn-icon" id="new-task"><i class="fa fa-plus"></i></button>
           <p>
@@ -31,10 +31,10 @@
             </p>
           </footer>
           <section class="bg-light lter">
-            <section class="hbox stretch">
+            <section class="thinwrapper stretch">
               <!-- .aside -->
               <aside>
-              <section class="vbox">
+              <section class="bigwrapper">
                 <section class="scrollable wrapper">
                   <!-- task list -->
                   <ul id="task-list" class="list-group list-group-sp">
@@ -50,7 +50,7 @@
         </aside>
         <!-- .aside -->
         <aside class="col-lg-4 bg-white b-l">
-        <section class="vbox flex" id="task-detail">
+        <section class="bigwrapper flex" id="task-detail">
           <!-- task detail --> <script type="text/template" id="task-template"> <header class="header bg-light lt b-b"> <p class="m-b"> <span class="text-muted">Created:</span> <%- moment(date).format('MMM Do, h:mm a') %> </p> <div class="lter pull-in b-t m-t-xxs"> <textarea type="text" class="form-control form-control-trans scrollable" placeholder="Task description"><%- desc %></textarea> </div> </header> <section> <section> <section> <ul id="task-comment" class="list-group no-radius no-border m-t-n-xxs"> </ul> </section> </section> </section> <footer class="footer bg-light lter clearfix b-t"> <div class="input-group m-t-sm"> <input type="text" class="form-control input-sm" id="task-c-input" placeholder="Type a comment"> <span class="input-group-btn"> <button class="btn btn-success btn-sm" type="button" id="task-c-btn"><i class="fa fa-pencil"></i></button> </span> </div> </footer> </script> <!-- task detail --> <script type="text/template" id="item-c-template"> <div class="view"> <button class="destroy close hover-action">&times;</button> <div> <span><%- desc %></span> <small class="text-muted block text-xs"><i class="fa fa-time"></i> <%- moment(date).fromNow() %></small> </div> </div> </script>
         </section>
         </aside>

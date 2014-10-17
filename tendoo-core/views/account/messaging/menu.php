@@ -1,10 +1,10 @@
     <button type="button" class="tobr btn btn-sm btn-white">
-        Boite de r&eacute;ception </button>
+        <?php _e( 'Inbox' );?> </button>
     <button type="button" class="tonew btn btn-sm btn-white">
-        Ecrire un nouveau message 
+        <?php _e( 'Write a new message' );?>
 	</button>
     <button type="button" class="todellconv btn btn-sm btn-white">
-        Supprimer la conversation 
+        <?php _e( 'Delete discussion' );?>
 	</button>
 <script>
 	$(document).ready(function(){
@@ -35,21 +35,21 @@
 		$('.todellconv').bind('click',function(){
 			if($('.small_app tbody').find('input[isChecked="true"]').length > 0)
 			{
-				if(confirm('Voulez vous supprimer ce message ?'))
+				if(confirm('<?php _e( 'Do you want to delete this message ?');?>'))
 				{
 					$('.small_app form').submit();
 				}
 			}
 			else if($('.conv_id').length > 0)
 			{
-				if(confirm('Voulez vous supprimer ce message ?'))
+				if(confirm('<?php _e( 'Do you wan to dlete this message ?');?>'))
 				{
 					$('.read_form_id').submit();
 				}
 			}
 			else
 			{
-				alert('Selectionnez un message avant de le supprimer');
+				alert('<?php _e( 'Select a message first before deleting...');?>');
 			}
 		});
 		$('.this').bind('mouseup',function(){
@@ -67,7 +67,7 @@
 		var field	=	
 		'<div class="line"></div><div class=""><div class="row"><div class="col-lg-10 col-lg-offset-1"><form method="post" class="panel-content reply_form">'+
 			'<div class="form-group">'+
-				'<textarea class="form-control" name="reply" placeholder="Ajouter un post">'+
+				'<textarea class="form-control" name="reply" placeholder="<?php _e( 'Add a post') ;?>">'+
 				'</textarea>'+
 				'<input type="hidden" name="convid" value="'+$('.conv_id').val()+'"/>'+
 			'</div>'+

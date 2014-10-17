@@ -1,5 +1,5 @@
 <aside class="<?php echo theme_class();?> aside-sm <?php echo get_user_meta( 'admin-left-menu-status' );?>" id="nav" data-intro="Accédez à différents emplacements à l'aide de ce menu." data-step="2" data-position="right">
-    <section class="vbox">
+    <section class="bigwrapper">
         <header class="dker nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 
             	<i class="fa fa-reorder"></i> 

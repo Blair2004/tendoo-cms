@@ -1,6 +1,6 @@
 <?php echo get_core_vars( 'lmenu' );?>
 <section id="content">
-<section class="vbox"><?php echo get_core_vars( 'inner_head' );?>
+<section class="bigwrapper"><?php echo get_core_vars( 'inner_head' );?>
    <footer class="footer bg-white b-t">
       <div class="row m-t-sm text-center-xs">
          <div class="col-sm-3">
@@ -24,7 +24,7 @@
                     </div>
          </div>
       </header>
-      <section class="vbox">
+      <section class="bigwrapper">
          <section class="wrapper w-f">
             <?php echo output('notice');?>  <?php echo validation_errors('<p class="error">', '</p>');?> <?php echo fetch_error_from_url();?>
             <section class="panel">

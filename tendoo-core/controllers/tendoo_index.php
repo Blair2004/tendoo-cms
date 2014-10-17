@@ -12,7 +12,7 @@ class Tendoo_index extends Libraries
 	{
 		css_push_if_not_exists('font');
 		css_push_if_not_exists('app.v2');		
-		set_page('title','Bienvenue sur '.get('core_version'));
+		set_page('title', __( 'Welcome on' ) . ' ' .get('core_version'));
 		$this->load->view('header',$this->data,false,false,$this);
 		$this->load->view('tendoo_index_body',$this->data,false,false,$this);
 	}

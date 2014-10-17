@@ -33,7 +33,7 @@ class error extends Libraries
 		$this->data['code']				=	notice('push',fetch_notice_output($e));
 		$this->data['body']				=	$this->load->view('error/inner_body',$this->data,TRUE);
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		set_page('title','Erreur - Tendoo');
+		set_page('title', translate( 'Error - Tendoo' ) );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->file->css_push('font');
 		$this->file->css_push('app.v2');

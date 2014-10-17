@@ -23,15 +23,15 @@ class Install extends Libraries
 	}
 	public function index($i = 1,$e = '')
 	{
-		$this->etape($i,$e);
+		$this->step($i,$e);
 	}
-	public function etape($i = 1,$e = '')
+	public function step($i = 1,$e = '')
 	{
 		if($this->lang->isLangSelected())
 		{
 			$this->url->redirect(array('install','defineLang'));
 		}
-		$this->data['etape']	=	$i;
+		$this->data['step']	=	$i;
 		$this->data['InstallError'] = '';
 		if($i == 1)
 		{
@@ -39,7 +39,7 @@ class Install extends Libraries
 			if(isset($_POST['submit']))
 			{
 				$_SESSION['secur_access'] = 2;
-				$this->url->redirect(array('install','etape',2));
+				$this->url->redirect(array('install','step',2));
 			}
 			set_page('title',translate('install_tendoo_title',array('version : '.get('core_id'))));
 			$this->load->view('header',$this->data);
@@ -49,13 +49,13 @@ class Install extends Libraries
 		{
 			if(!isset($_SESSION['secur_access']))
 			{
-				$this->url->redirect(array('install','etape',1));
+				$this->url->redirect(array('install','step',1));
 			}
 			else
 			{
 				if(!in_array($_SESSION['secur_access'],array(1,2)))
 				{
-					$this->url->redirect(array('install','etape',1));
+					$this->url->redirect(array('install','step',1));
 				}
 			}
 			if(isset($_POST['host_name'],$_POST['user_name']))
@@ -79,7 +79,7 @@ class Install extends Libraries
 					if($connexion === TRUE)
 					{
 						$_SESSION['secur_access'] = 3;
-						$this->url->redirect(array('install','etape',3));
+						$this->url->redirect(array('install','step',3));
 					}
 				}
 			}
@@ -93,13 +93,13 @@ class Install extends Libraries
 			{
 				if(!isset($_SESSION['secur_access']))
 				{
-					$this->url->redirect('install/etape/1/secur_access_not_defined');
+					$this->url->redirect('install/step/1/secur_access_not_defined');
 				}
 				else
 				{
 					if(!in_array($_SESSION['secur_access'],array(1,2,3)))
 					{
-						$this->url->redirect('install/etape/1');
+						$this->url->redirect('install/step/1');
 					}
 				}
 				set_page('title',translate('tendoo_install_second_step'));
@@ -108,7 +108,7 @@ class Install extends Libraries
 			}
 			else
 			{
-				$this->url->redirect('install/etape/1/installError');
+				$this->url->redirect('install/step/1/installError');
 			}
 		}
 	}
@@ -170,7 +170,7 @@ class Install extends Libraries
 		if($this->form_validation->run())
 		{
 			$this->instance->lang->defineLang('fr_FR'); // $this->input->post('lang')
-			$this->url->redirect(array('install','etape','1'));
+			$this->url->redirect(array('install','step','1'));
 		}
 		set_page('title','Tendoo &raquo; Choose installation language, Choissisez la langue d\'installation');
 		$this->load->view('header',$this->data);

@@ -24,8 +24,8 @@ Class login extends Libraries
 	}
 	public function index() // OK for 0.99
 	{
-		$this->form_validation->set_rules('admin_pseudo','Pseudo','trim|required|min_length[5]|max_length[15]');
-		$this->form_validation->set_rules('admin_password','Mot de passe','trim|required|min_length[6]|max_length[15]');
+		$this->form_validation->set_rules('admin_pseudo', translate( 'Pseudo' ),'trim|required|min_length[5]|max_length[15]');
+		$this->form_validation->set_rules('admin_password', translate( 'Password' ),'trim|required|min_length[6]|max_length[15]');
 		if($this->form_validation->run())
 		{		
 			$login_status	=	$this->users_global->authUser(
@@ -59,7 +59,7 @@ Class login extends Libraries
 			}
 		}
 		// var_dump($this->load);
-		$this->data['pageTitle']	=	'Connexion - '.riake( 'site_name' , $this->data['options'] );
+		$this->data['pageTitle']	=	translate( 'Login' ) . ' - '.riake( 'site_name' , $this->data['options'] );
 		set_page('title',$this->data['pageTitle']);
 		
 		$this->data['body']	=	$this->load->view('login/connect',$this->data,true);
@@ -90,7 +90,7 @@ Class login extends Libraries
 		// Method
 		if($action == 'home')
 		{
-			$this->data['pageTitle']	=	'Syst&egrave;me de r&eacute;cup&eacute;ration de compte';
+			$this->data['pageTitle']	=	translate( 'Password recovery wizard' );
 			set_page('title',$this->data['pageTitle']);
 			$this->data['body']	=	$this->load->view('login/recovery_main',$this->data,true);
 			
@@ -100,8 +100,7 @@ Class login extends Libraries
 		else if($action == 'receiveValidation')
 		{
 			$this->load->library('form_validation');
-$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			$this->form_validation->set_rules('email_valid','Email','trim|required|valid_email');
+			$this->form_validation->set_rules('email_valid', translate( 'Email' ),'trim|required|valid_email');
 			if($this->form_validation->run())
 			{
 				$query	=	$this->users_global->sendValidationMail($this->input->post('email_valid'));
@@ -111,7 +110,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				}
 				notice(fetch_notice_output($query));
 			}
-			$this->data['pageTitle']	=	'Recevoir le mail d\'activation';
+			$this->data['pageTitle']	=	translate( 'Receive activation mail' );
 			set_page('title',$this->data['pageTitle']);
 			$this->data['body']	=	$this->load->view('login/recovery_mailOption',$this->data,true);
 			
@@ -121,8 +120,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		else if($action == 'password_lost')
 		{
 			$this->load->library('form_validation');
-$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			$this->form_validation->set_rules('email_valid','Email','trim|required|valid_email');
+			$this->form_validation->set_rules('email_valid', translate( 'Email' ) ,'trim|required|valid_email');
 			if($this->form_validation->run())
 			{
 				$query	=	$this->users_global->sendPassChanger($this->input->post('email_valid'));
@@ -190,9 +188,8 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				if($connect)
 				{
 					$this->load->library('form_validation');
-$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-					$this->form_validation->set_rules('password_new','Confirmer le mot de passe','trim|required|min_length[6]|max_length[30]');
-					$this->form_validation->set_rules('password_new_confirm','Confirmer le mot de passe','trim|required|matches[password_new]');	
+					$this->form_validation->set_rules('password_new', translate( 'New password' ),'trim|required|min_length[6]|max_length[30]');
+					$this->form_validation->set_rules('password_new_confirm',translate( 'Confirm password' ),'trim|required|matches[password_new]');	
 					if($this->form_validation->run())
 					{
 						$query	=	$this->users_global->recoverPassword($connect['ID'],$password,$this->input->post('password_new'));
@@ -205,7 +202,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 							notice(fetch_notice_output($query));
 						}
 					}
-					$this->data['pageTitle']	=	'Changer le mot de passe';
+					$this->data['pageTitle']	=	translate( 'Changing Password - Tendoo' );
 					set_page('title',$this->data['pageTitle']);
 					$this->data['menu']	=	$this->load->view('login/recovery_menu',$this->data,true);
 					$this->data['body']	=	$this->load->view('login/password_change',$this->data,true);

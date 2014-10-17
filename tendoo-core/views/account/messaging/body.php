@@ -13,10 +13,10 @@
                 <thead>
                     <tr>
                         <th width="20"><input type="checkbox"></th>
-                        <th class="th-sortable" data-toggle="class">Pseudo</th>
-                        <th>Contenu</th>
-                        <th width="200">Dernier Message</th>
-                        <th width="200">Date de cr&eacute;ation</th>
+                        <th class="th-sortable" data-toggle="class"><?php _e( 'Pseudo' );?></th>
+                        <th><?php _e( 'Content' );?></th>
+                        <th width="200"><?php _e( 'Last Message' );?></th>
+                        <th width="200"><?php _e( 'Since' );?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +46,7 @@
                     {
                         ?>
                         <tr>
-                            <th colspan="5">Aucun message reçu</th>
+                            <th colspan="5"><?php _e( 'Empty inbox' );?></th>
                         </tr>
                         <?php
                     }
@@ -70,7 +70,7 @@
             </select>
             <button class="btn btn-sm btn-white">Apply</button>
         </div>
-        <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">Montre <?php echo $paginate[1];?> &agrave; <?php echo $paginate[2];?> sur <?php echo $ttMessage;?> El&eacute;ments</small> </div>
+        <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm"><?php sprintf( _e( 'Display % to % items over % items' ) , $paginate[1], $paginate[2], $ttMessage );?> </small> </div>
         <div class="col-sm-4 text-right text-center-xs">
             <ul class="pagination pagination-sm m-t-none m-b-none">
             <?php
