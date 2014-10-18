@@ -1,1 +1,1 @@
-	tendoo.notice.alert('Le contrôleur à été correctement modifié.');
+	tendoo.notice.alert( '<?php _e( 'This controller has been succefully edited' );?>' );

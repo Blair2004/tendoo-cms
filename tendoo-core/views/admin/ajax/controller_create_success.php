@@ -17,7 +17,7 @@
 	}
 	else
 	{
-	?><div class="panel"><div class="panel-heading"> Aucun contrôleur disponible </div></div><?php
+	?><div class="panel"><div class="panel-heading"> <?php _e( 'Controller not found. You may create a new one' );?> </div></div><?php
 	}
 $result	=	addslashes(ob_get_contents());
 ob_end_clean();
@@ -30,7 +30,7 @@ if(true == false)
     <?php
 }
 ?>
-	tendoo.notice.alert('<?php echo strip_tags(tendoo_success('Le contrôleur à été correctement crée.'));?>');
+	tendoo.notice.alert('<?php echo strip_tags(tendoo_success( _e( 'A controller has been succefully created' ) ) );?>');
 	$('#controller_form').append("<input type='reset'>");
 	$('#controller_form').find('[type="reset"]').trigger('click').remove();
 

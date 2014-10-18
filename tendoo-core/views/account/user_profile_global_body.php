@@ -22,9 +22,9 @@
                                             </div>
                                     </div>
                                     <div> <small class="text-uc text-xs text-muted">Nom</small>
-                                        <p><?php echo $user[0]['NAME'] == '' ? 'Non sp&eacute;cifi&eacute;' : $user[0]['NAME'];?></p>
+                                        <p><?php echo $user[0]['NAME'] == '' ? __( 'Unset' ) : $user[0]['NAME'];?></p>
                                         <small class="text-uc text-xs text-muted">Pr&eacute;nom</small>
-                                        <p><?php echo $user[0]['SURNAME'] == '' ? 'Non sp&eacute;cifi&eacute;' : $user[0]['SURNAME'];?></p>
+                                        <p><?php echo $user[0]['SURNAME'] == '' ? __( 'Unset' ) : $user[0]['SURNAME'];?></p>
                                         <div class="line"></div>
                                         <small class="text-uc text-xs text-muted">connection</small>
                                         <p class="m-t-sm"> <a href="#" class="btn btn-rounded btn-twitter btn-icon"><i class="fa fa-twitter"></i></a> <a href="#" class="btn btn-rounded btn-facebook btn-icon"><i class="fa fa-facebook"></i></a> <a href="#" class="btn btn-rounded btn-gplus btn-icon"><i class="fa fa-google-plus"></i></a> </p>

@@ -18,26 +18,26 @@
                         <div class="panel-heading"> <?php echo translate( 'User names' );?> </div>
                         <form method="post" class="panel-body">
                             <div class="form-group">
-                                <label class="label-control">Nom :</label>
-                                <input class="form-control" type="text" placeholder="Nom" name="user_name" value="<?php echo current_user('name');?>" />
+                                <label class="label-control"><?php _e( 'Name' );?> :</label>
+                                <input class="form-control" type="text" placeholder="<?php _e( 'Name' );?>" name="user_name" value="<?php echo current_user('name');?>" />
                             </div>
                             <div class="form-group">
-                                <label class="label-control">Pr&eacute;nom :</label>
-                                <input class="form-control" type="text" placeholder="Pr&eacute;nom" name="user_surname" value="<?php echo current_user('surname');?>"/>
+                                <label class="label-control"><?php _e( 'Surname' );?> :</label>
+                                <input class="form-control" type="text" placeholder="<?php _e( 'Surname' );?>" name="user_surname" value="<?php echo current_user('surname');?>"/>
                             </div>
                             <div class="line line-dashed"></div>
                             <input class="btn btn-white" type="submit" value="Enregistrer" />
                         </form>
                     </div>
                     <div class="panel">
-                        <div class="panel-heading"> Donn&eacute;es de localisation </div>
+                        <div class="panel-heading"> <?php _e( 'Location Details' );?> </div>
                         <form method="post" class="panel-body">
                             <div class="form-group">
-                                <label class="label-control">Pays :</label>
+                                <label class="label-control"><?php _e( 'Country' );?> :</label>
                                 <input class="form-control" type="text" placeholder="Pays" name="user_state" value="<?php echo current_user('state');?>" />
                             </div>
                             <div class="form-group">
-                                <label class="label-control">Ville :</label>
+                                <label class="label-control"><?php _e( 'City' );?> :</label>
                                 <input class="form-control" type="text" placeholder="Ville" name="user_town" value="<?php echo current_user('town');?>" />
                             </div>
                             <div class="line line-dashed"></div>
@@ -47,12 +47,12 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="panel">
-                        <div class="panel-heading"> Profils & Réseau sociaux </div>
+                        <div class="panel-heading"> <?php _e( 'Profile and social network' );?> </div>
                         <div class="panel-body">
                             <form method="post" class="form" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-lg-3"> <img src="<?php echo current_user('avatar_link');?>" alt="<?php echo current_user('pseudo');?>_avatar" style="width:100px;border-radius:50px;overflow:hidden;border:solid 2px #999;box-shadow:0px 0px 5px #CCC;"> </div>
-                                    <div class="col-lg-9"> <?php echo tendoo_info('Envoyez votre image dont les dimensions de doivent pas excéder 300px, en largeur et en hauteur.');?>
+                                    <div class="col-lg-9"> <?php echo tendoo_info( _e( 'Avatar pics should not exceed 300px on height and width' ) );?>
                                         <div class="input-group">
                                             <input type="file" class="form-control" name="avatar_file">
                                             <span class="input-group-addon">
@@ -66,7 +66,7 @@
 >
                                             </span> </div>
                                         <?php
-										  if(true == false)
+										  if(true == false) // Disabled now
 										  {
 										  ?>
                                         <br>
@@ -117,7 +117,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <hr class="line line-dashed">
-                                        <input class="btn btn-white" value="Modifier" type="submit">
+                                        <input class="btn btn-white" value="<?php _e( 'Edit' );?>" type="submit">
                                     </div>
                                 </div>
                             </form>
@@ -126,12 +126,12 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="panel">
-                        <div class="panel-heading">Modifier le thème</div>
+                        <div class="panel-heading"><?php _e( 'Set a new theme' );?></div>
                         <form fjaxson method="post" class="panel-body" action="<?php echo $this->instance->url->site_url(array('account','ajax','setTheme'));?>">
                             <div class="form-group">
-                                <label class="label-control">Modifier le thème du système</label>
+                                <label class="label-control"><?php _e( 'Change the dashboard theme' );?></label>
                                 <select class="form-control" name="theme_style">
-                                    <option value="">Choisir le thème</option>
+                                    <option value=""><?php _e( 'Choose a theme' );?></option>
                                     <option value="0" <?php if((int)$this->instance->users_global->current('dashboard_theme') == 0): ?> selected="selected"<?php endif;?> >Inverse Theme</option>
                                     <option value="1" <?php if((int)$this->instance->users_global->current('dashboard_theme') == 1): ?> selected="selected"<?php endif;?>>Bubbles Showcase</option>
                                     <option value="2" <?php if((int)$this->instance->users_global->current('dashboard_theme') == 2): ?> selected="selected"<?php endif;?>>Green Day</option>
@@ -142,7 +142,7 @@
                                 </select>
                             </div>
                             <div class="line line-dashed"></div>
-                            <input class="btn btn-white" type="submit" value="Enregistrer" />
+                            <input class="btn btn-white" type="submit" value="<?php _e( 'Save' );?>" />
                         </form>
                     </div>
                 </div>
@@ -150,35 +150,35 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel">
-                        <div class="panel-heading"> Informations de s&eacute;curit&eacute; </div>
+                        <div class="panel-heading"> <?php _e( 'Security Details' );?> </div>
                         <form fjaxson method="post" class="panel-body" action="<?php echo $this->instance->url->site_url(array('account','ajax','setPassword'));?>">
                             <div class="form-group">
-                                <label class="label-control">Ancien Mot de passe :</label>
-                                <input class="form-control" type="password" placeholder="Ancien mot de passe" name="user_oldpass" />
+                                <label class="label-control"><?php _e( 'Old Password' );?> :</label>
+                                <input class="form-control" type="password" placeholder="<?php _e( 'Old Password' );?>" name="user_oldpass" />
                             </div>
                             <div class="form-group">
-                                <label class="label-control">Nouveau Mot de passe :</label>
-                                <input class="form-control" type="password" placeholder="Nouveau mot de passe" name="user_newpass" />
+                                <label class="label-control"><?php _e( 'New Password' );?> :</label>
+                                <input class="form-control" type="password" placeholder="<?php _e( 'New Password' );?>" name="user_newpass" />
                             </div>
                             <div class="form-group">
-                                <label class="label-control">Retaper le mot de passe :</label>
-                                <input class="form-control" type="password" placeholder="Retaper le nouveau" name="user_confirmnewpass" />
+                                <label class="label-control"><?php _e( 'Type new password again' );?></label>
+                                <input class="form-control" type="password" placeholder="<?php _e( 'Type new password again' );?>" name="user_confirmnewpass" />
                             </div>
                             <div class="line line-dashed"></div>
-                            <input class="btn btn-white" type="submit" value="Enregistrer" />
+                            <input class="btn btn-white" type="submit" value="<?php _e( 'Save new password' );?>" />
                         </form>
                     </div>
                 </div>
                 <div class="col-lg-6">
                 	<div class="panel">
-                    	<div class="panel-heading">Ma bio</div>
+                    	<div class="panel-heading"><?php _e( 'User bio' );?></div>
                         <form fjaxson method="post" class="panel-body" action="<?php echo $this->instance->url->site_url(array('account','ajax','set_user_meta'));?>">
                             <div class="form-group">
                             	<input type="hidden" name="key" value="bio">
                                 <textarea name="value" rows="10" class="form-control"><?php echo current_user( 'bio' );?></textarea>
                             </div>
                             <div class="line line-dashed"></div>
-                            <input class="btn btn-white" type="submit" value="Enregistrer" />
+                            <input class="btn btn-white" type="submit" value="<?php _e( 'Save Bio' );?>" />
                         </form>
                     </div>
                 </div>

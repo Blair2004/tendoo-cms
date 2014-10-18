@@ -15,7 +15,7 @@
 		$redirective	=	urlencode($this->instance->url->request_uri());
 		?>
         <footer class="footer bg-gradient hidden-xs"> 
-			<a data-intro="Cliquez-ici pour ouvrir la fenêtre des applications installées. Utilisez cette fenêtre pour rapidment accéder aux différentes applications." data-step="10" data-position="top" href="javascript:void(0)" class="showAppTab btn btn-sm pull-right"> 
+			<a href="javascript:void(0)" class="showAppTab btn btn-sm pull-right"> 
 				<i class="fa fa-th-large"></i> 
 			</a> 
 			<a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm"> 
@@ -25,7 +25,7 @@
         <section>
             <nav class="nav-primary">
                 <ul class="nav">
-                    <li> <a href="<?php echo $this->instance->url->site_url('account');?>"> <i class="fa fa-home"></i> <span>Profil</span> </a> </li>
+                    <li> <a href="<?php echo $this->instance->url->site_url('account');?>"> <i class="fa fa-home"></i> <span><?php _e( 'Profile' );?></span> </a> </li>
                     <li> <a href="<?php echo $this->instance->url->site_url('account/messaging');?>"> 
                     <?php
 					$unread	=	$this->instance->users_global->getUnreadMsg();
@@ -35,17 +35,17 @@
                     <?php
 					}
                     ?>
-                    <i class="fa fa-envelope"></i><span>Messagerie</span> </a> </li>
-                    <li> <a href="<?php echo $this->instance->url->site_url('account/update');?>"> <i class="fa fa-edit"></i> <span>Modifier</span> </a> </li>
+                    <i class="fa fa-envelope"></i><span><?php _e( 'Inbox' );?></span> </a> </li>
+                    <li> <a href="<?php echo $this->instance->url->site_url('account/update');?>"> <i class="fa fa-edit"></i> <span><?php _e( 'Edit' );?></span> </a> </li>
                     <?php
 					if($this->instance->users_global->isAdmin())
 					{
 					?>
-                    <li> <a href="<?php echo $this->instance->url->site_url('admin');?>"> <i class="fa fa-dashboard"></i> <span>Admin.</span> </a> </li>
+                    <li> <a href="<?php echo $this->instance->url->site_url('admin');?>"> <i class="fa fa-dashboard"></i> <span><?php _e( 'Dashboard' );?></span> </a> </li>
                     <?php
 					}
 					?>
-                    <li> <a href="<?php echo $this->instance->url->site_url('index');?>"> <i class="fa fa-eye"></i> <span>Retour</span> </a> </li>
+                    <li> <a href="<?php echo $this->instance->url->site_url('index');?>"> <i class="fa fa-eye"></i> <span><?php _e( 'Get to live' );?></span> </a> </li>
                     <li> <a href="<?php echo $this->instance->url->site_url(array('logoff'));?>"> <i class="fa fa-sign-out"></i> <span><?php echo translate( 'Log off' );?></span> </a> </li>
                 </ul>
             </nav>

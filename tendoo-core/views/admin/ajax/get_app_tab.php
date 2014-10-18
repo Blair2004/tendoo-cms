@@ -26,13 +26,13 @@
                         }
 						else
 						{
-							echo tendoo_info('Aucune icone disponible. Activez les icones depuis <a href="'.$this->instance->url->site_url(array('admin','setting')).'"><strong>les param&egrave;tres</strong></a>.');
+							echo tendoo_info( 'No icon is availble. You can enable it throught <a href="'.$this->instance->url->site_url(array('admin','setting')).'"><strong>settings</strong></a>.');
 						}
                     }
                 }
 				else
 				{
-					echo tendoo_info('Aucune icone disponible. Activez les icones depuis <a href="'.$this->instance->url->site_url(array('admin','setting')).'"><strong>les param&egrave;tres</strong></a>.');
+					echo tendoo_info( 'No icon is availble. You can enable it throught <a href="'.$this->instance->url->site_url(array('admin','setting')).'"><strong>settings</strong></a>.');
 				}
                 ?>
                 </div>

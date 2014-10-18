@@ -1,1 +1,1 @@
-tendoo.notice.alert('L\'op&eacute;ration a r&eacute;ussie','success');
+tendoo.notice.alert('<?php _e( 'Done succefully' );?>','success');
