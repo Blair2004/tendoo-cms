@@ -24,14 +24,17 @@
                     <div class="row">
                     	<div class="col-lg-6">
                         	<section class="panel">
-                            	<div class="panel-heading">Envoyer un fichier</div>
+                            	<div class="panel-heading"><?php _e( 'Install new app' );?></div>
                                 <form method="post" class="panel-body" enctype="multipart/form-data">
                                 	<div class="form-group">
-                                    	<p>Installer une application. Le fichier doit n&eacute;cessairement est constitu&eacute; sous forme de fichier zip. Cette application doit &ecirc;tre compatible avec la verison actuelle du CMS. la version actuelle est : <strong><?php echo get('core_version');?></strong>. Assurez-vous d'avoir t&eacute;l&eacute;charger cette application depuis un emplacement s&ucirc;r.</p>
-                                        <label class="control-label">Application Tendoo</label>
+                                    	<p><?php _e( sprintf( 'Install new app. The install file must necessary be a zip file, and should be compatible with your current Tendoo Version : <strong>%s</strong>. Be safe, and install app from secure provider.' , get( 'core_id' ) ) );?>
+                                        <br />
+                                        <?php echo tendoo_info( __( 'Themes and modules can be installed throught this interface.' ) );?>
+                                        </p>
+                                        <label class="control-label"><?php _e( 'Choose your file' );?></label>
                                         <input name="installer_file" type="file" class="form-control">
                                     </div>
-                                    <input type="submit" class="btn btn-info" value="Installer" />
+                                    <input type="submit" class="btn btn-info" value="<?php _e( 'Start installation' );?>" />
                                 </form>
                             </section>
                         </div>

@@ -17,15 +17,15 @@
                     	<div class="col-lg-5">
                 	<section class="panel">
                             <div class="panel-heading">
-                            Attention, soyez prudent !!!
+                            	<?php _e( 'Be safe' );?>
                             </div>
                             <div class="panel-body">
                                 <?php output('notice');?>
-                                <p>Vous êtes sur le point de supprimer un module. Cette action est irreversible, en outre il est probable que d'autres modules et/ou pages ne s'affichent plus correctement. <br /><br />Veuillez confirmer votre action pour continuer.</p>
+                                <p><?php echo sprintf ( __( "You're about to delete blogster. This action couldn't be cancelled later. furthermore some plugins may not work anymore." ) , $module['namespace'] );?></p>
                                     <form method="post">
                                         <div>
                                                 <input type="hidden" name="module_namespace" value="<?php echo $module['namespace'];?>">
-                                                <input type="submit" class="btn btn-sm btn-danger" value="Je confirme mon action">
+                                                <input type="submit" class="btn btn-sm btn-danger" value="<?php _e( 'Confirm and Delete' );?>">
                                         </div>
                                     </form>
                             </div>

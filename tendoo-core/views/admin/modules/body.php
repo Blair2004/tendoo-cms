@@ -43,7 +43,7 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <section class="panel">
-                                <div class="panel-heading"> Liste des modules installés </div>
+                                <div class="panel-heading"> <?php _e( 'Installed Modules' );?> </div>
                                 <table class="table table-striped">
                                     <tbody>
                                         <?php
@@ -75,17 +75,19 @@
 												<td class="action"><strong> <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['namespace']));?>"><?php echo $mod['human_name'];?></a> </strong> <br>
 													<?php echo $mod['description'];?> <br>
 													<br>
-													<small>Auteur : <?php echo $mod['author'];?></small> 
+													<small><?php _e( 'Author' );?> : <?php echo $mod['author'];?></small> 
 													|
-													<small>Spécification : <?php echo (in_array($mod['handle'],array('BLOG','INDEX','FORUM','CONTACT','STATIC','MEDIA','PORTFOLIO','APP','WIDGETS'))) ? $mod['handle'] : 'Inconnu';?></small>
+													<small><?php _e( 'Attributes' );?> : <?php echo (in_array($mod['handle'],array('BLOG','INDEX','FORUM','CONTACT','STATIC','MEDIA','PORTFOLIO','APP','WIDGETS'))) ? $mod['handle'] : 'Inconnu';?></small>
 													<strong><small style="float:right;font-size:10px;"><?php echo ($mod['version'] == '') ? 'Version Inconnue' : 'v.'.$mod['version'];?></small></strong>
 													<?php
 													if( TRUE !== ( $active_theme	=	does_active_theme_support( $mod['handle'] ) ) && $mod[ 'handle' ] != 'APP' )
 													{
 													?>
 													<hr class="line-dashed" style="margin:5px 0;">
-												<div style="color:#FF6464"><i class="fa fa-warning" style="font-size:20px;"></i> 
-												Le thème actif <strong>"<?php echo $active_theme['human_name'];?>"</strong> n'est pas compatible avec ce module.</div>
+												<div style="color:#FF6464">
+                                                	<i class="fa fa-warning" style="font-size:20px;"></i> 
+													<?php echo sprintf( __( 'Active theme %s doesn\'t support this module.' ) , '<strong>' . $active_theme['human_name'] . '</strong>' );?>
+                                                </div>
 													<?php
 													}
 													?>

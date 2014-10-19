@@ -61,9 +61,9 @@ if($this->users_global->isSuperAdmin() || $this->tendoo_admin->adminAccess('syst
             </div>
         </header>
         <div class="panel-body" style="height:105px;">
-            <div> <span class="text-muted">Visites ce mois (uniques/globales) :</span> <span class="h3 block"><?php echo $totalUnique;?>/<small><?php echo $totalGlobal;?></small></span> </div>
-            <div><small>Visites uniques</small> : <span><?php echo $overAllUnique;?></span></div>
-            <div><small>Visites r&eacute;guli&egrave;res</small> : <span><?php echo $overAllGlobal;?></span></div>
+            <div> <span class="text-muted"><?php _e( 'All visits this month (unique/global)' );?> :</span> <span class="h3 block"><?php echo $totalUnique;?>/<small><?php echo $totalGlobal;?></small></span> </div>
+            <div><small><?php _e( 'Unique visits' );?></small> : <span><?php echo $overAllUnique;?></span></div>
+            <div><small><?php _e( 'Regular visits' );?></small> : <span><?php echo $overAllGlobal;?></span></div>
         </div>
     </div>
     <?php

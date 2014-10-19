@@ -32,12 +32,12 @@
                     <div class="row">
                         <div class="col-lg-5">
                             <section class="panel">
-                                <div class="panel-heading"> Cr&eacute;er un contrôleur</div>
+                                <div class="panel-heading"><?php _e( 'Create a controller' );?></div>
                                 <form id="controller_form" fjax action="<?php echo $this->instance->url->site_url(array('admin','ajax','create_controller'));?>" method="post" class="panel-body">
                                     <div class="form-group">
-                                        <label class="control-label">Nom du page</label>
+                                        <label class="control-label"><?php _e( 'Controller name' );?></label>
                                         <div class="input-group">
-                                            <input type="text" placeholder="Nom du contrôleur" name="page_name" class="form-control">
+                                            <input type="text" placeholder="<?php _e( 'Controller name' );?>" name="page_name" class="form-control">
                                             <span class="input-group-btn">
                                             <button 
 											type="button"
@@ -45,16 +45,16 @@
 											data-toggle="popover" 
 											data-html="true" 
 											data-placement="bottom" 
-											data-content="<div style='width:200px'>Ce nom sera affiché comme texte dans les liens.</div>" 
+											data-content="<div style='width:200px'><?php _e( 'It will be used on links' );?></div>" 
 											title="" 
 											data-original-title="Nom du contrôleur">?</button>
                                             </span>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label">Code du contrôleur</label>
+                                        <label class="control-label"><?php _e( 'Controller Code' );?></label>
                                         <div class="input-group">
-                                            <input type="text" placeholder="Code du contrôleur" name="page_cname" class="form-control">
+                                            <input type="text" placeholder="<?php _e( 'Controller Code' );?>" name="page_cname" class="form-control">
                                             <span class="input-group-btn">
                                             <button 
                                             type="button"
@@ -62,9 +62,9 @@
                                             data-toggle="popover" 
                                             data-html="true" 
                                             data-placement="bottom" 
-                                            data-content="<div style='width:250px'>Ce texte sera utilisé dans l'adresse URL. Le mot ne doit pas contenir d'espace ou de caractères spéciaux. les tirets et underscore sont accept&eacute;s. <br>Exemple : <?php echo $this->instance->url->main_url();?>index.php/<strong>nouvelle-page</strong> ou <?php echo $this->instance->url->main_url();?>index.php/<strong>blog</strong></div>" 
+                                            data-content="<div style='width:250px'><?php echo sprintf( __( 'This text will be used on URL. The word must not have spaces and specials caracters. dashes and underscores are accepted. Example : %s or %s' ) , $this->instance->url->main_url() . 'index.php/<strong>nouvelle-page</strong>' , $this->instance->url->main_url() . 'index.php/<strong>blog</strong></div>' );?>" 
                                             title="" 
-                                            data-original-title="Code du contrôleur">?</button>
+                                            data-original-title="<?php _e( 'Controller Code' );?>">?</button>
                                             </span>
                                         </div>
                                     </div>
