@@ -21,6 +21,7 @@ class Admin extends Libraries
 		set_core_vars( 'admin_icons' , $this->tendoo_admin->getAppIcon() , 'read_only' );
 		set_core_vars( 'active_theme' , site_theme() );
 		set_core_vars( 'options' , get_meta( 'all' ) , 'read_only' );
+		set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->__admin_widgets(); // USING core WiDGET and thoses defined through tepas
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -144,6 +145,7 @@ class Admin extends Libraries
 	}
 	public function controllers($e = '',$f = '')
 	{
+		redirect_if_webapp_is_enalbled();
 		//var_dump( $this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE') ) );
 		//die;
 		if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE')))
@@ -177,7 +179,7 @@ class Admin extends Libraries
 				set_core_vars( 'get_pages' ,	$this->tendoo->get_pages());
 				set_core_vars( 'get_mod' , 		$modules	=	get_modules( 'filter_active_unapp' ) );
 				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-				set_page('title', translate( 'Managing controllers - Tendoo' ) );
+				set_page('title', translate( 'Manage controllers - Tendoo' ) );
 				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 				set_core_vars( 'body' , $this->load->view('admin/pages/body',$this->data,true,false) , 'ready_only' );
 				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -195,7 +197,11 @@ class Admin extends Libraries
 		notice( 'push' , fetch_error_from_url() );
 		if($e == '' || $e == 'main')
 		{
-			set_core_vars( 'mod_nbr' , $mod_nbr	=	count( get_modules( 'all' ) ) , 'read_only' );
+			// Filter active APP while WebApp mode is enabled
+			$argument	=	riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'webapp' ? 'filter_active_app' : 'list_all' ;
+			
+			set_core_vars( 'mod_nbr' , $mod_nbr	=	count( get_modules( $argument ) ) , 'read_only' );
+			
 			set_core_vars( 'paginate' ,	$paginate	=	$this->tendoo->paginate(
 				10,
 				$mod_nbr,
@@ -205,12 +211,15 @@ class Admin extends Libraries
 				$a, // as page
 				$this->url->site_url(array('admin','modules','main')).'/'
 			) , 'read_only' ); // Pagination
+			
 			if(get_core_vars( 'paginate' ) === FALSE): $this->url->redirect(array('error','code','page404')); endif; // Redirect if page is not valid
 			
-			set_core_vars( 'modules_list' ,	$result	= get_modules( 'list_all' , $paginate[1] , $paginate[2] ) , 'read_only' );
+			set_core_vars( 'modules_list' ,	$result	= get_modules( $argument , $paginate[1] , $paginate[2] ) , 'read_only' );
 			
 			set_page('title', translate( 'Manage modules - Tendoo' ) );	
+			
 			set_core_vars( 'body' ,	$this->load->view('admin/modules/body',$this->data,true), 'read_only' );
+			
 			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 			$this->load->view('admin/header',$this->data,false,false);
 			$this->load->view('admin/global_body',$this->data,false,false);
@@ -451,6 +460,12 @@ class Admin extends Libraries
 					{
 						$newFormat	=	$this->tendoo_admin->editTimeFormat($this->input->post('newFormat'));
 					}
+					$this->load->library('form_validation');
+					$this->form_validation->set_rules('tendoo_mode', translate( 'Tendoo Mode' ) ,'required');
+					if($this->form_validation->run())
+					{
+						$newFormat	=	set_meta( 'tendoo_mode' , $this->input->post( 'tendoo_mode' ) );
+					}
 				}
 				if($newName || $newLogo || $newHoraire || $newFormat || $themeName)
 				{
@@ -525,12 +540,12 @@ class Admin extends Libraries
 	{
 		if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestheme',$this->users_global->current('PRIVILEGE')))
 		{
-			
+			redirect_if_webapp_is_enalbled();
 			if($e == 'main')
 			{
 				js_push_if_not_exists('jtransit/jquery.transit.min');
 								
-				set_page('title', translate( 'Managing themes - Tendoo' ) );
+				set_page('title', translate( 'Manage themes - Tendoo' ) );
 				set_core_vars( 'ttThemes' , $ttThemes	=	count( get_themes() ) , 'read_only' );
 				set_core_vars( 'paginate' , $paginate	=	$this->tendoo->paginate(
 					10,
@@ -617,7 +632,6 @@ class Admin extends Libraries
 	{
 		if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestapp',$this->users_global->current('PRIVILEGE')))
 		{
-			
 			if(isset($_FILES['installer_file']))
 			{
 				$query	=	$this->tendoo_admin->_install_app( 'installer_file' );
@@ -687,7 +701,7 @@ class Admin extends Libraries
 				}
 			}
 			set_core_vars( 'getPrivs' , $this->tendoo_admin->getPrivileges());
-			set_page('title', translate( 'Managing Users - Tendoo' ) );
+			set_page('title', translate( 'Manage Users - Tendoo' ) );
 			set_core_vars( 'body' , $this->load->view('admin/system/createAdmin',$this->data,true), 'read_only' );
 			
 			$this->load->view('admin/header',$this->data,false,false);
@@ -779,7 +793,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			set_core_vars( 'ttModules' , 	count( get_modules( 'all' ) ) );
 			set_core_vars( 'paginate' ,	$paginate	=	$this->tendoo->paginate(10,get_core_vars( 'ttModules' ),1,'bg-color-red fg-color-white','',$option_2,$this->url->site_url(array('admin','system','manage_actions')).'/') );
 			set_core_vars( 'getModules' ,	get_modules( 'list_filter_active' , $paginate[1],$paginate[2] ) );
-			set_page('title', translate( 'Managing Actions - Tendoo' ) );
+			set_page('title', translate( 'Manage Actions - Tendoo' ) );
 			
 			set_core_vars( 'body' ,	$this->load->view('admin/system/privileges_and_actions',$this->data,true));
 			
@@ -918,7 +932,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			
 			set_core_vars( 'subadmin' ,	$this->users_global->getAdmin($paginate[1],$paginate[2]) );
 			
-			set_page('title', translate( 'Managing users - Tendoo' ) );
+			set_page('title', translate( 'Manage users - Tendoo' ) );
 			
 			set_core_vars( 'body' ,	$this->load->view('admin/system/adminList',$this->data,true) );
 			

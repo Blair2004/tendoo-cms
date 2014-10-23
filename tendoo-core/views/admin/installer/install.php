@@ -29,7 +29,7 @@
                                 	<div class="form-group">
                                     	<p><?php _e( sprintf( 'Install new app. The install file must necessary be a zip file, and should be compatible with your current Tendoo Version : <strong>%s</strong>. Be safe, and install app from secure provider.' , get( 'core_id' ) ) );?>
                                         <br />
-                                        <?php echo tendoo_info( __( 'Themes and modules can be installed throught this interface.' ) );?>
+                                        <?php echo tendoo_info( __( 'Themes and modules can be installed through this interface.' ) );?>
                                         </p>
                                         <label class="control-label"><?php _e( 'Choose your file' );?></label>
                                         <input name="installer_file" type="file" class="form-control">

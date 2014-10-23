@@ -2,18 +2,18 @@
 	/**
 	*
 	**/
-	function return_if_array_key_exists($key,$array){
+	function return_if_array_key_exists($key,$array, $default = false){
 		if(is_array($array))
 		{
 			return array_key_exists($key, $array) ? $array[ $key ] : FALSE;
 		}
-		return false;
+		return $default;
 	}
 	/**
 	*	riake @lias return_if_array_key_exists( )
 	**/
-	function riake( $key  , $array ){
-		return return_if_array_key_exists( $key , $array );
+	function riake( $key  , $array , $default = false ){
+		return return_if_array_key_exists( $key , $array , $default );
 	}
 	/**
 	*	get_blog_post() : Recupère tous les articles du blog (Not Documented)

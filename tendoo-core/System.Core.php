@@ -194,12 +194,18 @@ Class instance extends Libraries
 				{
 					$this->tendoo->error('db_connect_error');die;
 				}
+				set_core_vars(	'options'	,	($this->data['options']				=	get_meta( 'all' ) )	,'readonly');
+				// Is WebApp Mode Enabled ? is so redirect to dashboard with notice enabled
+				set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
+				if( get_core_vars( 'tendoo_mode' ) == 'webapp' )
+				{
+					$this->url->redirect( array( 'admin' , 'index?notice=webapp_enabled' ) );
+				}
 				// Et les stats ?, on initialise
 				$this->load->library( 'stats' );
 				// As we do engage tepas, users_global should be loaded once.
 				$this->load->library( 'users_global' );
 				// Première super variable Tendoo
-				set_core_vars(	'options'	,	($this->data['options']				=	get_meta( 'all' ) )	,'readonly');
 				set_core_vars(	'controllers'	,	($this->data['controllers']		=	$this->tendoo->get_pages('',FALSE))	,'readonly');
 				set_core_vars(	'page'	,	($this->data['page']					=	$this->tendoo->getPage($Class))	,'readonly');		
 				set_core_vars(	'active_theme'	,	( $this->data['active_theme']	= 	get_themes( 'filter_active' ) ) );

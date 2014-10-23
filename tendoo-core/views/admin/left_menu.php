@@ -1,4 +1,4 @@
-<aside class="<?php echo theme_class();?> aside-sm <?php echo get_user_meta( 'admin-left-menu-status' );?>" id="nav" data-intro="Accédez à différents emplacements à l'aide de ce menu." data-step="2" data-position="right">
+<aside class="<?php echo theme_class();?> aside-sm <?php echo get_user_meta( 'admin-left-menu-status' );?>" id="nav">
     <section class="bigwrapper">
         <header class="dker nav-bar"> 
         	<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> 
@@ -16,7 +16,7 @@
 		?>
 		<!-- <?php echo $this->instance->url->site_url(array('logoff','tologin?ref='.$redirective));?> TO LOGIN REDIR -->
         <footer class="footer bg-gradient hidden-xs"> 
-			<a data-intro="Cliquez-ici pour ouvrir la fenêtre des applications installées. Utilisez cette fenêtre pour rapidment accéder aux différentes applications." data-step="10" data-position="top" href="javascript:void(0)" class="showAppTab btn btn-sm pull-right"> 
+			<a href="javascript:void(0)" class="showAppTab btn btn-sm pull-right"> 
 				<i class="fa fa-th-large"></i> 
 			</a> 
 			<a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm"> 
@@ -112,35 +112,55 @@
 			<nav class="nav-primary hidden-xs">
                 <ul class="nav">
                 	<?php echo get_admin_left_menus();?>					
-					<?php // $this->instance->tendoo_admin->parseMenuBefore();?>
-                    <li> <a href="<?php echo $this->instance->url->site_url('admin/controllers');?>"> <i class="fa fa-bookmark"></i> <span>Contrôleurs</span> </a>                    </li>
+                    <?php 
+					if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
+					{
+					?>
+                    <li> <a href="<?php echo $this->instance->url->site_url('admin/controllers');?>"> <i class="fa fa-bookmark"></i> <span><?php _e( 'Controller' );?></span> </a>                    </li>
+                    <?php
+					}
+					?>
                     
-                    <li class="dropdown-submenu"> <a href="<?php echo $this->instance->url->site_url('admin/installer');?>"> <i class="fa fa-flask"></i> <span>Installer</span> </a>
+                    <li class="dropdown-submenu"> <a href="<?php echo $this->instance->url->site_url('admin/installer');?>"> <i class="fa fa-flask"></i> <span><?php _e( 'Add new App' );?></span> </a>
                     </li>
-                    <li><a href="<?php echo $this->instance->url->site_url('admin/modules');?>"> <i class="fa fa-puzzle-piece"></i> <span>Modules</span> </a>
+                    <li><a href="<?php echo $this->instance->url->site_url('admin/modules');?>"> <i class="fa fa-puzzle-piece"></i> <span><?php _e( 'Modules' );?></span> </a>
                     </li>
-                    <li><a href="<?php echo $this->instance->url->site_url('admin/themes');?>"> <i class="fa fa-columns"></i> <span>Thèmes</span> </a>
+                    <?php 
+					if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
+					{
+					?>
+                    <li><a href="<?php echo $this->instance->url->site_url('admin/themes');?>"> <i class="fa fa-columns"></i> <span><?php _e( 'Themes' );?></span> </a>
                     </li>
-					<li> <a href="<?php echo $this->instance->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="fa fa-cogs"></i> <span>Param&egrave;tres</span> </a> </li>
+                    <?php
+					}
+					?>
+					<li> <a href="<?php echo $this->instance->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="fa fa-cogs"></i> <span><?php _e( 'Settings' );?></span> </a> </li>
                     <?php
 					if($this->instance->users_global->current('PRIVILEGE') == 'NADIMERPUS')
 					{
 					?>
-                    <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-wrench"></i> <span>Syst&egrave;me</span> </a> 
+                    <li class="dropdown-submenu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-wrench"></i> <span><?php _e( 'System' );?></span> </a> 
                         <ul class="dropdown-menu">
-                        	<li> <a href="<?php echo $this->instance->url->site_url('admin/system');?>">&Agrave; propos de Tendoo</a> </li>
-                            <li><a href="<?php echo $this->instance->url->site_url('admin/system/adminMain');?>">Gestion des utilisateurs</a></li>
-                            <li><a href="<?php echo $this->instance->url->site_url('admin/system/createAdmin');?>">Cr&eacute;er un utilisateur</a></li>
-                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/privilege_list');?>">Listes des privil&egrave;ges</a> </li>
-                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/create_privilege');?>">Cr&eacute;er un privil&egrave;ge</a> </li>
-                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/manage_actions');?>">Gestionnaire d'actions</a> </li>
+                        	<li> <a href="<?php echo $this->instance->url->site_url('admin/system');?>"><?php _e( 'About Tendoo' );?></a> </li>
+                            <li><a href="<?php echo $this->instance->url->site_url('admin/system/adminMain');?>"><?php _e( 'Manage Users' );?></a></li>
+                            <li><a href="<?php echo $this->instance->url->site_url('admin/system/createAdmin');?>"><?php _e( 'Create New User' );?></a></li>
+                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/privilege_list');?>"><?php _e( 'List Of Privileges' );?></a> </li>
+                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/create_privilege');?>"><?php _e( 'Create New Privilege' );?></a> </li>
+                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/manage_actions');?>"><?php _e( 'Manage actions' );?></a> </li>
                             <!--<li> <a href="<?php echo $this->instance->url->site_url('admin/system/restore/soft');?>">Restauration souple</a> </li>                -->            
                         </ul>
                     </li>
                     <?php
 					}
 					?>
+                    <?php 
+					if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
+					{
+					?>
                     <li> <a target="_top _blank" href="<?php echo $this->instance->url->site_url('index');?>"> <i class="fa fa-eye"></i> <span>Retour</span> </a> </li>
+                    <?php
+					}
+					?>
                     
                 </ul>
             </nav>

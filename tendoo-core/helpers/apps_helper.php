@@ -435,6 +435,18 @@
 			{
 				$process	=	false;
 			}
+			else
+			{
+				if( riake( 'module_namespace' , $widget ) != 'system' )
+				{
+					// UN-app module widgets are disabled, since un-app module are also disabled on webapp mode.
+					$module		=	get_modules( 'filter_namespace' , riake( 'module_namespace' , $widget ) );
+					if( riake( 'handle' , $module ) != 'system' && get_core_vars( 'tendoo_mode' , 'options' , 'website' ) == 'webapp' )
+					{
+						$process	=	false;
+					}
+				}
+			}
 		}
 		if($process == true)
 		{
@@ -793,4 +805,14 @@
 			return get_core_vars( 'api_declared' );
 		}	
 	};
+	/**
+	*	do redirect while webapp mode is enabled
+	**/
+	function redirect_if_webapp_is_enalbled( $redirect = array() )
+	{
+		if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'webapp' )
+		{
+			$redirect ? get_instance()->url->redirect( $redirect ) : get_instance()->url->redirect( array( 'admin' , 'index?notice=webapp_enabled' ) );
+		}
+	}
  

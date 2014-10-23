@@ -9,7 +9,7 @@
                         <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                     <div class="col-sm-8">
-                        <a href="http://tendoo.org/index.php/apprendre/le-panneau-de-configuration/les-configurations" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
+                        <a href="#" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
                         </a>
                     </div>
                 </div>
@@ -19,13 +19,13 @@
                     <section class="panel">
                         <header class="panel-heading bg-light">
                             <ul class="nav nav-tabs nav-justified">
-                                <li class="active"><a href="#autorisation" data-toggle="tab"><?php echo translate('autorisations');?></a></li>
+                                <li class="active"><a href="#autorisation" data-toggle="tab"><?php echo translate('Permissions');?></a></li>
                                 <?php
 								if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 								{
 								?>
-                                <li><a href="#datasetting" data-toggle="tab"><?php echo translate('website_setting');?></a></li>
-                                <li><a href="#security" data-toggle="tab"><?php echo translate('security');?></a></li>
+                                <li><a href="#datasetting" data-toggle="tab"><?php echo translate('Website Settings');?></a></li>
+                                <li><a href="#security" data-toggle="tab"><?php echo translate('Security');?></a></li>
                                 <?php
 								}
 								?>
@@ -40,7 +40,7 @@
 										{
 										?>
                                         <div class="form-group">
-                                            <label class="control-label">D&eacute;finir fuseau horaire</label>
+                                            <label class="control-label"><?php _e( 'Select time zone' );?></label>
                                             <?php $default	=	riake( 'site_timezone' , $options ) == '' ? 'UTC' : riake( 'site_timezone' , $options );?>
                                             <select name="newHoraire" class="input-sm form-control">
                                                 <?php $fuso		=	$this->instance->date->getFuseau();
@@ -63,11 +63,11 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label">Nom du site web</label>
+                                            <label class="control-label"><?php _e( 'Name of website' );?></label>
                                             <input type="text" name="newName" class="form-control" value="<?php echo riake( 'site_name' , $options );?>">
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label">Lien vers logo</label>
+                                            <label class="control-label"><?php _e( 'Link for Logo' );?></label>
                                             <input type="text" name="newLogo" value="<?php echo riake( 'site_logo' , $options );?>" class="form-control">
                                             <div class=""> <span class="bg-white input-group-addon"><img src="<?php echo riake( 'site_logo' , $options );?>"></span> </div>
                                         </div>
@@ -75,24 +75,34 @@
                                             <?php
 											$format	=	riake( 'site_timeformat' , $options );
 											?>
-                                            <label class="control-label">D&eacute;finir format horaire</label>
+                                            <label class="control-label"><?php _e( 'Set time format' );?></label>
                                             <select name="newFormat" class="input-sm form-control inline">
-                                                <option value="">Choisir...</option>
-                                                <option <?php echo $format == 'type_1' ? 'selected="selected"' : '';?> value="type_1">J m A (29 Juin 2013)</option>
+                                                <option value=""><?php _e( 'Select...' );?></option>
+                                                <option <?php echo $format == 'type_1' ? 'selected="selected"' : '';?> value="type_1">J m A (29 %month% 2013)</option>
                                                 <option <?php echo $format == 'type_2' ? 'selected="selected"' : '';?> value="type_2">J/m/A (29/06/2013)</option>
                                                 <option <?php echo $format == 'type_3' ? 'selected="selected"' : '';?> value="type_3">A/m/J (2013/06/29)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <?php
+											$tendoo_mode	=	riake( 'tendoo_mode' , $options );
+											?>
+                                            <label class="control-label"><?php _e( 'Set Tendoo Mode' );?></label>
+                                            <select name="tendoo_mode" class="input-sm form-control inline">
+                                                <option <?php echo $tendoo_mode == 'website' ? 'selected="selected"' : '';?> value="website"><?php _e( 'WebSite Mode' );?></option>
+                                                <option <?php echo $tendoo_mode == 'webapp' ? 'selected="selected"' : '';?> value="webapp"><?php _e( 'WebApp Mode' );?></option>
                                             </select>
                                         </div>
                                         <?php
 										}
 										?>
-                                        <input class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Enregistrer"/>
+                                        <input class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="<?php _e( 'Save Settings' );?>"/>
                                     </form>
                                 </div>
                                 <div class="tab-pane active" id="autorisation"> <?php echo tendoo_warning('Veuillez patienter la notification de r&eacute;ssite, confirmant l\'enregistrement des modifications.');?>
                                     <div class="row">
                                         <div class="col-lg-3">
-                                            <h4>Principales</h4>
+                                            <h4><?php _e( 'Main Settings' );?></h4>
                                             <?php
 											if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 											{
@@ -104,13 +114,13 @@
 														if( riake( 'connect_to_store' , $options ) == "1")
 														{
 														?>
-                                                        <input type="submit" name="storeToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="Désactiver la connexion au Store">
+                                                        <input type="submit" name="storeToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="<?php _e( 'Turn off the connection to the Store' );?>">
                                                         <?php
 														}
 														else
 														{
 														?>
-                                                        <input type="submit" name="storeToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="Activer la connexion au Store">
+                                                        <input type="submit" name="storeToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="<?php _e( 'Turn on the connection to the Store' );?>">
                                                         <?php
 														}
 														;?>
@@ -120,11 +130,11 @@
 														$('[name="storeToggle"]').bind('click',function(){
 															if($(this).val() == 'Activer la connexion au Store')
 															{
-																$(this).attr('value','Désactiver la connexion au Store');
+																$(this).attr('value','<?php _e( 'Turn off the connection to the Store' );?>');
 															}
 															else
 															{
-																$(this).attr('value','Activer la connexion au Store');
+																$(this).attr('value','<?php _e( 'Turn on the connection to the Store' );?>');
 															}
 														});
 													});
@@ -141,13 +151,13 @@
 														if( get_user_meta( 'first_visit' ) == 1)
 														{
 														?>
-                                                        <input type="submit" name="firstVisitToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="Cacher la visite guidée">
+                                                        <input type="submit" name="firstVisitToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="<?php _e( 'Hide the tour' );?>">
                                                         <?php
 														}
 														else
 														{
 														?>
-                                                        <input type="submit" name="firstVisitToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="Afficher la visite guidée">
+                                                        <input type="submit" name="firstVisitToggle" class="btn btn-sm <?php echo theme_button_class();?>" value="<?php _e( 'Enable the tour' );?>">
                                                         <?php
 														}
 														;?>
@@ -155,13 +165,13 @@
                                                     <script>
 													$(document).ready(function(){
 														$('[name="firstVisitToggle"]').bind('click',function(){
-															if($(this).val() == 'Cacher la visite guidée')
+															if($(this).val() == '<?php _e( 'Hide the tour' );?>')
 															{
-																$(this).attr('value','Afficher la visite guidée');
+																$(this).attr('value','<?php _e( 'Enable the tour' );?>');
 															}
 															else
 															{
-																$(this).attr('value','Cacher la visite guidée');
+																$(this).attr('value','<?php _e( 'Hide the tour' );?>');
 															}
 														});
 													});
@@ -171,15 +181,15 @@
                                             <!-- Fin "modifier le statut des pages"-->
                                         </div>
                                         <div class="col-lg-4">
-                                            <h4>Ic&ocirc;nes et applications</h4>
+                                            <h4><?php _e( 'Icons and Applications' );?></h4>
                                             <form method="post">
                                                 <div class="form-group">
                                                     <div class="panel">
                                                         <table class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <td>Module</td>
-                                                                    <td width="100">Afficher</td>
+                                                                    <td><?php _e( 'module' );?></td>
+                                                                    <td width="100"><?php _e( 'Display' );?></td>
                                                                         </td>
                                                             </thead>
                                                             <tbody>
@@ -221,7 +231,7 @@
 																{
 																	?>
                                                             <tr>
-                                                                <td colspan="2">Aucune icone disponible</td>
+                                                                <td colspan="2"><?php _e( 'No icon available' );?></td>
                                                             </tr>
                                                             <?php
 																}
@@ -230,17 +240,17 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                <input name="appicons" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Enregistrer"/>
+                                                <input name="appicons" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="<?php _e( 'Save Settings' );?>"/>
                                             </form>
                                         </div>
                                         <div class="col-lg-5">
-                                            <h4>Widgets</h4>
+                                            <h4><?php _e( 'Widgets' );?></h4>
                                             <form method="post">
                                                 <table class="table table-striped table-bordered">
                                                     <thead>
-                                                    <td>Icône</td>
-                                                        <td>Application</td>
-                                                        <td>Afficher</td>
+                                                    <td><?php _e( 'Icon' );?></td>
+                                                        <td><?php _e( 'Module' );?></td>
+                                                        <td><?php _e( 'Status' );?></td>
                                                             </thead>
                                                     <tbody>
                                                         <?php
@@ -270,7 +280,7 @@
 															else {
 																?>
                                                         <tr>
-                                                            <td colspan="3">Auncun widget disponible</td>
+                                                            <td colspan="3"><?php _e( 'No widget available' );?></td>
                                                         </tr>
                                                         <?php
 															}
@@ -279,14 +289,14 @@
                                                         {
                                                             ?>
                                                         <tr>
-                                                            <td colspan="3">Auncun widget disponible</td>
+                                                            <td colspan="3"><?php _e( 'No widget available' );?></td>
                                                         </tr>
                                                         <?php
                                                         }
                                                         ?>
                                                     </tbody>
                                                 </table>
-                                                <input type="submit" class="btn <?php echo theme_button_class();?>">
+                                                <input type="submit" class="btn <?php echo theme_button_class();?>" value="<?php _e( 'Save Settings');?>">
                                             </form>
                                         </div>
                                     </div>
@@ -307,83 +317,83 @@
 											$checked	=	( riake( 'allow_privilege_selection' , $options ) == "1") ? 'checked="checked"' : "";
 											?>
                                             <form method="post">
-                                                <h3>Privil&egrave;ges</h3>
+                                                <h3><?php _e( 'Privilege' );?></h3>
                                                 <div class="form-group">
-                                                    <label class="label-control">Autoriser la selection des privilèges:
+                                                    <label class="label-control"><?php _e( 'allow privilege selection' );?>:
                                                         <input class="input-control" name="allow_priv_selection" type="checkbox" value="1" style="min-width:20px;" <?php echo $checked;?> />
                                                     </label>
-                                                    <p>Vous avez la possibilité de définir parmis les privilèges que vous avez cr&eacute;e, ceux qui sont disponible d&egrave;s l'inscription par les utilisateurs. N'oubliez pas de choisir parmis les privil&egrave;ges que vous avez cr&eacute;es ceux qui seront acc&eacute;sible au public. </p>
+                                                    <p><?php _e( 'You can define among the privileges that you have created, those who are available upon registration by users. Remember to choose among the privileges you have created those who will be available to the public.' );?> </p>
                                                 </div>
-                                                <input name="allow_priv_selection_button" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Enregistrer"/>
+                                                <input name="allow_priv_selection_button" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="<?php _e( 'Save Settings' );?>"/>
                                             </form>
                                             <br>
                                             <form method="post" >
                                                 <div class="form-group">
-                                                    <label class="label-control">Ouvrir l'acc&egrave;s &agrave; l'administration aux privil&egrave;ges publics</label>
-                                                    <p>Il est important de savoir que cette option emp&ecirc;che &agrave; tout utilisateur faitsant partie des privil&egrave;ge ouvert au public, d'acc&eacute;der &agrave; l'espace administration, sans consid&eacute;rer le fait que des actions aient &eacute;t&eacute; ajout&eacute;es aux diff&eacute;rents privil&egrave;ges acc&eacute;ssible au public. Pareillement, lorsqu'un privil&egrave;ge cesse s'&ecirc;tre acc&eacute;ssible au public, tout utilisateur faisant partie de ce privil&egrave;ge pourra d&eacute;sormais acc&eacute;der &agrave; l'espace administration.</p>
+                                                    <label class="label-control"><?php _e( 'Open access to public administration privileges' );?></label>
+                                                    <p><?php _e( 'It is important to know that this option prevent any part of the user open to the public privileges to access the administration area, regardless of the fact that the shares have been added to the various privileges available to the public. Similarly, when a privilege ceases to have accéssible publicly, any user that is part of this privilege can now access the administration area.' );?></p>
                                                     <select name="publicPrivAccessAdmin" class="form-control">
-                                                        <option value="">Choisir...</option>
+                                                        <option value=""><?php _e( 'choose' );?></option>
                                                         <?php
 														if( riake( 'public_priv_access_admin' , $options ) == 0)
 														{
 															?>
-                                                        <option value="1">Oui</option>
-                                                        <option selected="selected" value="0">Non</option>
+                                                        <option value="1"><?php _e( 'Yes' );?></option>
+                                                        <option selected="selected" value="0"><?php _e( 'No' );?></option>
                                                         <?php
 														}
 														else if( riake( 'public_priv_access_admin' , $options ) == 1)
 														{
 															?>
-                                                        <option selected="selected" value="1">Oui</option>
-                                                        <option value="0">Non</option>
+                                                        <option selected="selected" value="1"><?php _e( 'No' );?></option>
+                                                        <option value="0"><?php _e( 'No' );?></option>
                                                         <?php
 														}
 														else
 														{
 															?>
-                                                        <option value="1">Oui</option>
-                                                        <option value="0">Non</option>
+                                                        <option value="1"><?php _e( 'Yes' );?></option>
+                                                        <option value="0"><?php _e( 'NO' );?></option>
                                                         <?php
 														}
 														?>
                                                     </select>
                                                 </div>
-                                                <input name="publicPrivAccessAdmin_button" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Enregistrer"/>
+                                                <input name="publicPrivAccessAdmin_button" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="<?php _e( 'Save Settings' );?>"/>
                                             </form>
                                         </div>
                                         <div class="col-lg-4">
                                             <form method="post">
-                                                <h3>Inscription</h3>
+                                                <h3><?php _e( 'Registration' );?></h3>
                                                 <div class="form-group">
-                                                    <label class="label-control">Autoriser les inscription</label>
+                                                    <label class="label-control"><?php _e( 'Open Registration' );?></label>
                                                     <select name="allowRegistration" class="form-control">
-                                                        <option value="">Choisir...</option>
+                                                        <option value=""><?php _e( 'Choose' );?></option>
                                                         <?php
 														if( riake( 'allow_registration' , $options ) == 0)
 														{
 															?>
-                                                        <option value="1">Oui</option>
-                                                        <option selected="selected" value="0">Non</option>
+                                                        <option value="1"><?php _e( 'Yes' );?></option>
+                                                        <option selected="selected" value="0"><?php _e( 'No' );?></option>
                                                         <?php
 														}
 														else if( riake( 'allow_registration' , $options ) == 1)
 														{
 															?>
-                                                        <option selected="selected" value="1">Oui</option>
-                                                        <option value="0">Non</option>
+                                                        <option selected="selected" value="1"><?php _e( 'Yes' );?></option>
+                                                        <option value="0"><?php _e( 'No' );?></option>
                                                         <?php
 														}
 														else
 														{
 															?>
-                                                        <option value="1">Oui</option>
-                                                        <option value="0">Non</option>
+                                                        <option value="1"><?php _e( 'Yes' );?></option>
+                                                        <option value="0"><?php _e( 'No' );?></option>
                                                         <?php
 														}
 														?>
                                                     </select>
                                                 </div>
-                                                <input name="autoriseRegistration" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Enregistrer"/>
+                                                <input name="autoriseRegistration" class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="<?php _e( 'Save Settings' );?>"/>
                                             </form>
                                         </div>
                                     </div>

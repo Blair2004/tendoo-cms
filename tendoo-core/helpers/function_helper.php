@@ -214,6 +214,8 @@ if(!function_exists('fetch_error'))
 		$array['user_geographical_data_updated']=	tendoo_success( translate( 'User geographical informations was succefully updated' ) );
 		$array['user_names_updated']			=	tendoo_success( translate( 'User names was succefully updated' ) );
 		$array['active_theme_does_not_handle_that']	=	tendoo_warning(' Le thème actif ne prend pas en charge le module attaché à ce contrôleur.');
+		// Tendoo 1.4
+		$array[ 'webapp_enabled' ]				=	tendoo_warning( __( 'While "WebApp" Mode is enabled, frontend is disabled. Check your settings to define tendoo mode on Website setings tab.' ) );
 		
 		if($e === TRUE)
 		{

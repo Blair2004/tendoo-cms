@@ -33,7 +33,7 @@
                         <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                     <div class="col-sm-8">
-                        <a href="http://tendoo.org/index.php/apprendre/le-panneau-de-configuration/gestion-des-modules" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
+                        <a href="#" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
                         </a>
                     </div>
                 </div>
@@ -92,18 +92,18 @@
 													}
 													?>
 													</td>
-												<td class="action"><a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','uninstall','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-trash-o" title="D&eacute;sintaller"></i></a></td>
+												<td class="action"><a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','uninstall','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-trash-o" title="<?php _e( 'Uninstall' );?>"></i></a></td>
 												<td><?php
 														if($mod['active'] === false )
 														{
 															?>
-													<a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','active','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-times-circle" title="Clickez pour activer"></i></a>
+													<a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','active','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-times-circle" title="<?php _e( 'Click here to enable' );?>"></i></a>
 													<?php
 														}
 														else
 														{
 															?>
-													<a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','unactive','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-check" title="Cliquez pour d&eacute;sactiver"></i></a>
+													<a class="delete" href="<?php echo $this->instance->url->site_url(array('admin','unactive','module',$mod['namespace']));?>"><i style="font-size:25px;" class="fa fa-check" title="<?php _e( 'Click here to uninstall' );?>"></i></a>
 													<?php
 														}
 														?></td>
@@ -122,7 +122,7 @@
                                             {
                             ?>
                                         <tr>
-                                            <td colspan="6">Aucun module install&eacute;</td>
+                                            <td colspan="6"><?php _e( 'No module installed' );?></td>
                                         </tr>
                                         <?php
                         }
