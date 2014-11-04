@@ -5,7 +5,7 @@
 	{
 	?>
 <body style="background:<?php echo theme_background_color();?>">
-<section class="thinwrapper stretch">
+    <section class="vbox">
 <?php
     }
 	function page_bottom($options,$obj)
@@ -259,6 +259,7 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
 		else
 		{
 		?>
+    </section>
 </body>
 </html>
 <?php

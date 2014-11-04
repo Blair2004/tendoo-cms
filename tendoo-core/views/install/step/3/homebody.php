@@ -1,6 +1,6 @@
 <body cz-shortcut-listen="true" id="backgroundLogin" >
 	<section class="thinwrapper stretch">
-		<section class="bigwrapper">
+		<section class="hbox stretch">
 			<footer id="footer"> 
 				<div class="text-center padder clearfix"> 
 					<p> 

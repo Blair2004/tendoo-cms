@@ -1,50 +1,45 @@
-<?php echo $lmenu;?>
+<?php echo $inner_head;?>
 
-<section id="content">
-    <section class="bigwrapper"><?php echo $inner_head;?>
-        <footer class="footer bg-white b-t">
-            <div class="row m-t-sm text-center-xs">
-                <div class="col-sm-2" id="ajaxLoading"> </div>
-                <div class="col-sm-10 text-right text-center-xs">
-                    <a class="publish_article pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;">Publier l'article</a>
-                    <a class="set_as_draft pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;">Enregistrer comme brouillon</a>
-                    <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">ou</a>
-                    <input type="text" name="scheduledTime" class="input-sm input-s pull-right form-control" placeholder="12:30" style="margin-right:10px;">
-                    <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">à</a>
-                    <input class="input-sm input-s pull-right datepicker form-control" size="16" value="<?php echo $this->instance->date->datetime('%d-%m-%Y');?>" type="text" style="margin-right:10px;" name="scheduledDate">
-                    <a class="program_for pull-right btn-sm btn <?php echo theme_button_false_class();?>" style="margin-right:10px;">Programmer pour le :</a>
-                </div>
-            </div>
-        </footer>
-        <section class="scrollable" id="pjax-container">
-            <header>
-                <div class="row b-b m-l-none m-r-none">
-                    <div class="col-sm-4">
-                        <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
-                        <p class="block text-muted"><?php echo get_page('description');?></p>
+<section id="w-f">
+    <section class="hbox stretch">
+        <?php echo $lmenu;?>
+        <section class="vbox">
+            <section class="scrollable" id="pjax-container">
+                <header>
+                    <div class="row b-b m-l-none m-r-none">
+                        <div class="col-sm-4">
+                            <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                            <p class="block text-muted">
+                                <?php echo get_page('description');?>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </header>
-            <section class="bigwrapper">
-                <form method="post" class="row submitForm">
-                    <section class="wrapper">
-                        <div class="col-lg-12"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?> </div>
-                        <div class="col-lg-9">
-                            <input class="form-control" type="text" name="news_name" placeholder="Titre de l'article">
-                            <br />
-                            <?php echo $this->instance->visual_editor->getEditor(array('class'=>'form-control','id'=>'editor','name'=>'news_content'));?> </div>
-                        <div class="col-lg-3">
-                            <section class="panel">
-                                <div class="panel-heading">Options</div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <div id="articleKeyWords" class="pillbox clearfix m-b">
-                                            <ul>
-                                                <input class="addKeyWord" placeholder="Ajouter un mot clé" type="text">
-                                            </ul>
-                                        </div>
+                </header>
+                <section class="hbox stretch">
+                    <form method="post" class="row submitForm">
+                        <section class="wrapper">
+                            <div class="col-lg-12">
+                                <?php echo output('notice');?> <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
+                            </div>
+                            <div class="col-lg-9">
+                                <input class="form-control" type="text" name="news_name" placeholder="Titre de l'article">
+                                <br />
+                                <?php echo $this->instance->visual_editor->getEditor(array('class'=>'form-control','id'=>'editor','name'=>'news_content'));?>
+                            </div>
+                            <div class="col-lg-3">
+                                <section class="panel">
+                                    <div class="panel-heading">
+                                        Options
                                     </div>
-                                    <script type="text/javascript">
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <div id="articleKeyWords" class="pillbox clearfix m-b">
+                                                <ul>
+                                                    <input class="addKeyWord" placeholder="Ajouter un mot clé" type="text">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
 					function __bindKeyWordRemovalListener()
 					{
 						$('#articleKeyWords').find('.label').each(function(){
@@ -77,32 +72,32 @@
 						__bindKeyWordRemovalListener();
 					});
 				  </script>
-                                    <div class="form-group">
-                                        <button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[ 'namespace' ],'ajax','createCategory'));?>" type="button">Ajouter une cat&eacute;gorie</button>
-                                    </div>
-                                    <div class="form-group">
-                                    	<span>Choissisez une catégorie</span>
-                                        <select class="multiselect" multiple="multiple" name="category[]">
-										<?php
+                                        <div class="form-group">
+                                            <button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[ 'namespace' ],'ajax','createCategory'));?>" type="button">Ajouter une cat&eacute;gorie</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <span>Choissisez une catégorie</span>
+                                            <select class="multiselect" multiple="multiple" name="category[]">
+                                                <?php
                                             if(count($categories) > 0)
                                             {
                     foreach($categories as $c)
                     {
                             ?>
-                            <option value="<?php echo $c['ID'];?>"><?php echo $c['CATEGORY_NAME'];?></option>
-                            <?php
+                                                <option value="<?php echo $c['ID'];?>"><?php echo $c['CATEGORY_NAME'];?></option>
+                                                <?php
                     }
                                             }
                                             else
                                             {
                                                 ?>
-                                            <option value="">Aucune catégorie disponible</option>
-                                            <?php
+                                                <option value="">Aucune catégorie disponible</option>
+                                                <?php
                                             }
                     ?>
-                                        </select>
-                                    </div>
-                                    <script>
+                                            </select>
+                                        </div>
+                                        <script>
 									$(document).ready(function(e) {
 										$('.multiselect').multiselect({
 											dropRight: true,
@@ -115,17 +110,17 @@
 										});
 									});
 									</script>
-                                    <div class="form-group">
-                                        <?php
+                                        <div class="form-group">
+                                            <?php
 												$fmlib->mediaLib_button(array(
 													'PLACEHOLDER'		=>		'Lien vers l\'Aperçu',
 													'NAME'				=>		'thumb_link',
 													'TEXT'				=>		'Image Aperçu'
 												));	
 												?>
-                                    </div>
-                                    <div class="form-group">
-                                        <?php
+                                        </div>
+                                        <div class="form-group">
+                                            <?php
 												$fmlib->mediaLib_button(array(
 													'PLACEHOLDER'		=>		'Lien vers l\'image',
 													'NAME'				=>		'image_link',
@@ -133,16 +128,30 @@
 													'TEXT'				=>		'Image Taille R&eacute;elle'
 												));	
 												?>
-                                    </div>
-                                    <?php
+                                        </div>
+                                        <?php
 												$fmlib->mediaLib_load();
 												?>
-                                </div>
-                            </section>
-                        </div>
-                    </section>
-                </form>
+                                    </div>
+                                </section>
+                            </div>
+                        </section>
+                    </form>
+                </section>
             </section>
+            <footer class="footer bg-white b-t">
+                <div class="row m-t-sm text-center-xs">
+                    <div class="col-sm-2" id="ajaxLoading">
+                    </div>
+                    <div class="col-sm-10 text-right text-center-xs">
+                        <a class="publish_article pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;">Publier l'article</a> <a class="set_as_draft pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;">Enregistrer comme brouillon</a> <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">ou</a>
+                        <input type="text" name="scheduledTime" class="input-sm input-s pull-right form-control" placeholder="12:30" style="margin-right:10px;">
+                        <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">à</a>
+                        <input class="input-sm input-s pull-right datepicker form-control" size="16" value="<?php echo $this->instance->date->datetime('%d-%m-%Y');?>" type="text" style="margin-right:10px;" name="scheduledDate">
+                        <a class="program_for pull-right btn-sm btn <?php echo theme_button_false_class();?>" style="margin-right:10px;">Programmer pour le :</a>
+                    </div>
+                </div>
+            </footer>
         </section>
     </section>
 </section>

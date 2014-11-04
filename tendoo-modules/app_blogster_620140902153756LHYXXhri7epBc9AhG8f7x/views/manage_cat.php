@@ -1,8 +1,9 @@
-<?php echo $lmenu;?>
-<section id="content">
-    <section class="bigwrapper"><?php echo $inner_head;?>
-        
-        <section class="scrollable" id="pjax-container">
+<?php echo $inner_head;?>
+<section id="w-f">
+    <section class="hbox stretch">
+		<?php echo $lmenu;?>
+        <section class="vbox">
+        	<section class="scrollable" id="pjax-container">
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
@@ -11,7 +12,7 @@
                     </div>
                 </div>
             </header>
-            <section class="bigwrapper">
+            <section class="vbox">
                 <section class="wrapper"> 
 					<?php echo output('notice');?> 
 					 
@@ -46,6 +47,8 @@
                     </section>
                 </section>
             </section>
+        </section>
+        	
         </section>
         </section>
         <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>

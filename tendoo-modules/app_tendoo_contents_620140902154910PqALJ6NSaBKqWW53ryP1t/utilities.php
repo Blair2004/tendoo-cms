@@ -439,7 +439,7 @@ class tendoo_contents_utility
         <div id="media_lib_template" style="display:none;">
           <section class="thinwrapper stretch">
           	<aside class="bg-primary aside-sm" id="nav">
-              <section class="bigwrapper">
+              <section class="hbox stretch">
                 <section>
                   <nav class="nav-primary hidden-xs">
                     <ul class="nav" id="media_lib_nav">
@@ -457,7 +457,7 @@ class tendoo_contents_utility
           </section>
         </div>
         <div id="media_lib_selection" style="display:none">
-        	<section class="bigwrapper" media_lib_identifier="selection">
+        	<section class="hbox stretch" media_lib_identifier="selection">
                 <footer class="footer b-t modal-footer bg-primary"> 
                     <div class="btn-toolbar">
                         <a style="float:left;" href="javascript:void(0)" ajax_binder_escapeThis id="media_lib_uploadButton" class="btn btn-white btn-sm">Ajouter le(s) fichier(s)</a>
@@ -475,7 +475,7 @@ class tendoo_contents_utility
             </section>
         </div>
         <div id="media_lib_upload" style="display:none">
-        	<section class="bigwrapper" media_lib_identifier="upload">
+        	<section class="hbox stretch" media_lib_identifier="upload">
                 <footer class="footer b-t modal-footer bg-primary"> 
                     <div class="btn-toolbar">
                         <a style="float:left;" href="javascript:void(0)" ajax_binder_escapeThis id="media_lib_sendButton" class="btn btn-white btn-sm">Envoyer un fichier</a>

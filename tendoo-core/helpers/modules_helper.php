@@ -131,6 +131,45 @@ function get_modules( $filter = 'filter_namespace' , $namespace = null , $limit 
 		}
 		return false;
 	}
+	else if( $filter == 'filter_app' )
+	{
+		$filtred	=	get_modules( 'all' );
+		// Create A loopable List
+		$the_list	=	array();
+		$the_list_index	=	0;
+		foreach( $filtred as $_filtred ){
+			if( $_filtred[ 'handle' ] == 'APP' ){
+				$the_list[ $the_list_index ] = $_filtred;
+				$the_list_index++;
+			}
+			if( !is_numeric( $namespace ) && $namespace != null && $namespace == $_filtred[ 'namespace' ]){
+				return $_filtred;
+			}
+		}
+		// Module introuvable parmi les non application
+		if( !is_numeric( $namespace ) && $namespace != null ){
+			return false;
+		}
+		// Lorsque la limitation est activée
+		if( is_numeric( $namespace ) && is_numeric( $limit ) ){
+			if( riake( $namespace , $the_list ) ){
+				$index		=	0;
+				$actives	=	array();	
+				foreach( $the_list as $_module ){
+					if( $index <= $limit ){ // namespace as int
+						$actives[]	=	$_module;
+					} else {
+						break;
+					}
+					$index++;
+				}
+				return $actives;
+			}
+		} else {
+			return $the_list;
+		}
+		return false;
+	}
 	else if( $filter == 'filter_active_namespace' ) // Filter Active Using Specific Namespace
 	{
 		$filtred	=	get_modules( 'filter_active' );
@@ -324,7 +363,7 @@ function uninstall_module( $namespace ){
 			$_module	=	get_modules( 'filter_namespace' , $mod_namespace );
 			if($_module)
 			{
-				include_once( $_module[ 'uri_path' ] . '/' . $mod_namespace);
+				include_once( $_module[ 'uri_path' ] . '/' . $path );
 			}
 		}
 		return false;
@@ -361,14 +400,16 @@ function uninstall_module( $namespace ){
 	module_...()
 	module_url()
 		Renvoie l'url du module actuellement en cours d'exécution. Fait usage des méthodes $this->instance->url... et du tableau $this->data;
+	Tendoo 1.4
+		Accepts a second parameter which is a module namespace, usefull when module_url is called out from backend.php. So it will returna  URL for specified module.
 */
 	
-	function module_url($segments)
+	function module_url($segments , $module_namespace = null )
 	{
 		$instance	=	get_instance();
 		if(SCRIPT_CONTEXT == 'ADMIN')
 		{
-			if(true == ($module	=	get_core_vars( 'opened_module' )))
+			if(true == ($module	=	get_core_vars( 'opened_module' )) || true == ( $module = get_modules( 'filter_namespace' , $module_namespace ) ) )
 			{
 				if(is_array($segments))
 				{

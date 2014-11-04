@@ -32,14 +32,7 @@ class blogster_backend extends Libraries
 	}
 	private function _config()
 	{
-		setup_admin_left_menu( 'Blogster' , 'file-text-o' );
-		add_admin_left_menu( 'Accueil' , module_url( array( 'index' ) ) );
-		add_admin_left_menu( 'Ajouter un article' , module_url( array( 'publish' ) ) );
-		add_admin_left_menu( 'Ajouter une catégorie' , module_url( array( 'category' , 'create' ) ) );
-		add_admin_left_menu( 'Gestion des catégories' , module_url( array( 'category' ) ) );
-		add_admin_left_menu( 'Gestion des commentaires' , module_url( array( 'comments' ) ) );
-		add_admin_left_menu( 'Gestion des mots-clés' , module_url( array( 'tags' ) ) );
-		add_admin_left_menu( 'Réglages' , module_url( array( 'setting' ) ) );
+
 	}
 	public function index($page	= 1)
 	{

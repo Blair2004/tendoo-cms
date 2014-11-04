@@ -1,29 +1,7 @@
-<?php echo $lmenu;?>
-
-<section id="content">
-    <section class="bigwrapper"><?php echo $inner_head;?>
-        <footer class="footer bg-white b-t">
-        <?php
-		if($getSpeNews[0]['SCHEDULED']	==	'1')
-		{
-			$dateArray	=	$this->instance->date->time($getSpeNews[0]['DATE'],true);
-		}
-		else
-		{
-			$dateArray	=	$this->instance->date->time($this->instance->date->datetime(),true);
-		}
-		?>
-            <div class="row m-t-sm text-center-xs">
-                <div class="col-sm-2" id="ajaxLoading"> </div>
-                <div class="col-sm-10 text-right text-center-xs"> <a class="publish_article pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;">Modifier l'article</a> <a class="set_as_draft pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;">Déplacer dans les brouillons</a> <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">ou</a>
-                    <input type="text" name="scheduledTime" class="input-sm input-s pull-right form-control" placeholder="12:30" style="margin-right:10px;" value="<?php echo $dateArray['h'].':'.$dateArray['i'];?>">
-                    <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">à</a>
-                    <input class="input-sm input-s pull-right datepicker form-control" size="16" value="<?php
-					echo $dateArray['d'].'-'.$dateArray['m'].'-'.$dateArray['y']
-                    ?>" type="text" style="margin-right:10px;" name="scheduledDate">
-                    <a class="program_for pull-right btn-sm btn <?php echo theme_button_false_class();?>" style="margin-right:10px;">Programmer pour le :</a> </div>
-            </div>
-        </footer>
+<?php echo $inner_head;?>
+<section id="w-f">
+    <section class="hbox stretch"><?php echo $lmenu;?>
+        <section class="vbox">
         <section class="scrollable" id="pjax-container">
             <header>
                 <div class="row b-b m-l-none m-r-none">
@@ -33,7 +11,7 @@
                     </div>
                 </div>
             </header>
-            <section class="bigwrapper">
+            <section class="vbox">
                 <section class="wrapper"> <?php echo output('notice');?>  <?php echo validation_errors(); ?>
                     <form method="post" class="submitForm">
                         <div class="row">
@@ -186,8 +164,30 @@
                 </section>
             </section>
         </section>
+        <footer class="footer bg-white b-t">
+        <?php
+		if($getSpeNews[0]['SCHEDULED']	==	'1')
+		{
+			$dateArray	=	$this->instance->date->time($getSpeNews[0]['DATE'],true);
+		}
+		else
+		{
+			$dateArray	=	$this->instance->date->time($this->instance->date->datetime(),true);
+		}
+		?>
+            <div class="row m-t-sm text-center-xs">
+                <div class="col-sm-2" id="ajaxLoading"> </div>
+                <div class="col-sm-10 text-right text-center-xs"> <a class="publish_article pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;">Modifier l'article</a> <a class="set_as_draft pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;">Déplacer dans les brouillons</a> <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">ou</a>
+                    <input type="text" name="scheduledTime" class="input-sm input-s pull-right form-control" placeholder="12:30" style="margin-right:10px;" value="<?php echo $dateArray['h'].':'.$dateArray['i'];?>">
+                    <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">à</a>
+                    <input class="input-sm input-s pull-right datepicker form-control" size="16" value="<?php
+					echo $dateArray['d'].'-'.$dateArray['m'].'-'.$dateArray['y']
+                    ?>" type="text" style="margin-right:10px;" name="scheduledDate">
+                    <a class="program_for pull-right btn-sm btn <?php echo theme_button_false_class();?>" style="margin-right:10px;">Programmer pour le :</a> </div>
+            </div>
+        </footer>
+        </section>
     </section>
-    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a> </section>
 <script>
 	$(document).ready(function(){
 		// Lazy coding :(, but it's working :D

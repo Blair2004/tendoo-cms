@@ -1,6 +1,7 @@
 <?php echo get_core_vars( 'lmenu' );?>
 <section id="content">
-<section class="bigwrapper"><?php echo get_core_vars( 'inner_head' );?>
+<section class="hbox stretch">
+        <?php echo get_core_vars( 'lmenu' );?>
   
   <section class="scrollable" id="pjax-container">
     <header>

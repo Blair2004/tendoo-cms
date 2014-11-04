@@ -1,7 +1,7 @@
-<?php echo get_core_vars( 'lmenu' );?>
-<section id="content">
-    <section class="bigwrapper">
-        <?php echo get_core_vars( 'inner_head' );?>
+<?php echo get_core_vars( 'inner_head' );?>
+<section id="w-f">
+    <section class="hbox stretch">
+        <?php echo get_core_vars( 'lmenu' );?>
         <section class="scrollable" id="pjax-container">
             <header>
                 <div class="row b-b m-l-none m-r-none">
@@ -10,14 +10,13 @@
                         <p class="block text-muted"><?php echo translate( 'install a new application' );?></p>
                     </div>
                      <div class="col-sm-8">
-                        <a href="http://tendoo.org/index.php/apprendre/le-panneau-de-configuration/installer-une-application" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
+                        <a href="http://tendoo.org/index.php/get-involved/le-panneau-de-configuration/installer-une-application" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
                         </a>
                     </div>
                 </div>
                
             </header>
-            <section class="bigwrapper">
-                <section class="wrapper w-f"> 
+            <section class="scrollable wrapper"> 
                 	<?php echo validation_errors('<p class="error">', '</p>');?>
 					<?php echo fetch_error_from_url();?>
 					<?php echo output('notice');?>
@@ -68,6 +67,5 @@
                         -->
 					</div>
                 </section>
-            </section>
         </section>
     </section>

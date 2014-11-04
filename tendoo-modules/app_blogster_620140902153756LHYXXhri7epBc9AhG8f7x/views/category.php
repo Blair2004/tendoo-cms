@@ -1,36 +1,9 @@
-<?php echo $lmenu;?>
-<section id="content">
-    <section class="bigwrapper">
-        <?php echo $inner_head;?>
-        <footer class="footer bg-white b-t">
-            <div class="row m-t-sm text-center-xs">
-                <div class="col-sm-4">
-                	<div bulkSelect target="#bulkSelect">
-                        <select name="action" class="input-sm form-control input-s-sm inline">
-                            <option value="0">Actions groupés</option>
-                            <option value="delete">Supprimer</option>
-                        </select>
-                        <button class="btn btn-sm btn-white">Exécuter</button>
-                    </div>
-                </div>
-                <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">Affiche <?php echo $paginate[1];?> + <?php echo $paginate[2];?> catégorie(s)</small> </div>
-                <div class="col-sm-4 text-right text-center-xs">
-                    <ul class="pagination pagination-sm m-t-none m-b-none">
-                     <?php 
-					if(is_array($paginate[4]))
-					{
-						foreach($paginate[4] as $p)
-						{
-							?>
-                            <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
-							<?php
-						}
-					}
-				?>
-                    </ul>
-                </div>
-            </div>
-        </footer>
+<?php echo $inner_head;?>
+<section id="w-f">
+    <section class="hbox stretch">
+        <?php echo $lmenu;?>
+        <section class="vbox">
+        
         <section class="scrollable" id="pjax-container">
             <header>
                 <div class="row b-b m-l-none m-r-none">
@@ -41,7 +14,7 @@
                 </div>
             </header>
             
-            <section class="bigwrapper">
+            <section class="vbox">
                 <section class="wrapper"> 
 					<?php echo output('notice');?> 
 					
@@ -94,6 +67,35 @@
                 </section>
             </section>
         </section>
-        
+        <footer class="footer bg-white b-t">
+            <div class="row m-t-sm text-center-xs">
+                <div class="col-sm-4">
+                	<div bulkSelect target="#bulkSelect">
+                        <select name="action" class="input-sm form-control input-s-sm inline">
+                            <option value="0">Actions groupés</option>
+                            <option value="delete">Supprimer</option>
+                        </select>
+                        <button class="btn btn-sm btn-white">Exécuter</button>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">Affiche <?php echo $paginate[1];?> + <?php echo $paginate[2];?> catégorie(s)</small> </div>
+                <div class="col-sm-4 text-right text-center-xs">
+                    <ul class="pagination pagination-sm m-t-none m-b-none">
+                     <?php 
+					if(is_array($paginate[4]))
+					{
+						foreach($paginate[4] as $p)
+						{
+							?>
+                            <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
+							<?php
+						}
+					}
+				?>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        </section>
     </section>
     <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav">EEE</a> </section>

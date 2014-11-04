@@ -1,6 +1,6 @@
 <body cz-shortcut-listen="true" id="backgroundLogin" >
 <section class="thinwrapper stretch">
-    <section class="bigwrapper">
+    <section class="hbox stretch">
         <footer id="footer">
             <div class="text-center padder clearfix">
                 <p> <small><a href="https://github.com/Blair2004/tendoo-cms"><?php echo get('core_version');?></a> © 2014</small> </p>

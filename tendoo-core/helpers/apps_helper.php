@@ -1,5 +1,81 @@
 <?php
 	/**
+	* 	add_admin_menu()
+	**/
+	function add_admin_menu( $position , $item , $menu_object )
+	{
+		/* Menu Object Form
+			array( 
+				title		=>
+				namespace	=> [optional]
+				icon		=>	[optional]
+				href			=>	[required]
+				childs		=>	array(
+					array(
+						title	=>	
+						href		=>	[required]
+						icon	=>	[optional]
+						namespace	=>
+						
+					)
+				)
+				
+			)
+		*/
+		if( in_array( $item , array( 'about' , 'users' , 'menu' , 'installer' , 'controllers' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) ) )
+		{
+			$menus	=	( $admin_menus = get_core_vars( 'admin_menus' ) ) ? $admin_menus : array();
+			if( in_array( $position , array( 'before' , 'after' ) ) )
+			{
+				$menus[ $item ][ $position ][] = $menu_object;
+				set_core_vars( 'admin_menus' , $menus );
+			}
+		}
+	}
+	/**
+	*	show_admin_menu( 'position' )
+	**/
+	function show_admin_menu( $position , $item )
+	{
+		if( in_array( $item , array( 'menu' , 'about' , 'users' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) ) )
+		{
+			if( in_array( $position , array( 'before' , 'after' ) ) )
+			{
+				$get_menus		=	riake( $item , get_core_vars( 'admin_menus' ) , array() );
+				$menu_position	=	riake( $position , $get_menus , array() );
+				if( is_array( $menu_position ) )
+				{
+					foreach( $menu_position as $menu )
+					{
+						if( ( $title = riake( 'title' , $menu ) ) == true && ( $url = riake( 'href' , $menu ) ) == true )
+						{
+							$class	=	is_array( $childs = riake( 'childs' , $menu ) ) ? 'dropdown-submenu' : '';
+							?>
+							<li class="<?php echo $class;?>">
+								<?php if( $class != '' ):?>
+								<a href="javascript:void(0)" class="dropdown-toggle"> 
+									<span class="pull-right auto"> <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> </span>
+									<i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> 
+									<span><?php echo $title;?></span> 
+								</a>
+								<ul class="nav none dker">
+									<li> <a href="<?php echo riake( 'href' , $menu , '#' );?>"><?php echo riake( 'title' , $menu );?></a> </li>	
+									<?php foreach( $childs as $son ):?>
+										<li> <a href="<?php echo riake( 'href' , $son , '#' );?>"><?php echo riake( 'title' , $son );?></a> </li>	
+									<?php endforeach;?>
+								</ul>
+								<?php else:?>
+								<a href="<?php echo riake( 'href' , $menu , '#' );?>"> <i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> <span><?php echo riake( 'title' , $menu );?></span> </a>
+								<?php endif;?>
+							</li>
+							<?php
+						}
+					}
+				}
+			}
+		}
+	}
+	/**
 	*	include_if_file_exists() : 
 	**/
 	function include_if_file_exists( $path ){

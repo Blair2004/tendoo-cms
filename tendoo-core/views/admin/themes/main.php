@@ -1,29 +1,13 @@
-<?php echo get_core_vars( 'lmenu' );?>
+<?php echo get_core_vars( 'inner_head' );?>
 
-<section id="content">
-<section class="bigwrapper"> <?php echo get_core_vars( 'inner_head' );?>
-	<footer class="footer bg-white b-t">
-        <div class="row m-t-sm text-center-xs">
-            <div class="col-sm-4" id="ajaxLoading" style="visibility: hidden;"></div>
-            <div class="col-sm-4 text-center"> </div>
-            <div class="col-sm-4 text-right text-center-xs">
-                <ul class="pagination pagination-sm m-t-none m-b-none">
-                    <?php 
-					if(is_array($paginate[4]))
-					{
-						foreach($paginate[4] as $p)
-						{
-							?>
-                    <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
-                    <?php
-						}
-					}
-				?>
-                </ul>
-            </div>
-        </div>
-    </footer>
-    <section class="scrollable" id="pjax-container">
+<section>
+<section class="hbox stretch">
+        <?php echo get_core_vars( 'lmenu' );?>
+        <section>
+        	<section class="vbox">
+            	<section class="scrollable">
+	
+    <section id="pjax-container">
         <header>
             <div class="row b-b m-l-none m-r-none">
                 <div class="col-sm-4">
@@ -32,7 +16,7 @@
                 </div>
             </div>
         </header>
-        <section class="bigwrapper">
+        <section>
             <section class="wrapper w-f"> <?php echo output('notice');?> 
                 <div class="row themes_grid">
                     <?php 
@@ -104,7 +88,7 @@
                 <div id="theme_details_prototype" style="display:none">
                     <section class="thinwrapper stretch">
                         <section id="content">
-                            <section class="bigwrapper">
+                            <section class="hbox stretch">
                                 <footer class="footer bg-white b-t">
                                     <div class="row m-t-sm text-center-xs">
                                         <div class="col-sm-4">
@@ -120,7 +104,7 @@
                                     </div>
                                 </footer>
                                 <section class="scrollable" id="pjax-container">
-                                    <section class="bigwrapper">
+                                    <section class="hbox stretch">
                                         <div class="wrapper">
                                         	<img class="theme_thumb" src="" style="max-height:90%;max-width:100%;"/>
                                             <hr class="line line-dashed"/>
@@ -247,4 +231,28 @@
             </section>
         </section>
     </section>
+    			</section>
+                <footer class="footer bg-white b-t">
+        <div class="row m-t-sm text-center-xs">
+            <div class="col-sm-4" id="ajaxLoading" style="visibility: hidden;"></div>
+            <div class="col-sm-4 text-center"> </div>
+            <div class="col-sm-4 text-right text-center-xs">
+                <ul class="pagination pagination-sm m-t-none m-b-none">
+                    <?php 
+					if(is_array($paginate[4]))
+					{
+						foreach($paginate[4] as $p)
+						{
+							?>
+                    <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
+                    <?php
+						}
+					}
+				?>
+                </ul>
+            </div>
+        </div>
+    </footer>
+                </section>
+                </section>
 </section>

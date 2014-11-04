@@ -5,7 +5,7 @@
 	function return_if_array_key_exists($key,$array, $default = false){
 		if(is_array($array))
 		{
-			return array_key_exists($key, $array) ? $array[ $key ] : FALSE;
+			return array_key_exists($key, $array) ? $array[ $key ] : $default;
 		}
 		return $default;
 	}

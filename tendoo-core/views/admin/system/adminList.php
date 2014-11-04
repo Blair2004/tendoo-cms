@@ -1,7 +1,8 @@
-<?php echo get_core_vars( 'lmenu' );?>
-<section id="content">
-    <section class="bigwrapper"><?php echo get_core_vars( 'inner_head' );?>
-        
+<?php echo get_core_vars( 'inner_head' );?>
+<section>
+    <section class="hbox stretch">
+        <?php echo get_core_vars( 'lmenu' );?>
+        <section class="vbox">
         <section class="scrollable" id="pjax-container">
             <header>
                 <div class="row b-b m-l-none m-r-none">
@@ -10,7 +11,7 @@
                         <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                     <div class="col-sm-8">
-                        <a href="http://tendoo.org/index.php/apprendre/le-panneau-de-configuration/la-liste-des-utilisateurs" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
+                        <a href="http://tendoo.org/index.php/get-involved/le-panneau-de-configuration/la-liste-des-utilisateurs" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
                         </a>
                     </div>
                 </div>
@@ -83,13 +84,7 @@
         <footer class="footer bg-white b-t">
                 <div class="row m-t-sm text-center-xs">
                     <div class="col-sm-4">
-                        <select class="input-sm form-control input-s-sm inline">
-                            <option value="0">Bulk action</option>
-                            <option value="1">Delete selected</option>
-                            <option value="2">Bulk edit</option>
-                            <option value="3">Export</option>
-                        </select>
-                        <button class="btn btn-sm btn-white">Apply</button>
+                        
                     </div>
                     <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">Montre <?php echo $paginate[1];?> &agrave; <?php echo $paginate[2];?> sur <?php echo $ttAdmin;?> El&eacute;ments</small> </div>
                     <div class="col-sm-4 text-right text-center-xs">
@@ -109,5 +104,6 @@
                     </div>
                 </div>
             </footer>
+            </section>
     </section>
 </section>

@@ -1,8 +1,8 @@
 <?php echo get_core_vars( 'lmenu' );?>
 
 <section id="content">
-  <section class="bigwrapper">
-    <?php echo get_core_vars( 'inner_head' );?>
+  <section class="hbox stretch">
+        <?php echo get_core_vars( 'lmenu' );?>
 	<footer class="footer bg-white b-t">
 		<div class="row m-t-sm text-center-xs">
 			<div class="col-sm-2" id="ajaxLoading">

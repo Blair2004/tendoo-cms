@@ -17,39 +17,32 @@ function gui_cols_width( $cols , $width ){
 	// ajouter un debogage
 };
 /**
+*	gui_enable : set enabled feature for current gui. Must be called before output GUI
+**/
+function gui_enable( $feature )
+{
+	if( gui_is_loaded() )
+	{
+		return get_instance()->gui->enable( $feature );
+	}
+}
+/**
 *	gui_meta() : définit une boite meta pour un GUI
 **/
 function gui_meta( $options , $title = "" , $type = "collapsible_panel"){
-	if( !gui_is_loaded() ): return false ; endif;
-	// Sauvegarde des boites méta en utilisant l'espacenom comme identifiant
-	$saved_meta	=	array();
-	
-	if( is_array( $options ) )
+	if( gui_is_loaded() )
 	{
-		if( return_if_array_key_exists( 'namespace' , $options ) ){
-			$saved_meta[ $options[ "namespace" ] ]	=	$options;
-		}
+		return get_instance()->gui->set_meta( $options , $title , $type );
 	}
-	else
-	{
-		$saved_meta[ $options ]  =	array(
-			'namespace'	=>	$options,
-			'title'		=>	$title,
-			'type'		=>	$type
-		);
-	}
-	set_core_vars( 'gui_saved_meta' , $saved_meta );
-	return get_instance()->gui;
+	return false;
 };
 /**
 *	set_field() : défini un champ pour une colonne; set_field()->push_to( namespace );
 **/
 function gui_field( $array ){
-	if( !gui_is_loaded() ): return false ; endif;
-	//
-	$saved_fields	=	get_core_vars( 'gui_saved_fields' ) ? get_core_vars( 'gui_saved_fields' ) : array();
-	$saved_fields	=	$array;
-	set_core_vars( 'gui_saved_fields' , $saved_fields );
-	return get_instance()->gui;
-	
+	if( gui_is_loaded() )
+	{
+		return get_instance()->gui->set_field( $array );
+	}
+	return false;	
 };

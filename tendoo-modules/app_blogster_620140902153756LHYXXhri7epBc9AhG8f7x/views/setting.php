@@ -1,7 +1,6 @@
-<?php echo $lmenu;?>
-
-<section id="content">
-    <section class="bigwrapper"><?php echo $inner_head;?>
+<?php echo $inner_head;?>
+<section id="w-f">
+    <section class="hbox stretch"><?php echo $lmenu;?>
         <section class="scrollable" id="pjax-container">
             <header>
                 <div class="row b-b m-l-none m-r-none">
@@ -11,7 +10,7 @@
                     </div>
                 </div>
             </header>
-            <section class="bigwrapper">
+            <section class="vbox">
                 <section class="wrapper"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
                     <div class="row">
                         <div class="col-lg-6">

@@ -1,18 +1,18 @@
 <body>
 <section class="thinwrapper stretch"> <!-- .aside -->
     <?php echo $left_menu;?>
-    <!-- /.aside --> <!-- .bigwrapper -->
+    <!-- /.aside --> <!-- .hbox stretch -->
     <section id="content">
-        <section class="bigwrapper">
+        <section class="hbox stretch">
             <section class="scrollable">
             	<section class="thinwrapper stretch">
     				<aside class="bg-white">
-                        <section class="bigwrapper">
+                        <section class="hbox stretch">
                         	<?php echo $body;?>                            
                         </section>
                     </aside>
     				<aside class="aside-lg bg-light lter b-l">
-                        <section class="bigwrapper">
+                        <section class="hbox stretch">
                             <section class="scrollable">
                                 <div class="wrapper">
                                     <div class="clearfix m-b"> <a href="#" class="pull-left thumb m-r"> <img src="" class="img-circle"> </a>
@@ -37,6 +37,6 @@
             </section>
         </section>
         <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="body"></a> </section>
-    <!-- /.bigwrapper --> </section>
+    <!-- /.hbox stretch --> </section>
 <?php echo $this->instance->file_2->js_load();?>
 </body>

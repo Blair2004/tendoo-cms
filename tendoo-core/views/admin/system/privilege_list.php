@@ -1,30 +1,8 @@
-<?php echo get_core_vars( 'lmenu' );?>
+<?php echo get_core_vars( 'inner_head' );?>
 <section id="content">
-    <section class="bigwrapper"><?php echo get_core_vars( 'inner_head' );?>
-        <footer class="footer bg-white b-t">
-			<div class="row m-t-sm text-center-xs">
-				<div class="col-sm-4">
-					
-				</div>
-				<div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">Montre <?php echo $paginate[1];?> &agrave; <?php echo $paginate[2];?> sur <?php echo $ttPrivileges;?> El&eacute;ments</small> </div>
-				<div class="col-sm-4 text-right text-center-xs">
-					<ul class="pagination pagination-sm m-t-none m-b-none">
-					<?php
-					if(is_array($paginate[4]))
-					{
-						foreach($paginate[4] as $p)
-
-						{
-							?>
-							<li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
-					<?php
-						}
-					}
-					?>
-					</ul>
-				</div>
-			</div>
-		</footer>
+    <section class="hbox stretch">
+        <?php echo get_core_vars( 'lmenu' );?>
+        <section class="vbox">
         <section class="scrollable" id="pjax-container">
             <header>
                 <div class="row b-b m-l-none m-r-none">
@@ -33,7 +11,7 @@
                         <p class="block text-muted"><?php echo get_page('description');?></p>
                     </div>
                     <div class="col-sm-8">
-                        <a href="http://tendoo.org/index.php/apprendre/le-panneau-de-configuration/la-liste-des-privileges" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
+                        <a href="http://tendoo.org/index.php/get-involved/le-panneau-de-configuration/la-liste-des-privileges" class="btn btn-lg <?php echo theme_button_class();?>" style="float:right;margin:10px;"><i style="font-size:20px;" class="fa fa-question-circle"></i>
                         </a>
                     </div>
                 </div>
@@ -88,5 +66,31 @@
                 </div>
             </div>
         </section>
+        <footer class="footer bg-white b-t">
+			<div class="row m-t-sm text-center-xs">
+				<div class="col-sm-4">
+					
+				</div>
+				<div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">Montre <?php echo $paginate[1];?> &agrave; <?php echo $paginate[2];?> sur <?php echo $ttPrivileges;?> El&eacute;ments</small> </div>
+				<div class="col-sm-4 text-right text-center-xs">
+					<ul class="pagination pagination-sm m-t-none m-b-none">
+					<?php
+					if(is_array($paginate[4]))
+					{
+						foreach($paginate[4] as $p)
+
+						{
+							?>
+							<li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
+					<?php
+						}
+					}
+					?>
+					</ul>
+				</div>
+			</div>
+		</footer>
+        </section>
+        
     </section>
 </section>

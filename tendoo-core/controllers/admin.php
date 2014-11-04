@@ -377,6 +377,7 @@ class Admin extends Libraries
 					$this->load->view('admin/header',$this->data,false,false);
 					$this->load->view('admin/global_body',$this->data,false,false);
 				}
+
 			}
 			else
 			{
@@ -1135,7 +1136,6 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			$this->form_validation->set_rules('page_visible', translate( 'Controller visibility' ),'trim|required|min_length[4]|max_length[5]');
 			$this->form_validation->set_rules('page_parent', translate( 'Controller Parent' ),'trim|required|min_length[1]');
 			$this->form_validation->set_rules('page_keywords', translate( 'Controller tags' ),'trim|required|min_length[1]');
-
 			if($this->form_validation->run())
 			{
 				set_core_vars( 'result' ,	$this->tendoo_admin->controller(

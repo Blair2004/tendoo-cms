@@ -1,6 +1,6 @@
-<?php echo $lmenu;?>
-<section id="content">
-    <section class="bigwrapper">
+<?php echo $inner_head;?>
+<section id="w-f">
+    <section class="hbox stretch">
         <?php echo $inner_head;?>
         <footer class="footer bg-white b-t">
             <div class="row m-t-sm text-center-xs">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </header>
-            <section class="bigwrapper">
+            <section class="hbox stretch">
                 <section class="wrapper"> 
 					<?php echo output('notice');?> 
                     <?php echo fetch_error_from_url();?>

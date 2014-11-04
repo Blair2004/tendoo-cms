@@ -23,6 +23,37 @@ class blogster_tepas_class extends Libraries
 	}
 	public function admin_context()
 	{
+		// Creating Menu 1.4
+		add_admin_menu( 'before' , 'menu' , array(
+			'title'		=>	'Articles',
+			'href'		=>	module_url( array( 'index' ) , 'blogster'  ),
+			'childs'	=>	array(
+				array(
+					'title'	=>	'Ajouter un article', 
+					'href'	=>	module_url( array( 'publish' ) , 'blogster' )
+				),
+				array(
+					'title'	=>	'Ajouter une categorie', 
+					'href'	=>	module_url( array( 'category', 'create' ) , 'blogster' )
+				),
+				array(
+					'title'	=>	'Gestion des categories', 
+					'href'	=>	module_url( array( 'category' ) , 'blogster' )
+				),
+				array(
+					'title'	=>	'Gestion des commentaires', 
+					'href'	=>	module_url( array( 'comments' ) , 'blogster' )
+				),
+				array(
+					'title'	=>	'Gestion des mots-clés', 
+					'href'	=>	module_url( array( 'tags' ) , 'blogster' )
+				),
+				array(
+					'title'	=>	'Réglages', 
+					'href'	=>	module_url( array( 'setting' ) , 'blogster' )
+				)
+			)
+		) );
 		declare_admin_widget(array(
 			"module_namespace"		=>	"blogster",
 			"widget_namespace"		=>	"articles_stats",

@@ -122,9 +122,9 @@ if( !function_exists( 'loop_items' ) ){
 	}
 };
 ?>
-<?php echo $lmenu;?>
-<section id="content">
-    <section class="bigwrapper"> <?php echo $inner_head;?>
+<?php echo $inner_head;?>
+<section id="w-f">
+    <section class="hbox stretch"> <?php echo $inner_head;?>
         <footer class="footer bg-white b-t">
             <div class="row m-t-sm text-center-xs"> </div>
         </footer>
@@ -137,7 +137,7 @@ if( !function_exists( 'loop_items' ) ){
                     </div>
                 </div>
             </header>
-            <section class="bigwrapper">
+            <section class="hbox stretch">
                 <section class="wrapper"> <?php echo output('notice');?> <?php echo fetch_error_from_url();?> <?php echo validation_errors();?>
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#general" data-toggle="tab">Généraux</a></li>

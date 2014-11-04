@@ -3,13 +3,12 @@
 	$enabled	=	return_if_array_key_exists( 'enabled' , $ui_config ) 
 		? return_if_array_key_exists( 'enabled' , $ui_config ) : array();
 ?>
-<?php echo $lmenu;?>
-
-<section id="content">
-    <section class="bigwrapper"><?php echo $inner_head;?>
+<?php echo $inner_head;?>
+<section id="w-f">
+    <section class="hbox stretch"><?php echo $inner_head;?>
         <footer class="footer bg-white b-t">
             <div class="row m-t-sm text-center-xs">
-                <?php if( return_if_array_key_exists( 'pagination' , $enabled ) ) : ;?>
+                <?php if( return_if_array_key_exists( 'loader' , $enabled ) ) : ;?>
                 <div class="col-sm-2 pull-left" id="ajaxLoading"> </div>
                 <?php endif;?>
                 <div class="col-sm-2"> </div>
@@ -30,10 +29,10 @@
             <header>
                 <div class="row b-b m-l-none m-r-none">
                     <div class="col-sm-4">
-                    	<?php if( $icon	=	return_if_array_key_exists( 'ICON_URL' , $opened_module[0] ) )
+                    	<?php if( $icon	=	return_if_array_key_exists( 'icon' , $opened_module ) )
 						{
 							?>
-                            <img class="pull-left" src="<?php echo $icon;?>" style="height:50px;margin:6px 12px 0px 0px;">
+                            <img class="pull-left" src="<?php echo get_instance()->url->main_url() . $icon;?>" style="height:50px;margin:6px 12px 0px 0px;">
                             <?php
 						}
 						?>
@@ -42,7 +41,7 @@
                     </div>
                 </div>
             </header>
-            <section class="bigwrapper">
+            <section class="hbox stretch">
                 <section class="wrapper"> <?php echo output('notice');?> <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
                     <div class="row">
                         <?php $total_width = 12;?>
@@ -60,8 +59,10 @@
 									{
 										foreach( $_v as $_k => $value )
 										{
-											if( $value[ 'type' ] == "collapsible_panel" )
+											$type	=	riake( 'type' , $value , 'collapsible_panel' );											
+											if( in_array( $value[ 'type' ] , array( "collapsible_panel" , "naked" ) ) )
 											{
+												if( $type == "collapsible_panel" ) : // Opening collapsible_panel head
 									?>
 									<section class="panel pos-rlt clearfix" namespace="<?php echo $value[ 'namespace' ];?>">
 										<header class="panel-heading">
@@ -71,6 +72,8 @@
 											<?php echo return_if_array_key_exists( 'title' , $value );?> </header>
 										<div class="panel-body <?php echo get_user_meta( 'gui_'.$value[ 'namespace' ] );?> clearfix">
 											<?php 
+											endif; // Closing collapsible_panel head
+											
 											$form_wrap	=	return_if_array_key_exists( 'form_wrap' , $value );
 												$action	=	return_if_array_key_exists( 'action' , $form_wrap );
 												$enctype	=	return_if_array_key_exists( 'enctype' , $form_wrap );
@@ -96,6 +99,20 @@
 											<div class="input-group">
 											  <span class="input-group-addon"><?php echo $label ;?></span>
 											  <input name="<?php echo $name;?>" type="text" class="form-control" placeholder="<?php echo $placeholder;?>">
+											</div>
+										</div>
+														<?php
+													}
+													if( $c[ 'type' ] == "textarea" )
+													{
+														$placeholder 	= return_if_array_key_exists( 'placeholder' , $c );
+														$label			= return_if_array_key_exists( 'label' , $c );
+														$name			= return_if_array_key_exists( 'name' , $c );
+														?>
+										<div class="form-group">
+											<div class="input-group">
+											  <span class="input-group-addon"><?php echo $label ;?></span>
+											  <textarea name="<?php echo $name;?>" type="text" class="form-control" placeholder="<?php echo $placeholder;?>"></textarea>
 											</div>
 										</div>
 														<?php
@@ -251,10 +268,15 @@
 											</form>
 											<?php
 											}
+												if( $type == "collapsible_panel" ) : // Opening collapsible panel footer											
 											?>
 										</div>
 									</section>
 									<?php
+												endif; // Closing collapsible_panel footer
+											}
+											else if( $value[ 'type' ] == 'naked' )
+											{
 											}
 										}
 									}

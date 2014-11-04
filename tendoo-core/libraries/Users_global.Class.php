@@ -364,7 +364,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function sendPassChanger($email)
 	{
-		$option	=	$this->instance->meta_datas->get();
+		$option	=	get_meta();
 		$user	=	$this->emailExist($email);
 		if($user)
 		{
@@ -373,25 +373,23 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 				return 'actionProhibited';
 			}
 			$mail	=	 '
-<h4>Syst&egrave;me de r&eacute;cup&eacute;ration de mot de passe.</h4>
+<h4> ' . __( 'Password Recovery Wizard' ) . '</h4>
 
-Changer votre mot de passe en acc&egrave;dant &agrave; cette adresse :
-<a href="'.$this->url->site_url(array('login','passchange',$user['EMAIL'],$this->instance->date->timestamp() + 10800,$user['PASSWORD'])).'">Changer le mot de passe</a>.<br>
+' . __( 'Change your password through this link' ) . ' :
+<a href="'.$this->url->site_url(array('login','passchange',$user['EMAIL'],$this->instance->date->timestamp() + 10800,$user['PASSWORD'])).'"> '. __( 'Change your password' ) .'</a>.<br>
 
-Ce mail à été envoyé à l\'occassion d\'une tentative r&eacute;cuperation de mot de passe. Si vous pensez qu\'il s\'agisse d\'une erreur, nous vous prions de ne point donner de suite &agrave; ce message etant donn&eacute; que l\'opération n\'est valide que pour 3h.
-			';
+' . __( 'This mail has been sended because of an attempt of password recovery. If you think it\'s a mistake, don\'t follow this link, since this last will expire within 3 hours.' ) ;
 			$this->load->library('email');
-			$this->email	=&	$this->email;
 			$config = array (
 				'mailtype' => 'html',
 				'charset'  => 'utf-8',
 				'priority' => '1'
 			);
 			$this->email->initialize($config);
-			$this->email->from('noreply@'.$_SERVER['HTTP_HOST'], $option[0]['SITE_NAME']);
+			$this->email->from('noreply@' . $_SERVER['HTTP_HOST'], $option['site_name']);
 			$this->email->to($user['EMAIL']); 
 			
-			$this->email->subject($option[0]['SITE_NAME'].' - Changer votre mot de passe');
+			$this->email->subject($option['site_name'].' - ' . __( 'Change your password' ) );
 			$this->email->message($mail);	
 			
 			$this->email->send();
