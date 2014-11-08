@@ -12,6 +12,7 @@ class Admin extends Libraries
 		$this->load->library('file');
 		$this->load->library('visual_editor');
 		$this->load->library('string');
+		$this->load->library('menu');
 		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->adminConnection(); 			// 	Admin Users Libraries
 		$this->loadLibraries();				//	Affecting Libraries */
@@ -20,10 +21,14 @@ class Admin extends Libraries
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		set_core_vars( 'admin_icons' , $this->tendoo_admin->getAppIcon() , 'read_only' );
 		set_core_vars( 'active_theme' , site_theme() );
-		set_core_vars( 'options' , get_meta( 'all' ) , 'read_only' );
+		set_core_vars( 'options' , $this->options	=	get_meta( 'all' ) , 'read_only' );
 		set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
+		// 1.4 For create_admin_menu && add_admin_menu
+		set_core_vars( 'admin_menu_items' , array( 'menu' , 'about' , 'users' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) );
+		set_core_vars( 'admin_menu_position' , array( 'after' , 'before' ) );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->__admin_widgets(); // USING core WiDGET and thoses defined through tepas
+		$this->__creating_menus();
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		set_page( 'description' , translate( 'Dashboard' ) . ' | '.get( 'core_version' ) );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -98,10 +103,10 @@ class Admin extends Libraries
 		css_push_if_not_exists('tendoo_global');
 		css_push_if_not_exists('fuelux');
 		
-		//js_push_if_not_exists('jquery');
+		// js_push_if_not_exists('jquery');
+		js_push_if_not_exists('app.min.vtendoo'); // _2
 		js_push_if_not_exists('jquery-1.10.2.min');
 		js_push_if_not_exists('underscore.1.6.0');
-		js_push_if_not_exists('app.min.vtendoo'); // _2
 		js_push_if_not_exists('tendoo_loader');
 		js_push_if_not_exists('tendoo_app');
 	}
@@ -129,6 +134,288 @@ class Admin extends Libraries
 			"widget_description"	=>	translate( 'Show available app icons' )
 		));
 		engage_tepas();
+	}
+	private function __creating_menus()
+	{
+		$this->menu->add_admin_menu_core( 'controllers' , array(
+			'href'			=>		$this->instance->url->site_url('admin/controllers'),
+			'icon'			=>		'fa fa-bookmark',
+			'title'			=>		__( 'Controllers' )
+		) );
+		
+		$this->menu->add_admin_menu_core( 'installer' , array(
+			'title'			=>		__( 'Add an App' ),
+			'icon'			=>		'fa fa-flask',
+			'href'			=>		$this->instance->url->site_url('admin/installer')
+		) );
+		
+		$this->menu->add_admin_menu_core( 'modules' , array(
+			'title'			=>		__( 'Modules' ),
+			'icon'			=>		'fa fa-puzzle-piece',
+			'href'			=>		$this->instance->url->site_url('admin/modules')
+		) );
+		
+		$this->menu->add_admin_menu_core( 'themes' , array(
+			'title'			=>		__( 'Themes' ),
+			'icon'			=>		'fa fa-columns',
+			'href'			=>		$this->instance->url->site_url('admin/themes')
+		) );
+		
+		if( current_user()->isSuperAdmin() )
+		{
+			$this->menu->add_admin_menu_core( 'users' , array(
+				'title'			=>		__( 'Manage Users' ),
+				'icon'			=>		'fa fa-users',
+				'href'			=>		$this->instance->url->site_url('admin/users')
+			) );
+			$this->menu->add_admin_menu_core( 'users' , array(
+				'title'			=>		__( 'Create a new User' ),
+				'icon'			=>		'fa fa-users',
+				'href'			=>		$this->instance->url->site_url('admin/users/create')
+			) );
+		}
+		// Self settings
+		$this->menu->add_admin_menu_core( 'users' , array(
+			'title'			=>		__( 'My Profile' ) , current_user( 'PSEUDO' ),
+			'icon'			=>		'fa fa-users',
+			'href'			=>		$this->instance->url->site_url('admin/profile/home')
+		) );
+		$this->menu->add_admin_menu_core( 'users' , array(
+			'title'			=>		__( 'Edit profile' ),
+			'icon'			=>		'fa fa-users',
+			'href'			=>		$this->instance->url->site_url('admin/profile/edit')
+		) );
+		
+		$this->menu->add_admin_menu_core( 'roles' , array(
+			'title'			=>		__( 'Roles' ),
+			'icon'			=>		'fa fa-shield',
+			'href'			=>		$this->instance->url->site_url('admin/system/privilege_list')
+		) );
+		$this->menu->add_admin_menu_core( 'roles' , array(
+			'title'			=>		__( 'Create new role' ),
+			'icon'			=>		'fa fa-shield',
+			'href'			=>		$this->instance->url->site_url('admin/system/create_privilege')
+		) );
+		$this->menu->add_admin_menu_core( 'roles' , array(
+			'title'			=>		__( 'Roles permissions' ),
+			'icon'			=>		'fa fa-shield',
+			'href'			=>		$this->instance->url->site_url('admin/system/manage_actions')
+		) );
+		
+		$this->menu->add_admin_menu_core( 'settings' , array(
+			'title'			=>		__( 'Settings' ),
+			'icon'			=>		'fa fa-cogs',
+			'href'			=>		$this->instance->url->site_url('admin/settings')
+		) );
+		
+		$this->menu->add_admin_menu_core( 'frontend' , array(
+			'title'			=>		sprintf( __( 'Visit %s' ) , riake( 'site_name' , $this->options ) ) ,
+			'icon'			=>		'fa fa-eye',
+			'href'			=>		$this->instance->url->site_url('index')
+		) );
+		
+		$this->menu->add_admin_menu_core( 'about' , array(
+			'title'			=>		__( 'About' ) ,
+			'icon'			=>		'fa fa-rocket',
+			'href'			=>		$this->instance->url->site_url('admin/system')
+		) );
+		
+	}
+	// Tendoo 1.4
+	public function profile( $action = 'home' ) // use with GUI
+	{
+		if( $action == 'edit' )
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('avatar_usage','','trim|required');
+			if($this->form_validation->run())
+			{
+				$status	=	$this->users_global->setAvatarSetting(
+					$this->input->post(	'facebook_profile' ),
+					$this->input->post(	'google_profile' ),
+					$this->input->post( 'twitter_profile' ),
+					$this->input->post( 'avatar_usage' ),
+					'avatar_file'
+				);
+				if($status['error'] > 0)
+				{
+					$text	=	translate( 'Fields succefully updated, error occured during file upload, please check file weight and try again.' );
+				}
+				else
+				{
+					$text	=	translet( 'Avatar and fields updated' ); 
+				}
+				$this->url->redirect(array('account','update?info='.$text));
+				exit;
+			}
+			$this->load->library('form_validation');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+			if($this->input->post('user_name') && $this->input->post('user_surname'))
+			{
+				set_user_meta( 'name' , $this->input->post( 'user_name' ) );
+				set_user_meta( 'surname' , $this->input->post( 'user_surname' ) );
+				
+				$this->url->redirect(array('account','update?notice=user_names_updated'));
+			}
+			if($this->input->post('user_state') && $this->input->post('user_town'))
+			{
+				set_user_meta( 'state' , $this->input->post( 'user_state' ) );
+				set_user_meta( 'town' , $this->input->post( 'user_town' ) );
+				$this->url->redirect(array('account','update?notice=user_geographical_data_updated'));
+			}
+			$user_pseudo 						=	$this->users_global->current('PSEUDO');
+			set_page('title', riake( 'site_name' , $this->options ) .' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'Updating profile' ) );
+			set_page('description', translate( 'Update a profile' ) );
+			
+			$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
+			$this->data['body']			=	$this->load->view('account/update_prof/body',$this->data,true);
+			
+			$this->load->view('account/header',$this->data);
+			$this->load->view('account/global_body',$this->data);
+		}
+		else if( $action == 'home' )
+		{
+			$user_pseudo 						=	$this->users_global->current('PSEUDO');
+			set_page('title', riake( 'site_name' , $this->options ) . ' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'My Profile' ) );
+			set_page('description', translate( 'My Profile' ) );
+			$this->data['body']			=	$this->load->view('account/profile/body',$this->data,true);
+			
+			$this->load->view('account/header',$this->data);
+			$this->load->view('account/global_body',$this->data);
+		}
+		else if( $action == '' )
+		{
+			
+		}
+	}
+	public function inbox( $action = 'home' )
+	{
+		if( $action == 'home' ) 
+		{
+			
+		}
+		else if( $action == 'read' )
+		{
+		}
+		else 
+		{
+			
+		$this->instance->date->timestamp();
+		if($index 	== 'home')
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+			$this->form_validation->set_rules('conv_id','Identifiant du message','required');
+			if($this->form_validation->run())
+			{
+				if(is_array($_POST['conv_id']))
+				{
+					foreach($_POST['conv_id'] as $c)
+					{
+						$result	=	$this->users_global->deleteConversation($c);
+						if($result	== false)
+						{
+							notice('push', translate( 'Error occured while deleting message, maybe this one doen\'t concern you or this message doen\'t exists' ) );
+						}
+						else
+						{
+							notice('push',fetch_notice_output('done'));
+						}
+					}
+				}
+				else
+				{
+					$result	=	$this->users_global->deleteConversation($_POST['conv_id']);
+					if($result	== false)
+					{
+							notice('push', translate( 'Error occured while deleting message, maybe this one doen\'t concern you or this message doen\'t exists' ) );
+					}
+					else
+					{
+						notice('push',fetch_notice_output('done'));
+					}
+				}
+			}
+			$user_pseudo 						=	$this->users_global->current('PSEUDO');
+			set_page('title', riake( 'site_name' , $this->options ) .' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'Messaging' ) );
+			set_page('description', sprintf( translate( '%s messaging' ) , $user_pseudo ) );
+			$this->data['ttMessage']	=	$this->users_global->countMessage();
+			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttMessage'],1,'ClasseOn','ClasseOff',$start,$this->url->site_url(array('account','messaging','home')).'/',null);
+			$this->data['getMessage']	=	$this->users_global->getMessage($this->data['paginate'][1],$this->data['paginate'][2]);$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
+			$this->data['body']			=	$this->load->view('account/messaging/body',$this->data,true);
+			
+			$this->load->view('account/header',$this->data);
+			$this->load->view('account/global_body',$this->data);
+		}
+		else if($index	== 'write')
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+			$this->form_validation->set_rules('receiver', translate( 'Receiver pseudo' ),'trim|required|min_length[5]|max_length[15]');
+			$this->form_validation->set_rules('content', translate( 'Message content' ),'trim|required|min_length[3]|max_length[1200]');
+			if($this->form_validation->run())
+			{
+				$result	=	$this->users_global->write(
+					$this->input->post('receiver'),
+					$this->input->post('content')
+				);
+				if($result	==	'posted')
+				{
+					$this->url->redirect(array('account','messaging','home'));
+				}
+				else
+				{
+					notice('push',fetch_notice_output('error_occurred'));
+				}
+			}
+			
+			$user_pseudo 						=	$this->users_global->current('PSEUDO');
+			set_page('title', riake( 'site_name' , $this->options ) .' | '.ucfirst($user_pseudo).' &raquo;' . translate( 'Write a new message' ) );
+			set_page('description','Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
+			$this->data['body']			=	$this->load->view('account/messaging/write',$this->data,true);
+			
+			$this->load->view('account/header',$this->data);
+			$this->load->view('account/global_body',$this->data);
+		
+		}
+		else if($index	==	'open')
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
+			$this->form_validation->set_rules('reply','Contenu du message','trim|required|min_length[3]|max_length[1200]');
+			$this->form_validation->set_rules('convid','Identifiant de la convesation','trim|required|min_length[1]');
+			if($this->form_validation->run())
+			{
+				$result	=	$this->users_global->addPost($this->input->post('convid'),$this->input->post('reply'));
+				if($result	==	true)
+				{
+					notice('push',fetch_notice_output('done'));
+				}
+				else
+				{
+					notice('push', translate( 'This message couldn\'t be posted because you don\'t have access or this message is no more availble' ) );
+				}
+			}
+			$this->users_global->editStatus($start);
+			$this->data['ttMsgContent']	=	$this->users_global->countMsgContent($start);
+			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttMsgContent'],1,'bg-color-red fg-color-white','bg-color-blue',$end,$this->url->site_url(array('account','messaging','open',$start)).'/',$ajaxis_link=null);
+			if($this->data['paginate'][3]	==	false)
+			{
+				$this->url->redirect(array('page404'));
+			}
+			$this->data['getMsgContent']=	$this->users_global->getMsgContent($start,$this->data['paginate'][1],$this->data['paginate'][2]);
+			
+			$user_pseudo 						=	$this->users_global->current('PSEUDO');
+			set_page('title', riake( 'site_name' , $this->options ) .' | '.ucfirst($user_pseudo).' &raquo;' . translate( 'message reading' ) );
+
+			set_page('description','Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
+			$this->data['body']			=	$this->load->view('account/messaging/read',$this->data,true);
+			
+			$this->load->view('account/header',$this->data);
+			$this->load->view('account/global_body',$this->data);
+		}
+	
+		}
 	}
 	// Public functions
 	public function index()
@@ -198,7 +485,7 @@ class Admin extends Libraries
 		if($e == '' || $e == 'main')
 		{
 			// Filter active APP while WebApp mode is enabled
-			$argument	=	riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'webapp' ? 'filter_active_app' : 'list_all' ;
+			$argument	=	riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'webapp' ? 'filter_app' : 'all' ;
 			
 			set_core_vars( 'mod_nbr' , $mod_nbr	=	count( get_modules( $argument ) ) , 'read_only' );
 			
@@ -658,21 +945,24 @@ class Admin extends Libraries
 			return;
 		}
 	}
-	public function system($option	=	'index',$option_2 = 1)
+	public function users( $options = '' , $x = 0 , $y = '' , $z = '' )
 	{
-		// Is Super Admin ?
-		
-		(!$this->users_global->isSuperAdmin()) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : null;
-		// Proceed
-		if($option	==	'index')
+		if( $options == '' )
 		{
-			set_page('title', translate( 'About - Tendoo' ) );
-			set_core_vars( 'body' , $this->load->view('admin/system/body',$this->data,true), 'read_only' );
+			set_core_vars( 'ttAdmin' ,	count($this->users_global->getAdmin()));
+			set_core_vars( 'paginate' ,	$paginate	=	$this->tendoo->paginate(10,get_core_vars( 'ttAdmin' ),1,'bg-color-red fg-color-white','',$x,$this->url->site_url(array('admin','system','users')).'/') );
+			
+			
+			set_core_vars( 'subadmin' ,	$this->users_global->getAdmin($paginate[1],$paginate[2]) );
+			
+			set_page('title', translate( 'Manage users - Tendoo' ) );
+			
+			set_core_vars( 'body' ,	$this->load->view('admin/users/users',$this->data,true) );
 			
 			$this->load->view('admin/header',$this->data,false,false);
 			$this->load->view('admin/global_body',$this->data,false,false);	
 		}
-		else if($option ==  'createAdmin')
+		else if( $options == 'create' )
 		{
 			$this->form_validation->set_rules('admin_pseudo', translate( 'Pseudo' ),'trim|required|min_length[5]|max_length[15]');
 			$this->form_validation->set_rules('admin_password', translate( 'Password' ),'trim|required|min_length[6]|max_length[30]');
@@ -695,18 +985,76 @@ class Admin extends Libraries
 						notice('push',fetch_notice_output('adminCreationFailed'));
 						break;
 					case 'adminCreated'	:
-						$this->url->redirect(array('admin','system','createAdmin?notice=adminCreated'));
+						$this->url->redirect(array('admin','users?notice=adminCreated'));
 						break;
 					case 'adminCreationFailed'	:
-						$this->url->redirect(array('admin','system','createAdmin?notice=adminCreationFailed'));
+						$this->url->redirect(array('admin','users','create?notice=adminCreationFailed'));
 				}
 			}
 			set_core_vars( 'getPrivs' , $this->tendoo_admin->getPrivileges());
 			set_page('title', translate( 'Manage Users - Tendoo' ) );
-			set_core_vars( 'body' , $this->load->view('admin/system/createAdmin',$this->data,true), 'read_only' );
+			set_core_vars( 'body' , $this->load->view('admin/users/create',$this->data,true), 'read_only' );
 			
 			$this->load->view('admin/header',$this->data,false,false);
 			$this->load->view('admin/global_body',$this->data,false,false);	
+		}
+		else if( $options == 'edit' )
+		{
+			if($this->input->post('set_admin'))
+			{
+				$this->form_validation->set_rules('current_admin', translate( 'About current user' ),'trim|required|min_length[5]');
+				$this->form_validation->set_rules('edit_priv', translate( 'Edit his privilege' ),'trim|required|min_length[8]|max_length[11]');
+				$this->form_validation->set_rules('user_email',translate( 'Email' ),'trim|valid_email');
+				if($this->form_validation->run())
+				{
+					$query	=	$this->users_global->setAdminPrivilege($this->input->post('edit_priv'),$this->input->post('current_admin'),$this->input->post('user_email'));
+					notice('push',fetch_notice_output($query));
+				}
+			}
+			if($this->input->post('delete_admin'))
+			{
+				$this->form_validation->set_rules('current_admin', translate( 'About current user' ),'trim|required|min_length[5]');
+				$this->form_validation->set_rules('delete_admin', translate( 'Edit his privilege' ),'trim|required|min_length[1]');
+				if($this->form_validation->run())
+				{
+					if($this->users_global->deleteSpeAdmin($this->input->post('current_admin')))
+					{
+						$this->url->redirect(array('admin','users?notice=adminDeleted'));
+					}
+					else
+					{
+						notice('push',fetch_notice_output('error_occurred'));
+					}
+				}
+			}
+			
+			set_core_vars( 'getPrivs' ,	$this->tendoo_admin->getPrivileges());
+			set_core_vars( 'adminInfo' ,	$adminInfo	=	$this->users_global->getSpeAdminByPseudo($x) );
+			set_page('title', sprintf( translate( 'User profile : %s - Tendoo' ), $adminInfo['PSEUDO'] ) );
+			
+			set_core_vars( 'body' ,	$this->load->view('admin/users/edit',$this->data,true) , 'read_only' );
+			
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
+			return true;			
+		}
+	}
+	public function system($option	=	'index',$option_2 = 1)
+	{
+		// Is Super Admin ?
+		
+		(!$this->users_global->isSuperAdmin()) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : null;
+		// Proceed
+		if($option	==	'index')
+		{
+			set_page('title', translate( 'About - Tendoo' ) );
+			set_core_vars( 'body' , $this->load->view('admin/system/body',$this->data,true), 'read_only' );
+			
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
+		}
+		else if($option ==  'createAdmin')
+		{
 		}
 		else if($option ==  'create_privilege')
 		{
@@ -852,43 +1200,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($option	==	'editAdmin')
 		{
-			if($this->input->post('set_admin'))
-			{
-				$this->form_validation->set_rules('current_admin', translate( 'About current user' ),'trim|required|min_length[5]');
-				$this->form_validation->set_rules('edit_priv', translate( 'Edit his privilege' ),'trim|required|min_length[8]|max_length[11]');
-				$this->form_validation->set_rules('user_email',translate( 'Email' ),'trim|valid_email');
-				if($this->form_validation->run())
-				{
-					$query	=	$this->users_global->setAdminPrivilege($this->input->post('edit_priv'),$this->input->post('current_admin'),$this->input->post('user_email'));
-					notice('push',fetch_notice_output($query));
-				}
-			}
-			if($this->input->post('delete_admin'))
-			{
-				$this->form_validation->set_rules('current_admin', translate( 'About current user' ),'trim|required|min_length[5]');
-				$this->form_validation->set_rules('delete_admin', translate( 'Edit his privilege' ),'trim|required|min_length[1]');
-				if($this->form_validation->run())
-				{
-					if($this->users_global->deleteSpeAdmin($this->input->post('current_admin')))
-					{
-						$this->url->redirect(array('admin','system','adminMain?notice=adminDeleted'));
-					}
-					else
-					{
-						notice('push',fetch_notice_output('error_occurred'));
-					}
-				}
-			}
 			
-			set_core_vars( 'getPrivs' ,	$this->tendoo_admin->getPrivileges());
-			set_core_vars( 'adminInfo' ,	$adminInfo	=	$this->users_global->getSpeAdminByPseudo($option_2) );
-			set_page('title', sprintf( translate( 'User profile : %s - Tendoo' ), $adminInfo['PSEUDO'] ) );
-			
-			set_core_vars( 'body' ,	$this->load->view('admin/system/editAdmin',$this->data,true) , 'read_only' );
-			
-			$this->load->view('admin/header',$this->data,false,false);
-			$this->load->view('admin/global_body',$this->data,false,false);	
-			return true;
 		}
 		else if($option	==	'restore')
 		{
@@ -925,20 +1237,9 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 				$this->load->view('admin/global_body',$this->data,false,false);	
 			}
 		}
-		else if($option	== 'adminMain')
+		else if($option	== 'users')
 		{
-			set_core_vars( 'ttAdmin' ,	count($this->users_global->getAdmin()));
-			set_core_vars( 'paginate' ,	$paginate	=	$this->tendoo->paginate(10,get_core_vars( 'ttAdmin' ),1,'bg-color-red fg-color-white','',$option_2,$this->url->site_url(array('admin','system','adminMain')).'/') );
 			
-			
-			set_core_vars( 'subadmin' ,	$this->users_global->getAdmin($paginate[1],$paginate[2]) );
-			
-			set_page('title', translate( 'Manage users - Tendoo' ) );
-			
-			set_core_vars( 'body' ,	$this->load->view('admin/system/adminList',$this->data,true) );
-			
-			$this->load->view('admin/header',$this->data,false,false);
-			$this->load->view('admin/global_body',$this->data,false,false);	
 		}
 		else
 		{

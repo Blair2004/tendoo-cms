@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </header>
-            <section class="hbox stretch">
+            <section class="vbox">
                 <section class="wrapper"> 
 					<?php echo output('notice');?> 
 					 

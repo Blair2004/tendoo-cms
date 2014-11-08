@@ -1,72 +1,152 @@
 <?php
+	function force_array( $array )
+	{
+		if( is_array( $array ) )
+		{
+			return $array;
+		}
+		return array();
+	}
+	/**
+	*	create_admin_menu()
+	**/
+	function create_admin_menu( $namespace , $position , $item )
+	{
+		return __create_menu( 'admin' , $namespace , $position , $item );
+	}
+	function __create_menu( $interface , $namespace , $position , $item )
+	{
+		if( in_array( $interface , array( 'admin' , 'account' ) ) ) 
+		{
+			$interface_menus	=	get_core_vars( $interface . '_menus' );
+			if( in_array( $position , get_core_vars( $interface . '_menu_position' ) ) && in_array( $item , get_core_vars( $interface . '_menu_items' ) ) )
+			{
+				$interface_menus[ $item ][ $position ][ $namespace ]	=	array(); // Saving menu namespace
+			}
+			return set_core_vars( $interface . '_menus' , $interface_menus ); // save it to the main array;
+		}
+		return false;
+	}
 	/**
 	* 	add_admin_menu()
 	**/
-	function add_admin_menu( $position , $item , $menu_object )
+	function add_admin_menu( $namespace , $config )
 	{
-		/* Menu Object Form
-			array( 
-				title		=>
-				namespace	=> [optional]
-				icon		=>	[optional]
-				href			=>	[required]
-				childs		=>	array(
-					array(
-						title	=>	
-						href		=>	[required]
-						icon	=>	[optional]
-						namespace	=>
-						
-					)
-				)
-				
-			)
-		*/
-		if( in_array( $item , array( 'about' , 'users' , 'menu' , 'installer' , 'controllers' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) ) )
+		return __add_menu( 'admin' , $namespace , $config );
+	}
+	function __add_menu( $interface , $namespace , $config )
+	{
+		if( in_array( $interface , array( 'admin' , 'account' ) ) )
 		{
-			$menus	=	( $admin_menus = get_core_vars( 'admin_menus' ) ) ? $admin_menus : array();
-			if( in_array( $position , array( 'before' , 'after' ) ) )
+			/*
+			*	[title, href, icon] config keys
+			*/
+			$interface_menus	=	is_array( $array	=	get_core_vars( $interface . '_menus' ) ) ? $array : array();
+			if( is_array( $interface_menus ) )
 			{
-				$menus[ $item ][ $position ][] = $menu_object;
-				set_core_vars( 'admin_menus' , $menus );
+				foreach( $interface_menus as $item_key	=>	$items )
+				{
+					if( is_array( $items ) )
+					{
+						foreach( $items as $item_position 	=>	$position )
+						{
+							if( is_array( $position ) )
+							{
+								foreach( $position  as $_namespace => $_config )
+								{
+									if( $_namespace == $namespace )
+									{
+										$interface_menus[ $item_key ][ $item_position ][ $_namespace ][]	=	$config;
+									}
+								}
+							}
+						}
+					}
+				}
 			}
+			// Saving Menu
+			set_core_vars( $interface . '_menus' , $interface_menus );
 		}
 	}
 	/**
 	*	show_admin_menu( 'position' )
 	**/
-	function show_admin_menu( $position , $item )
+	function __show_menu( $interface , $position , $item )
 	{
-		if( in_array( $item , array( 'menu' , 'about' , 'users' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) ) )
+		if( in_array( $interface , array( 'admin' , 'account' ) ) ) 
 		{
-			if( in_array( $position , array( 'before' , 'after' ) ) )
+			if( in_array( $item , force_array( get_core_vars( $interface . '_menu_items' ) ) ) )
 			{
-				$get_menus		=	riake( $item , get_core_vars( 'admin_menus' ) , array() );
-				$menu_position	=	riake( $position , $get_menus , array() );
-				if( is_array( $menu_position ) )
+				if( in_array( $position , array( 'before' , 'after' ) ) )
 				{
-					foreach( $menu_position as $menu )
+					$get_menus		=	riake( $item , get_core_vars( $interface . '_menus' ) , array() );
+					$menu_position	=	riake( $position , $get_menus , array() );
+					if( is_array( $menu_position ) )
 					{
-						if( ( $title = riake( 'title' , $menu ) ) == true && ( $url = riake( 'href' , $menu ) ) == true )
+						foreach( $menu_position as $namespace	=>	 $menu_list )
 						{
-							$class	=	is_array( $childs = riake( 'childs' , $menu ) ) ? 'dropdown-submenu' : '';
+							$first_index	=	0;
+							$class	=	is_array( $menu_list ) && count( $menu_list ) > 1 ? 'dropdown-submenu' : '';
+							// Check if a menu as a open submenu
+							$custom_ul_style	=	'';
+							$menu_status	=	'';
+							foreach( $menu_list as $check )
+							{
+								if( riake( 'href' , $check ) == get_instance()->url->site_url() )
+								{
+									$custom_ul_style	= 'style="display: block;"';
+									$menu_status	=	'active';
+									break;
+								}
+							}
 							?>
-							<li class="<?php echo $class;?>">
-								<?php if( $class != '' ):?>
-								<a href="javascript:void(0)" class="dropdown-toggle"> 
-									<span class="pull-right auto"> <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> </span>
-									<i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> 
-									<span><?php echo $title;?></span> 
-								</a>
-								<ul class="nav none dker">
-									<li> <a href="<?php echo riake( 'href' , $menu , '#' );?>"><?php echo riake( 'title' , $menu );?></a> </li>	
-									<?php foreach( $childs as $son ):?>
-										<li> <a href="<?php echo riake( 'href' , $son , '#' );?>"><?php echo riake( 'title' , $son );?></a> </li>	
-									<?php endforeach;?>
-								</ul>
-								<?php else:?>
-								<a href="<?php echo riake( 'href' , $menu , '#' );?>"> <i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> <span><?php echo riake( 'title' , $menu );?></span> </a>
-								<?php endif;?>
+							<li class="<?php echo $class . ' ' . $menu_status;?>">
+							<?php
+							// Displaying menu and their childs
+							foreach( $menu_list as $menu )
+							{
+								if( ( $title = riake( 'title' , $menu ) ) == true && ( $url = riake( 'href' , $menu ) ) == true )
+								{
+									if( $class != '' ) // means if it has child
+									{
+										$custom_style	=	get_instance()->url->site_url() == riake( 'href' , $menu , '#' ) ? 'style="color:#fff"' : '';
+										if( $first_index == 0 ) // parent
+										{
+											?>
+											<a <?php echo $custom_style;?> href="javascript:void(0)" class="dropdown-toggle <?php echo $menu_status;?>"> 
+												<span class="pull-right auto"> <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> </span>
+												<i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> 
+												<span><?php echo $title;?></span> 
+											</a>
+											<ul <?php echo $custom_ul_style;?> class="nav none dker">
+												<li> <a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>"><?php echo riake( 'title' , $menu );?></a> </li>	
+											<?php
+											
+										}
+										else // childs menus
+										{
+											// inlight current page
+											?>
+												<li> <a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>"><?php echo riake( 'title' , $menu );?></a> </li>	
+											<?php
+										}
+										if( $first_index == ( count( $menu_list ) - 1 ) ) // If is last item of the menu
+										{
+											?>
+											</ul>
+											<?php
+										}
+									}
+									else // If no child exists
+									{
+										 ?>
+										 <a href="<?php echo riake( 'href' , $menu , '#' );?>"> <i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> <span><?php echo riake( 'title' , $menu );?></span> </a>
+										 <?php
+									}
+								}
+								$first_index++; // upgrade index
+							}
+							?>
 							</li>
 							<?php
 						}
@@ -74,6 +154,22 @@
 				}
 			}
 		}
+	}
+	function show_admin_menu( $position , $item )
+	{
+		return __show_menu( 'admin' , $position, $item );
+	}
+	function create_account_menu( $namespace , $position , $item )
+	{
+		return __create_menu( 'account' , $namespace , $position , $item );
+	}
+	function add_account_menu( $namespace , $config )
+	{
+		return __add_menu( 'account' , $namespace , $config );
+	}
+	function show_account_menu( $position , $item )
+	{
+		return __show_menu( 'account' , $position , $item );
 	}
 	/**
 	*	include_if_file_exists() : 
@@ -820,40 +916,16 @@
 	*	set_admin_menu
 	**/
 	function setup_admin_left_menu( $title , $icon ){
-		return set_core_vars( 'admin_left_menu' , array(
-			'text'		=>	$title,
-			'icon'		=>	$icon
-		) );
+		return false;
+		// deprecated
 	}
 	function add_admin_left_menu( $title , $link ){
-		$saved_menus	=	get_core_vars( 'admin_left_menus' ) ? get_core_vars( 'admin_left_menus' ) : array();
-		$saved_menus[]	=	array(
-			'text'		=>	$title,
-			'link'		=>	$link
-		);
-		set_core_vars( 'admin_left_menus' , $saved_menus );
+		return false; 
+		// deprecated
 	};
 	function get_admin_left_menus(){
-		$saved_menu			=		get_core_vars( 'admin_left_menus' );
-		$left_menu_config	=		get_core_vars( 'admin_left_menu' );
-		if( $left_menu_config || $saved_menu )
-		{
-		?>
-        <li class="dropdown-submenu">
-        	<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-            	<i class="fa fa-<?php echo $left_menu_config[ 'icon' ];?>"></i>
-				<?php echo $left_menu_config[ 'text' ];?>
-			</a>
-            <?php if(is_array( $saved_menu ) ) : ?>
-            <ul class="dropdown-menu">
-            	<?php foreach( $saved_menu as $menu ){ ?>
-					<li><a href="<?php echo $menu[ 'link' ];?>"> <?php echo $menu[ 'text' ];?></a></li>
-                <?php }?>
-            </ul>
-            <?php endif;?>
-        </li>
-        <?php
-		}
+		return false;
+		// Deprecated 
 	}
 	/**
 	*	declare_api( $api_namespace , $callback_api )

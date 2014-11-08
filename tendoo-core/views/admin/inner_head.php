@@ -5,13 +5,14 @@ $options	=	get_core_vars( 'options' ); ?>
     <div class="navbar-header nav-bar aside dk">
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"> <i class="fa fa-reorder"></i> </a> <span href="#" class="nav-brand <?php // echo theme_class();?>"> <img style="max-height:30px;" src="<?php echo $this->instance->url->img_url('logo_minim.png');?>" alt="logo"> </span> <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-user"> <i class="fa fa-comment-alt"></i> </a>
     </div>
+    <?php if( current_user()->isAdmin() ):?>
     <div class="collapse navbar-collapse pull-in">
     	<ul class="nav navbar-nav">
         	<?php
             $sysNot			=	$this->instance->tendoo_admin->get_sys_not();
             $ttSystNot		=	count($sysNot);
             ?>
-            <li class="hidden-xs"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell text-white"></i> <?php _e( 'Notices' );?>
+            <li class="hidden-xs"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell text-white"></i>
                 <?php 
                 if($ttSystNot > 0)
                 {
@@ -23,7 +24,7 @@ $options	=	get_core_vars( 'options' ); ?>
                 </a>
                 <section class="dropdown-menu animated fadeInUp input-s-lg">
                     <section class="panel bg-white">
-                        <header class="panel-heading"> <strong><?php echo translate( 'you_got' );?> : <span class="count-n"><?php echo $ttSystNot;?></span> notification(s)</strong> </header>
+                        <header class="panel-heading"> <strong><?php echo translate( 'You got' );?> : <span class="count-n"><?php echo $ttSystNot;?></span> <?php _e( 'Notice(s)' );?></strong> </header>
                         <?php
                         if($ttSystNot > 0)
                         {
@@ -46,14 +47,14 @@ $options	=	get_core_vars( 'options' ); ?>
                         <?php
                             }
                         ?>
-                        <footer class="panel-footer text-sm"> <!-- <a href="#" class="pull-right"><i class="fa fa-cog"></i></a> <a href="#">See all the notifications</a>--> </footer>
+                        <!-- <footer class="panel-footer text-sm"><a href="#" class="pull-right"><i class="fa fa-cog"></i></a> <a href="#">See all the notifications</a> </footer> -->
                         <?php
                         }
                         else
                         {
                             ?>
                         <div class="list-group">
-                            <a href="#" class="media list-group-item"> <span class="media-body block m-b-none"> Aucune notification disponible</span> </a>
+                            <a href="#" class="media list-group-item"> <span class="media-body block m-b-none"><?php _e( 'There is nothing to display now...' );?></span> </a>
                         </div>
                         <?php
                         }
@@ -84,34 +85,34 @@ $options	=	get_core_vars( 'options' ); ?>
         }
         ?>
         <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="thumb-sm avatar pull-left m-t-n-xs m-r-xs"> <img src="<?php echo current_user('avatar_link');?>" alt="<?php echo ucwords(current_user('PSEUDO'));?>"> </span> <?php echo ucwords($this->instance->users_global->current('PSEUDO'));?>, <?php echo $this->instance->users_global->current('PRIVILEGE') == 'NADIMERPUS' ? 'Super administrateur' : 'Administrateur';?> <b class="caret"></b> </a>
+            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="thumb-sm avatar pull-left m-t-n-xs m-r-xs"> <img src="<?php echo current_user('avatar_link');?>" alt="<?php echo ucwords(current_user('PSEUDO'));?>"> </span> <?php echo ucwords($this->instance->users_global->current('PSEUDO'));?>, <?php echo $this->instance->users_global->current('PRIVILEGE') == 'SUPERADMIN' ? 'Super administrateur' : 'Administrateur';?> <b class="caret"></b> </a>
                 <ul class="dropdown-menu animated fadeInLeft">
-                    <li> <a href="<?php echo $this->instance->url->site_url(array('account','update'));?>">Param&ecirc;tres</a> </li>
+                    <li> <a href="<?php echo $this->instance->url->site_url(array('account','update'));?>"><?php _e( 'Settings' );?></a> </li>
                     <li> <a href="<?php echo $this->instance->url->site_url(array('account'));?>">Profil</a> </li>
                     <?php
                     $ttMessage	=	$this->instance->users_global->getUnreadMsg();
                     if($ttMessage == 0)
                     {
                     ?>
-                    <li> <a href="<?php echo $this->instance->url->site_url(array('account','messaging','home'));?>"> Messagerie </a> </li>
+                    <li> <a href="<?php echo $this->instance->url->site_url(array('account','messaging','home'));?>"> <?php _e( 'Inbox' );?> </a> </li>
                     <?php
                     }
                     else
                     {
                         ?>
-                    <li> <a href="<?php echo $this->instance->url->site_url(array('account','messaging','home'));?>"> <span class="badge bg-danger pull-right"><?php echo $ttMessage;?></span> Messagerie </a> </li>
+                    <li> <a href="<?php echo $this->instance->url->site_url(array('account','messaging','home'));?>"> <span class="badge bg-danger pull-right"><?php echo $ttMessage;?></span> <?php _e( 'Inbox' );?> </a> </li>
                     <?php
                     }
                     ?>
-                    <li> <a href="http://tendoo.org/index.php/apprendre">Aide</a> </li>
-                    <li> <a href="<?php echo $this->instance->url->site_url(array('logoff'));?>">Deconnexion</a> </li>
+                    <li> <a href="http://tendoo.org/index.php/apprendre"><?php _e( 'Help' );?></a> </li>
+                    <li> <a href="<?php echo $this->instance->url->site_url(array('logoff'));?>"><?php _e( 'Logoff' );?></a> </li>
                 </ul>
             </li>
         </ul>
         <form class="navbar-form navbar-right m-t-sm" role="search">
             <div class="form-group">
                 <div class="input-group input-s">
-                    <input type="text" class="form-control input-sm no-border bg-white" placeholder="<?php echo translate( 'search' );?>">
+                    <input type="text" class="form-control input-sm no-border bg-white" placeholder="<?php echo translate( 'Search' );?>">
                     <span class="input-group-btn">
                     <button type="button" class="btn btn-sm btn-info btn-icon" id="toolbarSearch"><i class="fa fa-search"></i></button>
                     </span>
@@ -124,4 +125,5 @@ $options	=	get_core_vars( 'options' ); ?>
         });
         </script>
     </div>
+    <?php endif;?>
 </header>

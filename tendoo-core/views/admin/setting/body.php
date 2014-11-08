@@ -40,7 +40,7 @@
                             <div class="tab-pane" id="datasetting">
                                 <form method="post" class="panel-body">
                                     <?php
-										if($this->instance->users_global->current('PRIVILEGE') == 'NADIMERPUS')
+										if($this->instance->users_global->current('PRIVILEGE') == 'SUPERADMIN')
 										{
 										?>
                                     <div class="form-group">

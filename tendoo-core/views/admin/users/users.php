@@ -22,15 +22,15 @@
 					<?php output('notice');?>
                     <?php echo fetch_error_from_url();?>
                     <section class="panel">
-                        <div class="wrapper b-b font-bold">Liste des utilisateurs</div>
+                        <div class="wrapper b-b font-bold"><?php _e( 'Users' );?></div>
                         <table class="table table-striped m-b-none">
                             <thead>
                                 <tr>
-                                    <td width="100">Identifiant</td>
-                                    <td width="300">pseudo</td>
-                                    <td>Status</td>
-                                    <td>Privil&egrave;ge</td>
-                                    <td>Email</td>
+                                    <td width="100"><?php _e( 'Id' );?></td>
+                                    <td width="300"><?php _e( 'Pseudo' );?></td>
+                                    <td><?php _e( 'Status' );?></td>
+                                    <td><?php _e( 'Role' );?></td>
+                                    <td><?php _e( 'Email' );?></td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,10 +49,10 @@
 								?>
                                 <tr>
                                     <td><?php echo $s['ID'];?></td>
-                                    <td><a href="<?php echo $this->instance->url->site_url(array('admin','system','editAdmin',$s['PSEUDO']));?>"><?php echo $s['PSEUDO'];?></a></td>
+                                    <td><a href="<?php echo $this->instance->url->site_url(array('admin','users','edit',$s['PSEUDO']));?>"><?php echo $s['PSEUDO'];?></a></td>
                                     <td><?php echo $priv[0]['HUMAN_NAME'];?></td>
-                                    <td><?php echo $s['PRIVILEGE']	==	'RELPIMSUSE' ? 'Indisponible' : $s['PRIVILEGE'];?></td>
-                                    <td><?php echo $s['EMAIL'] == '' ? 'Indisponible' : $s['EMAIL'];?></td>
+                                    <td><?php echo $s['PRIVILEGE']	==	'RELPIMSUSE' ? __( 'Unavailable' ) : $s['PRIVILEGE'];?></td>
+                                    <td><?php echo $s['EMAIL'] == '' ? __( 'Unavailable' ) : $s['EMAIL'];?></td>
                                 </tr>
                                 <?php
 									}
@@ -61,7 +61,7 @@
 								{
 								?>
                                 <tr>
-                                    <td colspan="5">Aucun administrateur cr&eacute;e.</td>
+                                    <td colspan="5"><?php _e( 'No user created' );?></td>
                                 </tr>
                                 <?php
 								}
@@ -70,7 +70,7 @@
 							{
 								?>
                                 <tr>
-                                    <td colspan="3">Aucun administrateur cr&eacute;e.</td>
+                                    <td colspan="3"><?php _e( 'No user created' );?></td>
                                 </tr>
                                 <?php
 							}

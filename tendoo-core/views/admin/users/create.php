@@ -24,37 +24,37 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <section class="panel">
-                                <header class="panel-heading text-center"> Cr&eacute;er un utilisateur </header>
+                                <header class="panel-heading text-center"><?php _e( 'Create a new user' );?></header>
                                 <form method="post" class="panel-body">
                                     <div class="form-group">
-                                        <label class="label-control">Pseudo</label>
-                                        <input type="text" class="form-control" name="admin_pseudo" placeholder="Pseudo" />
+                                        <label class="label-control"><?php _e( 'Pseudo' );?></label>
+                                        <input type="text" class="form-control" name="admin_pseudo" placeholder="<?php _e( 'User pseudo' );?>" />
                                     </div>
                                     <div class="form-group">
-                                        <label class="label-control">Mot de passe</label>
-                                        <input type="password" class="form-control" name="admin_password" placeholder="Mot de passe"/>
+                                        <label class="label-control"><?php _e( 'Password' );?></label>
+                                        <input type="password" class="form-control" name="admin_password" placeholder="<?php _e( 'User password' );?>"/>
                                     </div>
                                     <div class="form-group">
-                                        <label class="label-control">Confirmer le mot de passe</label>
-                                        <input type="password" class="form-control" name="admin_password_confirm" placeholder="Confirmer le mot de passe"/>
+                                        <label class="label-control"><?php _e( 'Confirm password' );?></label>
+                                        <input type="password" class="form-control" name="admin_password_confirm" placeholder="<?php _e( 'Confirm password' );?>"/>
                                     </div>
                                     <div class="form-group">
-                                        <label class="label-control">Email</label>
-                                        <input type="text" class="form-control" name="admin_password_email" placeholder="Email"/>
+                                        <label class="label-control"><?php _e( 'User Email' );?></label>
+                                        <input type="text" class="form-control" name="admin_password_email" placeholder="<?php _e( 'Email' );?>"/>
                                     </div>
                                     <div class="form-group">
-                                        <label class="label-control">Selection du sexe</label>
+                                        <label class="label-control"><?php _e( 'Sex' );?></label>
                                         <select name="admin_sex" class="form-control">
-                                            <option value="">Selection du sexe</option>
-                                            <option value="MASC">Masculin</option>
-                                            <option value="FEM">Feminin</option>
+                                            <option value=""><?php _e( 'Choose...' );?></option>
+                                            <option value="MASC"><?php _e( 'Male' );?></option>
+                                            <option value="FEM"><?php _e( 'Female' );?></option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label class="label-control">Choisir un privil&egrave;ge</label>
+                                        <label class="label-control"><?php _e( 'Choose a role' );?></label>
                                         <select name="admin_privilege" class="form-control">
-                                            <option class="form-control" value="">Choisir un privil&egrave;ge</option>
-                                            <option value="RELPIMSUSE">Utilisateur</option>
+                                            <option class="form-control" value=""><?php _e( 'Choose...' );?></option>
+                                            <option value="RELPIMSUSE"><?php _e( 'User' );?></option>
                                             <?php
 												foreach($getPrivs as $p)
 												{
@@ -65,22 +65,22 @@
 												?>
                                         </select>
                                     </div>
-                                    <input class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="Cr&eacute;er" />
-                                    <input type="reset" class="btn btn-sm btn-danger" value="Annuler" />
+                                    <input class="btn btn-sm <?php echo theme_button_class();?>" type="submit" value="<?php _e( 'Create the user' );?>" />
+                                    <input type="reset" class="btn btn-sm btn-danger" value="<?php _e( 'Reset Fields' );?>" />
                                 </form>
                             </section>
                         </div>
                         <div class="col-lg-4">
                             <?php
-$field_1	=	(form_error('admin_pseudo')) ? form_error('admin_pseudo') : 'L\'utilisateur doit avoir un pseudo unique.<br>';
-$field_2	=	(form_error('admin_password')) ? form_error('admin_password') : 'L\'adresse email de l\'utilisateur sera utilis&eacute; pour la récupération du mot de passe.<br>';
-$field_3	=	(form_error('admin_password_confirm')) ? form_error('admin_password_confirm') : 'Choisir un privil&egrave;ge c\'est classer cet utilisateur dans un groupe disposant d\'action.<br>';
-$field_6	=	(form_error('admin_password_email')) ? form_error('admin_password_email') : 'Email.';
+$field_1	=	(form_error('admin_pseudo')) ? form_error('admin_pseudo') : tendoo_info( __( 'Pseudo must be unique, such as email' ) ) . '<br>';
+$field_2	=	(form_error('admin_password')) ? form_error('admin_password') : tendoo_info( __( 'Email can be used to reset password' ) ) . '<br>';
+$field_3	=	(form_error('admin_password_confirm')) ? form_error('admin_password_confirm') : tendoo_info( __( 'Choosing a role, is adding a user to a specific group with permissinos' ) ) . '<br>';
+$field_6	=	(form_error('admin_password_email')) ? form_error('admin_password_email') : __( 'Email' );
 $field_4	=	(form_error('admin_sex')) ? form_error('admin_sex') : '';
 $field_5	=	(form_error('admin_privilege')) ? form_error('admin_privilege') : '';
 ?>
                             <section class="panel">
-                                <header class="panel-heading text-center"> Plus d'information </header>
+                                <header class="panel-heading text-center"> <?php _e( 'More about' );?> </header>
                                 <div class="wrapper">
                                     <?php if(strlen($field_1) > 0):;?>
                                     <?php echo $field_1; ?>
@@ -107,7 +107,6 @@ $field_5	=	(form_error('admin_privilege')) ? form_error('admin_privilege') : '';
                         <div class="col-sm-2" id="ajaxLoading">
                         </div>
                         <div class="col-sm-10 text-right text-center-xs">
-                            <input controller_save_edits type="button" data-dismiss="modal" class="btn btn-sm <?php echo theme_class();?>" value="Sauvegardez vos modifications">
                         </div>
                     </div>
                 </footer>

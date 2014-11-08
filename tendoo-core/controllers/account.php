@@ -12,8 +12,14 @@ class Account extends Libraries
 		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->load->library('users_global');
 		$this->load->library('file');
+		$this->load->library('menu');
+		if( current_user()->isAdmin() )
+		{
+			$this->load->library('tendoo_admin');
+		}
 		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->file_2			=	new File;
+		$this->data				=	array();
 		// out put files
 		css_push_if_not_exists('font');
 		css_push_if_not_exists('app.v2');
@@ -25,20 +31,66 @@ class Account extends Libraries
 		js_push_if_not_exists('tendoo_loader');
 		js_push_if_not_exists('tendoo_app');
 		
-		set_core_vars( 'options' , $this->data['options'] = get_meta( 'all' ) );
+		set_core_vars( 'options' , $this->options = get_meta( 'all' ) );
+		
+		$this->__creating_menus();
 		
 		if(!$this->users_global->isConnected())
 		{
 			$this->url->redirect(array('login?ref='.urlencode($this->url->request_uri())));
 			exit;
 		}
-		$this->data['left_menu']			=	$this->load->view('account/left_menu',$this->data,true);
-		$this->data['smallHeader']			=	$this->load->view('account/smallHeader',$this->data,true);
+		set_core_vars( 'inner_head' , $this->load->view( 'admin/inner_head' ), false , true );
+		set_core_vars( 'lmenu' , 	$this->data['left_menu']				=	$this->load->view('account/left_menu',$this->data,true) );
+		set_core_vars( 'smallHeader' ,  $this->data['smallHeader']			=	$this->load->view('account/smallHeader',$this->data,true) );
+	}
+	private function __creating_menus()
+	{
+		$this->menu->add_admin_menu_core( 'profile' , array(
+			'href'			=>		$this->instance->url->site_url('account'),
+			'icon'			=>		'fa fa-home',
+			'title'			=>		__( 'Profile' )
+		) );
+		
+		$this->menu->add_admin_menu_core( 'messaging' , array(
+			'title'			=>		__( 'Inbox' ),
+			'icon'			=>		'fa fa-flask',
+			'href'			=>		$this->instance->url->site_url('admin/installer'),
+			'badge'			=>		$this->instance->users_global->getUnreadMsg()
+		) );
+		
+		$this->menu->add_admin_menu_core( 'profile-settings' , array(
+			'title'			=>		__( 'Edit profile' ),
+			'icon'			=>		'fa fa-edit',
+			'href'			=>		$this->instance->url->site_url('account/update')
+		) );
+		
+		if( current_user()->isAdmin() )
+		{
+			$this->menu->add_admin_menu_core( 'dashboard' , array(
+				'title'			=>		__( 'Dashboard' ),
+				'icon'			=>		'fa fa-dashboard',
+				'href'			=>		$this->instance->url->site_url('admin')
+			) );
+		}
+		
+		$this->menu->add_admin_menu_core( 'frontend' , array(
+			'title'			=>		sprintf( __( 'Visit %s' ) , riake( 'site_name' , $this->options ) ) ,
+			'icon'			=>		'fa fa-eye',
+			'href'			=>		$this->instance->url->site_url('index')
+		) );
+		
+		$this->menu->add_admin_menu_core( 'about' , array(
+			'title'			=>		__( 'About' ) ,
+			'icon'			=>		'fa fa-rocket',
+			'href'			=>		$this->instance->url->site_url('admin/system')
+		) );
+		
 	}
 	public function index()
 	{
 		$user_pseudo 						=	$this->users_global->current('PSEUDO');
-		set_page('title', riake( 'site_name' , $this->data['options'] ) . ' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'My Profile' ) );
+		set_page('title', riake( 'site_name' , $this->options ) . ' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'My Profile' ) );
 		set_page('description', translate( 'My Profile' ) );
 		$this->data['body']			=	$this->load->view('account/profile/body',$this->data,true);
 		
@@ -85,7 +137,7 @@ class Account extends Libraries
 			$this->url->redirect(array('account','update?notice=user_geographical_data_updated'));
 		}
 		$user_pseudo 						=	$this->users_global->current('PSEUDO');
-		set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'Updating profile' ) );
+		set_page('title', riake( 'site_name' , $this->options ) .' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'Updating profile' ) );
 		set_page('description', translate( 'Update a profile' ) );
 		
 		$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
@@ -133,7 +185,7 @@ class Account extends Libraries
 				}
 			}
 			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'Messaging' ) );
+			set_page('title', riake( 'site_name' , $this->options ) .' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'Messaging' ) );
 			set_page('description', sprintf( translate( '%s messaging' ) , $user_pseudo ) );
 			$this->data['ttMessage']	=	$this->users_global->countMessage();
 			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttMessage'],1,'ClasseOn','ClasseOff',$start,$this->url->site_url(array('account','messaging','home')).'/',null);
@@ -166,7 +218,7 @@ class Account extends Libraries
 			}
 			
 			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo;' . translate( 'Write a new message' ) );
+			set_page('title', riake( 'site_name' , $this->options ) .' | '.ucfirst($user_pseudo).' &raquo;' . translate( 'Write a new message' ) );
 			set_page('description','Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/write',$this->data,true);
 			
@@ -202,7 +254,7 @@ class Account extends Libraries
 			$this->data['getMsgContent']=	$this->users_global->getMsgContent($start,$this->data['paginate'][1],$this->data['paginate'][2]);
 			
 			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user_pseudo).' &raquo;' . translate( 'message reading' ) );
+			set_page('title', riake( 'site_name' , $this->options ) .' | '.ucfirst($user_pseudo).' &raquo;' . translate( 'message reading' ) );
 
 			set_page('description','Tendoo Users Account');$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
 			$this->data['body']			=	$this->load->view('account/messaging/read',$this->data,true);
@@ -222,7 +274,7 @@ class Account extends Libraries
 		{
 			$this->data['user'] =& $user;
 			
-			set_page('title', riake( 'site_name' , $this->data['options'] ) .' | '.ucfirst($user[0]['PSEUDO']).' &raquo; ' . translate( 'user profile' ) );
+			set_page('title', riake( 'site_name' , $this->options ) .' | '.ucfirst($user[0]['PSEUDO']).' &raquo; ' . translate( 'user profile' ) );
 			set_page('description',$user[0]['PSEUDO'].' - Profile');
 			
 			$this->data['body']			=	$this->load->view('account/profile/user_profil_body',$this->data,true);

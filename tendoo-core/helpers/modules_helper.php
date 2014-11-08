@@ -190,6 +190,7 @@ function get_modules( $filter = 'filter_namespace' , $namespace = null , $limit 
 	else if( $filter == 'all' ){
 		return $declared_modules;
 	}
+	// This process accept limit argument
 	else if( in_array( $filter , array( 'list_filter_active' , 'list_all' , 'list_filter_unactive' ) ) && is_numeric( $namespace ) && is_numeric( $limit ) ){
 		$filter		=	substr( $filter , 5 );
 		$filtred	=	get_modules( $filter );

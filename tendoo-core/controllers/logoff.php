@@ -6,6 +6,7 @@ Class logoff
 	private $load;
 	public function __construct()
 	{
+		die;
 		$this->instance			=	get_instance();
 		$this->instance->load->library('session');
 		$this->instance->load->library('users_global');

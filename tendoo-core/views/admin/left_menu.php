@@ -94,96 +94,56 @@
             ?>
 			<nav class="nav-primary hidden-xs" data-ride="collapse">
                 <ul class="nav">
-                	<?php show_admin_menu( 'before' , 'menu' );?>
-                	<?php echo get_admin_left_menus();?>					
-                    <?php 
+                	<?php 
+					show_admin_menu( 'before' , 'menu' );					
+					
 					if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
 					{
-					?>
-                    <?php show_admin_menu( 'before' , 'controllers' );?>
-                    <li> 
-                    	<a href="<?php echo $this->instance->url->site_url('admin/controllers');?>"> 
-                        	<i class="fa fa-bookmark"></i> 
-                            <span><?php _e( 'Controller' );?></span> 
-						</a>                    
-					</li>
-					<?php show_admin_menu( 'after' , 'controllers' );?>
-                    <?php
+					  	show_admin_menu( 'before' , 'controllers' );
+						get_instance()->menu->get_admin_menu_core( 'controllers' );
+						show_admin_menu( 'after' , 'controllers' );
 					}
-					?>
-                    <?php show_admin_menu( 'before' , 'installer' );?>
-                    <li class="dropdown-submenu"> <a href="<?php echo $this->instance->url->site_url('admin/installer');?>"> <i class="fa fa-flask"></i> <span><?php _e( 'Add new App' );?></span> </a>
-                    <?php show_admin_menu( 'after' , 'installer' );?>
-                    </li>
-                    <?php show_admin_menu( 'before' , 'modules' );?>
-                    <li><a href="<?php echo $this->instance->url->site_url('admin/modules');?>"> <i class="fa fa-puzzle-piece"></i> <span><?php _e( 'Modules' );?></span> </a>
-                    </li>
-                    <?php show_admin_menu( 'after' , 'modules' );?>
-                    <?php 
+					
+					show_admin_menu( 'before' , 'installer' );
+					get_instance()->menu->get_admin_menu_core( 'installer' );
+					show_admin_menu( 'after' , 'installer' );
+					
+					show_admin_menu( 'before' , 'modules' );
+                    get_instance()->menu->get_admin_menu_core( 'modules' );
+                    show_admin_menu( 'after' , 'modules' );
+					
+					if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
+					{						
+						show_admin_menu( 'before' , 'themes' );
+						get_instance()->menu->get_admin_menu_core( 'themes' );
+						show_admin_menu( 'after' , 'themes' );
+					}
+					
+					show_admin_menu( 'before' , 'users' );
+					get_instance()->menu->get_admin_menu_core( 'users' );
+					show_admin_menu( 'after' , 'users' );
+
+					show_admin_menu( 'before' , 'roles' );
+					get_instance()->menu->get_admin_menu_core( 'roles' );
+					show_admin_menu( 'after' , 'roles' );
+				
+					show_admin_menu( 'before' , 'settings' );
+					get_instance()->menu->get_admin_menu_core( 'settings' );
+					show_admin_menu( 'after' , 'settings' );
+
 					if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
 					{
-					?>
-                    <?php show_admin_menu( 'before' , 'themes' );?>
-                    <li><a href="<?php echo $this->instance->url->site_url('admin/themes');?>"> <i class="fa fa-columns"></i> <span><?php _e( 'Themes' );?></span> </a>
-                    </li>
-                    <?php show_admin_menu( 'after' , 'themes' );?>
-                    <?php
+						show_admin_menu( 'before' , 'frontend' );
+						get_instance()->menu->get_admin_menu_core( 'frontend' );
+						show_admin_menu( 'after' , 'frontend' );
 					}
+					
+					show_admin_menu( 'before' , 'about' );
+                   	get_instance()->menu->get_admin_menu_core( 'about' );
+                    show_admin_menu( 'after', 'about' );
+					
+                    show_admin_menu( 'after' , 'menu' );
 					?>
-                    <?php if( current_user()->isSuperAdmin() ) :?>
-                    <?php show_admin_menu( 'before' , 'users' );?>
-                    <li>
-                    	<a href="javascript:void()">
-                        	<span class="pull-right auto"> <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> </span>
-                            <i class="fa fa-users"></i> 
-                            <span><?php _e( 'Users' );?></span> 
-						</a>
-                    	<ul class="nav none dker">
-                        	<li><a href="<?php echo $this->instance->url->site_url('admin/system/adminMain');?>"><?php _e( 'Manage Users' );?></a></li>
-                            <li><a href="<?php echo $this->instance->url->site_url('admin/system/createAdmin');?>"><?php _e( 'Create New User' );?></a></li>
-                        </ul>
-                    </li>
-                    <?php show_admin_menu( 'after' , 'users' );?>
-                    <?php endif;?>
-                    <?php
-					if($this->instance->users_global->current('PRIVILEGE') == 'NADIMERPUS')
-					{
-					?>
-                    <?php show_admin_menu( 'before' , 'roles' );?>
-                    <li class="dropdown-submenu"> 
-                    	<a href="#" class="dropdown-toggle"> 
-                            <span class="pull-right auto"> <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> </span>
-                            <i class="fa fa-shield"></i> 
-                            <span><?php _e( 'Roles' );?></span> 
-                        </a> 
-                        <ul class="nav none dker">
-                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/privilege_list');?>"><?php _e( 'All Roles' );?></a> </li>
-                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/create_privilege');?>"><?php _e( 'Create New Role' );?></a> </li>
-                            <li> <a href="<?php echo $this->instance->url->site_url('admin/system/manage_actions');?>"><?php _e( 'Roles Permissions' );?></a> </li>
-                            <!--<li> <a href="<?php echo $this->instance->url->site_url('admin/system/restore/soft');?>">Restauration souple</a> </li>                -->            
-                        </ul>
-                    </li>
-                    <?php show_admin_menu( 'after' , 'roles' );?>
-                    <?php show_admin_menu( 'before' , 'settings' );?>
-					<li> <a href="<?php echo $this->instance->url->site_url('admin/setting');?>"> <!--<b class="badge bg-danger pull-right">3</b>--> <i class="fa fa-cogs"></i> <span><?php _e( 'Settings' );?></span> </a> </li>
-                    <?php show_admin_menu( 'after' , 'settings' );?>
-                    <?php
-					}
-					?>
-                    <?php 
-					if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
-					{
-					?>
-                    <?php show_admin_menu( 'before' , 'frontend' );?>
-                    <li> <a target="_top _blank" href="<?php echo $this->instance->url->site_url('index');?>"> <i class="fa fa-eye"></i> <span>Retour</span> </a> </li>
-                    <?php show_admin_menu( 'after' , 'frontend' );?>
-                    <?php
-					}
-					?>
-                    <?php show_admin_menu( 'before' , 'about' );?>
-                   	<li> <a href="<?php echo $this->instance->url->site_url('admin/system');?>"><i class="fa fa-rocket"></i> <?php _e( 'About' );?></a> </li>
-                    <?php show_admin_menu( 'after', 'about' );?>
-                    <?php show_admin_menu( 'after' , 'menu' );?>
                 </ul>
             </nav>
             </div>
@@ -191,9 +151,6 @@
         <footer class="footer bg-gradient hidden-xs"> 
 			<a href="javascript:void(0)" class="showAppTab btn btn-sm pull-right"> 
 				<i class="fa fa-th-large"></i> 
-			</a> 
-			<a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm"> 
-				<i class="fa fa-arrows-h"></i> 
 			</a> 
 		</footer>
     </section>

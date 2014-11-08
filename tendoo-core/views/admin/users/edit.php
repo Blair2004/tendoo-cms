@@ -22,26 +22,27 @@
                     <?php output('notice');?>
                     <?php echo fetch_error_from_url();?> 
                     <section class="panel">
-                        <div class="wrapper b-b">Modifier un utilisateur</div>
+                        <div class="wrapper b-b"><?php _e( 'Edit user' );?></div>
                         <div class="wrapper w-f">
                             <form method="post" class="class-body">
                                 <div class="form-group">
-                                	<label class="label-control">Pseudo de l'utilisateur</label>
+                                	<label class="label-control"><?php _e( 'User pseudo' );?></label>
                                     <input type="text" class="form-control" disabled="disabled" value="<?php echo $adminInfo['PSEUDO'];?>" />
                                 </div>
                                 <div class="form-group">
-                                	<label class="label-control">Email</label>
-                                    <input placeholder="Entrer l'email" type="text" class="form-control" name="user_email" value="<?php echo $adminInfo['EMAIL'];?>" />
+                                	<label class="label-control"><?php _e( 'Email' );?></label>
+                                    <input placeholder="<?php _e( 'Enter email' );?>" type="text" class="form-control" name="user_email" value="<?php echo $adminInfo['EMAIL'];?>" />
                                 </div>
                                 <div class="form-group">
+                                	<label class="label-control"><?php _e( 'Change his role' );?></label>
                                     <select name="edit_priv" class="form-control">
-                                        <option value="">Modifier son privil&egrave;ge</option>
+                                        <option value=""><?php _e( 'Choose...' );?></option>
                                         <option value="RELPIMSUSE" <?php
 										if($adminInfo['PRIVILEGE'] == 'RELPIMSUSE')
 										{
 											?> selected="selected"<?php
 										}
-                                        ?>>Utilisateur</option>
+                                        ?>><?php _e( 'User' );?></option>
                                         <?php
 											foreach($getPrivs as $p)
 											{
@@ -62,8 +63,8 @@
                                     </select>
                                 </div>
                                 <input type="hidden" value="<?php echo $adminInfo['PSEUDO'];?>" name="current_admin" />
-                                <input type="submit" class="btn btn-sm <?php echo theme_button_class();?>" value="Enregsitrer" name="set_admin" />
-                                <input type="submit" class="btn btn-sm btn-danger" value="Supprimer <?php echo $adminInfo['PSEUDO'];?>" name="delete_admin"/>
+                                <input type="submit" class="btn btn-sm <?php echo theme_button_class();?>" value="<?php _e( 'Edit user' );?>" name="set_admin" />
+                                <input type="submit" class="btn btn-sm btn-danger" value="<?php _e( 'Delete' );?> <?php echo $adminInfo['PSEUDO'];?>" name="delete_admin"/>
                             </form>
                         </div>
                     </section>

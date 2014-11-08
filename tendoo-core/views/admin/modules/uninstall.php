@@ -27,7 +27,7 @@
                                     <div class="panel-body">
                                         <?php output('notice');?>
                                         <p>
-                                            <?php echo sprintf ( __( "You're about to delete blogster. This action couldn't be cancelled later. furthermore some plugins may not work anymore." ) , $module['namespace'] );?>
+                                            <?php echo sprintf ( __( "You're about to delete %s. This action couldn't be cancelled later. furthermore some plugins may not work anymore." ) , $module['namespace'] );?>
                                         </p>
                                         <form method="post">
                                             <div>
