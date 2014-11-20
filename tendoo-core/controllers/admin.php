@@ -13,6 +13,7 @@ class Admin extends Libraries
 		$this->load->library('visual_editor');
 		$this->load->library('string');
 		$this->load->library('menu');
+		$this->load->library('gui');
 		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->adminConnection(); 			// 	Admin Users Libraries
 		$this->loadLibraries();				//	Affecting Libraries */
@@ -88,7 +89,7 @@ class Admin extends Libraries
 			$priv				=	$this->users_global->current('PRIVILEGE');
 			if(!in_array($priv,$this->users_global->systemPrivilege()))
 			{
-				$cur_priv			=	$this->tendoo_admin->getPrivileges($priv);
+				$cur_priv			=	$this->tendoo_admin->get_roles($priv);
 				if($cur_priv[0]['IS_SELECTABLE'] == '1') // Is selectable
 				{
 					$this->url->redirect(array('error','code','accessDenied')); // Access denied for public priv admins.
@@ -178,29 +179,29 @@ class Admin extends Libraries
 		$this->menu->add_admin_menu_core( 'users' , array(
 			'title'			=>		__( 'My Profile' ) , current_user( 'PSEUDO' ),
 			'icon'			=>		'fa fa-users',
-			'href'			=>		$this->instance->url->site_url('admin/profile/home')
+			'href'			=>		$this->instance->url->site_url('admin/profile')
 		) );
-		$this->menu->add_admin_menu_core( 'users' , array(
+		/*$this->menu->add_admin_menu_core( 'users' , array(
 			'title'			=>		__( 'Edit profile' ),
 			'icon'			=>		'fa fa-users',
 			'href'			=>		$this->instance->url->site_url('admin/profile/edit')
-		) );
+		) );*/
 		
 		$this->menu->add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Roles' ),
 			'icon'			=>		'fa fa-shield',
-			'href'			=>		$this->instance->url->site_url('admin/system/privilege_list')
+			'href'			=>		$this->instance->url->site_url('admin/roles')
 		) );
-		$this->menu->add_admin_menu_core( 'roles' , array(
-			'title'			=>		__( 'Create new role' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		$this->instance->url->site_url('admin/system/create_privilege')
-		) );
-		$this->menu->add_admin_menu_core( 'roles' , array(
-			'title'			=>		__( 'Roles permissions' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		$this->instance->url->site_url('admin/system/manage_actions')
-		) );
+			$this->menu->add_admin_menu_core( 'roles' , array(
+				'title'			=>		__( 'Create new role' ),
+				'icon'			=>		'fa fa-shield',
+				'href'			=>		$this->instance->url->site_url('admin/roles/create')
+			) );
+			$this->menu->add_admin_menu_core( 'roles' , array(
+				'title'			=>		__( 'Roles permissions' ),
+				'icon'			=>		'fa fa-shield',
+				'href'			=>		$this->instance->url->site_url('admin/roles/permissions')
+			) );
 		
 		$this->menu->add_admin_menu_core( 'settings' , array(
 			'title'			=>		__( 'Settings' ),
@@ -222,71 +223,71 @@ class Admin extends Libraries
 		
 	}
 	// Tendoo 1.4
-	public function profile( $action = 'home' ) // use with GUI
+	public function profile( ) // use with GUI
 	{
-		if( $action == 'edit' )
+		$this->load->library( 'gui' );
+		$this->load->library('form_validation');
+		
+		$text			=	'';
+		$this->form_validation->set_rules('avatar_usage','','trim|required');
+		if($this->form_validation->run())
 		{
-			$this->load->library('form_validation');
-			$this->form_validation->set_rules('avatar_usage','','trim|required');
-			if($this->form_validation->run())
+			$status	=	$this->users_global->setAvatarSetting(
+				$this->input->post(	'facebook_profile' ),
+				$this->input->post(	'google_profile' ),
+				$this->input->post( 'twitter_profile' ),
+				$this->input->post( 'avatar_usage' ),
+				'avatar_file'
+			);
+			if($status['error'] > 0)
 			{
-				$status	=	$this->users_global->setAvatarSetting(
-					$this->input->post(	'facebook_profile' ),
-					$this->input->post(	'google_profile' ),
-					$this->input->post( 'twitter_profile' ),
-					$this->input->post( 'avatar_usage' ),
-					'avatar_file'
-				);
-				if($status['error'] > 0)
+				$text	=	'&info=' . translate( 'Fields succefully updated, error occured during file upload, please check file weight and try again.' );
+			}
+		}
+		$this->load->library('form_validation');
+		if( $this->input->post('user_name') || $this->input->post('user_surname') || $this->input->post('user_state') || $this->input->post('user_town') || $this->input->post( 'bio' ) )
+		{
+			set_user_meta( 'name' , $this->input->post( 'user_name' ) );
+			set_user_meta( 'surname' , $this->input->post( 'user_surname' ) );
+			set_user_meta( 'state' , $this->input->post( 'user_state' ) );
+			set_user_meta( 'town' , $this->input->post( 'user_town' ) );
+			set_user_meta( 'bio' , $this->input->post( 'bio' ) ) ;
+			
+			$this->url->redirect( $this->url->site_url() . '?notice=profile_updated' . $text );
+		}	
+		if( $this->input->post( 'dashboard_theme' ) || $this->input->post( 'user_oldpass' ) || $this->input->post( 'user_newpass' ) || $this->input->post( 'user_confirmnewpass' ) )
+		{
+			if( $this->input->post( 'user_oldpass' ) )
+			{
+				$info = '';
+				if( $this->input->post( 'user_newpass' ) == $this->input->post( 'user_confirmnewpass' ) )
 				{
-					$text	=	translate( 'Fields succefully updated, error occured during file upload, please check file weight and try again.' );
+					$result		=	current_user()->updatePassword( $this->input->post( 'user_oldpass' ) , $this->input->post( 'user_newpass' ) );
+					if( $result )
+					{
+						$info	=	'&info=' . __( 'Password has been changed' );
+					}
+					else
+					{
+						$info  	= 	'&info=' . __( 'Error occured while changing password. Check if your old password doesn\'t match the new one' );
+					}
 				}
 				else
 				{
-					$text	=	translet( 'Avatar and fields updated' ); 
+					$info  	= 	'&info=' . __( 'Error occured while changing password. The new password and the confirmation doesn\'t match.' );
 				}
-				$this->url->redirect(array('account','update?info='.$text));
-				exit;
 			}
-			$this->load->library('form_validation');
-			$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			if($this->input->post('user_name') && $this->input->post('user_surname'))
-			{
-				set_user_meta( 'name' , $this->input->post( 'user_name' ) );
-				set_user_meta( 'surname' , $this->input->post( 'user_surname' ) );
+			set_user_meta( 'dashboard_theme' , between( 0 , 6 , $dashboard_theme = $this->input->post( 'dashboard_theme' ) ) ? $dashboard_theme : 0 );
+			$this->url->redirect( $this->url->site_url() . '?notice=profile_updated' . $info );
+		}
 				
-				$this->url->redirect(array('account','update?notice=user_names_updated'));
-			}
-			if($this->input->post('user_state') && $this->input->post('user_town'))
-			{
-				set_user_meta( 'state' , $this->input->post( 'user_state' ) );
-				set_user_meta( 'town' , $this->input->post( 'user_town' ) );
-				$this->url->redirect(array('account','update?notice=user_geographical_data_updated'));
-			}
-			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title', riake( 'site_name' , $this->options ) .' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'Updating profile' ) );
-			set_page('description', translate( 'Update a profile' ) );
-			
-			$this->data['lmenu']		=	$this->load->view('account/left_menu',$this->data,true);
-			$this->data['body']			=	$this->load->view('account/update_prof/body',$this->data,true);
-			
-			$this->load->view('account/header',$this->data);
-			$this->load->view('account/global_body',$this->data);
-		}
-		else if( $action == 'home' )
-		{
-			$user_pseudo 						=	$this->users_global->current('PSEUDO');
-			set_page('title', riake( 'site_name' , $this->options ) . ' | '.ucfirst($user_pseudo).' &raquo; ' . translate( 'My Profile' ) );
-			set_page('description', translate( 'My Profile' ) );
-			$this->data['body']			=	$this->load->view('account/profile/body',$this->data,true);
-			
-			$this->load->view('account/header',$this->data);
-			$this->load->view('account/global_body',$this->data);
-		}
-		else if( $action == '' )
-		{
-			
-		}
+		set_page('title', riake( 'site_name' , $this->options ) . ' | '.ucfirst( current_user( 'PSEUDO' ) ).' &raquo; ' . translate( 'My Profile' ) );
+		set_page('description', translate( 'My Profile' ) );
+		
+		set_core_vars( 'body' , $this->load->view('admin/profile/body',$this->data,true) );
+		
+		$this->load->view('admin/header',$this->data,false,false);
+		$this->load->view('admin/global_body',$this->data,false,false);
 	}
 	public function inbox( $action = 'home' )
 	{
@@ -945,31 +946,17 @@ class Admin extends Libraries
 			return;
 		}
 	}
-	public function users( $options = '' , $x = 0 , $y = '' , $z = '' )
+	public function users( $options = '' , $x = 1 , $y = '' , $z = '' )
 	{
-		if( $options == '' )
-		{
-			set_core_vars( 'ttAdmin' ,	count($this->users_global->getAdmin()));
-			set_core_vars( 'paginate' ,	$paginate	=	$this->tendoo->paginate(10,get_core_vars( 'ttAdmin' ),1,'bg-color-red fg-color-white','',$x,$this->url->site_url(array('admin','system','users')).'/') );
-			
-			
-			set_core_vars( 'subadmin' ,	$this->users_global->getAdmin($paginate[1],$paginate[2]) );
-			
-			set_page('title', translate( 'Manage users - Tendoo' ) );
-			
-			set_core_vars( 'body' ,	$this->load->view('admin/users/users',$this->data,true) );
-			
-			$this->load->view('admin/header',$this->data,false,false);
-			$this->load->view('admin/global_body',$this->data,false,false);	
-		}
-		else if( $options == 'create' )
+		$this->load->library( 'gui' );
+		if( $options == 'create' )
 		{
 			$this->form_validation->set_rules('admin_pseudo', translate( 'Pseudo' ),'trim|required|min_length[5]|max_length[15]');
 			$this->form_validation->set_rules('admin_password', translate( 'Password' ),'trim|required|min_length[6]|max_length[30]');
 			$this->form_validation->set_rules('admin_password_confirm',translate( 'Password Confirm' ),'trim|required|matches[admin_password]');
 			$this->form_validation->set_rules('admin_sex',translate( 'Sex' ),'trim|min_length[3]|max_length[5]');
 			$this->form_validation->set_rules('admin_password_email', translate( 'email' ) ,'trim|valid_email|required');
-			$this->form_validation->set_rules('admin_privilege', translate( 'Select privilege' ),'trim|required|min_length[8]|max_length[11]');
+			$this->form_validation->set_rules('admin_privilege', translate( 'Select privilege' ),'trim|required');
 			if($this->form_validation->run())
 			{
 				$creation_status	=	$this->users_global->createAdmin(
@@ -991,7 +978,7 @@ class Admin extends Libraries
 						$this->url->redirect(array('admin','users','create?notice=adminCreationFailed'));
 				}
 			}
-			set_core_vars( 'getPrivs' , $this->tendoo_admin->getPrivileges());
+			set_core_vars( 'getPrivs' , $this->tendoo_admin->get_roles());
 			set_page('title', translate( 'Manage Users - Tendoo' ) );
 			set_core_vars( 'body' , $this->load->view('admin/users/create',$this->data,true), 'read_only' );
 			
@@ -1028,7 +1015,7 @@ class Admin extends Libraries
 				}
 			}
 			
-			set_core_vars( 'getPrivs' ,	$this->tendoo_admin->getPrivileges());
+			set_core_vars( 'get_roles' ,	$this->tendoo_admin->get_roles());
 			set_core_vars( 'adminInfo' ,	$adminInfo	=	$this->users_global->getSpeAdminByPseudo($x) );
 			set_page('title', sprintf( translate( 'User profile : %s - Tendoo' ), $adminInfo['PSEUDO'] ) );
 			
@@ -1037,6 +1024,20 @@ class Admin extends Libraries
 			$this->load->view('admin/header',$this->data,false,false);
 			$this->load->view('admin/global_body',$this->data,false,false);	
 			return true;			
+		}
+		else
+		{
+			set_core_vars( 'users_nbr' ,	count($this->users_global->getAdmin()));
+			set_core_vars( 'paginate' ,	$paginate	=	$this->tendoo->paginate(10, get_core_vars( 'users_nbr' ),1,'bg-color-red fg-color-white','',$x,$this->url->site_url(array('admin','system','users')).'/') );
+						
+			set_core_vars( 'get_users' ,	$this->users_global->getAdmin($paginate[1],$paginate[2]) );
+			
+			set_page('title', translate( 'Manage users - Tendoo' ) );
+			
+			set_core_vars( 'body' ,	$this->load->view('admin/users/users',$this->data,true) );
+			
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);
 		}
 	}
 	public function system($option	=	'index',$option_2 = 1)
@@ -1058,39 +1059,6 @@ class Admin extends Libraries
 		}
 		else if($option ==  'create_privilege')
 		{
-			if(!method_exists($this,'form_validation'))
-			{
-				$this->load->library('form_validation');
-$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			}
-			$this->form_validation->set_rules('priv_description', translate( 'Privilege description' ) ,'trim|required|min_length[3]|max_length[200]');
-			$this->form_validation->set_rules('priv_name', translate( 'Privilege name' ),'trim|required|min_length[3]|max_length[200]');
-			$this->form_validation->set_rules('is_selectable', translate( 'Available on registration' ),'trim|required|min_length[1]|max_length[1]');
-			if($this->form_validation->run())
-			{
-				$data	=	$this->tendoo_admin->create_privilege(
-					$this->input->post('priv_name'),
-					$this->input->post('priv_description'),
-					$this->session->userdata('privId'),
-					$this->input->post('is_selectable')
-				);
-				if($data === TRUE)
-				{
-					$this->url->redirect(array('admin','system','privilege_list?notice=done'));
-				}
-				else
-				{
-					notice('push',fetch_notice_output('error_occurred'));
-				}
-			}
-			
-			$this->session->set_userdata('privId',$this->tendoo_admin->getPrivId());
-			set_core_vars( 'privId' ,	$this->session->userdata('privId') );
-			set_page('title', translate( 'Create privilege - Tendoo' ) );
-			set_core_vars( 'body' ,	$this->load->view('admin/system/create_privilege',$this->data,true), 'read_only' );
-			
-			$this->load->view('admin/header',$this->data,false,false);
-			$this->load->view('admin/global_body',$this->data,false,false);	
 		}
 		else if($option	== 	'edit_priv')
 		{
@@ -1119,7 +1087,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					notice('push',fetch_notice_output('error_occurred'));
 				}
 			}
-			set_core_vars( 'getPriv' , $this->tendoo_admin->getPrivileges($option_2));
+			set_core_vars( 'getPriv' , $this->tendoo_admin->get_roles($option_2));
 			if(count(get_core_vars( 'getPriv' )) == 0)
 			{
 				$this->url->redirect(array('error','code','privilegeNotFound'));
@@ -1137,8 +1105,8 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			{
 				$this->url->redirect(array('admin','system','create_privilege?notice=mustCreatePrivilege'));
 			}
-			set_core_vars( 'ttPrivileges' ,	$this->tendoo_admin->countPrivileges());
-			set_core_vars( 'getPrivileges' ,	$this->tendoo_admin->getPrivileges() );
+			set_core_vars( 'ttPrivileges' ,	$this->tendoo_admin->count_roles());
+			set_core_vars( 'get_roles' ,	$this->tendoo_admin->get_roles() );
 			set_core_vars( 'ttModules' , 	count( get_modules( 'all' ) ) );
 			set_core_vars( 'paginate' ,	$paginate	=	$this->tendoo->paginate(10,get_core_vars( 'ttModules' ),1,'bg-color-red fg-color-white','',$option_2,$this->url->site_url(array('admin','system','manage_actions')).'/') );
 			set_core_vars( 'getModules' ,	get_modules( 'list_filter_active' , $paginate[1],$paginate[2] ) );
@@ -1180,23 +1148,6 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 					set_core_vars( 'body' ,	$this->load->view('admin/system/ajax_priv_action_2',$this->data));
 				}
 			}
-		}
-		else if($option	==	'privilege_list')
-		{
-			set_core_vars( 'ttPrivileges' ,	$this->tendoo_admin->countPrivileges());
-			set_core_vars( 'paginate' ,	$paginate	=	$this->tendoo->paginate(10,get_core_vars( 'ttPrivileges' ),1,'bg-color-red fg-color-white','',$option_2,$this->url->site_url(array('admin','system','privilege_list')).'/'));
-			set_core_vars( 'getPriv' ,	$this->tendoo_admin->getPrivileges($paginate[1],$paginate[2]));
-			set_page('title', translate( 'Privileges and actions - Tendoo' ) );
-			set_core_vars( 'body' ,	$this->load->view('admin/system/privilege_list',$this->data,true), 'read_only' );
-			
-			$this->load->view('admin/header',$this->data,false,false);
-			$this->load->view('admin/global_body',$this->data,false,false);	
-		
-		}
-		else if($option == 'delete_priv')
-		{
-			set_core_vars( 'deletion' ,	$this->tendoo_admin->deletePrivilege($option_2) );
-			$this->url->redirect(array('admin','system','privilege_list?notice='.get_core_vars( 'deletion' )));			
 		}
 		else if($option	==	'editAdmin')
 		{
@@ -1246,6 +1197,67 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			$this->url->redirect(array('page404'));
 		}
 		
+	}
+	public function roles( $option = '' )
+	{
+		if( ( is_numeric( $option ) && $option > 0 ) or $option ==	'' )
+		{
+			$option = !is_numeric( $option ) ? 1 : $option;
+			
+			set_core_vars( 'nbr_roles' ,	$this->tendoo_admin->count_roles());
+			set_core_vars( 'pagination_data' ,	$paginate	=	$this->tendoo->doPaginate(10,get_core_vars( 'nbr_roles' ),$option , $this->url->site_url(array('admin','roles') ) ) );
+			set_core_vars( 'get_roles' ,	$this->tendoo_admin->get_roles($paginate[ 'start' ],$paginate[ 'end' ]));
+			set_page('title', translate( 'Roles - Tendoo' ) );
+			set_core_vars( 'body' ,	$this->load->view('admin/roles/list',$this->data,true), 'read_only' );
+			
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
+		}
+		else if($option == 'delete')
+		{
+			set_core_vars( 'deletion' ,	$this->tendoo_admin->deletePrivilege($option_2) );
+			$this->url->redirect(array('admin','roles?notice='. get_core_vars( 'deletion' )));			
+		}
+		else if($option == 'create')
+		{
+			if( ! method_exists($this,'form_validation'))
+			{
+				$this->load->library('form_validation');
+			}
+			$this->form_validation->set_rules('priv_description', translate( 'Privilege description' ) ,'trim|max_length[200]');
+			$this->form_validation->set_rules('priv_name', translate( 'Privilege name' ),'trim|required|min_length[3]|max_length[200]');
+			$this->form_validation->set_rules('is_selectable', translate( 'Available on registration' ),'trim|required|min_length[1]|max_length[1]');
+			if($this->form_validation->run())
+			{
+				$data	=	$this->tendoo_admin->create_privilege(
+					$this->input->post('priv_name'),
+					$this->input->post('priv_description'),
+					$this->session->userdata('privId'),
+					$this->input->post('is_selectable')
+				);
+				if($data === TRUE)
+				{
+					$this->url->redirect(array('admin','system','privilege_list?notice=done'));
+				}
+				else
+				{
+					notice('push',fetch_notice_output('error_occurred'));
+				}
+			}
+			
+			$this->session->set_userdata('privId',$this->tendoo_admin->getPrivId());
+			set_core_vars( 'privId' ,	$this->session->userdata('privId') );
+			
+			set_page( 'title' , sprintf( __( 'Create new role | Tendoo %s' ) , get( 'core_id' ) ) );
+			set_core_vars( 'body' ,	$this->load->view('admin/roles/create',$this->data,true), 'read_only' );
+			
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
+		}
+		else if( $option == 'edit' )
+		{
+			
+		}
 	}
     public function tools($action	=	'index')
     {

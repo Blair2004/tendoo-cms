@@ -107,8 +107,8 @@ if(!function_exists('fetch_error'))
 {
 	function fetch_notice_output($e,$extends_msg= '',$sort = FALSE)
 	{
-		$array['config_1']					=	tendoo_info('Un fichier de configuration est d&eacute;j&agrave; existant. Si vous enregistrer de nouvelles donn&eacute;es, l\'ancien sera &eacute;cras&eacute;');
-		$array['accessDenied']		=		$array[ 'access_denied' ]				=	tendoo_warning('Vous n\'avez pas ou plus acc&egrave;s &agrave; cette page.');
+		$array['config_1']					=	tendoo_info( __( 'A config file already exists. If you save new data the older will be overwritten' ) );
+		$array['accessDenied']				=		$array[ 'access_denied' ]				=	tendoo_warning( __( 'Access denied. Your access is not granted to this page' ) );
 		$array['config_2']					=	tendoo_warning('Une erreur fatale s\'est produite durant l\'installation, veuillez re-installer tendoo.');
 		$array['noThemeInstalled']			=	tendoo_warning(' Une erreur s\'est produite durant l\'acc&egrave;s au th&egrave;me. Il est possible qu\'aucun th&egrave;me ne soit install&eacute; ou d&eacute;finit comme th&egrave;me par d&eacute;faut.');
 		$array['mustCreatePrivilege']		=	tendoo_warning(' Il est n&eacute;cessaire de cr&eacute;er des privil&egrave;ges avant de g&eacute;rer des administrateurs');
@@ -210,9 +210,7 @@ if(!function_exists('fetch_error'))
 		$array['passwordChanged']				=	tendoo_success(' Le mot de passe &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
 		$array['upload_no_file_selected']		=	tendoo_warning(' Aucun fichier n\'a &eacute;t&eacute; envoy&eacute;.');
 		$array['cannotDeleteUsedPrivilege']		=	tendoo_warning(' Vous ne pouvez pas supprimer un privil&egrave;ge en cours d\'utilisation.');
-		$array['userTownUpdated']				=	tendoo_success(' Ville correctement mis &agrave; jour.');
-		$array['user_geographical_data_updated']=	tendoo_success( translate( 'User geographical informations was succefully updated' ) );
-		$array['user_names_updated']			=	tendoo_success( translate( 'User names was succefully updated' ) );
+		$array[ 'profile_updated' ]				=	tendoo_success( __( 'Profile has been updated.' ) );
 		$array['active_theme_does_not_handle_that']	=	tendoo_warning(' Le thème actif ne prend pas en charge le module attaché à ce contrôleur.');
 		// Tendoo 1.4
 		$array[ 'webapp_enabled' ]				=	tendoo_warning( __( 'While "WebApp" Mode is enabled, frontend is disabled. Check your settings to define tendoo mode on Website setings tab.' ) );
@@ -309,14 +307,16 @@ if(!function_exists('fetch_error_from_url'))
 {
 	function fetch_error_from_url()
 	{
+		$notice = ''; $info = '';
 		if(isset($_GET['notice']))
 		{
-			return fetch_notice_output($_GET['notice']);
+			$notice	= fetch_notice_output($_GET['notice']);
 		}
-		else if(isset($_GET['info']))
+		if(isset($_GET['info']))
 		{
-			return tendoo_info($_GET['info']);
+			$info	= tendoo_info($_GET['info']);
 		}
+		return $notice . $info ;
 	}
 }
 
@@ -341,7 +341,7 @@ if(!function_exists('is_compatible'))
 	{
 		if(fopen('index.php','r')===FALSE || file_get_contents('index.php') === FALSE)
 		{
-			?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Erreur - Serveur incompatible</title><body><p>Le serveur sous lequel tourne ce site ne supporte pas certaines fonctionnalité. Tendoo ne peut pas correctement s'ex&eacute;cuter</p></body></html><?php
+			?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title><?php __( 'Error - Server issue' );?></title><body><p><?php _e( 'This current server cannot trigger somes Tendoo\'s features. It will lead to some issues and troubleshots. Please consider upgrading your server.' );?></p></body></html><?php
 		}
 	}
 }

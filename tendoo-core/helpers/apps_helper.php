@@ -1,4 +1,49 @@
 <?php
+	function core_meta_namespace( $array )
+	{
+		if( is_string( $array ) )
+		{
+			return 'meta.tendoo.org/' . $array;
+		}
+		else if( is_array( $array ) )
+		{
+			$namespace	=	'meta.tendoo.org' ;
+			$final_slashes	=	'';
+			foreach( $array as $value )
+			{
+				$final_slashes .=  '/' . $value;
+			}
+			return $namespace . $final_slashes;
+		}
+	}
+	/**
+	*	@var 	: string required
+	*	@return : null
+	*	@note : echo something if it's "echo-able". While Debug mode is enabled, it return an notice if @var
+	**/
+	function safe_echo( $var )
+	{
+		if( !is_object( $string ) && !is_object( $string ) && ! is_resource( $string ) )
+		{
+			echo $string;
+		}
+	}
+	function print_array( $array , $return = FALSE )
+	{
+		ob_start();
+		echo '<pre>';
+		print_r( $array , $return );
+		echo '</pre>';
+		return $return ? ob_get_clean() : null;
+	}
+	function convert_to_array( $item )
+	{
+		if( !is_array( $item ) )
+		{
+			return array( $item );
+		}
+		return $item;
+	}
 	function force_array( $array )
 	{
 		if( is_array( $array ) )

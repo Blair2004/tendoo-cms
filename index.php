@@ -41,6 +41,8 @@ define('ASSETS_DIR','tendoo-assets/'); // T098
 define('MODULES_DIR','tendoo-modules/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('INSTALLER_DIR','tendoo-installer/');
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+define('DEBUG_MODE_ENABLED', false );
 /* =-=-=-=-=-=-=-=-=-=-=-=-= INITIAL CONFIG -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 include_once(CONFIG_DIR.'base_config.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= SYSTEM SCRIPT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */

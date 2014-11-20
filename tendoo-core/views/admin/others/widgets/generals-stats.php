@@ -2,7 +2,7 @@
 $ttTheme		=	count( get_themes() );
 $ttModule		=	count( get_modules( 'all' ) );
 $ttPages		=	$this->tendoo_admin->countPages();
-$ttPrivileges	=	$this->tendoo_admin->countPrivileges();
+$ttPrivileges	=	$this->tendoo_admin->count_roles();
 $appIconApi		=	$this->tendoo_admin->getAppIcon();
 $countUsers		=	count($this->users_global->getAdmin());
 ?>

@@ -1,3 +1,7 @@
+<!--
+DEPRECATED FILE
+-->
+
 <?php echo get_core_vars( 'inner_head' );?>
 <section id="content">
     <section class="hbox stretch">

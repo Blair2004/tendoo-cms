@@ -11,7 +11,7 @@ Class users_global extends Libraries
 		$this->createUserAvatarDir();
 		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->superAdmin	=	'SUPERADMIN';
-		$this->user			=	'RELPIMSUSE';
+		$this->user			=	'USER';
 		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->connection_status	=	FALSE;
 		if($this->cookiesLogin() == FALSE) // in case there is no cookies created else autUser will be called with encrypt process disabled.
@@ -55,16 +55,21 @@ Class users_global extends Libraries
 			$config['overwrite']		=	TRUE;
 			$this->load->library('upload', $config);
 			
-			
-			if($this->upload->do_upload($avatar_file))
+			if( isset( $_FILES[ $avatar_file ] ) )
 			{
-				$upload_data				=	$this->upload->data();
-				$this->setUserElement('AVATAR_LINK',$this->url->main_url().$config[ 'upload_path' ] .'/'. $upload_data[ 'file_name' ]);
-				$notice['success']++;
-			}
-			else
-			{
-				$notice['error']++;
+				if( riake( 'size' , $_FILES[ $avatar_file ] ) > 0 ) // Only when a file is send you can consider treating it.
+				{
+					if($this->upload->do_upload($avatar_file))
+					{
+						$upload_data				=	$this->upload->data();
+						$this->setUserElement('AVATAR_LINK',$this->url->main_url().$config[ 'upload_path' ] .'/'. $upload_data[ 'file_name' ]);
+						$notice['success']++;
+					}
+					else
+					{
+						$notice['error']++;
+					}
+				}
 			}
 		}
 		if(in_array($avatar_usage,array('facebook','twitter','google','system')))
@@ -177,7 +182,7 @@ Class users_global extends Libraries
 		}
 		return 'userExists';
 	}
-	public function createUser($pseudo,$password,$sexe,$email,$active	=	'FALSE',$priv_id = 'RELPIMSUSE')
+	public function createUser($pseudo,$password,$sexe,$email,$active	=	'FALSE',$priv_id = 'USER')
 	{
 		if(!$this->userExists($pseudo))
 		{
@@ -188,7 +193,7 @@ Class users_global extends Libraries
 			$this->load->library('Tendoo_admin');
 			if(!$this->tendoo_admin->isPublicPriv($priv_id)) // Si le priv n'est pa public
 			{
-				$priv_id = 'RELPIMSUSE';
+				$priv_id = 'USER';
 			}
 			$array['PSEUDO']	=	strtolower($pseudo);
 			$array['PASSWORD']	=	sha1($password);
@@ -217,7 +222,7 @@ Class users_global extends Libraries
 			{
 				return 'emailUsed';
 			}
-			if(!$this->isAllowedPrivilege($privilege) && $privilege	!=	'RELPIMSUSE')
+			if(!$this->isAllowedPrivilege($privilege) && $privilege	!=	'USER')
 			{
 				return 'notAllowedPrivilege';
 			}
@@ -225,7 +230,7 @@ Class users_global extends Libraries
 			$array['PASSWORD']	=	sha1($password);
 			$array['EMAIL']		=	$email;
 			$array['SEX']		=	($sexe	==	'MASC') ? 'MASC' : 'FEM';
-			$array['PRIVILEGE']	=	($privilege == 'SUPERADMIN') ? 'RELPIMSUSE' : $privilege;
+			$array['PRIVILEGE']	=	($privilege == 'SUPERADMIN') ? 'USER' : $privilege;
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	$active;
 			get_instance()->meta_datas->set_user_meta( 'first_visit' , true , $array[ 'PSEUDO' ] );
@@ -675,7 +680,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 			{
 				return "emailUsed";
 			}
-			if($this->isAllowedPrivilege($priv) || $priv 	==	'RELPIMSUSE')
+			if($this->isAllowedPrivilege($priv) || $priv 	==	'USER')
 			{
 				if($this->db->where('PSEUDO',strtolower($pseudo))->update('tendoo_users',
 					array('EMAIL'	=>	$email,'PRIVILEGE'=>$priv)
@@ -749,7 +754,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function updatePassword($old,$new)
 	{
-		if($this->current('PASSWORD')	==	sha1($old))
+		if($this->current('PASSWORD')	==	sha1($old) && sha1( $new ) != $this->current( 'PASSWORD' ) )
 		{
 			return $this->db->where('ID',$this->current('ID'))->update('tendoo_users',array('PASSWORD'=>sha1($new)));
 		}
@@ -943,7 +948,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	{
 		switch($priv)
 		{
-			case 'RELPIMSUSE' : return 'Utilisateur';break;
+			case 'USER' : return 'Utilisateur';break;
 		}
 	}
 	/*

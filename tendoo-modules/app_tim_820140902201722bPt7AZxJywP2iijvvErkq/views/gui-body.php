@@ -46,7 +46,7 @@ $fields[]		=	array(
 	'text'		=>	array( 'connect' , 'escape' , 'troisie' )
 );
 for( $i = 0; $i < count( $fields ) ; $i++ ){
-	gui_field( $fields[ $i ] )->push_to( "espace_nom" );
+	gui_item( $fields[ $i ] )->push_to( "espace_nom" );
 }
 /*$fields[]		=	array(
 	'label'		=>	'Contenu',
@@ -54,7 +54,7 @@ for( $i = 0; $i < count( $fields ) ; $i++ ){
 	'name'		=>	'nom',
 	'id'		=>	'mon_editeur'
 );*/
-gui_field( array(
+gui_item( array(
 	'label'		=>	'Contenu',
 	'type'		=>	'visual_editor',
 	'name'		=>	'nom',
@@ -86,7 +86,7 @@ $fields[]		=	array(
 );
 $config[]		=	array(
 	'namespace'	=>	'hello_world_2',
-	'type'		=>	'collapsible_panel',
+	'type'		=>	'panel',
 	'title'		=>	'Hello World',
 	'content'	=>	$fields,
 	'form_wrap'	=>	$form

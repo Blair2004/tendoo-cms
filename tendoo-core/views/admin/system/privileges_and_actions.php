@@ -33,9 +33,9 @@
                                 <div class="tab-pane table-responsive active" id="home">
                                     <ul class="list-group system_action_list" data-role="accordion" style="float:left;width:100%;">
                                         <?php
-									if(count($getPrivileges) > 0)
+									if(count($get_roles) > 0)
 									{
-								foreach($getPrivileges as $p)
+								foreach($get_roles as $p)
 								{
 									$values		=	array();
 									$values['gestpa']		=	$this->instance->tendoo_admin->getValueForPrivNameAndSystem('system','gestpa',$p['PRIV_ID']);	
@@ -214,7 +214,7 @@
                                                 Action du module <strong><?php echo $g['human_name'];?></strong></header>
                                             <div class="panel-body clearfix collapse">
                                                 <?php
-                                        foreach($getPrivileges as $p)
+                                        foreach($get_roles as $p)
                                         {
                                             $action	=	$this->instance->tendoo_admin->getModuleAction($g['namespace']);
                                             if(is_array($action))

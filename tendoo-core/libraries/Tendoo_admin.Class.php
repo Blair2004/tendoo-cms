@@ -401,20 +401,20 @@ class Tendoo_admin extends Libraries
 				$array[]	=	'no_main_page_set';
 			}
 		}
-		$priv	=	$this->getPrivileges();
+		$priv	=	$this->get_roles();
 		if(count($priv) == 0)
 		{
 			$array[]		=	'no_priv_created';
 		}
 		return $array;					
 	}
-	public function countPrivileges()
+	public function count_roles()
 	{
-		return count($this->getPrivileges());
+		return count($this->get_roles());
 	}
-	public function getPrivileges($start = NULL,$end = NULL)
+	public function get_roles($start = NULL,$end = NULL)
 	{
-		if($start != NULL && $end != NULL)
+		if(is_numeric( $start ) && is_numeric( $end ) )
 		{
 			$this->db->limit($end,$start);
 		}
@@ -483,7 +483,7 @@ class Tendoo_admin extends Libraries
 	}
 	public function hasPriv()
 	{
-		$priv	=	$this->getPrivileges();
+		$priv	=	$this->get_roles();
 		if(count($priv) > 0)
 		{
 			return true;
@@ -637,7 +637,7 @@ class Tendoo_admin extends Libraries
 	}
 	public function isPublicPriv($priv_id)
 	{
-		$priv	=	$this->getPrivileges($priv_id);
+		$priv	=	$this->get_roles($priv_id);
 		if($priv)
 		{
 			if($priv[0]['IS_SELECTABLE'] == "1")

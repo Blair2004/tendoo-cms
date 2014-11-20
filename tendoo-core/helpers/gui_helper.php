@@ -29,7 +29,7 @@ function gui_enable( $feature )
 /**
 *	gui_meta() : définit une boite meta pour un GUI
 **/
-function gui_meta( $options , $title = "" , $type = "collapsible_panel"){
+function gui_meta( $options , $title = "" , $type = "panel"){
 	if( gui_is_loaded() )
 	{
 		return get_instance()->gui->set_meta( $options , $title , $type );
@@ -37,12 +37,12 @@ function gui_meta( $options , $title = "" , $type = "collapsible_panel"){
 	return false;
 };
 /**
-*	set_field() : défini un champ pour une colonne; set_field()->push_to( namespace );
+*	set_item() : défini un champ pour une colonne; set_field()->push_to( namespace );
 **/
-function gui_field( $array ){
+function gui_item( $array ){
 	if( gui_is_loaded() )
 	{
-		return get_instance()->gui->set_field( $array );
+		return get_instance()->gui->set_item( $array );
 	}
 	return false;	
 };
