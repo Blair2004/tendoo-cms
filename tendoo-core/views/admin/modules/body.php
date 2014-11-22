@@ -55,7 +55,7 @@
                                                             }
                                                             ?>
                                                         </a></td>
-                                                    <td class="action"><strong> <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['namespace']));?>"><?php echo $mod['human_name'];?></a> </strong> <br>
+                                                    <td class="action"><strong> <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$mod['namespace']));?>"><?php echo $mod['name'];?></a> </strong> <br>
                                                         <?php echo $mod['description'];?> <br>
                                                         <br>
                                                         <small>
@@ -69,7 +69,7 @@
                                                         ?>
                                                         <hr class="line-dashed" style="margin:5px 0;">
                                                         <div style="color:#FF6464">
-                                                            <i class="fa fa-warning" style="font-size:20px;"></i> <?php echo sprintf( __( 'Active theme %s doesn\'t support this module.' ) , '<strong>' . $active_theme['human_name'] . '</strong>' );?>
+                                                            <i class="fa fa-warning" style="font-size:20px;"></i> <?php echo sprintf( __( 'Active theme %s doesn\'t support this module.' ) , '<strong>' . $active_theme['name'] . '</strong>' );?>
                                                         </div>
                                                         <?php
                                                         }

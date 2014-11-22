@@ -211,6 +211,7 @@ if(!function_exists('fetch_error'))
 		$array['upload_no_file_selected']		=	tendoo_warning(' Aucun fichier n\'a &eacute;t&eacute; envoy&eacute;.');
 		$array['cannotDeleteUsedPrivilege']		=	tendoo_warning(' Vous ne pouvez pas supprimer un privil&egrave;ge en cours d\'utilisation.');
 		$array[ 'profile_updated' ]				=	tendoo_success( __( 'Profile has been updated.' ) );
+		$array[ 'role_permissions_saved' ]		=	tendoo_success( __( 'Role permissions has been saved.' ) );
 		$array['active_theme_does_not_handle_that']	=	tendoo_warning(' Le thème actif ne prend pas en charge le module attaché à ce contrôleur.');
 		// Tendoo 1.4
 		$array[ 'webapp_enabled' ]				=	tendoo_warning( __( 'While "WebApp" Mode is enabled, frontend is disabled. Check your settings to define tendoo mode on Website setings tab.' ) );
@@ -370,57 +371,98 @@ if(!function_exists('translate')) // gt = Get Text
 	{
 		echo __( $code , $templating );
 	}
-	function translate($code,$templating = null)
+	function translate($code , $textdomain = 'tendoo-core' )
 	{
 		$final_lines	=	array();
 		$instance		=	get_instance();
 		if($instance->lang->getSystemLang() == 'en_US')
 		{
-			// not yet
+			// Lang Recorder is only enabled while en_US lang is activated
+			if( LANG_RECORDER_ENABLED == true && $textdomain = 'tendoo-core' )
+			{
+				$heavy_array	=	array();
+				if( ! file_exists( SYSTEM_DIR . 'languages/' . 'en_US.po' ) )
+				{
+					$lang_file	=	fopen( SYSTEM_DIR . 'languages/' . 'en_US.po' , 'a+' );
+					fwrite( $lang_file , 'msgid ""' . PHP_EOL );
+					fwrite( $lang_file , 'msgstr ""' . PHP_EOL );
+					fwrite( $lang_file , '"Plural-Forms: nplurals=2; plural=(n != 1);\n"' . PHP_EOL );
+					fwrite( $lang_file , '"Project-Id-Version: Tendoo CMS Translation\n"' . PHP_EOL );
+					fwrite( $lang_file , '"Last-Translator: Translate <language@tenoo.org>\n"' . PHP_EOL );
+					fwrite( $lang_file , '"POT-Creation-Date: \n"' . PHP_EOL );
+					fwrite( $lang_file , '"PO-Revision-Date: \n"' . PHP_EOL );
+					fwrite( $lang_file , '"Last-Translator: \n"' . PHP_EOL );
+					fwrite( $lang_file , '"Language-Team: Tendoo Lang Team\n"' . PHP_EOL );
+					fwrite( $lang_file , '"MIME-Version: 1.0\n"' . PHP_EOL );
+					fwrite( $lang_file , '"Content-Type: text/plain; charset=UTF-8\n"' . PHP_EOL );
+					fwrite( $lang_file , '"Content-Transfer-Encoding: 8bit\n"' . PHP_EOL );
+					fwrite( $lang_file , '"Language: en_US\n"' . PHP_EOL );
+					fwrite( $lang_file , '"X-Generator: Tendoo ' . get( 'core_id' ) . '\n"' . PHP_EOL );
+					fwrite( $lang_file , '"X-Poedit-SourceCharset: UTF-8\n"' . PHP_EOL );
+					fwrite( $lang_file , PHP_EOL );
+					fclose( $lang_file );
+				}
+				$lang_file	=	fopen( SYSTEM_DIR . 'languages/' . 'en_US.po' , 'r+' );
+				while ( ( $line = fgets( $lang_file ) ) !== false ) {
+					if( substr( $line , 0 , 5 ) == 'msgid' )
+					{
+						$msgid	=	explode( '"' , $line );
+						$latest	=	riake( 1 , $msgid );
+					}
+					if( substr( $line , 0 , 6 ) == 'msgstr' )
+					{
+						$msgstr	=	explode( '"' , $line );
+						$heavy_array[ $latest ]	=	riake( 1 , $msgstr );
+					}
+				}
+				fclose( $lang_file );
+				if( !in_array( htmlentities( $code , ENT_QUOTES ) , array_keys( $heavy_array ) ) )
+				{
+					$bt 		= debug_backtrace();
+					$caller 	= array_shift($bt);
+					
+					$lang_file	=	fopen( SYSTEM_DIR . 'languages/' . 'en_US.po' , 'a+' );
+					
+					fwrite( $lang_file , '#: ' . $caller[ 'file' ] . ':' . $caller[ 'line' ] . PHP_EOL );
+					fwrite( $lang_file , 'msgid "' . htmlentities( $code , ENT_QUOTES ) . '"' . PHP_EOL );
+					fwrite( $lang_file , 'msgstr "' . htmlentities( $code , ENT_QUOTES ) . '"' . PHP_EOL );
+					fwrite( $lang_file , PHP_EOL );
+					fclose( $lang_file );
+				}
+			}
+			$lang_file	=	fopen( SYSTEM_DIR . 'languages/' . 'en_US.po' , 'r' );
+			while ( ( $line = fgets( $lang_file ) ) !== false ) {
+				if( substr( $line , 0 , 5 ) == 'msgid' )
+				{
+					$msgid	=	explode( '"' , $line );
+					$latest	=	riake( 1 , $msgid );
+				}
+				if( substr( $line , 0 , 6 ) == 'msgstr' )
+				{
+					$msgstr	=	explode( '"' , $line );
+					$heavy_array[ $latest ]	=	riake( 1 , $msgstr );
+				}
+			}
+			fclose( $lang_file );
+			return riake( htmlentities( $code , ENT_QUOTES ) , $heavy_array , $code );
 		}
 		else if($instance->lang->getSystemLang() == 'fr_FR')
 		{
-			$text	=	file_get_contents( SYSTEM_DIR . '/config/fr_FR.txt' );
-			$exploded	=	explode('[#]',$text);
-			$final_lines=	array();
-			foreach($exploded as $translate_line)
-			{
-				if(strlen($translate_line) > 4 && preg_match('#::#',$translate_line))
-				{	
-					$line_exploder	=	explode('::',$translate_line);
-					if(is_array($templating))
-					{
-						$string			=	$line_exploder[1];
-						foreach($templating as $remplacement)
-						{
-							$percent		=	"%%";
-							$position		=	strpos($string,$percent);
-							$segment2		=	strlen($string)-$position;
-							$first			=	substr($string,0,-($segment2));
-							$second			=	$remplacement.substr($string,$position+1);
-							$string			=	$first.$second;
-						}
-						$final_string		=	$string;
-					}
-					else
-					{
-						$final_string		=	$line_exploder[1];
-					}
-					$final_lines[$line_exploder[0]]	=	$final_string;
+			$lang_file	=	fopen( SYSTEM_DIR . 'languages/' . 'fr_FR.po' , 'r' );
+			while ( ( $line = fgets( $lang_file ) ) !== false ) {
+				if( substr( $line , 0 , 5 ) == 'msgid' )
+				{
+					$msgid	=	explode( '"' , $line );
+					$latest	=	riake( 1 , $msgid );
+				}
+				if( substr( $line , 0 , 6 ) == 'msgstr' )
+				{
+					$msgstr	=	explode( '"' , $line );
+					$heavy_array[ $latest ]	=	riake( 1 , $msgstr );
 				}
 			}
-		}
-		if(array_key_exists($code,$final_lines))
-		{
-			return $final_lines[$code];
-		}
-		else
-		{
-			if( SAFE_MODE ){
-				return $code;
-			} else {
-				return '<strong>'.$code.'</strong> does\'nt match any lang code';
-			}
+			fclose( $lang_file );
+			return riake( htmlentities( $code , ENT_QUOTES ) , $heavy_array , $code );
 		}
 	}
 }

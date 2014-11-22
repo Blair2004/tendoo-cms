@@ -85,6 +85,13 @@
 </div>
 				<?php
 			}
+			if( $item[ 'type' ] == "title" )
+			{
+				$title		 	= return_if_array_key_exists( 'title' , $item );
+				?>
+				<h4><?php echo $title;?></h4>
+				<?php
+			}
 			else if( $item[ 'type' ] == 'visual_editor' )
 			{
 				$placeholder 	= return_if_array_key_exists( 'placeholder' , $item );
@@ -142,14 +149,16 @@
 				$value		 	= return_if_array_key_exists( 'value' , $item );
 				$label			= return_if_array_key_exists( 'label' , $item );
 				$name			= return_if_array_key_exists( 'name' , $item );
+				$checked		= return_if_array_key_exists( 'checked' , $item );
+
 				if( count( $value ) == count( $label ) && count( $value ) == count( $name ) )
 				{
 				?>
 <div class="form-group">
 <div class="btn-group" data-toggle="buttons">
 <?php for( $i = 0 ; $i < count( $name ) ; $i++ ): ?>
-<label class="btn btn-primary">
-<input type="checkbox" <?php echo $attrs_string;?> name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
+<label class="btn btn-primary <?php echo riake( $i , $checked ) == true ? 'active' : '';?>">
+<input type="checkbox" <?php echo riake( $i , $checked ) == true ? 'checked="checked"' : '';?> <?php echo $attrs_string;?> name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
 </label>
 <?php endfor;?>
 </div>
@@ -185,7 +194,45 @@
 <?php endif;?>
 
 <?php for( $i = 0 ; $i < count( $text ) ; $i++ ): ?>
-	<?php $selected	=	( $value[ $i ] === $active ) ? 'selected="selected"' : '';?>
+	<?php $selected	=	( $value[ $i ] == $active ) ? 'selected="selected"' : '';?>
+<option value="<?php echo $value[ $i ];?>" <?php echo $selected;?>><?php echo $text[ $i ];?></option>
+<?php endfor;?>
+</select>
+</div>
+<?php echo $description;?>
+</div>                                                    
+					<?php
+				}
+				else
+				{
+					?>
+					<p>Champ "Select" invalide. Incorrespondance entre les champs. GUI Library</p>
+					<?php
+				}
+			}
+			else if( $item[ 'type' ] == 'multiple' )
+			{
+				$placeholder 	= return_if_array_key_exists( 'placeholder' , $item );
+				$value		 	= return_if_array_key_exists( 'value' , $item );
+				$label			= return_if_array_key_exists( 'label' , $item );
+				$name			= return_if_array_key_exists( 'name' , $item );
+				$text			= return_if_array_key_exists( 'text' , $item );
+				// Set active option while one option value matches "active" value.
+				$active			= return_if_array_key_exists( 'active' , $item );
+				if( count( $value ) == count( $text ) )
+				{
+					?>
+<div class="form-group">
+<div class="input-group">
+<span class="input-group-addon"><?php echo $label ;?></span>
+<select multiple="multiple" <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control">
+
+<?php if( $placeholder ):?>
+<option value=""><?php echo $placeholder;?></option>
+<?php endif;?>
+
+<?php for( $i = 0 ; $i < count( $text ) ; $i++ ): ?>
+	<?php $selected	=	( $value[ $i ] == $active ) ? 'selected="selected"' : '';?>
 <option value="<?php echo $value[ $i ];?>" <?php echo $selected;?>><?php echo $text[ $i ];?></option>
 <?php endfor;?>
 </select>

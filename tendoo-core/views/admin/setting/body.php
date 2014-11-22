@@ -40,7 +40,7 @@
                             <div class="tab-pane" id="datasetting">
                                 <form method="post" class="panel-body">
                                     <?php
-										if($this->instance->users_global->current('PRIVILEGE') == 'SUPERADMIN')
+										if($this->instance->users_global->current('REF_ROLE_ID') == 'SUPERADMIN')
 										{
 										?>
                                     <div class="form-group">
@@ -245,7 +245,7 @@
 																				
 																		?>
                                                         <tr>
-                                                            <td><?php echo $_a['ICON_MODULE']['human_name'];?></td>
+                                                            <td><?php echo $_a['ICON_MODULE']['name'];?></td>
                                                             <td><label class="label-control switch">
                                                                     <input type="checkbox" name="showIcon[]" <?php echo $val;?>  value="<?php echo $_a['ICON_MODULE']['namespace'].'/'.$_a['ICON_NAMESPACE'];?>"  />
                                                                     <span style="height:20px;"></span> </label></td>

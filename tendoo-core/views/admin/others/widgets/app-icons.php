@@ -20,7 +20,7 @@ if($appIconApi)
 						{
 							?>
 <div class="tendoo-icon-set" data-url="<?php echo $this->url->site_url(array('admin','open','modules',$a['ICON_MODULE']['namespace']));?>"> <img class="G-icon" src="<?php echo $this->tendoo_admin->getAppImgIco($a['ICON_MODULE']['namespace']);?>">
-<p><?php echo word_limiter($a['ICON_MODULE']['human_name'],4);?></p>
+<p><?php echo word_limiter($a['ICON_MODULE']['name'],4);?></p>
 <!--<span class="badge up bg-info m-l-n-sm">300</span>--> 
 </div>
                             <?php
@@ -31,7 +31,7 @@ if($appIconApi)
                     // .'?ajax=true' we're no more accessing ajax content, but directly app.
         ?>
 <div class="tendoo-icon-set" data-url="<?php echo $this->url->site_url(array('admin','open','modules',$a['ICON_MODULE']['namespace']));?>"> <img class="G-icon" src="<?php echo $this->tendoo_admin->getAppImgIco($a['ICON_MODULE']['namespace']);?>">
-<p><?php echo word_limiter($a['ICON_MODULE']['human_name'],4);?></p>
+<p><?php echo word_limiter($a['ICON_MODULE']['name'],4);?></p>
 <!--<span class="badge up bg-info m-l-n-sm">300</span>--> 
 </div>
 <?php

@@ -38,7 +38,7 @@ class tendoo_widget_administrator_backend extends Libraries
 		// $this->instance->tendoo_admin->menuExtendsBefore($this->load->view($this->data['module_dir'].'/views/menu',$this->data,true,TRUE));
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
-		if(!$this->instance->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('modules','widgetsMastering',$this->instance->users_global->current('PRIVILEGE')))
+		if(!$this->instance->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('modules','widgetsMastering',$this->instance->users_global->current('REF_ROLE_ID')))
 		{
 			$this->instance->url->redirect(array('admin','index?notice=access_denied'));
 		}

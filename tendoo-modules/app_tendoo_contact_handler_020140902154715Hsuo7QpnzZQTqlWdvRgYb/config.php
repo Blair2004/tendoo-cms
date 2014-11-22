@@ -1,6 +1,6 @@
 <?php
 declare_module( 'tendoo_contact_handler' , array( 
-	'human_name'		=>		'Gestionnaire de contact',
+	'name'		=>		'Gestionnaire de contact',
 	'author'			=>		'Tendoo Luminax Group',
 	'description'		=>		'Recevez les messages envoy&eacute;s par les utilisateurs via l\'interface de contact.',
 	'has_widget'		=>		TRUE,

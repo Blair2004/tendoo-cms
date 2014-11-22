@@ -163,7 +163,7 @@
 												foreach($get_mod as $g) 
 												{
 													?>
-                                                            <option value="<?php echo $g['namespace'];?>"><?php echo $g['human_name'];?></option>
+                                                            <option value="<?php echo $g['namespace'];?>"><?php echo $g['name'];?></option>
                                                             <?php
 												}
 												?>
@@ -493,7 +493,7 @@
                                                         foreach($get_mod as $g) 
                                                         {
                                                             ?>
-                                                                                            <option value="<?php echo $g['namespace'];?>"><?php echo $g['human_name'];?></option>
+                                                                                            <option value="<?php echo $g['namespace'];?>"><?php echo $g['name'];?></option>
                                                                                             <?php
                                                         }
                                                         ?>

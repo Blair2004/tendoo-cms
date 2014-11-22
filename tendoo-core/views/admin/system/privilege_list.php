@@ -42,7 +42,7 @@
 									?>
                                     <tr>
                                     	<td><a href="<?php echo $this->instance->url->site_url(array('admin','system','edit_priv',$g['PRIV_ID']));?>"><?php echo $g['PRIV_ID'];?></a></td>
-                                    	<td><?php echo $g['HUMAN_NAME'];?></td>
+                                    	<td><?php echo $g['NAME'];?></td>
                                         <td><?php echo $g['DESCRIPTION'];?></td>
                                         <td><?php echo timespan(strtotime($g['DATE']),$this->instance->date->timestamp());?></td>
                                         <td><?php echo $g['IS_SELECTABLE'] == "1" ? "Oui" : "Non";?></td>

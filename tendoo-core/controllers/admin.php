@@ -14,6 +14,7 @@ class Admin extends Libraries
 		$this->load->library('string');
 		$this->load->library('menu');
 		$this->load->library('gui');
+		$this->load->library('roles');
 		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->adminConnection(); 			// 	Admin Users Libraries
 		$this->loadLibraries();				//	Affecting Libraries */
@@ -57,7 +58,7 @@ class Admin extends Libraries
 				$link	=	$this->url->site_url(array('admin','pages'));
 				break;
 				case 'no_priv_created':
-				$link	=	$this->url->site_url(array('admin','system','create_privilege'));
+				$link	=	$this->url->site_url(array('admin','system','create_role'));
 				break;
 				default :
 				$link	=	'#';
@@ -86,10 +87,10 @@ class Admin extends Libraries
 		// Définition des balises d'erreur.
 		if( get_meta( 'PUBLIC_PRIV_ACCESS_ADMIN' ) == '0') // If public priv is not allowed, not check current user priv class
 		{
-			$priv				=	$this->users_global->current('PRIVILEGE');
+			$priv				=	$this->users_global->current('REF_ROLE_ID');
 			if(!in_array($priv,$this->users_global->systemPrivilege()))
 			{
-				$cur_priv			=	$this->tendoo_admin->get_roles($priv);
+				$cur_priv			=	$this->roles->get($priv);
 				if($cur_priv[0]['IS_SELECTABLE'] == '1') // Is selectable
 				{
 					$this->url->redirect(array('error','code','accessDenied')); // Access denied for public priv admins.
@@ -434,54 +435,50 @@ class Admin extends Libraries
 	public function controllers($e = '',$f = '')
 	{
 		redirect_if_webapp_is_enalbled();
-		//var_dump( $this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE') ) );
-		//die;
-		if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE')))
+		
+		current_user()->cannot( 'system@manage_controllers' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+		
+		if($e == '')
 		{
-			if($e == '')
+			if(isset($_POST['controller']))
 			{
-				if(isset($_POST['controller']))
+				$result	=	$this->tendoo_admin->createControllers($_POST['controller']);
+				if($result)
 				{
-					$result	=	$this->tendoo_admin->createControllers($_POST['controller']);
-					if($result)
+					$ttError	=	0;
+					foreach($result as $r)
 					{
-						$ttError	=	0;
-						foreach($result as $r)
+						if($r != "controler_created")
 						{
-							if($r != "controler_created")
-							{
-								$ttError++;
-							}
+							$ttError++;
 						}
-						if($ttError > 0)
-						{
-							notice('push',tendoo_error($ttError.' ' . translate( 'errors founded, some controllers has been dismissed' ) ) );
-						}
-						notice('push',fetch_notice_output('controllers_updated'));
 					}
+					if($ttError > 0)
+					{
+						notice('push',tendoo_error($ttError.' ' . translate( 'errors founded, some controllers has been dismissed' ) ) );
+					}
+					notice('push',fetch_notice_output('controllers_updated'));
 				}
-				css_push_if_not_exists('controller_style');
-				js_push_if_not_exists('jquery.nestable');
-				js_push_if_not_exists('tendoo_controllersScripts'); // ControllersSripts
-				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-				set_core_vars( 'get_pages' ,	$this->tendoo->get_pages());
-				set_core_vars( 'get_mod' , 		$modules	=	get_modules( 'filter_active_unapp' ) );
-				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-				set_page('title', translate( 'Manage controllers - Tendoo' ) );
-				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-				set_core_vars( 'body' , $this->load->view('admin/pages/body',$this->data,true,false) , 'ready_only' );
-				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-				$this->load->view('admin/header',$this->data,null,false);
-				$this->load->view('admin/global_body',$this->data,false,false);
 			}
-		}
-		else
-		{
-			$this->url->redirect(array('admin','index?notice=accessDenied'));
+			css_push_if_not_exists('controller_style');
+			js_push_if_not_exists('jquery.nestable');
+			js_push_if_not_exists('tendoo_controllersScripts'); // ControllersSripts
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			set_core_vars( 'get_pages' ,	$this->tendoo->get_pages());
+			set_core_vars( 'get_mod' , 		$modules	=	get_modules( 'filter_active_unapp' ) );
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			set_page('title', translate( 'Manage controllers - Tendoo' ) );
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			set_core_vars( 'body' , $this->load->view('admin/pages/body',$this->data,true,false) , 'ready_only' );
+			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			$this->load->view('admin/header',$this->data,null,false);
+			$this->load->view('admin/global_body',$this->data,false,false);
 		}
 	}
 	public function modules($e = '',$a	=	1)
 	{
+		current_user()->cannot( 'system@manage_modules' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+				
 		notice( 'push' , fetch_error_from_url() );
 		if($e == '' || $e == 'main')
 		{
@@ -517,11 +514,8 @@ class Admin extends Libraries
 	{
 		if($e == 'module')
 		{
-			if( !$this->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('system','gestmo',$this->users_global->current('PRIVILEGE')))
-			{
-				$this->url->redirect(array('admin','index?notice=accessDenied'));
-				return; 
-			}
+			current_user()->cannot( 'system@manage_modules' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+			
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules( 'module_namespace' ,'','required|trim|alpha_dash|min_length[1]');
 			if($this->form_validation->run())
@@ -535,7 +529,7 @@ class Admin extends Libraries
 			set_core_vars( 'module' , $module 	= get_modules( 'filter_namespace' , $namespace ), 'read_only' );
 			if( $module )
 			{
-				set_page( 'title' , translate( 'Uninstall' ) . ' : '. $module[ 'human_name' ] . ' - ' . translate( 'Dashboard' ) );
+				set_page( 'title' , translate( 'Uninstall' ) . ' : '. $module[ 'name' ] . ' - ' . translate( 'Dashboard' ) );
 				set_core_vars( 'body' ,	$this->load->view('admin/modules/uninstall',$this->data,true), 'read_only' );
 				
 				$this->load->view('admin/header',$this->data,false,false);
@@ -551,18 +545,17 @@ class Admin extends Libraries
 	{
 		if($e	== 	'module')
 		{
-			if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gesmo',$this->users_global->current('PRIVILEGE'))){
-				$module	=	get_modules( 'filter_namespace' , $namespace );
-				if($module)
-				{
-					if( active_module( $namespace ) ){
-						$this->url->redirect( array( 'admin' , 'modules?info='.strip_tags( sprintf( translate( 'The module <strong>%s</strong> is now enabled' ) , $module['human_name'] ) ) ) );
-					}
-					$this->url->redirect(array('admin','modules?notice=error_occurred'));
+			current_user()->cannot( 'system@manage_modules' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+			
+			$module	=	get_modules( 'filter_namespace' , $namespace );
+			if($module)
+			{
+				if( active_module( $namespace ) ){
+					$this->url->redirect( array( 'admin' , 'modules?info='.strip_tags( sprintf( translate( 'The module <strong>%s</strong> is now enabled' ) , $module['name'] ) ) ) );
 				}
-				$this->url->redirect(array('admin','index?notice=unknowModule'));
+				$this->url->redirect(array('admin','modules?notice=error_occurred'));
 			}
-			$this->url->redirect(array('admin','index?notice=accessDenied'));
+			$this->url->redirect(array('admin','index?notice=unknowModule'));
 		}
 		$this->url->redirect(array('admin','modules?notice=error_occurred'));
 	}
@@ -570,18 +563,17 @@ class Admin extends Libraries
 	{
 		if($e	== 	'module')
 		{
-			if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gesmo',$this->users_global->current('PRIVILEGE'))){
-				$module	=	get_modules( 'filter_namespace' , $namespace );
-				if($module)
-				{
-					if( unactive_module( $namespace ) ){
-						$this->url->redirect(array('admin','modules?info='.strip_tags( sprintf( translate( 'The module <strong>%s</strong> is now disabled' ), $module['human_name'] ) ) ) );
-					}
-					$this->url->redirect(array('admin','modules?notice=error_occurred'));
+			current_user()->cannot( 'system@manage_modules' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+			
+			$module	=	get_modules( 'filter_namespace' , $namespace );
+			if($module)
+			{
+				if( unactive_module( $namespace ) ){
+					$this->url->redirect(array('admin','modules?info='.strip_tags( sprintf( translate( 'The module <strong>%s</strong> is now disabled' ), $module['name'] ) ) ) );
 				}
-				$this->url->redirect(array('admin','index?notice=unknowModule'));
+				$this->url->redirect(array('admin','modules?notice=error_occurred'));
 			}
-			$this->url->redirect(array('admin','index?notice=accessDenied'));
+			$this->url->redirect(array('admin','index?notice=unknowModule'));
 		}
 		$this->url->redirect(array('admin','index?notice=error_occurred'));
 	}
@@ -688,7 +680,7 @@ class Admin extends Libraries
 			if($opened_theme == TRUE) // rather than counting
 			{
 				$active_theme		=	$opened_theme;
-				set_page('title', $active_theme[0]['HUMAN_NAME'] . ' | ' . translate( 'Dashboard' ) ); 
+				set_page('title', $active_theme[0]['NAME'] . ' | ' . translate( 'Dashboard' ) ); 
 				include_once(THEMES_DIR.$active_theme[0]['encrypted_dir'].'/library.php');
 				include_once(THEMES_DIR.$active_theme[0]['encrypted_dir'].'/backend.php');
 				$Parameters			=	$this->url->http_request(TRUE);
@@ -714,11 +706,10 @@ class Admin extends Libraries
 			}
 		}
 	}
-	public function setting($action = 'main',$query_1='',$query_2='')
+	public function settings($action = 'main',$query_1='',$query_2='')
 	{
 		if($action	==	'main')
 		{
-			
 			$this->load->library('form_validation');
 			$this->load->helper('date');
 			if($this->input->post('theme_style') !== FALSE || $this->input->post('newName') || $this->input->post('newLogo') !== FALSE  || $this->input->post('newHoraire') || $this->input->post('newFormat'))
@@ -765,7 +756,7 @@ class Admin extends Libraries
 					notice('push',fetch_notice_output('error_occurred'));
 				}
 			}
-			if($this->users_global->isSuperAdmin()) // this Setting is now reserved to super admin
+			if( current_user()->can( 'system@manage_settings' ) ) // this Setting is now reserved to super admin
 			{
 				if($this->input->post('autoriseRegistration')) // Setting notice go here.
 				{
@@ -827,8 +818,9 @@ class Admin extends Libraries
 	}
 	public function themes($e	=	'main', $a	= 1)
 	{
-		if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestheme',$this->users_global->current('PRIVILEGE')))
-		{
+		current_user()->cannot( 'system@manage_themes' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+		
+		
 			redirect_if_webapp_is_enalbled();
 			if($e == 'main')
 			{
@@ -910,17 +902,13 @@ class Admin extends Libraries
 			{
 				$this->url->redrect(array('error','code','page404'));
 			}
-		}
-		else
-		{
-			$this->url->redirect(array('admin','index?notice=accessDenied'));
-			return;
-		}
+		
 	}
 	public function installer()
 	{
-		if($this->users_global->isSuperAdmin()	|| $this->tendoo_admin->adminAccess('system','gestapp',$this->users_global->current('PRIVILEGE')))
-		{
+		current_user()->cannot( 'system@install_app' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+		
+		
 			if(isset($_FILES['installer_file']))
 			{
 				$query	=	$this->tendoo_admin->_install_app( 'installer_file' );
@@ -939,15 +927,12 @@ class Admin extends Libraries
 			
 			$this->load->view('admin/header',$this->data,false,false);
 			$this->load->view('admin/global_body',$this->data,false,false);
-		}
-		else
-		{
-			$this->url->redirect(array('admin','index?notice=accessDenied'));
-			return;
-		}
+		
 	}
 	public function users( $options = '' , $x = 1 , $y = '' , $z = '' )
 	{
+		current_user()->cannot( 'system@manage_users' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+		
 		$this->load->library( 'gui' );
 		if( $options == 'create' )
 		{
@@ -978,7 +963,7 @@ class Admin extends Libraries
 						$this->url->redirect(array('admin','users','create?notice=adminCreationFailed'));
 				}
 			}
-			set_core_vars( 'getPrivs' , $this->tendoo_admin->get_roles());
+			set_core_vars( 'getPrivs' , $this->roles->get());
 			set_page('title', translate( 'Manage Users - Tendoo' ) );
 			set_core_vars( 'body' , $this->load->view('admin/users/create',$this->data,true), 'read_only' );
 			
@@ -990,7 +975,7 @@ class Admin extends Libraries
 			if($this->input->post('set_admin'))
 			{
 				$this->form_validation->set_rules('current_admin', translate( 'About current user' ),'trim|required|min_length[5]');
-				$this->form_validation->set_rules('edit_priv', translate( 'Edit his privilege' ),'trim|required|min_length[8]|max_length[11]');
+				$this->form_validation->set_rules('edit_priv', translate( 'Edit his privilege' ),'trim|required');
 				$this->form_validation->set_rules('user_email',translate( 'Email' ),'trim|valid_email');
 				if($this->form_validation->run())
 				{
@@ -1015,7 +1000,7 @@ class Admin extends Libraries
 				}
 			}
 			
-			set_core_vars( 'get_roles' ,	$this->tendoo_admin->get_roles());
+			set_core_vars( 'get_roles' ,	$this->roles->get());
 			set_core_vars( 'adminInfo' ,	$adminInfo	=	$this->users_global->getSpeAdminByPseudo($x) );
 			set_page('title', sprintf( translate( 'User profile : %s - Tendoo' ), $adminInfo['PSEUDO'] ) );
 			
@@ -1057,56 +1042,21 @@ class Admin extends Libraries
 		else if($option ==  'createAdmin')
 		{
 		}
-		else if($option ==  'create_privilege')
+		else if($option ==  'create_role')
 		{
 		}
 		else if($option	== 	'edit_priv')
 		{
-			if(!method_exists($this,'form_validation'))
-			{
-				$this->load->library('form_validation');
-$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><i style="font-size:18px;margin-right:5px;" class="icon-warning-sign"></i>', '</div>');
-			}
-			$this->form_validation->set_rules('priv_description', translate( 'Privilege description' ) ,'trim|required|min_length[3]|max_length[200]');
-			$this->form_validation->set_rules('priv_name', translate( 'Privilege name' ),'trim|required|min_length[3]|max_length[200]');
-			$this->form_validation->set_rules('is_selectable', translate( 'Available on registration' ),'trim|required|min_length[1]|max_length[1]');
-			if($this->form_validation->run())
-			{
-				$data	=	$this->tendoo_admin->edit_privilege(
-					$option_2,
-					$this->input->post('priv_name'),
-					$this->input->post('priv_description'),
-					$this->input->post('is_selectable')
-				);
-				if($data === TRUE)
-				{
-					$this->url->redirect(array('admin','system','privilege_list?notice=done'));
-				}
-				else
-				{
-					notice('push',fetch_notice_output('error_occurred'));
-				}
-			}
-			set_core_vars( 'getPriv' , $this->tendoo_admin->get_roles($option_2));
-			if(count(get_core_vars( 'getPriv' )) == 0)
-			{
-				$this->url->redirect(array('error','code','privilegeNotFound'));
-			}
-			set_page('title', translate( 'Edit privilege - Tendoo' ) );
-			set_core_vars( 'body' ,	$this->load->view('admin/system/edit_privilege',$this->data,true) );
-			
-			$this->load->view('admin/header',$this->data,false,false);
-			$this->load->view('admin/global_body',$this->data,false,false);	
 		
 		}
 		else if($option	==	'manage_actions')
 		{
-			if(!$this->tendoo_admin->hasPriv())
+			if(!$this->tendoo_admin->has_roles())
 			{
-				$this->url->redirect(array('admin','system','create_privilege?notice=mustCreatePrivilege'));
+				$this->url->redirect(array('admin','system','create_role?notice=mustCreatePrivilege'));
 			}
 			set_core_vars( 'ttPrivileges' ,	$this->tendoo_admin->count_roles());
-			set_core_vars( 'get_roles' ,	$this->tendoo_admin->get_roles() );
+			set_core_vars( 'get_roles' ,	$this->roles->get() );
 			set_core_vars( 'ttModules' , 	count( get_modules( 'all' ) ) );
 			set_core_vars( 'paginate' ,	$paginate	=	$this->tendoo->paginate(10,get_core_vars( 'ttModules' ),1,'bg-color-red fg-color-white','',$option_2,$this->url->site_url(array('admin','system','manage_actions')).'/') );
 			set_core_vars( 'getModules' ,	get_modules( 'list_filter_active' , $paginate[1],$paginate[2] ) );
@@ -1121,7 +1071,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		{
 			if(isset($_POST['QUERY']))
 			{
-				if($this->tendoo_admin->addActionToPriv($_POST['QUERY'],'system'))
+				if($this->tendoo_admin->add_permission_role($_POST['QUERY'],'system'))
 				{
 					set_core_vars( 'state' ,	true);
 					set_core_vars( 'body' ,	$this->load->view('admin/system/ajax_priv_action',$this->data));
@@ -1137,7 +1087,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		{
 			if(isset($_POST['QUERY_2']))
 			{
-				if($this->tendoo_admin->addActionToPriv_MTW($_POST['QUERY_2'],'modules'))
+				if($this->tendoo_admin->add_permission_role_MTW($_POST['QUERY_2'],'modules'))
 				{
 					set_core_vars( 'state' ,	true);
 					set_core_vars( 'body' ,	$this->load->view('admin/system/ajax_priv_action_2',$this->data));
@@ -1198,15 +1148,17 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		
 	}
-	public function roles( $option = '' )
+	public function roles( $option = '' , $input_1 = '' )
 	{
+		current_user()->cannot( 'system@manage_roles' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+		
 		if( ( is_numeric( $option ) && $option > 0 ) or $option ==	'' )
 		{
 			$option = !is_numeric( $option ) ? 1 : $option;
 			
-			set_core_vars( 'nbr_roles' ,	$this->tendoo_admin->count_roles());
+			set_core_vars( 'nbr_roles' ,	$this->roles->count());
 			set_core_vars( 'pagination_data' ,	$paginate	=	$this->tendoo->doPaginate(10,get_core_vars( 'nbr_roles' ),$option , $this->url->site_url(array('admin','roles') ) ) );
-			set_core_vars( 'get_roles' ,	$this->tendoo_admin->get_roles($paginate[ 'start' ],$paginate[ 'end' ]));
+			set_core_vars( 'get_roles' ,	$this->roles->get($paginate[ 'start' ],$paginate[ 'end' ]));
 			set_page('title', translate( 'Roles - Tendoo' ) );
 			set_core_vars( 'body' ,	$this->load->view('admin/roles/list',$this->data,true), 'read_only' );
 			
@@ -1215,7 +1167,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($option == 'delete')
 		{
-			set_core_vars( 'deletion' ,	$this->tendoo_admin->deletePrivilege($option_2) );
+			set_core_vars( 'deletion' ,	$this->roles->delete( $input_1 ) );
 			$this->url->redirect(array('admin','roles?notice='. get_core_vars( 'deletion' )));			
 		}
 		else if($option == 'create')
@@ -1229,25 +1181,21 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 			$this->form_validation->set_rules('is_selectable', translate( 'Available on registration' ),'trim|required|min_length[1]|max_length[1]');
 			if($this->form_validation->run())
 			{
-				$data	=	$this->tendoo_admin->create_privilege(
+				$data	=	$this->roles->create(
 					$this->input->post('priv_name'),
 					$this->input->post('priv_description'),
-					$this->session->userdata('privId'),
 					$this->input->post('is_selectable')
 				);
 				if($data === TRUE)
 				{
-					$this->url->redirect(array('admin','system','privilege_list?notice=done'));
+					$this->url->redirect(array('admin','roles?notice=done'));
 				}
 				else
 				{
 					notice('push',fetch_notice_output('error_occurred'));
 				}
 			}
-			
-			$this->session->set_userdata('privId',$this->tendoo_admin->getPrivId());
-			set_core_vars( 'privId' ,	$this->session->userdata('privId') );
-			
+						
 			set_page( 'title' , sprintf( __( 'Create new role | Tendoo %s' ) , get( 'core_id' ) ) );
 			set_core_vars( 'body' ,	$this->load->view('admin/roles/create',$this->data,true), 'read_only' );
 			
@@ -1256,15 +1204,72 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if( $option == 'edit' )
 		{
+			$this->form_validation->set_rules('priv_description', translate( 'Privilege description' ) ,'trim|required|min_length[3]|max_length[200]');
+			$this->form_validation->set_rules('priv_name', translate( 'Privilege name' ),'trim|required|min_length[3]|max_length[200]');
+			$this->form_validation->set_rules('is_selectable', translate( 'Available on registration' ),'trim|required|min_length[1]|max_length[1]');
+			if($this->form_validation->run())
+			{
+				$data	=	$this->roles->edit(
+					$input_1,
+					$this->input->post('priv_name'),
+					$this->input->post('priv_description'),
+					$this->input->post('is_selectable')
+				);
+				if($data === TRUE)
+				{
+					$this->url->redirect(array('admin','roles?notice=done'));
+				}
+				else
+				{
+					notice('push',fetch_notice_output('errorOccurred'));
+				}
+			}
 			
+			set_core_vars( 'get_role' , $this->roles->get( $input_1 ) );
+			
+			if(count(get_core_vars( 'get_role' )) == 0)
+			{
+				$this->url->redirect(array('error','code','privilegeNotFound' ) );
+			}
+
+			set_page( 'title' , sprintf( __( 'Edit role | Tendoo %s' ) , get( 'core_id' ) ) );
+			set_core_vars( 'body' ,	$this->load->view('admin/roles/edit',$this->data,true), 'read_only' );
+			
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
+		}
+		else if( $option == 'permissions' )
+		{
+			if( ( $permissions	=	riake( 'roles_permissions' , $_POST ) ) == true && $role_id = $this->input->post( 'role_id' ) )
+			{
+				$this->roles->reset_permissions( $this->input->post( 'role_id' ) );
+				
+				foreach( force_array( $permissions ) as $_permission )
+				{
+					$this->roles->add_permission( $this->input->post( 'role_id' ) , $_permission ); 
+				}
+				
+				$this->url->redirect( array( 'admin' , 'roles' , 'permissions?notice=role_permissions_saved' ) );
+			}
+			
+			set_core_vars( 'get_roles' , $this->roles->get() );
+			set_core_vars( 'get_modules' , get_modules( 'filter_active' ) );
+			// Merge System Permissions to Modules Permissions, with valid permissions namespaces
+			$modules	=	get_core_vars( 'get_modules' );	
+			array_unshift( $modules ,	get_core_vars( 'tendoo_core_permissions' ) );
+			set_core_vars( 'get_modules' , $modules );
+			
+			set_page( 'title' , __( 'Roles permissions - Tendoo' ) );
+			set_core_vars( 'body' ,	$this->load->view('admin/roles/permissions',$this->data,true), 'read_only' );
+			
+			$this->load->view('admin/header',$this->data,false,false);
+			$this->load->view('admin/global_body',$this->data,false,false);	
 		}
 	}
     public function tools($action	=	'index')
     {
-		if($this->users_global->isSuperAdmin() == FALSE && $this->tendoo_admin->adminAccess('system','toolsAccess',$this->users_global->current('PRIVILEGE'))== FALSE)
-		{
-			$this->url->redirect(array('admin','index?notice=accessDenied'));
-		}
+		current_user()->cannot( 'system@manage_tools' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+		
 		if($action == 'index')
 		{
         
@@ -1327,7 +1332,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($option	==	'upController')
 		{
-			if($this->users_global->isSuperAdmin() == FALSE && $this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE'))== FALSE)
+			if($this->users_global->isSuperAdmin() == FALSE && $this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('REF_ROLE_ID'))== FALSE)
 			{
 				set_core_vars( 'type' ,	'danger' );
 				set_core_vars( 'notice' ,	notice('accessDenied') );
@@ -1401,7 +1406,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($option == 'sm_manual')
 		{
-			if($this->users_global->isSuperAdmin() == FALSE && $this->tendoo_admin->adminAccess('system','toolsAccess',$this->users_global->current('PRIVILEGE'))== FALSE)
+			if($this->users_global->isSuperAdmin() == FALSE && $this->tendoo_admin->adminAccess('system','toolsAccess',$this->users_global->current('REF_ROLE_ID'))== FALSE)
 			{
 				set_core_vars( 'type' ,	'danger' );
 				set_core_vars( 'notice' ,	notice('accessDenied') );
@@ -1417,7 +1422,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($option == 'sm_remove')
 		{
-			if($this->users_global->isSuperAdmin() == FALSE && $this->tendoo_admin->adminAccess('system','toolsAccess',$this->users_global->current('PRIVILEGE'))== FALSE)
+			if($this->users_global->isSuperAdmin() == FALSE && $this->tendoo_admin->adminAccess('system','toolsAccess',$this->users_global->current('REF_ROLE_ID'))== FALSE)
 			{
 				set_core_vars( 'type' ,	'danger' );
 				set_core_vars( 'notice' ,	notice('accessDenied') );
@@ -1433,7 +1438,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($option	== 'create_controller')
 		{
-			if($this->users_global->isSuperAdmin() === FALSE	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE')))
+			if($this->users_global->isSuperAdmin() === FALSE	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('REF_ROLE_ID')))
 			{
 				set_core_vars( 'type' ,	'danger' );
 				set_core_vars( 'notice' ,	notice('accessDenied') );
@@ -1485,7 +1490,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($option == "edit_controller")
 		{
-			if(!$this->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE')))
+			if(!$this->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('REF_ROLE_ID')))
 			{
 				set_core_vars( 'type' ,	'danger' );
 				set_core_vars( 'notice' ,	notice('error_occurred') );
@@ -1535,7 +1540,7 @@ $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><b
 		}
 		else if($option == "load_controller")
 		{
-			if(!$this->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('PRIVILEGE')))
+			if(!$this->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('REF_ROLE_ID')))
 			{
 				set_core_vars( 'type' ,	'danger' );
 				set_core_vars( 'notice' ,	notice('error_occurred') );

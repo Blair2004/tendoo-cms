@@ -976,12 +976,12 @@
 	*	declare_api( $api_namespace , $callback_api )
 	* 	Les API ne sont définie qu'une seule fois !!
 	**/
-	function declare_api( $api_namespace, $human_name , $callback_api ){
+	function declare_api( $api_namespace, $name , $callback_api ){
 		$declared_api	=	get_core_vars( 'api_declared' ) ? get_core_vars( 'api_declared' ) : array();
 		if( !return_if_array_key_exists( $api_namespace , $declared_api ) ){
 			$declared_api[ $api_namespace ] = array(
 				'callback'		=>	$callback_api ,
-				'human_name'	=>	$human_name,
+				'name'	=>	$name,
 				'namespace'		=>	$api_namespace
 			); // CallBack API cant be a function declared on public context on array with object and method
 			return set_core_vars( 'api_declared' , $declared_api );

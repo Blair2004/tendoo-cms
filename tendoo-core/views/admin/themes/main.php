@@ -39,7 +39,7 @@
 			?>
                     <div class="col-lg-3 theme_head" 
                     	data-theme_namespace="<?php echo $t[ 'namespace' ];?>" 
-                        data-theme_name="<?php echo $t[ 'human_name' ];?>"
+                        data-theme_name="<?php echo $t[ 'name' ];?>"
                         data-theme_thumb="<?php echo theme_thumb( $t[ 'namespace' ] );?>"
                         data-theme_author="<?php echo $t[ 'author' ];?>"
                         data-theme_version="<?php echo $t[ 'version' ];?>"
@@ -51,7 +51,7 @@
                                     <li> <a href="#" class="panel-toggle text-muted active"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
                                 </ul>
                                 <!-- <a class="view" href="<?php echo $this->instance->url->site_url(array('admin','open','themes',$t['namespace']));?>"></a>-->
-                                <?php echo $t['human_name'];?></header>
+                                <?php echo $t['name'];?></header>
                             <div class="panel-body clearfix"><img src="<?php echo theme_thumb( $t[ 'namespace' ] );?>" style="width:100%;min-height:203px;"> </div>
                             <footer class="panel-footer">
                                 <div class="actions">

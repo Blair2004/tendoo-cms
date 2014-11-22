@@ -144,7 +144,7 @@ class flaty_theme_tepas_class
 					<i class="icon-angle-right"></i>
 				</a>
 			</section>',
-			'human_name'		=>	'Slider',
+			'name'		=>	'Slider',
 			'draggable'			=>	false,
 			'description'		=>	'Ajouter un slider à votre page d\'accueil'
 		);
@@ -169,7 +169,7 @@ class flaty_theme_tepas_class
                         '</div>',
                     '</div>',
                 '</div>'),
-			'human_name'		=>	'Liste des services',
+			'name'		=>	'Liste des services',
 			'draggable'		=>	false,
 			'item_loopable_fields'		=>	array(
 				array(
@@ -217,7 +217,7 @@ class flaty_theme_tepas_class
 		declare_item( 'list_services' , $config );
 		$config		=	array(
 			'draggable'					=>	false,
-			'human_name'				=>	'Ajouter des témoignages',
+			'name'				=>	'Ajouter des témoignages',
 			'is_static'					=>	true,
 			'namespace'					=>	'testimony',
 			'item_loopable_fields'		=>	array(

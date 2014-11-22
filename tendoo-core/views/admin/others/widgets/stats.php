@@ -1,5 +1,5 @@
 <?php
-if($this->users_global->isSuperAdmin() || $this->tendoo_admin->adminAccess('system','toolsAccess',$this->users_global->current('PRIVILEGE')) != FALSE)
+if($this->users_global->isSuperAdmin() || $this->tendoo_admin->adminAccess('system','toolsAccess',$this->users_global->current('REF_ROLE_ID')) != FALSE)
 {
 	if($this->users_global->current('SHOW_ADMIN_INDEX_STATS') == "1")
 	{

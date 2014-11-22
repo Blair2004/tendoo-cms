@@ -65,13 +65,13 @@ class tendoo_contents_backend extends Libraries
 		$this->load->library('form_validation');
 		if(isset($_FILES['file']))
 		{
-			$this->form_validation->set_rules('file_human_name','Le nom du fichier','trim|required|min_length[5]|max_length[40]');
+			$this->form_validation->set_rules('file_name','Le nom du fichier','trim|required|min_length[5]|max_length[40]');
 			$this->form_validation->set_rules('file_description','La description du fichier','trim|required|min_length[5]|max_length[200]');
 			if($this->form_validation->run())
 			{
 				$query	=	$this->file_contentAdmin->uploadFile(
 					'file',
-					$this->input->post('file_human_name'),
+					$this->input->post('file_name'),
 					$this->input->post('file_description')
 				);
 				if($query)

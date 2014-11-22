@@ -12,16 +12,15 @@ if(is_array($subadmin))
 	{
 		foreach($subadmin as $s)
 		{
-			$priv	=	$this->instance->tendoo_admin->get_roles($s['PRIVILEGE']);
-			if(!$priv)
+			$role	=	$this->instance->roles->get( $s['REF_ROLE_ID'] );
+			if( ! $role )
 			{
-				$priv[0]['HUMAN_NAME']	=	$this->instance->users_global->convertCurrentPrivilege($s['PRIVILEGE']);
+				$priv[0]['NAME']	=	$this->instance->users_global->convertCurrentPrivilege($s['REF_ROLE_ID']);
 			}
 			$rows[]	=	array( 
 				$s[ 'ID' ] , 
 				'<a href="' . $this->instance->url->site_url(array('admin','users','edit',$s['PSEUDO'])) . '">' . $s['PSEUDO'] . '</a>' , 
-				$priv[0]['HUMAN_NAME'] , 
-				$s['PRIVILEGE']	==	'USER' ? __( 'Unavailable' ) : $s['PRIVILEGE'] , 
+				$role[0]['NAME'] , 
 				$s['EMAIL'] == '' ? __( 'Unavailable' ) : $s['EMAIL'] 
 			);
 		}
@@ -33,7 +32,7 @@ gui_item( array(
 	'type'		=>	'table-panel',
 	'name'		=>	'nom',
 	'id'		=>	'mon_editeur',
-	'cols'		=>	array( __( 'Id' ) , __( 'Pseudo' ) , __( 'Status' ), __( 'Role' ), __( 'Email' ) ),
+	'cols'		=>	array( __( 'Id' ) , __( 'Pseudo' ) , __( 'Role' ), __( 'Email' ) ),
 	'rows'		=>	$rows
 ) )->push_to( core_meta_namespace( array( 'users' , 'list' ) ) );
 

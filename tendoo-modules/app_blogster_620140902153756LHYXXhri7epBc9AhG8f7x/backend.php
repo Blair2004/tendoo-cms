@@ -190,7 +190,7 @@ class blogster_backend extends Libraries
 		js_push_if_not_exists('jquery-ui-1.10.4.custom.min');
 		css_push_if_not_exists('jquery-ui-1.10.4.custom.min');
 		
-		if(!$this->tendoo_admin->actionAccess('edit_news','blogster'))
+		if( !current_user_can( 'blogster@edit_news' ) )
 		{
 			$this->url->redirect(array('admin','index?notice=accessDenied'));
 		}

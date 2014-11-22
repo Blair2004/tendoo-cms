@@ -136,7 +136,7 @@ class eva_theme_tepas_class
 		);
 		declare_item( 'theme_color_and_style' , array(
 			'draggable'					=>	false,
-			'human_name'				=>	'[Style et Mise en page]',
+			'name'				=>	'[Style et Mise en page]',
 			'is_static'					=>	true,
 			'namespace'					=>	'theme_color_and_style',
 			'item_global_fields'	=>	array(
@@ -194,7 +194,7 @@ class eva_theme_tepas_class
 		// <li data-target="#main-slider" data-slide-to="0" class="active"></li>
 		declare_item( 'fraction_slider' , array(
 			'has_loop'		=>		true,
-			'human_name'		=>	'[ Accueil - 1 ] Fraction Slider',
+			'name'		=>	'[ Accueil - 1 ] Fraction Slider',
 			'draggable'			=>	false,
 			'namespace'			=>	'fraction_slider',
 			'item_global_fields'	=>	array(
@@ -335,7 +335,7 @@ class eva_theme_tepas_class
 		)  );
 		declare_item( 'promo_box' , array( 
 			'has_loop'			=>	false, 
-			'human_name'		=>	'[ Accueil - 1 ] Boite de promotion',
+			'name'		=>	'[ Accueil - 1 ] Boite de promotion',
 			'namespace'			=>	'promo_box',
 			'draggable'		=>	false,
 			'item_global_fields'		=>	array(
@@ -385,7 +385,7 @@ class eva_theme_tepas_class
 		) );
 		declare_item( 'list_services' , array(
 			'has_loop'			=>	true, 
-			'human_name'		=>	'[ Accueil - 1 ] Liste des services',
+			'name'		=>	'[ Accueil - 1 ] Liste des services',
 			'draggable'		=>	false,
 			'item_global_fields'	=>	array(
 				array(
@@ -450,7 +450,7 @@ class eva_theme_tepas_class
 		) );
 		declare_item( 'feature_list' , array(
 			'has_loop'			=>	true, 
-			'human_name'		=>	'[ Accueil - 1 ] Fonctionnalités ou Atouts',
+			'name'		=>	'[ Accueil - 1 ] Fonctionnalités ou Atouts',
 			'draggable'		=>	false,
 			'item_global_fields'		=>	array(
 				array( 
@@ -491,7 +491,7 @@ class eva_theme_tepas_class
 		) );
 		declare_item( 'testimonials' , array(
 			'has_loop'			=>	true, 
-			'human_name'		=>	'[ Accueil - 1 ] Témoignages',
+			'name'		=>	'[ Accueil - 1 ] Témoignages',
 			'draggable'		=>	false,
 			'item_global_fields'		=>	array(
 				array( 
@@ -547,7 +547,7 @@ class eva_theme_tepas_class
 		) );
 		declare_item( 'recents_works' , array(
 			'has_loop'			=>	true, 
-			'human_name'		=>	'[ Accueil - 1 ] Travaux récents',
+			'name'		=>	'[ Accueil - 1 ] Travaux récents',
 			'draggable'		=>	false,
 			'item_global_fields'		=>	array(
 				array(
@@ -598,7 +598,7 @@ class eva_theme_tepas_class
 		) );
 		/* declare_item( 'testimony'  , array(
 			'draggable'					=>	false,
-			'human_name'				=>	'Ajouter des témoignages',
+			'name'				=>	'Ajouter des témoignages',
 			'is_static'					=>	true,
 			'namespace'					=>	'testimony',
 			'item_loopable_fields'		=>	array(
@@ -632,7 +632,7 @@ class eva_theme_tepas_class
 		) ); */
 		$config		=	array(
 			'draggable'					=>	false,
-			'human_name'				=>	'[En-tête] Liens vers les réseaux sociaux',
+			'name'				=>	'[En-tête] Liens vers les réseaux sociaux',
 			'is_static'					=>	true,
 			'namespace'					=>	'social_feeds',
 			'item_loopable_fields'		=>	array(
@@ -661,7 +661,7 @@ class eva_theme_tepas_class
 		// 
 		$config		=	array(
 			'draggable'					=>	false,
-			'human_name'				=>	'[En-tête] Informations de contact',
+			'name'				=>	'[En-tête] Informations de contact',
 			'is_static'					=>	true,
 			'namespace'					=>	'header_datas',
 			'item_loopable_fields'		=>	array(
@@ -687,7 +687,7 @@ class eva_theme_tepas_class
 		// 
 		$config		=	array(
 			'draggable'					=>	false,
-			'human_name'				=>	'[Pied de page] Liens vers les réseaux sociaux',
+			'name'				=>	'[Pied de page] Liens vers les réseaux sociaux',
 			'is_static'					=>	true,
 			'namespace'					=>	'footer_social_feeds',
 			'item_loopable_fields'		=>	array(
@@ -717,7 +717,7 @@ class eva_theme_tepas_class
 		declare_item( 'footer_social_feeds'  , $config );
 		declare_item( 'contact_get_social' , array(
 			'draggable'					=>	false,
-			'human_name'				=>	'[Contact - 1] Liens vers les réseaux sociaux',
+			'name'				=>	'[Contact - 1] Liens vers les réseaux sociaux',
 			'is_static'					=>	true,
 			'namespace'					=>	'contact_get_social',
 			'item_loopable_fields'		=>	array(
@@ -755,7 +755,7 @@ class eva_theme_tepas_class
 		) );
 		declare_item( 'contact_datas' , array( 
 			'draggable'					=>	false,
-			'human_name'				=>	'[Contact - 1] Informations de la page de contact',
+			'name'				=>	'[Contact - 1] Informations de la page de contact',
 			'is_static'					=>	true,
 			'namespace'					=>	'contact_datas',
 			'item_global_fields'	=>	array(
@@ -814,7 +814,7 @@ class eva_theme_tepas_class
 		) );
 		declare_item( 'contact_gmap_data' , array( 
 			'draggable'					=>	false,
-			'human_name'				=>	'[Contact - 1] Google Map',
+			'name'				=>	'[Contact - 1] Google Map',
 			'is_static'					=>	true,
 			'namespace'					=>	'contact_gmap_data',
 			'item_global_fields'	=>	array(
@@ -835,7 +835,7 @@ class eva_theme_tepas_class
 		) );
 		declare_item( 'google_analytic_javascript_footer' , array( 
 			'draggable'					=>	false,
-			'human_name'				=>	'[ Analytics ] Code Javascript Permanent',
+			'name'				=>	'[ Analytics ] Code Javascript Permanent',
 			'is_static'					=>	true,
 			'namespace'					=>	'google_analytic_javascript_footer',
 			'item_global_fields'	=>	array(

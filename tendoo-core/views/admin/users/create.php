@@ -60,8 +60,8 @@ $text				=	array( __( 'Choose...' ) , __( 'User' ) );
 
 foreach( force_array( $getPrivs ) as $_role )
 {
-	$roles[]		=	riake( 'PRIV_ID' , $_role );
-	$text[]			=	riake( 'HUMAN_NAME' , $_role );
+	$roles[]		=	riake( 'ID' , $_role );
+	$text[]			=	riake( 'NAME' , $_role );
 }
 $this->gui->set_item( array(
 	'type'			=>	'select',

@@ -46,7 +46,7 @@
 									$values['gestset']		=	$this->instance->tendoo_admin->getValueForPrivNameAndSystem('system','gestset',$p['PRIV_ID']);	
 							?>
                                         <li class="list-group-item" data-form-name="<?php echo $p['PRIV_ID'];?>">
-                                            <h4 class="panel-heading"><?php echo $p['HUMAN_NAME'];?></h4>
+                                            <h4 class="panel-heading"><?php echo $p['NAME'];?></h4>
                                             <div class="panel-body">
                                                 <ul class="nav nav-pills listview fluid">
                                                     <li data-name="gestpa" data-value="<?php
@@ -211,7 +211,7 @@
                                                 <ul class="nav nav-pills pull-right">
                                                     <li> <a href="#" class="panel-toggle text-muted active"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
                                                 </ul>
-                                                Action du module <strong><?php echo $g['human_name'];?></strong></header>
+                                                Action du module <strong><?php echo $g['name'];?></strong></header>
                                             <div class="panel-body clearfix collapse">
                                                 <?php
                                         foreach($get_roles as $p)
@@ -220,7 +220,7 @@
                                             if(is_array($action))
                                             {
                                     ?>
-                                                <h4>pour le privil&egrave;ge : <strong><?php echo $p['HUMAN_NAME'];?></strong></h4>
+                                                <h4>pour le privil&egrave;ge : <strong><?php echo $p['NAME'];?></strong></h4>
                                                 <li class="list-group-item" data-form-name="<?php echo $p['PRIV_ID'];?>" data-additionnal="<?php echo $g['namespace'];?>">
                                                     <ul class="nav nav-pills listview fluid">
                                                         <?php

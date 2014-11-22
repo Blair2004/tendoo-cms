@@ -23,7 +23,7 @@
                                 <form method="post" action="" enctype="multipart/form-data">
                                     <div class="input-group input-group-sm">
                                       <span class="input-group-addon">Le nom du fichier</span>
-                                      <input name="file_human_name" type="text" class="form-control" placeholder="Le nom de votre fichier">
+                                      <input name="file_name" type="text" class="form-control" placeholder="Le nom de votre fichier">
                                     </div>
                                     <br />
                                     <div class="input-group input-group-sm">

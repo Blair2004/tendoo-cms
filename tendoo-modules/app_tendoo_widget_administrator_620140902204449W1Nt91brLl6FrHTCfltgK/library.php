@@ -57,7 +57,7 @@
 								'WIDGET_TITLE'			=>		$w_content['title'],
 								'WIDGET_NAMESPACE'		=>		$w_content['namespace'],
 								'WIDGET_MODNAMESPACE'	=>		$w_content['modnamespace'],
-								'WIDGET_HUMAN_NAME'		=>		$w_content['human_name'],
+								'WIDGET_NAME'		=>		$w_content['name'],
 								'WIDGET_ETAT'			=>		1,
 								'WIDGET_PARAMETERS'		=>		$line_code,
 								'AUTEUR'				=>		$user_id,
@@ -119,8 +119,8 @@
 					widget="" 
 					widget-namespace="<?php echo $widget_datas['WIDGET_NAMESPACE'];?>" 
 					widget-modnamespace="<?php echo $modnamespace;?>" 
-					widget-human_name="<?php echo $widget_datas['WIDGET_HUMAN_NAME'];?>">
-					<header class="panel-heading text-center"><ul class="nav nav-pills pull-left"><li><a class="tewi_remover" href="javascript:void(0)"><i class="fa fa-times"></i></a></li></ul><ul class="nav nav-pills pull-right"><li><a class="panel-toggle text-muted active" href="javascript:void(0)"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a></li></ul><?php echo $widget_datas['WIDGET_HUMAN_NAME'];?></header>
+					widget-name="<?php echo $widget_datas['WIDGET_NAME'];?>">
+					<header class="panel-heading text-center"><ul class="nav nav-pills pull-left"><li><a class="tewi_remover" href="javascript:void(0)"><i class="fa fa-times"></i></a></li></ul><ul class="nav nav-pills pull-right"><li><a class="panel-toggle text-muted active" href="javascript:void(0)"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a></li></ul><?php echo $widget_datas['WIDGET_NAME'];?></header>
 					<div widget-hidden_content="" style="display:none">
 						<div class="form-group">
 							<textarea class="form-control" meta_widgetparams=""></textarea>
@@ -129,7 +129,7 @@
 				<div tewi_meta="">
 					<input meta_modnamespace="" name="tewi_wid[<?php echo $zone;?>][<?php echo $index;?>][modnamespace]" value="system" type="hidden">
 					<input meta_namespace="" name="tewi_wid[<?php echo $zone;?>][<?php echo $index;?>][namespace]" value="texte" type="hidden">
-					<input meta_human_name="" name="tewi_wid[<?php echo $zone;?>][<?php echo $index;?>][human_name]" value="Widget Texte" type="hidden">
+					<input meta_name="" name="tewi_wid[<?php echo $zone;?>][<?php echo $index;?>][name]" value="Widget Texte" type="hidden">
 					<div class="panel-body">
 						<div class="form-group">
 							<input meta_title="" value="<?php echo $widget_datas['WIDGET_TITLE'];?>" placeholder="Titre du widget" class="form-control" name="tewi_wid[<?php echo $zone;?>][<?php echo $index;?>][title]" type="text">
@@ -166,8 +166,8 @@
 					widget="" 
 					widget-namespace="<?php echo $widget_datas['WIDGET_NAMESPACE'];?>" 
 					widget-modnamespace="<?php echo $modnamespace;?>" 
-					widget-human_name="<?php echo $widget_datas['WIDGET_HUMAN_NAME'];?>">
-					<header class="panel-heading text-center"><ul class="nav nav-pills pull-left"><li><a class="tewi_remover" href="javascript:void(0)"><i class="fa fa-times"></i></a></li></ul><ul class="nav nav-pills pull-right"><li><a class="panel-toggle text-muted active" href="javascript:void(0)"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a></li></ul><?php echo $widget_datas['WIDGET_HUMAN_NAME'];?></header>
+					widget-name="<?php echo $widget_datas['WIDGET_NAME'];?>">
+					<header class="panel-heading text-center"><ul class="nav nav-pills pull-left"><li><a class="tewi_remover" href="javascript:void(0)"><i class="fa fa-times"></i></a></li></ul><ul class="nav nav-pills pull-right"><li><a class="panel-toggle text-muted active" href="javascript:void(0)"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a></li></ul><?php echo $widget_datas['WIDGET_NAME'];?></header>
 					<div widget-hidden_content="" style="display:none">
 						<div class="form-group">
 							<textarea class="form-control" meta_widgetparams=""></textarea>
@@ -176,7 +176,7 @@
 					<div tewi_meta="">
 						<input meta_modnamespace="" name="tewi_wid[<?php echo $zone;?>][<?php echo $index;?>][modnamespace]" value="<?php echo $widget_datas['WIDGET_MODNAMESPACE'];?>" type="hidden">
 						<input meta_namespace="" name="tewi_wid[<?php echo $zone;?>][<?php echo $index;?>][namespace]" value="<?php echo $widget_datas['WIDGET_NAMESPACE'];?>" type="hidden">
-						<input meta_human_name="" name="tewi_wid[<?php echo $zone;?>][<?php echo $index;?>][human_name]" value="<?php echo $widget_datas['WIDGET_HUMAN_NAME'];?>" type="hidden">
+						<input meta_name="" name="tewi_wid[<?php echo $zone;?>][<?php echo $index;?>][name]" value="<?php echo $widget_datas['WIDGET_NAME'];?>" type="hidden">
 						<div class="panel-body">
 							<div class="form-group">
 								<input meta_title="" value="<?php echo $widget_datas['WIDGET_TITLE'];?>" placeholder="Titre du widget" class="form-control" name="tewi_wid[<?php echo $zone;?>][<?php echo $index;?>][title]" type="text">

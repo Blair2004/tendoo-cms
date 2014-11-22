@@ -1,6 +1,6 @@
 <?php
 declare_module( 'blogster' , array(  // restore later to blogster please
-	'human_name'		=>		'BlogSter',
+	'name'		=>		'BlogSter',
 	'author'			=>		'Tendoo Luminax Group',
 	'description'		=>		'Créez et gérez votre blog avec le module BlogSter. Il a été modifié spécialement pour la version 1.3 de tendoo. Il offre plus de fonctionnalité et est plus facile en prendre en main que les précédentes versions.',
 	'has_widget'		=>		TRUE,

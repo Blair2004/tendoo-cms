@@ -844,7 +844,7 @@
 		$final[ 'the_loop_item' ]			=	return_if_array_key_exists( 'the_loop_item' , $config );
 		$final[ 'draggable' ]				=	return_if_array_key_exists( 'draggable' , $config );
 		$final[ 'description' ]				=	return_if_array_key_exists( 'description' , $config );
-		$final[ 'human_name' ]				=	return_if_array_key_exists( 'human_name' , $config );
+		$final[ 'name' ]				=	return_if_array_key_exists( 'name' , $config );
 		$final[ 'namespace'	]				=	$namespace;
 		$final[ 'callback' ]				=	$callback;
 		$final[ 'is_static' ]				=	return_if_array_key_exists( 'is_static' , $config );

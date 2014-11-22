@@ -20,7 +20,7 @@ class syslink_blogster_common_widget
 			$this->instance->load->library('tendoo_admin');
 			if($this->instance->users_global->isAdmin())
 			{
-				$priv	=	$this->instance->users_global->current('PRIVILEGE');
+				$priv	=	$this->instance->users_global->current('REF_ROLE_ID');
 				if($this->instance->users_global->isSuperAdmin())
 				{
 					$end		.=	'<li><a href="'.$this->instance->url->site_url(array('admin','modules')).'">Liste des modules</a></li>';

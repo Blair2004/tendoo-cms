@@ -45,7 +45,7 @@ $field_7	=	(form_error('priv_id')) ? form_error('priv_id' , '<span style="color:
                                 foreach($allowPrivilege as $a)
                                 {
                                     ?>
-                                    <option value="<?php echo $a['PRIV_ID'];?>"><?php echo $a['HUMAN_NAME'];?></option>
+                                    <option value="<?php echo $a['PRIV_ID'];?>"><?php echo $a['NAME'];?></option>
                                     <?php
                                 }
                                 ?>

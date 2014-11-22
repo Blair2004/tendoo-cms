@@ -29,7 +29,7 @@
                                 <form method="post" class="panel-body">
                                     <div class="form-group">
                                     	<label class="label-control">Nom du privil&egrave;ge</label>
-                                        <input value="<?php echo $getPriv[0]['HUMAN_NAME'];?>" class="form-control" type="text" name="priv_name" placeholder="Nom du privil&egrave;ge" title="Nom du privil&egrave;ge"/>
+                                        <input value="<?php echo $getPriv[0]['NAME'];?>" class="form-control" type="text" name="priv_name" placeholder="Nom du privil&egrave;ge" title="Nom du privil&egrave;ge"/>
                                     </div>
                                     <div class="form-group">
                                     	<label class="label-control">Acc&eacute;ssible au public</label>

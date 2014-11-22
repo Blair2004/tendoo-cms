@@ -43,6 +43,8 @@ define('MODULES_DIR','tendoo-modules/');
 define('INSTALLER_DIR','tendoo-installer/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('DEBUG_MODE_ENABLED', false );
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+define('LANG_RECORDER_ENABLED', false );
 /* =-=-=-=-=-=-=-=-=-=-=-=-= INITIAL CONFIG -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 include_once(CONFIG_DIR.'base_config.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= SYSTEM SCRIPT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -68,6 +70,7 @@ include_once(LIBRARIES_DIR . 'database/db.php');
 include_once(LIBRARIES_DIR . 'Tendoo.Class.php');
 include_once(LIBRARIES_DIR . 'Session.Class.php');
 include_once(LIBRARIES_DIR . 'Notice.Class.php');
+include_once(LIBRARIES_DIR . 'Roles.Class.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LOAD HELPERS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 /* Loading helpers, usefull functions. */
 include_once(HELPERS_DIR.'apps_helper.php');

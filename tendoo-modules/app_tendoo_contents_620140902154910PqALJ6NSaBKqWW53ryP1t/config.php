@@ -1,6 +1,6 @@
 <?php
 declare_module( 'tendoo_contents' , array( 
-	'human_name'		=>		'Gestionnaire des médias',
+	'name'		=>		'Gestionnaire des médias',
 	'author'			=>		'Tendoo Luminax Group',
 	'description'		=>		'Ce module vous permet de gérer votre bibliothèque de médias.',
 	'has_widget'		=>		TRUE,

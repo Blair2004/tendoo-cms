@@ -26,7 +26,7 @@ class tendoo_contact_handler_backend extends Libraries
 		$this->lib						=	new tendoo_contact_handler_class();
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true,FALSE,$this);
 		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE,$this);
-		set_page('description',$this->data['module']['human_name']);
+		set_page('description',$this->data['module']['name']);
 		
 	}
 	public function index($page	=	1,$action = "",$element	=	'')

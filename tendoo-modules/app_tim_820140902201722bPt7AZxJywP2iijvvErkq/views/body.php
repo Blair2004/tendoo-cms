@@ -157,7 +157,7 @@ if( $items	=	return_if_array_key_exists( 'theme_items' , $active_theme ) ){
             $description 	= return_if_array_key_exists( 'description' , $_item );
             $namespace		= return_if_array_key_exists( 'namespace' , $_item );
             $draggable		= return_if_array_key_exists( 'draggable' , $_item );
-            $human_name		= return_if_array_key_exists( 'human_name' , $_item );
+            $name		= return_if_array_key_exists( 'name' , $_item );
 			$is_static  	= return_if_array_key_exists( 'is_static' , $_item );
 			
             if( !$draggable && !$is_static ){
@@ -169,7 +169,7 @@ if( $items	=	return_if_array_key_exists( 'theme_items' , $active_theme ) ){
                 ?>
                                     <form class="panel panel-default" method="post">
                                         <div class="panel-heading">
-                                            <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $namespace;?>"> <?php echo $human_name;?> </a> </h4>
+                                            <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $namespace;?>"> <?php echo $name;?> </a> </h4>
                                         </div>
                                         <!-- collapse -->
                                         <div id="<?php echo $namespace;?>" class="panel-collapse collapse">
@@ -198,11 +198,11 @@ if( $items	=	return_if_array_key_exists( 'theme_items' , $active_theme ) ){
 																	foreach( $apis as $key => $api ){
 																		if( $key == $declared_apis ){
 																		?>
-                                                                    <option selected value="<?php echo $api[ 'namespace' ];?>"><?php echo $api[ 'human_name'] ;?></option>
+                                                                    <option selected value="<?php echo $api[ 'namespace' ];?>"><?php echo $api[ 'name'] ;?></option>
                                                                     <?php
 																		} else {
 																			?>
-                                                                    <option value="<?php echo $api[ 'namespace' ];?>"><?php echo $api[ 'human_name'] ;?></option>
+                                                                    <option value="<?php echo $api[ 'namespace' ];?>"><?php echo $api[ 'name'] ;?></option>
                                                                     <?php
 																		}
 																	}
@@ -214,7 +214,7 @@ if( $items	=	return_if_array_key_exists( 'theme_items' , $active_theme ) ){
                                                         <div class="form-group">
                                                             <div class="input-group input-group-sm"> <span class="input-group-addon"><?php echo translate( 'limit_to' );?></span>
                                                                 <select class="form-control" name="api_limit">
-                                                                    <option value="0"><?php echo translate( 'dont_show' );?> : <?php echo $_item[ 'human_name' ];?></option>
+                                                                    <option value="0"><?php echo translate( 'dont_show' );?> : <?php echo $_item[ 'name' ];?></option>
                                                                     <?php
 																for( $i = 1 ; $i <= 30 ; $i ++ ){
 																	if( $i == $api_limit ){
@@ -249,7 +249,7 @@ if( $static_items = return_if_array_key_exists( 'theme_items' , $active_theme ) 
 			if( $is_static  =	return_if_array_key_exists( 'is_static' , $item ) ){
 				$description	=	return_if_array_key_exists( 'description' , $item );
 				$title			=	return_if_array_key_exists( 'title' , $item );
-				$human_name		=	return_if_array_key_exists( 'human_name' , $item );
+				$name		=	return_if_array_key_exists( 'name' , $item );
 				$settings		=	get_active_theme_vars( 'theme_settings' );
 				$item_setting	=	return_if_array_key_exists( $namespace , $settings ) 
 					? return_if_array_key_exists( $namespace , $settings ) : array();
@@ -257,7 +257,7 @@ if( $static_items = return_if_array_key_exists( 'theme_items' , $active_theme ) 
                                     <form class="panel panel-default" method="post">
                                         <input type="hidden" name="is_static_item" value="true">
                                         <div class="panel-heading">
-                                            <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $namespace;?>"> <?php echo $human_name;?> </a> </h4>
+                                            <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $namespace;?>"> <?php echo $name;?> </a> </h4>
                                         </div>
                                         <!-- collapse -->
                                         <div id="<?php echo $namespace;?>" class="panel-collapse collapse">

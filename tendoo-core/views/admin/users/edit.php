@@ -31,8 +31,8 @@ $text[]				=	__( 'User Role' );
 $value[]			=	'';
 foreach( force_array( $get_roles ) as $_role )
 {
-	$value[]		=	riake( 'PRIV_ID' , $_role );
-	$text[]			=	riake( 'HUMAN_NAME' , $_role );
+	$value[]		=	riake( 'ID' , $_role );
+	$text[]			=	riake( 'NAME' , $_role );
 }
 
 $this->gui->set_item( array(
@@ -41,7 +41,7 @@ $this->gui->set_item( array(
 	'value'			=>	$value,
 	'placeholder'	=>	__( 'Select User Role' ),
 	'text'			=>	$text,
-	'active'		=>	$adminInfo['PRIVILEGE'],
+	'active'		=>	$adminInfo['REF_ROLE_ID'],
 	'label'			=>	__( 'User Role' )
 ) )->push_to( core_meta_namespace( array( 'users' , 'edit' ) ) );
 

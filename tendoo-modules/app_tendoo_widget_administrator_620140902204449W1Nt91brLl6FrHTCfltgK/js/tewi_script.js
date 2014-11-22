@@ -1,5 +1,5 @@
 /*
-*	[tewi_meta] - meta des widgets (namespace, mod_namespace, human_name...)
+*	[tewi_meta] - meta des widgets (namespace, mod_namespace, name...)
 	.widget_item - widget class.
 	[meta_widgetParamsName=""] support meta params name. add to params attr name as field attr name.
 	lorsqu'il y a plus d'1 meta_widgetParams, ceci doit nécessaire avoir l'attribut "meta_widgetParamsName" pour individualiser chaque parametres. 
@@ -27,7 +27,7 @@ $(document).ready(function(){
 				$(this).find('[meta_title]').attr('name','tewi_wid['+tewi_section+']['+startIndex+'][title]');
 				$(this).find('[meta_modnamespace]').attr('name','tewi_wid['+tewi_section+']['+startIndex+'][modnamespace]');
 				$(this).find('[meta_namespace]').attr('name','tewi_wid['+tewi_section+']['+startIndex+'][namespace]');
-				$(this).find('[meta_human_name]').attr('name','tewi_wid['+tewi_section+']['+startIndex+'][human_name]');
+				$(this).find('[meta_name]').attr('name','tewi_wid['+tewi_section+']['+startIndex+'][name]');
 				// In case there is too many params.
 				// Dans le cas ou l'attribut meta_widgetParamsName est définie.
 				if($(this).find('[meta_widgetParams]').length > 0)
@@ -88,7 +88,7 @@ $(document).ready(function(){
 					var totalW				=	$(this).find('.widget_item').length;
 					var tewi_namespace		=	$(element.item).attr('widget-namespace');
 					var tewi_modnamespace	=	$(element.item).attr('widget-modnamespace');
-					var tewi_human_name		=	$(element.item).attr('widget-human_name');
+					var tewi_name		=	$(element.item).attr('widget-name');
 					var clone				=	$(element.item);
 					var text				=	$.trim($(clone).find('header').text());
 					var tewi_section		=	$(this).closest('[widget-section]').attr('widget-section');
@@ -132,7 +132,7 @@ $(document).ready(function(){
 					.html(
 						'<input meta_modnamespace type="hidden" name="tewi_wid['+tewi_section+']['+totalW+'][modnamespace]" value="'+tewi_modnamespace+'">'+
 						'<input meta_namespace type="hidden" name="tewi_wid['+tewi_section+']['+totalW+'][namespace]" value="'+tewi_namespace+'">'+
-						'<input meta_human_name type="hidden" name="tewi_wid['+tewi_section+']['+totalW+'][human_name]" value="'+tewi_human_name+'">'+
+						'<input meta_name type="hidden" name="tewi_wid['+tewi_section+']['+totalW+'][name]" value="'+tewi_name+'">'+
 						'<div class="panel-body">'+
 							'<div class="form-group">'+
 								'<input type="text" meta_title placeholder="Titre du widget" class="form-control" name="tewi_wid['+tewi_section+']['+totalW+'][title]">'+

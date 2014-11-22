@@ -10,8 +10,7 @@ Class users_global extends Libraries
 		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->createUserAvatarDir();
 		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
-		$this->superAdmin	=	'SUPERADMIN';
-		$this->user			=	'USER';
+		$this->superAdmin	=	0;
 		// -=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=--=
 		$this->connection_status	=	FALSE;
 		if($this->cookiesLogin() == FALSE) // in case there is no cookies created else autUser will be called with encrypt process disabled.
@@ -128,11 +127,11 @@ Class users_global extends Libraries
 	}
 	public function systemPrivilege()
 	{
-		return array($this->superAdmin,$this->user);
+		return array($this->superAdmin);
 	}
 	public function hasAdmin()
 	{
-		$query	=	$this->db->where('PRIVILEGE','SUPERADMIN')->get('tendoo_users');
+		$query	=	$this->db->where('REF_ROLE_ID','SUPERADMIN')->get('tendoo_users');
 		$array	=	$query->result_array();
 		if(count($array) > 0)
 		{
@@ -168,7 +167,7 @@ Class users_global extends Libraries
 			$array['PASSWORD']	=	sha1($password);
 			$array['SEX']		=	($sexe	==	'MASC') ? 'MASC' : 'FEM';
 			$array['EMAIL']		=	$email;
-			$array['PRIVILEGE']	=	'SUPERADMIN';
+			$array['REF_ROLE_ID']	=	'SUPERADMIN';
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	'TRUE';
 			get_instance()->meta_datas->set_user_meta( 'first_visit' , true , $array[ 'PSEUDO' ] );
@@ -199,7 +198,7 @@ Class users_global extends Libraries
 			$array['PASSWORD']	=	sha1($password);
 			$array['SEX']		=	($sexe	==	'MASC') ? 'MASC' : 'FEM';
 			$array['EMAIL']		=	$email;
-			$array['PRIVILEGE']	=	$priv_id;
+			$array['REF_ROLE_ID']	=	$priv_id;
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	$active;
 			get_instance()->meta_datas->set_user_meta( 'first_visit' , true , $array[ 'PSEUDO' ] );
@@ -230,15 +229,17 @@ Class users_global extends Libraries
 			$array['PASSWORD']	=	sha1($password);
 			$array['EMAIL']		=	$email;
 			$array['SEX']		=	($sexe	==	'MASC') ? 'MASC' : 'FEM';
-			$array['PRIVILEGE']	=	($privilege == 'SUPERADMIN') ? 'USER' : $privilege;
+			$array['REF_ROLE_ID']	=	($privilege == 'SUPERADMIN') ? 'USER' : $privilege;
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	$active;
+			
 			get_instance()->meta_datas->set_user_meta( 'first_visit' , true , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'dashboard_theme' , 1 , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_2' , '{"0":"recents_commentaires\/blogster"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'new_comer' , true , $array[ 'PSEUDO' ] );
+			
 			$this->db->insert('tendoo_users',$array);
 			return 'adminCreated';
 		}
@@ -295,7 +296,7 @@ Class users_global extends Libraries
 				$this->current['PASSWORD']		=	$data[0]['PASSWORD'];
 				$this->current['SEX']			=	($data[0]['SEX'] == 'MASC') ? 'Masculin' : 'Feminin';
 				$this->current['EMAIL']			=	$data[0]['EMAIL'];
-				$this->current['PRIVILEGE']		=	$data[0]['PRIVILEGE'];
+				$this->current['REF_ROLE_ID']		=	$data[0]['REF_ROLE_ID'];
 				$this->current['LAST_ACTIVITY']	=	$data[0]['LAST_ACTIVITY'];
 				if($stay == TRUE)
 				{
@@ -331,7 +332,7 @@ Class users_global extends Libraries
 		$user	=	$this->emailExist($email);
 		if($user)
 		{
-			if($user['PRIVILEGE']	==	'SUPERADMIN')
+			if($user['REF_ROLE_ID']	==	'SUPERADMIN')
 			{
 				return 'actionProhibited';
 			}
@@ -373,7 +374,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 		$user	=	$this->emailExist($email);
 		if($user)
 		{
-			if($user['PRIVILEGE']	==	'SUPERADMIN')
+			if($user['REF_ROLE_ID']	==	'SUPERADMIN')
 			{
 				return 'actionProhibited';
 			}
@@ -436,14 +437,14 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function allowedAdminPrivilege()
 	{
-		$query	=	$this->db->select('PRIV_ID')->from('tendoo_admin_privileges')->get();
+		$query	=	$this->db->select('ID')->from('tendoo_roles')->get();
 		$result	=	$query->result_array();
 		if(count($result)> 0)
 		{
 			$privilege	=	array();
 			foreach($result as $r)
 			{
-				$privilege[]	=	$r['PRIV_ID'];
+				$privilege[]	=	$r['ID'];
 			}
 			return $privilege;
 		}
@@ -460,7 +461,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function isAdmin()
 	{
-		if(in_array($this->current('PRIVILEGE'),$this->allowedAdminPrivilege()) || $this->current('PRIVILEGE') == $this->superAdmin)
+		if(in_array($this->current('REF_ROLE_ID') , $this->allowedAdminPrivilege()) || $this->current('REF_ROLE_ID') == $this->superAdmin)
 		{
 			return true;
 		}
@@ -468,7 +469,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function isSuperAdmin()
 	{
-		if($this->current('PRIVILEGE') == 'SUPERADMIN')
+		if($this->current('REF_ROLE_ID') == 0 )
 		{
 			return true;
 		}
@@ -476,7 +477,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function getAdmin($start	=	NULL,$end	=	NULL)
 	{
-		$this->db->where('PRIVILEGE !=',$this->superAdmin);
+		$this->db->where('REF_ROLE_ID !=',$this->superAdmin);
 		if(is_numeric($start) && is_numeric($end))
 		{
 			$this->db->limit($end,$start);
@@ -586,7 +587,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 					<li><a href="javascript:void(0);"> + Tâches </a>
 						<ul>
                         	<?php
-							if($this->tendoo_admin->adminAccess('system','gestpa',$this->current('PRIVILEGE')) || $this->isSuperAdmin())
+							if($this->tendoo_admin->adminAccess('system','gestpa',$this->current('REF_ROLE_ID')) || $this->isSuperAdmin())
 							{
 								?>
                                 <li>
@@ -596,7 +597,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 							}
 							?>
                             <?php
-							if($this->tendoo_admin->adminAccess('system','gestmo',$this->current('PRIVILEGE')) || $this->isSuperAdmin())
+							if($this->tendoo_admin->adminAccess('system','gestmo',$this->current('REF_ROLE_ID')) || $this->isSuperAdmin())
 							{
 								?>
                                 <li>
@@ -606,7 +607,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 							}
 							?>
                             <?php
-							if($this->tendoo_admin->adminAccess('system','gestheme',$this->current('PRIVILEGE')) || $this->isSuperAdmin())
+							if($this->tendoo_admin->adminAccess('system','gestheme',$this->current('REF_ROLE_ID')) || $this->isSuperAdmin())
 							{
 								?>
                                 <li>
@@ -616,7 +617,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 							}
 							?>
                             <?php
-							if($this->tendoo_admin->adminAccess('system','gestapp',$this->current('PRIVILEGE')) || $this->isSuperAdmin())
+							if($this->tendoo_admin->adminAccess('system','gestapp',$this->current('REF_ROLE_ID')) || $this->isSuperAdmin())
 							{
 								?>
                                 <li>
@@ -636,7 +637,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
                                 <a href="<?php echo $this->url->site_url(array('admin','system','users'));?>">Liste des utilisateurs</a>
                                 </li>
                                 <li>
-                                <a href="<?php echo $this->url->site_url(array('admin','system','create_privilege'));?>">Créer un privilège</a>
+                                <a href="<?php echo $this->url->site_url(array('admin','system','create_role'));?>">Créer un privilège</a>
                                 </li>
                                 <li>
                                 <a href="<?php echo $this->url->site_url(array('admin','system','privilege_list'));?>">Liste des privilèges</a>
@@ -683,7 +684,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 			if($this->isAllowedPrivilege($priv) || $priv 	==	'USER')
 			{
 				if($this->db->where('PSEUDO',strtolower($pseudo))->update('tendoo_users',
-					array('EMAIL'	=>	$email,'PRIVILEGE'=>$priv)
+					array('EMAIL'	=>	$email,'REF_ROLE_ID'=>$priv)
 				))
 				{
 					return 'done';
@@ -1153,5 +1154,15 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 				set_user_meta( 'widget_'.$i , $values );
 			}
 		}
+	}
+	// Tendoo 1.4
+	public function can( $action )
+	{
+		$this->load->library( 'roles' );
+		return $this->isSuperAdmin() ? true : $this->roles->can( $this->current[ 'REF_ROLE_ID' ] , $action );
+	}
+	public function cannot( $action )
+	{
+		return ! $this->can( $action );
 	}
 }

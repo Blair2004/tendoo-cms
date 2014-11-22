@@ -85,7 +85,7 @@ $options	=	get_core_vars( 'options' ); ?>
         }
         ?>
         <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="thumb-sm avatar pull-left m-t-n-xs m-r-xs"> <img src="<?php echo current_user('avatar_link');?>" alt="<?php echo ucwords(current_user('PSEUDO'));?>"> </span> <?php echo ucwords($this->instance->users_global->current('PSEUDO'));?>, <?php echo $this->instance->users_global->current('PRIVILEGE') == 'SUPERADMIN' ? 'Super administrateur' : 'Administrateur';?> <b class="caret"></b> </a>
+            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="thumb-sm avatar pull-left m-t-n-xs m-r-xs"> <img src="<?php echo current_user('avatar_link');?>" alt="<?php echo ucwords(current_user('PSEUDO'));?>"> </span> <?php echo ucwords($this->instance->users_global->current('PSEUDO'));?>, <?php echo $this->instance->users_global->current('REF_ROLE_ID') == 'SUPERADMIN' ? 'Super administrateur' : 'Administrateur';?> <b class="caret"></b> </a>
                 <ul class="dropdown-menu animated fadeInLeft">
                     <li> <a href="<?php echo $this->instance->url->site_url(array('account','update'));?>"><?php _e( 'Settings' );?></a> </li>
                     <li> <a href="<?php echo $this->instance->url->site_url(array('account'));?>">Profil</a> </li>

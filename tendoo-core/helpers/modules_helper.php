@@ -373,26 +373,22 @@ function uninstall_module( $namespace ){
 	*	Module action
 	*	Vérifie l'accès à une action d'un module pour le privilège en cours (Celui utilisé par l'utilisateur courant, voir "current_user").
 	**/
-	function module_action($mod_namespace,$mod_action)
+	function module_action($mod_namespace,$mod_action) // Deprecated
 	{
-		$instance	=	get_instance();
-		if(SCRIPT_CONTEXT	== 	'ADMIN')
-		{
-			return $instance->tendoo_admin->actionAccess($mod_action,$mod_namespace);
-		}
-		return false;
+		return true;
+	}
+	function current_user_can( $action )
+	{
+		return get_instance()->users_global->can( $action );
 	}
 	/**
 	*		module_action_location
 	*	Opère redirection lorsqu'une action n'est pas autorisé au privilège en cours.
 	*	Le privilège en cause est celui actuellement connecté voir "current_user"
 	**/
-	function module_action_location($mod_namespace,$mod_action,$segment_location)
+	function module_action_location($mod_namespace,$mod_action,$segment_location) // Deprecated
 	{
-		if(!module_action($mod_namespace,$mod_action))
-		{
-			module_location($segment_location);
-		}
+		return true;
 	}
 /*
 	Tendoo 0.9.8 Only

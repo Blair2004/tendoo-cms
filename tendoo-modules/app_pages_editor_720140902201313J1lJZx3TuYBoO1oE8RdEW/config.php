@@ -1,6 +1,6 @@
 <?php
 declare_module( 'pages_editor' , array( 
-	'human_name'		=>		'Editeur de page',
+	'name'		=>		'Editeur de page',
 	'author'			=>		'Tendoo Luminax Group',
 	'description'		=>		'Ce module vous permet de créer des pages statiques',
 	'has_widget'		=>		TRUE,

@@ -42,7 +42,7 @@
 								Widgets Disponibles
 							</header>
 							<div class="panel-body clearfix widget_item_container">
-								<div class="panel widget_item" widget widget-namespace="texte" widget-modnamespace="system" widget-human_name="Widget Texte">
+								<div class="panel widget_item" widget widget-namespace="texte" widget-modnamespace="system" widget-name="Widget Texte">
 									<header class="panel-heading text-center">
 										<ul class="nav nav-pills pull-right">
 											<li><a class="panel-toggle text-muted" add_widget href="javascript:void(0)"><i class="fa fa-share"></i></a></li>
@@ -65,13 +65,13 @@
 								<div class="panel widget_item" 
 									widget widget-namespace="<?php echo $f['WIDGET_NAMESPACE'];?>" 
 									widget-modnamespace="<?php echo $f['MODULE_NAMESPACE'];?>" 
-									widget-human_name="<?php echo $f['WIDGET_HUMAN_NAME'];?>">
+									widget-name="<?php echo $f['WIDGET_NAME'];?>">
 									<header class="panel-heading text-center">
 										<ul class="nav nav-pills pull-right">
 											<li><a class="panel-toggle text-muted" add_widget href="javascript:void(0)"><i class="fa fa-share"></i></a></li>
 										</ul>
 										<ul class="toggle-section nav nav-pills pull-left"></ul>
-										<?php echo $f['WIDGET_HUMAN_NAME'];?>
+										<?php echo $f['WIDGET_NAME'];?>
 									</header>
 									<?php
 									if(array_key_exists('WIDGET_MORE',$f))
@@ -226,7 +226,7 @@
 						</ul>
 					</li>          
 				</ul>
-				<span active-widget-sample-human_name>Sample</span>
+				<span active-widget-sample-name>Sample</span>
 			</header>
 			<div class="panel-body clearfix collapse">
 				<div class="form-group">
