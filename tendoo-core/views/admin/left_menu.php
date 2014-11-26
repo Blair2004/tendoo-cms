@@ -149,6 +149,9 @@
             </div>
         </section>
         <footer class="footer bg-gradient hidden-xs"> 
+			<a href="javascript:void(0)" class="showAppTab btn btn-sm pull-right"> 
+				<i class="fa fa-th-large"></i> 
+			</a> 
 		</footer>
     </section>
 </aside>

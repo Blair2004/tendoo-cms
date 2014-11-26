@@ -213,10 +213,8 @@ if(!function_exists('fetch_error'))
 		$array[ 'profile_updated' ]				=	tendoo_success( __( 'Profile has been updated.' ) );
 		$array[ 'role_permissions_saved' ]		=	tendoo_success( __( 'Role permissions has been saved.' ) );
 		$array['active_theme_does_not_handle_that']	=	tendoo_warning(' Le thème actif ne prend pas en charge le module attaché à ce contrôleur.');
-		
 		// Tendoo 1.4
 		$array[ 'webapp_enabled' ]				=	tendoo_warning( __( 'While "WebApp" Mode is enabled, frontend is disabled. Check your settings to define tendoo mode on Website setings tab.' ) );
-		$array['form_expired']					=	tendoo_error( __( 'Current form data has expired. Please try to submit it again' ) );
 		
 		if($e === TRUE)
 		{

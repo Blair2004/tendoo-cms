@@ -12,8 +12,8 @@ $this->gui->set_meta( array(
 foreach( force_array( $get_roles ) as $_role )
 {
 	$rows[]		=	array( 
-		$_role['ID'],
-		'<a href="' . $this->instance->url->site_url(array('admin','roles','edit',$_role['ID'])) . '">' .$_role['NAME'] . '</a>',
+		'<a href="' . $this->instance->url->site_url(array('admin','roles','edit',$_role['ID'])) . '">' . $_role['ID'] . '</a>',
+		$_role['NAME'],
 		$_role['DESCRIPTION'],
 		timespan( strtotime( $_role['DATE'] ) , $this->instance->date->timestamp() ),
 		$_role['IS_SELECTABLE'] == "1" ? __( 'Yes' ) : __( 'No' ),

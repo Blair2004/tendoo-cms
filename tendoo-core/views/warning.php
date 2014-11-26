@@ -6,14 +6,12 @@
 <?php echo output('css');?>
 </head>
 <body cz-shortcut-listen="true" id="backgroundLogin">
-	<section class="vbox">
-		<section class="scrollable">
-			
-            <img src="<?php echo img_url(get_instance()->tendoo->getBackgroundImage());?>" style="width:100%;float:left;position:absolute;">
-			<section id="content" class="wrapper-md animated fadeInUp"> 
-				<a class="nav-brand" href="<?php echo get_instance()->url->main_url();?>">
-                <h3><img style="max-height:80px;margin-top:-3px;" src="<?php echo get_instance()->url->img_url("logo_4.png");?>"> </h3></a>
-				<div class="row m-n">
+<section class="vbox">
+    <section class="wrapper">
+        <section class="scrollable">
+            <img src="<?php echo img_url(get_instance()->tendoo->getBackgroundImage());?>" style="width:100%;float:left">
+            <section id="content">
+                <div class="row m-n">
                     <div class="col-sm-6 col-sm-offset-3">
                         <div class="text-center m-b-lg">
                             <h1 class="h text-white animated bounceInDown" style="font-size:120px">Erreur</h1>
@@ -59,19 +57,17 @@
                         </div>
                     </div>
                 </div>
-				 
-			</section>
-			<!-- footer -->
-		</section>
-        <footer id="footer"> 
-            <div class="text-center padder clearfix"> 
-                <p> 
-                    <small><a href="https://github.com/Blair2004/tendoo-cms"><?php echo get('core_version');?></a>
-                    © 2014</small> 
+            </section>
+        </section>
+        <footer id="footer">
+            <div class="text-center padder clearfix">
+                <p>
+                    <small><a href="https://github.com/Blair2004/tendoo-cms"><?php echo get('core_version');?></a> © 2014</small>
                 </p>
             </div>
         </footer>
-	</section>
-    <?php echo output('js');?>
+        <?php echo output('js');?>
+    </section>
+</section>
 </body>
 </html>

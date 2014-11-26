@@ -190,7 +190,7 @@ Class users_global extends Libraries
 				return 'emailUsed';
 			}
 			$this->load->library('Tendoo_admin');
-			if(!$this->tendoo_admin->is_public_role($priv_id)) // Si le priv n'est pa public
+			if(!$this->tendoo_admin->isPublicPriv($priv_id)) // Si le priv n'est pa public
 			{
 				$priv_id = 'USER';
 			}

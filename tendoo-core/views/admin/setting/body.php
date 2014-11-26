@@ -1,152 +1,3 @@
-<?php
-
-// Settings Width
-$this->gui->cols_width( 1 , 2 );
-$this->gui->cols_width( 2 , 2 );
-// Creating meta Boxes
-
-$general_settings		=	core_meta_namespace( array( 'admin' , 'settings' , 'general_settings' ) );
-
-$this->gui->set_meta( array(
-	'title'		=>		__( 'General Settings' ),
-	'namespace'	=>		$general_settings,
-	'form_wrap'	=>		array(
-		'method'		=>	'post',
-		'gui_saver'		=>	true,
-		'submit_text'	=>	__( 'Save Settings' )
-	)
-) )->push_to( 1 );
-
-foreach( force_array( get_instance()->date->getFuseau() ) as $_timezone )
-{
-	$value[]	=	riake( 'Code' , $_timezone );
-	$text[]		=	riake( 'Index' , $_timezone ) . ' - ' . riake( 'States' , $_timezone );
-}
-
-$this->gui->set_item( array(
-	'type'		=>		'select',
-	'name'		=>		'site_timezone',
-	'value'		=>		$value,
-	'text'		=>		$text,
-	'placeholder'=>		__( 'Select a timezone' ),
-	'label'		=>		__( 'Select a timezone' ),
-	'active'	=>		riake( 'site_timezone' , $options )
-) )->push_to( $general_settings );
-
-$timeformat		=	array(
-	'%d-%m-%Y'	=>	'%d-%m-%Y (' . get_instance()->date->datetime( '%d' ) . '-' . get_instance()->date->datetime( '%m' ) . '-' . get_instance()->date->datetime( '%Y' ) . ')',
-	'%Y/%m/%d'	=>	'%Y/%m/%d (' . get_instance()->date->datetime( '%Y' ) . '/' . get_instance()->date->datetime( '%m' ) . '/' . get_instance()->date->datetime( '%d' ) . ')',
-	'%Y-%m-%Y'	=>	'%Y-%m-%Y (' . get_instance()->date->datetime( '%Y' ) . '-' . get_instance()->date->datetime( '%m' ) . '-' . get_instance()->date->datetime( '%d' ) . ')'
-);
-foreach( $timeformat as $value => $text )
-{
-	$timeformat_text[]	=	$text;
-	$timeformat_value[]	=	$value;
-}
-
-$this->gui->set_item( array(
-	'type'		=>		'select',
-	'name'		=>		'site_timeformat',
-	'value'		=>		$timeformat_value,
-	'text'		=>		$timeformat_text,
-	'placeholder'=>		__( 'Select a time format' ),
-	'label'		=>		__( 'Select a time format' ),
-	'active'	=>		riake( 'site_timeformat' , $options )
-) )->push_to( $general_settings );
-
-$this->gui->set_item( array(
-	'type'		=>		'text',
-	'name'		=>		'site_name',
-	'value'		=>		riake( 'site_name' , $options ),
-	'label'		=>		__( 'Website name' ),
-	'placeholder'=>		__( 'Enter the website name' )
-) )->push_to( $general_settings );
-
-$this->gui->set_item( array(
-	'type'		=>		'textarea',
-	'name'		=>		'site_description',
-	'value'		=>		riake( 'site_description' , $options ),
-	'label'		=>		__( 'Website description' ),
-	'placeholder'=>		__( 'Enter the website description' ),
-	'description'=>		__( 'Just say a little more about this website' )
-) )->push_to( $general_settings );
-
-// Advanced settings metabox
-
-$advanced_settings		=	core_meta_namespace( array( 'admin' , 'settings' , 'advanced' ) );
-
-$this->gui->set_meta( array(
-	'title'		=>		__( 'Advanced Settings' ),
-	'namespace'	=>		$advanced_settings,
-	'form_wrap'	=>		array(
-		'method'		=>	'post',
-		'gui_saver'		=>	true,
-		'submit_text'	=>	__( 'Save Settings' )
-	)
-) )->push_to( 2 );
-
-$this->gui->set_item( array(
-	'type'		=>		'select',
-	'placeholder'=>		__( 'Select Tendoo Mode' ),
-	'description'=>		__( 'This option allow you to turn tendoo into "web app" mode, which disable front-end, related modules and themes interface.' ),
-	'name'		=>		'tendoo_mode',
-	'text'		=>		array( __( 'Website mode' ) , __( 'WebApp mode' ) ),
-	'value'		=>		array( 'website' , 'webapp' ),
-	'label'		=>		__( 'Tendoo mode' ),
-	'active'	=>		riake( 'tendoo_mode' , $options )
-) )->push_to( $advanced_settings );
-
-$this->gui->set_item( array(
-	'type'		=>		'select',
-	'placeholder'=>		__( 'Choose option' ),
-	'description'=>		__( 'This option allow you to enable automatic updates.' ),
-	'name'		=>		'tendoo_update',
-	'text'		=>		array( __( 'Yes and report me what\'s new' ) , __( 'Yes, but in silent' ), __( 'No, just let me know' ) , __( 'No and don\'t let me know' ) ),
-	'value'		=>		array( 'yes' , 'silent_mode' , 'report' , 'disconnected' ),
-	'label'		=>		__( 'Enable automatic update' ),
-	'active'	=>		riake( 'tendoo_update' , $options )
-) )->push_to( $advanced_settings );
-
-$this->gui->set_item( array(
-	'type'		=>		'select',
-	'placeholder'=>		__( 'Choose option' ),
-	'description'=>		__( 'This option enable registration on your website.' ),
-	'name'		=>		'tendoo_registration_status',
-	'text'		=>		array( __( 'Yes' ) , __( 'No' ) ),
-	'value'		=>		array( 1 , 0 ),
-	'label'		=>		__( 'Anyone can register ?' ),
-	'active'	=>		riake( 'tendoo_registration_status' , $options )
-) )->push_to( $advanced_settings );
-
-$this->gui->set_item( array(
-	'type'		=>		'select',
-	'placeholder'=>		__( 'Choose option' ),
-	'description'=>		__( 'You can enable role selection on registration. You may need to set on roles, which ones are selectable. Be careful of the role you define available for registration.' ),
-	'name'		=>		'tendoo_role_selection',
-	'text'		=>		array( __( 'Yes' ) , __( 'No' ) ),
-	'value'		=>		array( 1 , 0 ),
-	'label'		=>		__( 'Allow role selection' ),
-	'active'	=>		riake( 'tendoo_role_selection' , $options )
-) )->push_to( $advanced_settings );
-
-$this->gui->set_item( array(
-	'type'		=>		'select',
-	'placeholder'=>		__( 'Choose option' ),
-	'description'=>		__( 'This option allow you to open dashboard for role available on registration.' ),
-	'name'		=>		'tendoo_open_dashboard',
-	'text'		=>		array( __( 'Yes' ) , __( 'No' ) ),
-	'value'		=>		array( 1 , 0 ),
-	'label'		=>		__( 'Open dashboard' ),
-	'active'	=>		riake( 'tendoo_open_dashboard' , $options )
-) )->push_to( $advanced_settings );
-
-// Widget Content
-$this->gui->set_meta( array(
-) )->push_to( 2 );
-
-$this->gui->get();
-return;
-?>
 <?php echo get_core_vars( 'inner_head' );?>
 
 <section id="content">
@@ -174,7 +25,7 @@ return;
                         <ul class="nav nav-tabs nav-justified">
                             <li class="active"><a href="#autorisation" data-toggle="tab"><?php echo translate('Permissions');?></a></li>
                             <?php
-								if(get_instance()->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+								if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 								{
 								?>
                             <li><a href="#datasetting" data-toggle="tab"><?php echo translate('Website Settings');?></a></li>
@@ -189,7 +40,7 @@ return;
                             <div class="tab-pane" id="datasetting">
                                 <form method="post" class="panel-body">
                                     <?php
-										if(get_instance()->users_global->current('REF_ROLE_ID') == 'SUPERADMIN')
+										if($this->instance->users_global->current('REF_ROLE_ID') == 'SUPERADMIN')
 										{
 										?>
                                     <div class="form-group">
@@ -198,7 +49,7 @@ return;
                                         </label>
                                         <?php $default	=	riake( 'site_timezone' , $options ) == '' ? 'UTC' : riake( 'site_timezone' , $options );?>
                                         <select name="newHoraire" class="input-sm form-control">
-                                            <?php $fuso		=	get_instance()->date->getFuseau();
+                                            <?php $fuso		=	$this->instance->date->getFuseau();
 											foreach($fuso as $f)
 											{
 												if( riake( 'site_timezone' , $options ) == $f['Code'])
@@ -278,10 +129,10 @@ return;
                                             <?php _e( 'Main Settings' );?>
                                         </h4>
                                         <?php
-											if(get_instance()->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+											if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 											{
 											?>
-                                        <form fjax method="post" action="<?php echo get_instance()->url->site_url(array('admin','ajax','toogleStoreAccess'));?>">
+                                        <form fjax method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','toogleStoreAccess'));?>">
                                             <div class="form-group">
                                                 <label>
                                                     <?php
@@ -318,7 +169,7 @@ return;
                                         <?php
 											}
 											?>
-                                        <form fjax method="post" action="<?php echo get_instance()->url->site_url(array('admin','ajax','toggleFirstVisit'));?>">
+                                        <form fjax method="post" action="<?php echo $this->instance->url->site_url(array('admin','ajax','toggleFirstVisit'));?>">
                                             <div class="form-group">
                                                 <label>
                                                     <?php 
@@ -486,7 +337,7 @@ return;
                             <!-- SECURITY -->
                             
                             <?php
-								if(get_instance()->users_global->isSuperAdmin()) // Setting is now reserved to super admin
+								if($this->instance->users_global->isSuperAdmin()) // Setting is now reserved to super admin
 								{
 								?>
                             <div class="tab-pane" id="security">

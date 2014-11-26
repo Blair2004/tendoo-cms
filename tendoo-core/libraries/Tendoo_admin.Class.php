@@ -310,6 +310,66 @@ class Tendoo_admin extends Libraries
 												End File Methods
 **********************************************************************************************************************/
 /**********************************************************************************************************************
+												Module Methods OBSOLETE SOON
+**********************************************************************************************************************/
+	public function getAppImgIco($appNameSpace) // Deprecated
+	{
+		$app	=	$globalMod	=	get_modules( 'filter_active_namespace' , $appNameSpace );
+		if($app)
+		{
+			$file	=	MODULES_DIR . $app[ 'encrypted_dir' ] . '/app_icon.';
+			foreach(array('png','jpg','gif') as $g)
+			{
+				if(is_file($file.$g))
+				{
+					return $this->url->main_url() . $file . $g;
+				}
+			}
+		}
+		return false;
+	}
+	public function getAppIcon()
+	{
+		$globalMod	=	get_modules( 'filter_active' );
+		$finalIcons	=	array();
+		if(is_array($globalMod))
+		{
+			foreach($globalMod as $modules)
+			{
+				if( $modules[ 'has_icon' ] == true ) // Change this and check if current module has icon declaration with his datas
+				{
+					$files	=	$modules[ 'uri_path' ] . '/config/icon_config.php';
+					if(is_file($files))
+					{
+						include( $files );
+						if(isset($ICON_CONFIG))
+						{
+							$finalIcons[]	=	$ICON_CONFIG;
+						}
+					}
+				}
+			}
+			return $finalIcons;
+		}
+		return false;
+	}
+	public function saveVisibleIcons($availableIcons)
+	{
+		$content	=	'$icons	=	array();';
+		if(is_array($availableIcons))
+		{
+			foreach($availableIcons as $a)
+			{
+				$content	.=	'$icons[]	=	"'.$a.'";';
+			}
+			return set_meta( 'admin_icons' , $content );
+		}
+		return false;
+	}
+/**********************************************************************************************************************
+												End Module Methods
+**********************************************************************************************************************/
+/**********************************************************************************************************************
 												Privilege Methods
 **********************************************************************************************************************/
 	public function get_global_info()
@@ -343,8 +403,110 @@ class Tendoo_admin extends Libraries
 		}
 		return $array;					
 	}
+	public function getValueForPrivNameAndSystem($system,$action,$priv)
+	{
+		$query	=	$this->db->where('TYPE_NAMESPACE',$system)->where('REF_TYPE_ACTION',$action)->where('REF_ROLE_ID',$priv)->get('tendoo_permissions');
+		$result	=	$query->result_array();
+		if(count($result) > 0)
+		{
+			return $result[0];
+		}
+		return array();
+	}
+	public function getPublicPrivilege()
+	{
+		$query	=	$this->db->where('IS_SELECTABLE',1)->get('tendoo_roles');
+		return $query->result_array();
+	}
+	public function isPublicPriv($role_id)
+	{
+		$priv	=	$this->get_roles($role_id);
+		if($priv)
+		{
+			if($priv[0]['IS_SELECTABLE'] == "1")
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	public function privilegeStats()
+	{
+		$_privilege	=	array();
+		$query		=	$this->db->get('tendoo_roles');
+		$result		=	$query->result_array();
+		if(count($result) > 0)
+		{
+			foreach($result as $r) // Parcours les privileges
+			{
+				$_query		=	$this->db->where('REF_ROLE_ID',$r['PRIV_ID'])->get('tendoo_users');
+				$_result	=	$_query->result_array();
+				$__query	=	$this->db->get('tendoo_users');
+				$__result	=	$__query->result_array();
+				$_privilege[]	=	array(
+					'TOTALUSER'		=>		count($_result),
+					'POURCENTAGE'	=>		count($_result) / count($__result) * 100,
+					'PRIV_NAME'		=>		$r['NAME']
+				);
+			}
+		}
+		return $_privilege;
+	}
 /**********************************************************************************************************************
 												End Privilege Methods
+**********************************************************************************************************************/
+/**********************************************************************************************************************
+												Settings Methods
+**********************************************************************************************************************/
+	private $statsLimitation	=	5;
+	public function editSiteName($e)
+	{
+		return set_meta( 'site_name' , $e );
+	}
+	public function editRegistration($e)
+	{
+		if(is_numeric($e))
+		{
+			$e =	($e >= 0 && $e <= 1) ? $e : 0;
+		}
+		else
+		{
+			$e	=	0;
+		}
+		return set_meta( 'allow_registration' , $e );
+	}
+	public function editLogoUrl($e)
+	{
+		return set_meta( 'site_logo' , $e );
+	}
+	public function editTimeZone($e)
+	{
+		return set_meta( 'site_timezone' , $e );
+	}
+	public function editTimeFormat($e)
+	{
+		return set_meta( 'site_timeformat' , $e );
+	}
+	public function editPrivilegeAccess($e)
+	{
+		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0;
+		return set_meta( 'allow_privilege_selection' , $e );
+	}
+	public function editAllowAccessToPublicPriv($e)
+	{
+		$int	=	is_numeric((int)$e) && in_array((int)$e,array(0,1))  ? $e : 0;
+		return set_meta( 'public_priv_access_admin' , $e );
+	}
+	public function toogleStoreConnexion()
+	{
+		if( get_meta( 'cant_access_store' ) ){
+			set_meta( 'cant_access_store' , false );
+		} else {
+			set_meta( 'cant_access_store' , true );
+		}
+	}
+/**********************************************************************************************************************
+												End Settings Methods
 **********************************************************************************************************************/
 /**********************************************************************************************************************
 												System Methods

@@ -13,20 +13,5 @@ class pages_editor_tepas_class extends Libraries
 				declare_shortcut('Créer une page',$this->url->site_url(array('admin','open','modules', 'page_creater' ,'create')));
 			}
 		}
-		if( is_admin() )
-		{
-			create_admin_menu( 'pages_editor' , 'after' , 'controllers' );
-			
-			add_admin_menu( 'pages_editor' , array(
-				'title'	=>	__( 'Pages' ), 
-				'href'	=>	module_url( array( 'index' ) , 'pages_editor' ),
-				'icon'	=>	'fa fa-file-text'
-			) );
-			
-			add_admin_menu( 'pages_editor' , array(
-				'title'	=>	__( 'Create a new page' ), 
-				'href'	=>	module_url( array( 'create' ) , 'pages_editor' )
-			) );
-		}
 	}
 }

@@ -1,6 +1,6 @@
 <?php
-$this->gui->cols_width( 1 , 2 );
-$this->gui->cols_width( 2 , 2 );
+$this->gui->cols_width( 1 , 3 );
+$this->gui->cols_width( 2 , 1 );
 
 $this->gui->set_meta( array( 
 	'namespace'	=>	core_meta_namespace( array( 'users', 'profile' ) ) , 
@@ -22,18 +22,7 @@ $this->gui->set_meta( array(
 		'submit_text'	=>	__( 'Save Advanced settings' ),
 		'enctype'		=>	'multipart/form-data'
 	)
-) )->push_to( 2 );
-
-$this->gui->set_meta( array( 
-	'namespace'	=>	core_meta_namespace( array( 'users', 'widgets' ) ) , 
-	'title'		=>	__( 'Widgets' ) , 
-	'type'		=>	'panel',
-	'form_wrap'	=>	array(
-		'method'	=>	'post',
-		'submit_text'	=>	__( 'Save widgets' ),
-		'enctype'		=>	'multipart/form-data'
-	)
-) )->push_to( 2 );
+) )->push_to( 1 );
 
 // User Profile
 
@@ -124,22 +113,5 @@ $this->gui->set_item( array(
 	'label'		=>	__( 'Confirm password' ),
 	'description'	=>	__( 'It should match the new password.' ),
 ) )->push_to( core_meta_namespace( array( 'users', 'advanced' ) ) );
-
-// Admin widgets
-
-$declared_admin_widgets	=	get_core_vars('admin_widgets');
-
-foreach( force_array( $declared_admin_widgets ) as $_widget )
-{
-	$checked	=	( $this->users_global->isAdminWidgetEnabled($_widget['widget_namespace'].'/'.$_widget['module_namespace']) && get_instance()->users_global->adminWidgetHasWidget() ) ? 'checked="checked"' : '';
-	
-	$admin_widget_rows[]	=	array( '<input '. $checked . ' type="checkbox" name="widget_action[]" value="' . $_widget[ 'widget_namespace' ] . '/' . $_widget[ 'module_namespace' ] . '"><input type="hidden" name="widget_namespace[]" value="' . $_widget['widget_namespace'] . '/' . $_widget['module_namespace'] . '">' , $_widget[ 'widget_title' ] );
-}
-
-$this->gui->set_item( array(
-	'type'		=>	'table',
-	'cols'		=>	array( '<input type="checkbox" id="multiplecheck">' , __( 'Widget name' ) ),
-	'rows'		=>	$admin_widget_rows
-) )->push_to( core_meta_namespace( array( 'users', 'widgets' ) ) );
 
 $this->gui->get();

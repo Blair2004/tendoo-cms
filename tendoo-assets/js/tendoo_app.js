@@ -624,7 +624,7 @@ $(document).ready(function(){
 		**/	
 		tendoo.boot			=	new function(){
 			var tASE	=	'#tendooAppStore'; // TENDOO APP STORE DOM BUTTON ELEMENT
-			// var tTab	=	'.showAppTab'; // Tendoo Tab, panel d'application disponible partout.
+			var tTab	=	'.showAppTab'; // Tendoo Tab, panel d'application disponible partout.
 			$(tASE).bind('click',function(){
 				tendoo.notice.alert('Indisponible pour le moment.','info');
 				tendoo.loader.display();
@@ -632,9 +632,9 @@ $(document).ready(function(){
 					tendoo.loader.hide();
 				},2000);
 			});
-			/*$(tTab).bind('click',function(){
+			$(tTab).bind('click',function(){
 				tendoo.tab.show();
-			});*/
+			});
 			if($(tASE).length > 0)
 			{
 				$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
@@ -933,9 +933,9 @@ $(document).ready(function(){
 			this.bind();
 		}
 		/**
-		*		tools.tab : Affiche un panel d'applications (modules). [DEPRECATED]
+		*		tools.tab : Affiche un panel d'applications (modules).
 		**/
-		/** tendoo.tab			=	new function(){
+		tendoo.tab			=	new function(){
 			this.show		=	function(){
 				$.ajax(tendoo.url.base_url()+'admin/ajax/get_app_tab',{
 					beforeSend	:	function(){
@@ -956,7 +956,6 @@ $(document).ready(function(){
 				});
 			};
 		};
-		**/
 		/**
 		*		tendoo.set_data	: équivalent de la fonction php set_data de tendoo
 		**/	

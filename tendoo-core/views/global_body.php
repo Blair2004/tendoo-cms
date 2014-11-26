@@ -20,6 +20,5 @@
             </div>
         </footer>
 	</section>
-    <?php echo output('js');?>
 </body>
 </html>

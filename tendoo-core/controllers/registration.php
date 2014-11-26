@@ -78,7 +78,7 @@ Class registration extends Libraries
 			}
 			notice('push',fetch_notice_output($query));
 		}
-		$this->data['allowPrivilege']	=	$this->instance->tendoo_admin->get_public_roles();
+		$this->data['allowPrivilege']	=	$this->instance->tendoo_admin->getPublicPrivilege();
 		$this->instance->session->set_userdata('captcha_code',$this->instance->captcha->get());
 		$this->data['captcha']	=	$this->instance->session->userdata('captcha_code');
 		$this->data['pageTitle']	=	'Cr&eacute;er un compte - '. riake( 'site_name' , $options );

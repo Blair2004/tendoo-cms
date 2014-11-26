@@ -10,10 +10,10 @@ Class instance extends Libraries
 	{
 		parent::__construct();
 		self::$instance			=&	$this;
-		$this->is_installed		=	is_file( CONFIG_DIR . 'db_config.php' ) ? true : false;
+		$this->is_installed		=	is_file('tendoo-core/config/db_config.php') ? true : false;
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->description		=	__( 'No description available for this page' );
-		$this->title			=	__( 'Untitled page' );
+		$this->description		=	'Page Sans Description | Tendoo CMS';
+		$this->title			=	'Page Sans Titre | Tendoo CMS';
 		$this->keywords			=	'';
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	}
@@ -95,19 +95,37 @@ Class instance extends Libraries
 		) , 'read_only' );
 		
 		// Controller Start Here
-		if( in_array( $this->url->controller() , array( 'install' , 'registration' , 'logoff' , 'admin' , 'login' , 'error' ) ) )
+		if(strtolower($this->url->controller()) == 'install')
 		{
-			( $this->url->controller() == 'admin' ) ? define( 'SCRIPT_CONTEXT' , 'ADMIN' ) : define( 'SCRIPT_CONTEXT' , 'PUBLIC' );
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
+			if($this->is_installed)
+			{
+				$this->url->redirect(array('error','code','accessDenied'));
+			}
+			else
+			{
+				include_once(CONTROLLERS_DIR.'install.php');
+				include_once(SYSTEM_DIR.'Executer.php');
+			}
+		}
+		else if(strtolower($this->url->controller()) == 'registration')
+		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
 			if($this->is_installed)
 			{
 				if($this->db_connected())
 				{
-					include_once( CONTROLLERS_DIR . $this->url->controller() . '.php' );
-					include_once( SYSTEM_DIR . 'Executer.php' );
+					include_once(CONTROLLERS_DIR.'registration.php');
+					include_once(SYSTEM_DIR.'Executer.php');
 				}
 				else
 				{
-					$this->tendoo->error( 'db_connect_error' );die;
+					$this->tendoo->error('db_connect_error');
+					die();
 				}
 			}
 			else
@@ -115,12 +133,112 @@ Class instance extends Libraries
 				$this->url->redirect(array('install'));
 			}
 		}
+		else if(strtolower($this->url->controller()) == 'login')
+		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
+			if($this->is_installed)
+			{
+				if($this->db_connected())
+				{
+					include_once(CONTROLLERS_DIR.'login.php');
+					include_once(SYSTEM_DIR.'Executer.php');
+				}
+				else
+				{
+					$this->tendoo->error('db_connect_error');
+					die();
+				}
+			}
+			else
+			{
+				$this->url->redirect(array('install'));
+			}
+		}
+		else if(strtolower($this->url->controller()) == 'logoff')
+		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
+			if($this->is_installed)
+			{
+				if($this->db_connected())
+				{
+					include_once(CONTROLLERS_DIR.'logoff.php');
+					include_once(SYSTEM_DIR.'Executer.php');
+				}
+				else
+				{
+					$this->tendoo->error('db_connect_error');
+					die();
+				}
+			}
+			else
+			{
+				$this->url->redirect(array('install'));
+			}
+		}
+		else if(strtolower($this->url->controller()) == 'admin')
+		{
+			// 	Define Script context to Admin
+			define('SCRIPT_CONTEXT','ADMIN');
+			// 	End define
+			if($this->is_installed)
+			{
+				if($this->db_connected())
+				{
+					include_once(CONTROLLERS_DIR.'admin.php');
+					include_once(SYSTEM_DIR.'Executer.php');
+				}
+				else
+				{
+					$this->tendoo->error('db_connect_error');
+					die();
+				}
+			}
+			else
+			{
+				$this->url->redirect(array('install'));
+			}
+		}
+		else if(strtolower($this->url->controller()) == 'account')
+		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
+			if($this->is_installed)
+			{
+				if($this->db_connected())
+				{
+					include_once(CONTROLLERS_DIR.'account.php');
+					include_once(SYSTEM_DIR.'Executer.php');
+				}
+				else
+				{
+					$this->tendoo->error('db_connect_error');
+					die();
+				}
+			}
+			else
+			{
+				$this->url->redirect(array('install'));
+			}
+		}
+		else if(strtolower($this->url->controller()) == 'error')
+		{
+			//	Define Script Context to Public
+			define('SCRIPT_CONTEXT','PUBLIC');
+			//	End
+			include_once(CONTROLLERS_DIR.'error.php');
+			include_once(SYSTEM_DIR.'Executer.php');
+		}
 		else
 		{
 			// Permet de savoir dans quel contexte le script est exécuté
 			define('SCRIPT_CONTEXT','PUBLIC');
 			// Vérification de l'état d'installation
-			if( ! $this->is_installed )
+			if(!$this->is_installed)
 			{
 				include_once(CONTROLLERS_DIR.'tendoo_index.php');
 				include_once(SYSTEM_DIR.'Executer.php');
@@ -128,11 +246,11 @@ Class instance extends Libraries
 			else
 			{
 				// Connecte toi ou meurt, étrange connexion impossible à la bd.
-				if( ! $this->db_connected() )
+				if(!$this->db_connected())
 				{
 					$this->tendoo->error('db_connect_error');die;
 				}
-				set_core_vars(	'options'	,	( $this->data['options']				=	get_meta( 'all' ) )	, 'readonly' );
+				set_core_vars(	'options'	,	($this->data['options']				=	get_meta( 'all' ) )	,'readonly');
 				// Is WebApp Mode Enabled ? is so redirect to dashboard with notice enabled
 				set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
 				if( get_core_vars( 'tendoo_mode' ) == 'webapp' )
@@ -140,20 +258,20 @@ Class instance extends Libraries
 					$this->url->redirect( array( 'admin' , 'index?notice=webapp_enabled' ) );
 				}
 				// Et les stats ?, on initialise
-				$this->load->library( 'stats' ); 
+				$this->load->library( 'stats' );
 				// As we do engage tepas, users_global should be loaded once.
 				$this->load->library( 'users_global' );
 				// Première super variable Tendoo
-				set_core_vars(	'controllers'	,	($this->data['controllers']		=	$this->tendoo->get_pages('',FALSE))	,'readonly'); // ??	
-				set_core_vars(	'page'	,	($this->data['page']					=	$this->tendoo->getPage($Class))	,'readonly');	
+				set_core_vars(	'controllers'	,	($this->data['controllers']		=	$this->tendoo->get_pages('',FALSE))	,'readonly');
+				set_core_vars(	'page'	,	($this->data['page']					=	$this->tendoo->getPage($Class))	,'readonly');		
 				set_core_vars(	'active_theme'	,	( $this->data['active_theme']	= 	get_themes( 'filter_active' ) ) );
-				// set_core_vars(	'tendoo'	,	($this->data['Tendoo']				=	$this->tendoo)	,'readonly'); // ? Remove Line
+				set_core_vars(	'tendoo'	,	($this->data['Tendoo']				=	$this->tendoo)	,'readonly'); // ?
 				set_core_vars(	'module_url'	,	($this->data['module_url']		=	$this->url->get_controller_url()) ,'readonly');
 				set_core_vars(	'module'	,  $module 								= 	get_modules( 'filter_active_namespace' , $this->data['page'][0]['PAGE_MODULES'] ) ,'readonly');
 				set_core_vars(	'opened_module'	,  $module ,'readonly');
 				set_core_vars(	'app_module'	,	( 	$app_module 				= 	get_modules( 'filter_active_app' ) ),'readonly' );
 				// Le controleur existe ? oui / Non ?
-				if( is_string( $this->data['page'] ) )
+				if(is_string($this->data['page']))
 				{
 					$this->url->redirect(array('error','code',$this->data['page']));
 				}
@@ -186,9 +304,9 @@ Class instance extends Libraries
 					{
 						$this->url->redirect(array('error','code','active_theme_does_not_handle_that'));
 					}
-					if( $this->data['module_url']	==	'noMainPage' )
+					if($this->data['module_url']	==	'noMainPage')
 					{
-						$this->url->redirect( array( 'error' , 'code' , 'noMainPage' ) );
+						$this->url->redirect(array('error','code','noMainPage'));
 					}
 					if($this->data['active_theme'] == FALSE)
 					{
@@ -228,25 +346,25 @@ Class instance extends Libraries
 	}
 	public function db_connect()
 	{
-		if( $this->is_installed )
+		if($this->is_installed)
 		{
-			// To avoid multiple database connection
-			if( ! $this->db_connected() )
+			// Pour ne pas multiplier les connexion vers la base de données.
+			if(!$this->db_connected())
 			{
 				include_once(SYSTEM_DIR.'config/db_config.php');
 				$this->db	=	DB($db,TRUE);
-				set_db( $this->db );
+				set_db($this->db);
 				$this->db_connected	=	true;
-				if( ! defined( 'DB_ROOT' ) )
+				if(!defined('DB_ROOT'))
 				{
-					define( 'DB_ROOT' , $config[ 'dbprefix' ] );
+					define('DB_ROOT',$config['dbprefix']);
 				}
 				return true;
 			}
 		}
 		else
 		{
-			if( ! $this->db_connected() && array_key_exists( 'db_datas' , $_SESSION ) )
+			if(!$this->db_connected() && array_key_exists('db_datas',$_SESSION))
 			{
 				$config		=	$_SESSION['db_datas'];
 				$this->db	=	DB($config,TRUE);
@@ -278,9 +396,9 @@ Class instance extends Libraries
 		return TENDOO_VERSION;
 	}
 	/**
-	*	Push value to Core Array.
+	*	Mise à jour du tableau du noyau
 	**/
-	public function set_core_vars( $key , $value , $access ="writable" ) // Restreindre la modification du système
+	public function set_core_vars($key,$value,$access ="writable") // Restreindre la modification du système
 	{
 		$access		=	in_array($access,array('writable','readonly','read_only')) ? $access : 'writable';
 		$exists		=	$this->get_core_vars($key,'complete');
@@ -295,7 +413,7 @@ Class instance extends Libraries
 		return true;
 	}
 	/**
-	*	Fetch Key Value saved on Core Array.
+	*	Recupértion d'un champ du tableau du système.
 	**/
 	public function get_core_vars($key = null,$process = "normal")
 	{
@@ -316,7 +434,7 @@ Class instance extends Libraries
 		}
 	}
 	/**
-	*	Passive Tendoo Script
+	*	Script Passif Tendoo
 	**/
 	private function engage_tepas()
 	{

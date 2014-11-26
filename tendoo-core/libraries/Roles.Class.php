@@ -119,44 +119,4 @@ Class Roles extends Libraries
 		}
 		return false;
 	}
-	public function get_public_roles()
-	{
-		$query	=	$this->db->where('IS_SELECTABLE',1)->get('tendoo_roles');
-		return $query->result_array();
-	}
-	public function is_public_role($role_id)
-	{
-		$priv	=	$this->get_roles($role_id);
-		if($priv)
-		{
-			if($priv[0]['IS_SELECTABLE'] == "1")
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	public function roles_stats()
-	{
-		$_privilege	=	array();
-		$query		=	$this->db->get('tendoo_roles');
-		$result		=	$query->result_array();
-		if(count($result) > 0)
-		{
-			foreach($result as $r) // Parcours les privileges
-			{
-				$_query		=	$this->db->where('REF_ROLE_ID',$r['PRIV_ID'])->get('tendoo_users');
-				$_result	=	$_query->result_array();
-				$__query	=	$this->db->get('tendoo_users');
-				$__result	=	$__query->result_array();
-				$_privilege[]	=	array(
-					'TOTALUSER'		=>		count($_result),
-					'POURCENTAGE'	=>		count($_result) / count($__result) * 100,
-					'PRIV_NAME'		=>		$r['NAME']
-				);
-			}
-		}
-		return $_privilege;
-	}
-
 }

@@ -1,24 +1,13 @@
 <?php
-	$form_wrap	=	riake( 'form_wrap' , $value );
-	$action		=	riake( 'action' , $form_wrap );
-	$enctype	=	riake( 'enctype' , $form_wrap );
-	$method		=	riake( 'method' , $form_wrap ) ? return_if_array_key_exists( 'method' , $form_wrap ) : "POST";
-	$content	=	riake( 'meta_items' , $value );
-	$form_expire=	get_instance()->date->timestamp() + GUI_EXPIRE;
-	$ref	=	urlencode( get_instance()->url->site_url() );
-	
-	if( riake( 'gui_saver' , $form_wrap ) ) // Overwriting setted action
-	{
-		$action	=	get_instance()->url->site_url( array( 'admin' , 'options' , 'save' ) );
-	}
+	$form_wrap	=	return_if_array_key_exists( 'form_wrap' , $value );
+	$action		=	return_if_array_key_exists( 'action' , $form_wrap );
+	$enctype	=	return_if_array_key_exists( 'enctype' , $form_wrap );
+	$method		=	return_if_array_key_exists( 'method' , $form_wrap ) ? return_if_array_key_exists( 'method' , $form_wrap ) : "POST";
+	$content	=	 return_if_array_key_exists( 'meta_items' , $value );
 	if( $form_wrap )
 	{
 	?>
 	<form class="form" action="<?php echo $action;?>" enctype="<?php echo $enctype;?>" method="<?php echo $method;?>">
-    	<input type="hidden" name="gui_saver_ref" value="<?php echo $ref;?>" />
-        <input type="hidden" name="gui_saver_option_namespace" value="<?php echo riake( 'namespace' , $value );?>" />
-        <input type="hidden" name="gui_saver_expiration_time" value="<?php echo $form_expire;?>" />
-        <input type="hidden" name="gui_saver_use_namespace" value="<?php echo riake( 'use_namespace' , $form_wrap , false ) ? 'true' : 'false';?>" />
 	<?php
 	}
 	if( is_array( $content ) )
