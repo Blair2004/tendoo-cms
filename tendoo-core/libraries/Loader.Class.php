@@ -45,14 +45,12 @@ class Loader
 	
 	public function view($path,$array = NULL,$return = false, $load_from_main_dir = FALSE)
 	{
-		if($load_from_main_dir == FALSE)
-		{
-			return $this->load_ext(array('_Tendoo_view' => $path, '_Tendoo_vars' => $this->object_to_array($array), '_Tendoo_return' => $return),FALSE);
-		}
-		else
-		{
-			return $this->load_ext(array('_Tendoo_view' => $path, '_Tendoo_vars' => $this->object_to_array($array), '_Tendoo_return' => $return),TRUE);
-		}
+		return $this->load_ext(array('_Tendoo_view' => $path, '_Tendoo_vars' => $this->object_to_array($array), '_Tendoo_return' => $return),$load_from_main_dir);
+	}
+	// Doesn't support array passed as argument with key=>value transformed into available vars on the view file.
+	public function the_view( $path , $return = false , $load_from_main_dir = false )
+	{
+		return $this->load_ext(array('_Tendoo_view' => $path, '_Tendoo_vars' => array(), '_Tendoo_return' => $return),$load_from_main_dir);
 	}
 	protected function object_to_array($object)
 	{

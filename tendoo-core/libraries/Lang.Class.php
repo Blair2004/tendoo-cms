@@ -30,34 +30,18 @@ Class Lang
 	/*	TFC	=	Tendoo File Code;
 	*/
 
-	private $supportedLang	=	array('en_US','fr_FR');
+	private $supportedLang	=	array('en_US','en_US');
 	public function isLangSelected()
 	{
-		if(is_file(SYSTEM_DIR.'/config/lang.tfc'))
-		{
-			return false;
-		}
-		return true;
+		return defined( 'LANG' ) ? true : false;
 	}
 	public function defineLang($lang)
 	{
-		if(in_array($lang,$this->supportedLang))
-		{
-			$langDefined	=	$lang;
-		}
-		else
-		{
-			$langDefined	=	'fr_FR';
-		}
-		file_put_contents(SYSTEM_DIR.'/config/lang.tfc',$langDefined);
+		return false; // deprecated
 	}
 	public function getSystemLang()
 	{
-		if(is_file(SYSTEM_DIR.'/config/lang.tfc'))
-		{
-			return file_get_contents(SYSTEM_DIR.'/config/lang.tfc');
-		}
-		return 'fr_FR';
+		return LANG;
 	}
 	public function line($type)
 	{

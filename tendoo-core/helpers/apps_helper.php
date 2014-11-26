@@ -1,4 +1,15 @@
 <?php
+	function is_admin()
+	{
+		if(defined('SCRIPT_CONTEXT'))
+		{
+			if(SCRIPT_CONTEXT == 'ADMIN')
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	function core_meta_namespace( $array )
 	{
 		if( is_string( $array ) )
@@ -942,6 +953,10 @@
 		{
 			return get_instance()->meta_datas->set_user_meta( $key , $value );
 		}
+	}
+	function set_meta_array( $array , $source = 'from_options' )
+	{
+		// Pending
 	}
 	/**
 	*	unset_meta()

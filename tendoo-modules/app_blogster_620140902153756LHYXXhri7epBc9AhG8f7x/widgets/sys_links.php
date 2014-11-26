@@ -28,7 +28,7 @@ class syslink_blogster_common_widget
 					$end		.=	'<li><a href="'.$this->instance->url->site_url(array('admin','system','manage_actions')).'">Gestion d\'actions</a></li>';
 					$end		.=	'<li><a href="'.$this->instance->url->site_url(array('admin','installer')).'">Installer une application</a></li>';
 				}
-				else if(!$this->instance->tendoo_admin->isPublicPriv($priv))
+				else if(!$this->instance->tendoo_admin->is_public_role($priv))
 				{
 					$end		.=	'<li><a href="'.$this->instance->url->site_url(array('admin')).'">Espace administration</a></li>';
 				}
