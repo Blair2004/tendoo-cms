@@ -9,7 +9,7 @@ class Tdate extends Libraries
 	// New Tendoo 0.9.8 retourne le timezone enregistré
 	public function getTimeZone()
 	{
-		return get_meta( 'SITE_TIMEZONE' );
+		return get_meta( 'site_timezone' );
 	}
 	// Crée un objet date sur la base d'un format et d'une chaine de caractère donnée. en utilisant le TimeZone définie
 	// Renvoi un objet DateTime; T098
@@ -22,15 +22,15 @@ class Tdate extends Libraries
 	{
 		$timestamp	=	strtotime($timestamp);
 		$this->load->helper('date');
-		$timezone	=	get_meta( 'SITE_TIMEZONE' );
-		$timeformat	=	get_meta( 'SITE_TIMEFORMAT' );
-		if($timezone== '')
+		$timezone	=	get_meta( 'site_timezone' );
+		$timeformat	=	get_meta( 'site_timeformat' );
+		if( ! $timezone || $timezone == '' )
 		{
 			$timezone 		= 'UTC';
 		}
-		if($timeformat	==	'')
+		if( ! $timeformat || $timeformat == '' )
 		{
-			$timeformat		=	'type_1';
+			$timeformat		=	'%Y-%m-%d %h:%i:%s';
 		}
 		$daylight_saving 	= TRUE;
 		if($timestamp	==	'')
@@ -82,18 +82,7 @@ class Tdate extends Libraries
 		{
 			return $timeToArray;
 		}
-		if($timeformat 	==	'type_1')
-		{
-			return mdate('Le %d '.$month[$timeToArray['M']].' %Y - %H:%i:%s',$timestamp);
-		}
-		elseif($timeformat 	==	'type_2')
-		{
-			return mdate('%d/%m/%Y - %H:%i:%s',$timestamp);
-		}
-		elseif($timeformat 	==	'type_3')
-		{
-			return mdate('%Y/%m/%d - %H:%i:%s',$timestamp);
-		}
+		return mdate( $timeformat ,$timestamp);
 	}
 	public function arrayToTimestamp($date)
 	{
@@ -102,7 +91,7 @@ class Tdate extends Libraries
 	public function timestamp()
 	{		
 		// $this->load->helper('date');
-		$timezone	=	get_meta( 'SITE_TIMEZONE' );
+		$timezone	=	get_meta( 'site_timezone' );
 		if($timezone == false)
 		{
 			$timezone 		= 'Etc/UTC';

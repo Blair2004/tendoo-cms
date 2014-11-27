@@ -94,13 +94,12 @@ class GUI extends Libraries
 		?>
         <?php
 	}
-	public function get( $return = false )
+	public function get()
 	{
-		$value	=	$this->load->view( 'admin/others/gui' , array() , TRUE );
-		if( $return ){
-			return $value;
-		}
-		echo $value;
+		set_core_vars( 'body' ,	$this->load->the_view( 'admin/others/gui' , TRUE ) );
+
+		$this->load->the_view( 'admin/header' );
+		$this->load->the_view( 'admin/global_body' );
 	}
 	// INSTANT USE
 	public function push_to( $cols ){

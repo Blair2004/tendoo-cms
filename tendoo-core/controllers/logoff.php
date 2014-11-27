@@ -6,7 +6,6 @@ Class logoff
 	private $load;
 	public function __construct()
 	{
-		die;
 		$this->instance			=	get_instance();
 		$this->instance->load->library('session');
 		$this->instance->load->library('users_global');
@@ -19,12 +18,13 @@ Class logoff
 	public function index()
 	{
 		$this->instance->users_global->closeUserSession();
-		$this->instance->url->redirect(array('index'));
-	}
-	public function tologin()
-	{
-		$redirect	=	isset($_GET['ref']) ? $_GET['ref'] : '';
-		$this->instance->users_global->closeUserSession();
-		$this->instance->url->redirect(array('login','modal?ref='.$redirect));
+		if( isset( $_GET[ 'ref' ] ) )
+		{
+			$this->instance->url->redirect( array( 'login?ref=' . $_GET[ 'ref' ] ) );
+		}
+		else
+		{
+			$this->instance->url->redirect(array('index'));
+		}
 	}
 }

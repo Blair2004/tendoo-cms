@@ -8,11 +8,7 @@ date_default_timezone_set('UTC');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 /* =-=-=-=-=-=-Tendoo Core Script (2014)-=-=-=-=-=-=-=-= */
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-/**
-*		Define Cons
-**/
-/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('SITE_TIMEZONE',date_default_timezone_get());
+define('site_timezone',date_default_timezone_get());
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('TENDOO_VERSION','1.4');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -41,10 +37,6 @@ define('ASSETS_DIR','tendoo-assets/'); // T098
 define('MODULES_DIR','tendoo-modules/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('INSTALLER_DIR','tendoo-installer/');
-/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('DEBUG_MODE_ENABLED', false );
-/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('LANG_RECORDER_ENABLED', false );
 /* =-=-=-=-=-=-=-=-=-=-=-=-= INITIAL CONFIG -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 include_once(CONFIG_DIR.'base_config.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= SYSTEM SCRIPT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -72,7 +64,6 @@ include_once(LIBRARIES_DIR . 'Session.Class.php');
 include_once(LIBRARIES_DIR . 'Notice.Class.php');
 include_once(LIBRARIES_DIR . 'Roles.Class.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LOAD HELPERS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-/* Loading helpers, usefull functions. */
 include_once(HELPERS_DIR.'apps_helper.php');
 include_once(HELPERS_DIR.'function_helper.php');
 include_once(HELPERS_DIR.'date.php');
@@ -81,9 +72,6 @@ include_once(HELPERS_DIR.'cookie_helper.php');
 include_once(HELPERS_DIR.'themes_helper.php');
 include_once(HELPERS_DIR.'modules_helper.php');
 include_once(HELPERS_DIR.'users_helper.php');
-/* =-=-=-=-=-=-=-=-=-=-=-=-= BOOT HANDLERS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-//set_error_handler('tendoo_error'); // Aborded
-//set_error_handler('tendoo_exception'); // Aborded
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LAUNCH TENDOO -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 $instance =	new instance();
 $instance ->	boot();
