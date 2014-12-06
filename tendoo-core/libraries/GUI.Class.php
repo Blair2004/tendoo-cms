@@ -81,7 +81,7 @@ class GUI extends Libraries
 		}
 		return false;
 	}
-	public function col_push( $col , $data )
+	public function col_config( $col , $data )
 	{
 		$this->cols[ $col ][ 'configs' ] =	$data;
 	}

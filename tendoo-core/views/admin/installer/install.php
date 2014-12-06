@@ -1,3 +1,27 @@
+<?php
+$this->gui->cols_width( 1 , 4 );
+
+$this->gui->set_meta( array(
+	'type'		=>		'panel',
+	'title'		=>		__( 'Install/Update Apps' ),
+	'namespace'	=>		core_meta_namespace( array( 'admin' , 'installer' ) ),
+	'form_wrap'	=>		array(
+		'submit_text'	=>	__( 'Install' ),
+		'enctype'		=>	'multipart/form-data'
+	)
+) )->push_to( 1 );
+
+$this->gui->set_item( array(
+	'type'		=>		'file',
+	'name'		=>		'installer_file',
+	'label'		=>		__( 'Choose a file to upload' ),
+	'description'	=>	__( sprintf( 'Install new app. The install file must necessary be a zip file, and should be compatible with your current Tendoo Version : <strong>%s</strong>. Be safe, and install app from secure provider.' , get( 'core_id' ) ) )
+) )->push_to( core_meta_namespace( array( 'admin' , 'installer' ) ) );
+
+$this->gui->get();
+return ;
+?>
+
 <?php echo get_core_vars( 'inner_head' );?>
 <section id="w-f">
     <section class="hbox stretch">

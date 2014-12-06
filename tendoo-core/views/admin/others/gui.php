@@ -39,30 +39,34 @@ Tendoo Version Required : 1.4
                             <div class="col-lg-<?php echo riake( 'width' , $c , 4 ) * 3 ;?>">
                                 <?php $config = return_if_array_key_exists( 'configs' , $this->cols[ $key ] );?>
                                 <?php 
+								// Inner Opening Wrapper
+								echo riake( 'inner-opening-wrapper' , $config );
                                 if( is_array( $config ) )
                                 {
                                     foreach( $config as $key => $_v )
                                     {
                                         if( is_array( $_v ) )
                                         {
-                                            foreach( $_v as $_k => $value )
+                                            foreach( $_v as $_k => $panel )
                                             {
-                                                $type	=	riake( 'type' , $value , 'panel' );											
+												// To add specfic wrapper before meta
+												echo riake( 'opening-wrapper' , $panel );
+                                                $type	=	riake( 'type' , $panel , 'panel' );											
                                                 if( $type == "panel" )
                                                 {
                                         ?>
-                                        <section class="panel pos-rlt clearfix" namespace="<?php echo $value[ 'namespace' ];?>">
+                                        <section class="panel pos-rlt clearfix" namespace="<?php echo $panel[ 'namespace' ];?>">
                                             <header class="panel-heading">
                                                 <ul class="nav nav-pills pull-right">
                                                     <li> <a href="#" class="panel-toggle text-muted"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
                                                 </ul>
-                                                <?php echo riake( 'title' , $value );?> 
+                                                <?php echo riake( 'title' , $panel );?> 
 											</header>
-                                            <div class="panel-body <?php echo get_user_meta( 'gui_'.$value[ 'namespace' ] );?> clearfix">
+                                            <div class="panel-body <?php echo get_user_meta( 'gui_'.$panel[ 'namespace' ] );?> clearfix">
                                                 <?php 
                                                 
 												$this->load->view('admin/others/gui_items' , array(
-													'value'		=>	$value
+													'panel'		=>	$panel
 												) );
 												                                                
                                                 ?>
@@ -70,35 +74,76 @@ Tendoo Version Required : 1.4
                                         </section>
                                         <?php
                                                 }
-                                                else if( $value[ 'type' ] == 'unwrapped' )
+                                                else if( $type == 'unwrapped' )
                                                 {
 													$this->load->view('admin/others/gui_items' , array(
-														'value'		=>	$value
+														'panel'		=>	$panel
 													) );
                                                 }
 												else if( $type == 'panel-ho' )
 												{
                                         ?>
-                                        <section class="panel pos-rlt clearfix" namespace="<?php echo $value[ 'namespace' ];?>">
+                                        <section class="panel pos-rlt clearfix" namespace="<?php echo $panel[ 'namespace' ];?>">
                                             <header class="panel-heading">
                                                 <ul class="nav nav-pills pull-right">
                                                     <li> <a href="#" class="panel-toggle text-muted"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
                                                 </ul>
-                                                <?php echo riake( 'title' , $value );?>
+                                                <?php echo riake( 'title' , $panel );?>
                                             </header>
 											<?php
                                             $this->load->view('admin/others/gui_items' , array(
-                                                'value'		=>	$value
+                                                'panel'		=>	$panel
                                             ) );
                                             ?>
 										</section>
                                         <?php
                                                     
 												}
+												else if( $type == 'panel-footer' )
+												{
+													?>
+                                        <section class="panel pos-rlt clearfix" namespace="<?php echo $panel[ 'namespace' ];?>">
+                                            <header class="panel-heading">
+                                                <ul class="nav nav-pills pull-right">
+                                                    <li> <a href="#" class="panel-toggle text-muted"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a> </li>
+                                                </ul>
+                                                <?php echo riake( 'title' , $panel );?>
+                                            </header>
+                                            <div class="panel-body <?php echo get_user_meta( 'gui_'.$panel[ 'namespace' ] );?> clearfix">
+											<?php
+                                            $this->load->view('admin/others/gui_items' , array(
+                                                'panel'		=>	$panel
+                                            ) );
+                                            ?>
+                                            </div>
+                                            <footer class="panel-footer">
+                                            	<?php
+												foreach( force_array( riake( 'footer-buttons' , $panel ) ) as $_button )
+												{
+													$class	=	riake( 'class' , $_button , 'btn btn-white btn-sm' );
+													$attrs	=	riake( 'attrs' , $_button, '' );
+													$value	=	riake( 'value' , $_button , __( 'Sample Button' ) );
+													$text	=	riake( 'text' , $_button , __( 'Sample Button' ) );
+													$name	=	riake( 'name' , $_button );
+													$type	=	riake( 'type' , $_button , 'button' );
+													$placeholder = riake( 'placeholder' , $_button );
+													?>
+                                                    <button value="<?php echo $value;?>" name="<?php echo $name;?>" type="<?php echo $type;?>" <?php echo $attrs;?> class="<?php echo $class;?>"><?php echo $text;?></button>
+                                                    <?php
+												}
+												?>
+                                            </footer>
+										</section>
+                                        <?php	
+												}
+												// To add specfic wrapper after meta
+												echo riake( 'closing-wrapper' , $panel );
                                             }
                                         }
                                     }
                                 }
+								// Inner Closing Wrapper
+								echo riake( 'inner-closing-wrapper' , $config );
                                 ?>
                             </div>
                             <?php endif;?>
@@ -114,6 +159,7 @@ Tendoo Version Required : 1.4
                                 });
                             });
                             </script>
+                            <?php echo riake( 'footer-script' , $config );?>
                         </div>
                     </section>
                 </section>

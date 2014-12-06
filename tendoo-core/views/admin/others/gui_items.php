@@ -1,9 +1,9 @@
 <?php
-	$form_wrap	=	riake( 'form_wrap' , $value );
+	$form_wrap	=	riake( 'form_wrap' , $panel );
 	$action		=	riake( 'action' , $form_wrap );
 	$enctype	=	riake( 'enctype' , $form_wrap );
 	$method		=	riake( 'method' , $form_wrap ) ? return_if_array_key_exists( 'method' , $form_wrap ) : "POST";
-	$content	=	riake( 'meta_items' , $value );
+	$content	=	riake( 'meta_items' , $panel );
 	$form_expire=	get_instance()->date->timestamp() + GUI_EXPIRE;
 	$ref	=	urlencode( get_instance()->url->site_url() );
 	
@@ -16,7 +16,7 @@
 	?>
 	<form class="form" action="<?php echo $action;?>" enctype="<?php echo $enctype;?>" method="<?php echo $method;?>">
     	<input type="hidden" name="gui_saver_ref" value="<?php echo $ref;?>" />
-        <input type="hidden" name="gui_saver_option_namespace" value="<?php echo riake( 'namespace' , $value );?>" />
+        <input type="hidden" name="gui_saver_option_namespace" value="<?php echo riake( 'namespace' , $panel );?>" />
         <input type="hidden" name="gui_saver_expiration_time" value="<?php echo $form_expire;?>" />
         <input type="hidden" name="gui_saver_use_namespace" value="<?php echo riake( 'use_namespace' , $form_wrap , false ) ? 'true' : 'false';?>" />
 	<?php
@@ -266,7 +266,7 @@
 				
 				$class				=	$item[ 'type' ] == 'table' ? 'table table-striped m-b-none' : '';
 				$class				=	$item[ 'type' ] == 'table-panel' ? 'table table-striped m-b-none panel-body' : $class;
-				$class				.=  ' ' . get_user_meta( 'gui_'. riake( 'namespace' , $value ) );
+				$class				.=  ' ' . get_user_meta( 'gui_'. riake( 'namespace' , $panel ) );
 				
 				get_instance()->gui->set_table( $namespace );
 				get_instance()->gui->empty_message( $empty_message );
@@ -282,6 +282,34 @@
 				}
 				// Get table
 				get_instance()->gui->get_table( $namespace, $class );
+			}
+			else if( in_array( $item[ 'type' ] , array( 'table' , 'table-panel' ) ) )
+			{
+				$namespace			=	riake( 'name' , $item , 'default' );
+				$empty_message		=	riake( 'empty_message' , $item , __( 'No result available' ) );
+				
+				$class				=	$item[ 'type' ] == 'table' ? 'table table-striped m-b-none' : '';
+				$class				=	$item[ 'type' ] == 'table-panel' ? 'table table-striped m-b-none panel-body' : $class;
+				$class				.=  ' ' . get_user_meta( 'gui_'. riake( 'namespace' , $panel ) );
+				
+				get_instance()->gui->set_table( $namespace );
+				get_instance()->gui->empty_message( $empty_message );
+				// Creating Cols
+				foreach( force_array( riake( 'cols' , $item ) ) as $key	=>	$title )
+				{
+					get_instance()->gui->add_col( $key	, $title );
+				}
+				// Adding Row
+				foreach( force_array( riake( 'rows' , $item ) ) as $key 	=>	$row )
+				{
+					get_instance()->gui->add_row( $row );
+				}
+				// Get table
+				get_instance()->gui->get_table( $namespace, $class );
+			}
+			else if( $item[ 'type' ] == 'dom' )
+			{
+				echo $item[ 'value' ];
 			}
 		}
 	}

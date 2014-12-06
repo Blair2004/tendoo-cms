@@ -1,3 +1,48 @@
+<?php
+
+$this->gui->cols_width( 1 , 4 );
+
+$this->gui->set_meta( array(
+	'namespace'			=>		core_meta_namespace( array( 'admin' , 'modules' ) ),
+	'title'				=>		__( 'Available modules' ),
+	'type'				=>		'panel-ho'
+) )->push_to( 1 );
+
+foreach( force_array( $modules_list ) as $_module )
+{
+	$theme_status		=	( $active_theme	=	does_active_theme_support( $_module['handle'] ) && $_module[ 'handle' ] != 'APP' ) == FALSE 
+		? sprintf( __( 'Active theme %s doesn\'t support this module.' ) , '<strong>' . $active_theme['name'] . '</strong>' ) . ' | ' : '' ;
+	if($_module['active'] === false )
+	{
+		$status_link	=	'<a class="delete" href="' . $this->instance->url->site_url(array('admin','active','module',$_module['namespace'])) . '"><i style="font-size:25px;" class="fa fa-times" title="' . __( 'Click here to enable' ) . '"></i></a>' ;		
+	}
+	else
+	{
+		$status_link	=	'<a class="delete" href="' . $this->instance->url->site_url(array('admin','unactive','module',$_module['namespace'])) . '"><i style="font-size:25px;" class="fa fa-check" title="' . __( 'Click here to disable' ) . '"></i></a>' ;
+	}
+	$uninstall_link		=	'<a onclick="return confirm( \' '. __( 'Are you sure you want to remove this module ? ' ) . '\' )" class="delete" href="' . $this->instance->url->site_url(array('admin','uninstall','module',$_module['namespace'])) . '"><i style="font-size:25px;" class="fa fa-trash-o" title="' . __( 'Uninstall' ) . '"></i></a>';
+	$rows[]				=	array( 
+		'<strong>' . $_module[ 'name' ] . '</strong><br><p>' . $_module[ 'description' ] . '</p><hr class="line-dashed" style="margin:2px 0;"><small>' . $theme_status . '</small> <small>' . $_module[ 'handle' ] . '</small>' , 
+		$_module[ 'author' ] , 
+		$_module[ 'version' ] , 
+		$status_link,
+		$uninstall_link
+		
+		/* , check for module new version */ 
+	);
+}
+
+$this->gui->set_item( array(
+	'name'				=>		core_meta_namespace( array( 'admin' , 'modules' , 'table' ) ),
+	'type'				=>		'table-panel',
+	'cols'				=>		array( __( 'Module details' ) , __( 'Author' ) , __( 'Version' ) , '' , '' /*, __( 'Status' )*/ ),
+	'rows'				=>		$rows
+) )->push_to( core_meta_namespace( array( 'admin' , 'modules' ) ) );
+$this->gui->get();
+
+return;
+?>
+
 <?php echo get_core_vars( 'inner_head' );?>
 
 <section>

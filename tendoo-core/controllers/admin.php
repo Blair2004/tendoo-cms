@@ -128,6 +128,11 @@ class Admin extends Libraries
 	}
 	private function __creating_menus()
 	{
+		$this->menu->add_admin_menu_core( 'dashboard' , array(
+			'href'			=>		$this->instance->url->site_url('admin'),
+			'icon'			=>		'fa fa-dashboard',
+			'title'			=>		__( 'Dashboard' )
+		) );
 		if( current_user()->can( 'system@manage_controllers' ) )
 		{
 			$this->menu->add_admin_menu_core( 'controllers' , array(
@@ -140,7 +145,7 @@ class Admin extends Libraries
 		if( current_user()->can( 'system@install_app' ) )
 		{
 			$this->menu->add_admin_menu_core( 'installer' , array(
-				'title'			=>		__( 'Add an App' ),
+				'title'			=>		__( 'Install Apps' ),
 				'icon'			=>		'fa fa-flask',
 				'href'			=>		$this->instance->url->site_url('admin/installer')
 			) );
@@ -505,11 +510,7 @@ class Admin extends Libraries
 			
 			set_page('title', translate( 'Manage modules - Tendoo' ) );	
 			
-			set_core_vars( 'body' ,	$this->load->view('admin/modules/body',$this->data,true), 'read_only' );
-			
-			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-			$this->load->view('admin/header',$this->data,false,false);
-			$this->load->view('admin/global_body',$this->data,false,false);
+			$this->load->the_view( 'admin/modules/body' );
 		}
 	}
 	public function uninstall($e ='',$namespace= '')
@@ -736,10 +737,8 @@ class Admin extends Libraries
 					$this->url->site_url(array('admin','modules','main')).'/'
 				) , 'read_only' ); // Pagination
 				set_core_vars( 'themes_list' ,	get_themes( 'list_all' , $paginate[1] , $paginate[2] ) , 'read_only' );
-				set_core_vars( 'body' , $this->load->view('admin/themes/main',$this->data,true) , 'read_only' );
-				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-				$this->load->view('admin/header',$this->data,false,false);
-				$this->load->view('admin/global_body',$this->data,false,false);
+				
+				$this->load->the_view( 'admin/themes/main' );
 			}
 			else if($e == 'manage')
 			{
@@ -820,12 +819,9 @@ class Admin extends Libraries
 				);
 				notice( 'push' , fetch_notice_output( $query ) );
 			}
-			set_page('title', translate( 'Install App - Tendoo' ) );
-			set_core_vars( 'body' ,	$this->load->view('admin/installer/install',$this->data,true) , 'read_only' );
+			set_page('title', translate( 'Install Apps - Tendoo' ) );
 			
-			$this->load->view('admin/header',$this->data,false,false);
-			$this->load->view('admin/global_body',$this->data,false,false);
-		
+			$this->load->the_view('admin/installer/install' );		
 	}
 	public function users( $options = '' , $x = 1 , $y = '' , $z = '' )
 	{

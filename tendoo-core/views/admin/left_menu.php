@@ -97,6 +97,10 @@
                 	<?php 
 					show_admin_menu( 'before' , 'menu' );					
 					
+					show_admin_menu( 'before' , 'dashboard' );
+					get_instance()->menu->get_admin_menu_core( 'dashboard' );
+					show_admin_menu( 'after' , 'dashboard' );
+					
 					if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
 					{
 					  	show_admin_menu( 'before' , 'controllers' );

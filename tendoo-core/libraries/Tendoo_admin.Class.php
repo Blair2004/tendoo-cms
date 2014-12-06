@@ -510,12 +510,12 @@ class Tendoo_admin extends Libraries
 			}
 			if($myZip->extractTo( $installDir . $temporaryDir ) )
 			{
-				$notice	=	 fopen( $installDir . $temporaryDir . '/notice.html','r');
+				// $notice	=	 is_file( $installDir . $temporaryDir . '/notice.html' ) ? fopen( $installDir . $temporaryDir . '/notice.html','r') : '';
 				$myZip->close();
 				unlink($zip);
 				return array(
 					'temp_dir'		=> $temporaryDir,
-					'notice'		=> fread($notice,filesize($installDir . $temporaryDir . '/notice.html'))
+					'notice'		=> '' // fread($notice,filesize($installDir . $temporaryDir . '/notice.html')) Depreacted
 				);
 			}
 			else
