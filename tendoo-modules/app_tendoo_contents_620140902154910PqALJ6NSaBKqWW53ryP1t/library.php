@@ -143,7 +143,7 @@ $NOTICE_SUPER_ARRAY = $or;
 					$this->_createThumb($image_id);
 					return 'fileReplaced';
 				}
-				return 'error_occurred';
+				return 'error-occured';
 			}
 			public function fileDrop($id)
 			{
@@ -239,7 +239,7 @@ $NOTICE_SUPER_ARRAY = $or;
 						return 'done';
 					}
 				}
-				return 'error_occurred';
+				return 'error-occured';
 			}
 		}
 	}

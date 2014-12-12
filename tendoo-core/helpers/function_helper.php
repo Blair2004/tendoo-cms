@@ -133,8 +133,7 @@ if(!function_exists('fetch_error'))
 		$array['controler_edited']			=	tendoo_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
 		$array['db_unable_to_connect']		=	tendoo_warning('Il est impossible de se connecter &agrave; la base de donn&eacute;es avec les informations fournies.');
 		$array['db_unable_to_select']		=	tendoo_warning('La connexion &agrave; &eacute;t&eacute; &eacute;tablie, cependant il est impossible d\'acc&eacute;der &agrave; la base de donn&eacute;e.');
-		$array['error_occurred']				=	tendoo_warning( translate( 'error_occurred' ) );
-		$array['erroroccurred']				=	tendoo_warning( translate( 'error_occurred' ) );
+		$array['error-occured']				=	$array['erroroccurred']				=	tendoo_warning( translate( 'A error occured during this operation.' ) );
 		$array['adminDeleted']				=	tendoo_success(' L\'utilisateur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
 		$array['controller_not_found']		=	tendoo_warning(' Ce contr&ocirc;leur est introuvable.');
 		$array['no_main_controller_created']=	tendoo_warning(' Aucun contr&ocirc;leur d&eacute;finit comme principale n\'a &eacute;t&eacute; retrouv&eacute;, le nouveau contr&ocirc;leur &agrave; &eacute;t&eacute; d&eacute;finit comme contr&ocirc;leur par d&eacute;faut.');
@@ -172,8 +171,8 @@ if(!function_exists('fetch_error'))
 		$array['unknowTheme']				=	tendoo_warning('Th&egrave;me inconnu ou introuvable.');
 		$array['missingArg']				=	tendoo_warning('Une erreur s\'est produite. Certains &eacute;l&eacute;ment, qui permettent le traitement de votre demande, sont manquant ou incorrect.');
 		$array['page404']					=	tendoo_warning('Cette page est introuvable ou indisponible. Veuillez re-&eacute;ssayer.');
-		$array['restoringDone']				=	tendoo_success('La restauration s\'est correctement d&eacute;roul&eacute;.');
-		$array['cmsRestored']				=	tendoo_success('La restauration s\'est correctement d&eacute;roul&eacute;.');
+		// $array['restoringDone']				=	tendoo_success('La restauration s\'est correctement d&eacute;roul&eacute;.');
+		// $array['cmsRestored']				=	tendoo_success('La restauration s\'est correctement d&eacute;roul&eacute;.');
 		$array['creatingHiddenControllerFailure']		=	tendoo_warning('La cr&eacute;ation du contr&ocirc;leur invisible &agrave; &eacute;chou&eacute;');
 		$array['installFailed']				=	tendoo_warning('Une erreur s\'est produite durant l\'installtion certaines composantes n\'ont pas &eacute;t&eacute; correctement install&eacute;es');
 		$array['db_connect_error']			=	tendoo_warning('Connexion impossible,int&eacute;rrompu ou le nombre limit de connexion accord&eacute; &agrave; l\'utilisateur de la base de donn&eacute; est atteinte. Veuillez re-&eacute;ssayer.');
@@ -181,42 +180,41 @@ if(!function_exists('fetch_error'))
 		$array['noMainPage']				=	tendoo_warning('Impossible d\'acc&eacute;der &agrave; la page principale du site. Aucun contr&ocirc;leur n\'a &eacute;t&eacute; d&eacute;finit comme principal');
 		$array['AdminAuthFailed']			=	tendoo_warning('Mot de passe administrateur incorrect.');
 		
-		$array['SuperAdminCreationError']	=	tendoo_warning('Un erreur s\'est produite durant la cr&eacute;ation du Super-administrateur. V&eacute;fiez les informations envoy&eacute;es ou assurez vous qu\'il n\'existe pas un autre Super-administrateur pour ce site.');
-		$array['adminCreated']				=	tendoo_success('L\'utilisateur &agrave; &eacute;t&eacute; correctement cr&eacute;e');
-		$array['no_page_set']				=	tendoo_warning('Aucun contr&ocirc;leur disponible.');
-		$array['privilegeNotFound']			=	tendoo_warning('Privil&egrave;ge introuvable.');
-		$array['invalidApp']				=	tendoo_warning('Application Tendoo non valide. L\'installation &agrave; &eacute;chou&eacute;e');
-		$array['adminCreationFailed']		=	tendoo_warning('Impossible de cr&eacute;er un utilisateur, vérifiez que ce pseudo ne soit déjà utilisé.');
-		$array['tableCreationFailed']		=	tendoo_warning('Impossible d\'installer Tendoo, les informations fournies sont peut &ecirc;tre invalide. Assurez-vous de la validité de la connexion et de leur conformit&eacute; aux informations fournies.');
-		$array['upload_invalid_filetype']	=	tendoo_warning('Extension du fichier non autoris&eacute;e');
-		$array['controllerNotWellDefined']	=	tendoo_warning('L\'interace embarqu&eacute; n\'est pas correctement d&eacute;fini.');
-		$array['themeControlerNoFound']		=	tendoo_warning('Ce th&egrave;me ne dispose pas d\'interface embarqu&eacute;..');
-		$array['registrationNotAllowed']	=	tendoo_warning('Il impossible de s\'inscrire. L\'inscription &agrave; &eacute;t&eacute; d&eacute;sactiv&eacute;e sur ce site.');
-		$array['userExists']					=	tendoo_warning('Un utilisateur poss&eacute;dant ce pseudo existe d&eacute;j&agrave;.');
-		$array['emailUsed']						=	tendoo_warning(' Cet email est d&eacute;j&agrave; utilis&eacute;, veuillez choisir un autre.');
-		$array['unallowedPrivilege']			=	tendoo_warning(' Ce privil&egrave;ge n\'est pas autoris&eacute;.');
-		$array['UnactiveUser']					=	tendoo_warning(' Cet utilisateur est inactif, veuillez consulter l\'adresse email fournie pour cet utilsateur. Si aucun mail d\'activation n\'a &eacute;t&eacute; envoy&eacute;, vous pouvez essayer &agrave; nouveau. En utilisant la proc&eacute;dure de r&eacute;cup&eacute;ration de mot de passe');
-		$array['alreadyActive']					=	tendoo_warning(' Impossible d\'envoyer le mail d\'activation car le compte attach&eacute; &agrave; cette adresse mail est d&eacute;j&agrave; actif.');	
-		$array['actionProhibited']				=	tendoo_warning(' Il vous est interdit d\'effectuer cette op&eacute;ration.');
-		$array['unknowEmail']					=	tendoo_warning(' Aucun compte n\'est attach&eacute; &agrave; cette adresse mail.');
-		$array['validationSended']				=	tendoo_success(' Un mail d\'activation &agrave; &eacute;t&eacute; envoy&eacute; &agrave; cette addresse.');
-		$array['regisAndAssociatedFunLocked']	=	tendoo_warning(' L\'inscription et les services associ&eacute;s sont d&eacute;sactiv&eacute;s sur ce site.');
-		$array['NewLinkSended']					=	tendoo_success(' Un nouveau lien &agrave; &eacute;t&eacute; envoy&eacute; &agrave; votre boite mail.');
-		$array['timeStampExhausted']			=	tendoo_warning(' Ce lien n\'est plus valide. La dur&eacute;e de vie de ce lien &agrave; expir&eacute;e.');
-		$array['activationFailed']				=	tendoo_warning(' Ce lien n\'est plus valide. La dur&eacute;e de vie de ce lien &agrave; expir&eacute;e.');
-		$array['accountActivationDone']			=	tendoo_success(' Le compte est d&eacute;sormais actif.');
-		$array['accountActivationFailed']		=	tendoo_warning(' L\'activation du compte &agrave; &eacute;chou&eacute;e.');
-		$array['samePassword']					=	tendoo_warning(' Le nouveau mot de passe ne peut pas &ecirc;re identique &agrave; l\'ancien.');
-		$array['passwordChanged']				=	tendoo_success(' Le mot de passe &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
-		$array['upload_no_file_selected']		=	tendoo_warning(' Aucun fichier n\'a &eacute;t&eacute; envoy&eacute;.');
-		$array['cannotDeleteUsedPrivilege']		=	tendoo_warning(' Vous ne pouvez pas supprimer un privil&egrave;ge en cours d\'utilisation.');
-		$array[ 'profile_updated' ]				=	tendoo_success( __( 'Profile has been updated.' ) );
-		$array[ 'role_permissions_saved' ]		=	tendoo_success( __( 'Role permissions has been saved.' ) );
+		$array['super-admin-creation-failed']	=	tendoo_warning( __( 'Super administrator creation failed. Check if, for this website, there are not yet a super administrator.') );
+		$array['user-has-been-created']			=	tendoo_success( __( 'User has been successfully created.' ) );
+		$array['no-controller-set']				=	tendoo_warning( __( 'There is no controller available' ) );
+		$array['role-not-found']				=	tendoo_warning( __( 'Role not found' ) );
+		$array['invalid-app']					=	tendoo_warning( __( 'This app is not a valid Tendoo App. Installation has failed.' ) );
+		$array['users-creation-failed']			=	tendoo_warning( __( 'User creation failed, check if this pseudo is not already taken.' ) );
+		$array['table-creation-failed']			=	tendoo_warning( __( 'Error occured. Tables wasn\'t installed. Check your provided database login data' ) );
+		$array['upload-invalid-file-type']		=	tendoo_warning( __( 'This file type is not allowed' ) );
+		$array['controller-not-properly']		=	tendoo_warning( __( 'Controller interface is not well defined' ) );
+		// $array['themeControlerNoFound']		=	tendoo_warning('Ce th&egrave;me ne dispose pas d\'interface embarqu&eacute;..'); // Deprecated ?
+		$array['pseudo-already-in-use']			=	tendoo_warning( __( 'This pseudo is already used. Please choose another one' ) );
+		$array['email-already-used']			=	tendoo_warning( __( 'This email is already used, please choose another one or try to restore your account.' ) );
+		$array['unallowed-role']				=	tendoo_warning( __( 'This role is not allowed.' ) );
+		$array['unactive-account']				=	tendoo_warning( __( 'This account is not yet active. Please, check the inbox associated to this email address. If there is no activation mail, you can try to receive it again, with the activation wizard.' ) );
+		$array['already-active']				=	tendoo_warning( __( 'Activation mail could not been send. This account seems to be already active.' ) );	
+		$array['action-prohibited']				=	tendoo_warning( __( 'You are not granted to do this.' ) );
+		$array['unknow-email']					=	tendoo_warning( __( 'There is no account associated to this email address' ) );
+		$array['activation-mail-send']			=	tendoo_success( __( 'An activation mail has been send.' ) );
+		$array['registration-not-allowed']		=	$array['registration-disabled']			=	tendoo_warning( __( 'Registration and associated services are disabled in this website.' ) );
+		$array['new-link-send']					=	tendoo_success( __( 'A new link has been send to your email address.' ) );
+		$array['expiration-time-reached']		=	tendoo_warning( __( 'This link is no more valid.' ) );
+		$array['activation-failed']				=	tendoo_warning( __( 'This activation link is no more valid.' ) );
+		$array['account-activation-done']		=	tendoo_success( __( 'This account is now active' ) );
+		$array['account-activation-failed']		=	tendoo_warning( __( 'The account activation failed.' ) );
+		$array['password-matches-error']		=	tendoo_warning( __( 'The new password should not match the old one.' ) );
+		$array['password-has-changed']			=	tendoo_success( __( 'The password has been changed.' ) );
+		$array['upload-file-no-available']		=	tendoo_warning( __( 'Select a file first.' ) );
+		$array['cannot-delete-active-role']		=	tendoo_warning( __( 'A role in use can\'t be deleted.') );
+		$array[ 'profile-updated' ]				=	tendoo_success( __( 'Profile has been updated.' ) );
+		$array[ 'role-permissions-saved' ]		=	tendoo_success( __( 'Role permissions has been saved.' ) );
 		$array['active_theme_does_not_handle_that']	=	tendoo_warning(' Le thème actif ne prend pas en charge le module attaché à ce contrôleur.');
 		
 		// Tendoo 1.4
-		$array[ 'webapp_enabled' ]				=	tendoo_warning( __( 'While "WebApp" Mode is enabled, frontend is disabled. Check your settings to define tendoo mode on Website setings tab.' ) );
-		$array['form_expired']					=	tendoo_error( __( 'Current form data has expired. Please try to submit it again' ) );
+		$array[ 'web-app-mode-enabled' ]		=	tendoo_warning( __( 'While "WebApp" Mode is enabled, frontend is disabled. Check your settings to define tendoo mode on Website setings tab.' ) );
+		$array['form-expired']					=	tendoo_error( __( 'Current form data has expired. Please try to submit it again' ) );
 		
 		if($e === TRUE)
 		{
@@ -290,12 +288,12 @@ if(!function_exists('fetch_error'))
 					}
 					else
 					{
-						return tendoo_warning(' "'.$e.'" constitue une alerte introuvable');
+						return tendoo_warning( __( sprintf( '"%s" is not a valid error code' , $e ) ) );
 					}
 				}
 				else if($e != '' && strlen($e) <= 50)
 				{
-					return tendoo_warning(' "'.$e.'" constitue une alerte introuvable');
+					return tendoo_warning( __( sprintf( '"%s" is not a valid error code' , $e ) ) );
 				}
 				else
 				{

@@ -137,7 +137,7 @@ Class instance extends Libraries
 				set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
 				if( get_core_vars( 'tendoo_mode' ) == 'webapp' )
 				{
-					$this->url->redirect( array( 'admin' , 'index?notice=webapp_enabled' ) );
+					$this->url->redirect( array( 'admin' , 'index?notice=web-app-mode-enabled' ) );
 				}
 				// Et les stats ?, on initialise
 				$this->load->library( 'stats' ); 

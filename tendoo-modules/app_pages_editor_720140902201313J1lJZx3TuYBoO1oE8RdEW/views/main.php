@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm"></small> </div>
                 <div class="col-sm-4 text-right text-center-xs">
-                    <?php bootstrap_pagination_parser( $paginate );?>
+                    <?php bs_pagination( $paginate );?>
                 </div>
             </div>
         </footer>

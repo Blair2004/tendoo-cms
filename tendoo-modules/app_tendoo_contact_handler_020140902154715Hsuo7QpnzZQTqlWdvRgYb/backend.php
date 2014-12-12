@@ -60,7 +60,7 @@ class tendoo_contact_handler_backend extends Libraries
 				}
 				else
 				{
-					notice('push',fetch_notice_output('error_occurred'));
+					notice('push',fetch_notice_output('error-occured'));
 				}
 			}
 		}
@@ -75,7 +75,7 @@ class tendoo_contact_handler_backend extends Libraries
 				}
 				else
 				{
-					notice('push',fetch_notice_output('error_occurred'));
+					notice('push',fetch_notice_output('error-occured'));
 				}
 			}
 		}
@@ -93,7 +93,7 @@ class tendoo_contact_handler_backend extends Libraries
 			 }
 			 else
 			 {
-				 notice('push',fetch_notice_output('error_occurred'));
+				 notice('push',fetch_notice_output('error-occured'));
 			 }
 		}
 		if(isset($_POST['contact_description_submit']))
@@ -104,7 +104,7 @@ class tendoo_contact_handler_backend extends Libraries
 			}
 			else
 			{
-				notice('push',fetch_notice_output('error_occurred'));
+				notice('push',fetch_notice_output('error-occured'));
 			}
 		}
 		

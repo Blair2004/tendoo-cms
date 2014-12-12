@@ -146,7 +146,7 @@ class Upload {
 	// Is $_FILES[$field] set? If not, no reason to continue.
 		if ( ! isset($_FILES[$field]))
 		{
-			$this->set_error('upload_no_file_selected');
+			$this->set_error('upload-file-no-available');
 			return FALSE;
 		}
 
@@ -174,7 +174,7 @@ class Upload {
 					$this->set_error('upload_file_partial');
 					break;
 				case 4: // UPLOAD_ERR_NO_FILE
-					$this->set_error('upload_no_file_selected');
+					$this->set_error('upload-file-no-available');
 					break;
 				case 6: // UPLOAD_ERR_NO_TMP_DIR
 					$this->set_error('upload_no_temp_directory');
@@ -185,7 +185,7 @@ class Upload {
 				case 8: // UPLOAD_ERR_EXTENSION
 					$this->set_error('upload_stopped_by_extension');
 					break;
-				default :   $this->set_error('upload_no_file_selected');
+				default :   $this->set_error('upload-file-no-available');
 					break;
 			}
 
@@ -206,7 +206,7 @@ class Upload {
 		// Is the file type allowed to be uploaded?
 		if ( ! $this->is_allowed_filetype())
 		{
-			//$this->set_error('upload_invalid_filetype');
+			//$this->set_error('upload-invalid-file-type');
 			//return FALSE;
 		}
 
@@ -229,7 +229,7 @@ class Upload {
 
 			if ( ! $this->is_allowed_filetype(TRUE))
 			{
-				$this->set_error('upload_invalid_filetype');
+				$this->set_error('upload-invalid-file-type');
 				return FALSE;
 			}
 		}

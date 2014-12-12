@@ -96,17 +96,17 @@ push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_ref_keywords`
 	(1, '1', '1')"
 );
 push_module_action( 'blogster' , array(
-	'action'				=>	'publish_news',
+	'action'				=>	'publish_posts',
 	'action_name'			=>	'Publier les articles',
 	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de publier des articles',
 ));
 push_module_action( 'blogster' , array(
-	'action'				=>	'delete_news',
+	'action'				=>	'delete_posts',
 	'action_name'			=>	'Supprimer les articles',
 	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de supprimer des articles',
 ));
 push_module_action( 'blogster' , array(
-	'action'				=>	'edit_news',
+	'action'				=>	'edit_posts',
 	'action_name'			=>	'Modifier les articles',
 	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de modifier des articles',
 ));

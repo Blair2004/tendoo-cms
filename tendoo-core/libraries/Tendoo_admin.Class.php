@@ -78,7 +78,7 @@ class Tendoo_admin extends Libraries
 					return 'controler_created';
 			}
 		}
-		return 'error_occurred';
+		return 'error-occured';
 	}
 	public function getChildren($child,$compress = FALSE)
 	{
@@ -328,7 +328,7 @@ class Tendoo_admin extends Libraries
 		}
 		if($query->num_rows == 0)
 		{
-			$array[]	= 'no_page_set';
+			$array[]	= 'no-controller-set';
 		}
 		else
 		{
@@ -489,7 +489,7 @@ class Tendoo_admin extends Libraries
 				}
 			}
 			set_core_mode( 'normal' );
-			return 'invalidApp';
+			return 'invalid-app';
 		}
 		set_core_mode( 'normal' );
 		return 'erroroccurred';

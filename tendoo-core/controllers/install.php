@@ -27,9 +27,10 @@ class Install extends Libraries
 	}
 	public function step($i = 1,$e = '')
 	{
+		$this->instance->lang->defineLang('en_US');
 		if($this->lang->isLangSelected())
 		{
-			$this->url->redirect(array('install','defineLang'));
+			// $this->url->redirect(array('install','defineLang'));
 		}
 		$this->data['step']	=	$i;
 		$this->data['InstallError'] = '';
@@ -41,7 +42,7 @@ class Install extends Libraries
 				$_SESSION['secur_access'] = 2;
 				$this->url->redirect(array('install','step',2));
 			}
-			set_page('title',translate('install_tendoo_title',array('version : '.get('core_id'))));
+			set_page('title',translate( sprintf( 'Installing Tendoo : ' , get('core_id') ) ) );
 			$this->load->view('header',$this->data);
 			$this->load->view('install/step/1/homebody',$this->data);
 		}
@@ -60,12 +61,12 @@ class Install extends Libraries
 			}
 			if(isset($_POST['host_name'],$_POST['user_name']))
 			{
-				$this->form_validation->set_rules('host_name','Nom de l\'hôte','trim|required');
-				$this->form_validation->set_rules('user_name','Nom de l\'utilisateur','trim|required');
+				$this->form_validation->set_rules('host_name',__( 'Host name' ),'trim|required');
+				$this->form_validation->set_rules('user_name',__( 'Use name' ),'trim|required');
 				// $this->form_validation->set_rules('host_password','mot de passe','trim|required'); // to allow empty password usage.
-				$this->form_validation->set_rules('db_name','nom de la base de donn&eacute;e','trim|required');
-				$this->form_validation->set_rules('db_type','type du serveur','trim|required');
-				$this->form_validation->set_rules('extension_name','Extension des tables','trim|required');
+				$this->form_validation->set_rules('db_name',__( 'Database name' ),'trim|required');
+				$this->form_validation->set_rules('db_type',__( 'Server type' ),'trim|required');
+				$this->form_validation->set_rules('extension_name',__( 'Tables extension' ),'trim|required');
 				if($this->form_validation->run())
 				{
 					$connexion	=	$this->installation->attempt_db_connection(
@@ -102,7 +103,7 @@ class Install extends Libraries
 						$this->url->redirect('install/step/1');
 					}
 				}
-				set_page('title',translate('tendoo_install_second_step'));
+				set_page('title',translate( '' ) );
 				$this->load->view('header',$this->data);
 				$this->load->view('install/step/3/homebody',$this->data);
 			}
@@ -116,7 +117,7 @@ class Install extends Libraries
 	{
 		if(isset($_POST['site_name']))
 		{
-			$this->form_validation->set_rules('site_name','Nom du site','trim|required|min_length[4]');
+			$this->form_validation->set_rules('site_name',__( 'Site name' ),'trim|required|min_length[4]');
 			if($this->form_validation->run())
 			{
 				// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -169,7 +170,7 @@ class Install extends Libraries
 		$this->form_validation->set_rules('lang','Selection de la langue / Lang selection','trim|required|min_length[3]');
 		if($this->form_validation->run())
 		{
-			$this->instance->lang->defineLang('fr_FR'); // $this->input->post('lang')
+			$this->instance->lang->defineLang('en_US'); // $this->input->post('lang')
 			$this->url->redirect(array('install','step','1'));
 		}
 		set_page('title','Tendoo &raquo; Choose installation language, Choissisez la langue d\'installation');

@@ -286,9 +286,9 @@
 		return false;
 	};
 	/**
-	*	bootstrap_pagination_parser, génère une liste de lien au format HTML de bootstrap.
+	*	bs_pagination, génère une liste de lien au format HTML de bootstrap.
 	**/
-	function bootstrap_pagination_parser($array,$additionnal_class = "pagination-sm m-t-none m-b-none")
+	function bs_pagination($array,$additionnal_class = "pagination-sm m-t-none m-b-none")
 	{
 		?>
 
@@ -1020,7 +1020,7 @@
 	{
 		if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'webapp' )
 		{
-			$redirect ? get_instance()->url->redirect( $redirect ) : get_instance()->url->redirect( array( 'admin' , 'index?notice=webapp_enabled' ) );
+			$redirect ? get_instance()->url->redirect( $redirect ) : get_instance()->url->redirect( array( 'admin' , 'index?notice=web-app-mode-enabled' ) );
 		}
 	}
  

@@ -146,7 +146,7 @@ if(class_exists('tendoo_admin'))
 				le temps de programmation au format "H:i"
 			Renvoi un tableau associatif contenant les informations de l'article publié.
 		*/
-		public function publish_news($title,$content,$state,$image,$thumb,$cat = array(),$first_admin = FALSE,$key_words= array(),$scheduledDate=FALSE,$scheduledTime=FALSE)
+		public function publish_posts($title,$content,$state,$image,$thumb,$cat = array(),$first_admin = FALSE,$key_words= array(),$scheduledDate=FALSE,$scheduledTime=FALSE)
 		{
 			if($first_admin == FALSE)
 			{

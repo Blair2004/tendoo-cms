@@ -137,7 +137,7 @@
                         </form>
                     </div>
                     <div class="col-sm-3 text-right text-center-xs">
-                        <?php bootstrap_pagination_parser($paginate);?>
+                        <?php bs_pagination($paginate);?>
                     </div>
                 </div>
             </footer>

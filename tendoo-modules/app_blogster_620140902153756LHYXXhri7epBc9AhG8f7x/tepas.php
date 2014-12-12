@@ -72,11 +72,11 @@ class blogster_tepas_class extends Libraries
 	public function public_context()
 	{
 		if( function_exists('declare_shortcut') && get_instance()->users_global->isConnected()){
-			if($this->admin->actionAccess('publish_news',$this->module['namespace']))
+			if( current_user_can( 'publish_posts@blogster' ) )
 			{
 				declare_shortcut('Ecrire un article',$this->url->site_url(array('admin','open','modules',$this->module['namespace'],'publish')));
 			}
-			if($this->admin->actionAccess('category_manage',$this->module['namespace']))
+			if( current_user_can( 'category_manage@blogster' ) )
 			{
 				declare_shortcut('Liste des catégories',$this->url->site_url(array('admin','open','modules',$this->module['namespace'],'category')));
 			}

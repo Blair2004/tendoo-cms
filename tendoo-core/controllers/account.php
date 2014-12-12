@@ -213,7 +213,7 @@ class Account extends Libraries
 				}
 				else
 				{
-					notice('push',fetch_notice_output('error_occurred'));
+					notice('push',fetch_notice_output('error-occured'));
 				}
 			}
 			

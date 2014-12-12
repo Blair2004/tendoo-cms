@@ -139,7 +139,7 @@ Class users_global extends Libraries
 		}
 		return false;
 	}
-	public function userExists($pseudo)
+	public function is_pseudo_used($pseudo)
 	{
 		$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->get('tendoo_users');
 		$array	=	$query->result_array();
@@ -161,7 +161,7 @@ Class users_global extends Libraries
 	}
 	public function createSuperAdmin($pseudo,$password,$sexe,$email)
 	{
-		if(!$this->userExists($pseudo))
+		if(!$this->is_pseudo_used($pseudo))
 		{
 			$array['PSEUDO']	=	strtolower($pseudo);
 			$array['PASSWORD']	=	sha1($password);
@@ -179,15 +179,15 @@ Class users_global extends Libraries
 			$this->db->insert('tendoo_users',$array);
 			return 'userCreated';
 		}
-		return 'userExists';
+		return 'pseudo-already-in-use';
 	}
 	public function createUser($pseudo,$password,$sexe,$email,$active	=	'FALSE',$priv_id = 'USER')
 	{
-		if(!$this->userExists($pseudo))
+		if(!$this->is_pseudo_used($pseudo))
 		{
 			if($this->emailExist($email))
 			{
-				return 'emailUsed';
+				return 'email-already-used';
 			}
 			$this->load->library('Tendoo_admin');
 			if(!$this->tendoo_admin->is_public_role($priv_id)) // Si le priv n'est pa public
@@ -211,15 +211,15 @@ Class users_global extends Libraries
 			$this->sendValidationMail($array['EMAIL']);
 			return 'userCreated';
 		}
-		return 'userExists';	
+		return 'pseudo-already-in-use';	
 	}
 	public function createAdmin($pseudo,$password,$sexe,$privilege= 2,$email,$active	=	'TRUE')
 	{
-		if(!$this->userExists($pseudo))
+		if(!$this->is_pseudo_used($pseudo))
 		{
 			if($this->emailExist($email))
 			{
-				return 'emailUsed';
+				return 'email-already-used';
 			}
 			if(!$this->isAllowedPrivilege($privilege) && $privilege	!=	'USER')
 			{
@@ -241,9 +241,9 @@ Class users_global extends Libraries
 			get_instance()->meta_datas->set_user_meta( 'new_comer' , true , $array[ 'PSEUDO' ] );
 			
 			$this->db->insert('tendoo_users',$array);
-			return 'adminCreated';
+			return 'user-has-been-created';
 		}
-		return 'adminCreationFailed';	
+		return 'users-creation-failed';	
 	}
 	public function emailExist($email)
 	{
@@ -287,7 +287,7 @@ Class users_global extends Libraries
 		{
 			if($data[0]['ACTIVE']	==	'FALSE')
 			{
-				return 'UnactiveUser';
+				return 'unactive-account';
 			}
 			else if($data[0]['ACTIVE']	==	'TRUE')
 			{
@@ -334,11 +334,11 @@ Class users_global extends Libraries
 		{
 			if($user['REF_ROLE_ID']	==	'SUPERADMIN')
 			{
-				return 'actionProhibited';
+				return 'action-prohibited';
 			}
 			if($user['ACTIVE']		== 'TRUE')
 			{
-				return 'alreadyActive';
+				return 'already-active';
 			}
 			$mail	=	 '
 <h4>Votre compte à été correctement crée.</h4>
@@ -364,9 +364,9 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 			$this->email->message($mail);	
 			
 			$this->email->send();
-			return 'validationSended';
+			return 'activation-mail-send';
 		}
-		return 'unknowEmail';
+		return 'unknow-email';
 	}
 	public function sendPassChanger($email)
 	{
@@ -376,7 +376,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 		{
 			if($user['REF_ROLE_ID']	==	'SUPERADMIN')
 			{
-				return 'actionProhibited';
+				return 'action-prohibited';
 			}
 			$mail	=	 '
 <h4> ' . __( 'Password Recovery Wizard' ) . '</h4>
@@ -399,9 +399,9 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 			$this->email->message($mail);	
 			
 			$this->email->send();
-			return 'NewLinkSended';
+			return 'new-link-send';
 		}
-		return 'unknowEmail';
+		return 'unknow-email';
 	}
 	public function isConnected()
 	{
@@ -502,7 +502,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function getSpeAdminByPseudo($pseudo)
 	{
-		if($this->userExists($pseudo))
+		if($this->is_pseudo_used($pseudo))
 		{
 			$this->db->where('PSEUDO',strtolower($pseudo));
 			$query	=	$this->db->get('tendoo_users');
@@ -546,27 +546,29 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 				if($this->isAdmin() || $this->isSuperAdmin())
 				{
 				?>
-                	<li><a href="<?php echo $this->url->site_url(array('admin','index'));?>">Espace administration</a></li>
+                	<li><a href="<?php echo $this->url->site_url(array('admin','index'));?>"><?php _e( 'Dashboard' );?></a></li>
 				<?php
 				}
 				?>
-                <li><a href="<?php echo $this->url->site_url(array('account'));?>">Mon profil</a></li>
-                <li><a href="<?php echo $this->url->site_url(array('account','messaging','home'));?>">Messagerie 
-                <?php
-                $unread	=	$this->getUnreadMsg();
-                if($unread > 0)
-                {
-                ?><span class="counter"><?php echo $unread;?></span>
-                <?php
-                }
-                ?>
-                </a>
-                </li>
+                <li><a href="<?php echo $this->url->site_url(array('admin','profile'));?>"><?php _e( 'My Profile' );?></a></li>
+                <?php if( 'is_deprecated' == false ):?>
+                    <li><a href="<?php echo $this->url->site_url(array('account','messaging','home'));?>"><?php _e( 'Inbox' );?> 
+                    <?php
+                    $unread	=	$this->getUnreadMsg();
+                    if($unread > 0)
+                    {
+                    ?><span class="counter"><?php echo $unread;?></span>
+                    <?php
+                    }
+                    ?>
+                    </a>
+                    </li>
+                <?php endif;?>
                 <?php
 				if(is_array(get('declared_shortcuts')) && count(get('declared_shortcuts')) > 0)
 				{
 				?>
-                <li><a href="javascript:void(0);"> + Raccourcis</a>
+                <li><a href="javascript:void(0);"> + <?php _e( 'Shortcuts' );?></a>
                     <ul>
                     <?php
 					foreach(get('declared_shortcuts') as $s)
@@ -584,44 +586,44 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 					if($this->isAdmin() || $this->isSuperAdmin())
 					{
 					?>
-					<li><a href="javascript:void(0);"> + Tâches </a>
+					<li><a href="javascript:void(0);"> + <?php _e( 'Tasks' );?></a>
 						<ul>
                         	<?php
-							if($this->tendoo_admin->adminAccess('system','gestpa',$this->current('REF_ROLE_ID')) || $this->isSuperAdmin())
+							if( current_user_can( 'manage_controllers@system' ) )
 							{
 								?>
                                 <li>
-                                <a href="<?php echo $this->url->site_url(array('admin','controllers'));?>">Contrôleurs</a>
+                                <a href="<?php echo $this->url->site_url(array('admin','controllers'));?>"><?php _e( 'Controllers' );?></a>
                                 </li>
                                 <?php
 							}
 							?>
                             <?php
-							if($this->tendoo_admin->adminAccess('system','gestmo',$this->current('REF_ROLE_ID')) || $this->isSuperAdmin())
+							if(  current_user_can( 'manage_modules@system' ) )
 							{
 								?>
                                 <li>
-                                <a href="<?php echo $this->url->site_url(array('admin','modules'));?>">Modules</a>
+                                <a href="<?php echo $this->url->site_url(array('admin','modules'));?>"><?php _e( 'Modules' );?></a>
                                 </li>
                                 <?php
 							}
 							?>
                             <?php
-							if($this->tendoo_admin->adminAccess('system','gestheme',$this->current('REF_ROLE_ID')) || $this->isSuperAdmin())
+							if(  current_user_can( 'manage_themes@system' ) )
 							{
 								?>
                                 <li>
-                                <a href="<?php echo $this->url->site_url(array('admin','themes'));?>">Thèmes</a>
+                                <a href="<?php echo $this->url->site_url(array('admin','themes'));?>"><?php _e( 'Themes' );?></a>
                                 </li>
                                 <?php
 							}
 							?>
                             <?php
-							if($this->tendoo_admin->adminAccess('system','gestapp',$this->current('REF_ROLE_ID')) || $this->isSuperAdmin())
+							if( current_user_can( 'install_app@system' ) )
 							{
 								?>
                                 <li>
-                                <a href="<?php echo $this->url->site_url(array('admin','installer'));?>">Ajouter une App</a>
+                                <a href="<?php echo $this->url->site_url(array('admin','installer'));?>"><?php _e( 'Install Apps' );?></a>
                                 </li>
                                 <?php
 							}
@@ -631,19 +633,19 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 							{
 								?>
                                 <li>
-                                <a href="<?php echo $this->url->site_url(array('admin','system','createAdmin'));?>">Créer un utilisateur</a>
+                                <a href="<?php echo $this->url->site_url(array('admin','users','create'));?>"><?php _e( 'Create a new user' );?></a>
                                 </li>
                                 <li>
-                                <a href="<?php echo $this->url->site_url(array('admin','system','users'));?>">Liste des utilisateurs</a>
+                                <a href="<?php echo $this->url->site_url(array('admin','users'));?>"><?php _e( 'Users' );?></a>
                                 </li>
                                 <li>
-                                <a href="<?php echo $this->url->site_url(array('admin','system','create_role'));?>">Créer un privilège</a>
+                                <a href="<?php echo $this->url->site_url(array('admin','roles','create'));?>"><?php _e( 'Create a new role' );?></a>
                                 </li>
                                 <li>
-                                <a href="<?php echo $this->url->site_url(array('admin','system','privilege_list'));?>">Liste des privilèges</a>
+                                <a href="<?php echo $this->url->site_url(array('admin','roles'));?>"><?php _e( 'Roles' );?></a>
                                 </li>
                                 <li>
-                                <a href="<?php echo $this->url->site_url(array('admin','system','manage_actions'));?>">Gérer les actions</a>
+                                <a href="<?php echo $this->url->site_url(array('admin','permissions'));?>"><?php _e( 'Manage Permissions' );?></a>
                                 </li>
                                 <?php
 							}
@@ -657,7 +659,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
             </ul>
             <ul style="float:right">
             	<li>
-                	<a href="<?php echo $this->url->site_url(array('logoff'));?>" style="text-decoration:none;color:#F90;">Deconnexion</a>
+                	<a href="<?php echo $this->url->site_url(array('logoff'));?>" style="text-decoration:none;color:#F90;"><?php _e( 'Log off' );?></a>
                 </li>
             </ul>
         </div>
@@ -679,7 +681,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 			$current	=	$this->getSpeAdminByPseudo($pseudo);
 			if($this->emailExist($email) && $email	!=	$current['EMAIL'])
 			{
-				return "emailUsed";
+				return "email-already-used";
 			}
 			if($this->isAllowedPrivilege($priv) || $priv 	==	'USER')
 			{
@@ -690,7 +692,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 					return 'done';
 				}
 			}
-			return 'unallowedPrivilege';
+			return 'unallowed-role';
 		}
 		return 'notAllowed';
 	}
@@ -768,11 +770,11 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 		{
 			if($this->db->where('ID',$user['ID'])->update('tendoo_users',array('PASSWORD'=>sha1($new))))
 			{
-				return 'passwordChanged';
+				return 'password-has-changed';
 			}
-			return 'error_occurred';
+			return 'error-occured';
 		}
-		return 'samePassword';
+		return 'password-matches-error';
 	}
 	public function countMessage()
 	{

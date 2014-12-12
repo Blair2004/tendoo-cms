@@ -90,19 +90,19 @@ $this->appSql(
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 ');
 $this->appAction(array(
-	'action'				=>	'publish_news',
+	'action'				=>	'publish_posts',
 	'action_name'			=>	'Publier les articles',
 	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de publier des articles',
 	'mod_namespace'			=>	'news'
 ));
 $this->appAction(array(
-	'action'				=>	'delete_news',
+	'action'				=>	'delete_posts',
 	'action_name'			=>	'Supprimer les articles',
 	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de supprimer des articles',
 	'mod_namespace'			=>	'news'
 ));
 $this->appAction(array(
-	'action'				=>	'edit_news',
+	'action'				=>	'edit_posts',
 	'action_name'			=>	'Modifier les articles',
 	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de modifier des articles',
 	'mod_namespace'			=>	'news'

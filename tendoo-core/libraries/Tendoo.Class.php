@@ -375,7 +375,7 @@ class Tendoo
 		}
 		else
 		{
-			$this->error('controllerNotWellDefined');die;
+			$this->error('controller-not-properly');die;
 		}
 		// Default Else
 		$BODY	=	'404';

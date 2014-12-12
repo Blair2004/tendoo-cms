@@ -175,7 +175,7 @@ Tendoo Version Required : 1.4
                     <div class="col-sm-2"></div>
                     <?php if( in_array( 'pagination' , $enabled ) && get_core_vars( 'pagination_data' ) ) : ;?>
                     <div class="col-sm-4 text-right text-center-xs">
-                    	<?php bootstrap_pagination_parser( get_core_vars( 'pagination_data' ) , $additionnal_class = "pagination-sm m-t-none m-b-none");?>
+                    	<?php bs_pagination( get_core_vars( 'pagination_data' ) , $additionnal_class = "pagination-sm m-t-none m-b-none");?>
                     </div>
                     <?php endif;?>
                 </div>

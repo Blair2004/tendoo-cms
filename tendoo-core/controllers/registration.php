@@ -52,7 +52,7 @@ Class registration extends Libraries
 		
 		if( riake( 'allow_registration' , $options ) == '0')
 		{
-			$this->instance->url->redirect(array('error','code','registrationNotAllowed'));
+			$this->instance->url->redirect(array('error','code','registration-not-allowed'));
 		}
 		$this->instance->form_validation->set_rules('user_pseudo', translate( 'Pseudo' ),'trim|required|min_length[5]|max_length[15]');
 		$this->instance->form_validation->set_rules('user_password', __( 'Password' ),'trim|required|min_length[6]|max_length[15]');
@@ -110,9 +110,9 @@ Class registration extends Libraries
 				$this->instance->input->post('super_admin_mail')
 			))
 			{
-				$this->instance->url->redirect(array('login?notice=adminCreated&ref='.urlencode($this->instance->url->site_url(array('admin','index')))));
+				$this->instance->url->redirect(array('login?notice=user-has-been-created&ref='.urlencode($this->instance->url->site_url(array('admin','index')))));
 			}
-			notice('push',fetch_notice_output('SuperAdminCreationError'));
+			notice('push',fetch_notice_output('super-admin-creation-failed'));
 		}
 		$this->data['pageTitle']	=	__( 'Create Admin - Tendoo' );
 		set_page(	'title'	,	$this->data['pageTitle']);

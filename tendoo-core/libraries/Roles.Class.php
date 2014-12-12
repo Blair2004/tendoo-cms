@@ -61,9 +61,9 @@ Class Roles extends Libraries
 			{
 				return 'done';
 			}
-			return 'error_occurred';
+			return 'error-occured';
 		}
-		return 'cannotDeleteUsedPrivilege';
+		return 'cannot-delete-active-role';
 	}
 	public function has_roles()
 	{

@@ -55,7 +55,7 @@
 										?>
 									<div class="col-lg-13">
 										<div class="panel-body">
-											<?php echo tendoo_error('<strong>'.translate('error_occurred').'</strong><br><br>'.$query_error);?>
+											<?php echo tendoo_error('<strong>'.translate('error-occured').'</strong><br><br>'.$query_error);?>
 										</div>
 									</div>
 										<?php

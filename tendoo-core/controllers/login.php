@@ -85,7 +85,7 @@ Class login extends Libraries
 		// Library
 		if( riake( 'allow_registration' , $this->data['options'] ) == "0")
 		{
-			$this->url->redirect(array('error','code','regisAndAssociatedFunLocked'));
+			$this->url->redirect(array('error','code','registration-disabled'));
 		}
 		// Method
 		if($action == 'home')
@@ -104,7 +104,7 @@ Class login extends Libraries
 			if($this->form_validation->run())
 			{
 				$query	=	$this->users_global->sendValidationMail($this->input->post('email_valid'));
-				if($query	==	'validationSended')
+				if($query	==	'activation-mail-send')
 				{
 					$this->url->redirect(array('login?notice='.$query)); // redirect to login
 				}
@@ -124,7 +124,7 @@ Class login extends Libraries
 			if($this->form_validation->run())
 			{
 				$query	=	$this->users_global->sendPassChanger($this->input->post('email_valid'));
-				if($query	==	'validationSended')
+				if($query	==	'activation-mail-send')
 				{
 					$this->url->redirect(array('login?notice='.$query)); // redirect to login
 				}
@@ -149,26 +149,26 @@ Class login extends Libraries
 				{
 					if($this->users_global->activateUser($connect['ID']))
 					{
-						$this->url->redirect(array('login?notice=accountActivationDone'));
+						$this->url->redirect(array('login?notice=account-activation-done'));
 					}
 					else
 					{
-						$this->url->redirect(array('login?notice=accountActivationFailed'));
+						$this->url->redirect(array('login?notice=account-activation-failed'));
 					}					
 				}
 				else
 				{
-					$this->url->redirect(array('error','code','activationFailed'));
+					$this->url->redirect(array('error','code','activation-failed'));
 				}
 			}
 			else
 			{
-				$this->url->redirect(array('error','code','unknowEmail'));
+				$this->url->redirect(array('error','code','unknow-email'));
 			}
 		}
 		else
 		{
-			$this->url->redirect(array('error','code','timeStampExhausted'));
+			$this->url->redirect(array('error','code','expiration-time-reached'));
 		}
 	}
 	public function passchange($email,$timestamp,$password)
@@ -182,7 +182,7 @@ Class login extends Libraries
 				$this->load->library('Tendoo_admin');	
 				if( riake( 'allow_registration' , $this->data['options'] ) == "0")
 				{
-					$this->url->redirect(array('error','code','regisAndAssociatedFunLocked'));
+					$this->url->redirect(array('error','code','registration-disabled'));
 				}
 				$connect	=	$this->users_global->emailConnect($email,$password);
 				if($connect)
@@ -193,7 +193,7 @@ Class login extends Libraries
 					if($this->form_validation->run())
 					{
 						$query	=	$this->users_global->recoverPassword($connect['ID'],$password,$this->input->post('password_new'));
-						if($query == 'passwordChanged')
+						if($query == 'password-has-changed')
 						{
 							$this->url->redirect(array('login?notice='.$query));
 						}
@@ -212,17 +212,17 @@ Class login extends Libraries
 				}
 				else
 				{
-					$this->url->redirect(array('error','code','activationFailed'));
+					$this->url->redirect(array('error','code','activation-failed'));
 				}
 			}
 			else
 			{
-				$this->url->redirect(array('error','code','unknowEmail'));
+				$this->url->redirect(array('error','code','unknow-email'));
 			}
 		}
 		else
 		{
-			$this->url->redirect(array('error','code','timeStampExhausted'));
+			$this->url->redirect(array('error','code','expiration-time-reached'));
 		}
 	}
 	

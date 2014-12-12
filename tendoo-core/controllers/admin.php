@@ -41,7 +41,7 @@ class Admin extends Libraries
 				case 'no_theme_selected' :
 				$link	=	$this->url->site_url(array('admin','themes'));
 				break;
-				case 'no_page_set':
+				case 'no-controller-set':
 				$link	=	$this->url->site_url(array('admin','pages','create'));
 				break;
 				case 'no_main_page_set':
@@ -257,7 +257,7 @@ class Admin extends Libraries
 			set_user_meta( 'town' , $this->input->post( 'user_town' ) );
 			set_user_meta( 'bio' , $this->input->post( 'bio' ) ) ;
 			
-			$this->url->redirect( $this->url->site_url() . '?notice=profile_updated' . $text );
+			$this->url->redirect( $this->url->site_url() . '?notice=profile-updated' . $text );
 		}	
 		if( $this->input->post( 'dashboard_theme' ) || $this->input->post( 'user_oldpass' ) || $this->input->post( 'user_newpass' ) || $this->input->post( 'user_confirmnewpass' ) )
 		{
@@ -282,7 +282,7 @@ class Admin extends Libraries
 				}
 			}
 			set_user_meta( 'dashboard_theme' , between( 0 , 6 , $dashboard_theme = $this->input->post( 'dashboard_theme' ) ) ? $dashboard_theme : 0 );
-			$this->url->redirect( $this->url->site_url() . '?notice=profile_updated' . $info );
+			$this->url->redirect( $this->url->site_url() . '?notice=profile-updated' . $info );
 		}
 		// Admin Widget Section
 		if(riake('widget_action',$_POST) || riake('widget_namespace',$_POST))
@@ -374,7 +374,7 @@ class Admin extends Libraries
 				}
 				else
 				{
-					notice('push',fetch_notice_output('error_occurred'));
+					notice('push',fetch_notice_output('error-occured'));
 				}
 			}
 			
@@ -554,13 +554,13 @@ class Admin extends Libraries
 			if($module)
 			{
 				if( active_module( $namespace ) ){
-					$this->url->redirect( array( 'admin' , 'modules?info='.strip_tags( sprintf( translate( 'The module <strong>%s</strong> is now enabled' ) , $module['name'] ) ) ) );
+					$this->url->redirect( array( 'admin' , 'modules?info='.htmlentities( sprintf( translate( 'The module %s is now enabled' ) , $module['name'] ) ) ) );
 				}
-				$this->url->redirect(array('admin','modules?notice=error_occurred'));
+				$this->url->redirect(array('admin','modules?notice=error-occured'));
 			}
 			$this->url->redirect(array('admin','index?notice=unknowModule'));
 		}
-		$this->url->redirect(array('admin','modules?notice=error_occurred'));
+		$this->url->redirect(array('admin','modules?notice=error-occured'));
 	}
 	public function unactive($e,$namespace)
 	{
@@ -574,11 +574,11 @@ class Admin extends Libraries
 				if( unactive_module( $namespace ) ){
 					$this->url->redirect(array('admin','modules?info='.strip_tags( sprintf( translate( 'The module <strong>%s</strong> is now disabled' ), $module['name'] ) ) ) );
 				}
-				$this->url->redirect(array('admin','modules?notice=error_occurred'));
+				$this->url->redirect(array('admin','modules?notice=error-occured'));
 			}
 			$this->url->redirect(array('admin','index?notice=unknowModule'));
 		}
-		$this->url->redirect(array('admin','index?notice=error_occurred'));
+		$this->url->redirect(array('admin','index?notice=error-occured'));
 	}
 	public function open($e='',$a='',$b	= '')
 	{
@@ -847,13 +847,13 @@ class Admin extends Libraries
 				switch($creation_status)
 				{
 					case 'notAllowedPrivilege'	:
-						notice('push',fetch_notice_output('adminCreationFailed'));
+						notice('push',fetch_notice_output('users-creation-failed'));
 						break;
-					case 'adminCreated'	:
-						$this->url->redirect(array('admin','users?notice=adminCreated'));
+					case 'user-has-been-created'	:
+						$this->url->redirect(array('admin','users?notice=user-has-been-created'));
 						break;
-					case 'adminCreationFailed'	:
-						$this->url->redirect(array('admin','users','create?notice=adminCreationFailed'));
+					case 'users-creation-failed'	:
+						$this->url->redirect(array('admin','users','create?notice=users-creation-failed'));
 				}
 			}
 			set_core_vars( 'getPrivs' , $this->roles->get());
@@ -886,7 +886,7 @@ class Admin extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_notice_output('error_occurred'));
+						notice('push',fetch_notice_output('error-occured'));
 					}
 				}
 			}
@@ -960,7 +960,7 @@ class Admin extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_notice_output('error_occurred'));
+						notice('push',fetch_notice_output('error-occured'));
 					}
 				}
 							
@@ -995,7 +995,7 @@ class Admin extends Libraries
 				
 				if(count(get_core_vars( 'get_role' )) == 0)
 				{
-					$this->url->redirect(array('error','code','privilegeNotFound' ) );
+					$this->url->redirect(array('error','code','role-not-found' ) );
 				}
 	
 				set_page( 'title' , sprintf( __( 'Edit role | Tendoo %s' ) , get( 'core_id' ) ) );
@@ -1013,7 +1013,7 @@ class Admin extends Libraries
 						$this->roles->add_permission( $this->input->post( 'role_id' ) , $_permission ); 
 					}
 					
-					$this->url->redirect( array( 'admin' , 'roles' , 'permissions?notice=role_permissions_saved' ) );
+					$this->url->redirect( array( 'admin' , 'roles' , 'permissions?notice=role-permissions-saved' ) );
 				}
 				
 				set_core_vars( 'get_roles' , $this->roles->get() );
@@ -1115,7 +1115,7 @@ class Admin extends Libraries
 				}
 				$this->url->redirect( urldecode( riake( 'gui_saver_ref' , $_POST , $this->url->site_url( array( 'admin' ) ) ) ) . '?notice=done' );
 			}
-			$this->url->redirect( urldecode( riake( 'gui_saver_ref' , $_POST , $this->url->site_url( array( 'admin' ) ) ) ) . '?notice=form_expired' );
+			$this->url->redirect( urldecode( riake( 'gui_saver_ref' , $_POST , $this->url->site_url( array( 'admin' ) ) ) ) . '?notice=form-expired' );
 		}
 	}
 	public function ajax($option,$x	=	'',$y = '',$z = '')
@@ -1293,7 +1293,7 @@ class Admin extends Libraries
 			if(!$this->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('REF_ROLE_ID')))
 			{
 				set_core_vars( 'type' ,	'danger' );
-				set_core_vars( 'notice' ,	notice('error_occurred') );
+				set_core_vars( 'notice' ,	notice('error-occured') );
 				$this->load->view('admin/ajax/notice',$this->data);
 				return;
 			}
@@ -1343,7 +1343,7 @@ class Admin extends Libraries
 			if(!$this->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('system','gestpa',$this->users_global->current('REF_ROLE_ID')))
 			{
 				set_core_vars( 'type' ,	'danger' );
-				set_core_vars( 'notice' ,	notice('error_occurred') );
+				set_core_vars( 'notice' ,	notice('error-occured') );
 				$this->load->view('admin/ajax/notice',$this->data);
 				return;
 			}
