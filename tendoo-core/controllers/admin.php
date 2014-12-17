@@ -16,11 +16,12 @@ class Admin extends Libraries
 		set_core_vars( 'options' , $this->options	=	get_meta( 'all' ) , 'read_only' );
 		set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
 		// 1.4 For create_admin_menu && add_admin_menu
-		set_core_vars( 'admin_menu_items' , array( 'menu' , 'about' , 'users' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) );
+		set_core_vars( 'admin_menu_items' , array( 'dashboard' , 'menu' , 'about' , 'users' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) );
 		set_core_vars( 'admin_menu_position' , array( 'after' , 'before' ) );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->__admin_widgets(); // USING core WiDGET and thoses defined through tepas
 		$this->__creating_menus();
+		engage_tepas(); // For Core menu extension, they are called after default menu.
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		set_page( 'description' , translate( 'Dashboard' ) . ' | '.get( 'core_version' ) );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -100,6 +101,7 @@ class Admin extends Libraries
 		css_push_if_not_exists('app.v2');
 		css_push_if_not_exists('tendoo_global');
 		css_push_if_not_exists('fuelux');
+		css_push_if_not_exists('font-awesome.min');
 		
 		// js_push_if_not_exists('jquery');
 		js_push_if_not_exists('app.min.vtendoo'); // _2
@@ -124,7 +126,6 @@ class Admin extends Libraries
 			"widget_content"		=>	$this->load->view('admin/others/widgets/welcome-message',null,true),
 			"widget_description"	=>	translate( 'Show welcome message' )
 		));
-		engage_tepas();
 	}
 	private function __creating_menus()
 	{
@@ -133,15 +134,9 @@ class Admin extends Libraries
 			'icon'			=>		'fa fa-dashboard',
 			'title'			=>		__( 'Dashboard' )
 		) );
-		if( current_user()->can( 'system@manage_controllers' ) )
-		{
-			$this->menu->add_admin_menu_core( 'controllers' , array(
-				'href'			=>		$this->instance->url->site_url('admin/controllers'),
-				'icon'			=>		'fa fa-bookmark',
-				'title'			=>		__( 'Controllers' )
-			) );
-		}
-		
+
+		// Controller has been deprecated for "menu" instead
+			
 		if( current_user()->can( 'system@install_app' ) )
 		{
 			$this->menu->add_admin_menu_core( 'installer' , array(
@@ -166,6 +161,14 @@ class Admin extends Libraries
 			'href'			=>		$this->instance->url->site_url('admin/themes')
 		) );
 		
+		$this->menu->add_admin_menu_core( 'themes' , array(
+				'href'			=>		$this->instance->url->site_url('admin/controllers'),
+				'icon'			=>		'fa fa-bookmark',
+				'title'			=>		__( 'Menus' )
+			) );
+		//
+		
+		
 		if( current_user()->can( 'system@manage_users' ) )
 		{
 			$this->menu->add_admin_menu_core( 'users' , array(
@@ -179,6 +182,7 @@ class Admin extends Libraries
 				'href'			=>		$this->instance->url->site_url('admin/users/create')
 			) );
 		}
+		
 		// Self settings
 		$this->menu->add_admin_menu_core( 'users' , array(
 			'title'			=>		__( 'My Profile' ) , current_user( 'PSEUDO' ),

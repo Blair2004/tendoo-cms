@@ -45,7 +45,7 @@
 											data-placement="bottom" 
 											data-content="<div style='width:200px'><?php _e( 'It will be used on links' );?></div>" 
 											title="" 
-											data-original-title="Nom du contrôleur">?</button>
+											data-original-title="<?php _e( 'Controller name' );?>">?</button>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -69,9 +69,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label">Titre du contrôleur</label>
+                                                    <label class="control-label"><?php _e( 'Controller title' );?></label>
                                                     <div class="input-group">
-                                                        <input type="text" placeholder="Titre du contrôleur" name="page_title" class="form-control">
+                                                        <input type="text" placeholder="<?php _e( 'Controller title' );?>" name="page_title" class="form-control">
                                                         <span class="input-group-btn">
                                                         <button 
                                             type="button"
@@ -79,25 +79,25 @@
                                             data-toggle="popover" 
                                             data-html="true" 
                                             data-placement="bottom" 
-                                            data-content="&lt;div style='width:250px'&gt;Ce texte sera utilisé dans le titre du contrôleur.</div>" 
+                                            data-content="&lt;div style='width:250px'&gt;<?php _e( 'Will be used as controller title.' );?>.</div>" 
                                             title="" 
                                             data-original-title="Titre du contrôleur">?</button>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label">Description du contrôleur</label>
-                                                    <textarea name="page_description" class="form-control" placeholder="Description du contrôleur"></textarea>
+                                                    <label class="control-label"><?php _e( 'Controller description' );?></label>
+                                                    <textarea name="page_description" class="form-control" placeholder="<?php _e( 'Controller description' );?>"></textarea>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Mots cl&eacute;s</label>
-                                                    <textarea name="page_keywords" class="form-control" placeholder="Mots clés du contrôleur"></textarea>
+                                                    <label><?php _e( 'Keywords' );?></label>
+                                                    <textarea name="page_keywords" class="form-control" placeholder="<?php _e( 'Keywords' );?>"></textarea>
                                                 </div>
                                                 <input type="hidden" name="page_parent" value="none">
                                                 <div class="form-group">
-                                                    <label class="control-label">Lien vers une page</label>
+                                                    <label class="control-label"><?php _e( 'Use link' );?></label>
                                                     <div class="input-group">
-                                                        <input name="page_link" class="form-control" placeholder="Lien vers une page" />
+                                                        <input name="page_link" class="form-control" placeholder="<?php _e( 'Use link' );?>" />
                                                         <span class="input-group-btn">
                                                         <button 
                                             type="button"
@@ -105,19 +105,19 @@
                                             data-toggle="popover" 
                                             data-html="true" 
                                             data-placement="top" 
-                                            data-content="<div style='width:250px'>Vous pouvez choisir de créer un menu qui redirigera l'utilisateur vers une autre page, au lieu d'exécuter un module. Il vous suffit d'entrer un lien vers une page.</div>" 
+                                            data-content="<div style='width:250px'><?php _e( 'Instead of binding module, you can use a link.' );?></div>" 
                                             title="" 
-                                            data-original-title="Emplacement du contrôleur">?</button>
+                                            data-original-title="<?php _e( 'Use link instead of binding module.' );?>">?</button>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label">Visibilit&eacute; sur le menu</label>
+                                                    <label class="control-label"><?php _e( 'Available on menu ?' );?></label>
                                                     <div class="input-group">
                                                         <select class="form-control inline" name="page_visible">
-                                                            <option value="">Visibilit&eacute; du contrôleur</option>
-                                                            <option value="TRUE">Visible</option>
-                                                            <option value="FALSE">Cachée</option>
+                                                            <option value=""><?php _e( 'Choose option' );?></option>
+                                                            <option value="TRUE"><?php _e( 'True' );?></option>
+                                                            <option value="FALSE"><?php _e( 'False' );?></option>
                                                         </select>
                                                         <span class="input-group-btn">
                                                         <button 
@@ -126,19 +126,19 @@
 													data-toggle="popover" 
 													data-html="true" 
 													data-placement="top" 
-													data-content="<div style='width:250px'>Il s'agit de définir qu'un contrôleur est disponible ou non sur le menu principal. Cela n'affecte en rien l'existence du contrôleur.</div>" 
+													data-content="<div style='width:250px'><?php _e( 'This Controller will be visible on menu.' );?>.</div>" 
 													title="" 
-													data-original-title="Visibilit&eacute; du contrôleur">?</button>
+													data-original-title="<?php _e( 'Sets controller visibility on menu.' );?>">?</button>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label">Définir comme principale</label>
+                                                    <label class="control-label"><?php _e( 'Set as default ?' );?></label>
                                                     <div class="input-group">
                                                         <select name="page_priority" class="form-control inline">
-                                                            <option value="">D&eacute;finir comme principale</option>
-                                                            <option value="TRUE">Oui</option>
-                                                            <option selected="selected" value="FALSE">Non</option>
+                                                            <option value=""><?php _e( 'Choose option' );?></option>
+                                                            <option value="TRUE"><?php _e( 'Yes' );?></option>
+                                                            <option selected="selected" value="FALSE"><?php _e( 'No' );?></option>
                                                         </select>
                                                         <span class="input-group-btn">
                                                         <button 
@@ -147,18 +147,18 @@
 													data-toggle="popover" 
 													data-html="true" 
 													data-placement="top" 
-													data-content="<div style='width:250px'>Il s'agit ici de choisir si ce nouveau contrôleur sera l'index de votre site. En choissisant 'Oui', le statut des autres pages sera modifié.</div>" 
+													data-content="<div style='width:250px'><?php echo sprintf( __( 'While accessing %s, this controller will be used.' ) , get_instance()->url->main_url() );?>.</div>" 
 													title="" 
-													data-original-title="Définir comme page principale">?</button>
+													data-original-title="<?php _e( 'Set as main controller' );?>">?</button>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label">Affecter un module</label>
+                                                    <label class="control-label"><?php _e( 'Bind a module to this controller' );?></label>
                                                     <div class="input-group">
                                                         <select class="form-control inline" name="page_module">
-                                                            <option value="">Affecter un module</option>
-                                                            <option value="#LINK#">Attacher un lien</option>
+                                                            <option value=""><?php _e( 'Choose option' );?></option>
+                                                            <option value="#LINK#"><?php _e( 'Use link instead' );?></option>
                                                             <?php
 												foreach($get_mod as $g) 
 												{
@@ -175,23 +175,23 @@
 													data-toggle="popover" 
 													data-html="true" 
 													data-placement="top" 
-													data-content="<div style='width:250px'>Le contrôleur doit necessairement exécuter un module. Veuillez choisir le module que vous souhaitez faire exécuter dans ce nouveau contrôleur.</div>" 
+													data-content="<div style='width:250px'><?php _e( 'Choose how a controller will be openable.' );?></div>" 
 													title="" 
-													data-original-title="Module attach&eacute; au contrôleur">?</button>
+													data-original-title="<?php _e( 'Sets controller module or link.' );?>">?</button>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <hr class="line line-dashed">
                                                 <div class="form-group">
-                                                    <input type="submit" class="btn btn-success" value="Cr&eacute;er un contr&ocirc;leur">
+                                                    <input type="submit" class="btn btn-success" value="<?php _e( 'Create a new controller' );?>">
                                                 </div>
                                             </form>
                                         </section>
                                     </div>
                                     <div class="TENDOO_MENU">
                                         <div class="col-lg-7">
-                                            <button class="btn btn-primary btn-sm" data-action="expand-all" type="button">Tout déplier</button>
-                                            <button class="btn btn-primary btn-sm" data-action="collapse-all" type="button">Tout Replier</button>
+                                            <button class="btn btn-primary btn-sm" data-action="expand-all" type="button"><?php _e( 'Expand All' );?></button>
+                                            <button class="btn btn-primary btn-sm" data-action="collapse-all" type="button"><?php _e( 'Collapse All' );?></button>
                                         </div>
                                         <script type="text/javascript">
 							$('[data-action="expand-all"]').bind('click',function(){
@@ -229,7 +229,7 @@
 												if($g['PAGE_MAIN'] == 'TRUE')
 												{
 													?>
-                                                            - <small>Index</small>
+                                                            - <small><?php _e( 'Index' );?></small>
                                                             <?php
 												}
 												?>
@@ -253,7 +253,7 @@
 										?>
                                                     <div class="panel">
                                                         <div class="panel-heading">
-                                                            Aucun contrôleur disponible
+                                                            <?php _e( 'No controller available.' );?>
                                                         </div>
                                                     </div>
                                                     <?php
@@ -281,7 +281,7 @@
 									// Ce contrôleur a-t-il des parents ?
 									var hasparent		=	$(data).parent().closest('[controllers]').length == 0 ? false : true;
 									tendoo.window
-									.title('Modifier un contrôleur &raquo; '+$(data).find('[controller_title]').val())
+									.title('<?php _e( 'Edit a controller' );?> &raquo; '+$(data).find('[controller_title]').val())
 									.show($('#prototype').html());
 									// Metas
 									var p_title			=	$(data).find('[controller_title]').val();
@@ -309,7 +309,7 @@
 									$(parent).find('[name="page_visible"]').val(p_visible);
 									if(hasparent) // Si c'est un enfant
 									{
-										 $(parent).find('[name="page_priority"]').attr('disabled','disabled').attr('title','Un contrôleur enfant ne peut pas être défini comme "principal"');
+										 $(parent).find('[name="page_priority"]').attr('disabled','disabled').attr('title','<?php _e( "A child controller can\'t be set a main." );?>');
 									}
 									//
 									if(!$(parent).find('[prototype_submiter]').attr('binded'))
@@ -345,7 +345,7 @@
 												$(data).find('[controller_main]').eq(0).val(prority);
 											}
 											//
-											tendoo.notice.alert('Contrôleur modifié','success');
+											tendoo.notice.alert('<?php _e( 'Controller updated !' );?>','success');
 											tendoo.controllers.setEditStatus(true);
 										});	
 									}									
@@ -358,18 +358,10 @@
 					});
 					</script>
                                 <div id="prototype" style="display:none">
-                                    <section class="thinwrapper stretch">
+                                    <section class="vbox stretch">
                                         <section id="content">
                                             <section class="hbox stretch">
-                                                <footer class="footer bg-white b-t">
-                                                    <div class="row m-t-sm text-center-xs">
-                                                        <div class="col-sm-8">
-                                                        </div>
-                                                        <div class="col-sm-4 text-right text-center-xs">
-                                                            <input prototype_submiter type="button" data-dismiss="modal" class="btn btn-sm <?php echo theme_class();?>" value="Modifier le contrôleur">
-                                                        </div>
-                                                    </div>
-                                                </footer>
+                                                <section class="vbox">
                                                 <section class="scrollable" id="pjax-container">
                                                     <section class="hbox stretch">
                                                         <section class="wrapper">
@@ -379,9 +371,9 @@
                                                                         <div class="form-group">
                                                                             <div class="row">
                                                                                 <div class="col-xs-4">
-                                                                                    <label class="control-label">Nom du contrôleur</label>
+                                                                                    <label class="control-label"><?php _e( 'Controller name' );?></label>
                                                                                     <div class="input-group">
-                                                                                        <input type="text" placeholder="Nom du contrôleur" name="page_name" class="form-control">
+                                                                                        <input type="text" placeholder="<?php _e( 'Controller name' );?>" name="page_name" class="form-control">
                                                                                         <span class="input-group-btn">
                                                                                         <button 
                                                         type="button"
@@ -389,16 +381,16 @@
                                                         data-toggle="popover" 
                                                         data-html="true" 
                                                         data-placement="bottom" 
-                                                        data-content="<div style='width:200px'>Ce nom sera affiché comme texte dans les liens.</div>" 
+                                                        data-content="<div style='width:200px'><?php _e( 'Will be displayed.' );?></div>" 
                                                         title="" 
-                                                        data-original-title="Nom du contrôleur">?</button>
+                                                        data-original-title="<?php _e( 'Controller name' );?>">?</button>
                                                                                         </span>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-xs-4">
-                                                                                    <label class="control-label">Code du contrôleur</label>
+                                                                                    <label class="control-label"><?php _e( 'Controller Slug' );?></label>
                                                                                     <div class="input-group">
-                                                                                        <input type="text" placeholder="Code du contrôleur" name="page_cname" class="form-control">
+                                                                                        <input type="text" placeholder="<?php _e( 'Controller Slug' );?>" name="page_cname" class="form-control">
                                                                                         <span class="input-group-btn">
                                                                                         <button 
                                                         type="button"
@@ -406,16 +398,15 @@
                                                         data-toggle="popover" 
                                                         data-html="true" 
                                                         data-placement="bottom" 
-                                                        data-content="<div style='width:250px'>Ce texte sera utilisé dans l'adresse URL. Le mot ne doit pas contenir d'espace ou de caractères spéciaux. les tirets et underscore sont accept&eacute;s. <br>Exemple : <?php echo $this->instance->url->main_url();?>index.php/<strong>nouvelle-page</strong> ou <?php echo $this->instance->url->main_url();?>index.php/<strong>blog</strong></div>" 
                                                         title="" 
                                                         data-original-title="Code du contrôleur">?</button>
                                                                                         </span>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-xs-4">
-                                                                                    <label class="control-label">Titre du contrôleur</label>
+                                                                                    <label class="control-label"><?php _e( 'Controller title' );?></label>
                                                                                     <div class="input-group">
-                                                                                        <input type="text" placeholder="Titre de la page" name="page_title" class="form-control">
+                                                                                        <input type="text" placeholder="<?php _e( 'Controller title' );?>" name="page_title" class="form-control">
                                                                                         <span class="input-group-btn">
                                                                                         <button 
                                                         type="button"
@@ -423,7 +414,6 @@
                                                         data-toggle="popover" 
                                                         data-html="true" 
                                                         data-placement="bottom" 
-                                                        data-content="<div style='width:250px'>Ce texte sera utilisé dans comme titre du contrôleur.</div>" 
                                                         title="" 
                                                         data-original-title="Titre du contrôleur">?</button>
                                                                                         </span>
@@ -432,19 +422,19 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label class="control-label">Description du contrôleur</label>
-                                                                            <textarea name="page_description" class="form-control" placeholder="Description du contrôleur"></textarea>
+                                                                            <label class="control-label"><?php _e( 'Controller description' );?></label>
+                                                                            <textarea name="page_description" class="form-control" placeholder="<?php _e( 'Controller description' );?>"></textarea>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label>Mots cl&eacute;s</label>
+                                                                            <label><?php _e( 'Keywords' );?></label>
                                                                             <textarea name="page_keywords" class="form-control" placeholder="Mots clés du contrôleur"></textarea>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <div class="row">
                                                                                 <div class="col-xs-6">
-                                                                                    <label class="control-label">Lien vers une page</label>
+                                                                                    <label class="control-label"><?php _e( 'Use Link' );?></label>
                                                                                     <div class="input-group">
-                                                                                        <input name="page_link" class="form-control" placeholder="Lien vers une page" />
+                                                                                        <input name="page_link" class="form-control" placeholder="<?php _e( 'Use Link' );?>" />
                                                                                         <span class="input-group-btn">
                                                                                         <button 
                                                         type="button"
@@ -452,19 +442,18 @@
                                                         data-toggle="popover" 
                                                         data-html="true" 
                                                         data-placement="top" 
-                                                        data-content="<div style='width:250px'>Vous pouvez choisir de créer un menu qui redirigera l'utilisateur vers une autre page, au lieu d'exécuter un module. Il vous suffit d'entrer un lien vers une page.</div>" 
                                                         title="" 
                                                         data-original-title="Emplacement du contrôleur">?</button>
                                                                                         </span>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-xs-6">
-                                                                                    <label class="control-label">Visibilit&eacute; sur le menu</label>
+                                                                                    <label class="control-label"><?php _e( 'Available on menu' );?></label>
                                                                                     <div class="input-group">
                                                                                         <select class="form-control inline" name="page_visible">
-                                                                                            <option value="">Visibilit&eacute; du contrôleur</option>
-                                                                                            <option value="TRUE">Visible</option>
-                                                                                            <option value="FALSE">Cachée</option>
+                                                                                            <option value=""><?php _e( 'Choose option' );?></option>
+                                                                                            <option value="TRUE"><?php _e( 'Visible' );?></option>
+                                                                                            <option value="FALSE"><?php _e( 'Hidden' );?></option>
                                                                                         </select>
                                                                                         <span class="input-group-btn">
                                                                                         <button 
@@ -473,7 +462,6 @@
                                                         data-toggle="popover" 
                                                         data-html="true" 
                                                         data-placement="top" 
-                                                        data-content="<div style='width:250px'>Il s'agit de définir qu'un contrôleur est disponible ou non sur le menu principal. Cela n'affecte en rien l'existence du contrôleur.</div>" 
                                                         title="" 
                                                         data-original-title="Visibilit&eacute; du contrôleur">?</button>
                                                                                         </span>
@@ -484,11 +472,11 @@
                                                                         <div class="row">
                                                                             <div class="col-lg-6">
                                                                                 <div class="form-group">
-                                                                                    <label class="control-label">Affecter un module</label>
+                                                                                    <label class="control-label"><?php _e( 'Bind a module' );?></label>
                                                                                     <div class="input-group">
                                                                                         <select class="form-control inline" name="page_module">
-                                                                                            <option value="">Affecter un module</option>
-                                                                                            <option value="#LINK#">Attacher un lien</option>
+                                                                                            <option value=""><?php _e( 'Choose an option' );?></option>
+                                                                                            <option value="#LINK#"><?php _e( 'Use link instead' );?></option>
                                                                                             <?php
                                                         foreach($get_mod as $g) 
                                                         {
@@ -505,7 +493,6 @@
                                                             data-toggle="popover" 
                                                             data-html="true" 
                                                             data-placement="top" 
-                                                            data-content="<div style='width:250px'>Le contrôleur doit necessairement exécuter un module. Veuillez choisir le module que vous souhaitez faire exécuter dans ce nouveau contrôleur.</div>" 
                                                             title="" 
                                                             data-original-title="Module attach&eacute; au contrôleur">?</button>
                                                                                         </span>
@@ -514,12 +501,12 @@
                                                                             </div>
                                                                             <div class="col-lg-6">
                                                                                 <div class="form-group">
-                                                                                    <label class="control-label">Définir comme principale</label>
+                                                                                    <label class="control-label"><?php _e( 'Set as default' );?></label>
                                                                                     <div class="input-group">
                                                                                         <select name="page_priority" class="form-control inline">
-                                                                                            <option value="">D&eacute;finir comme principale</option>
-                                                                                            <option value="TRUE">Oui</option>
-                                                                                            <option value="FALSE">Non</option>
+                                                                                            <option value=""><?php _e( 'Choose option' );?></option>
+                                                                                            <option value="TRUE"><?php _e( 'Yes' );?></option>
+                                                                                            <option value="FALSE"><?php _e( 'No' );?></option>
                                                                                         </select>
                                                                                         <span class="input-group-btn">
                                                                                         <button 
@@ -528,7 +515,6 @@
                                                             data-toggle="popover" 
                                                             data-html="true" 
                                                             data-placement="top" 
-                                                            data-content="<div style='width:250px'>Il s'agit ici de choisir si ce nouveau contrôleur sera l'index de votre site. En choissisant 'Oui', le statut des autres pages sera modifié.</div>" 
                                                             title="" 
                                                             data-original-title="Définir comme page principale">?</button>
                                                                                         </span>
@@ -541,6 +527,16 @@
                                                             </div>
                                                         </section>
                                                     </section>
+                                                </section>
+                                                <footer class="footer bg-white b-t">
+                                                    <div class="row m-t-sm text-center-xs">
+                                                        <div class="col-sm-8">
+                                                        </div>
+                                                        <div class="col-sm-4 text-right text-center-xs">
+                                                            <input prototype_submiter type="button" data-dismiss="modal" class="btn btn-sm <?php echo theme_class();?>" value="<?php _e( 'Update controller details' );?>">
+                                                        </div>
+                                                    </div>
+                                                </footer>
                                                 </section>
                                             </section>
                                         </section>
@@ -555,7 +551,7 @@
                         <div class="col-sm-2" id="ajaxLoading">
                         </div>
                         <div class="col-sm-10 text-right text-center-xs">
-                            <input controller_save_edits type="button" data-dismiss="modal" class="btn btn-sm <?php echo theme_class();?>" value="Sauvegardez vos modifications">
+                            <input controller_save_edits type="button" data-dismiss="modal" class="btn btn-sm <?php echo theme_class();?>" value="<?php _e( 'Save settings' );?>">
                         </div>
                     </div>
                 </footer>

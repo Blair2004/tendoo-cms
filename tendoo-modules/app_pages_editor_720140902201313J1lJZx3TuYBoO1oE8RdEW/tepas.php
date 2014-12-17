@@ -15,7 +15,7 @@ class pages_editor_tepas_class extends Libraries
 		}
 		if( is_admin() )
 		{
-			create_admin_menu( 'pages_editor' , 'after' , 'controllers' );
+			create_admin_menu( 'pages_editor' , 'after' , 'dashboard' );
 			
 			add_admin_menu( 'pages_editor' , array(
 				'title'	=>	__( 'Pages' ), 

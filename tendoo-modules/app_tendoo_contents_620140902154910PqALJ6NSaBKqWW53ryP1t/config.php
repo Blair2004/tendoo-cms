@@ -21,13 +21,13 @@ push_module_sql( 'tendoo_contents' , 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'ten
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 push_module_action( 'tendoo_contents' , array(
-	'action'				=>	'tendoo_contents_delete',
+	'action'				=>	'delete_media',
 	'action_name'			=>	'Supprimer un contenu',
 	'action_description'	=>	'Cette action permet de supprimer des contenus.',
 	'mod_namespace'			=>	'tendoo_contents'
 ));
 push_module_action( 'tendoo_contents' , array(
-	'action'				=>	'tendoo_contents_upload',
+	'action'				=>	'upload_media',
 	'action_name'			=>	'Envoyer des fichiers',
 	'action_description'	=>	'Cette action permet aux utilisateurs de pouvoir envoyer des fichiers tels que des image, des vid&eacute;os ou des photos en ligne.',
 	'mod_namespace'			=>	'tendoo_contents'

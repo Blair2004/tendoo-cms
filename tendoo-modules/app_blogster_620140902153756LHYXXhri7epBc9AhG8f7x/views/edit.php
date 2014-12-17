@@ -22,7 +22,9 @@
                                 <?php echo $this->instance->visual_editor->getEditor(array('class'=>'form-control','id'=>'editor','name'=>'news_content','defaultValue'=>$getSpeNews[0]['CONTENT'],'height'	=>	'800px'));?> </div>
                             <div class="col-lg-3">
                                 <section class="panel">
-                                    <div class="panel-heading">Options</div>
+                                    <div class="panel-heading">
+										<?php _e( 'Meta data' );?>
+									</div>
                                     <div class="panel-body">
                                         <div class="form-group">
                                             <div id="articleKeyWords" class="pillbox clearfix m-b">
@@ -40,7 +42,7 @@
 							}
 						}
 						?>
-                                                    <input class="addKeyWord" placeholder="Ajouter un mot clé" type="text">
+                                                    <input class="addKeyWord" placeholder="<?php _e( 'Add a keyword' );?>" type="text">
                                                 </ul>
                                             </div>
                                         </div>
@@ -78,10 +80,10 @@
 					});
 				  </script>
                                         <div class="form-group">
-                                            <button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[ 'namespace' ],'ajax','createCategory'));?>" type="button">Ajouter une cat&eacute;gorie</button>
+                                            <button class="btn btn-primary input-sm form-control creatingCategory" data-form-url="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[ 'namespace' ],'ajax','createCategory'));?>" type="button"><?php _e( 'Add a category' );?></button>
                                         </div>
                                         <div class="form-group">
-                                        	<span>Choissisez une catégorie</span>
+                                        	<span><?php _e( 'Choose a category' );?></span>
                                             <hr class="line line-dashed">
                                             <select class="multiselect" multiple="multiple" name="category[]">
                                             <?php
@@ -113,7 +115,7 @@
 												else
 												{
 													?>
-                                                <option value="">Aucune catégorie disponible</option>
+                                                <option value=""><?php _e( 'No category available' );?></option>
                                                 <?php
 												}
                         ?>
@@ -123,7 +125,7 @@
 									$(document).ready(function(e) {
 										$('.multiselect').multiselect({
 											dropRight: true,
-											nonSelectedText	: "Veuillez choisir",
+											nonSelectedText	: "<?php _e( 'Please select something' );?>",
 											nSelectedText	:	"cochés)",
 											enableFiltering	:	true,
 											templates		:	{
@@ -135,9 +137,9 @@
                                         <div class="form-group">
                                             <?php
                         $fmlib->mediaLib_button(array(
-                            'PLACEHOLDER'		=>		'Lien vers l\'aperçu',
+                            'PLACEHOLDER'		=>		__( 'Image link' ),
                             'NAME'				=>		'thumb_link',
-							'TEXT'				=>		'Image Aperçu',
+							'TEXT'				=>		__( 'Preview thumb' ),
 							'VALUE'				=>		$getSpeNews[0]['THUMB']
                         ));	
                         ?>
@@ -145,10 +147,10 @@
                                         <div class="form-group">
                                             <?php
                         $fmlib->mediaLib_button(array(
-                            'PLACEHOLDER'		=>		'Lien vers l\'image',
+                            'PLACEHOLDER'		=>		__( 'Image link' ),
                             'NAME'				=>		'image_link',
                             'GOTO'				=>		'selection',
-							'TEXT'				=>		'Image Taille R&eacute;elle',
+							'TEXT'				=>		__( 'Full image' ),
 							'VALUE'				=>		$getSpeNews[0]['IMAGE']
                         ));	
                         ?>
@@ -177,13 +179,13 @@
 		?>
             <div class="row m-t-sm text-center-xs">
                 <div class="col-sm-2" id="ajaxLoading"> </div>
-                <div class="col-sm-10 text-right text-center-xs"> <a class="publish_article pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;">Modifier l'article</a> <a class="set_as_draft pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;">Déplacer dans les brouillons</a> <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">ou</a>
+                <div class="col-sm-10 text-right text-center-xs"> <a class="publish_article pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;"><?php _e( 'Edit Post' );?></a> <a class="set_as_draft pull-right btn-sm btn <?php echo theme_button_class();?>" style="margin-right:10px;"><?php _e( 'Set as draft' );?></a> <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;"><?php _e( 'Or' );?></a>
                     <input type="text" name="scheduledTime" class="input-sm input-s pull-right form-control" placeholder="12:30" style="margin-right:10px;" value="<?php echo $dateArray['h'].':'.$dateArray['i'];?>">
-                    <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;">à</a>
+                    <a class="pull-right btn-sm btn btn-white" style="margin-right:10px;"><?php _e( 'To' );?></a>
                     <input class="input-sm input-s pull-right datepicker form-control" size="16" value="<?php
 					echo $dateArray['d'].'-'.$dateArray['m'].'-'.$dateArray['y']
                     ?>" type="text" style="margin-right:10px;" name="scheduledDate">
-                    <a class="program_for pull-right btn-sm btn <?php echo theme_button_false_class();?>" style="margin-right:10px;">Programmer pour le :</a> </div>
+                    <a class="program_for pull-right btn-sm btn <?php echo theme_button_false_class();?>" style="margin-right:10px;"><?php _e( 'Schedule for' );?></a> </div>
             </div>
         </footer>
         </section>
@@ -215,8 +217,8 @@
 			showAnim		:		'slideDown',
 			dateFormat		:		'dd-mm-yy',
 			minDate			:		currentTime,
-			monthNames		:		[ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
-			dayNamesMin		:		[ "Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa" ]
+			monthNames		:		[ "<?php _e( 'January' );?>", "<?php _e( 'Febuary' );?>", "<?php _e( 'March' );?>", "<?php _e( 'April' );?>", "<?php _e( 'May' );?>", "<?php _e( 'June' );?>", "<?php _e( 'Jully' );?>", "<?php _e( 'August' );?>", "<?php _e( 'September' );?>", "<?php _e( 'October' );?>", "<?php _e( 'November' );?>", "<?php _e( 'December' );?>" ],
+			dayNamesMin		:		[ "<?php _e( 'Sun' );?>", "<?php _e( 'Mon' );?>", "<?php _e( 'Tue' );?>", "<?php _e( 'Thu' );?>", "<?php _e( 'Fri' );?>", "<?php _e( 'Wed' );?>", "<?php _e( 'Sat' );?>" ]
 		});
 		var hours			=	new Array;
 		for(i=0;i<=23;i++)

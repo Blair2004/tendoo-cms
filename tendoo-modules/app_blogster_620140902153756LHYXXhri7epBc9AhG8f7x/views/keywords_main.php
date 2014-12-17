@@ -22,15 +22,15 @@
                             <div class="col-lg-8">
                                 <section class="panel">
                                     <div class="panel-heading">
-                                        Liste des mots clés disponibles
+                                       	<?php _e( 'Tags List' );?>
                                     </div>
                                     <table class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <td>Intitulé du mot clé</td>
-                                                <td>Description</td>
-                                                <td>En cours d'utilisation</td>
-                                                <td>Utilisé</td>
+                                                <td><?php _e( 'Title' );?></td>
+                                                <td><?php _e( 'Description' );?></td>
+                                                <td><?php _e( 'In use ?' );?></td>
+                                                <td><?php _e( 'How many times' );?></td>
                                                 <td></td>
                                             </tr>
                                         </thead>
@@ -44,9 +44,9 @@
                                             <tr>
                                                 <td><?php echo $kw['TITLE'];?></td>
                                                 <td><?php echo word_limiter($kw['TITLE'],4);?></td>
-                                                <td><?php echo (int)$kw['USED'] > 0 ? 'Oui' : 'Non';?></td>
-                                                <td><?php echo $kw['USED'];?> fois</td>
-                                                <td><a data-doAction href="<?php echo module_url(array('ajax','tags','delete',$kw['ID']));?>">Supprimer</a></td>
+                                                <td><?php echo (int)$kw['USED'] > 0 ? __( 'Yes' ) : __( 'No' );?></td>
+                                                <td><?php echo $kw['USED'];?> <?php _e( 'Times' );?></td>
+                                                <td><a data-doAction href="<?php echo module_url(array('ajax','tags','delete',$kw['ID']));?>"><?php _e( 'Delete' );?></a></td>
                                             </tr>
                                             <?php
                                         }
@@ -55,7 +55,7 @@
                                     {
                                         ?>
                                             <tr>
-                                                <td colspan="4">Aucun mots clé disponible</td>
+                                                <td colspan="4"><?php _e( 'No tags available.' );?></td>
                                             </tr>
                                             <?php
                                     }
@@ -69,7 +69,7 @@
                                     $(this).attr('doAction-binded','true');
                                     $(this).bind('click',function(){
                                         var $this	=	$(this);
-                                        tendoo.modal.confirm('Souhaitez-vous supprimer ce mot-clé ?<br>En supprimant ce mot-clé, il ne sera plus disponible dans les articles où il a été inséré.',function(){
+                                        tendoo.modal.confirm( '<?php _e( 'Do you really want to delete this tags ?' );?>',function(){
                                             tendoo.doAction($this.attr('href'),function(e){
                                                 tendoo.triggerAlert(e);
                                                 if(e.status == 'success')
@@ -90,20 +90,20 @@
                             <div class="col-lg-4">
                                 <div class="panel">
                                     <div class="panel-heading">
-                                        Créer un mot clé
+                                        <?php _e( 'Create a new tag' );?>
                                     </div>
                                     <div class="panel-body">
                                         <form method="post" fjaxson method="post" action="<?php echo module_url(array('ajax','tags','create'));?>">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <span class="input-group-addon">Titre du mot clé</span>
-                                                <input type="text" class="form-control" name="kw_title" placeholder="Entrez le titre du mot-clé">
+                                                <span class="input-group-addon"><?php _e( 'Tag Title' );?></span>
+                                                <input type="text" class="form-control" name="kw_title" placeholder="<?php _e( 'Enter a title here' );?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <textarea class="form-control" name="kw_description"></textarea>
+                                            <textarea class="form-control" name="kw_description" placeholder="<?php _e( 'Can you describe this tag ?' );?>"></textarea>
                                         </div>
-                                        <input type="submit" class="btn btn-sm <?php echo theme_button_class();?>" value="Créer le mot clé">
+                                        <input type="submit" class="btn btn-sm <?php echo theme_button_class();?>" value="<?php _e( 'Create a tag' );?>">
                                         </form>
                                     </div>
                                 </div>
@@ -115,22 +115,19 @@
             <footer class="footer bg-white b-t">
                 <div class="row m-t-sm text-center-xs">
                     <div class="col-sm-2">
-                        <select class="input-sm form-control inline bulkActionChange">
-                            <option value="0">Actions Group&eacute;es</option>
-                            <option value="deleteSelected">Supprimer</option>
-                        </select>
+                        
                     </div>
                     <div class="col-sm-1">
-                        <button class="btn btn-sm btn-white bulkActionTrigger">Effectuer</button>
+                        
                     </div>
                     <div class="col-sm-4 text-center">
-                        <small class="text-muted inline m-t-sm m-b-sm">Affiche <?php echo $paginate['start'];?> &agrave; <?php echo $paginate['end'];?> &eacute;l&eacute;ments</small>
+                        <small class="text-muted inline m-t-sm m-b-sm"><?php _e( 'Displays' );?> <?php echo $paginate['start'];?> &agrave; <?php echo $paginate['end'];?> <?php _e( 'Items' );?></small>
                     </div>
                     <div class="col-sm-2">
                         <form method="get" class="form">
                             <div class="input-group input-group-xs">
                                 <span class="input-group-btn">
-                                <button class="btn btn-default <?php echo theme_button_class();?>" type="submit">Afficher</button>
+                                <button class="btn btn-default <?php echo theme_button_class();?>" type="submit"><?php _e( 'Display' );?></button>
                                 </span>
                                 <input type="text" name="limit" class="form-control" placeholder="10" value="<?php echo $paginate['end'];?>">
                             </div>

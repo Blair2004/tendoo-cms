@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <section class="panel">
-                                <div class="panel-heading"> Param&ecirc;tres avanc&eacute;s </div>
+                                <div class="panel-heading"> <?php _e( 'Advanced settings' );?> </div>
                                 <form method="post" class="panel-body">
                                     <label  class="label-control switch" >
                                     <input type="checkbox" name="validateall" value="true" 
@@ -34,8 +34,8 @@
                                     }
                                     ?> />
                                     <span></span>
-                                    <p style="display:inline-block;vertical-align:bottom;">Valider chaque commentaire avant de l'afficher</p>
-                                    </label>
+                                    <p style="display:inline-block;vertical-align:bottom;"><?php _e( 'Approuve comments before showing them ?' );?></p>
+                                    </label><br />
                                     <label  class="label-control switch" style="vertical-align:inherit;">
                                     <input type="checkbox" name="allowPublicComment" value="true" <?php
 								if($setting)
@@ -52,30 +52,30 @@
 								}
 								?> />
                                     <span class="helper"></span>
-                                    <p style="display:inline-block;vertical-align:bottom;">Commentaire ouvert au public</p>
+                                    <p style="display:inline-block;vertical-align:bottom;"><?php _e( 'Allow everyone to post a comment' );?></p>
                                     </label>
                                     <hr class="line line-dashed" />
-                                    <input class="btn btn-sm btn-info" type="submit" value="Enregistrer les modifications" name="update">
+                                    <input class="btn btn-sm btn-info" type="submit" value="<?php _e( 'Save settings' );?>" name="update">
                                 </form>
                             </section>
                         </div>
                         <div class="col-lg-6">
                             <section class="panel">
-                                <div class="panel-heading"> Exporter / Importer </div>
+                                <div class="panel-heading"> <?php _e( 'Export / Import' );?> </div>
                                 <div class="panel-body">
                                     <form method="post" class="form-horizontal" enctype="multipart/form-data">
                                         <div class="input-group">
-                                        	<span class="input-group-addon">Importer</span>
+                                        	<span class="input-group-addon"><?php _e( 'Import settings' );?></span>
                                             <input type="file" class="form-control" name="import">
                                             <span class="input-group-btn">
-                                            <button confirm-do="click" confirm-text="souhaitez vous ajoutez cette sauvegarde ? les anciennes donnée seront écrasées" class="btn btn-default" type="submit">Envoyer</button>
+                                            <button confirm-do="click" confirm-text="<?php _e( 'If you upload data, current one will be overwritten.' );?>" class="btn btn-default" type="submit"><?php _e( 'Send' );?></button>
                                             </span> 
                                         </div>
                                         <br>
                                         <div class="form-group">
-                                            <label for="inputEmail3" class="col-sm-2 control-label">Exporter</label>
+                                            <label for="inputEmail3" class="col-sm-2 control-label"><?php _e( 'Export Data' );?></label>
                                             <div class="col-sm-10">
-                                                <input type="submit" class="btn <?php theme_button_class();?>" name="export" value="Télécharger une sauvegarde">
+                                                <input type="submit" class="btn <?php theme_button_class();?>" name="export" value="<?php _e( 'Download Post Data' );?>">
                                             </div>
                                         </div>
                                     </form>
@@ -88,4 +88,3 @@
         </section>
     </section>
 </section>
-<a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>

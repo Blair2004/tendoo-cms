@@ -101,12 +101,7 @@
 					get_instance()->menu->get_admin_menu_core( 'dashboard' );
 					show_admin_menu( 'after' , 'dashboard' );
 					
-					if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
-					{
-					  	show_admin_menu( 'before' , 'controllers' );
-						get_instance()->menu->get_admin_menu_core( 'controllers' );
-						show_admin_menu( 'after' , 'controllers' );
-					}
+					// Controller menu has been deprecated
 					
 					show_admin_menu( 'before' , 'installer' );
 					get_instance()->menu->get_admin_menu_core( 'installer' );

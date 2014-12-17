@@ -22,9 +22,12 @@
                             <div class="col-lg-8">
                                 <section class="panel">
                                     <div class="panel-heading">
-                                        <h4> <a href="<?php echo module_url('index');?>">Tous les articles (<?php echo $ttNews;?>)</a> | <a href="<?php echo module_url('index?filter=mines');?>">Mes articles (<?php echo $ttMines;?>)</a> | <a href="<?php echo module_url('index?filter=scheduled');?>">Programmés (<?php echo $ttScheduled;?>)</a> </h4>
+                                        <a href="<?php echo module_url('index');?>"><?php echo sprintf( __( 'All posts (%s)' ) , $ttNews );?></a> | 
+                                        <a href="<?php echo module_url('index?filter=mines');?>"><?php echo sprintf( __( 'Mines (%s)' ) , $ttMines );?></a> | 
+                                        <a href="<?php echo module_url('index?filter=scheduled');?>"><?php echo sprintf( __( 'Scheduled (%s)' ) , $ttScheduled );?></a> |
+                                        <a href="<?php echo module_url('index?filter=draft');?>"><?php echo sprintf( __( 'Draft (%s)' ) , $ttDraft );?></a>
                                     </div>
-                                    <table class="table table-striped m-b-none">
+                                    <table class="table table-striped">
                                         <form method="POST">
                                             <tbody>
                                                 <?php
@@ -47,26 +50,26 @@
                                                         <?php 
 											if($g['ETAT'] == '1')
 											{
-												echo 'Publi&eacute;'; 
+												echo __( 'Published' ); 
 											}
 											else if($g['ETAT']	==	'2')
 											{
-												echo 'Brouillon';
+												echo __( 'Draft' );
 											}
 											else if($g['ETAT']	==	'3')
 											{
-												echo 'Programmé';
+												echo __( 'Scheduled' );
 											}
 											else if($g['ETAT']	==	'4')
 											{
-												echo 'En attente d\'examination';
+												echo __( 'Pending review' );
 											}
 											else
 											{
-												echo $g['ETAT'].' : statut inconnu';
+												echo sprintf( __( '%s : Unknow status' ) , $g['ETAT'] );
 											}
 											;?>
-                                                        </small> | <small>Dans
+                                                        </small> | <small><?php _e( 'On' );?>
                                                         <?php 
 											foreach($allCategory as $aC)
 											{
@@ -75,7 +78,10 @@
                                                         <?php
 											}
 											;?>
-                                                        </small> | <small>Par <strong><a href="<?php echo $this->instance->url->site_url(array('account','profile',$user['PSEUDO']));?>"><?php echo $user['PSEUDO'];?></a></strong></small> | <small><?php echo $this->instance->date->timespan($g['DATE']);?></small> | <small><a data-doAction style="color:#FF7F7F" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[ 'namespace' ],'delete',$g['ID']));?>">Supprimer</a></small> <small>
+                                                        </small> | <small><?php _e( 'By' );?> <strong>
+                                                        <a href="<?php echo $this->instance->url->site_url(array('account','profile',$user['PSEUDO']));?>"><?php echo $user['PSEUDO'];?></a></strong></small> | 
+                                                        <small><?php echo $this->instance->date->timespan($g['DATE']);?></small> | 
+                                                        <small><a data-doAction style="color:#FF7F7F" href="<?php echo $this->instance->url->site_url(array('admin','open','modules',$module[ 'namespace' ],'delete',$g['ID']));?>"><?php _e( 'Delete' );?></a></small> <small>
                                                         <input style="display:none;" type="checkbox" name="art_id[]" value="<?php echo $g['ID'];?>">
                                                         </small></td>
                                                 </tr>
@@ -86,7 +92,7 @@
 								{
 									?>
                                                 <tr>
-                                                    <td colspan="5">Aucun article publié ou dans les brouillons</td>
+                                                    <td colspan="5"><?php _e( 'No posts available.' );?></td>
                                                 </tr>
                                                 <?php
 								}
@@ -98,7 +104,7 @@
 										$(this).attr('doAction-binded','true');
 										$(this).bind('click',function(){
 											var $this	=	$(this);
-											tendoo.modal.confirm('Souhaitez-vous supprimer ce message ?',function(){
+											tendoo.modal.confirm('<?php _e( 'Do you wish to delete this ?' );?>',function(){
 												tendoo.doAction($this.attr('href'),function(e){
 													tendoo.triggerAlert(e);
 													if(e.status == 'success')
@@ -125,7 +131,7 @@
                                     <script>
 							$(document).ready(function(){
 								$('table .delete').bind('click',function(){
-									if(confirm('Cette publication sera supprimé avec tous les commentaires qui y sont attachés. Continuer ?'))
+									if(confirm('<?php _e( 'This post will be deleted with all his comments. Proceed ?' );?>'))
 									{
 										var current	=	this;
 										var items = [];
@@ -138,7 +144,7 @@
 											}
 											else
 											{
-												alert('La suppréssion à échoué. Cette publication est introuvable, ou vous n\'avez pas le droit d\'effectuer cette suppréssion');
+												alert("<?php _e( 'Deletion failed. Selected post is not available or you don\'t have the permission to do that.' );?>");
 											}
 										});
 										return false;
@@ -189,7 +195,7 @@
                             <div class="col-lg-4">
                                 <div class="panel">
                                     <div class="panel-heading">
-                                        <h4>Commentaires récents</h4>
+                                        <?php _e( 'Recents comments' );?>
                                     </div>
                                     <table class="table panel-body">
                                         <form method="POST">
@@ -207,7 +213,7 @@
                                                 $pseudo	=	$user['PSEUDO'];
                                                 ?>
                                                 <tr>
-                                                    <td><h5><?php echo $pseudo;?> dit : <a style="text-decoration:underline" href="<?php echo module_url(array('comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],10);?></a> dans <a style="text-decoration:underline" href="<?php echo module_url(array('edit',$news_concerned[0]['ID']));?>"><?php echo $news_concerned[0]['TITLE'];?></a> </h5></td>
+                                                    <td><h5><?php echo $pseudo;?> <?php _e( 'Says :' );?> <a style="text-decoration:underline" href="<?php echo module_url(array('comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],10);?></a> <?php _e( 'On' );?> <a style="text-decoration:underline" href="<?php echo module_url(array('edit',$news_concerned[0]['ID']));?>"><?php echo $news_concerned[0]['TITLE'];?></a> </h5></td>
                                                 </tr>
                                                 <?php
                                             }
@@ -216,7 +222,7 @@
                                                 $pseudo	=	$g[ 'OFFLINE_AUTEUR' ];
                                                 ?>
                                                 <tr>
-                                                    <td><h5><?php echo $pseudo;?> dit : <a style="text-decoration:underline" href="<?php echo module_url(array('comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],10);?></a> dans <a style="text-decoration:underline" href="<?php echo module_url(array('edit',$news_concerned[0]['ID']));?>"><?php echo $news_concerned[0]['TITLE'];?></a> </h5></td>
+                                                    <td><h5><?php echo $pseudo;?> <?php _e( 'Says :' );?> <a style="text-decoration:underline" href="<?php echo module_url(array('comments_manage',$g['ID']));?>"><?php echo word_limiter($g['CONTENT'],10);?></a> <?php _e( 'On' );?> <a style="text-decoration:underline" href="<?php echo module_url(array('edit',$news_concerned[0]['ID']));?>"><?php echo $news_concerned[0]['TITLE'];?></a> </h5></td>
                                                 </tr>
                                                 <?php
                                             }
@@ -227,7 +233,7 @@
                                     {
                                         ?>
                                                 <tr>
-                                                    <td colspan="5">Aucun commentaires disponible</td>
+                                                    <td colspan="5"><?php _e( 'No comment available' );?></td>
                                                 </tr>
                                                 <?php
                                     }
@@ -245,17 +251,17 @@
                 <div class="row m-t-sm text-center-xs">
                     <div class="col-sm-3">
                         <select class="input-sm form-control inline bulkActionChange">
-                            <option value="0">Actions Group&eacute;es</option>
-                            <option value="deleteSelected">Supprimer</option>
-                            <option value="moveToDraftSelected">D&eacute;placer dans les brouillons</option>
-                            <option value="PublishSelected">Publier les articles</option>
+                            <option value="0"><?php _e( 'Bulk Actions' );?></option>
+                            <option value="deleteSelected"><?php _e( 'Delete' );?></option>
+                            <option value="moveToDraftSelected"><?php _e( 'Set as draft' );?></option>
+                            <option value="PublishSelected"><?php _e( 'Publish' );?></option>
                         </select>
                     </div>
                     <div class="col-sm-1">
-                        <button class="btn btn-sm btn-white bulkActionTrigger">Effectuer</button>
+                        <button class="btn btn-sm btn-white bulkActionTrigger"><?php _e( 'Apply' );?></button>
                     </div>
                     <div class="col-sm-4 text-center">
-                        <small class="text-muted inline m-t-sm m-b-sm">Affiche <?php echo $paginate[1];?> &agrave; <?php echo $paginate[2];?> &eacute;l&eacute;ments</small>
+                        <small class="text-muted inline m-t-sm m-b-sm"><?php sprintf( __( 'Displays %s to %s elements' ) , $paginate[1] , $paginate[2] );?></small>
                     </div>
                     <div class="col-sm-4 text-right text-center-xs">
                         <ul class="pagination pagination-sm m-t-none m-b-none">
@@ -276,5 +282,4 @@
             </footer>
         </section>
     </section>
-    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
 </section>

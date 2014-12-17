@@ -24,48 +24,49 @@ class blogster_tepas_class extends Libraries
 	public function admin_context()
 	{
 		// Creating Menu 1.4
-		create_admin_menu( 'blogster' , 'after' , 'controllers' );
+		create_admin_menu( 'blogster' , 'after' , 'dashboard' );
+		
 		add_admin_menu( 'blogster' , array(
-			'title'	=>	'Articles', 
+			'title'	=>	__( 'Posts' ), 
 			'href'	=>	module_url( array( 'index' ) , 'blogster' )
 		) );
 		add_admin_menu( 'blogster' , array(
-			'title'	=>	'Ajouter un article', 
+			'title'	=>	__( 'Write a new post' ), 
 			'href'	=>	module_url( array( 'publish' ) , 'blogster' )
 		) );
 		add_admin_menu( 'blogster' ,array(
-			'title'	=>	'Ajouter une categorie', 
+			'title'	=>	__( 'Create a new category' ), 
 			'href'	=>	module_url( array( 'category', 'create' ) , 'blogster' )
 		) );
 		add_admin_menu( 'blogster' ,array(
-			'title'	=>	'Gestion des categories', 
+			'title'	=>	__( 'Categories' ), 
 			'href'	=>	module_url( array( 'category' ) , 'blogster' )
 		) );
 		add_admin_menu( 'blogster' ,array(
-			'title'	=>	'Gestion des commentaires', 
+			'title'	=>	__( 'Comments' ), 
 			'href'	=>	module_url( array( 'comments' ) , 'blogster' )
 		) );
 		add_admin_menu( 'blogster' ,array(
-			'title'	=>	'Gestion des mots-clés', 
+			'title'	=>	__( 'Tags' ), 
 			'href'	=>	module_url( array( 'tags' ) , 'blogster' )
 		) );
 		add_admin_menu( 'blogster' ,array(
-			'title'	=>	'Réglages', 
+			'title'	=>	__( 'Settings' ), 
 			'href'	=>	module_url( array( 'setting' ) , 'blogster' )
 		) );
 		declare_admin_widget(array(
 			"module_namespace"		=>	"blogster",
 			"widget_namespace"		=>	"articles_stats",
-			"widget_title"			=>	"Statistiques de Blogster",
+			"widget_title"			=>	__( 'Blogster statistics' ),
 			"widget_content"		=>	$this->load->view(MODULES_DIR.$this->module['encrypted_dir'].'/views/widgets/articles_stats',null,true,true),
-			"widget_description"	=>	'Affiche les statistiques sur Blogster'
+			"widget_description"	=>	__( 'Displays blogster stats' )
 		));
 		declare_admin_widget(array(
 			"module_namespace"		=>	"blogster",
 			"widget_namespace"		=>	"recents_commentaires",
-			"widget_title"			=>	"Commentaires récents",
+			"widget_title"			=>	__( 'Recents comments' ),
 			"widget_content"		=>	$this->load->view(MODULES_DIR.$this->module['encrypted_dir'].'/views/widgets/recents_comments',null,true,true),
-			"widget_description"	=>	'Affiche les commentaires récents',
+			"widget_description"	=>	__( 'Displays recents comments' ),
 			"action_control"		=>	module_action('blogster','blogster_manage_comments')
 		));
 	}
@@ -74,11 +75,11 @@ class blogster_tepas_class extends Libraries
 		if( function_exists('declare_shortcut') && get_instance()->users_global->isConnected()){
 			if( current_user_can( 'publish_posts@blogster' ) )
 			{
-				declare_shortcut('Ecrire un article',$this->url->site_url(array('admin','open','modules',$this->module['namespace'],'publish')));
+				declare_shortcut( __( 'Write a new post' ),$this->url->site_url(array('admin','open','modules',$this->module['namespace'],'publish')));
 			}
 			if( current_user_can( 'category_manage@blogster' ) )
 			{
-				declare_shortcut('Liste des catégories',$this->url->site_url(array('admin','open','modules',$this->module['namespace'],'category')));
+				declare_shortcut( __( 'Categories' ),$this->url->site_url(array('admin','open','modules',$this->module['namespace'],'category')));
 			}
 		}
 	}
@@ -91,7 +92,7 @@ class blogster_tepas_class extends Libraries
 			include_once( $file );
 			$this->library = new blogster_recentspost_api($this->module);
 			
-			declare_api( 'blogster_get_blog_post' , 'Articles récents du blog' , array( $this->library , "getDatas" ) );
+			declare_api( 'blogster_get_blog_post' , __( 'Recents blog posts' ) , array( $this->library , "getDatas" ) );
 		}
 		// Declaring API_FEATURED_POST
 		$file	= $this->module[ 'uri_path' ] . 'api/featuredpost.php';
@@ -100,7 +101,7 @@ class blogster_tepas_class extends Libraries
 			include_once( $file );
 			$this->library = new blogster_featuredpost_api($this->module);
 			
-			declare_api( 'blogster_get_featured_blog_post' , 'Les meilleurs articles du blog' , array( $this->library , "getDatas" ) );
+			declare_api( 'blogster_get_featured_blog_post' , __( 'Featured blog posts' ) , array( $this->library , "getDatas" ) );
 		}
 	}
 }

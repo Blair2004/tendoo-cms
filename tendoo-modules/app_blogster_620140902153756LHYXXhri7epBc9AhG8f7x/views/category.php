@@ -21,16 +21,16 @@
                     <?php echo fetch_error_from_url();?>
                 	<section class="panel">
                     	<div class="panel-heading">
-                        Liste des cat&eacute;gories cr&eacute;es
+                        <?php _e( 'Available categories' );?>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped m-b-none" tableMultiSelect>
                                 <thead>
                                     <tr>
                                     	<th width=""><input type="checkbox"></th>
-                                        <th width="300">Nom</th>
-                                        <th>Description</th>
-                                        <th>Date de cr&eacute;ation</th>
+                                        <th width="300"><?php _e( 'Name' );?></th>
+                                        <th><?php _e( 'Description' );?></th>
+                                        <th><?php _e( 'Created on' );?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,7 +54,7 @@
                                 {
                                     ?>
                                     <tr>
-                                        <th colspan="3">Aucune cat&eacute;gorie disponible</th>
+                                        <th colspan="3"><?php _e( 'No category to displays' );?></th>
                                     </tr>
                                     <?php
                                 }
@@ -72,13 +72,13 @@
                 <div class="col-sm-4">
                 	<div bulkSelect target="#bulkSelect">
                         <select name="action" class="input-sm form-control input-s-sm inline">
-                            <option value="0">Actions groupés</option>
-                            <option value="delete">Supprimer</option>
+                            <option value="0"><?php _e( 'Bulk Actions' );?></option>
+                            <option value="delete"><?php _e( 'Delete' );?></option>
                         </select>
-                        <button class="btn btn-sm btn-white">Exécuter</button>
+                        <button class="btn btn-sm btn-white"><?php _e( 'Apply' );?></button>
                     </div>
                 </div>
-                <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">Affiche <?php echo $paginate[1];?> + <?php echo $paginate[2];?> catégorie(s)</small> </div>
+                <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm"><?php echo sprintf( __( 'Displays %s + %s categories' ) , $paginate[1] ,$paginate[2] );?></small> </div>
                 <div class="col-sm-4 text-right text-center-xs">
                     <ul class="pagination pagination-sm m-t-none m-b-none">
                      <?php 

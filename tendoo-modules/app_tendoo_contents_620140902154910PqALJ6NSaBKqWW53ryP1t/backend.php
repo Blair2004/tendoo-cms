@@ -92,7 +92,7 @@ class tendoo_contents_backend extends Libraries
 	}
 	public function manage($id)
 	{
-		if(!$this->tendoo_admin->actionAccess('tendoo_contents_upload','tendoo_contents'))
+		if( !current_user_can( 'tendoo_contents@upload_media' ) )
 		{
 			$this->url->redirect(array('admin','index?notice=accessDenied'));
 		}
@@ -103,7 +103,7 @@ class tendoo_contents_backend extends Libraries
 		$this->load->library('form_validation');
 		if($this->input->post('delete_file'))
 		{
-			if(!$this->tendoo_admin->actionAccess('tendoo_contents_delete','tendoo_contents'))
+			if( !current_user_can( 'tendoo_contents@delete_media' ) )
 			{
 				$this->url->redirect(array('admin','index?notice=accessDenied'));
 			}

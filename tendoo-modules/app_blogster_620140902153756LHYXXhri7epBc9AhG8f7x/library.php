@@ -80,7 +80,7 @@ if(class_exists('tendoo_admin'))
 				$this->db->where( 'ETAT' , 1 );
 			}
 			else if( $action == 'draft' ){
-				$this->db->where( 'ETAT' , 0 );
+				$this->db->where( 'ETAT' , 2 );
 			}
 			$query = $this->db->get('tendoo_news');
 			return count($query->result_array());
@@ -96,6 +96,10 @@ if(class_exists('tendoo_admin'))
 			if($filter	==	'mines')
 			{
 				$this->db->where('AUTEUR',$this->users_global->current('ID'));
+			}
+			if($filter	==	'draft')
+			{
+				$this->db->where('ETAT',2);
 			}
 			if(is_numeric($start) && is_numeric($end))
 			{
@@ -337,7 +341,7 @@ if(class_exists('tendoo_admin'))
 				return $this->db	
 				->where(array('ID'=>$id))
 				->update('tendoo_news',array(
-					'ETAT'		=>		0,
+					'ETAT'		=>		2,
 					'SCHEDULED'	=>		0,
 					'DATE'		=>		$datetime
 				));

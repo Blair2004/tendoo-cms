@@ -23,12 +23,13 @@ class Pages_editor_backend extends Libraries
 		add_admin_left_menu( 'Créer une page' , module_url( array( 'create' ) ) );
 		add_admin_left_menu( 'Réglages' , module_url( array( 'settings' ) ) );
 		// -----------------------------------------------------------------------------------------------------
-		declare_notice( 'page_created' , tendoo_success( 'La page à correctement été créé.' ) );
-		declare_notice( 'successfully_updated' , tendoo_success( 'La page à correctement été mise à jour.' ) );
+		declare_notice( 'page_created' , tendoo_success( __( 'The page has sucessfully been created.' ) ) );
+		declare_notice( 'successfully_updated' , tendoo_success( __( 'The page has sucessfully been updated.' ) ) );
 	}
 	public function index($page = 1)
 	{
-		notice( 'push' , tendoo_info( 'Les fils d\'une page ne seront pas accéssibles sur l\'interface public, si cette page est un brouillon.' ) );
+		notice( 'push' , tendoo_info( __( 'Page childs wont be available on frontend it that page is set as draft' ) ) );
+		
 		if( isset( $_POST[ 'page_id' ] ) && return_if_array_key_exists( 'action' , $_POST ) == 'delete' ){
 			if( is_array( $_POST[ 'page_id' ] ) ){
 				foreach( $_POST[ 'page_id' ] as $_page_id ){
@@ -44,16 +45,16 @@ class Pages_editor_backend extends Libraries
 		set_core_vars( 'paginate' , $paginate );
 		$get_pages		=	$this->lib->get_pages( 'all_limited' , $paginate[ 'start' ] , $paginate[ 'end' ] );
 		set_core_vars( 'get_pages' , $get_pages );
-		set_page( 'title' , 'Page Editor - Page d\'administration' );
+		set_page( 'title' , __( 'Page Creator' ) );
 		
 		return $this->load->view($this->opened_module['uri_path'].'views/main',$this->data,true,TRUE);
 	}
 	public function create()
 	{
 		$this->load->library( 'form_validation' );
-		$this->form_validation->set_rules( 'page_title' , 'Titre de la page' , 'trim|required' );
-		$this->form_validation->set_rules( 'page_description' , 'Description de la page' , 'trim|required' );
-		$this->form_validation->set_rules( 'page_content' , 'le champ du contenu' , 'trim|required' );
+		$this->form_validation->set_rules( 'page_title' , __( 'Page Title' ) , 'trim|required' );
+		$this->form_validation->set_rules( 'page_description' , __( 'Page Description' ) , 'trim|required' );
+		$this->form_validation->set_rules( 'page_content' , __( 'The content field' ) , 'trim|required' );
 		if( $this->form_validation->run() ){
 			$post_page	=	$this->lib->set_page( 
 				$this->input->post( 'page_title' ) , 
@@ -68,7 +69,7 @@ class Pages_editor_backend extends Libraries
 			module_location( array( 'edit' , $post_page[ 'ID' ] . '?notice=page_created' ) );
 		}
 				
-		set_page( 'title' , 'Page Editor - Créer une nouvelle page' );		
+		set_page( 'title' , __( 'Page Creator > Create a new page' ) );		
 		set_core_vars( 'available_controllers' , $this->lib->get_available_controllers() );
 		set_core_vars( 'available_pages' , $this->lib->get_pages( 'all_available' ) );
 		
@@ -78,10 +79,10 @@ class Pages_editor_backend extends Libraries
 	public function edit( $page_id )
 	{
 		$this->load->library( 'form_validation' );
-		$this->form_validation->set_rules( 'page_title' , 'Titre de la page' , 'trim|required' );
-		$this->form_validation->set_rules( 'page_id' , 'Identifiant de la page' , 'trim|required' );
-		$this->form_validation->set_rules( 'page_description' , 'Description de la page' , 'trim|required' );
-		$this->form_validation->set_rules( 'page_content' , 'le champ du contenu' , 'trim|required' );
+		$this->form_validation->set_rules( 'page_title' , __( 'Page Title' ) , 'trim|required' );
+		$this->form_validation->set_rules( 'page_id' , __( 'Page Id' ) , 'trim|required' );
+		$this->form_validation->set_rules( 'page_description' , __( 'Page description' ) , 'trim|required' );
+		$this->form_validation->set_rules( 'page_content' , __( 'Content field' )  , 'trim|required' );
 		if( $this->form_validation->run() ){
 			$post_page	=	$this->lib->set_page( 
 				$this->input->post( 'page_title' ) , 
@@ -96,7 +97,7 @@ class Pages_editor_backend extends Libraries
 			notice( 'push' , fetch_notice_output( $post_page ) );
 		}
 				
-		set_page( 'title' , 'Page Editor - modifier une page' );		
+		set_page( 'title' , __( 'Page creator > Create a page' ) );		
 		set_core_vars( 'available_controllers' , $this->lib->get_available_controllers( $page_id ) );
 		set_core_vars( 'available_pages' , $this->lib->get_pages( 'all_but_not' , $page_id ) );
 		set_core_vars( 'current_page' ,  $this->lib->get_pages( 'filter_id' , $page_id ) );
