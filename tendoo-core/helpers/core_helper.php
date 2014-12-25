@@ -18,6 +18,21 @@ if(!function_exists('is_php'))
 		return false;
 	}
 }
+/**
+ * Check if a specific feature is enabled on tendoo.
+ * 
+ * @param string required. feature name
+ * @return bool. if feature is enabled or not.
+**/
+
+function is_enabled( $feature_name ) {
+	switch( $feature_name ){
+		case 'tools' :
+			return defined( 'TOOLS_ENABLED' ) ? TOOLS_ENABLED : false ;
+		break;
+	}
+}
+
 if ( ! function_exists('remove_invisible_characters'))
 {
 	function remove_invisible_characters($str, $url_encoded = TRUE)
@@ -39,16 +54,23 @@ if ( ! function_exists('remove_invisible_characters'))
 		{
 			$str = preg_replace($non_displayables, '', $str, -1, $count);
 		}
-		while ($count);
+		while( $count );
 
 		return $str;
 	}
 }
 if(!function_exists('show_message'))
 {
-	function show_error($content)
+	function show_error($content , $heading = '' )
 	{
-		?><p style="border:solid 1px #CCC;padding:1%;width:96%;margin:1%;text-align:center;background:#FFE6E6;color:#777;"><span>Error : </span><?php echo $content;?></p><?php
+		$heading == '' ? __( 'Error Occured' ) : $heading;
+		
+		?>
+        <p style="border:solid 1px #CCC;padding:1%;width:96%;margin:1%;text-align:center;background:#FFE6E6;color:#777;">
+        	<h4><?php echo strip_tags( $heading );?></h4>
+			<?php echo strip_tags( $content );?>
+		</p>
+		<?php
 	}
 }
 if(!function_exists('log_message'))

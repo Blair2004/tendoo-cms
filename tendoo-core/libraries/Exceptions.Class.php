@@ -135,9 +135,10 @@ class Exceptions {
 	 */
 	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
-		/*set_status_header($status_code);*/
-		$message = '<div class="panel"><div class="wrapper">'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</div></div>';
-		$this->instance->tendoo->show_error($message,$heading);
+		set_core_vars( 'error' , $message );
+		set_core_vars( 'body' , get_instance()->load->the_view( 'warning' , true ) );
+		get_instance()->load->the_view( 'header' );
+		get_instance()->load->the_view( 'global_body' );
 	}
 
 	// --------------------------------------------------------------------

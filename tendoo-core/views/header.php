@@ -9,10 +9,10 @@
 var tendoo				=	new Object();
 	tendoo.url			=	new function(){
 		this.main		=	function(){
-			return '<?php echo $this->instance->url->main_url();?>';
+			return '<?php echo get_instance()->url->main_url();?>';
 		};
 		this.base_url	=	function(){
-			return '<?php echo $this->instance->url->base_url();?>';
+			return '<?php echo get_instance()->url->base_url();?>';
 		};
 		this.site_url	=	function(e){
 			if(typeof e == 'object')
@@ -22,9 +22,9 @@ var tendoo				=	new Object();
 				{
 					completed	+=	e+'/';
 				}
-				return '<?php echo $this->instance->url->base_url();?>'+completed;
+				return '<?php echo get_instance()->url->base_url();?>'+completed;
 			}
-			return '<?php echo $this->instance->url->base_url();?>'+e;
+			return '<?php echo get_instance()->url->base_url();?>'+e;
 		};
 	};
 </script>

@@ -651,7 +651,7 @@
 	}
 	/**
 	*	declare_admin_widget()
-	*	Autorise la déclaration des widgets qui seront affiché à l'accueil du tableau de bord via tepas.
+	*	Autorise la déclaration des widgets qui seront affiché à l'accueil du tableau de bord via init.
 	**/
 	function declare_admin_widget($widget,$widget_form = "normal_form") // allowed form collapsible_form, normal_form...
 	{	
@@ -873,37 +873,37 @@
 	/**
 	*	Engage passive Scripting
 	**/
-	function engage_tepas()
+	function trigger_inits()
 	{
-		if(!defined('TEPAS_CALLED'))
+		if(!defined('INITS_EXECUTED'))
 		{
-			define( 'TEPAS_CALLED' , 'TRUE');
+			define( 'INITS_EXECUTED' , 'TRUE');
 			$tos_module_enabled	=	get_modules( 'filter_active' );
 			if($tos_module_enabled)
 			{
 				foreach($tos_module_enabled as $m)
 				{
-					$tepas_file	=	MODULES_DIR.$m['encrypted_dir'].'/tepas.php';
-					if(is_file($tepas_file))
+					$init_file	=	MODULES_DIR.$m['encrypted_dir'].'/init.php';
+					if(is_file($init_file))
 					{
-						include_once($tepas_file);
-						if(class_exists($m[ 'namespace' ].'_tepas_class'))
+						include_once($init_file);
+						if(class_exists($m[ 'namespace' ].'_init_class'))
 						{
-							eval('new '.$m[ 'namespace' ].'_tepas_class($m);');
+							eval('new '.$m[ 'namespace' ].'_init_class($m);');
 						}
 					}
 				}
 			}
-			// Tepas enabled only on active theme
+			// init enabled only on active theme
 			$active_theme		=	get_themes( 'filter_active' );
 			if( is_array( $active_theme ) && count( $active_theme ) >  0 ) { // Si le thème existe
-				$tepas_file			=	THEMES_DIR . $active_theme[ 'encrypted_dir' ] . '/tepas.php';
-				if( is_file( $tepas_file ) )
+				$init_file			=	THEMES_DIR . $active_theme[ 'encrypted_dir' ] . '/init.php';
+				if( is_file( $init_file ) )
 				{
-					include_once( $tepas_file );
-					if( class_exists( $active_theme[ 'namespace' ] . '_theme_tepas_class' ) )
+					include_once( $init_file );
+					if( class_exists( $active_theme[ 'namespace' ] . '_theme_init_class' ) )
 					{
-						eval( 'new '. $active_theme[ 'namespace' ] . '_theme_tepas_class($active_theme);' );
+						eval( 'new '. $active_theme[ 'namespace' ] . '_theme_init_class($active_theme);' );
 					}
 				}
 			}

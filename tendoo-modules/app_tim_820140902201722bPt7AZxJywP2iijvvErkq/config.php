@@ -1,6 +1,6 @@
 <?php
 declare_module( 'tim' , array( 
-	'name'		=>		'Gestionnaire de la page d\'accueil',
+	'name'				=>		'Gestionnaire de la page d\'accueil',
 	'author'			=>		'Tendoo Luminax Group',
 	'description'		=>		'Personnaliser votre page d\'accueil. Ajouter, supprimer et ordonnez tous les éléments disponibles, afin de donner à votre page d\'accueil une apparence unique.',
 	'has_widget'		=>		TRUE,

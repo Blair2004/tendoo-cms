@@ -65,7 +65,7 @@ include_once(LIBRARIES_DIR . 'Notice.Class.php');
 include_once(LIBRARIES_DIR . 'Roles.Class.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LOAD HELPERS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 include_once(HELPERS_DIR.'apps_helper.php');
-include_once(HELPERS_DIR.'function_helper.php');
+include_once(HELPERS_DIR.'core_helper.php');
 include_once(HELPERS_DIR.'date.php');
 include_once(HELPERS_DIR.'text.php');
 include_once(HELPERS_DIR.'cookie_helper.php');

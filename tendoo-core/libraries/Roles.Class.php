@@ -31,7 +31,7 @@ Class Roles extends Libraries
 			$array	=	array(
 				'NAME'	=>	$name,
 				'DESCRIPTION'	=>	$description,
-				'DATE'			=>	$this->instance->date->datetime(),
+				'DATE'			=>	get_instance()->date->datetime(),
 				'IS_SELECTABLE'	=>	in_array((int)$is_selectable,array(0,1)) ? $is_selectable : 0
 			);
 			return $this->db->insert('tendoo_roles',$array);

@@ -27,15 +27,23 @@ class Install extends Libraries
 	}
 	public function step($i = 1,$e = '')
 	{
-		$this->instance->lang->defineLang('en_US');
+		// $this->instance->lang->defineLang('en_US');
 		if($this->lang->isLangSelected())
 		{
 			// $this->url->redirect(array('install','defineLang'));
 		}
 		$this->data['step']	=	$i;
 		$this->data['InstallError'] = '';
+		
+		set_core_vars( 'step' , $i );
+		
 		if($i == 1)
 		{
+			// Skip this step
+			$_SESSION['secur_access'] = 2;
+			$this->url->redirect(array('install','step',2));
+			// Skip this step
+			
 			$_SESSION['secur_access'] = 1;
 			if(isset($_POST['submit']))
 			{
@@ -84,9 +92,11 @@ class Install extends Libraries
 					}
 				}
 			}
-			set_page('title',translate('tendoo_install_first_step'));
-			$this->load->view('header',$this->data);
-			$this->load->view('install/step/2/homebody',$this->data);
+			set_page('title', sprintf( translate( '%s &shy; Setting Database Information' ) , get( 'core_version' ) ) );
+			set_core_vars( 'installbody' , $this->load->the_view('install/step/2/homebody', true ) );
+			
+			$this->load->the_view('header',$this->data);			
+			$this->load->the_view( 'install/step/body' );
 		}
 		else if($i == 3)
 		{
@@ -94,7 +104,7 @@ class Install extends Libraries
 			{
 				if(!isset($_SESSION['secur_access']))
 				{
-					$this->url->redirect('install/step/1/secur_access_not_defined');
+					$this->url->redirect('install/step/2/secur_access_not_defined');
 				}
 				else
 				{
@@ -103,13 +113,16 @@ class Install extends Libraries
 						$this->url->redirect('install/step/1');
 					}
 				}
-				set_page('title',translate( '' ) );
-				$this->load->view('header',$this->data);
-				$this->load->view('install/step/3/homebody',$this->data);
+				set_page('title', sprintf( translate( '%s &shy; Providing Website name' ) , get( 'core_version' ) ) );
+				
+				set_core_vars( 'installbody' , $this->load->the_view('install/step/3/homebody', true ) );
+				
+				$this->load->the_view( 'header' , $this->data );
+				$this->load->the_view('install/step/body' );
 			}
 			else
 			{
-				$this->url->redirect('install/step/1/installError');
+				$this->url->redirect('install/step/2/installError');
 			}
 		}
 	}

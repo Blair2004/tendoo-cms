@@ -358,14 +358,10 @@ function uninstall_module( $namespace ){
 	**/
 	function module_include($mod_namespace,$path)
 	{
-		$instance	=	get_instance();
-		if(isset($instance->tendoo_admin))
+		$_module	=	get_modules( 'filter_namespace' , $mod_namespace );
+		if($_module)
 		{
-			$_module	=	get_modules( 'filter_namespace' , $mod_namespace );
-			if($_module)
-			{
-				include_once( $_module[ 'uri_path' ] . '/' . $path );
-			}
+			include_once( $_module[ 'uri_path' ] . '/' . $path );
 		}
 		return false;
 	}

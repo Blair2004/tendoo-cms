@@ -1,5 +1,5 @@
 <?php
-class tendoo_contents_tepas_class extends Libraries
+class tendoo_contents_init_class extends Libraries
 {
 	public function __construct($data)
 	{

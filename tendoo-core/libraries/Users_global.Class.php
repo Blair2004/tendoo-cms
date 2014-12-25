@@ -755,7 +755,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 		}
 		return false;
 	}
-	public function updatePassword($old,$new)
+	public function updainitsword($old,$new)
 	{
 		if($this->current('PASSWORD')	==	sha1($old) && sha1( $new ) != $this->current( 'PASSWORD' ) )
 		{

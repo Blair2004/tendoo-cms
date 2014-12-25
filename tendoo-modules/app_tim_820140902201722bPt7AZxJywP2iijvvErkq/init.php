@@ -1,5 +1,5 @@
 <?php
-class tim_tepas_class
+class tim_init_class
 {
 	function __construct(){
 		// Saving Theme Settings

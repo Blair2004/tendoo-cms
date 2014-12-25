@@ -1,5 +1,5 @@
 <?php
-class flaty_theme_tepas_class
+class flaty_theme_init_class
 {
 	public function __construct()
 	{

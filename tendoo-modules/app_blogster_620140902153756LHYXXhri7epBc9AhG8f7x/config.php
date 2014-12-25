@@ -1,14 +1,14 @@
 <?php
 declare_module( 'blogster' , array(  // restore later to blogster please
-	'name'				=>		'BlogSter',
+	'name'				=>		__( 'Blogster' ),
 	'author'			=>		'Tendoo Luminax Group',
-	'description'		=>		'Créez et gérez votre blog avec le module BlogSter. Il a été modifié spécialement pour la version 1.3 de tendoo. Il offre plus de fonctionnalité et est plus facile en prendre en main que les précédentes versions.',
+	'description'		=>		__( 'This module help you create a blog section on your website.' ),
 	'has_widget'		=>		TRUE,
 	'has_api'			=>		TRUE,
 	'has_icon'			=>		TRUE,
 	'handle'			=>		'BLOG',
-	'compatible'		=>		1.3,
-	'version'			=>		0.6
+	'compatible'		=>		1.4,
+	'version'			=>		0.7
 ) ); 
 push_module_sql( 'blogster' , 	'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_comments` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -78,14 +78,14 @@ push_module_sql( 'blogster' , 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_new
 ');
 push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news` 
 	(ID,TITLE,URL_TITLE,CONTENT,DATE,AUTEUR,ETAT,IMAGE,THUMB) values
-	(1, 'Bienvenue sur tendoo 1.3', 'bienvenue-sur-tendoo-1-3', \"Bienvenue sur tendoo,<br> Ceci est votre premier article. Vous pouvez le modifier, le supprimer ou en ajouter un autre en vous connectant au panneau d'administration. La rédaction d'article est assez simple en réalité, vous pouvez tout apprendre sur Tendoo en vous connectant à la plateforme et en suivant les différents tutoriels qui y sont. Vous pouvez également contribuer à la communauté en apportant vos avis et en aidant la communauté à créer un code beaucoup plus performant.En cas de souci, vous pouvez également contact l'équipe de développement.\", '".get_instance()->date->datetime()."', '1' , '1', '".img_url( 'Hub_back.png' )."', '".img_url( 'Hub_back.png' )."')"
+	(1, 'Welcome on tendoo " . get( 'core_id' ) . "', 'welcome-on-tendoo-cms', 'Hi, here is your first post. You can edit it through dahsboard.', '".get_instance()->date->datetime()."', '1' , '1', '".img_url( 'Hub_back.png' )."', '".img_url( 'Hub_back.png' )."')"
 );	
 push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_category` 
 	(ID,CATEGORY_NAME,URL_TITLE,DESCRIPTION,DATE) values
-	(1, 'Catégorie sans nom', 'categorie-sans-nom', 'Ceci est votre première catégorie, vous pouvez en ajouter', '".get_instance()->date->datetime()."')");
+	(1, 'Unamed category', 'unamed-cateogry', 'This is your first category.', '".get_instance()->date->datetime()."')");
 push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_keywords` 
 	(ID,TITLE,URL_TITLE,DESCRIPTION,AUTEUR) values
-	(1, 'tendoo', 'tendoo', 'Vous avez la possibilité d\'utiliser plusieurs mots-clés', '1')"
+	(1, 'tendoo', 'tendoo', 'You can use more than one keyword', '1')"
 );
 push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_ref_category` 
 	(ID,NEWS_REF_ID,CATEGORY_REF_ID) values
@@ -97,36 +97,36 @@ push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_ref_keywords`
 );
 push_module_action( 'blogster' , array(
 	'action'				=>	'publish_posts',
-	'action_name'			=>	'Publier les articles',
-	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de publier des articles',
+	'action_name'			=>	__( 'Publish Post' ),
+	'action_description'	=>	__( 'This permission let you create a post' ),
 ));
 push_module_action( 'blogster' , array(
 	'action'				=>	'delete_posts',
-	'action_name'			=>	'Supprimer les articles',
-	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de supprimer des articles',
+	'action_name'			=>	__( 'Delete Post' ),
+	'action_description'	=>	__( 'This permission let you delete posts' ),
 ));
 push_module_action( 'blogster' , array(
 	'action'				=>	'edit_posts',
-	'action_name'			=>	'Modifier les articles',
-	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de modifier des articles',
+	'action_name'			=>	__( 'Delete posts' ),
+	'action_description'	=>	__( 'This permission is used to delete posts' ),
 ));
 push_module_action( 'blogster' , array(
 	'action'				=>	'category_manage',
-	'action_name'			=>	'Gestion des cat&eacute;gories',
-	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de g&eacute;rer les cat&eacute;gories',
+	'action_name'			=>	__( 'Manage Category' ),
+	'action_description'	=>	__( 'This permissions let you manage category' ),
 ));
 push_module_action( 'blogster' , array(
 	'action'				=>	'blogster_setting',
-	'action_name'			=>	'Gestion des param&ecirc;tres',
-	'action_description'	=>	'Cette action permet de modifier les param&ectres avanc&eacute;s.',
+	'action_name'			=>	__( 'Manage Blogster Settings' ),
+	'action_description'	=>	__( 'In order to access blogster settings' ),
 ));
 push_module_action( 'blogster' , array(
 	'action'				=>	'blogster_manage_comments',
-	'action_name'			=>	'Gestion des commentaires',
-	'action_description'	=>	'Cette action permet de g&eacute;rer les commentaires.',
+	'action_name'			=>	__( 'Manage Comments' ),
+	'action_description'	=>	__( 'In order to manage comments' ),
 ));
 push_module_action( 'blogster' , array(
 	'action'				=>	'blogster_manage_tags',
-	'action_name'			=>	'Gestion des mots clés',
-	'action_description'	=>	'Cette action permet de g&eacute;rer les mots clés.',
+	'action_name'			=>	__( 'Manage Tags' ),
+	'action_description'	=>	__( 'This permission let you manage tags' ),
 ));

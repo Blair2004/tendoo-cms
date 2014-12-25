@@ -44,23 +44,23 @@
 											?>
                                         <tr>
                                             <td><input type="checkbox" name="page_id[]" value="<?php echo $_pages[ 'ID' ];?>" /></td>
-                                            <td><a href="<?php echo module_url( array( 'edit' , $_pages[ 'ID' ] ) );?>"><?php echo return_if_array_key_exists( 'TITLE' , $_pages );?> <?php echo $_pages[ 'STATUS' ] == 0 ? '<span class="text-muted">[ Brouillon ]</span>' : '';?></a></td>
+                                            <td><a href="<?php echo module_url( array( 'edit' , $_pages[ 'ID' ] ) );?>"><?php echo return_if_array_key_exists( 'TITLE' , $_pages );?> <?php echo $_pages[ 'STATUS' ] == 0 ? '<span class="text-muted">' . __( '[Draft]' ) . '</span>' : '';?></a></td>
                                             <td><?php echo $author[ 'PSEUDO' ];?></td>
                                             <td><?php echo 
 											return_if_array_key_exists( 'PAGE_TITLE' , $controller[0] )
-												? return_if_array_key_exists( 'PAGE_TITLE' , $controller[0] ) : "Aucun contrôleur";
+												? return_if_array_key_exists( 'PAGE_TITLE' , $controller[0] ) : __( 'No controller' );
 										;?></td>
                                             <td><?php echo $this->date->timespan( $_pages[ 'DATE' ] );?></td>
                                             <td><?php 
 											if( is_array( $controller ) ){
 												?>
-                                                <a href="<?php echo get_instance()->url->site_url(array( $controller[0][ 'PAGE_CNAME' ] ) );?>">Voir la page</a>
+                                                <a href="<?php echo get_instance()->url->site_url(array( $controller[0][ 'PAGE_CNAME' ] ) );?>"><?php _e( 'Open that page' );?></a>
                                                 <?php
 											}
 											else{
 												if( is_array( $_pages[ 'THREAD' ] ) ){
 												?>
-                                                <a href="<?php echo get_instance()->url->site_url( $_pages[ 'THREAD' ] );?>">Voir la page</a>
+                                                <a href="<?php echo get_instance()->url->site_url( $_pages[ 'THREAD' ] );?>"><?php _e( 'Open that page' );?></a>
                                                 <?php
 												}
 												else {
@@ -76,7 +76,7 @@
 									{
 										?>
                                         <tr>
-                                            <td colspan="5">Aucun page disponible. <a href="<?php echo module_url( array( 'create' ) );?>">Cliquez ici pour créer une nouvelle page</a>.</td>
+                                            <td colspan="5"><?php echo __( 'No page available <a href=" ' . module_url( array( 'create' ) ) . '">Click here to create a page</a>' );?></td>
                                         </tr>
                                         <?php
 									}

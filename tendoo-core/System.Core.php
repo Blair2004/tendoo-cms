@@ -29,7 +29,6 @@ Class instance extends Libraries
 		$Class		=	$this->url->controller();	
 		$Method		=	$this->url->method();
 		$Parameters	=	$this->url->parameters();
-		$Teurmola	=	explode('@',$this->url->controller());
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		is_compatible();
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -100,7 +99,7 @@ Class instance extends Libraries
 			( $this->url->controller() == 'admin' ) ? define( 'SCRIPT_CONTEXT' , 'ADMIN' ) : define( 'SCRIPT_CONTEXT' , 'PUBLIC' );
 			if($this->is_installed)
 			{
-				if($this->db_connected())
+				if( $this->db_connected() )
 				{
 					include_once( CONTROLLERS_DIR . $this->url->controller() . '.php' );
 					include_once( SYSTEM_DIR . 'Executer.php' );
@@ -109,6 +108,11 @@ Class instance extends Libraries
 				{
 					$this->tendoo->error( 'db_connect_error' );die;
 				}
+			}
+			else if( $this->url->controller() == 'install' )
+			{
+				include_once( CONTROLLERS_DIR . $this->url->controller() . '.php' );
+				include_once( SYSTEM_DIR . 'Executer.php' );
 			}
 			else
 			{
@@ -119,15 +123,16 @@ Class instance extends Libraries
 		{
 			// Permet de savoir dans quel contexte le script est exécuté
 			define('SCRIPT_CONTEXT','PUBLIC');
-			// Vérification de l'état d'installation
+			
+			// Is installed ?
 			if( ! $this->is_installed )
 			{
-				include_once(CONTROLLERS_DIR.'tendoo_index.php');
-				include_once(SYSTEM_DIR.'Executer.php');
+				include_once( CONTROLLERS_DIR . 'tendoo_index.php');
+				include_once( SYSTEM_DIR . 'Executer.php');
 			}
 			else
 			{
-				// Connecte toi ou meurt, étrange connexion impossible à la bd.
+				// Connect to databse
 				if( ! $this->db_connected() )
 				{
 					$this->tendoo->error('db_connect_error');die;
@@ -140,9 +145,10 @@ Class instance extends Libraries
 					$this->url->redirect( array( 'admin' , 'index?notice=web-app-mode-enabled' ) );
 				}
 				// Et les stats ?, on initialise
-				$this->load->library( 'stats' ); 
-				// As we do engage tepas, users_global should be loaded once.
+				// $this->load->library( 'stats' );  // No supported on 1.4
+				// As we do engage init, users_global should be loaded once.
 				$this->load->library( 'users_global' );
+				
 				// Première super variable Tendoo
 				set_core_vars(	'controllers'	,	($this->data['controllers']		=	$this->tendoo->get_pages('',FALSE))	,'readonly'); // ??	
 				set_core_vars(	'page'	,	($this->data['page']					=	$this->tendoo->getPage($Class))	,'readonly');	
@@ -152,14 +158,16 @@ Class instance extends Libraries
 				set_core_vars(	'module'	,  $module 								= 	get_modules( 'filter_active_namespace' , $this->data['page'][0]['PAGE_MODULES'] ) ,'readonly');
 				set_core_vars(	'opened_module'	,  $module ,'readonly');
 				set_core_vars(	'app_module'	,	( 	$app_module 				= 	get_modules( 'filter_active_app' ) ),'readonly' );
+				
 				// Le controleur existe ? oui / Non ?
+				
 				if( is_string( $this->data['page'] ) )
 				{
 					$this->url->redirect(array('error','code',$this->data['page']));
 				}
 				else
 				{
-					// Ce module est-il valide ou activé ?
+					// If selected module is valid
 					if( ! $module ){
 						$this->url->redirect(array('error','code', 'moduleBug'));
 					}
@@ -167,21 +175,23 @@ Class instance extends Libraries
 					set_page( 'title' , $this->data['page'][0]['PAGE_TITLE'] );
 					set_page( 'description' , $this->data['page'][0]['PAGE_DESCRIPTION'] );
 					set_page( 'keywords' , $this->data['page'][0]['PAGE_KEYWORDS']);
+					
 					// Saved First BreadCrumbs
 					$INDEX	=	$this->tendoo->getPage( 'index' );
 					set_bread( array (
 						'link'	=>	$this->data['module_url'],
 						'text'	=>	$INDEX[0][ 'PAGE_NAMES' ]
 					) );
-					// End BreadCrumbs
+					
 					/**
-					*		TENDOO PASSIVE SCRIPTING
+					 *
+					 * Trigger each init.php file within module and theme folders
+					 *
 					**/
-					$this->engage_tepas();
-					/**
-					*		END
-					**/	
-					$this->stats->addVisit(); // Add visit to global stats
+					$this->trigger_inits();
+					
+					// $this->stats->addVisit(); // No more supported
+					
 					if( TRUE !== ( $active_theme = does_active_theme_support( $module[ 'handle' ] ) ) )
 					{
 						$this->url->redirect(array('error','code','active_theme_does_not_handle_that'));
@@ -196,8 +206,9 @@ Class instance extends Libraries
 					}
 					else
 					{
-						// LOAD THEME HANDLER
+						// Load theme handler file
 						include_if_file_exists( $this->data['active_theme']['uri_path'] . '/handler.php' );
+						
 						if(class_exists( $this->data['active_theme']['namespace'] . '_theme_handler')) // Chargement du theme handler
 						{
 							eval( 'set_core_vars("active_theme_object",new ' . $this->data['active_theme']['namespace'] . '_theme_handler());' ); // Initialize Theme handler;
@@ -206,18 +217,10 @@ Class instance extends Libraries
 						{
 							$this->url->redirect(array('error','code','themeCrashed'));
 						}
-						// Gestion des modules globaux ? déprécié ?
-						if( is_array( $app_module ) )
-						{
-							foreach( $app_module as $_module)
-							{
-								include_if_file_exists( $_module['uri_path'] . '/library.php' );
-								include_once( $_module['uri_path'] . '/frontend.php');
-							}
-						}
-						// LOAD ON PAGE MODULE
+						
 						$TENDOO_MODULE			=	$module;
 						$Class					=	$module['namespace']; // REAFFECT CLASS VALUE DUE TO EXISTENT MODULE CLASS
+						
 						include_if_file_exists( MODULES_DIR . $module['encrypted_dir'] . '/library.php' );
 						include_once( MODULES_DIR . $module['encrypted_dir'] . '/frontend.php' );
 					}
@@ -264,6 +267,10 @@ Class instance extends Libraries
 	public function db_connected()
 	{
 		return $this->db_connected;
+	}
+	public function is_installed()
+	{
+		return $this->is_installed;
 	}
 	public static function instance()
 	{
@@ -318,8 +325,8 @@ Class instance extends Libraries
 	/**
 	*	Passive Tendoo Script
 	**/
-	private function engage_tepas()
+	private function trigger_inits()
 	{
-		engage_tepas();
+		trigger_inits();
 	}
 }

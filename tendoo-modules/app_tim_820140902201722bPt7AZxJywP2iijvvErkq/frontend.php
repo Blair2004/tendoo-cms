@@ -19,9 +19,6 @@ class tim_frontend extends Libraries
 	}
 	public function index()
 	{
-		// Bread
-		
-		//
 		set_page('title',$this->data['page'][0]['PAGE_TITLE']);
 		set_page('description',$this->data['page'][0]['PAGE_DESCRIPTION']);
 		get_core_vars('active_theme_object')->definePageTitle($this->data['page'][0]['PAGE_TITLE']);

@@ -14,3 +14,5 @@ define( 'LANG_RECORDER_ENABLED' , false ); // record core lang passed as paramte
 define( 'LANG' , 'en_US' );
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define( 'GUI_EXPIRE' , 3600 ); // GUI Form expiration time in seconds
+/* =-=-=-=-=-=-=-=-=-=-=- Features Status -=-=-=-=-=-=-=-=-= */
+define( 'TOOLS_ENABLED' , FALSE ); // in order to enable tools feature on tendoo

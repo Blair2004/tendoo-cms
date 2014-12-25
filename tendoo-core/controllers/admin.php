@@ -19,9 +19,9 @@ class Admin extends Libraries
 		set_core_vars( 'admin_menu_items' , array( 'dashboard' , 'menu' , 'about' , 'users' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) );
 		set_core_vars( 'admin_menu_position' , array( 'after' , 'before' ) );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->__admin_widgets(); // USING core WiDGET and thoses defined through tepas
+		$this->__admin_widgets(); // USING core WiDGET and thoses defined through init
 		$this->__creating_menus();
-		engage_tepas(); // For Core menu extension, they are called after default menu.
+		trigger_inits(); // For Core menu extension, they are called after default menu.
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		set_page( 'description' , translate( 'Dashboard' ) . ' | '.get( 'core_version' ) );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -270,7 +270,7 @@ class Admin extends Libraries
 				$info = '';
 				if( $this->input->post( 'user_newpass' ) == $this->input->post( 'user_confirmnewpass' ) )
 				{
-					$result		=	current_user()->updatePassword( $this->input->post( 'user_oldpass' ) , $this->input->post( 'user_newpass' ) );
+					$result		=	current_user()->updainitsword( $this->input->post( 'user_oldpass' ) , $this->input->post( 'user_newpass' ) );
 					if( $result )
 					{
 						$info	=	'&info=' . __( 'Password has been changed' );

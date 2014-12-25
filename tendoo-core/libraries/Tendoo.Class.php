@@ -375,7 +375,7 @@ class Tendoo
 		}
 		else
 		{
-			$this->error('controller-not-properly');die;
+			$this->error('controller-not-properly');
 		}
 		// Default Else
 		$BODY	=	'404';
@@ -456,22 +456,12 @@ class Tendoo
 	}
 	public function error($notice)
 	{
-		set_page('title','Erreur');
-		get_instance()->load->library('file');
-		get_instance()->file->css_push('app.v2');
-		get_instance()->file->css_push('tendoo_global');
 		$error	=	fetch_notice_output($notice);
-
-		include_once(VIEWS_DIR.'warning.php');
+		echo show_error( $error , $notice );
 	}
 	public function show_error($error,$heading)
 	{
-		$this->setTitle('Erreur - '.$heading);
-		$this->instance			=	get_instance();
-		$this->instance->load->library('file');
-		$this->instance->file->css_push('app.v2');
-		$this->instance->file->css_push('tendoo_global');
-		include_once(VIEWS_DIR.'warning.php');
+		echo show_error( $error , $heading );
 	}
 	public function paginate($elpp,$ttel,$pagestyle,$classOn,$classOff,$current_page,$baselink,$ajaxis_link=null) // Deprecated
 	{

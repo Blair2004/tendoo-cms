@@ -1,5 +1,5 @@
 <?php
-class eva_theme_tepas_class
+class eva_theme_init_class
 {
 	public function __construct()
 	{

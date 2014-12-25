@@ -1,5 +1,5 @@
 <?php
-class tendoo_theme_tepas_class
+class tendoo_theme_init_class
 {
 	public function __construct()
 	{

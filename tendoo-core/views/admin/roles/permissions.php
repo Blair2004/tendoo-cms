@@ -17,11 +17,10 @@ foreach( force_array( $get_roles ) as $_role )
 			'submit_text'	=>	__( 'Save Role Permissions' )
 		)
 	) )->push_to( 1 );
-
 	foreach( force_array( $get_modules ) as $key => $_modules )
 	{
 		$checked	=	$name	=	$text	= 	$value	=	array();
-		foreach( force_array( $_modules[ 'declared_actions' ] ) as $_actions )
+		foreach( riake( 'declared_actions' , $_modules , array() ) as $_actions )
 		{
 			$checked[]		=	$this->roles->can( riake( 'ID' , $_role ) , $_actions[ 'mod_namespace' ] . '@' . $_actions[ 'action' ] );
 			$value[]		=	$_actions[ 'mod_namespace' ] . '@' . $_actions[ 'action' ];

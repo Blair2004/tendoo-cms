@@ -1,5 +1,5 @@
 <?php
-class blogster_tepas_class extends Libraries
+class blogster_init_class extends Libraries
 {
 	public function __construct($data)
 	{

@@ -29,7 +29,7 @@ Class registration extends Libraries
 		$this->file					=&	$this->instance->file;
 		$this->pagination			=&	$this->instance->pagination;
 		$this->form_validation		=&	$this->instance->form_validation;
-		$this->instance->form_validation->set_error_delimiters('<span class="fg-color-redLight">', '</span>');
+
 		$this->data['notice']		=	'';
 		$this->data['error']		=	'';
 		$this->data['success']		=	'';

@@ -20,7 +20,7 @@ class Loader
 	private	$tendoo_main_dir		=	array('' => TRUE);
 	public function __construct(&$parent)
 	{
-		$this->parent				=	$parent;
+		$this->parent					=	$parent;
 		$this->instance					=	get_instance();
 	}
 	public function __get($var)
@@ -114,19 +114,23 @@ class Loader
 				}
 			}
 		}
-
+		/** Deprecated since Tendoo 1.4 has a better error handler.
 		if ( ! $file_exists && ! file_exists($_Tendoo_path))
 		{
 			show_error('Unable to load the requested file: '.$_Tendoo_file);
 		}
+		**/
 
 		// This allows anything loaded using $this->load (views, files, etc.)
 		// to become accessible from within the Controller and Model functions.
-		foreach (get_object_vars($this->instance) as $_Tendoo_key => $_Tendoo_var)
+		if( is_object( $this->instance ) )
 		{
-			if ( ! isset($this->$_Tendoo_key))
+			foreach ( get_object_vars($this->instance) as $_Tendoo_key => $_Tendoo_var)
 			{
-				$this->data[$_Tendoo_key] =& $_Tendoo_Tendoo->$_Tendoo_key;
+				if ( ! isset($this->$_Tendoo_key))
+				{
+					$this->data[$_Tendoo_key] =& $_Tendoo_Tendoo->$_Tendoo_key;
+				}
 			}
 		}
 
@@ -170,7 +174,7 @@ class Loader
 			}
 			else
 			{
-				get_instance()->exceptions->show_error('Fichier introuvable', 'Le fichier : "'.$_Tendoo_path.'" est introuvable ou le chemin d\'accès est incorrect.', $template = 'error_general', $status_code = 500);
+				get_instance()->exceptions->show_error( __( 'File not found' ) , __( 'Unable to load the requested file : "' . $_Tendoo_file . '"' ), $template = 'error_general', $status_code = 500);
 			}
 			
 			/* $return = eval('?>'.preg_replace("/;*\s*\?>/", "; ?>", str_replace('<?=', '<?php echo ', file_get_contents($_Tendoo_path)))); */

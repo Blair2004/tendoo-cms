@@ -1,5 +1,5 @@
 <?php
-class pages_editor_tepas_class extends Libraries
+class pages_editor_init_class extends Libraries
 {
 	public function __construct($data)
 	{

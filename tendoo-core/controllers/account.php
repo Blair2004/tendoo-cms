@@ -339,7 +339,7 @@ class Account extends Libraries
 				}
 				else
 				{
-					if($this->users_global->updatePassword($this->input->post('user_oldpass'),$this->input->post('user_newpass')))
+					if($this->users_global->updainitsword($this->input->post('user_oldpass'),$this->input->post('user_newpass')))
 					{
 						$result	=	 array(
 							'status'	=>	'success',
