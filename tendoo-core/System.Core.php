@@ -38,60 +38,8 @@ Class instance extends Libraries
 			load_themes();
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		}
-		// Settings Tendoo Core Vars
-		set_core_vars( 'tendoo_core_permissions' , array(
-			'name'				=>	__( 'Tendoo Permissions' ),
-			'declared_actions'	=>	array(
-				array( 
-					'action'			=>	'manage_themes',
-					'action_name'		=>	__( 'Manage Themes' ),
-					'action_description'=>	__( 'This permissions allow user to manage themes (activate, uninstall)' ),
-					'mod_namespace'		=>	'system'
-				),
-				array( 
-					'action'			=>	'manage_modules',
-					'action_name'		=>	__( 'Manage Modules' ),
-					'action_description'=>	__( 'This permissions allow user to manage modules (activate, uninstall)' ),
-					'mod_namespace'		=>	'system'
-				),
-				array( 
-					'action'			=>	'manage_controllers',
-					'action_name'		=>	__( 'Manage Modules' ),
-					'action_description'=>	__( 'This permissions allow user to manage controller (create, delete)' ),
-					'mod_namespace'		=>	'system'
-				),
-				array( 
-					'action'			=>	'manage_settings',
-					'action_name'		=>	__( 'Manage Settings' ),
-					'action_description'=>	__( 'This permissions allow user to manage site settings' ),
-					'mod_namespace'		=>	'system'
-				),
-				array( 
-					'action'			=>	'install_app',
-					'action_name'		=>	__( 'Install App' ),
-					'action_description'=>	__( 'This permissions allow user to install app' ),
-					'mod_namespace'		=>	'system'
-				),
-				array( 
-					'action'			=>	'manage_roles',
-					'action_name'		=>	__( 'Manage Roles' ),
-					'action_description'=>	__( 'This permissions allow user to manage roles' ),
-					'mod_namespace'		=>	'system'
-				),
-				array( 
-					'action'			=>	'manage_users',
-					'action_name'		=>	__( 'Manage Users' ),
-					'action_description'=>	__( 'This permissions allow user to manage users' ),
-					'mod_namespace'		=>	'system'
-				),
-				array( 
-					'action'			=>	'manage_tools',
-					'action_name'		=>	__( 'Manage Tools' ),
-					'action_description'=>	__( 'This permissions allow user to manage tools' ),
-					'mod_namespace'		=>	'system'
-				)
-			)
-		) , 'read_only' );
+		
+		new Load_Core_Values;
 		
 		// Controller Start Here
 		if( in_array( $this->url->controller() , array( 'install' , 'registration' , 'logoff' , 'admin' , 'login' , 'error' ) ) )

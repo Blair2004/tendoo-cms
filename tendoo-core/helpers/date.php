@@ -151,16 +151,16 @@ if ( ! function_exists('timespan'))
 		{
 			if($time	== $seconds)
 			{
-				return 'à l\'instant';
+				return __( 'Just now' );
 			}
-			$str	=	'Dans ';
+			$str	=	__( 'In ' );
 			$reste	=	$seconds - $time;
 			$annees	=	floor($reste/31536000);
 			if($annees > 0) // S'il y a des années
 			{
 				if($annees > 0)
 				{
-					return $str.= $annees == 1 ? $annees.' an' : $annees.' ans';
+					return $str.= $annees == 1 ? $annees. __( ' year' ) : $annees. __( ' years' );
 				}
 			}
 			// Retrait de l'année compté, si $annees vaut 0 l'opération ne retirera pas d'année.
@@ -170,7 +170,7 @@ if ( ! function_exists('timespan'))
 			{
 				if($mois > 0)
 				{
-					return $str.= $mois == 1 ? $mois.' mois' : $mois.' mois';
+					return $str.= $mois == 1 ? $mois. __( ' month' ) : $mois. __( ' months' );
 				}
 			}
 			$reste	-=	$mois * 2628000;
@@ -179,7 +179,7 @@ if ( ! function_exists('timespan'))
 			{
 				if($semaines > 0)
 				{
-					return $str.= $semaines == 1 ? $semaines.' semaine' : $semaines.' semaines';
+					return $str.= $semaines == 1 ? $semaines. __( ' week' ) : $semaines.  __( ' weeks' );
 				}
 			}
 			$reste	-=	$semaines * 604800;
@@ -188,7 +188,7 @@ if ( ! function_exists('timespan'))
 			{
 				if($jours > 0)
 				{
-					return $str.= $jours == 1 ? $jours.' jour ' : $jours.' jours ';
+					return $str.= $jours == 1 ? $jours. __( ' day' ) : $jours. __( ' days' );
 				}
 			}
 			$reste	-=	$jours * 86400;
@@ -197,7 +197,7 @@ if ( ! function_exists('timespan'))
 			{
 				if($heures > 0)
 				{
-					return $str.= $heures == 1 ? $heures.' heure ' : $heures.' heures ';
+					return $str.= $heures == 1 ? $heures. __( ' hour' ) : $heures. __( ' hours ' );
 				}
 			}
 			$reste	-=	$heures * 3600;
@@ -206,7 +206,7 @@ if ( ! function_exists('timespan'))
 			{
 				if($minutes > 0)
 				{
-					$str.= $minutes == 1 ? $minutes.' minute ' : $minutes.' minutes ';
+					$str.= $minutes == 1 ? $minutes. __( ' minute ' ) : $minutes. __( ' minutes ' );
 				}
 			}
 			$reste	-=	$minutes * 60;

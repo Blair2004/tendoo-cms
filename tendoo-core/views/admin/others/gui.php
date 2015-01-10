@@ -30,7 +30,9 @@ Tendoo Version Required : 1.4
                     </div>
                 </header>
                 <section class="vbox">
-                    <section class="wrapper"> <?php echo output('notice');?> <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
+                    <section class="wrapper"> 
+						<?php echo output('notice');?> 
+						<?php echo validation_errors(); ?>
                         <div class="row">
                             <?php $total_width = 12;?>
                             <?php foreach( force_array( $this->cols ) as $key	=>	$c):?>

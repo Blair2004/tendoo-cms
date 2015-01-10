@@ -73,7 +73,7 @@ push_module_sql( 'tendoo_widget_administrator' , "
 	"
 );
 push_module_action( 'tendoo_widget_administrator' , array(
-	'action'				=>	'widgetsMastering',
+	'action'				=>	'manage_widgets',
 	'action_name'			=>	'Gestion des widgets',
 	'action_description'	=>	'Cette action permet de cr&eacute;er et d\'administrer un widget.',
 	'mod_namespace'			=>	'tendoo_widget_administrator'

@@ -269,7 +269,7 @@ class Account extends Libraries
 		{
 			$this->url->redirect(array('account'));
 		}
-		$user	=	$this->users_global->getUserByPseudo($userPseudo);
+		$user	=	$this->users_global->get_user_using_pseudo($userPseudo);
 		if($user)
 		{
 			$this->data['user'] =& $user;

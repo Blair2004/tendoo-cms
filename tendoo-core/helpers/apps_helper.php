@@ -10,21 +10,21 @@
 		}
 		return false;
 	}
-	function core_meta_namespace( $array )
+	function core_meta_namespace( $array , $base_prefix = '' )
 	{
 		if( is_string( $array ) )
 		{
-			return 'meta.tendoo.org/' . $array;
+			return $base_prefix	== '' ? 'core.meta.tendoo.org/' . $array : $base_prefix . 'meta.tendoo.org' . $array;
 		}
 		else if( is_array( $array ) )
 		{
-			$namespace	=	'meta.tendoo.org' ;
+			$base_prefix	=	( $base_prefix	== '' ) ? 'core.meta.tendoo.org/' : $base_prefix . '.meta.tendoo.org' ;
 			$final_slashes	=	'';
 			foreach( $array as $value )
 			{
 				$final_slashes .=  '/' . $value;
 			}
-			return $namespace . $final_slashes;
+			return $base_prefix . $final_slashes;
 		}
 	}
 	/**
@@ -145,14 +145,14 @@
 							$class	=	is_array( $menu_list ) && count( $menu_list ) > 1 ? 'dropdown-submenu' : '';
 							// Check if a menu as a open submenu
 							$custom_ul_style	=	'';
-							$menu_status	=	'';
+							$menu_status		=	'';
+							$menus_similarity	=	array();
 							foreach( $menu_list as $check )
 							{
 								if( riake( 'href' , $check ) == get_instance()->url->site_url() )
 								{
-									$custom_ul_style	= 'style="display: block;"';
-									$menu_status	=	'active';
-									break;
+									$custom_ul_style	= 	'style="display: block;"';
+									$menu_status		=	'active';
 								}
 							}
 							?>
@@ -164,8 +164,9 @@
 								if( ( $title = riake( 'title' , $menu ) ) == true && ( $url = riake( 'href' , $menu ) ) == true )
 								{
 									if( $class != '' ) // means if it has child
-									{
+									{										
 										$custom_style	=	get_instance()->url->site_url() == riake( 'href' , $menu , '#' ) ? 'style="color:#fff"' : '';
+										
 										if( $first_index == 0 ) // parent
 										{
 											?>
@@ -215,15 +216,15 @@
 	{
 		return __show_menu( 'admin' , $position, $item );
 	}
-	function create_account_menu( $namespace , $position , $item )
+	function create_account_menu( $namespace , $position , $item ) // deprecated
 	{
 		return __create_menu( 'account' , $namespace , $position , $item );
 	}
-	function add_account_menu( $namespace , $config )
+	function add_account_menu( $namespace , $config ) // deprecated
 	{
 		return __add_menu( 'account' , $namespace , $config );
 	}
-	function show_account_menu( $position , $item )
+	function show_account_menu( $position , $item ) // deprecated
 	{
 		return __show_menu( 'account' , $position , $item );
 	}
@@ -1016,11 +1017,73 @@
 	/**
 	*	do redirect while webapp mode is enabled
 	**/
-	function redirect_if_webapp_is_enalbled( $redirect = array() )
+	function redirect_if_webapp_is_enabled( $redirect = array() )
 	{
 		if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'webapp' )
 		{
 			$redirect ? get_instance()->url->redirect( $redirect ) : get_instance()->url->redirect( array( 'admin' , 'index?notice=web-app-mode-enabled' ) );
 		}
 	}
- 
+	
+	/**
+	 *	Apply a filter to a specific hook passed as first parameters
+	 *
+	 *	@param string, array/string, int
+	 *  @return void;
+	**/
+	
+ 	function bind_filter( $hook , $filter ) {
+		$filters	=	get_core_vars( 'tendoo_filters' );
+		$filters[ $hook ][]		=		$filter; // adding filter to a hook
+		return set_core_vars( 'tendoo_filters' , $filters );
+	}
+	
+	/**
+	 * 	Trigger filter registered for a specific hook.
+	 *
+	 *	@params string, string/array/int
+	 * 	@return vars multiform
+	**/
+	
+	function trigger_filters( $hook , $parameters ){
+		$filters	=	get_core_vars( 'tendoo_filters' );
+		if( $sub_filters 	= 	riake( $hook , $filters ) ) {
+			foreach( $sub_filters as $_filter ) {
+				$parameters[0]		=	call_user_func_array( $_filter , $parameters );
+			}
+		}
+		return $parameters[0];
+	}
+	
+	/**
+	 * Register Fields for custom forms
+	 *
+	 * @params String, form name
+	 * @params Array, data to register
+	 * @return void
+	**/
+	
+	function register_fields( $form_name , $config ){
+		/**
+		 *	Config form
+		 * 	array( 
+		 *		'name'		=>	'example', // a valid index of POST[ 'example' ]
+		 *		'purify'	=>	function( $value ){
+		 *			return $value
+		 *		}
+		 *	)
+		**/
+		$fields_registered					=	riake( 'registered_fields' , get_core_vars() , array() );
+		$fields_registered[ $form_name ][]	=	$config;
+		set_core_vars( 'registered_fields' , $fields_registered );
+	}
+	
+	/**
+	 *	get registered fields for a specific form
+	**/
+	
+	function get_registered_fields( $form_name ){
+		$fields_registered	=	riake( 'registered_fields' , get_core_vars() , array() );
+		return riake( $form_name , $fields_registered );
+	}
+	

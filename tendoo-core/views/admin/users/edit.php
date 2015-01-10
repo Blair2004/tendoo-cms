@@ -51,6 +51,14 @@ $this->gui->set_item( array(
 	'value'			=>	$adminInfo['PSEUDO'],
 ) )->push_to( core_meta_namespace( array( 'users' , 'edit' ) ) );
 
+// Loading Generated Fields using "user_fields" hook
+
+$user_fields		=	trigger_filters( 'user_form_fields' , array( get_core_vars( 'tendoo_user_fields' ) , $adminInfo[ 'ID' ] ) ); // Filter user fields or add
+
+foreach( force_array( $user_fields ) as $field ) {
+	$this->gui->set_item( $field )->push_to( core_meta_namespace( array( 'users' , 'edit' ) ) );
+}
+
 $this->gui->set_item( array(
 	'type'			=>	'buttons',
 	'name'			=>	array( 'set_admin' , 'delete_admin' ),
@@ -59,6 +67,5 @@ $this->gui->set_item( array(
 	'button_types'	=>	array( 'submit' , 'submit' ),
 	'attrs_strings'	=>	array( '', 'onclick="return confirm( \'' . __( 'Do you really want to delete this user ?' ) . '\')" ' )
 ) )->push_to( core_meta_namespace( array( 'users' , 'edit' ) ) );
-
 
 $this->gui->get();

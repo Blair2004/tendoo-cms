@@ -19,26 +19,22 @@
             <div class="wrapper">
                 <div class="panel">
                     <div class="panel-heading">
-                    	D&eacute;tails sur le syst&egrave;me
+                    	<?php echo sprintf( __( 'About %s' )  , get( 'core_version' ) );?>
                     </div>
                     <div class="wrapper">
-                    	<h3>Tendoo CMS <small>Version : <?php echo TENDOO_VERSION;?></small></h3>
-                        <br />
-                        <p><i>Un cms conçu dans l'optique d'am&eacute;liorer et de simplifier la cr&eacute;ation de site web et d'application web. Exc&egrave;le dans la rapidit&eacute;, l'ergonomie, la prise en main et la maintenance.</i>
-                        </p>
-                        <br />
-                        <h4>Licence</h4>
-                        <p>Liste des outils utilisés sur Tendoo : 
+                        <p><?php _e( 'The very easy to use CMS.' );?></p>
+                        <small><?php echo sprintf( __( 'Current Version : %s' ) , get( 'core_id' ) );?></small>
+                        <hr class="line-dashed" />
+                        <p><?php _e( 'Special thanks to all those tools ' );?>
                         	<ul>
-	                        	<li>TODO interface administration 1.2.1 (2014)</li>
-    	                        <li>Jquery</li>
-                                <li>CK Editor</li>
-                                <li>Bootstrap (3.1)</li>
+	                        	<li><?php _e( 'TODO Administration Dashboard' );?></li>
+    	                        <li><?php _e( 'jQuery' );?></li>
+                                <li><?php _e( 'CKEditor' );?></li>
+                                <li><?php _e( 'Bootstrap' );?></li>
 								<li><a href="https://github.com/dbushell/Nestable">Nestable</a> Jquery plugin</li>
-                                <li>Jquery Ui</li>
+                                <li><?php _e( 'jQuery UI' );?></li>
 							</ul>
                         </p>
-                        <p><small>Ubber Enterprises 2014. <br />Tous droits reserv&eacute;s.</small></p>
                     </div>
                 </div>
             </div>

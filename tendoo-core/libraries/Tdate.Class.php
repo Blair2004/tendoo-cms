@@ -9,13 +9,14 @@ class Tdate extends Libraries
 	// New Tendoo 0.9.8 retourne le timezone enregistré
 	public function getTimeZone()
 	{
-		return get_meta( 'site_timezone' );
+		return ( $timezone = get_meta( 'site_timezone' ) ) == '' ? 'UTC' : $timezone ;
 	}
 	// Crée un objet date sur la base d'un format et d'une chaine de caractère donnée. en utilisant le TimeZone définie
 	// Renvoi un objet DateTime; T098
 	public function createDateFromString($format,$string)
 	{
-		$date		=	DateTime::createFromFormat('d-m-Y H:i e',$string.' '.$this->getTimeZone());
+		$date		=	DateTime::createFromFormat('d-m-Y H:i e', $string.' '.$this->getTimeZone() );
+		// var_dump( $string.' '.$this->getTimeZone() );
 		return $date;
 	}
 	public function time($timestamp	=	'',$toArray	=	false)
@@ -38,18 +39,18 @@ class Tdate extends Libraries
 			$timestamp				=	$this->timestamp();
 		}
 		$month					=	array(
-			1	=>	'Janvier',
-			2	=>	'F&eacute;vrier',
-			3	=>	'Mars',
-			4	=>	'Avril',
-			5	=>	'Mai',
-			6	=>	'Juin',
-			7	=>	'Juillet',
-			8	=>	'Ao&ucirc;t',
-			9	=>	'Septembre',
-			10	=>	'Octobre',
-			11	=>	'Novembre',
-			12	=>	'Decembre'
+			1	=>	__( 'January' ),
+			2	=>	__( 'Febuary' ),
+			3	=>	__( 'March' ),
+			4	=>	__( 'April' ),
+			5	=>	__( 'May' ),
+			6	=>	__( 'June' ),
+			7	=>	__( 'July' ),
+			8	=>	__( 'August' ),
+			9	=>	__( 'September' ),
+			10	=>	__( 'October' ),
+			11	=>	__( 'November' ),
+			12	=>	__( 'December' )
 		);
 		$smonth					=	array(
 			1	=>	'Jan',

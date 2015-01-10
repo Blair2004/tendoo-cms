@@ -154,6 +154,7 @@ class blogster_backend extends Libraries
 				
 			if($this->form_validation->run())
 			{
+				// var_dump( $this->input->post('scheduledDate') , $this->input->post('scheduledTime') );
 				$this->data['result']	=	$this->news->publish_posts(
 					$this->input->post('news_name'),
 					$this->input->post('news_content'),
@@ -537,10 +538,10 @@ class blogster_backend extends Libraries
 			{
 				// Prevent output
 				ob_clean();
-				$options	=	site_options();
+				$options	=	get_core_vars( 'options' );
 				// exportation des données
 				header('Content-type: application/octect-stream');
-				header('Content-Disposition: attachment; filename="'.$options[0]['SITE_NAME'].'_blogster_backup.json"');
+				header('Content-Disposition: attachment; filename="'.$options['site_name'].'_blogster_backup.json"');
 				echo $this->news->export();
 				die();
 			}

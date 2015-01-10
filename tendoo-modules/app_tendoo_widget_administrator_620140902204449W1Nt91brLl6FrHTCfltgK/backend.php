@@ -1,24 +1,4 @@
 <?php
-//echo '<pre>';
-//print_r($_POST);
-//echo '</pre>';
-/// -------------------------------------------------------------------------------------------------------------------///
-global $NOTICE_SUPER_ARRAY;
-/// -------------------------------------------------------------------------------------------------------------------///
-declare_notice( 'widgetCreated' , tendoo_success('Le widget &agrave; &eacute;t&eacute; cr&eacute;e.') );
-$or['erroroccurred']				=	tendoo_error('Une erreur s\'est produite durant la cr&eacute;ation du widget.');
-$or['widgetAlreadyExists']		=	tendoo_error('Le widget ne peut pas &ecirc;tre cr&eacute;e. Un autre widget contenant le m&ecirc;me intitul&eacute; existe d&eacute;j&agrave;.');
-$or['unknowWidget']				=	tendoo_error('Ce widget est introuvable.');
-$or['WidgetActivated']			=	tendoo_success('Le widget &agrave; &eacute;t&eacute; correctement activ&eacute;.');
-$or['WidgetDisabled']			=	tendoo_success('Le widget &agrave; &eacute;t&eacute; correctement d&eacute;sactiv&eacute;.');
-$or['graped']					=	tendoo_success('La modification de la position s\'est effectu&eacute;.');
-$or['grapLimitReach']			=	'<span class="tendoo_error">La position de ce widget ne peut plus &ecirc;tre modifi&eacute;.</span>';
-$or['widgetDeleted']			=	tendoo_success('Le widget &agrave; &eacute;t&eacute; supprim&eacute;.');
-
-/// -------------------------------------------------------------------------------------------------------------------///
-$NOTICE_SUPER_ARRAY = $or;
-/// -------------------------------------------------------------------------------------------------------------------///
-
 class tendoo_widget_administrator_backend extends Libraries
 {
 	public function __construct($data)
@@ -34,11 +14,9 @@ class tendoo_widget_administrator_backend extends Libraries
 		$this->data['module_dir']		=	$this->module['uri_path'];
 		$this->lib						=	new widhandler_lib($this->data);
 		$this->data['lib']				=&	$this->lib;
-		
-		// $this->instance->tendoo_admin->menuExtendsBefore($this->load->view($this->data['module_dir'].'/views/menu',$this->data,true,TRUE));
 		$this->data['inner_head']		=	$this->load->view('admin/inner_head',$this->data,true);
 		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
-		if(!$this->instance->users_global->isSuperAdmin()	&& !$this->tendoo_admin->adminAccess('modules','widgetsMastering',$this->instance->users_global->current('REF_ROLE_ID')))
+		if( !current_user()->can( 'manage_widgets@tendoo_widget_administrator' ) )
 		{
 			$this->instance->url->redirect(array('admin','index?notice=access_denied'));
 		}
@@ -50,7 +28,7 @@ class tendoo_widget_administrator_backend extends Libraries
 			$result	=	$this->lib->save_widgets($_POST['tewi_wid']);
 			if(is_array($result))
 			{
-				$this->instance->notice->push_notice(tendoo_info($result['success'].' widget(s) a/ont été crée(s). '.$result['error'].' erreur(s)'));
+				$this->instance->notice->push_notice(tendoo_info($result['success'].' widget(s) has been created. '.$result['error'].' error(s)'));
 			}
 			else
 			{
@@ -89,7 +67,7 @@ class tendoo_widget_administrator_backend extends Libraries
 		$this->data['widgets_right']		=	$this->lib->tewi_getWidgets('right');
 		$this->data['widgets_bottom']		=	$this->lib->tewi_getWidgets('bottom');
 		// var_dump($this->data['widgets_right']);
-		set_page('title','tendoo &raquo; Gestion des widgets');
+		set_page('title', __( 'Tendoo - Manage Widgets' ) );
 		
 		$this->data['body']			=	$this->load->view($this->data['module_dir'].'/views/body',$this->data,true,TRUE);
 		return $this->data['body'];

@@ -97,18 +97,18 @@ push_module_sql( 'blogster' , "INSERT INTO `".DB_ROOT."tendoo_news_ref_keywords`
 );
 push_module_action( 'blogster' , array(
 	'action'				=>	'publish_posts',
-	'action_name'			=>	__( 'Publish Post' ),
+	'action_name'			=>	__( 'Publish Posts' ),
 	'action_description'	=>	__( 'This permission let you create a post' ),
 ));
 push_module_action( 'blogster' , array(
 	'action'				=>	'delete_posts',
-	'action_name'			=>	__( 'Delete Post' ),
+	'action_name'			=>	__( 'Delete Posts' ),
 	'action_description'	=>	__( 'This permission let you delete posts' ),
 ));
 push_module_action( 'blogster' , array(
 	'action'				=>	'edit_posts',
-	'action_name'			=>	__( 'Delete posts' ),
-	'action_description'	=>	__( 'This permission is used to delete posts' ),
+	'action_name'			=>	__( 'Edit Posts' ),
+	'action_description'	=>	__( 'This permission is used to edit posts' ),
 ));
 push_module_action( 'blogster' , array(
 	'action'				=>	'category_manage',

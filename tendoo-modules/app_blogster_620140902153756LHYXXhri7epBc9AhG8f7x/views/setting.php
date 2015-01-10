@@ -68,14 +68,14 @@
                                         	<span class="input-group-addon"><?php _e( 'Import settings' );?></span>
                                             <input type="file" class="form-control" name="import">
                                             <span class="input-group-btn">
-                                            <button confirm-do="click" confirm-text="<?php _e( 'If you upload data, current one will be overwritten.' );?>" class="btn btn-default" type="submit"><?php _e( 'Send' );?></button>
+                                            <button confirm-do="click" confirm-text="<?php _e( 'Available Posts, category, tags will be erased. Proceed ?' );?>" class="btn btn-default" type="submit"><?php _e( 'Restore' );?></button>
                                             </span> 
                                         </div>
                                         <br>
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-2 control-label"><?php _e( 'Export Data' );?></label>
                                             <div class="col-sm-10">
-                                                <input type="submit" class="btn <?php theme_button_class();?>" name="export" value="<?php _e( 'Download Post Data' );?>">
+                                                <input type="submit" class="btn <?php theme_button_class();?>" name="export" value="<?php _e( 'Backup Your Blog' );?>">
                                             </div>
                                         </div>
                                     </form>

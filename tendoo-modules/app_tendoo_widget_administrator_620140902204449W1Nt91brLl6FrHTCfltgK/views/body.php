@@ -14,7 +14,7 @@
                 </header>
                 <section class="vbox stretch">
                     <section class="wrapper"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
-                        <?php echo tendoo_info('Choissisez un widget et ajoutez-le à une zone (Gauche, Droite, Pied de page). Les widgets ajoutés sont automatiquement activés.');?>
+                        <?php echo tendoo_info( __( 'Add a widget a sidebar. Some theme won\'t support all sidebar. Check your theme details for more informations.' ) );?>
                         <div class="row">
                             <div class="col-lg-4">
                             <section class="panel pos-rlt clearfix">
@@ -27,7 +27,7 @@
                                             </a>
                                         </li>
                                     </ul>
-                                    Widgets Disponibles
+                                    <?php _e( 'Available Widgets' );?>
                                 </header>
                                 <div class="panel-body clearfix widget_item_container">
                                     <div class="panel widget_item" widget widget-namespace="texte" widget-modnamespace="system" widget-name="Widget Texte">
@@ -36,7 +36,7 @@
                                                 <li><a class="panel-toggle text-muted" add_widget href="javascript:void(0)"><i class="fa fa-share"></i></a></li>
                                             </ul>
                                             <ul class="toggle-section nav nav-pills pull-left"></ul>
-                                            Widget Texte
+                                            <?php _e( 'Text Widget' );?>
                                         </header>
                                         <div widget-hidden_content style="display:none">
                                             <div class="form-group">
@@ -109,7 +109,7 @@
                                                     </ul>
                                                     <ul class="toggle-section nav nav-pills pull-left">
                                                 </ul>
-                                                    Section Gauche 
+                                                    <?php _e( 'Left Sidebar' );?>
                                                 </header>
                                                 <div style="min-height:50px;" class="panel-body clearfix collapse" active-widget-panel-body>
                                                     <?php
@@ -137,7 +137,7 @@
                                                         </a>
                                                     </li>
                                                 </ul>
-                                                Section Droite 
+                                                <?php _e( 'Right Sidebar' );?>
                                             </header>
                                             <div class="panel-body clearfix collapse" style="min-height:50px;" active-widget-panel-body>
                                             <?php
@@ -165,7 +165,7 @@
                                                             </a>
                                                         </li>
                                                     </ul>
-                                                    Section Pied de page 
+                                                    <?php _e( 'Footer Sidebar' );?>
                                                 </header>
                                                 <div class="panel-body clearfix collapse" style="min-height:50px;" active-widget-panel-body>
                                                 <?php
@@ -198,7 +198,7 @@
 					</ul>
 				</div>
 				<div class="col-sm-4">
-					<a class="btn btn-sm btn-primary pull-right" href="javascript:void(0)" id="submit_changes">Enregistrer vos modifications</a>
+					<a class="btn btn-sm btn-primary pull-right" href="javascript:void(0)" id="submit_changes"><?php _e( 'Save Settings' );?></a>
 				</div>
 			</div>
 
@@ -223,9 +223,9 @@
 					<li>
 						<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus"></i></a>
 						<ul active-widget-option class="dropdown-menu" role="menu">
-							<li><a class="remove_w" href="javascript:void(0)">Supprimer</a></li>
-							<li><a class="goup_w" href="javascript:void(0)">Faire monter</a></li>
-							<li><a class="godown_w" href="javascript:void(0)">Faire d&eacute;scendre</a></li>
+							<li><a class="remove_w" href="javascript:void(0)"><?php _e( 'Delete' );?></a></li>
+							<li><a class="goup_w" href="javascript:void(0)"><?php _e( 'Scroll Up' );?></a></li>
+							<li><a class="godown_w" href="javascript:void(0)"><?php _e( 'Scroll Down' );?></a></li>
 						</ul>
 					</li>          
 				</ul>
@@ -233,7 +233,7 @@
 			</header>
 			<div class="panel-body clearfix collapse">
 				<div class="form-group">
-					<input type="text" active-widget-sample-title class="form-control" placeholder="Titre de votre widget" value="">
+					<input type="text" active-widget-sample-title class="form-control" placeholder="<?php _e( 'Title' );?>" value="">
 				</div>
 			</div>
 		</section>

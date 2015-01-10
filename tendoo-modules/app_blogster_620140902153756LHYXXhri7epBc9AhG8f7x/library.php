@@ -150,8 +150,35 @@ if(class_exists('tendoo_admin'))
 				le temps de programmation au format "H:i"
 			Renvoi un tableau associatif contenant les informations de l'article publié.
 		*/
+		private function title_checker( $title , $exclude_post	=	0 )
+		{
+			// Fill Empty Title
+			$title					=  	$title == '' ? __( 'Unamed Post' ) : $title;
+			// To avoid multiple post with the same title
+			$i = 0;
+			while( $matching_post	=	$this->getSpeNews( $title , 'filter_title' , $exclude_post ) )
+			{
+				$i++;
+				if( $i == 50 ): break;endif;
+				if( $matching_post )
+				{
+					if( preg_match( '#^(.+)\(([0-9]{1,})\)+$#' , $title ) )
+					{
+						$title				=	preg_replace( '/^(.+)\(([0-9]{1,})\)*$/e' , '   "$1(" . ("$2" + 1) . ")"   ' , $title );
+					}
+					else
+					{
+						$nbr				=	count( $matching_post ) + 1;
+						$title				.=	'(' . $nbr. ')';
+					}
+				}
+			}
+			return $title;
+		}
 		public function publish_posts($title,$content,$state,$image,$thumb,$cat = array(),$first_admin = FALSE,$key_words= array(),$scheduledDate=FALSE,$scheduledTime=FALSE)
 		{
+			$title					=	$this->title_checker( $title );
+			
 			if($first_admin == FALSE)
 			{
 				$scheduled			=	0;
@@ -159,8 +186,8 @@ if(class_exists('tendoo_admin'))
 				if(!in_array($scheduledDate,array('',FALSE)))
 				{
 					// Si l'heure n'est pas précisé l'article sera publié a 00h
-					$scheduledTime	=	in_array($scheduledTime,array(FALSE,'')) ? '00:00' : $scheduledTime; 
-					$cur_date	=	$this->tendoo->createDateFromString('d-m-Y H:i',$scheduledDate.' '.$scheduledTime);
+					$scheduledTime	=	in_array( $scheduledTime , array( FALSE , '' ) ) ? '00:00' : $scheduledTime; 
+					$cur_date	=	$this->date->createDateFromString( 'd-m-Y H:i', $scheduledDate.' '.$scheduledTime );
 					$date		=	$cur_date->format('Y-m-d H:i:s');
 					$state	=	3; // Pour indiquer que l'article à été programmé.
 					$scheduled		=	1; // Programmé [1:TRUE]
@@ -170,7 +197,7 @@ if(class_exists('tendoo_admin'))
 					$date	=	$this->date->datetime();
 				}
 				$content		=	array(
-					'TITLE'			=> $title == false ? 'Article sans titre' : $title,
+					'TITLE'			=> $title,
 					'CONTENT'		=> $content,
 					'IMAGE'			=> $image	==	false ? $this->url->img_url('Hub_back.png') : $image,
 					'THUMB'			=> $thumb	==	false ? $this->url->img_url('Hub_back.png') : $thumb,
@@ -243,13 +270,15 @@ if(class_exists('tendoo_admin'))
 		}
 		public function edit($id,$title,$content,$state,$image,$thumb,$cat = array(),$key_words	=	array(),$scheduledDate = FALSE, $scheduledTime	=	FALSE)
 		{
+			$title					=	$this->title_checker( $title , $id );
+			
 			$scheduled			=	0;
 			// Si une date est définie comme date de publication
 			if(!in_array($scheduledDate,array('',FALSE)))
 			{
 				// Si l'heure n'est pas précisé l'article sera publié a 00h
 				$scheduledTime	=	in_array($scheduledTime,array(FALSE,'')) ? '00:00' : $scheduledTime; 
-				$cur_date	=	$this->tendoo->createDateFromString('d-m-Y H:i e',$scheduledDate.' '.$scheduledTime);
+				$cur_date	=	$this->date->createDateFromString('d-m-Y H:i e',$scheduledDate.' '.$scheduledTime);
 				$date		=	$cur_date->format('Y-m-d H:i:s');
 				$state	=	3; // Pour indiquer que l'article à été programmé.
 				$scheduled		=	1; // Programmé [1:TRUE]
@@ -321,9 +350,20 @@ if(class_exists('tendoo_admin'))
 			}
 			return false;
 		}
-		public function getSpeNews($id)
+		public function getSpeNews($id , $filter = 'filter_id' , $exclude = 0 )
 		{
-			$this->db	->where(array('ID'=>$id));
+			if( $exclude != 0 )
+			{
+				$this->db	->where('ID !=' , $exclude );
+			}
+			if( $filter == 'filter_title' )
+			{
+				$this->db	->where( array( 'URL_TITLE' => $this->instance->string->urilizeText( $id,'-' ) ) );
+			}
+			else // for "filter_id"
+			{
+				$this->db	->where(array('ID'=>$id));
+			}
 			$query			=	$this->db->get('tendoo_news');
 			$result			=	$query->result_array();
 			if(count($result) > 0)

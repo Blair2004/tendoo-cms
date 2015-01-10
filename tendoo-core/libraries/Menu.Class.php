@@ -83,15 +83,18 @@ class Menu extends Libraries
 				{
 					$menu_status		=	'';
 					$custom_ul_style	=	'';
+					$custom_style		=	'';
 					// Preloop, to check if this menu has an  active child
 					foreach( $current_menu as $_menu )
 					{
-						if( riake( 'href' , $_menu ) == get_instance()->url->site_url() ) // if childs href key match current site_url, this child is active then.
+						if( riake( 'href' , $_menu ) == get_instance()->url->site_url() )
 						{
-							$menu_status	=	'active';
-							$custom_ul_style	= 'style="display: block;"';
+							$menu_status		=	'active';
+							$custom_ul_style	= 	'style="display: block;"';
 						}
+						
 					}
+					// var_dump( $menus_similarity );
 					$class			=	is_array( $current_menu ) && count( $current_menu ) > 1 ? 'dropdown-submenu' : '';
 					$loop_index		=	0;
 					?>
@@ -101,7 +104,7 @@ class Menu extends Libraries
 					{
 						if( $class != '' ) // If has more than one child
 						{
-							$custom_style		=	get_instance()->url->site_url() == riake( 'href' , $menu , '#' ) ? 'style="color:#fff"' : '';
+							$custom_style		= 	( riake( 'href' , $menu ) == get_instance()->url->site_url() ) ? 'style="color:#fff"' : '';
 							if( $loop_index == 0 ) // First child, set a default page and first sub-menu.
 							{
 							?>

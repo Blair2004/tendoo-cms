@@ -430,6 +430,24 @@ function uninstall_module( $namespace ){
 		}
 		return false;
 	}
+	/**
+	 *	return a module view file
+	 * 	@access : public
+	 * 	@return : view or bool.
+	**/
+	function module_view( $path , $return = false , $module_namespace = null )
+	{
+		// is a module is opened or a namespace is defined
+		if( $module_namespace != null )
+		{
+			$module = get_modules( 'filter_namespace' , $module_namespace );
+		}
+		if( $module		=	( $module == FALSE ) ? get_core_vars( 'opened_module' ) : $module )
+		{
+			return get_instance()->load->the_view( $module[ 'uri_path' ] . '/' . $path , $return , true );
+		}
+		return false;
+	}
 	function module_location($segments)
 	{
 		$instance	=	get_instance();
@@ -484,6 +502,17 @@ function uninstall_module( $namespace ){
 					return $instance->url->site_url($baseSegments);
 				}
 			}
+		}
+		return false;
+	}
+	/**
+	 * return a almost unique namespace for meta box for plugin which use GUI
+	 * @return string or bool (false)
+	**/
+	function meta_namespace( $segments )
+	{
+		if( $opened_module	=	get_core_vars( 'opened_module' ) ){
+			return 	core_meta_namespace( $segments , riake( 'namespace' , $opened_module , 'custom' ) );
 		}
 		return false;
 	}

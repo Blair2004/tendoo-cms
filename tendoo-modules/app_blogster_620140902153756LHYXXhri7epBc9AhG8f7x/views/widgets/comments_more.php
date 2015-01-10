@@ -1,5 +1,5 @@
   <div class="form-group">
-    <label for="exampleInputEmail1">Nombre de commentaire à afficher.</label>
+    <label for="exampleInputEmail1"><?php _e( 'Display how many comments' );?></label>
 	<?php
 	if(isset($zone,$index))
 	{

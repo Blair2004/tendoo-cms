@@ -1,8 +1,8 @@
 <?php
 declare_module( 'pages_editor' , array( 
-	'name'		=>		'Editeur de page',
+	'name'		=>		__( 'Page Editor' ),
 	'author'			=>		'Tendoo Luminax Group',
-	'description'		=>		'Ce module vous permet de créer des pages statiques',
+	'description'		=>		__( 'This module let your create static page for your website' ),
 	'has_widget'		=>		TRUE,
 	'has_api'			=>		TRUE,
 	'has_icon'			=>		TRUE,
@@ -27,19 +27,19 @@ push_module_sql( 'pages_editor' , 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 push_module_action( 'pages_editor' , array(
 	'action'				=>	'create_page',
-	'action_name'			=>	'Cr&eacute;er des pages',
-	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de cr&eacute;er des pages.',
+	'action_name'			=>	__( 'Create Pages' ),
+	'action_description'	=>	__( 'This permission let you create static pages.' ),
 	'mod_namespace'			=>	'pages_editor'
 ));
 push_module_action( 'pages_editor' , array(
 	'action'				=>	'delete_page',
-	'action_name'			=>	'Supprimer des pages',
-	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de supprimer des pages',
+	'action_name'			=>	__( 'Delete Pages' ),
+	'action_description'	=>	__( 'This permission let you delete pages.' ),
 	'mod_namespace'			=>	'pages_editor'
 ));
 push_module_action( 'pages_editor' , array(
 	'action'				=>	'edit_pages',
-	'action_name'			=>	'Modifier les pages cr&eacute;e',
-	'action_description'	=>	'Action qui permet &agrave; tout utilisateur de modifier des articles',
+	'action_name'			=>	__( 'Edit Pages' ),
+	'action_description'	=>	__( 'This permission let you edit pages.' ),
 	'mod_namespace'			=>	'pages_editor'
 ));

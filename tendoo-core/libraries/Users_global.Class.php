@@ -149,7 +149,7 @@ Class users_global extends Libraries
 		}
 		return false;
 	}
-	public function getUserByPseudo($pseudo)
+	public function get_user_using_pseudo($pseudo)
 	{
 		$query	=	$this->db->where('PSEUDO',strtolower($pseudo))->get('tendoo_users');
 		$array	=	$query->result_array();
@@ -215,7 +215,7 @@ Class users_global extends Libraries
 	}
 	public function createAdmin($pseudo,$password,$sexe,$privilege= 2,$email,$active	=	'TRUE')
 	{
-		if(!$this->is_pseudo_used($pseudo))
+		if( ! $this->is_pseudo_used($pseudo) )
 		{
 			if($this->emailExist($email))
 			{
@@ -233,6 +233,29 @@ Class users_global extends Libraries
 			$array['REG_DATE']	=	$this->instance->date->datetime();
 			$array['ACTIVE']	=	$active;
 			
+			/***
+			 **	Saving as user meta, custom field registered
+			**/
+			$get_registered_fields	=	get_registered_fields( 'user_form_fields' );
+					
+			foreach( force_array( $get_registered_fields ) as $field ) { // Loop and apply purifier
+				if( $field_name	=	riake( 'name' , $field ) ){
+					$input			=	get_instance()->input->post( $field_name );
+					
+					if( riake( 'purify' , $field ) ){
+						if( is_callable( $field[ 'purify' ] ) ){ // check wether a variable is anonymous.
+							$callable	=	$field[ 'purify' ];
+							$input		=	$callable( get_instance()->input->post( $field_name ) );
+						}
+					}
+					
+					get_instance()->meta_datas->set_user_meta( $field_name , $input , $array[ 'PSEUDO' ] ); // Saving custom meta data.
+				}
+			}
+			
+			/***
+			 **	saving user meta
+			***/
 			get_instance()->meta_datas->set_user_meta( 'first_visit' , true , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'dashboard_theme' , 1 , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
@@ -341,12 +364,12 @@ Class users_global extends Libraries
 				return 'already-active';
 			}
 			$mail	=	 '
-<h4>Votre compte à été correctement crée.</h4>
+<h4>Your account has been created</h4>
 
-Activez votre compte en cliquant sur le lien suivant :
-<a href="'.$this->url->site_url(array('login','activate',$user['EMAIL'],$this->instance->date->timestamp() + 172800,$user['PASSWORD'])).'">Activer votre compte '.$user['PSEUDO'].'</a>.<br>
+Your account need to be active before using it. Please click on the following link :
+<a href="'.$this->url->site_url(array('login','activate',$user['EMAIL'],$this->instance->date->timestamp() + 172800,$user['PASSWORD'])).'">Confirm your account and activate it '.$user['PSEUDO'].'</a>.<br>
 
-Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href="'.$this->url->main_url().'">'.$this->url->main_url().'</a>.
+This mail has been sended from <a href="'.$this->url->main_url().'">'.$this->url->main_url().'</a>.
 			';
 			
 			$this->load->library('email');
@@ -360,7 +383,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 			$this->email->from('noreply@'.$_SERVER['HTTP_HOST'], $option[0]['SITE_NAME']);
 			$this->email->to($user['EMAIL']); 
 			
-			$this->email->subject($option[0]['SITE_NAME'].' - Activer votre compte');
+			$this->email->subject($option[0]['SITE_NAME'].' - Activate your account');
 			$this->email->message($mail);	
 			
 			$this->email->send();
@@ -668,7 +691,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function deleteSpeAdmin($pseudo)
 	{
-		if($this->isSuperAdmin())
+		if( current_user()->can( 'system@delete_users' ) )
 		{
 			return $this->db->where('PSEUDO',strtolower($pseudo))->delete('tendoo_users');
 		}
@@ -676,19 +699,37 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 	}
 	public function setAdminPrivilege($priv,$pseudo,$email)
 	{
-		if($this->isSuperAdmin())
+		if( current_user()->can( 'system@manage_users' ) )
 		{
 			$current	=	$this->getSpeAdminByPseudo($pseudo);
 			if($this->emailExist($email) && $email	!=	$current['EMAIL'])
 			{
 				return "email-already-used";
 			}
-			if($this->isAllowedPrivilege($priv) || $priv 	==	'USER')
+			if( $this->isAllowedPrivilege($priv) )
 			{
 				if($this->db->where('PSEUDO',strtolower($pseudo))->update('tendoo_users',
 					array('EMAIL'	=>	$email,'REF_ROLE_ID'=>$priv)
 				))
 				{
+					/***
+					 **	Saving as user meta, custom field registered
+					**/
+					$get_registered_fields	=	get_registered_fields( 'user_form_fields' );
+					
+					foreach( force_array( $get_registered_fields ) as $field ) { // Loop and apply purifier
+						if( $field_name	=	riake( 'name' , $field ) ){
+							$input			=	get_instance()->input->post( $field_name );
+							if( riake( 'purify' , $field ) ){
+								if( is_callable( $field[ 'purify' ] ) ){ // check wether a variable is anonymous.
+									$executable	=	$field[ 'purify' ];
+									$input		=	$executable( get_instance()->input->post( $field_name ) );
+								}
+							}
+							get_instance()->meta_datas->set_user_meta( $field_name , $input , $pseudo ); // Saving custom meta data.
+						}
+					}
+					
 					return 'done';
 				}
 			}
@@ -794,7 +835,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 		$query			=	$this->db->where('MESG_TITLE_REF',$ref_id)->limit(1,0)->order_by('ID','desc')->get('tendoo_users_messaging_content');
 		return $query->result_array();
 	}
-	public function deleteConversation($id)
+	public function deleteConversation($id) // Deprecated ? or Unused
 	{
 		$query	=	$this->db->where('ID',$id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('tendoo_users_messaging_title');
 		$result	=	$query->result_array();
@@ -806,9 +847,9 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 		}
 		return false;
 	}
-	public function write($to,$message)
+	public function write($to,$message) // Deprecated ? or Unused
 	{
-		$users		=	$this->getUserByPseudo(strtolower($to));
+		$users		=	$this->get_user_using_pseudo(strtolower($to));
 		if(!$users)
 		{
 			return 'receiverDontExist';
@@ -861,7 +902,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 		}
 		return 'cantSendMsgToYou';
 	}
-	public function countMsgContent($ref_id)
+	public function countMsgContent($ref_id) // Deprecated ? or Unused
 	{
 		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('tendoo_users_messaging_title');
 		$result	=	$query->result_array();
@@ -872,7 +913,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 		}
 		return 0;
 	}
-	public function getMsgContent($ref_id,$start,$end)
+	public function getMsgContent($ref_id,$start,$end) // Deprecated ? or Unused
 	{
 		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('tendoo_users_messaging_title');
 		$result	=	$query->result_array();
@@ -886,7 +927,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 		}
 		return false;
 	}
-	public function addPost($ref_id,$content)
+	public function addPost($ref_id,$content) // Deprecated ? or Unused
 	{
 		$query	=	$this->db->where('ID',$ref_id)->where('AUTHOR',$this->current('ID'))->or_where('RECEIVER',$this->current('ID'))->get('tendoo_users_messaging_title');
 		$result	=	$query->result_array();
@@ -903,7 +944,7 @@ Ce mail à été envoyé à l\'occassion d\'une inscription sur le site <a href=
 		}
 		return false;
 	}
-	public function getUnreadMsg()
+	public function getUnreadMsg() // Deprecated ? or Unused
 	{
 		$query_string	=	'SELECT * FROM '.DB_ROOT.'tendoo_users_messaging_title WHERE (AUTHOR = '.$this->db->escape($this->current('ID')).') OR (RECEIVER	= '.$this->db->escape($this->current('ID')).') ORDER BY ID DESC ';
 		$query	=	$this->db->query($query_string);

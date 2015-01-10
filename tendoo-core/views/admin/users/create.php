@@ -18,6 +18,8 @@ $this->gui->set_meta( array(
 	'type'			=>	'panel'
 ) )->push_to( 2);
 // Creating Fields
+// Static Fields
+
 $this->gui->set_item( array(
 	'type'			=>	'text',
 	'name'			=>	'admin_pseudo',
@@ -55,14 +57,15 @@ $this->gui->set_item( array(
 	'label'			=>	__( 'User Sex' )	
 ) )->push_to( core_meta_namespace( array( 'users' , 'create' ) ) );
 
-$roles				=	array( '' , 'USER' );
-$text				=	array( __( 'Choose...' ) , __( 'User' ) );
+$roles				=	array( '' );
+$text				=	array( __( 'Choose...' ) );
 
 foreach( force_array( $getPrivs ) as $_role )
 {
 	$roles[]		=	riake( 'ID' , $_role );
 	$text[]			=	riake( 'NAME' , $_role );
 }
+
 $this->gui->set_item( array(
 	'type'			=>	'select',
 	'name'			=>	'admin_privilege',
@@ -72,7 +75,11 @@ $this->gui->set_item( array(
 	'label'			=>	__( 'User role' )	
 ) )->push_to( core_meta_namespace( array( 'users' , 'create' ) ) );
 
-$this->gui->get();
+// Loading Generated Fields using "user_form_fields" hook
+$user_fields		=	trigger_filters( 'user_form_fields' , array( get_core_vars( 'tendoo_user_fields' ) ) ); // Filter user fields or add
 
-return;
-?>
+foreach( force_array( $user_fields ) as $field ) {
+	$this->gui->set_item( $field )->push_to( core_meta_namespace( array( 'users' , 'create' ) ) );
+}
+
+$this->gui->get();

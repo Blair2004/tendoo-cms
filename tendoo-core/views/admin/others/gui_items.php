@@ -34,7 +34,8 @@
 			}
 			$description		= '<em style="margin-left:5px;margin-top:0px;font-style:normal;display:block">' . strip_tags( riake( 'description' , $item , '' ) ) . '</em>';
 			
-			if( in_array( riake( 'type' , $item , 'text' ) , array( "text" , 'password' , 'file' ) ) )
+			// Providing "Type" is now required
+			if( in_array( riake( 'type' , $item  ) , array( "text" , 'password' , 'file' ) ) )
 			{
 				$placeholder 	= return_if_array_key_exists( 'placeholder' , $item );
 				$label			= return_if_array_key_exists( 'label' , $item );
@@ -51,7 +52,7 @@
 </div>
 				<?php
 			}
-			if( $item[ 'type' ] == "buttons" )
+			if( riake( 'type' , $item  ) == "buttons" )
 			{
 				$value		 	= convert_to_array( riake( 'value' , $item ) );
 				$buttons_types	= convert_to_array( riake( 'buttons_types' , $item , 'submit' ) );
@@ -73,7 +74,7 @@
 </div>
 				<?php
 			}
-			if( $item[ 'type' ] == "hidden" )
+			if( riake( 'type' , $item  ) == "hidden" )
 			{
 				$field_value	= riake( 'value' , $item , '');
 				$name			= return_if_array_key_exists( 'name' , $item );
@@ -81,7 +82,7 @@
 	  <input <?php echo $attrs_string;?> name="<?php echo $name;?>" type="hidden" class="form-control" value="<?php echo $field_value;?>">
 				<?php
 			}
-			if( $item[ 'type' ] == "textarea" )
+			if( riake( 'type' , $item  ) == "textarea" )
 			{
 				$placeholder 	= return_if_array_key_exists( 'placeholder' , $item );
 				$label			= return_if_array_key_exists( 'label' , $item );
@@ -96,14 +97,14 @@
 </div>
 				<?php
 			}
-			if( $item[ 'type' ] == "title" )
+			if( riake( 'type' , $item  ) == "title" )
 			{
 				$title		 	= return_if_array_key_exists( 'title' , $item );
 				?>
 				<h4><?php echo $title;?></h4>
 				<?php
 			}
-			else if( $item[ 'type' ] == 'visual_editor' )
+			else if( riake( 'type' , $item  ) == 'visual_editor' )
 			{
 				$placeholder 	= return_if_array_key_exists( 'placeholder' , $item );
 				$value		 	= return_if_array_key_exists( 'value' , $item );
@@ -128,7 +129,7 @@
 			/**
 			*	a Radio field must have at least 2 name in array;
 			**/
-			else if( $item[ 'type' ] == 'radio' ){
+			else if( riake( 'type' , $item  ) == 'radio' ){
 				$placeholder 	= return_if_array_key_exists( 'placeholder' , $item );
 				$value		 	= return_if_array_key_exists( 'value' , $item );
 				$label			= return_if_array_key_exists( 'label' , $item );
@@ -154,7 +155,7 @@
 					<?php
 				}
 			}
-			else if( $item[ 'type' ] == 'checkbox' )
+			else if( riake( 'type' , $item  ) == 'checkbox' )
 			{
 				$placeholder 	= return_if_array_key_exists( 'placeholder' , $item );
 				$value		 	= return_if_array_key_exists( 'value' , $item );
@@ -183,7 +184,7 @@
 					<?php
 				}
 			}
-			else if( $item[ 'type' ] == 'select' )
+			else if( riake( 'type' , $item  ) == 'select' )
 			{
 				$placeholder 	= return_if_array_key_exists( 'placeholder' , $item );
 				$value		 	= return_if_array_key_exists( 'value' , $item );
@@ -221,7 +222,7 @@
 					<?php
 				}
 			}
-			else if( $item[ 'type' ] == 'multiple' )
+			else if( riake( 'type' , $item  ) == 'multiple' )
 			{
 				$placeholder 	= return_if_array_key_exists( 'placeholder' , $item );
 				$value		 	= return_if_array_key_exists( 'value' , $item );
@@ -259,13 +260,13 @@
 					<?php
 				}
 			}
-			else if( in_array( $item[ 'type' ] , array( 'table' , 'table-panel' ) ) )
+			else if( in_array( riake( 'type' , $item  ) , array( 'table' , 'table-panel' ) ) )
 			{
 				$namespace			=	riake( 'name' , $item , 'default' );
 				$empty_message		=	riake( 'empty_message' , $item , __( 'No result available' ) );
 				
-				$class				=	$item[ 'type' ] == 'table' ? 'table table-striped m-b-none' : '';
-				$class				=	$item[ 'type' ] == 'table-panel' ? 'table table-striped m-b-none panel-body' : $class;
+				$class				=	riake( 'type' , $item  ) == 'table' ? 'table table-striped m-b-none' : '';
+				$class				=	riake( 'type' , $item  ) == 'table-panel' ? 'table table-striped m-b-none panel-body' : $class;
 				$class				.=  ' ' . get_user_meta( 'gui_'. riake( 'namespace' , $panel ) );
 				
 				get_instance()->gui->set_table( $namespace );
@@ -283,13 +284,13 @@
 				// Get table
 				get_instance()->gui->get_table( $namespace, $class );
 			}
-			else if( in_array( $item[ 'type' ] , array( 'table' , 'table-panel' ) ) )
+			else if( in_array( riake( 'type' , $item  ) , array( 'table' , 'table-panel' ) ) )
 			{
 				$namespace			=	riake( 'name' , $item , 'default' );
 				$empty_message		=	riake( 'empty_message' , $item , __( 'No result available' ) );
 				
-				$class				=	$item[ 'type' ] == 'table' ? 'table table-striped m-b-none' : '';
-				$class				=	$item[ 'type' ] == 'table-panel' ? 'table table-striped m-b-none panel-body' : $class;
+				$class				=	riake( 'type' , $item  ) == 'table' ? 'table table-striped m-b-none' : '';
+				$class				=	riake( 'type' , $item  ) == 'table-panel' ? 'table table-striped m-b-none panel-body' : $class;
 				$class				.=  ' ' . get_user_meta( 'gui_'. riake( 'namespace' , $panel ) );
 				
 				get_instance()->gui->set_table( $namespace );
@@ -307,7 +308,7 @@
 				// Get table
 				get_instance()->gui->get_table( $namespace, $class );
 			}
-			else if( $item[ 'type' ] == 'dom' )
+			else if( riake( 'type' , $item  ) == 'dom' )
 			{
 				echo $item[ 'value' ];
 			}

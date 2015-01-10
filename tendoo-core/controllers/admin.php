@@ -445,7 +445,7 @@ class Admin extends Libraries
 	}
 	public function controllers($e = '',$f = '')
 	{
-		redirect_if_webapp_is_enalbled();
+		redirect_if_webapp_is_enabled();
 		
 		current_user()->cannot( 'system@manage_controllers' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
 		
@@ -648,7 +648,12 @@ class Admin extends Libraries
 								$this->exceptions->show_error( translate( 'interpretation unclear' ) , translate( 'The interpretation returns a array that does not contain the "RETURNED" key. The module loaded return incorrect or incomplete array.' ) ); // If array key forget, get all content as interpretation.
 							$BODY['MCO']		=	$interpretation['MCO'];
 							set_core_vars( 'body' , $BODY );
-							$this->load->view('admin/global_body',$this->data,false,false);
+							
+							// If current module require GUI, let GUI handle header and global_body
+							if( !in_array( 'gui' , riake( 'require' , $module , array() ) ) )
+							{
+								$this->load->view('admin/global_body',$this->data,false,false);
+							}
 						}
 					}
 					else
@@ -658,11 +663,17 @@ class Admin extends Libraries
 				}
 				else
 				{
+					
 					$BODY['RETURNED']					=	$interpretation;
 					$BODY['MCO']						=	FALSE;
-					set_core_vars( 'body' , $BODY );					
-					$this->load->view('admin/header',$this->data,false,false);
-					$this->load->view('admin/global_body',$this->data,false,false);
+					set_core_vars( 'body' , $BODY );
+					
+					// If current module require GUI, let GUI handle header and global_body
+					if( !in_array( 'gui' , riake( 'require' , $module , array() ) ) )
+					{
+						$this->load->view('admin/header',$this->data,false,false);
+						$this->load->view('admin/global_body',$this->data,false,false);
+					}
 				}
 
 			}
@@ -671,7 +682,7 @@ class Admin extends Libraries
 				$this->url->redirect(array('admin/modules?notice=unknowModule'));
 			}
 		}
-		else if($e == 'themes') /// unfinised
+		else if($e == 'themes') /// deprecated
 		{
 			// Si la re-écriture est activé, on réduit l'index. 
 			// Sauf si dans l'url le fichier index.php est appelé.
@@ -724,7 +735,7 @@ class Admin extends Libraries
 		current_user()->cannot( 'system@manage_themes' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
 		
 		
-			redirect_if_webapp_is_enalbled();
+			redirect_if_webapp_is_enabled();
 			if($e == 'main')
 			{
 				js_push_if_not_exists('jtransit/jquery.transit.min');
@@ -808,29 +819,26 @@ class Admin extends Libraries
 	public function installer()
 	{
 		current_user()->cannot( 'system@install_app' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
+		if(isset($_FILES['installer_file']))
+		{
+			$query	=	$this->tendoo_admin->_install_app( 'installer_file' );
+			notice( 'push' , fetch_notice_output( $query ) );
+		}
+		if(isset($_POST['installer_link'],$_POST['downloadType']))
+		{
+			$query	=	$this->tendoo_admin->tendoo_url_installer( 
+				$this->input->post('installer_link'),
+				$this->input->post('downloadType')
+			);
+			notice( 'push' , fetch_notice_output( $query ) );
+		}
+		set_page('title', translate( 'Install Apps - Tendoo' ) );
 		
-		
-			if(isset($_FILES['installer_file']))
-			{
-				$query	=	$this->tendoo_admin->_install_app( 'installer_file' );
-				notice( 'push' , fetch_notice_output( $query ) );
-			}
-			if(isset($_POST['installer_link'],$_POST['downloadType']))
-			{
-				$query	=	$this->tendoo_admin->tendoo_url_installer( 
-					$this->input->post('installer_link'),
-					$this->input->post('downloadType')
-				);
-				notice( 'push' , fetch_notice_output( $query ) );
-			}
-			set_page('title', translate( 'Install Apps - Tendoo' ) );
-			
-			$this->load->the_view('admin/installer/install' );		
+		$this->load->the_view('admin/installer/install' );		
 	}
 	public function users( $options = '' , $x = 1 , $y = '' , $z = '' )
 	{
 		current_user()->cannot( 'system@manage_users' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
-		
 		if( $options == 'create' )
 		{
 			$this->form_validation->set_rules('admin_pseudo', translate( 'Pseudo' ),'trim|required|min_length[5]|max_length[15]');
@@ -847,17 +855,18 @@ class Admin extends Libraries
 					$this->input->post('admin_sex'),
 					$this->input->post('admin_privilege'),
 					$this->input->post('admin_password_email')
-				);
+				);		
+				
 				switch($creation_status)
 				{
 					case 'notAllowedPrivilege'	:
-						notice('push',fetch_notice_output('users-creation-failed'));
+						// notice('push',fetch_notice_output('users-creation-failed'));
 						break;
 					case 'user-has-been-created'	:
-						$this->url->redirect(array('admin','users?notice=user-has-been-created'));
+						// $this->url->redirect(array('admin','users?notice=user-has-been-created'));
 						break;
 					case 'users-creation-failed'	:
-						$this->url->redirect(array('admin','users','create?notice=users-creation-failed'));
+						// $this->url->redirect(array('admin','users','create?notice=users-creation-failed'));
 				}
 			}
 			set_core_vars( 'getPrivs' , $this->roles->get());
