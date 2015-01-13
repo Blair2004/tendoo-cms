@@ -166,7 +166,7 @@
 									if( $class != '' ) // means if it has child
 									{										
 										$custom_style	=	get_instance()->url->site_url() == riake( 'href' , $menu , '#' ) ? 'style="color:#fff"' : '';
-										
+										$is_submenu	=	riake( 'is_submenu' , $menu , true );
 										if( $first_index == 0 ) // parent
 										{
 											?>
@@ -176,8 +176,12 @@
 												<span><?php echo $title;?></span> 
 											</a>
 											<ul <?php echo $custom_ul_style;?> class="nav none dker">
+                                            <?php
+											// This let you choose if the first menu is also a submenu
+											if( $is_submenu ):?>
 												<li> <a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>"><?php echo riake( 'title' , $menu );?></a> </li>	
-											<?php
+                                            <?php 
+											endif;
 											
 										}
 										else // childs menus
