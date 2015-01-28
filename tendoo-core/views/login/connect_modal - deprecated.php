@@ -27,7 +27,7 @@
 						}
 						?>
                     </form>
-                    <?php echo fetch_error_from_url();?>
+                    <?php echo fetch_notice_from_url();?>
                     <?php echo form_error('admin_pseudo');?><br />
                     <?php echo form_error('admin_password');?><br />
                     <?php echo output('notice');?> </div>

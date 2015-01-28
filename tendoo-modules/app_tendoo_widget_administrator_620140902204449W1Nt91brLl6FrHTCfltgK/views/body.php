@@ -13,7 +13,7 @@
                     </div>
                 </header>
                 <section class="vbox stretch">
-                    <section class="wrapper"> <?php echo output('notice');?>  <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
+                    <section class="wrapper"> <?php echo output('notice');?>  <?php echo fetch_notice_from_url();?> <?php echo validation_errors(); ?>
                         <?php echo tendoo_info( __( 'Add a widget a sidebar. Some theme won\'t support all sidebar. Check your theme details for more informations.' ) );?>
                         <div class="row">
                             <div class="col-lg-4">

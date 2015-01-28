@@ -15,9 +15,8 @@ class Admin extends Libraries
 		set_core_vars( 'active_theme' , site_theme() );
 		set_core_vars( 'options' , $this->options	=	get_meta( 'all' ) , 'read_only' );
 		set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
-		// 1.4 For create_admin_menu && add_admin_menu
-		set_core_vars( 'admin_menu_items' , array( 'dashboard' , 'menu' , 'about' , 'users' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) );
-		set_core_vars( 'admin_menu_position' , array( 'after' , 'before' ) );
+		set_core_vars( 'admin_menu_items' , array( 'dashboard' , 'menu' , 'about' , 'users' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) ); // @since 1.4
+		set_core_vars( 'admin_menu_position' , array( 'after' , 'before' ) ); // @since 1.4
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->__admin_widgets(); // USING core WiDGET and thoses defined through init
 		$this->__creating_menus();
@@ -490,7 +489,7 @@ class Admin extends Libraries
 	{
 		current_user()->cannot( 'system@manage_modules' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
 				
-		notice( 'push' , fetch_error_from_url() );
+		notice( 'push' , fetch_notice_from_url() );
 		if($e == '' || $e == 'main')
 		{
 			// Filter active APP while WebApp mode is enabled
@@ -530,7 +529,7 @@ class Admin extends Libraries
 				set_core_vars( 'module' ,	$module 	= get_modules( 'filter_namespace' , $this->input->post( 'module_namespace' ) ), 'read_only' );
 				if( uninstall_module( $module[ 'namespace' ] ) )
 				{
-					$this->url->redirect(array('admin','modules','main',1,'module_uninstalled'));
+					$this->url->redirect(array('admin','modules','main',1,'module-has-been-installed'));
 				}
 			}
 			set_core_vars( 'module' , $module 	= get_modules( 'filter_namespace' , $namespace ), 'read_only' );
@@ -544,7 +543,7 @@ class Admin extends Libraries
 			}
 			else
 			{
-				// $this->url->redirect(array('error','code','unknowModule'));
+				// $this->url->redirect(array('error','code','unactive-or-unknow-module'));
 			}
 		}
 	}
@@ -562,7 +561,7 @@ class Admin extends Libraries
 				}
 				$this->url->redirect(array('admin','modules?notice=error-occured'));
 			}
-			$this->url->redirect(array('admin','index?notice=unknowModule'));
+			$this->url->redirect(array('admin','index?notice=unactive-or-unknow-module'));
 		}
 		$this->url->redirect(array('admin','modules?notice=error-occured'));
 	}
@@ -580,17 +579,13 @@ class Admin extends Libraries
 				}
 				$this->url->redirect(array('admin','modules?notice=error-occured'));
 			}
-			$this->url->redirect(array('admin','index?notice=unknowModule'));
+			$this->url->redirect(array('admin','index?notice=unactive-or-unknow-module'));
 		}
 		$this->url->redirect(array('admin','index?notice=error-occured'));
 	}
 	public function open($e='',$a='',$b	= '')
 	{
-		if($e == '' || $a == '')
-		{
-			$this->url->redirect(array('error','code','page404'));
-		}
-		else if($e == 'modules')
+		if($e == 'modules')
 		{
 			// Si la re-écriture est activé, on réduit l'index. 
 			// Sauf si dans l'url le fichier index.php est appelé.
@@ -603,7 +598,7 @@ class Admin extends Libraries
 				$index	=	0;
 			}
 			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-			$module					=	get_modules( 'filter_namespace' , $a );
+			$module					=	get_modules( 'filter_active_namespace' , $a );
 			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 			set_core_vars( 'opened_module'	, $module , 'read_only' );
 			// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -679,49 +674,12 @@ class Admin extends Libraries
 			}
 			else
 			{
-				$this->url->redirect(array('admin/modules?notice=unknowModule'));
+				$this->url->redirect(array('admin/modules?notice=unactive-or-unknow-module'));
 			}
 		}
-		else if($e == 'themes') /// deprecated
+		else
 		{
-			// Si la re-écriture est activé, on réduit l'index. 
-			// Sauf si dans l'url le fichier index.php est appelé.
-			if(!in_array('index.php',$this->url->getSplitedUrl()))
-			{
-				$index	=	$this->url->getRewrite()	==	true ? 1 : 0;
-			}
-			else
-			{
-				$index	=	0;
-			}
-			set_core_vars( 'opened_theme' , $opened_theme	=	$this->tendoo_admin->getThemes($a) );
-			if($opened_theme == TRUE) // rather than counting
-			{
-				$active_theme		=	$opened_theme;
-				set_page('title', $active_theme[0]['NAME'] . ' | ' . translate( 'Dashboard' ) ); 
-				include_once(THEMES_DIR.$active_theme[0]['encrypted_dir'].'/library.php');
-				include_once(THEMES_DIR.$active_theme[0]['encrypted_dir'].'/backend.php');
-				$Parameters			=	$this->url->http_request(TRUE);
-				if(array_key_exists(4-$index,$Parameters))
-				{
-					$Method				=	$Parameters[4-$index];
-				}
-				else
-				{
-					$Method			=	'index';
-				}
-				for($i = 0;$i < (5-$index);$i++)
-				{
-					array_shift($Parameters);
-				}
-				set_core_vars( 'interpretation' , $interpretation = 	$this->tendoo->interpreter($active_theme[0]['NAMESPACE'].'_theme_backend',$Method,$Parameters), 'read_only'  );
-				//var_dump(set_core_vars( 'interpretation']);
-				
-			}
-			else
-			{
-				$this->url->redirect(array('admin/themes?notice=unknowThemes'));
-			}
+			$this->url->redirect( array( 'error' , 'code' , 'page404' ) );
 		}
 	}
 	public function settings()

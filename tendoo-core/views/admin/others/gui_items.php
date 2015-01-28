@@ -27,10 +27,24 @@
 		{
 			// Since it's used by inputs and textarea
 			$attrs_string	= '';
+			$attrs_strings	= '';
 			$attrs				= riake( 'attrs' , $item );
+			$attrs_strings		= riake( 'attrs_strings' , $item , '' );
 			foreach( force_array( $attrs ) as $key => $value )
-			{	
-				$attrs_string = $key . '="' . $value . '"';
+			{
+				if( is_array( $value ) ) // for multiple attrs in buttons types item
+				{
+					$unique_string	=	'';
+					foreach( $value as $__key	=>	$__value )
+					{
+						$unique_string	.=	$__key . '="' . $__value . '" ';
+					}
+					$attrs_string[]	= 	$unique_string;
+				}
+				else
+				{
+					$attrs_string = $key . '="' . $value . '" ';
+				}
 			}
 			$description		= '<em style="margin-left:5px;margin-top:0px;font-style:normal;display:block">' . strip_tags( riake( 'description' , $item , '' ) ) . '</em>';
 			
@@ -40,13 +54,12 @@
 				$placeholder 	= return_if_array_key_exists( 'placeholder' , $item );
 				$label			= return_if_array_key_exists( 'label' , $item );
 				$name			= return_if_array_key_exists( 'name' , $item );
-				$value			= return_if_array_key_exists( 'value' , $item );
-				
+				$value			= return_if_array_key_exists( 'value' , $item );			
 				?>
 <div class="form-group">
 	<div class="input-group">
 	  <span class="input-group-addon"><?php echo $label ;?></span>
-	  <input name="<?php echo $name;?>" type="<?php echo $item[ 'type' ];?>" class="form-control" <?php echo $attrs_string;?> placeholder="<?php echo $placeholder;?>" value="<?php echo $value;?>">
+	  <input name="<?php echo $name;?>" <?php echo $attrs_strings;?> type="<?php echo $item[ 'type' ];?>" class="form-control" <?php echo $attrs_string;?> placeholder="<?php echo $placeholder;?>" value="<?php echo $value;?>">
 	</div>
     <?php echo $description;?>
 </div>
@@ -65,7 +78,7 @@
     	<?php foreach( $value as $_key => $_button )
 		{
 			?>
-	  <input class="btn btn-sm <?php echo riake( $_key , $classes , 'btn-primary' );?>" <?php echo riake( $_key , $attrs_strings );?> type="<?php echo riake( $_key , $buttons_types , 'submit' );?>" name="<?php echo riake( $_key , $name );?>" value="<?php echo $_button ;?>" style="margin-right:10px;">
+	  <input class="btn btn-sm <?php echo riake( $_key , $classes , 'btn-primary' );?>" <?php echo riake( $_key , $attrs_strings );?> <?php echo riake( $_key , $attrs_string );?> type="<?php echo riake( $_key , $buttons_types , 'submit' );?>" name="<?php echo riake( $_key , $name );?>" value="<?php echo $_button ;?>" style="margin-right:10px;">
       <?php
 		}
 	  ?>
@@ -79,7 +92,7 @@
 				$field_value	= riake( 'value' , $item , '');
 				$name			= return_if_array_key_exists( 'name' , $item );
 				?>
-	  <input <?php echo $attrs_string;?> name="<?php echo $name;?>" type="hidden" class="form-control" value="<?php echo $field_value;?>">
+	  <input <?php echo $attrs_string;?> <?php echo $attrs_strings;?> name="<?php echo $name;?>" type="hidden" class="form-control" value="<?php echo $field_value;?>">
 				<?php
 			}
 			if( riake( 'type' , $item  ) == "textarea" )
@@ -91,7 +104,7 @@
 <div class="form-group">
 	<div class="input-group">
 	  <span class="input-group-addon"><?php echo $label ;?></span>
-	  <textarea <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control" placeholder="<?php echo $placeholder;?>"><?php echo riake( 'value' , $item );?></textarea>
+	  <textarea <?php echo $attrs_string;?> <?php echo $attrs_strings;?> name="<?php echo $name;?>" type="text" class="form-control" placeholder="<?php echo $placeholder;?>"><?php echo riake( 'value' , $item );?></textarea>
 	</div>
     <?php echo $description;?>
 </div>
@@ -141,7 +154,7 @@
 <div class="btn-group" data-toggle="buttons">
 <?php for( $i = 0 ; $i < count( $name ) ; $i++ ): ?>
 <label class="btn btn-primary">
-<input <?php echo $attrs_string;?> type="radio" name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
+<input <?php echo $attrs_string;?> <?php echo $attrs_strings;?> type="radio" name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
 </label>
 <?php endfor;?>
 </div>
@@ -170,7 +183,7 @@
 <div class="btn-group" data-toggle="buttons">
 <?php for( $i = 0 ; $i < count( $name ) ; $i++ ): ?>
 <label class="btn btn-primary <?php echo riake( $i , $checked ) == true ? 'active' : '';?>">
-<input type="checkbox" <?php echo riake( $i , $checked ) == true ? 'checked="checked"' : '';?> <?php echo $attrs_string;?> name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
+<input type="checkbox" <?php echo riake( $i , $checked ) == true ? 'checked="checked"' : '';?> <?php echo $attrs_string;?> <?php echo $attrs_strings;?> name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
 </label>
 <?php endfor;?>
 </div>
@@ -199,7 +212,7 @@
 <div class="form-group">
 <div class="input-group">
 <span class="input-group-addon"><?php echo $label ;?></span>
-<select <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control">
+<select <?php echo $attrs_string;?> <?php echo $attrs_strings;?> name="<?php echo $name;?>" type="text" class="form-control">
 
 <?php if( $placeholder ):?>
 <option value=""><?php echo $placeholder;?></option>
@@ -237,7 +250,7 @@
 <div class="form-group">
 <div class="input-group">
 <span class="input-group-addon"><?php echo $label ;?></span>
-<select multiple="multiple" <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control">
+<select multiple="multiple" <?php echo $attrs_string;?> <?php echo $attrs_strings;?> name="<?php echo $name;?>" type="text" class="form-control">
 
 <?php if( $placeholder ):?>
 <option value=""><?php echo $placeholder;?></option>

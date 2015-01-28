@@ -31,20 +31,6 @@ class Installation extends Libraries
 		{
 			return false;
 		};
-		/* CREATE tendoo_visit_stats */
-		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_visit_stats` (
-		  `ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-		  `DATE` datetime NOT NULL,
-		  `VISITORS_IP` varchar(200) NOT NULL,
-		  `VISITORS_USERAGENT` varchar(40) NOT NULL,
-		  `GLOBAL_VISIT` int(50) NOT NULL,
-		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB;';
-		if(!$this->db->query($sql))
-		{
-			return false;
-		};
 		/* CREATE tendoo_meta */
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_meta` (
@@ -57,6 +43,35 @@ class Installation extends Libraries
 		PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		// APP eg. theme_nevia, module_blogster, module_static_pages, module_eshopping etc
+		if(!$this->db->query($sql))
+		{
+			return false;
+		};
+		/* CREATE tendoo_query */
+		$sql = 
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_query` (
+			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+			`NAMESPACE` varchar(255) NOT NULL,
+			`TITLE` varchar(255),
+			`CONTENT` varchar(255) NOT NULL,
+			`DATE` datetime NOT NULL,
+			`EDITED` datetime NOT NULL,
+			`AUTHOR` varchar(255) NOT NULL,
+		PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB;';
+		if(!$this->db->query($sql))
+		{
+			return false;
+		};
+		/* CREATE tendoo_query_attachment */
+		$sql = 
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_query_meta` (
+			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+			`QUERY_REF_ID` int(11) NOT NULL,
+			`KEY` varchar(255),
+			`VALUE` text NOT NULL,
+		PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB;';
 		if(!$this->db->query($sql))
 		{
 			return false;

@@ -19,7 +19,7 @@
                     <form method="post" class="row submitForm">
                         <section class="wrapper">
                             <div class="col-lg-12">
-                                <?php echo output('notice');?> <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
+                                <?php echo output('notice');?> <?php echo fetch_notice_from_url();?> <?php echo validation_errors(); ?>
                             </div>
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" name="news_name" placeholder="<?php _e( 'Post Title' );?>">

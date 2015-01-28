@@ -428,7 +428,7 @@ class Tendoo_admin extends Libraries
 								}
 							}
 							set_core_mode( 'normal' );
-							return 'module_installed';
+							return 'module-has-been-installed';
 							
 						} else if (  $module[ 'version' ] < $app_datas[ 'version' ] ){
 							// Updating
@@ -441,7 +441,7 @@ class Tendoo_admin extends Libraries
 							// substr( $file_unzip_location , 0 , -4 ) coz $file_unzip_location is a uri path to a zip file, we just remove extension.
 							$this->drop( substr( $file_unzip_location , 0 , -4 ) );
 							set_core_mode( 'normal' );
-							return 'module_alreadyExist';
+							return 'module-already-exists';
 						}
 					} else {
 						$this->drop( substr( $file_unzip_location , 0 , -4 ) );

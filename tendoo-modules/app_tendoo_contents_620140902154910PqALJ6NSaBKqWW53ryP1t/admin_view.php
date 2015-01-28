@@ -61,7 +61,7 @@ if(isset($loadSection))
                 <div class="hub_table">
                 	<h2>Modifier une page</h2>
                     <?php echo output('notice');?>
-                    <?php echo fetch_error_from_url();?>
+                    <?php echo fetch_notice_from_url();?>
                 	
 				</div>
 			</div>

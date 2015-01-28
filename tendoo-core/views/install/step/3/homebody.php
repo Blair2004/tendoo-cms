@@ -92,7 +92,7 @@
 					$.ajax( tendoo.url.site_url( 'install/app_step/' + id ) , {
 						dataType  	:	'json',
 						error		:	function(){
-							say( pseudo + "<?php echo translate( "An unexpected error occurred, please check out your internet connection and try again." );?>" );
+							say( pseudo + "<?php echo translate( "An unexpected error occurred. You should consider reinstalling and delete installed tables." );?>" );
 						},
 						success	:	function(json){
 							say( pseudo + json.response , 0 );

@@ -140,7 +140,7 @@ return;
                                                     } else {
                                                         ?>
                                                 <tr>
-                                                    <td colspan="6"><?php echo tendoo_info( translate( 'no_module_installed' ) );?></td>
+                                                    <td colspan="6"><?php echo tendoo_info( translate( 'no_module-has-been-installed' ) );?></td>
                                                 </tr>
                                                 <?php
                                                     }

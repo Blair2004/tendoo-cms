@@ -6,6 +6,7 @@ html {
 
 body {
     margin: 0;
+	font-size:14px !important;
 }
 
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary {
@@ -14031,4 +14032,15 @@ html.layout-box .vbox>section,html.layout-box .vbox>footer {
     .hidden-xs.show {
         display: inherit !important;
     }
+}
+
+/**
+ *	Fixes for 1.4
+**/
+
+
+section.vbox nav ul li a span:nth-child(3)
+{
+	display:inline-block;
+	width:100px;	
 }

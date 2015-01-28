@@ -14,6 +14,16 @@ $this->gui->set_meta( array(
 ) )->push_to( 1 );
 
 $this->gui->set_meta( array( 
+	'namespace'	=>	core_meta_namespace( array( 'users', 'reset' ) ) , 
+	'title'		=>	__( 'Reset Account' ) , 
+	'type'		=>	'panel',
+	'form_wrap'	=>	array(
+		'method'	=>	'post',
+		'enctype'		=>	'multipart/form-data'
+	)
+) )->push_to( 1 );
+
+$this->gui->set_meta( array( 
 	'namespace'	=>	core_meta_namespace( array( 'users', 'advanced' ) ) , 
 	'title'		=>	__( 'Advanced Settings' ) , 
 	'type'		=>	'panel',
@@ -34,6 +44,20 @@ $this->gui->set_meta( array(
 		'enctype'		=>	'multipart/form-data'
 	)
 ) )->push_to( 2 );
+
+// User Reset
+
+$this->gui->set_item( array(
+	'type'		=>	'buttons',
+	'name'		=>	'user_name',
+	'value'		=>	array( __( 'Reset Account' ) ),
+	'name'		=>	array( 'reset_account' ),
+	'attrs'		=>	array(	array(
+		'confirm-do'	=>	'click',
+		'confirm-text'	=>	__( 'Do you really want to reset your account datas ?' )
+	) 	),
+	'description'	=>	__( 'This option will restore account settings. Personnal datas will been kept' )
+) )->push_to( core_meta_namespace( array( 'users', 'reset' ) ) );
 
 // User Profile
 
@@ -124,6 +148,7 @@ $this->gui->set_item( array(
 	'label'		=>	__( 'Confirm password' ),
 	'description'	=>	__( 'It should match the new password.' ),
 ) )->push_to( core_meta_namespace( array( 'users', 'advanced' ) ) );
+
 
 // Admin widgets
 

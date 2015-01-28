@@ -353,14 +353,38 @@ function uninstall_module( $namespace ){
 		return false;
 	}
 	/**
+	 * 	module_path
+	 * 
+	 * 	This function returns a relative path inside module folder
+	 *
+	 * 	@param String
+	 * 	@param String, module namespace
+	 * 	@return String/Array
+	**/
+	function module_path( $path = '', $mod_namespace = null )
+	{
+		if( $mod_namespace == null ) { 
+			$_module	=	get_core_vars( 'opened_module' );
+		} else {
+			$_module	=	get_modules( 'filter_namespace' , $mod_namespace );
+		}
+		if($_module){
+			return $_module[ 'uri_path' ] . $path ;
+		}
+		return false;
+	}
+	/**
 	*	module_include('module_namespace','path');
 	*	utilise la méthode include_once pour un fichier contenu dans le dossier du module dont l'espace nom est fourni comme premier paramètre.
 	**/
-	function module_include($mod_namespace,$path)
+	function module_include($path , $mod_namespace = null )
 	{
-		$_module	=	get_modules( 'filter_namespace' , $mod_namespace );
-		if($_module)
-		{
+		if( $mod_namespace == null ) { 
+			$_module	=	get_core_vars( 'opened_module' );
+		} else {
+			$_module	=	get_modules( 'filter_namespace' , $mod_namespace );
+		}
+		if($_module){
 			include_once( $_module[ 'uri_path' ] . '/' . $path );
 		}
 		return false;

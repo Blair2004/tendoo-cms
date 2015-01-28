@@ -31,7 +31,7 @@
 						?>
                 <br>
                 <?php echo validation_errors();?>
-                <?php echo fetch_error_from_url();?>
+                <?php echo fetch_notice_from_url();?>
                 <?php echo output('notice');?>
                 
             </form> 

@@ -17,7 +17,7 @@
                 </header>
                 <section class="vbox stretch">
                     <section class="wrapper">
-                        <?php echo output('notice');?> <?php echo fetch_error_from_url();?> <?php echo validation_errors(); ?>
+                        <?php echo output('notice');?> <?php echo fetch_notice_from_url();?> <?php echo validation_errors(); ?>
                         <section class="panel">
                             <div class="panel-heading">
                                 Liste des fichiers

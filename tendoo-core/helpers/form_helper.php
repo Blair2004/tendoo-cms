@@ -897,13 +897,13 @@ if ( ! function_exists('form_error'))
 if ( ! function_exists('validation_errors'))
 {
 	function validation_errors($prefix = '', $suffix = '')
-	{
+	{		
 		$instance	=	get_instance();
 		if (FALSE === ($OBJ =& _get_validation_object()))
 		{
 			return '';
 		}
-
+		
 		return $OBJ->error_string($prefix, $suffix);
 	}
 }

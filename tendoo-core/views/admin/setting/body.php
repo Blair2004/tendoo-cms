@@ -168,7 +168,7 @@ return;
                 </div>
             </header>
             <section class="wrapper w-f">
-                <?php echo output('notice');?> <?php echo validation_errors('<p class="error">', '</p>');?> <?php echo fetch_error_from_url();?>
+                <?php echo output('notice');?> <?php echo validation_errors('<p class="error">', '</p>');?> <?php echo fetch_notice_from_url();?>
                 <section class="panel">
                     <header class="panel-heading bg-light">
                         <ul class="nav nav-tabs nav-justified">

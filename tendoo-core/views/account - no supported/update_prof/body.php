@@ -11,7 +11,7 @@
 </footer>
 <section class="wrapper scrollable bg-light lt">
     <div class="panel-content">
-        <div class="wrapper scrollable"> <?php echo output('notice');?> <?php echo fetch_error_from_url();?> <?php echo validation_errors();?>
+        <div class="wrapper scrollable"> <?php echo output('notice');?> <?php echo fetch_notice_from_url();?> <?php echo validation_errors();?>
             <div class="row">
                 <div class="col-lg-5">
                     <div class="panel">

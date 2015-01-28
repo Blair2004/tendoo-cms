@@ -42,7 +42,7 @@ return ;
             </header>
             <section class="scrollable wrapper"> 
                 	<?php echo validation_errors('<p class="error">', '</p>');?>
-					<?php echo fetch_error_from_url();?>
+					<?php echo fetch_notice_from_url();?>
 					<?php echo output('notice');?>
                     <div class="row">
                     	<div class="col-lg-6">

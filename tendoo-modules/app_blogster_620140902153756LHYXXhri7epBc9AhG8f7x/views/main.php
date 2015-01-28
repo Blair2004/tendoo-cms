@@ -17,7 +17,7 @@
                 </header>
                 <section class="vbox">
                     <section class="wrapper">
-                        <?php echo output('notice');?> <?php echo fetch_error_from_url();?>
+                        <?php echo output('notice');?> <?php echo fetch_notice_from_url();?>
                         <div class="row">
                             <div class="col-lg-8">
                                 <section class="panel">

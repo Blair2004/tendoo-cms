@@ -140,17 +140,17 @@ if(!function_exists('fetch_error'))
 		$array['controler_deleted']			=	tendoo_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement supprim&eacute;.');
 		$array['controllers_updated']		=	tendoo_success('Les contr&ocirc;leurs ont été correctement mis à jour.');
 		$array['incorrectSuperAdminPassword']	=	tendoo_warning('Le mot de passe administrateur est incorrect');
-		$array['cantHeritFromItSelf']		=	tendoo_error('Ce contr&ocirc;leur ne peut pas &ecirc;tre un sous menu de lui m&ecirc;me. La modification de l\'emplacement &agrave; &eacute;chou&eacute;.');
-		$array['cantSendMsgToYou']			=	tendoo_error('Une erreur s\'est produite, vous ne pouvez pas vous envoyer un message.');
-		$array['curl_is_not_set']			=	tendoo_error('CURL n\'est pas disponible sur ce site.');
-		$array['unkConSpeAsParent']			=	tendoo_error('Le contr&ocirc;leur (Menu), d&eacute;finie comme parent est introuvable. La modification du contr&ocirc;leur &agrave; &eacute;chou&eacute;.');
+		$array['cantHeritFromItSelf']		=	tendoo_warning('Ce contr&ocirc;leur ne peut pas &ecirc;tre un sous menu de lui m&ecirc;me. La modification de l\'emplacement &agrave; &eacute;chou&eacute;.');
+		$array['cantSendMsgToYou']			=	tendoo_warning('Une erreur s\'est produite, vous ne pouvez pas vous envoyer un message.');
+		$array['curl_is_not_set']			=	tendoo_warning('CURL n\'est pas disponible sur ce site.');
+		$array['unkConSpeAsParent']			=	tendoo_warning('Le contr&ocirc;leur (Menu), d&eacute;finie comme parent est introuvable. La modification du contr&ocirc;leur &agrave; &eacute;chou&eacute;.');
 		$array['module_success_enabled']	=	tendoo_success('Le module à correctement été activé.');
 		$array['module_success_disabled']	=	tendoo_success('Le module à correctement été désactivé.');
-		$array['addingActionFailure']		=	tendoo_error('La cr&eacute;ation d\'action pour ce module &agrave; &eacute;chou&eacute;.');
-		$array['subMenuLevelReach']			=	tendoo_error('Impossible de cr&eacute;er ou de modifier ce contr&ocirc;leur, la limitation en terme de sous menu &agrave; &eacute;t&eacute; atteinte. Veuillez choisir un autre menu ou en cr&eacute;er un nouveau.');
-		$array['cantUserReservedCNames']	=	tendoo_error('Ce code du contr&ocirc;leur est un code reserv&eacute;, vous ne pouvez pas l\'utiliser.');
-		$array['unknowProfil']				=	tendoo_error('Le profil que vous souhaitez visiter est introuvable. Il est en outre probable que cet utilisateur n\'existe pas ou que son compte &agrave; &eacute;t&eacute; supprim&eacute;.');
-		$array['upload_invalid_filesize']	=	tendoo_error('La taille du fichier est supérieur à celle autorisée.');
+		$array['addingActionFailure']		=	tendoo_warning('La cr&eacute;ation d\'action pour ce module &agrave; &eacute;chou&eacute;.');
+		$array['subMenuLevelReach']			=	tendoo_warning('Impossible de cr&eacute;er ou de modifier ce contr&ocirc;leur, la limitation en terme de sous menu &agrave; &eacute;t&eacute; atteinte. Veuillez choisir un autre menu ou en cr&eacute;er un nouveau.');
+		$array['cantUserReservedCNames']	=	tendoo_warning('Ce code du contr&ocirc;leur est un code reserv&eacute;, vous ne pouvez pas l\'utiliser.');
+		$array['unknowProfil']				=	tendoo_warning('Le profil que vous souhaitez visiter est introuvable. Il est en outre probable que cet utilisateur n\'existe pas ou que son compte &agrave; &eacute;t&eacute; supprim&eacute;.');
+		$array['upload_invalid_filesize']	=	tendoo_warning('La taille du fichier est supérieur à celle autorisée.');
 		$array['cant_delete_mainpage']		=	tendoo_warning(' La page principale ne peut pas &ecirc;tre supprim&eacute;.');
 		$array['controler_edited']			=	tendoo_success(' Le contr&ocirc;leur &agrave; &eacute;t&eacute; correctement modifi&eacute;.');
 		$array['db_unable_to_connect']		=	tendoo_warning('Il est impossible de se connecter &agrave; la base de donn&eacute;es avec les informations fournies.');
@@ -165,10 +165,10 @@ if(!function_exists('fetch_error'))
 		$array['CantDeleteDir']				=	tendoo_warning('Une erreur s\'est produite durant la suppr&eacute;ssion d\'un dossier.');
 		$array['module_corrupted']			= 	tendoo_warning('Ce module ne peut pas &ecirc;tre install&eacute;. Il est corrompu ou incompatible.');	
 		$array['errorInstallModuleFirst']	= 	tendoo_warning('Vous devez installer les tables avant d\'installer le module');	
-		$array['module_installed']			=	tendoo_success( translate( 'module_installed' ) );
-		$array['module_alreadyExist']		= 	tendoo_warning( translate( 'module_already_exists') );	
-		$array['unknowModule']				=	tendoo_warning('Ce module est introuvable.');
-		$array['module_uninstalled']		=	tendoo_success('Le module &agrave; &eacute;t&eacute; d&eacute;sinstall&eacute;.');
+		$array['module-has-been-installed']			=	tendoo_success( translate( 'The module has been sucessfully installed.' ) );
+		$array['module-already-exists']		= 	tendoo_warning( translate( 'A module with the same namespace already exists.') );	
+		$array['unactive-or-unknow-module']		=	tendoo_warning( __( 'This module is not found or has been disabled.' ) ); // Translated
+		$array['module-has-been-installed']		=	tendoo_success('Le module &agrave; &eacute;t&eacute; d&eacute;sinstall&eacute;.');
 		$array['InvalidPage']				=	tendoo_warning('Cette page n\'a pas pu &ecirc;tre charg&eacute; car le contr&ocirc;leur correspondant &agrave; cette adresse est introuvable ou indisponible.'); // Deprecated ?
 		$array['noControllerDefined']		=	tendoo_warning('Impossible d\'acc&eacute;der &agrave; cet &eacute;lement, Il ne dispose pas d\'interface embarqu&eacute;.');
 		$array['cantSetChildAsMain']		=	tendoo_warning('Un sous menu ne peut pas &ecirc;tre d&eacute;finie comme page principale. La modification de la priorit&eacute; &agrave; &eacute;chou&eacute;e.');
@@ -232,11 +232,11 @@ if(!function_exists('fetch_error'))
 		$array['cannot-delete-active-role']		=	tendoo_warning( __( 'A role in use can\'t be deleted.') );
 		$array[ 'profile-updated' ]				=	tendoo_success( __( 'Profile has been updated.' ) );
 		$array[ 'role-permissions-saved' ]		=	tendoo_success( __( 'Role permissions has been saved.' ) );
-		$array['active_theme_does_not_handle_that']	=	tendoo_warning(' Le thème actif ne prend pas en charge le module attaché à ce contrôleur.');
+		$array[ 'unsupported-by-current-theme']	=	tendoo_warning(' Le thème actif ne prend pas en charge le module attaché à ce contrôleur.');
 		
 		// Tendoo 1.4
 		$array[ 'web-app-mode-enabled' ]		=	tendoo_warning( __( 'While "WebApp" Mode is enabled, frontend is disabled. Check your settings to define tendoo mode on Website setings tab.' ) );
-		$array['form-expired']					=	tendoo_error( __( 'Current form data has expired. Please try to submit it again' ) );
+		$array['form-expired']					=	tendoo_warning( __( 'Current form data has expired. Please try to submit it again' ) );
 		
 		if($e === TRUE)
 		{
@@ -326,9 +326,9 @@ if(!function_exists('fetch_error'))
 		}
 	}
 }
-if(!function_exists('fetch_error_from_url'))
+if(!function_exists('fetch_notice_from_url'))
 {
-	function fetch_error_from_url()
+	function fetch_notice_from_url()
 	{
 		$notice = ''; $info = '';
 		if(isset($_GET['notice']))
@@ -488,10 +488,11 @@ if(!function_exists('translate')) // gt = Get Text
 		}
 	}
 }
-if(!function_exists('tendoo_error'))
+if(!function_exists('tendoo_error')) // Deprecated
 {
 	function tendoo_error($x1,$x2,$x3)
 	{
+		return;
 		$instance	=	get_instance();
 		?>
 		<div id="tendoo_error_notice">
@@ -500,7 +501,7 @@ if(!function_exists('tendoo_error'))
 		<?php
 	}
 }
-if(!function_exists('tendoo_exception'))
+if(!function_exists('tendoo_exception')) // deprecated
 {
 	function tendoo_exception($x1,$x2,$x3)
 	{
@@ -567,12 +568,14 @@ if( !function_exists( 'page_bottom' ) ){
             <div class="col-lg-7" style="background: linear-gradient(120deg, #FFFFFF 50%,rgba(255,255,255,0) 80%)">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 style="margin:0;">Bienvenue sur <?php echo get('core_version');?></h1>
-                        <smaill>La nouvelle génération de Tendoo</small>
+                        <h1 style="margin:0;"><?php echo sprintf( __( 'Welcome on %s' ) , get('core_version') );?></h1>
+                        <smaill><?php _e( 'A new way to create blogs and Web Apps easilly.' );?></small>
                         <hr class="line-dashed">
-                        <h3>Tendoo, c'est pour vous !!!</h3>
-Que vous soyez un adepte des technologies de la communication ou un professionnel qui voudrait déployer son site web, Tendoo peut être utilisé selon vos envies et vos ambitions. Vous aurez dans chaque cas des outils mis à votre disposition par Tendoo, qui vous permettrons de surveiller l'évolution de votre site web ou tout simplement du taux d'audience de votre site web.</p>
-                        <p> <a class="btn <?php echo theme_button_class();?> btn-large proceed">Découvrir les nouveautés</a> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" dismissmodal id="quitTour"> Ne plus afficher </a> </p>
+                        <p><?php _e( 'Thanks for using Tendoo to create your blog or for your webapp. Tendoo Foundation Specially give thanks to all contributors and is proud to release this new version of Tendoo CMS.' );?></p>
+                        <p><?php _e( "If you're new, you can read user guides in order to know how to use each features of Tendoo. It's hightly recommended that you start by this steps before." );?></p>
+                        <p><?php _e( "There is also guidse for advanced users and for developers. those guides has been simplified to ease reading." );?></p>
+						<p><?php _e( "Enough talking !!! enjoy this tour by reading what's new." );?></p>
+                        <p> <a class="btn <?php echo theme_button_class();?> btn-large proceed"><?php _e( 'Discover what\'s new' );?></a> <a class="btn <?php echo theme_button_class();?> btn-large" href="http://tendoo-cms.readme.io"><?php _e( 'Read Beginner Tutorials' );?></a> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" dismissmodal id="quitTour"> <?php _e( 'Skip this tour' );?> </a> </p>
                     </div>
                 </div>
             </div>
@@ -591,20 +594,10 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
                         <img style="width:100%;margin-top:10px;" src="<?php echo $obj->instance->url->img_url('install_apps.jpg');?>" alt="girl"> 
                     </div>
                     <div class="col-lg-8">
-                    	<h4>Découvrir les nouveautés</h4>
-                        <p>
-                        	<ul>
-                            	<li>Le module Blogster à été mis à jour et proposes des sous pages pour vos catégories, mots-clés (tags) et articles.</li>
-                                <li>Le module Tendoo Index Manager à été simplifier en proposant un bouton pour sauvegarder tous les modifications.</li>
-                                <li>Le thème Nevia à été mis à jour et corrige l'erreur sur la page d'accueil.</li>
-                                <li>Le module Contact Manager à également été mis à jour.</li>
-							</ul>
-                            Toutes ces applications fonctionnent uniquement sur la version <?php echo get('core_id');?> de Tendoo.
-						</p>
-       					<h4>C'est quoi Tendoo ?</h4>                 
-                        <p>Tendoo est une application qui vous permet de mettre sur pied un site web sans avoir besoin d'avoir des connaissance en codage. Il vous permet de créer plusieurs type de site web (blog, forum, boutique e-Commerce, site vitrine). L'interface qu'il propose est suffisament intuitive pour faciliter sa prise en main.</p>
-                        <p>Bien que la gestion d'un site web va au-delà de son contenu, vous serrez souvent amener à répondre à des problèmes de sécurité, de référencement ou tout simplement d'optimisation. Tendoo mets à votre disposition divers outils qui sont accèssibles depuis l'emplacement "Outils" & "Paramètres", afin d'améliorer non seulement les performances de votre site web, mais aussi de vous assurer d'avoir un meilleur positionnement sur les résultats des moteurs de recherche.</p>
-                        <h4>Etendez les fonctionnalités de base avec les applications</h4>
+                    	<h3><?php _e( 'What\'s new ?' );?></h3>
+						<p><?php _e( 'Many thing has changed during previous version and now we\'re proud to introduce those new features : ');?></p>
+                        <h4><?php _e( 'UI has been improved' );?></h4>
+                        <p><?php _e( 'Since Tendoo is using GUI Library, UI has been improved. For developper that mean a significant time savings and for user a dashboard more user-friendly' );?>
                         <p>Vous pouvez étendre les fonctionnalités de base de votre site web Tendoo en installant les applications Tendoo. Les applications sont de deux types : Modules et Thèmes.<br>
                         	<p> <a class="btn <?php echo theme_button_class();?> btn-large proceed"> Comment ça marche ? </a> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" id="quitTour" dismissmodal> Ne plus afficher </a> </p>
                         </p>
@@ -661,41 +654,20 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
         </div>
     </div>
 </div>
-<!-- Last Step -->
-<!--<div data-stepContent style="display:none">
-    <div class="hero-unit">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-4"> <img style="width:100%;" src="<?php echo $obj->instance->url->img_url('help_button.jpg');?>" alt="girl"> <img style="width:100%;margin-top:10px;" src="<?php echo $obj->instance->url->img_url('introjs_showcase.jpg');?>" alt="girl"> </div>
-                    <div class="col-lg-8" style="background: linear-gradient(120deg, #FFFFFF 50%,rgba(255,255,255,0) 80%)">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h4>Par ou commencer ?</h4>
-                                <p></p>
-                                <p> <a data-requestType="silent" data-url="<?php echo $obj->url->site_url(array('admin','ajax','toggleFirstVisit'));?>" class="btn <?php echo theme_button_false_class();?> btn-large" id="quitTour"> Quitter (et ne plus afficher) </a> </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>-->
 <script>
 			var wizard	=	'<section class="wizmodal">'+ 
 								'<div class="wizard clearfix">'+
 									'<ul class="steps">'+
 										'<li data-target="#step1" class="active" >'+
-										'<span class="badge badge-info">1</span>Accueil</li>'+
-										'<li data-target="#step2" class=""><span class="badge">2</span>Découvrir les nouveautés</li>'+
-										'<li data-target="#step3" class=""><span class="badge">3</span>Comment ça marche ?</li>'+
-										'<li data-target="#step4" class=""><span class="badge">4</span>Comment utiliser les outils ?</li>'+
+										'<span class="badge badge-info">1</span><?php _e( 'Welcome' );?></li>'+
+										'<li data-target="#step2" class=""><span class="badge">2</span><?php _e( "What\'s new ?" );?></li>'+
+										'<li data-target="#step3" class=""><span class="badge">3</span><?php _e( 'How does it work ?' );?></li>'+
+										'<li data-target="#step4" class=""><span class="badge">4</span><?php _e( 'How to use it' );?></li>'+
 										//'<li data-target="#step5" class=""><span class="badge">5</span>Par où commencer ?</li>'+
 									'</ul>'+
 									'<div class="actions">'+
-										'<button type="button" class="btn btn-white btn-xs btn-prev">Pr&eacute;cedent</button>'+
-										'<button type="button" class="btn btn-white btn-xs btn-next">Suivant</button>'+
+										'<button type="button" class="btn btn-white btn-xs btn-prev"><?php _e( 'Previous' );?></button>'+
+										'<button type="button" class="btn btn-white btn-xs btn-next"><?php _e( 'Next' );?></button>'+
 									'</div>'+
 								'</div>'+
 								// '<img class="backgroundImg" src="<?php echo $obj->instance->url->img_url('tendoo_1.jpg');?>" style="position:absolute;">'+
@@ -708,7 +680,7 @@ Que vous soyez un adepte des technologies de la communication ou un professionne
 								'</div>'+
 							'</section>';
 			$(document).ready(function(){
-				tendoo.window.title('Bienvenue sur <?php echo $obj->instance->version();?>').show(wizard);
+				tendoo.window.title( '<?php echo sprintf( __( 'Welcome on %s' ) , get('core_version') );?>' ).show(wizard);
 				var steps	=	1;
 				$('[data-stepContent]').each(function(){
 					$('.wizmodal').find('#step'+steps).html($(this).html());

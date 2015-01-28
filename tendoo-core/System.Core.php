@@ -1,15 +1,20 @@
 <?php
-Class instance extends Libraries
+/**
+ * 	----------------------------------------------------
+ *				Main Tendoo Core Class
+ * 	----------------------------------------------------
+**/
+class Instance extends Libraries
 {
 	private $is_installed			=	false;
 	private $db_connected			=	false;
 	private $data					=	array();
 	private $core_vars				=	array();
-	public static $instance;
+	public static $ressource;
 	public function __construct()
 	{
 		parent::__construct();
-		self::$instance			=&	$this;
+		self::$ressource		=&	$this;
 		$this->is_installed		=	is_file( CONFIG_DIR . 'db_config.php' ) ? true : false;
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->description		=	__( 'No description available for this page' );
@@ -30,18 +35,32 @@ Class instance extends Libraries
 		$Method		=	$this->url->method();
 		$Parameters	=	$this->url->parameters();
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+		
+		/**
+		 * Check out if current server support tendoo
+		**/
+		
 		is_compatible();
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+
+		/**
+		 * Load module and Themes if tendoo is installed
+		**/
+		
 		if( $this->is_installed == true ){
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 			load_modules();
 			load_themes();
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		}
+		
+		/**
+		 * Load Core Vars
+		**/
 		
 		new Load_Core_Values;
 		
-		// Controller Start Here
+		/**
+		 * Checking Controller
+		**/
+		
 		if( in_array( $this->url->controller() , array( 'install' , 'registration' , 'logoff' , 'admin' , 'login' , 'error' ) ) )
 		{
 			( $this->url->controller() == 'admin' ) ? define( 'SCRIPT_CONTEXT' , 'ADMIN' ) : define( 'SCRIPT_CONTEXT' , 'PUBLIC' );
@@ -69,10 +88,11 @@ Class instance extends Libraries
 		}
 		else
 		{
-			// Permet de savoir dans quel contexte le script est exécuté
+			// Define Script context
+			
 			define('SCRIPT_CONTEXT','PUBLIC');
 			
-			// Is installed ?
+			// Checks install status
 			if( ! $this->is_installed )
 			{
 				include_once( CONTROLLERS_DIR . 'tendoo_index.php');
@@ -92,22 +112,24 @@ Class instance extends Libraries
 				{
 					$this->url->redirect( array( 'admin' , 'index?notice=web-app-mode-enabled' ) );
 				}
-				// Et les stats ?, on initialise
-				// $this->load->library( 'stats' );  // No supported on 1.4
-				// As we do engage init, users_global should be loaded once.
+				
+				/**
+				 * Loading Users Class
+				**/
+				
 				$this->load->library( 'users_global' );
 				
-				// Première super variable Tendoo
+				/**
+				 * Setting Core vars
+				**/
+				
 				set_core_vars(	'controllers'	,	($this->data['controllers']		=	$this->tendoo->get_pages('',FALSE))	,'readonly'); // ??	
 				set_core_vars(	'page'	,	($this->data['page']					=	$this->tendoo->getPage($Class))	,'readonly');	
 				set_core_vars(	'active_theme'	,	( $this->data['active_theme']	= 	get_themes( 'filter_active' ) ) );
-				// set_core_vars(	'tendoo'	,	($this->data['Tendoo']				=	$this->tendoo)	,'readonly'); // ? Remove Line
 				set_core_vars(	'module_url'	,	($this->data['module_url']		=	$this->url->get_controller_url()) ,'readonly');
 				set_core_vars(	'module'	,  $module 								= 	get_modules( 'filter_active_namespace' , $this->data['page'][0]['PAGE_MODULES'] ) ,'readonly');
 				set_core_vars(	'opened_module'	,  $module ,'readonly');
 				set_core_vars(	'app_module'	,	( 	$app_module 				= 	get_modules( 'filter_active_app' ) ),'readonly' );
-				
-				// Le controleur existe ? oui / Non ?
 				
 				if( is_string( $this->data['page'] ) )
 				{
@@ -119,30 +141,38 @@ Class instance extends Libraries
 					if( ! $module ){
 						$this->url->redirect(array('error','code', 'moduleBug'));
 					}
-					// Définition des meta données					
+					
+					/**
+					 * Setting page meta datas
+					**/
+					
 					set_page( 'title' , $this->data['page'][0]['PAGE_TITLE'] );
 					set_page( 'description' , $this->data['page'][0]['PAGE_DESCRIPTION'] );
 					set_page( 'keywords' , $this->data['page'][0]['PAGE_KEYWORDS']);
 					
 					// Saved First BreadCrumbs
+					
 					$INDEX	=	$this->tendoo->getPage( 'index' );
+					
 					set_bread( array (
 						'link'	=>	$this->data['module_url'],
 						'text'	=>	$INDEX[0][ 'PAGE_NAMES' ]
 					) );
 					
 					/**
-					 *
-					 * Trigger each init.php file within module and theme folders
-					 *
+					 * 	Trigger each init.php file within module and theme folders
+					 *	init.php is the main file for modules and themes.
 					**/
+					
 					$this->trigger_inits();
 					
-					// $this->stats->addVisit(); // No more supported
-					
+					/**
+					 * Checks if current module is supported by active theme
+					**/
+									
 					if( TRUE !== ( $active_theme = does_active_theme_support( $module[ 'handle' ] ) ) )
 					{
-						$this->url->redirect(array('error','code','active_theme_does_not_handle_that'));
+						$this->url->redirect(array('error','code','unsupported-by-current-theme'));
 					}
 					if( $this->data['module_url']	==	'noMainPage' )
 					{
@@ -220,9 +250,9 @@ Class instance extends Libraries
 	{
 		return $this->is_installed;
 	}
-	public static function instance()
+	public static function get()
 	{
-		return instance::$instance;
+		return Instance::$ressource;
 	}
 	public function version()
 	{

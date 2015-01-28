@@ -32,7 +32,6 @@ Tendoo Version Required : 1.4
                 <section class="vbox">
                     <section class="wrapper"> 
 						<?php echo output('notice');?> 
-						<?php echo validation_errors(); ?>
                         <div class="row">
                             <?php $total_width = 12;?>
                             <?php foreach( force_array( $this->cols ) as $key	=>	$c):?>

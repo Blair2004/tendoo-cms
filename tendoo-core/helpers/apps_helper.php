@@ -1,4 +1,9 @@
 <?php
+	/**
+	 * 	Check if current script is being triggered through dashboard
+	 *  @access public
+	 * 	@return bool
+	**/
 	function is_admin()
 	{
 		if(defined('SCRIPT_CONTEXT'))
@@ -10,6 +15,15 @@
 		}
 		return false;
 	}
+	
+	/**
+	 * Return namespace for metaboxes
+	 *
+	 * @access public
+	 * @param Array/String
+	 * @param String (prefix)
+	 * @return String
+	**/
 	function core_meta_namespace( $array , $base_prefix = '' )
 	{
 		if( is_string( $array ) )
@@ -18,7 +32,7 @@
 		}
 		else if( is_array( $array ) )
 		{
-			$base_prefix	=	( $base_prefix	== '' ) ? 'core.meta.tendoo.org/' : $base_prefix . '.meta.tendoo.org' ;
+			$base_prefix	=	( $base_prefix	== '' ) ? 'core.meta.tendoo.org' : $base_prefix . '.meta.tendoo.org' ;
 			$final_slashes	=	'';
 			foreach( $array as $value )
 			{
@@ -27,6 +41,7 @@
 			return $base_prefix . $final_slashes;
 		}
 	}
+	
 	/**
 	*	@var 	: string required
 	*	@return : null
@@ -39,6 +54,26 @@
 			echo $string;
 		}
 	}
+	
+	/**
+	 * farray : return first index from a given Array
+	 * 
+	 * @access public
+	 * @param Array
+	 * @return Array/False
+	 * @note Return False if index doesn't exists or if param is not an array.
+	**/
+	function farray( $array )
+	{
+		return riake( 0 , $array , false );
+	}
+	/** 
+	 * Output array details
+	 * @access public
+	 * @param Array
+	 * @param Bool
+	 * @return String
+	**/
 	function print_array( $array , $return = FALSE )
 	{
 		ob_start();
@@ -47,6 +82,12 @@
 		echo '</pre>';
 		return $return ? ob_get_clean() : null;
 	}
+	/**
+	 * Return an array if passe argument is not an array
+	 *
+	 * @param Var
+	 * @return Array
+	**/
 	function convert_to_array( $item )
 	{
 		if( !is_array( $item ) )
@@ -55,6 +96,12 @@
 		}
 		return $item;
 	}
+	/** 
+	 * Force a var to be an array.
+	 *
+	 * @param Var
+	 * @return Array
+	**/
 	function force_array( $array )
 	{
 		if( is_array( $array ) )
@@ -424,7 +471,7 @@
 		}
 		else if($element == 'notice')
 		{
-			echo notice('parse');
+			echo notice( 'parse' );
 		}
 		else if($element == 'headers') // must be added to each theme head
 		{
@@ -462,10 +509,12 @@
 		switch($action)
 		{
 			case 'push' : 
-				$instance->notice->push_notice($params);
+				return $instance->notice->push_notice($params);
 			break;
 			case 'parse' : 
-				$instance->notice->parse_notice();
+				echo fetch_notice_from_url();
+				echo validation_errors();
+				echo $instance->notice->parse_notice();
 			break;
 		}
 	}
@@ -494,7 +543,7 @@
 	}
 	function get_instance() // add to doc
 	{
-		return instance::instance();
+		return instance::get();
 	}
 	/**
 	*	set_page() :: Définir des informations pour la page

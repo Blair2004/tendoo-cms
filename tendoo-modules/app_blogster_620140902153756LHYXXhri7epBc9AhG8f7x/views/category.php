@@ -18,7 +18,7 @@
                 <section class="wrapper"> 
 					<?php echo output('notice');?> 
 					
-                    <?php echo fetch_error_from_url();?>
+                    <?php echo fetch_notice_from_url();?>
                 	<section class="panel">
                     	<div class="panel-heading">
                         <?php _e( 'Available categories' );?>
