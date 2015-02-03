@@ -180,7 +180,7 @@ class Instance extends Libraries
 					}
 					if($this->data['active_theme'] == FALSE)
 					{
-						$this->url->redirect(array('error','code','noThemeInstalled'));
+						$this->url->redirect(array('error','code','no-theme-installed'));
 					}
 					else
 					{

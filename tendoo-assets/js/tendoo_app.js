@@ -878,8 +878,8 @@ $(document).ready(function(){
 								tendoo.modal.confirm($(this).attr('confirm-text'),function(){
 									if($this.attr('confirm-do') == 'click')
 									{
-										var name	=	tools.isDefined($(this).attr('name')) ? $(this).attr('name') : '';
-										var value	=	tools.isDefined($(this).attr('value')) ? $(this).attr('value') : '';
+										var name	=	tools.isDefined($this.attr('name')) ? $this.attr('name') : '';
+										var value	=	tools.isDefined($this.attr('value')) ? $this.attr('value') : '';
 										$this.closest('form').append('<input type="hidden" name="'+name+'" value="'+value+'">');
 										$this.closest('form').trigger('submit');
 									}

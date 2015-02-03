@@ -80,11 +80,11 @@ class tendoo_contents_backend extends Libraries
 				}
 			}
 		}
-		if(!$this->tendoo_admin->actionAccess('tendoo_contents_upload','tendoo_contents'))
+		if( current_user()->cannot( 'tendoo_contents@tendoo_contents_upload') )
 		{
 			$this->url->redirect(array('admin','index?notice=accessDenied'));
 		}
-		set_page('title','Gestionnaire de contenu - Envoyer un fichier');
+		set_page('title', __( 'Upload a new file' ) );
 		
 		$this->data['loadSection']	=	'upload';
 		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['encrypted_dir'].'/views/upload',$this->data,true,TRUE);

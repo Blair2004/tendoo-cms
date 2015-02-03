@@ -65,7 +65,7 @@ $this->gui->set_item( array(
 	'value'			=>	array( __( 'Save User' ), __( 'Delete User' ) ),
 	'classes'		=>	array( 'btn-primary' , 'btn-warning' ),
 	'button_types'	=>	array( 'submit' , 'submit' ),
-	'attrs_strings'	=>	array( '', 'onclick="return confirm( \'' . __( 'Do you really want to delete this user ?' ) . '\')" ' )
+	'attrs_string'	=>	array( '', 'onclick="return confirm( \'' . __( 'Do you really want to delete this user ?' ) . '\')" ' )
 ) )->push_to( core_meta_namespace( array( 'users' , 'edit' ) ) );
 
 $this->gui->get();

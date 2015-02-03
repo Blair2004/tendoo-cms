@@ -492,7 +492,7 @@ class Tendoo_admin extends Libraries
 			return 'invalid-app';
 		}
 		set_core_mode( 'normal' );
-		return 'erroroccurred';
+		return 'error-occured';
 	}
 	function _unzip_file($zip)
 	{
@@ -523,7 +523,7 @@ class Tendoo_admin extends Libraries
 				$myZip->close();
 				unlink($zip);
 				$this->drop($installDir.$temporaryDir);
-				return 'errorOccurred';
+				return 'error-occured';
 			}
 			$myZip->close();
 		}

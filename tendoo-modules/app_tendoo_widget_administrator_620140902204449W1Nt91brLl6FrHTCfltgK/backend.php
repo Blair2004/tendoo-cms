@@ -18,7 +18,7 @@ class tendoo_widget_administrator_backend extends Libraries
 		$this->data['lmenu']			=	$this->load->view(VIEWS_DIR.'/admin/left_menu',$this->data,true,TRUE);
 		if( !current_user()->can( 'manage_widgets@tendoo_widget_administrator' ) )
 		{
-			$this->instance->url->redirect(array('admin','index?notice=access_denied'));
+			$this->instance->url->redirect(array('admin','index?notice=access-denied'));
 		}
 	}
 	public function index($page	=	1,$action = "",$element	=	'')

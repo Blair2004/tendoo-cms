@@ -158,5 +158,20 @@ Class Roles extends Libraries
 		}
 		return $_privilege;
 	}
+	/**
+	 * Get User with a defined role id
+	 *
+	 * @access public
+	 * @params Int, role id
+	 * @returns Array, list of users. that array may be empty
+	**/
+	public function get_users_with_role( $role_id )
+	{
+		$this->db->order_by( 'REG_DATE' , 'desc' );
+		$this->db->select( '*, tendoo_users.ID as USER_ID, tendoo_roles.ID as ROLE_ID' );
+		$this->db->join( 'tendoo_roles' , 'tendoo_roles.ID = tendoo_users.REF_ROLE_ID' );
+		$query	=	$this->db->where( 'tendoo_roles.ID' , $role_id )->get( 'tendoo_users' );
+		return $query->result_array();
+	}
 
 }

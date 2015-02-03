@@ -167,13 +167,13 @@ class GUI extends Libraries
 		}
 		return $this;
 	}
-	function get_table( $namespace , $class = '' )
+	function get_table( $namespace , $class = '' , $attrs = '')
 	{
 		if( riake( $namespace , $this->tables ) )
 		{
 			$empty_table_message	=	$this->empty_table_message;
 			?>
-            <table class="<?php echo $class;?>">
+            <table class="<?php echo $class;?>" <?php echo $attrs;?>>
                 <thead>
                     <tr>
                         <?php

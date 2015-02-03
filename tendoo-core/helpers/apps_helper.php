@@ -577,6 +577,12 @@
 		$instance	=	get_instance();
 		return $instance->set_core_vars($key,$value,$access);
 	}
+	/**		WAITING FOR APPROUVAL FOR 1.5
+	$_	=	function ( $key , $value , $access = 'writable' )
+	{
+		return set_core_vars( $key , $value , $access );
+	};
+	**/
 	/**
 	*	get_core_vars()
 	*	Recupère un champ sur le tableau du système.

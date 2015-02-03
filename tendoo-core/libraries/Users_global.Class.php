@@ -175,7 +175,7 @@ Class users_global extends Libraries
 			get_instance()->meta_datas->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_2' , '{"0":"recents_commentaires\/blogster"}' , $array[ 'PSEUDO' ] );
-			get_instance()->meta_datas->set_user_meta( 'new_comer' , true , $array[ 'PSEUDO' ] );
+			get_instance()->meta_datas->set_user_meta( 'tendoo_status' , false , $array[ 'PSEUDO' ] );
 			$this->db->insert('tendoo_users',$array);
 			return 'userCreated';
 		}
@@ -206,7 +206,7 @@ Class users_global extends Libraries
 			get_instance()->meta_datas->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_2' , '{"0":"recents_commentaires\/blogster"}' , $array[ 'PSEUDO' ] );
-			get_instance()->meta_datas->set_user_meta( 'new_comer' , true , $array[ 'PSEUDO' ] );
+			get_instance()->meta_datas->set_user_meta( 'tendoo_status' , false , $array[ 'PSEUDO' ] );
 			$this->db->insert('tendoo_users',$array);
 			$this->sendValidationMail($array['EMAIL']);
 			return 'userCreated';
@@ -261,7 +261,7 @@ Class users_global extends Libraries
 			get_instance()->meta_datas->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $array[ 'PSEUDO' ] );
 			get_instance()->meta_datas->set_user_meta( 'widget_2' , '{"0":"recents_commentaires\/blogster"}' , $array[ 'PSEUDO' ] );
-			get_instance()->meta_datas->set_user_meta( 'new_comer' , true , $array[ 'PSEUDO' ] );
+			get_instance()->meta_datas->set_user_meta( 'tendoo_status' , false , $array[ 'PSEUDO' ] );
 			
 			$this->db->insert('tendoo_users',$array);
 			return 'user-has-been-created';
@@ -1001,13 +1001,13 @@ This mail has been sended from <a href="'.$this->url->main_url().'">'.$this->url
 	*/
 	public function toggleFirstVisit()
 	{
-		if( $this->current('new_comer') === true )
+		if( $this->current('tendoo_status') === true )
 		{
-			return set_user_meta( 'new_comer' , false );
+			return set_user_meta( 'tendoo_status' , false );
 		}
 		else
 		{
-			return set_user_meta( 'new_comer' , true );
+			return set_user_meta( 'tendoo_status' , true );
 		}
 	}
 	/*
@@ -1207,5 +1207,14 @@ This mail has been sended from <a href="'.$this->url->main_url().'">'.$this->url
 	public function cannot( $action )
 	{
 		return ! $this->can( $action );
+	}
+	public function reset()
+	{
+		$this->db->where( 'USER' , $this->current[ 'PSEUDO' ] )->delete( 'tendoo_meta' );
+		get_instance()->meta_datas->set_user_meta( 'dashboard_theme' , 1 , $this->current[ 'PSEUDO' ] );
+		get_instance()->meta_datas->set_user_meta( 'widget_0' , '{"0":"generals_stats\/system","1":"articles_stats\/blogster"}' , $this->current[ 'PSEUDO' ] );
+		get_instance()->meta_datas->set_user_meta( 'widget_1' , '{"0":"welcome\/system","1":"app_icons\/system"}' , $this->current[ 'PSEUDO' ] );
+		get_instance()->meta_datas->set_user_meta( 'widget_2' , '{"0":"recents_commentaires\/blogster"}' , $this->current[ 'PSEUDO' ] );
+		get_instance()->meta_datas->set_user_meta( 'tendoo_status' , false , $this->current[ 'PSEUDO' ] );
 	}
 }

@@ -52,7 +52,7 @@ class tendoo_widget_administrator_init_class extends Libraries
 		$this->data					=		array();
 		$this->tendoo				=&		$this->instance->tendoo;
 		
-		module_include( 'tendoo_widget_administrator' , 'library.php' );
+		module_include( 'library.php' , 'tendoo_widget_administrator' );
 		
 		$this->lib					=		new widhandler_common($this->data);
 		$this->data['widgetHandler']=&		$this->lib;

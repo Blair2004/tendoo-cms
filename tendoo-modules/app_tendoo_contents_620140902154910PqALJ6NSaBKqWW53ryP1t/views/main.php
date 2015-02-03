@@ -20,17 +20,17 @@
                         <?php echo output('notice');?> <?php echo fetch_notice_from_url();?> <?php echo validation_errors(); ?>
                         <section class="panel">
                             <div class="panel-heading">
-                                Liste des fichiers
+                                <?php _e( 'Media Library' );?>
                             </div>
                             <table class="table table-striped b-t text-sm">
                                 <thead>
                                     <tr>
-                                        <th>Aperçu</th>
-                                        <th>Titre</th>
-                                        <th>Description</th>
-                                        <th>Nom du fichier</th>
-                                        <th>Type</th>
-                                        <th>Auteur</th>
+                                        <th><?php _e( 'Preview' );?></th>
+                                        <th><?php _e( 'Name' );?></th>
+                                        <th><?php _e( 'Description' );?></th>
+                                        <th><?php _e( 'File Name' );?></th>
+                                        <th><?php _e( 'Type' );?></th>
+                                        <th><?php _e( 'Author' );?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,7 +47,7 @@
                                         <td><?php echo word_limiter($t['DESCRIPTION'],200);?></td>
                                         <td><a href="<?php echo $this->instance->url->main_url().'tendoo-modules/'.$opened_module['encrypted_dir'].'/content_repository/'.$t['FILE_NAME'];?>"><?php echo $t['FILE_NAME'];?></a></td>
                                         <td><?php echo $t['FILE_TYPE'];?></td>
-                                        <td><?php echo $user == true ? $user['PSEUDO'] : "Utilisateur Introuvable";?></td>
+                                        <td><?php echo $user == true ? $user['PSEUDO'] : __( 'Unknow User' );?></td>
                                     </tr>
                                     <?php
                         }
@@ -56,7 +56,7 @@
                     {
                         ?>
                                     <tr>
-                                        <td colspan="5">Aucun fichier disponible</td>
+                                        <td colspan="5"><?php _e( 'Nothing found here.' );?></td>
                                     </tr>
                                     <?php
                     }

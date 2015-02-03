@@ -148,7 +148,8 @@
 					} else if( in_array( strtolower( $_returned ) , array( 'true' , 'false' ) ) ){
 						$_returned =  ( $_returned == 'true' ) ? true : false ;
 					} 
-					$result[0][ $meta_value[ 'KEY' ] ] = $meta_value[ 'VALUE' ];
+					// $result[0][ $meta_value[ 'KEY' ] ] = $meta_value[ 'VALUE' ];
+					$result[0][ $meta_value[ 'KEY' ] ] = $_returned;
 				}
 			}
 		}

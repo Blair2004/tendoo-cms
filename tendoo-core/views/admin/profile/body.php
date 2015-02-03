@@ -49,12 +49,12 @@ $this->gui->set_meta( array(
 
 $this->gui->set_item( array(
 	'type'		=>	'buttons',
-	'name'		=>	'user_name',
 	'value'		=>	array( __( 'Reset Account' ) ),
+	'types'		=>	array( 'text' ),
 	'name'		=>	array( 'reset_account' ),
 	'attrs'		=>	array(	array(
 		'confirm-do'	=>	'click',
-		'confirm-text'	=>	__( 'Do you really want to reset your account datas ?' )
+		'confirm-text'	=>	__( 'Do you really want to reset your account settings ?' )
 	) 	),
 	'description'	=>	__( 'This option will restore account settings. Personnal datas will been kept' )
 ) )->push_to( core_meta_namespace( array( 'users', 'reset' ) ) );

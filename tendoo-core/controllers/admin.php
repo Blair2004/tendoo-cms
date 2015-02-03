@@ -293,6 +293,11 @@ class Admin extends Libraries
 			$this->users_global->setAdminWidgets($_POST);
 			$this->url->redirect(array('admin','profile?notice=done'));
 		}
+		if( $this->input->post( 'reset_account' ) )
+		{
+			current_user()->reset();
+			$this->url->redirect( array( 'admin', 'profile?notice=user-meta-has-been-reset' ) );
+		}
 
 				
 		set_page('title', riake( 'site_name' , $this->options ) . ' | '.ucfirst( current_user( 'PSEUDO' ) ).' &raquo; ' . translate( 'My Profile' ) );
@@ -818,13 +823,13 @@ class Admin extends Libraries
 				switch($creation_status)
 				{
 					case 'notAllowedPrivilege'	:
-						// notice('push',fetch_notice_output('users-creation-failed'));
+						notice('push',fetch_notice_output('users-creation-failed'));
 						break;
 					case 'user-has-been-created'	:
-						// $this->url->redirect(array('admin','users?notice=user-has-been-created'));
+						$this->url->redirect(array('admin','users?notice=user-has-been-created'));
 						break;
 					case 'users-creation-failed'	:
-						// $this->url->redirect(array('admin','users','create?notice=users-creation-failed'));
+						$this->url->redirect(array('admin','users','create?notice=users-creation-failed'));
 				}
 			}
 			set_core_vars( 'getPrivs' , $this->roles->get());
@@ -958,7 +963,7 @@ class Admin extends Libraries
 					}
 					else
 					{
-						notice('push',fetch_notice_output('errorOccurred'));
+						notice('push',fetch_notice_output('error-occured'));
 					}
 				}
 				
@@ -1079,8 +1084,11 @@ class Admin extends Libraries
 						// We do not save gui fields
 						if( ! in_array( $key , array( 'gui_saver_option_namespace' , 'gui_saver_ref' , 'gui_saver_expiration_time' , 'gui_saver_use_namespace' ) ) )
 						{
-							$real_value[ riake( 'gui_saver_option_namespace' , $_POST , 'default_options' ) ] = $value;
-							set_meta( $key , $real_value );
+							$saved_meta				=	get_meta( riake( 'gui_saver_option_namespace' , $_POST , 'default_options' ) );
+							$saved_meta[ $key ]		=	$value;
+							if( $option_namespace	=	 riake( 'gui_saver_option_namespace' , $_POST ) ){
+								set_meta( $option_namespace , $saved_meta );
+							}
 						}
 					}
 				}

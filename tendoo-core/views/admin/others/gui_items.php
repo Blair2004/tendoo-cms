@@ -5,7 +5,7 @@
 	$method		=	riake( 'method' , $form_wrap ) ? return_if_array_key_exists( 'method' , $form_wrap ) : "POST";
 	$content	=	riake( 'meta_items' , $panel );
 	$form_expire=	get_instance()->date->timestamp() + GUI_EXPIRE;
-	$ref	=	urlencode( get_instance()->url->site_url() );
+	$ref		=	urlencode( get_instance()->url->site_url() );
 	
 	if( riake( 'gui_saver' , $form_wrap ) ) // Overwriting setted action
 	{
@@ -26,10 +26,8 @@
 		foreach( $content as $item )
 		{
 			// Since it's used by inputs and textarea
-			$attrs_string	= '';
-			$attrs_strings	= '';
 			$attrs				= riake( 'attrs' , $item );
-			$attrs_strings		= riake( 'attrs_strings' , $item , '' );
+			$attrs_string		= riake( 'attrs_string' , $item , '' );
 			foreach( force_array( $attrs ) as $key => $value )
 			{
 				if( is_array( $value ) ) // for multiple attrs in buttons types item
@@ -59,7 +57,7 @@
 <div class="form-group">
 	<div class="input-group">
 	  <span class="input-group-addon"><?php echo $label ;?></span>
-	  <input name="<?php echo $name;?>" <?php echo $attrs_strings;?> type="<?php echo $item[ 'type' ];?>" class="form-control" <?php echo $attrs_string;?> placeholder="<?php echo $placeholder;?>" value="<?php echo $value;?>">
+	  <input name="<?php echo $name;?>" <?php echo $attrs_string;?> type="<?php echo $item[ 'type' ];?>" class="form-control" placeholder="<?php echo $placeholder;?>" value="<?php echo $value;?>">
 	</div>
     <?php echo $description;?>
 </div>
@@ -71,14 +69,14 @@
 				$buttons_types	= convert_to_array( riake( 'buttons_types' , $item , 'submit' ) );
 				$name			= convert_to_array( riake( 'name' , $item ) );
 				$classes		= convert_to_array( riake( 'classes' , $item , 'btn-primary' ) );
-				$attrs_strings	= convert_to_array( riake( 'attrs_strings' , $item , '' ) );
+				$attrs_string	= convert_to_array( riake( 'attrs_string' , $item , '' ) );
 				?>
 <div class="form-group">
 	<div class="input-group">
     	<?php foreach( $value as $_key => $_button )
 		{
 			?>
-	  <input class="btn btn-sm <?php echo riake( $_key , $classes , 'btn-primary' );?>" <?php echo riake( $_key , $attrs_strings );?> <?php echo riake( $_key , $attrs_string );?> type="<?php echo riake( $_key , $buttons_types , 'submit' );?>" name="<?php echo riake( $_key , $name );?>" value="<?php echo $_button ;?>" style="margin-right:10px;">
+	  <input class="btn btn-sm <?php echo riake( $_key , $classes , 'btn-primary' );?>" <?php echo riake( $_key , $attrs_string );?> type="<?php echo riake( $_key , $buttons_types , 'submit' );?>" name="<?php echo riake( $_key , $name );?>" value="<?php echo $_button ;?>" style="margin-right:10px;">
       <?php
 		}
 	  ?>
@@ -92,7 +90,7 @@
 				$field_value	= riake( 'value' , $item , '');
 				$name			= return_if_array_key_exists( 'name' , $item );
 				?>
-	  <input <?php echo $attrs_string;?> <?php echo $attrs_strings;?> name="<?php echo $name;?>" type="hidden" class="form-control" value="<?php echo $field_value;?>">
+	  <input <?php echo $attrs_string;?> name="<?php echo $name;?>" type="hidden" class="form-control" value="<?php echo $field_value;?>">
 				<?php
 			}
 			if( riake( 'type' , $item  ) == "textarea" )
@@ -104,7 +102,7 @@
 <div class="form-group">
 	<div class="input-group">
 	  <span class="input-group-addon"><?php echo $label ;?></span>
-	  <textarea <?php echo $attrs_string;?> <?php echo $attrs_strings;?> name="<?php echo $name;?>" type="text" class="form-control" placeholder="<?php echo $placeholder;?>"><?php echo riake( 'value' , $item );?></textarea>
+	  <textarea <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control" placeholder="<?php echo $placeholder;?>"><?php echo riake( 'value' , $item );?></textarea>
 	</div>
     <?php echo $description;?>
 </div>
@@ -154,7 +152,7 @@
 <div class="btn-group" data-toggle="buttons">
 <?php for( $i = 0 ; $i < count( $name ) ; $i++ ): ?>
 <label class="btn btn-primary">
-<input <?php echo $attrs_string;?> <?php echo $attrs_strings;?> type="radio" name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
+<input <?php echo $attrs_string;?> <?php echo $attrs_string;?> type="radio" name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
 </label>
 <?php endfor;?>
 </div>
@@ -183,7 +181,7 @@
 <div class="btn-group" data-toggle="buttons">
 <?php for( $i = 0 ; $i < count( $name ) ; $i++ ): ?>
 <label class="btn btn-primary <?php echo riake( $i , $checked ) == true ? 'active' : '';?>">
-<input type="checkbox" <?php echo riake( $i , $checked ) == true ? 'checked="checked"' : '';?> <?php echo $attrs_string;?> <?php echo $attrs_strings;?> name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
+<input type="checkbox" <?php echo riake( $i , $checked ) == true ? 'checked="checked"' : '';?> <?php echo $attrs_string;?> <?php echo $attrs_string;?> name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
 </label>
 <?php endfor;?>
 </div>
@@ -212,7 +210,7 @@
 <div class="form-group">
 <div class="input-group">
 <span class="input-group-addon"><?php echo $label ;?></span>
-<select <?php echo $attrs_string;?> <?php echo $attrs_strings;?> name="<?php echo $name;?>" type="text" class="form-control">
+<select <?php echo $attrs_string;?> <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control">
 
 <?php if( $placeholder ):?>
 <option value=""><?php echo $placeholder;?></option>
@@ -250,7 +248,7 @@
 <div class="form-group">
 <div class="input-group">
 <span class="input-group-addon"><?php echo $label ;?></span>
-<select multiple="multiple" <?php echo $attrs_string;?> <?php echo $attrs_strings;?> name="<?php echo $name;?>" type="text" class="form-control">
+<select multiple="multiple" <?php echo $attrs_string;?> <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control">
 
 <?php if( $placeholder ):?>
 <option value=""><?php echo $placeholder;?></option>
@@ -295,35 +293,11 @@
 					get_instance()->gui->add_row( $row );
 				}
 				// Get table
-				get_instance()->gui->get_table( $namespace, $class );
-			}
-			else if( in_array( riake( 'type' , $item  ) , array( 'table' , 'table-panel' ) ) )
-			{
-				$namespace			=	riake( 'name' , $item , 'default' );
-				$empty_message		=	riake( 'empty_message' , $item , __( 'No result available' ) );
-				
-				$class				=	riake( 'type' , $item  ) == 'table' ? 'table table-striped m-b-none' : '';
-				$class				=	riake( 'type' , $item  ) == 'table-panel' ? 'table table-striped m-b-none panel-body' : $class;
-				$class				.=  ' ' . get_user_meta( 'gui_'. riake( 'namespace' , $panel ) );
-				
-				get_instance()->gui->set_table( $namespace );
-				get_instance()->gui->empty_message( $empty_message );
-				// Creating Cols
-				foreach( force_array( riake( 'cols' , $item ) ) as $key	=>	$title )
-				{
-					get_instance()->gui->add_col( $key	, $title );
-				}
-				// Adding Row
-				foreach( force_array( riake( 'rows' , $item ) ) as $key 	=>	$row )
-				{
-					get_instance()->gui->add_row( $row );
-				}
-				// Get table
-				get_instance()->gui->get_table( $namespace, $class );
+				get_instance()->gui->get_table( $namespace, $class , $attrs_string );
 			}
 			else if( riake( 'type' , $item  ) == 'dom' )
 			{
-				echo $item[ 'value' ];
+				echo riake( 'value' , $item );
 			}
 		}
 	}

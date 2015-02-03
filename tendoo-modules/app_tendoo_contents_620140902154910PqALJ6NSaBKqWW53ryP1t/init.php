@@ -23,7 +23,7 @@ class tendoo_contents_init_class extends Libraries
 	}
 	public function admin_context()
 	{
-		create_admin_menu( 'tendoo_contents' , 'after' , 'controllers' );
+		create_admin_menu( 'tendoo_contents' , 'after' , 'dashboard' );
 		add_admin_menu( 'tendoo_contents' , array(
 			'title'	=>	__( 'Media Library' ), 
 			'href'	=>	module_url( array( 'index' ) , 'tendoo_contents' ),
@@ -31,7 +31,7 @@ class tendoo_contents_init_class extends Libraries
 		) );
 		add_admin_menu( 'tendoo_contents' , array(
 			'title'	=>	__( 'Add new media' ), 
-			'href'	=>	module_url( array( 'publish' ) , 'tendoo_contents' )
+			'href'	=>	module_url( array( 'upload' ) , 'tendoo_contents' )
 		) );
 	}
 	public function public_context()
