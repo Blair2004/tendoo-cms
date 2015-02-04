@@ -696,87 +696,85 @@ class Admin extends Libraries
 	public function themes($e	=	'main', $a	= 1)
 	{
 		current_user()->cannot( 'system@manage_themes' ) ? $this->url->redirect(array('admin','index?notice=accessDenied')) : false;
-		
-		
-			redirect_if_webapp_is_enabled();
-			if($e == 'main')
+		redirect_if_webapp_is_enabled();
+		if($e == 'main')
+		{
+			js_push_if_not_exists('jtransit/jquery.transit.min');
+							
+			set_page('title', translate( 'Manage themes - Tendoo' ) );
+			set_core_vars( 'ttThemes' , $ttThemes	=	count( get_themes() ) , 'read_only' );
+			set_core_vars( 'paginate' , $paginate	=	$this->tendoo->paginate(
+				10,
+				$ttThemes,
+				1,
+				"bg-color-blue fg-color-white",
+				"bg-color-white fg-color-blue",
+				$a, // as page
+				$this->url->site_url(array('admin','modules','main')).'/'
+			) , 'read_only' ); // Pagination
+			set_core_vars( 'themes_list' ,	get_themes( 'list_all' , $paginate[1] , $paginate[2] ) , 'read_only' );
+			
+			$this->load->the_view( 'admin/themes/main' );
+		}
+		else if($e == 'manage')
+		{
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('action', translate( 'Set as active theme' ) );
+			$this->form_validation->set_rules('theme_namespace', translate( 'theme id' ) ,'required');
+			if($this->form_validation->run())
 			{
-				js_push_if_not_exists('jtransit/jquery.transit.min');
-								
-				set_page('title', translate( 'Manage themes - Tendoo' ) );
-				set_core_vars( 'ttThemes' , $ttThemes	=	count( get_themes() ) , 'read_only' );
-				set_core_vars( 'paginate' , $paginate	=	$this->tendoo->paginate(
-					10,
-					$ttThemes,
-					1,
-					"bg-color-blue fg-color-white",
-					"bg-color-white fg-color-blue",
-					$a, // as page
-					$this->url->site_url(array('admin','modules','main')).'/'
-				) , 'read_only' ); // Pagination
-				set_core_vars( 'themes_list' ,	get_themes( 'list_all' , $paginate[1] , $paginate[2] ) , 'read_only' );
-				
-				$this->load->the_view( 'admin/themes/main' );
-			}
-			else if($e == 'manage')
-			{
-				$this->load->library('form_validation');
-				$this->form_validation->set_rules('action', translate( 'Set as active theme' ) );
-				$this->form_validation->set_rules('theme_namespace', translate( 'theme id' ) ,'required');
-				if($this->form_validation->run())
+				if($this->input->post('action') == 'ADMITSETDEFAULT')
 				{
-					if($this->input->post('action') == 'ADMITSETDEFAULT')
+					if( active_theme($this->input->post('theme_namespace') ) )
 					{
-						if( active_theme($this->input->post('theme_namespace') ) )
-						{
-							echo json_encode(array(
-								'status'	=>		'success',
-								'alertType'	=>		'notice',
-								'message'	=>		translate( 'The theme has been set as active' ),
-								'response'	=>		'theme_set'
-							));
-							return;
-						}
 						echo json_encode(array(
-							'status'	=>		'warning',
-							'alertType'	=>		'modal',
-							'message'	=>		translate( 'Error occured, this theme can\'t been set as active' ),
-							'response'	=>		'theme_set_failure'
+							'status'	=>		'success',
+							'alertType'	=>		'notice',
+							'message'	=>		translate( 'The theme has been set as active' ),
+							'response'	=>		'theme_set'
 						));
 						return;
 					}
+					echo json_encode(array(
+						'status'	=>		'warning',
+						'alertType'	=>		'modal',
+						'message'	=>		translate( 'Error occured, this theme can\'t been set as active' ),
+						'response'	=>		'theme_set_failure'
+					));
+					return;
 				}
-				$this->form_validation->set_rules('action', translate( 'Delete theme' ) );
-				$this->form_validation->set_rules('theme_namespace',translate( 'Theme id' ),'required');
-				if($this->form_validation->run())
+			}
+			$this->form_validation->set_rules('action', translate( 'Delete theme' ) );
+			$this->form_validation->set_rules('theme_namespace',translate( 'Theme id' ),'required');
+			if($this->form_validation->run())
+			{
+				if($this->input->post('action') == 'ADMITDELETETHEME')
 				{
-					if($this->input->post('action') == 'ADMITDELETETHEME')
+					$status		=	uninstall_theme( $this->input->post( 'theme_namespace' ) );
+					if($status)
 					{
-						$status		=	uninstall_theme( $this->input->post( 'theme_namespace' ) );
-						if($status)
-						{
-							echo json_encode(array(
-								'status'	=>		'success',
-								'alertType'	=>		'notice',
-								'message'	=>		translate( 'The theme has been deleted' ),
-								'response'	=>		'theme_deleted'
-							));
-							return;
-						}
 						echo json_encode(array(
-							'status'	=>		'warning',
-							'alertType'	=>		'modal',
-							'message'	=>		translate( 'Error occured, this theme can\'t be deleted' ),
-							'response'	=>		'theme_deletion_failure'
+							'status'	=>		'success',
+							'alertType'	=>		'notice',
+							'message'	=>		translate( 'The theme has been deleted' ),
+							'response'	=>		'theme_deleted'
 						));
 						return;
 					}
+					echo json_encode(array(
+						'status'	=>		'warning',
+						'alertType'	=>		'modal',
+						'message'	=>		translate( 'Error occured, this theme can\'t be deleted' ),
+						'response'	=>		'theme_deletion_failure'
+					));
+					return;
 				}
 			}
-			else
-			{
-				$this->url->redrect(array('error','code','page404'));
-			}
+		}
+		else
+		{
+			$this->url->redrect(array('error','code','page404'));
+		}
 		
 	}
 	public function installer()
