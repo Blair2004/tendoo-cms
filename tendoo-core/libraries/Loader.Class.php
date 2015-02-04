@@ -25,13 +25,13 @@ class Loader
 	}
 	public function __get($var)
 	{
-		if(isset($this->$var))
+		if( isset( $this->$var ) )
 		{
 			return $this->$var;
 		}
 		else
 		{
-			if(isset($this->parent))
+			if( isset( $this->parent ) )
 			{
 				return isset($this->parent->$var) ? $this->parent->$var : get_core_vars( $var );
 			}
@@ -64,7 +64,7 @@ class Loader
 			$$_values = ( ! isset($data[$_values])) ? FALSE : $data[$_values];
 		}
 		// Get Core Vars 
-		foreach (get_core_vars() as $core_keys	=>	$core_vars)
+		foreach ( get_core_vars() as $core_keys	=>	$core_vars)
 		{
 			$$core_keys 	=	$core_vars;
 		}
@@ -125,7 +125,7 @@ class Loader
 		// to become accessible from within the Controller and Model functions.
 		if( is_object( $this->instance ) )
 		{
-			foreach ( get_object_vars($this->instance) as $_Tendoo_key => $_Tendoo_var)
+			foreach ( get_object_vars( $this->instance ) as $_Tendoo_key => $_Tendoo_var)
 			{
 				if ( ! isset($this->$_Tendoo_key))
 				{
@@ -281,7 +281,7 @@ class Loader
 					log_message('debug', $class." class already loaded. Second attempt ignored.");
 					return;
 				}
-				include_once($subclass);
+				include_once( $subclass );
 				$this->loadedLibrary[] 	= 	$class;
 				$this->loadedFile[] 	= 	$subclass;
 				
@@ -340,7 +340,7 @@ class Loader
 		// Was a custom class name supplied?  If so we'll use it
 		$class = strtolower($class);
 
-		if (is_null($object_name))
+		if ( is_null( $object_name ) )
 		{
 			$classvar = ( ! isset($this->_ci_varmap[$class])) ? $class : $this->_ci_varmap[$class];
 		}
