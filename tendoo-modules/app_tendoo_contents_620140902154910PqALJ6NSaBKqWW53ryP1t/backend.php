@@ -26,7 +26,7 @@ class tendoo_contents_backend extends Libraries
 	}
 	public function index($page	=	1)
 	{
-		set_page('title','Gestionnaire de contenu');
+		set_page('title', __( 'Media Library' ) );
 			
 		$this->data['loadSection']	=	'main';
 		$this->data['ttFiles']		=	$this->file_contentAdmin->countUploadedFiles();
@@ -65,8 +65,8 @@ class tendoo_contents_backend extends Libraries
 		$this->load->library('form_validation');
 		if(isset($_FILES['file']))
 		{
-			$this->form_validation->set_rules('file_name','Le nom du fichier','trim|required|min_length[5]|max_length[40]');
-			$this->form_validation->set_rules('file_description','La description du fichier','trim|required|min_length[5]|max_length[200]');
+			$this->form_validation->set_rules('file_name','Le nom du fichier','trim|required|min_length[2]|max_length[40]');
+			$this->form_validation->set_rules('file_description','La description du fichier','trim|required|min_length[2]|max_length[200]');
 			if($this->form_validation->run())
 			{
 				$query	=	$this->file_contentAdmin->uploadFile(
@@ -215,7 +215,7 @@ class tendoo_contents_backend extends Libraries
 			}
 		}
 		
-		set_page('title','Gestionnaire de contenu - Edition d\'un fichier');
+		set_page('title', __( 'Editing Media' ) );
 		$this->data['fileNewName']	=	$this->lib->getName();
 		$this->session->set_userdata('fileNewName',$this->data['fileNewName']);
 		$this->data['getFile']		=	$this->file_contentAdmin->getUploadedFiles($id);

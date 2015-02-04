@@ -437,9 +437,9 @@ class tendoo_contents_utility
 
 		</style>
         <div id="media_lib_template" style="display:none;">
-          <section class="thinwrapper stretch">
+          <section class="hbox stretch">
           	<aside class="bg-primary aside-sm" id="nav">
-              <section class="hbox stretch">
+              <section class="vbox stretch">
                 <section>
                   <nav class="nav-primary hidden-xs">
                     <ul class="nav" id="media_lib_nav">
@@ -457,7 +457,7 @@ class tendoo_contents_utility
           </section>
         </div>
         <div id="media_lib_selection" style="display:none">
-        	<section class="hbox stretch" media_lib_identifier="selection">
+        	<section class="vbox stretch" media_lib_identifier="selection">
                 <footer class="footer b-t modal-footer bg-primary"> 
                     <div class="btn-toolbar">
                         <a style="float:left;" href="javascript:void(0)" ajax_binder_escapeThis id="media_lib_uploadButton" class="btn btn-white btn-sm">Ajouter le(s) fichier(s)</a>
@@ -475,16 +475,16 @@ class tendoo_contents_utility
             </section>
         </div>
         <div id="media_lib_upload" style="display:none">
-        	<section class="hbox stretch" media_lib_identifier="upload">
+        	<section class="vbox stretch" media_lib_identifier="upload">
                 <footer class="footer b-t modal-footer bg-primary"> 
                     <div class="btn-toolbar">
-                        <a style="float:left;" href="javascript:void(0)" ajax_binder_escapeThis id="media_lib_sendButton" class="btn btn-white btn-sm">Envoyer un fichier</a>
+                        <!-- <a style="float:left;" href="javascript:void(0)" ajax_binder_escapeThis id="media_lib_sendButton" class="btn btn-white btn-sm">Envoyer un fichier</a>-->
                     </div>
                 </footer>
                 <section class="scrollable wrapper">
                     <div class="row" id="showDragApp">
                         <div id="drophere" class="dropzone" style="border:dashed 3px #09F;border-radius:10px;width:98%;min-height:100px;margin:0 1%;text-align:center;">
-                        <h4 style="line-height:100px">Deposez votre fichier ici</h4>
+                        <h4 style="line-height:100px"><?php _e( 'Drop files here' );?></h4>
                         </div>
                     </div>
                 </section>
@@ -517,7 +517,7 @@ class tendoo_contents_utility
 			this.show		=	function($parent,$action,$result){
 				var $this	=	this;
 				var lastClicked	=	''
-				tendoo.window.title('Gestionnaire de fichier media').show($template);
+				tendoo.window.title('<?php _e( 'Media Library' );?>').show($template);
 				function __uploadimp(e)
 				{
 					if(lastClicked == $(e).attr('href')) // Si l'onglet est déjà cliqué
@@ -610,7 +610,7 @@ class tendoo_contents_utility
 				};
 				if($('#showUploadedFiles').length > 0)
 				{
-					$('#showUploadedFiles').html('<div class="col-lg-12"><strong>Chargement...</strong></div>');
+					$('#showUploadedFiles').html('<div class="col-lg-12"><strong><?php _e( 'Loading...' );?></strong></div>');
 					var _url	=	tendoo.url.site_url(['admin','open','modules','<?php echo $this->tcm['namespace'];?>','ajax','selection']);
 					$.ajax({
 						url		:	_url,
@@ -2600,6 +2600,3 @@ if (typeof exports == "object") {
         <?php
 	}
 }
-
-
-

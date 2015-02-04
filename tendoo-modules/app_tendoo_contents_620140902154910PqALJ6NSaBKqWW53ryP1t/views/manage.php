@@ -22,13 +22,13 @@
                         <div class="col-lg-3">
                             <section class="panel">
                                 <div class="panel-heading">
-                                    Modifier les informations du fichier
+                                   	<?php _e( 'Edit a file' );?>
                                 </div>
                                 <div class="panel-body">
                                     <form method="post" action="">
                                         <div class="input-group input-group-sm">
-                                            <span class="input-group-addon">Titre du fichier</span>
-                                            <input type="text" name="file_name" class="form-control" value="<?php echo $getFile[0]['TITLE'];?>" placeholder="Titre du fichier">
+                                            <span class="input-group-addon"><?php _e( 'Name' );?></span>
+                                            <input type="text" name="file_name" class="form-control" value="<?php echo $getFile[0]['TITLE'];?>" placeholder="<?php _e( 'Name' );?>">
                                         </div>
                                         <hr class="line line-dashed">
                                         <div class="form-group">
@@ -36,24 +36,24 @@
                                         </div>
                                         <hr class="line line-dashed">
                                         <input type="hidden" name="content_id" value="<?php echo $id;?>">
-                                        <input class="btn btn-info btn-sm" type="submit" value="Modifier" name="edit_file">
-                                        <input class="btn btn-danger btn-sm" type="submit" name="delete_file" value="Supprimer le fichier">
+                                        <input class="btn btn-info btn-sm" type="submit" value="<?php _e( 'Edit' );?>" name="edit_file">
+                                        <input class="btn btn-danger btn-sm" type="submit" name="delete_file" value="<?php _e( 'Delete' );?>">
                                     </form>
                                 </div>
                             </section>
                             <section class="panel">
                                 <div class="panel-heading">
-                                    Remplacer par un autre fichier
+                                    <?php _e( 'Upload a new file' );?>
                                 </div>
                                 <div class="panel-body">
                                     <form method="post" action="" enctype="multipart/form-data">
                                         <div class="input-group input-group-sm">
-                                            <span class="input-group-addon">Nouveau fichier</span>
-                                            <input type="file" name="new_file" class="form-control" value="<?php echo $getFile[0]['TITLE'];?>" placeholder="Titre du fichier">
+                                            <span class="input-group-addon"><?php _e( 'Select your file' );?></span>
+                                            <input type="file" name="new_file" class="form-control" value="<?php echo $getFile[0]['TITLE'];?>" placeholder="<?php _e( 'Name' );?>">
                                         </div>
                                         <hr class="line line-dashed">
                                         <input type="hidden" name="content_id" value="<?php echo $id;?>">
-                                        <input class="btn btn-info" type="submit" name="change_file" value="Remplacer le fichier">
+                                        <input class="btn btn-info" type="submit" name="change_file" value="<?php _e( 'Replace this file' );?>">
                                     </form>
                                 </div>
                             </section>
@@ -61,7 +61,7 @@
                         <div class="col-lg-9">
                             <section class="panel">
                                 <div class="panel-heading">
-                                    Editer l'image
+                                    <?php _e( 'Cropping file' );?>
                                 </div>
                                 <div class="panel-body">
                                     <?php
@@ -81,19 +81,19 @@
                                         <input type="hidden" size="4" id="h" name="h" />
                                         <input type="hidden" name="image_id" value="<?php echo $getFile[0]['ID'];?>">
                                         <div class="input-group input-group-sm">
-                                            <span class="input-group-addon">Nouveau nom du fichier</span>
+                                            <span class="input-group-addon"><?php _e( 'New name file' );?></span>
                                             <input type="text" class="form-control" name="file_new_name" value="<?php echo $fileNewName.'.'.strtolower($getFile[0]['FILE_TYPE']);?>" disabled="disabled"  placeholder="Nom du fichier">
                                         </div>
                                         <hr class="line line-dashed">
-                                        <input class="btn btn-info" type="submit" value="Ecraser l'image" name="overwrite_file">
-                                        <input class="btn btn-danger" type="submit" name="create_new_file" value="Enregistrer sous un nouveau nom">
+                                        <input class="btn btn-info" type="submit" value="<?php _e( 'Overwrite this file' );?>" name="overwrite_file">
+                                        <input class="btn btn-danger" type="submit" name="create_new_file" value="<?php _e( 'Save as' );?>">
                                     </form>
                                     <?php
 							}
 							else
 							{
 								?>
-                                    Ce fichier ne peut pas faire l'objet d'une &eacute;dition
+                                    <?php _e( 'This file can\'t be edited.' );?>
                                     <?php
 							}
 							?>
@@ -149,8 +149,8 @@
             <div class="row m-t-sm text-center-xs">
                 <div class="col-sm-4">
                     <form method="post">
-                        <input type="button" class="btn btn-sm btn-white editInfo" value="Modifer" />
-                        <input type="button" class="btn btn-sm btn-danger deleteFile" value="Supprimer" />
+                        <input type="button" class="btn btn-sm btn-white editInfo" value="<?php _e( 'Edit' );?>" />
+                        <input type="button" class="btn btn-sm btn-danger deleteFile" value="<?php _e( 'Delete' );?>" />
                     </form>
                 </div>
                 <div class="col-sm-4 text-center">
@@ -158,15 +158,15 @@
 				if(in_array(strtolower($getFile[0]['FILE_TYPE']),array('jpg','png')))
 				{
 				?>
-                    <a href="javascript:void(0)" class="btn btn-sm btn-white showALook"><i class="icon-shopping-cart"></i>Aperçu de l'image</a>
+                    <a href="javascript:void(0)" class="btn btn-sm btn-white showALook"><i class="icon-shopping-cart"></i><?php _e( 'File preview' );?></a>
                     <?php
 				}
 				?>
                 </div>
                 <div class="col-sm-4 text-right text-center-xs">
                     <form method="post">
-                        <input type="button" class="btn btn-sm btn-white overwrite" value="Redimensioner" />
-                        <input type="button" class="btn btn-sm btn-white editInfo" value="Cr&eacute;er une copie" />
+                        <input type="button" class="btn btn-sm btn-white overwrite" value="<?php _e( 'Resize' );?>" />
+                        <input type="button" class="btn btn-sm btn-white editInfo" value="<?php _e( 'Create a new copy' );?>" />
                     </form>
                 </div>
             </div>
