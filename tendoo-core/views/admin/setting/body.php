@@ -1,6 +1,4 @@
 <?php
-
-var_dump( $this );
 // Settings Width
 $this->gui->cols_width( 1 , 2 );
 $this->gui->cols_width( 2 , 2 );
