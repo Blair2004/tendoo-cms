@@ -148,6 +148,7 @@ Tendoo Version Required : 1.4
                                 ?>
                             </div>
                             <?php endif;?>
+                            <?php echo riake( 'footer-script' , $config );?>
                             <?php endforeach;?>
                             <script>
                             $(document).ready(function(e) {
@@ -160,7 +161,6 @@ Tendoo Version Required : 1.4
                                 });
                             });
                             </script>
-                            <?php echo riake( 'footer-script' , $config );?>
                         </div>
                     </section>
                 </section>

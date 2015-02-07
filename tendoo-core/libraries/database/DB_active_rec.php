@@ -2039,6 +2039,15 @@ class DB_active_rec extends DB_driver {
 
 		$this->_reset_run($ar_reset_items);
 	}
+	
+	/**
+	 * Reset the active records
+	 *
+	**/
+	public function reset_write()
+	{
+		$this->_reset_write();
+	}
 }
 
 /* End of file DB_active_rec.php */

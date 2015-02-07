@@ -58,7 +58,7 @@
     <footer id="footer">
         <div class="text-center padder clearfix">
             <p>
-                <small><a href="https://github.com/Blair2004/tendoo-cms"><?php echo get('core_version');?></a> © 2014</small>
+                <small><a href="https://github.com/Blair2004/tendoo-cms"><?php echo get('core_version');?></a> © 2015</small>
             </p>
         </div>
     </footer>

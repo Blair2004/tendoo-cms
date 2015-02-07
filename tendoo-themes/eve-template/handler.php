@@ -272,9 +272,9 @@ class eva_theme_handler extends Libraries
 	{
 		$this->include_item('notice');
 	}	
-	public function page404()
+	public function page-404()
 	{
-		$this->include_template( 'page404' );
+		$this->include_template( 'page-404' );
 	}
 	public function page( $content = '' )
 	{

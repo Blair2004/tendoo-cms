@@ -333,22 +333,20 @@ function uninstall_module( $namespace ){
 /**
 	*	module assets url, renvoi le chemin d'accès vers le dossier du module actif (actuellement ouvert depuis l'interface d'admininstration), à utiliser uniquement dans l'environnement du module.
 	**/
-	function module_assets_url($segments)
+	function module_assets_url( $segments , $namespace = null )
 	{
-		$instance	=	get_instance();
-		if(isset($instance->data))
+		$module = get_core_vars( 'opened_module' );
+		if( $namespace != null )
 		{
-			if($module = get_core_vars( 'opened_module' ) )
-			{
-				if(is_array($segments))
-				{
-					return $instance->url->main_url() . $module[ 'uri_path' ] . '/' . $instance->url->array2Url($segments);
-				}
-				else
-				{
-					return $instance->url->main_url() . $module[ 'uri_path' ] . '/' . $segments;
-				}
-			}
+			$modude	=	get_modules( 'filter_namespace' , $namespace );	
+		}
+		if( is_array( $segments ) )
+		{
+			return get_instance()->url->main_url() . $module[ 'uri_path' ] . get_instance()->url->array2Url($segments);
+		}
+		else
+		{
+			return get_instance()->url->main_url() . $module[ 'uri_path' ] . $segments;
 		}
 		return false;
 	}

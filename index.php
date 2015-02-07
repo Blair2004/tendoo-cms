@@ -32,7 +32,7 @@ define('DATABASE_DIR',SYSTEM_DIR.'libraries/database/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('THEMES_DIR','tendoo-themes/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
-define('ASSETS_DIR','tendoo-assets/'); // T098
+define('ASSETS_DIR','tendoo-assets/'); // @since 0.98
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 define('MODULES_DIR','tendoo-modules/');
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
@@ -46,7 +46,6 @@ include_once( SYSTEM_DIR . 'System.Core.php');
 /* Loading all used classes by core Controller */
 include_once( LIBRARIES_DIR . 'Meta.Class.php');
 include_once( LIBRARIES_DIR . 'CustomQuery.Class.php');
-// include_once(LIBRARIES_DIR . 'Stats.Class.php'); ignored @since 1.4
 include_once( LIBRARIES_DIR . 'String.Class.php');
 include_once( LIBRARIES_DIR . 'Tdate.Class.php');
 include_once( LIBRARIES_DIR . 'Lang.Class.php');

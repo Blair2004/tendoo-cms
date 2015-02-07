@@ -17,6 +17,7 @@ class Instance extends Libraries
 		self::$ressource		=&	$this;
 		$this->is_installed		=	is_file( CONFIG_DIR . 'db_config.php' ) ? true : false;
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		// Default page values
 		$this->description		=	__( 'No description available for this page' );
 		$this->title			=	__( 'Untitled page' );
 		$this->keywords			=	'';
@@ -29,7 +30,7 @@ class Instance extends Libraries
 			$this->date					=	new Tdate;
 			$this->meta_datas			=	new Meta_datas;
 		}
-		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+		/* =-=-=-=-=-=-=-=-= URI HANDLER	-=-=-=-=-=-=-=-=-=-= */
 		$baseUrl	=	$this->url->site_url(array('index'));
 		$Class		=	$this->url->controller();	
 		$Method		=	$this->url->method();
@@ -46,7 +47,7 @@ class Instance extends Libraries
 		 * Load module and Themes if tendoo is installed
 		**/
 		
-		if( $this->is_installed == true ){
+		if( $this->is_installed == true ){			
 			load_modules();
 			load_themes();
 		}
@@ -55,8 +56,8 @@ class Instance extends Libraries
 		 * Load Core Vars
 		**/
 		
-		new Load_Core_Values;
-		
+		new Load_Core_Values( $this->is_installed );
+				
 		/**
 		 * Checking Controller
 		**/
@@ -65,7 +66,7 @@ class Instance extends Libraries
 		{
 			( $this->url->controller() == 'admin' ) ? define( 'SCRIPT_CONTEXT' , 'ADMIN' ) : define( 'SCRIPT_CONTEXT' , 'PUBLIC' );
 			if($this->is_installed)
-			{
+			{				
 				if( $this->db_connected() )
 				{
 					include_once( CONTROLLERS_DIR . $this->url->controller() . '.php' );
@@ -100,40 +101,57 @@ class Instance extends Libraries
 			}
 			else
 			{
-				// Connect to databse
-				if( ! $this->db_connected() )
-				{
-					$this->tendoo->error('db_connect_error');die;
-				}
+				/**
+				 * Attemps connecting to database
+				**/
+				
+				! $this->db_connected()	? $this->tendoo->error('db_connect_error') : null;
+				
 				set_core_vars(	'options'	,	( $this->data['options']				=	get_meta( 'all' ) )	, 'readonly' );
-				// Is WebApp Mode Enabled ? is so redirect to dashboard with notice enabled
-				set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
-				if( get_core_vars( 'tendoo_mode' ) == 'webapp' )
-				{
-					$this->url->redirect( array( 'admin' , 'index?notice=web-app-mode-enabled' ) );
-				}
 				
 				/**
 				 * Loading Users Class
 				**/
 				
-				$this->load->library( 'users_global' );
+				$this->load->library( 'users_global' );			
+				
+				/**
+				 * Check tendoo mode and redirect if webmode is enabled, since frontend is also disabled while webapp mode is enabled
+				**/
+				
+				set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
+				// Conditional if webmode is enabled
+				( get_core_vars( 'tendoo_mode' ) == 'webapp' ) ? $this->url->redirect( array( 'admin' , 'index?notice=web-app-mode-enabled' ) ) : null;
 				
 				/**
 				 * Setting Core vars
 				**/
 				
-				set_core_vars(	'controllers'	,	($this->data['controllers']		=	$this->tendoo->get_pages('',FALSE))	,'readonly'); // ??	
-				set_core_vars(	'page'	,	($this->data['page']					=	$this->tendoo->getPage($Class))	,'readonly');	
-				set_core_vars(	'active_theme'	,	( $this->data['active_theme']	= 	get_themes( 'filter_active' ) ) );
-				set_core_vars(	'module_url'	,	($this->data['module_url']		=	$this->url->get_controller_url()) ,'readonly');
-				set_core_vars(	'module'	,  $module 								= 	get_modules( 'filter_active_namespace' , $this->data['page'][0]['PAGE_MODULES'] ) ,'readonly');
-				set_core_vars(	'opened_module'	,  $module ,'readonly');
-				set_core_vars(	'app_module'	,	( 	$app_module 				= 	get_modules( 'filter_active_app' ) ),'readonly' );
+				set_core_vars(	'controllers'	,	$loaded_controllers	=	$this->tendoo->get_pages( '' , FALSE )	, 'readonly' ); // ??	
+				set_core_vars(	'page'			,	$unique_controller	=	$this->tendoo->getPage( $Class )	,'readonly');	
+				set_core_vars(	'active_theme'	,	$active_theme		= 	get_themes( 'filter_active' ) );
+				set_core_vars(	'module_url'	,	$module_url			=	$this->url->get_controller_url() ,'readonly');
+				set_core_vars(	'module'		,  	$module 			= 	get_modules( 'filter_active_namespace' , $unique_controller[0]['PAGE_MODULES'] ) ,'readonly');
+				set_core_vars(	'opened_module'	,  	$module ,'readonly');
+				set_core_vars(	'app_module'	,	$app_module 		= 	get_modules( 'filter_active_app' ) ,'readonly' );
 				
-				if( is_string( $this->data['page'] ) )
+				/**
+				 * 	Trigger each init.php file within module and theme folders
+				 *	init.php is the main file for modules and themes.
+				 *	@since 1.4
+				**/
+				
+				$this->trigger_inits();
+				
+				/**
+				 * 	Declare Notices : Notices are internal(system) or module/theme alert.
+				**/
+					
+				set_core_vars( 'tendoo_notices' , trigger_filters( 'declare_notices' , array( get_core_vars( 'default_notices' ) ) ) ); // @since 1.4				
+				
+				if( is_string( $unique_controller ) )
 				{
-					$this->url->redirect(array('error','code',$this->data['page']));
+					$this->url->redirect(array('error','code',$unique_controller));
 				}
 				else
 				{
@@ -146,26 +164,19 @@ class Instance extends Libraries
 					 * Setting page meta datas
 					**/
 					
-					set_page( 'title' , $this->data['page'][0]['PAGE_TITLE'] );
-					set_page( 'description' , $this->data['page'][0]['PAGE_DESCRIPTION'] );
-					set_page( 'keywords' , $this->data['page'][0]['PAGE_KEYWORDS']);
+					set_page( 'title' , $unique_controller[0]['PAGE_TITLE'] );
+					set_page( 'description' , $unique_controller[0]['PAGE_DESCRIPTION'] );
+					set_page( 'keywords' , $unique_controller[0]['PAGE_KEYWORDS']);
 					
 					// Saved First BreadCrumbs
 					
 					$INDEX	=	$this->tendoo->getPage( 'index' );
 					
 					set_bread( array (
-						'link'	=>	$this->data['module_url'],
+						'link'	=>	$module_url,
 						'text'	=>	$INDEX[0][ 'PAGE_NAMES' ]
 					) );
-					
-					/**
-					 * 	Trigger each init.php file within module and theme folders
-					 *	init.php is the main file for modules and themes.
-					**/
-					
-					$this->trigger_inits();
-					
+										
 					/**
 					 * Checks if current module is supported by active theme
 					**/
@@ -174,22 +185,22 @@ class Instance extends Libraries
 					{
 						$this->url->redirect(array('error','code','unsupported-by-current-theme'));
 					}
-					if( $this->data['module_url']	==	'noMainPage' )
+					if( $module_url	==	'noMainPage' )
 					{
 						$this->url->redirect( array( 'error' , 'code' , 'noMainPage' ) );
 					}
-					if($this->data['active_theme'] == FALSE)
+					if( $active_theme == FALSE )
 					{
 						$this->url->redirect(array('error','code','no-theme-installed'));
 					}
 					else
 					{
 						// Load theme handler file
-						include_if_file_exists( $this->data['active_theme']['uri_path'] . '/handler.php' );
+						include_if_file_exists( $active_theme['uri_path'] . '/handler.php' );
 						
-						if(class_exists( $this->data['active_theme']['namespace'] . '_theme_handler')) // Chargement du theme handler
+						if(class_exists( $active_theme['namespace'] . '_theme_handler')) // Chargement du theme handler
 						{
-							eval( 'set_core_vars("active_theme_object",new ' . $this->data['active_theme']['namespace'] . '_theme_handler());' ); // Initialize Theme handler;
+							eval( 'set_core_vars("active_theme_object",new ' . $active_theme['namespace'] . '_theme_handler());' ); // Initialize Theme handler;
 						}
 						else 
 						{

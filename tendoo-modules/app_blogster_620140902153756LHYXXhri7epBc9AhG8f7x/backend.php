@@ -124,7 +124,7 @@ class blogster_backend extends Libraries
 		$this->data['lastestComments']	=	$this->news->getComments(0,5);	
 		$this->data['paginate']	=	
 		$this->tendoo->paginate(10,$count,1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->url->site_url(array('admin','open','modules',$this->opened_module['namespace'],'index')).'/',$ajaxis_link=null);
-		if($this->data['paginate'][3] == FALSE): $this->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
+		if($this->data['paginate'][3] == FALSE): $this->url->redirect(array('error','code','page-404'));endif; // redirect if page incorrect
 		set_page('title', __( 'Blogster - Dashboard' ) );
 		$this->data['getNews']		=	$this->news->getNews($this->data['paginate'][1],$this->data['paginate'][2],FALSE,$filter);
 		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['encrypted_dir'].'/views/main',$this->data,true,TRUE);
@@ -285,7 +285,7 @@ class blogster_backend extends Libraries
 			$page						=&	$i; // don't waste memory
 			$this->data['ttCat']		=	$this->news->countCat();
 			$this->data['paginate']		=	$this->tendoo->paginate(10,$this->data['ttCat'],1,'bg-color-blue fg-color-white','bg-color-white fg-color-blue',$page,$this->url->site_url(array('admin','open','modules',$this->opened_module['namespace'],'category','index')).'/',$ajaxis_link=null);
-			if($this->data['paginate'][3] == FALSE): $this->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
+			if($this->data['paginate'][3] == FALSE): $this->url->redirect(array('error','code','page-404'));endif; // redirect if page incorrect
 			$this->data['getCat']		=	$this->news->getCat($this->data['paginate'][1],$this->data['paginate'][2]);
 			set_page('title', __( 'Blogster - Manage categories' ) );
 			if(isset($_GET['ajax']))

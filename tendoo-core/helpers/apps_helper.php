@@ -267,18 +267,6 @@
 	{
 		return __show_menu( 'admin' , $position, $item );
 	}
-	function create_account_menu( $namespace , $position , $item ) // deprecated
-	{
-		return __create_menu( 'account' , $namespace , $position , $item );
-	}
-	function add_account_menu( $namespace , $config ) // deprecated
-	{
-		return __add_menu( 'account' , $namespace , $config );
-	}
-	function show_account_menu( $position , $item ) // deprecated
-	{
-		return __show_menu( 'account' , $position , $item );
-	}
 	/**
 	*	include_if_file_exists() : 
 	**/
@@ -372,11 +360,11 @@
 	/**
 	*	pagination_helper Renvoi un tableau d'une pagination effectué avec les paramètres envoyés à la fonction
 	**/	
-	function pagination_helper($ContentPerPage,$TotalContent,$CurrentPage,$BaseUrl,$RedirectUrl = array('error','code','page404'))
+	function pagination_helper($ContentPerPage,$TotalContent,$CurrentPage,$BaseUrl,$RedirectUrl = array('error','code','page-404'))
 	{
 		$instance	=	get_instance();
 		$result	=	$instance->tendoo->doPaginate($ContentPerPage,$TotalContent,$CurrentPage,$BaseUrl);
-		if($result[0] == 'page404'): $instance->url->redirect($RedirectUrl);endif;
+		if($result[0] == 'page-404'): $instance->url->redirect($RedirectUrl);endif;
 		return $result;
 	}
 	function theme_assets_url($url)
@@ -656,21 +644,21 @@
 	{
 		return declare_notices($key,$notice_text);
 	}
-	function declare_notices($array,$notice_text) // add to doc new tendoo 1.2
+	function declare_notices($array,$notice_text = null ) // add to doc new tendoo 1.2
 	{
-		// Utilisation de la variable globale
-		global $NOTICE_SUPER_ARRAY;
+		$notices	=	get_core_vars( 'tendoo_notices' );
 		if(!is_array($array))
 		{
-			$NOTICE_SUPER_ARRAY[$array]	=	$notice_text;
+			$notices[$array]	=	$notice_text;
 		}
 		else
 		{
 			foreach($array as $k => $v)
 			{
-				$NOTICE_SUPER_ARRAY[$k]	=	$v;
+				$notices[$k]	=	$v;
 			}
 		}
+		set_core_vars( 'tendoo_notices' , $notices );
 	}	
 	/**
 	*	declare_shortcut

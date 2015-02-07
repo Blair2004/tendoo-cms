@@ -61,7 +61,7 @@ class Tendoo
 			}
 			else
 			{
-				return 'page404';
+				return 'page-404';
 			}
 		}
 		else if( $filter == 'filter_cname' ){
@@ -76,7 +76,7 @@ class Tendoo
 			}
 			else
 			{
-				return 'page404';
+				return 'page-404';
 			}
 		}
 	}
@@ -119,7 +119,7 @@ class Tendoo
 			}
 			else
 			{
-				return 'page404';
+				return 'page-404';
 			}
 		}
 		else
@@ -572,9 +572,9 @@ class Tendoo
 		if(($current_page > $ttpage || $current_page < 1) && $ttel > 0): return array(
 			'start'				=>	0,
 			'end'				=>	0,
-			'page404', 			// 	Deprécié
+			'page-404', 			// 	Deprécié
 			array(),			// 	Déprécié
-			'status'			=>	'page404',
+			'status'			=>	'page-404',
 			'pagination'		=>	array(),
 			'available_pages'	=>	0,
 			'current_page'		=>	0

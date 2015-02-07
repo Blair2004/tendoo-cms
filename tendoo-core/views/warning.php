@@ -1,3 +1,4 @@
+<?php get_instance()->db->reset_write(); ?>
 <div class="row m-n">
     <div class="col-sm-6 col-sm-offset-3">
         <div class="text-center m-b-lg">

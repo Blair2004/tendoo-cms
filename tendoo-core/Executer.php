@@ -3,29 +3,15 @@ if(class_exists($Class.'_frontend'))
 {
 	/**
 	 * @since 1.4
-	 * Launch binded event to "before_frontend" hook.
+	 * Launch binded events to "before_frontend" hook.
 	**/
 	
 	trigger_events( 'before_frontend' );
 	
-	/** Depreacated
-	// Revisé 1.3
-	// $this->load->library('users_global'); // 0.9.4
-	// $theme			=	get_core_vars( 'active_theme_object' ); // Added - Tendoo 0.9.2
-	// Les modules de type APP ne possè en principe aucune interface utilisateur pour le frontend, la gestion des erreur des requetes n'est donc pas prise en charge.
-	if(is_array( get_core_vars( 'app_module' ) ))
-	{
-		foreach( get_core_vars( 'app_module' ) as $_module )
-		{
-			$this->tendoo->interpreter( $_module[ 'namespace' ] . '_frontend' , $Method , $Parameters ); // We do not control if there is 404 result.
-		}
-	}	
-	End of deprecated **/
-	// Initialisation des modules simple.
 	// Ce module utilisent l'obect get_core_vars( 'active_theme_object' ); et génèrent une vue.
 	if($this->tendoo->interpreter( $Class . '_frontend' , $Method , $Parameters , array() , get_core_vars('module') ) === '404' )
 	{
-		$this->tendoo->error( 'page404' );
+		$this->tendoo->error( 'page-404' );
 	}
 }
 else if(class_exists('Tendoo_'.$Class)) // Deprecated
@@ -34,17 +20,17 @@ else if(class_exists('Tendoo_'.$Class)) // Deprecated
 	{
 		$theme						=	get_core_vars('active_theme_object'); // Added - Tendoo 0.9.2
 		// GLOBAL MODULES
-		$this->tendoo->error('page404');
+		$this->tendoo->error('page-404');
 	}
 }
 else if(class_exists($Class))
 {
 	if($this->tendoo->interpreter($Class,$Method,$Parameters) === '404')
 	{
-		$this->tendoo->error('page404');
+		$this->tendoo->error('page-404');
 	}
 }
 else
 {
-	$this->tendoo->error('page404_or_moduleBug');
+	$this->tendoo->error('page-404-or-module-bug');
 }

@@ -41,7 +41,7 @@ class Pages_editor_backend extends Libraries
 		$totalPerPages = isset( $_GET[ 'limit' ] ) ? $_GET[ 'limit' ] : 10 ;
 		
 		set_core_vars( 'totalPages' , $totalPages = count( $this->lib->get_pages( 'all_available' ) ) );
-		$paginate 		=	pagination_helper($totalPerPages,$totalPages,$page,module_url( array( 'index' ) ),$RedirectUrl = array('error','code','page404') ) ;
+		$paginate 		=	pagination_helper($totalPerPages,$totalPages,$page,module_url( array( 'index' ) ),$RedirectUrl = array('error','code','page-404') ) ;
 		set_core_vars( 'paginate' , $paginate );
 		$get_pages		=	$this->lib->get_pages( 'all_limited' , $paginate[ 'start' ] , $paginate[ 'end' ] );
 		set_core_vars( 'get_pages' , $get_pages );

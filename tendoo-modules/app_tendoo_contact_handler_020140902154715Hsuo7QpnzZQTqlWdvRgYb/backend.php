@@ -33,7 +33,7 @@ class tendoo_contact_handler_backend extends Libraries
 	{
 		$this->data['countPost']		=	count($this->lib->getSendedContact());
 		$this->data['paginate']			=	$this->tendoo->paginate(10,$this->data['countPost'],1,'','',$page,$this->url->site_url(array('admin','open','modules',$this->module_namespace,'index')).'/',$ajaxis_link=null);
-		if($this->data['paginate'][3] == FALSE): $this->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
+		if($this->data['paginate'][3] == FALSE): $this->url->redirect(array('error','code','page-404'));endif; // redirect if page incorrect
 
 
 		$this->data['retreiContact']	=	$this->lib->getSendedContact($this->data['paginate'][1],$this->data['paginate'][2]);
@@ -125,7 +125,7 @@ class tendoo_contact_handler_backend extends Libraries
 			notice('push',fetch_notice_output($query));
 		}
 		$this->data['getSpeContact']	=	$this->lib->getSendedContact($id);
-		if($this->data['getSpeContact'] == FALSE): $this->url->redirect(array('error','code','page404'));endif; // redirect if page incorrect
+		if($this->data['getSpeContact'] == FALSE): $this->url->redirect(array('error','code','page-404'));endif; // redirect if page incorrect
 		
 		set_page('title','Lecture d\'un message');
 		

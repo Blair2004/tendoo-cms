@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                © 2014 Conçu pour <?php echo get('core_version');?>
+                © 2015 Conçu pour <?php echo get('core_version');?>
             </div>
             <div class="col-sm-6">
                 <ul class="pull-right">

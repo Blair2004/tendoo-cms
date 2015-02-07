@@ -28,7 +28,7 @@ class blogster_frontend extends Libraries
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->data['ttNews']				=	$this->data['news']->countNews();
 		$this->data['pagination']			=	$this->tendoo->paginate(5,$this->data['ttNews'],1,'on','off',$page,$this->url->site_url(array('blog','index')).'/',$ajaxis_link=null);
-		$this->data['pagination'][3]=== false ? $this->url->redirect(array('error','code','page404')) : null;
+		$this->data['pagination'][3]=== false ? $this->url->redirect(array('error','code','page-404')) : null;
 		$this->data['getNews']				=	$this->data['news']->getNews($this->data['pagination'][1],$this->data['pagination'][2]);
 		$this->data['currentPage']			=	$page;
 		set_core_vars( 'module_content' , $this->load->view(MODULES_DIR.$this->data['module'][ 'encrypted_dir' ].'/views/common_main',$this->data,true,TRUE) );
@@ -96,7 +96,7 @@ class blogster_frontend extends Libraries
 		$this->data['Comments']		=		$this->data['news']->getComments($this->data['GetNews'][0]['ID'],$this->data['pagination'][1],$this->data['pagination'][2]);
 		if(!$this->data['GetNews'])
 		{
-			$this->url->redirect(array('error/code/page404'));
+			$this->url->redirect(array('error/code/page-404'));
 		}
 		$this->data['news']->pushView($this->data['GetNews'][0]['ID']);
 		$keyWords	=	'';
@@ -143,7 +143,7 @@ class blogster_frontend extends Libraries
 			$this->data['countArticles'],
 			$page,
 			module_url(array('categorie')),
-			$RedirectUrl = array('error','code','page404')
+			$RedirectUrl = array('error','code','page-404')
 		);
 		$this->data['getArticles']		=	$this->news->getCategoryArticles(
 			$this->data['category'][0]['ID'],
@@ -195,7 +195,7 @@ class blogster_frontend extends Libraries
 			$this->data['countArticles'],
 			$page,
 			module_url(array('tags')),
-			$RedirectUrl = array('error','code','page404')
+			$RedirectUrl = array('error','code','page-404')
 		);
 		$this->data['tagArticles']		=	$this->data['news']->getKeyWordsArticles(
 			$this->data['keyWords'][0]['URL_TITLE'],

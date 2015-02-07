@@ -31,7 +31,7 @@ class tendoo_contents_backend extends Libraries
 		$this->data['loadSection']	=	'main';
 		$this->data['ttFiles']		=	$this->file_contentAdmin->countUploadedFiles();
 		$this->data['paginate']	=	$this->tendoo->paginate(10,$this->data['ttFiles'],1,'on','off',$page,$this->url->site_url(array('admin','open','modules',$this->opened_module['namespace'],'index')).'/',$ajaxis_link=null);
-		$this->data['paginate'][3]=== false ? $this->url->redirect(array('error','code','page404')) : null;
+		$this->data['paginate'][3]=== false ? $this->url->redirect(array('error','code','page-404')) : null;
 		$this->data['files']		=	$this->file_contentAdmin->getUploadedFiles($this->data['paginate'][1],$this->data['paginate'][2]);
 		
 		$this->data['body']			=	$this->load->view(MODULES_DIR.$this->opened_module['encrypted_dir'].'/views/main',$this->data,true,TRUE);
@@ -221,7 +221,7 @@ class tendoo_contents_backend extends Libraries
 		$this->data['getFile']		=	$this->file_contentAdmin->getUploadedFiles($id);
 		if(count($this->data['getFile']) == 0)
 		{
-			$this->url->redirect(array('error','code','page404'));
+			$this->url->redirect(array('error','code','page-404'));
 		}
 		$this->data['id']			=	$id;
 		$this->data['loadSection']	=	'manage';

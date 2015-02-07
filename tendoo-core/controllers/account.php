@@ -249,7 +249,7 @@ class Account extends Libraries
 			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttMsgContent'],1,'bg-color-red fg-color-white','bg-color-blue',$end,$this->url->site_url(array('account','messaging','open',$start)).'/',$ajaxis_link=null);
 			if($this->data['paginate'][3]	==	false)
 			{
-				$this->url->redirect(array('page404'));
+				$this->url->redirect(array('page-404'));
 			}
 			$this->data['getMsgContent']=	$this->users_global->getMsgContent($start,$this->data['paginate'][1],$this->data['paginate'][2]);
 			

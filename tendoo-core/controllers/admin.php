@@ -12,18 +12,27 @@ class Admin extends Libraries
 		$this->notices_loader();				// 	Fin du constructeur
 		$this->file_loader();
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		set_core_vars( 'active_theme' , site_theme() );
-		set_core_vars( 'options' , $this->options	=	get_meta( 'all' ) , 'read_only' );
-		set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
-		set_core_vars( 'admin_menu_items' , array( 'dashboard' , 'menu' , 'about' , 'users' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) ); // @since 1.4
+		set_core_vars( 'active_theme' , site_theme() ); // deprecated
+		set_core_vars( 'options' , $this->options	=	get_meta( 'all' ) , 'read_only' ); // deprecated
+		set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' ); // deprecated
+		set_core_vars( 'admin_menu_items' , 
+			array( 'dashboard' , 'menu' , 'about' , 'users' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' ) 
+		); // @since 1.4
 		set_core_vars( 'admin_menu_position' , array( 'after' , 'before' ) ); // @since 1.4
+		
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		$this->__admin_widgets(); // USING core WiDGET and thoses defined through init
 		$this->__creating_menus();
 		trigger_inits(); // For Core menu extension, they are called after default menu.
-		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		
+		/**
+		 * 	Declare Notices : Notices are internal(system) or module/theme alert.
+		**/
+			
+		set_core_vars( 'tendoo_notices' , trigger_filters( 'declare_notices' , array( get_core_vars( 'default_notices' ) ) ) ); // @since 1.4		
+		
 		set_page( 'description' , translate( 'Dashboard' ) . ' | '.get( 'core_version' ) );
-		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		
 		/*$this->tendoo_admin->system_not('Modifier vos param&ecirc;tre de s&eacute;curit&eacute;', 'Mettez vous &agrave; jour avec cette version', '#', '10 mai 2013', null);*/	
 		// Set Default View	
 		set_core_vars( 'inner_head' ,	$this->load->view('admin/inner_head',array() , true , false) , 'read_only' );		
@@ -418,7 +427,7 @@ class Admin extends Libraries
 			$this->data['paginate']		=	$this->tendoo->paginate(30,$this->data['ttMsgContent'],1,'bg-color-red fg-color-white','bg-color-blue',$end,$this->url->site_url(array('account','messaging','open',$start)).'/',$ajaxis_link=null);
 			if($this->data['paginate'][3]	==	false)
 			{
-				$this->url->redirect(array('page404'));
+				$this->url->redirect(array('page-404'));
 			}
 			$this->data['getMsgContent']=	$this->users_global->getMsgContent($start,$this->data['paginate'][1],$this->data['paginate'][2]);
 			
@@ -512,7 +521,7 @@ class Admin extends Libraries
 				$this->url->site_url(array('admin','modules','main')).'/'
 			) , 'read_only' ); // Pagination
 			
-			if(get_core_vars( 'paginate' ) === FALSE): $this->url->redirect(array('error','code','page404')); endif; // Redirect if page is not valid
+			if(get_core_vars( 'paginate' ) === FALSE): $this->url->redirect(array('error','code','page-404')); endif; // Redirect if page is not valid
 			
 			set_core_vars( 'modules_list' ,	$result	= get_modules( $argument , $paginate[1] , $paginate[2] ) , 'read_only' );
 			
@@ -634,7 +643,7 @@ class Admin extends Libraries
 				set_core_vars( 'interpretation', $interpretation =	$this->tendoo->interpreter($module[ 'namespace' ].'_backend',$Method,$Parameters), 'read_only' );
 				if($interpretation == '404')
 				{
-					$this->url->redirect(array('error','code','page404'));
+					$this->url->redirect(array('error','code','page-404'));
 				}
 				if(is_array($interpretation))
 				{
@@ -684,7 +693,7 @@ class Admin extends Libraries
 		}
 		else
 		{
-			$this->url->redirect( array( 'error' , 'code' , 'page404' ) );
+			$this->url->redirect( array( 'error' , 'code' , 'page-404' ) );
 		}
 	}
 	public function settings()
@@ -773,7 +782,7 @@ class Admin extends Libraries
 		}
 		else
 		{
-			$this->url->redrect(array('error','code','page404'));
+			$this->url->redrect(array('error','code','page-404'));
 		}
 		
 	}
@@ -1051,7 +1060,7 @@ class Admin extends Libraries
 		}
 		else
 		{
-			$this->url->redirect(array('error','code','page404'));
+			$this->url->redirect(array('error','code','page-404'));
 		}
     }
 	public function options( $page = 'index' )
