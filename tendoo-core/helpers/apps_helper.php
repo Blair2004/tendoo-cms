@@ -49,9 +49,9 @@
 	**/
 	function safe_echo( $var )
 	{
-		if( !is_object( $string ) && !is_object( $string ) && ! is_resource( $string ) )
+		if( !is_object( $var ) && !is_object( $var ) && ! is_resource( $var ) )
 		{
-			echo $string;
+			echo $var;
 		}
 	}
 	
@@ -189,7 +189,7 @@
 						foreach( $menu_position as $namespace	=>	 $menu_list )
 						{
 							$first_index	=	0;
-							$class	=	is_array( $menu_list ) && count( $menu_list ) > 1 ? 'dropdown-submenu' : '';
+							$class	=	is_array( $menu_list ) && count( $menu_list ) > 1 ? 'treeview' : '';
 							// Check if a menu as a open submenu
 							$custom_ul_style	=	'';
 							$menu_status		=	'';
@@ -212,17 +212,17 @@
 								{
 									if( $class != '' ) // means if it has child
 									{										
-										$custom_style	=	get_instance()->url->site_url() == riake( 'href' , $menu , '#' ) ? 'style="color:#fff"' : '';
+										$custom_style	=	get_instance()->url->site_url() == riake( 'href' , $menu , '#' ) ? 'style="color:#FEFEFE;text-shadow:0px 0px 1px #333"' : '';
 										$is_submenu	=	riake( 'is_submenu' , $menu , true );
 										if( $first_index == 0 ) // parent
 										{
 											?>
 											<a <?php echo $custom_style;?> href="javascript:void(0)" class="dropdown-toggle <?php echo $menu_status;?>"> 
-												<span class="pull-right auto"> <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> </span>
 												<i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> 
 												<span><?php echo $title;?></span> 
+                                                <i class="fa fa-angle-left pull-right"></i>
 											</a>
-											<ul <?php echo $custom_ul_style;?> class="nav none dker">
+											<ul <?php echo $custom_ul_style;?> class="treeview-menu">
                                             <?php
 											// This let you choose if the first menu is also a submenu
 											if( $is_submenu ):?>
@@ -331,8 +331,7 @@
 	function bs_pagination($array,$additionnal_class = "pagination-sm m-t-none m-b-none")
 	{
 		?>
-
-<ul class="pagination <?php echo $additionnal_class;?>">
+<ul class="pagination <?php echo $additionnal_class;?>" style="margin:0px;">
     <?php 
 	
     if(is_array($array[1]))
@@ -468,6 +467,270 @@
 			// Ouputing CSS and JS
 			output('css');
 			output('js');
+		}
+		else if( $element == 'content-header' )
+		{
+			?>
+            <section class="content-header">
+                <h1>
+                    <?php echo get_page('title');?>
+                    <small><?php echo get_page( 'description' );?></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">Widgets</li>
+                </ol>
+            </section>
+            <?php
+		}
+		else if( $element == 'content-card' )
+		{
+			return; // disabled for now
+			?>
+            <div class="row">
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>
+                                        150
+                                    </h3>
+                                    <p>
+                                        New Orders
+                                    </p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div><!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-green">
+                                <div class="inner">
+                                    <h3>
+                                        53<sup style="font-size: 20px">%</sup>
+                                    </h3>
+                                    <p>
+                                        Bounce Rate
+                                    </p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-stats-bars"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div><!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-yellow">
+                                <div class="inner">
+                                    <h3>
+                                        44
+                                    </h3>
+                                    <p>
+                                        User Registrations
+                                    </p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-person-add"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div><!-- ./col -->
+                        <div class="col-lg-3 col-xs-6">
+                            <!-- small box -->
+                            <div class="small-box bg-red">
+                                <div class="inner">
+                                    <h3>
+                                        65
+                                    </h3>
+                                    <p>
+                                        Unique Visitors
+                                    </p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-pie-graph"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
+                        </div><!-- ./col -->
+                    </div>
+            <?php
+		}
+		else if( $element == 'content-widgets' )
+		{
+			?>
+            <?php echo fetch_notice_from_url();?>
+            <div class="row">
+                <?php ouput_admin_widgets();?>
+            </div>
+            <?php
+			return; // disabled for now
+			
+			?>
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- Default box -->
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Default Box (button tooltip)</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-default btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            Box class: <code>.box</code>
+                            <p>
+                                amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
+                                berliner weisse wort chiller adjunct hydrometer alcohol aau!
+                                sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
+                            </p>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                            <code>.box-footer</code>
+                        </div><!-- /.box-footer-->
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+
+                <div class="col-md-4">
+                    <!-- Primary box -->
+                    <div class="box box-primary">
+                        <div class="box-header" data-toggle="tooltip" title="Header tooltip">
+                            <h3 class="box-title">Primary Box (header tooltip)</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-primary btn-xs" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            Box class: <code>.box.box-primary</code>
+                            <p>
+                                amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
+                                berliner weisse wort chiller adjunct hydrometer alcohol aau!
+                                sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
+                            </p>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                            <code>.box-footer</code>
+                        </div><!-- /.box-footer-->
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+
+                <div class="col-md-4">
+                    <!-- Info box -->
+                    <div class="box box-info">
+                        <div class="box-header">
+                            <h3 class="box-title">Info Box</h3>
+                            <div class="box-tools pull-right">
+                                <div class="label bg-aqua">Label</div>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            Box class: <code>.box.box-info</code>
+                            <p>
+                                amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
+                                berliner weisse wort chiller adjunct hydrometer alcohol aau!
+                                sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
+                            </p>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                            <code>.box-footer</code>
+                        </div><!-- /.box-footer-->
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- Danger box -->
+                    <div class="box box-danger">
+                        <div class="box-header">
+                            <h3 class="box-title">Danger Box (Loading state)</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-danger btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-danger btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            Box class: <code>.box.box-danger</code>
+                            <p>
+                                amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
+                                berliner weisse wort chiller adjunct hydrometer alcohol aau!
+                                sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
+                            </p>
+                        </div><!-- /.box-body -->
+                        <!-- Loading (remove the following to stop the loading)-->
+                        <div class="overlay"></div>
+                        <div class="loading-img"></div>
+                        <!-- end loading -->
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+
+                <div class="col-md-4">
+                    <!-- Success box -->
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <h3 class="box-title">Success Box (toggle buttons)</h3>
+                            <div class="box-tools pull-right">
+                                <div class="btn-group" data-toggle="btn-toggle">
+                                    <button type="button" class="btn btn-success btn-xs active" data-toggle="on">Left</button>
+                                    <button type="button" class="btn btn-success btn-xs" data-toggle="off">Right</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            Box class: <code>.box.box-success</code>
+                            <p>
+                                amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
+                                berliner weisse wort chiller adjunct hydrometer alcohol aau!
+                                sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
+                            </p>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+
+                <div class="col-md-4">
+                    <!-- Warning box -->
+                    <div class="box box-warning">
+                        <div class="box-header">
+                            <h3 class="box-title">Warning Box</h3>
+                            <div class="box-tools pull-right">
+                                <ul class="pagination pagination-sm inline">
+                                    <li><a href="#">&laquo;</a></li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">&raquo;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            Box class: <code>.box.box-warning</code>
+                            <p>
+                                amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
+                                berliner weisse wort chiller adjunct hydrometer alcohol aau!
+                                sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
+                            </p>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            <?php
+		
+		}
+		else if( $element == 'content-left-menu' )
+		{
+			echo get_core_vars( 'lmenu' );
 		}
 		else if($element == 'headers_css') // must be added to each theme head
 		{
@@ -717,7 +980,7 @@
 				{
 					// UN-app module widgets are disabled, since un-app module are also disabled on webapp mode.
 					$module		=	get_modules( 'filter_namespace' , riake( 'module_namespace' , $widget ) );
-					if( riake( 'handle' , $module ) != 'system' && get_core_vars( 'tendoo_mode' , 'options' , 'website' ) == 'webapp' )
+					if( !in_array( riake( 'handle' , $module ) , array( 'APP' , 'system' ) ) && get_core_vars( 'tendoo_mode' , 'options' , 'website' ) == 'webapp' )
 					{
 						$process	=	false;
 					}

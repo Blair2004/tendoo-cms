@@ -5,5 +5,5 @@ if( $pages_editor_loaded_page != 404 ){
 	$active_theme_object->page( return_if_array_key_exists( 'FILE_CONTENT' , $pages_editor_loaded_page[0] ) );
 } 
 else {
-	$active_theme_object->page-404();
+	$active_theme_object->page_404();
 }

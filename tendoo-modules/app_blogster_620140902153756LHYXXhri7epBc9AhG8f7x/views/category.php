@@ -1,3 +1,34 @@
+<?php
+$this->gui->cols_width( 1 , 4 );
+
+$this->gui->col_config( 1 , array( 
+	'inner-closing-wrapper'	=>	'<div bulkSelect target="#bulkSelect">
+		<select name="action" class="input-sm form-control input-s-sm inline">
+			<option value="0">' . __( 'Bulk Actions' ) . '</option>
+			<option value="delete">' . __( 'Delete' ) . '</option>
+		</select>
+		<button class="btn btn-sm btn-white">' . __( 'Apply' ) . '</button>
+	</div>'
+) );
+
+$this->gui->set_meta( array(
+	'type'		=>	'panel-ho',
+	'namespace'	=>	'category-list',
+	'title'		=>	__( 'Category List' ),
+	'form_wrap'	=>	array(
+		'method'	=>	'post',
+		'id'		=>	'bulkSelect',
+	)
+) )->push_to( 1 );
+
+$this->gui->set_item( array(
+	'type'		=>	'dom',
+	'value'		=>	module_view( 'views/category-list-table' , true , 'blogster' )
+) )->push_to( 'category-list' );
+
+$this->gui->get();
+return;
+?>
 <?php echo $inner_head;?>
 <section id="w-f">
     <section class="hbox stretch">
@@ -80,19 +111,7 @@
                 </div>
                 <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm"><?php echo sprintf( __( 'Displays %s + %s categories' ) , $paginate[1] ,$paginate[2] );?></small> </div>
                 <div class="col-sm-4 text-right text-center-xs">
-                    <ul class="pagination pagination-sm m-t-none m-b-none">
-                     <?php 
-					if(is_array($paginate[4]))
-					{
-						foreach($paginate[4] as $p)
-						{
-							?>
-                            <li class="<?php echo $p['state'];?>"><a href="<?php echo $p['link'];?>"><?php echo $p['text'];?></a></li>
-							<?php
-						}
-					}
-				?>
-                    </ul>
+                    
                 </div>
             </div>
         </footer>

@@ -1,30 +1,9 @@
-<?php echo $inner_head;?>
+<?php
+// Col 1
+ob_start();
 
-<section>
-    <section class="hbox stretch">
-        <?php echo get_core_vars( 'lmenu' );?>
-        <section class="vbox">
-            <section class="scrollable">
-                <header>
-                    <div class="row b-b m-l-none m-r-none">
-                        <div class="col-sm-4">
-                            <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
-                            <p class="block text-muted">
-                                <?php echo get_page('description');?>
-                            </p>
-                        </div>
-                    </div>
-                </header>
-                <section class="vbox">
-                    <section class="wrapper">
-                        <?php echo output('notice');?> <?php echo fetch_notice_from_url();?> <?php echo validation_errors(); ?>
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <section class="panel">
-                                    <div class="panel-heading">
-                                       	<?php _e( 'Tags List' );?>
-                                    </div>
-                                    <table class="table table-bordered table-striped">
+?>
+<table class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <td><?php _e( 'Title' );?></td>
@@ -85,6 +64,78 @@
                                 }
                             });
                             </script>
+<?php
+$tabs1 = ob_get_clean();
+
+// Col 2
+
+ob_start();
+
+?>
+<form method="post" fjaxson action="<?php echo module_url(array('ajax','tags','create'));?>">
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><?php _e( 'Tag Title' );?></span>
+            <input type="text" class="form-control" name="kw_title" placeholder="<?php _e( 'Enter a title here' );?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" name="kw_description" placeholder="<?php _e( 'Can you describe this tag ?' );?>"></textarea>
+    </div>
+    <input type="submit" class="btn btn-sm <?php echo theme_button_class();?>" value="<?php _e( 'Create a tag' );?>">
+</form>
+<?php
+
+$tabs2 	=	ob_get_clean();
+
+$this->gui->cols_width( 1 , 3 );
+
+$this->gui->cols_width( 2 , 1 );
+
+$this->gui->set_meta( 'keywords-list' , __( 'Keywords' ) , 'panel-ho' )->push_to( 1 );
+
+$this->gui->set_meta( 'keywords-create' , __( 'Create a new keyword' ) , 'panel' )->push_to( 2 );
+
+$this->gui->set_item( array(
+	'type'		=>		'dom',
+	'value'		=>		$tabs1
+) )->push_to( 'keywords-list' );
+
+$this->gui->set_item( array(
+	'type'		=>		'dom',
+	'value'		=>		$tabs2
+) )->push_to( 'keywords-create' );
+
+$this->gui->get();
+return;
+?>
+<?php echo $inner_head;?>
+
+<section>
+    <section class="hbox stretch">
+        <?php echo get_core_vars( 'lmenu' );?>
+        <section class="vbox">
+            <section class="scrollable">
+                <header>
+                    <div class="row b-b m-l-none m-r-none">
+                        <div class="col-sm-4">
+                            <h4 class="m-t m-b-none"><?php echo get_page('title');?></h4>
+                            <p class="block text-muted">
+                                <?php echo get_page('description');?>
+                            </p>
+                        </div>
+                    </div>
+                </header>
+                <section class="vbox">
+                    <section class="wrapper">
+                        <?php echo output('notice');?> <?php echo fetch_notice_from_url();?> <?php echo validation_errors(); ?>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <section class="panel">
+                                    <div class="panel-heading">
+                                       	<?php _e( 'Tags List' );?>
+                                    </div>
+                                    
                                 </section>
                             </div>
                             <div class="col-lg-4">
@@ -93,18 +144,7 @@
                                         <?php _e( 'Create a new tag' );?>
                                     </div>
                                     <div class="panel-body">
-                                        <form method="post" fjaxson method="post" action="<?php echo module_url(array('ajax','tags','create'));?>">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><?php _e( 'Tag Title' );?></span>
-                                                <input type="text" class="form-control" name="kw_title" placeholder="<?php _e( 'Enter a title here' );?>">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <textarea class="form-control" name="kw_description" placeholder="<?php _e( 'Can you describe this tag ?' );?>"></textarea>
-                                        </div>
-                                        <input type="submit" class="btn btn-sm <?php echo theme_button_class();?>" value="<?php _e( 'Create a tag' );?>">
-                                        </form>
+                                        
                                     </div>
                                 </div>
                             </div>

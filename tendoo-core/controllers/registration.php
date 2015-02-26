@@ -6,51 +6,32 @@ Class registration extends Libraries
 		parent::__construct();
 		$this->instance				=	get_instance();
 		$this->load->library('users_global');
+		$this->load->library('roles');
+		$this->load->library('file');
 		$this->load->library('captcha');
-		$this->user_global			=&	$this->instance->users_global;
-		$this->load					=&	$this->load;
-		// is Connected ?
-		($this->instance->users_global->isConnected()=== TRUE) ? $this->instance->url->redirect(array('index?notice=disconnectFirst')) : false;
-	}
-	// Privates Methods
-	private function construct_end()
-	{
-		$this->tendoo_admin			=&	$this->instance->tendoo_admin;
-		$this->data['Tendoo_admin']	=&	$this->instance->tendoo_admin;
-		$this->load->library('Tendoo_admin');
-		$this->loadOuputFile();
-	}
-	private function loadLibraries()
-	{
 		$this->load->library('pagination');
 		$this->load->library('form_validation');
-		$this->input				=&	$this->instance->input;
-		$this->notice				=&	$this->instance->notice;
-		$this->file					=&	$this->instance->file;
-		$this->pagination			=&	$this->instance->pagination;
-		$this->form_validation		=&	$this->instance->form_validation;
+		
+		css_push_if_not_exists('../admin-lte/bootstrap/css/bootstrap.min');
+		css_push_if_not_exists('../admin-lte/font-awesome/font-awesome.4.3.0.min');
+		css_push_if_not_exists('../admin-lte/dist/css/AdminLTE.min');
+		css_push_if_not_exists('../admin-lte/plugins/iCheck/square/blue');
 
-		$this->data['notice']		=	'';
-		$this->data['error']		=	'';
-		$this->data['success']		=	'';
-	}
-	private function loadOuputFile()
-	{
-		$this->instance->file->css_push('font');
-		$this->instance->file->css_push('app.v2');
-		$this->instance->file->css_push('css1');
-		$this->instance->file->css_push('css2');
-		$this->instance->file->css_push('tendoo_global');
+		
+		js_push_if_not_exists('../admin-lte/plugins/jQuery/jQuery-2.1.3.min');
+		js_push_if_not_exists('../admin-lte/bootstrap/js/bootstrap.min');
+		js_push_if_not_exists('../admin-lte/plugins/iCheck/icheck.min');
+
+		// is Connected ?
+		($this->instance->users_global->isConnected()=== TRUE) ? $this->instance->url->redirect(array('index?notice=disconnectFirst')) : false;
+		
+		set_core_vars( 'tendoo_notices' , trigger_filters( 'declare_notices' , array( get_core_vars( 'default_notices' ) ) ) ); // @since 1.4		
 	}
 	// Public methods
 	public function index()
 	{
-		$this->loadLibraries();				//	Affecting Libraries */
-		$this->construct_end();				// 	Fin du constructeur
-				
 		set_core_vars( 'options' , $options		=	get_meta( 'all' ) , 'read_only' );
-		
-		if( riake( 'allow_registration' , $options ) == '0')
+		if( riake( 'tendoo_registration_status' , $options ) == '0')
 		{
 			$this->instance->url->redirect(array('error','code','registration-not-allowed'));
 		}
@@ -78,10 +59,10 @@ Class registration extends Libraries
 			}
 			notice('push',fetch_notice_output($query));
 		}
-		$this->data['allowPrivilege']	=	$this->instance->tendoo_admin->get_public_roles();
+		$this->data['allowPrivilege']	=	$this->roles->get_public_roles();
 		$this->instance->session->set_userdata('captcha_code',$this->instance->captcha->get());
 		$this->data['captcha']	=	$this->instance->session->userdata('captcha_code');
-		$this->data['pageTitle']	=	'Cr&eacute;er un compte - '. riake( 'site_name' , $options );
+		$this->data['pageTitle']	=	sprintf( __( 'Create an account - %s ' ) , riake( 'site_name' , $options ) );
 		set_page('title',$this->data['pageTitle']);
 		
 		$this->data['body']	=	$this->load->view('registration/createUser',$this->data,true);
@@ -92,9 +73,7 @@ Class registration extends Libraries
 	public function superAdmin()
 	{
 		// Has Admin ?
-		($this->user_global->hasAdmin()=== TRUE) ? $this->instance->url->redirect(array('login')) : false;
-		$this->loadLibraries();				//	Affecting Libraries */
-		$this->construct_end();				// 	Fin du constructeur
+		($this->users_global->hasAdmin()=== TRUE) ? $this->instance->url->redirect(array('login')) : false;
 		
 		$this->instance->form_validation->set_rules('super_admin_pseudo', __( 'Pseudo' ),'trim|required|min_length[5]|max_length[15]');
 		$this->instance->form_validation->set_rules('super_admin_password',__( 'Password' ),'trim|required|min_length[6]|max_length[15]');

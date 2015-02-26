@@ -1,3 +1,30 @@
+<?php
+$this->gui->cols_width( 1 , 3 );
+$this->gui->cols_width( 2 , 1 );
+
+$this->gui->set_meta( array(
+	'namespace'		=>		'post_list',
+	'type'			=>		'unwrapped',	
+) )->push_to( 1 );
+
+$this->gui->set_meta( array(
+	'namespace'		=>		'comment_excerpt',
+	'type'			=>		'unwrapped',	
+) )->push_to( 1 );
+
+$this->gui->set_item( array(
+	'type'		=>	'dom',
+	'value'		=>	module_view( 'views/blogster-posts-list' , true , 'blogster' )
+) )->push_to( 'post_list' );
+
+$this->gui->set_item( array(
+	'type'		=>	'dom',
+	// 'value'		=>	module_view( 'views/blogster-comment-list-excerpt' , true , 'blogster' )
+) )->push_to( 'comment_excerpt' );
+
+$this->gui->get();
+return;
+?>
 <?php echo $inner_head;?>
 
 <section id="w-f">

@@ -104,7 +104,7 @@ if($setting['EVERYONEPOST'] == 0)
 		set_form( 'blog_single_reply_form' , array(
 			'type'			=>	'textarea',
 			'name'			=>	'content',
-			'placeholder'	=>	'Entrez votre commentaire',
+			'placeholder'	=>	'Entrez votre commentaireE',
 			'text'			=>	'Entrez votre commentaire'
 		));
 		set_form( 'blog_single_reply_form' , array(

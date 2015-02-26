@@ -1,3 +1,81 @@
+<?php
+$this->gui->cols_width( 1 , 3 );
+$this->gui->cols_width( 2 , 1 );
+
+$this->gui->config( 'before_cols' ,	'<form method="post" id="submition" class="OINAOZIND">' );
+$this->gui->config( 'after_cols' ,	'</form>' );
+
+$this->gui->set_meta( 'create-page' , __( 'Create a new page' ) , 'panel' )->push_to( 1 );
+$this->gui->set_meta( 'create-page-meta' , __( 'Page meta' ) , 'panel' )->push_to( 2 );
+
+// col 1
+ob_start()
+?>
+<?php echo $this->instance->visual_editor->getEditor(array('name'=>'page_content','id'=>'editor','defaultValue'	=>	set_value( 'page_content' ) ));?>
+<?php
+$col	=	ob_get_clean();
+
+// col 1
+ob_start();
+?>
+<div class="form-group text">
+    <input class="form-control" type="text" name="page_title" placeholder="Titre" value="<?php echo set_value( 'page_title' );?>">
+</div>
+<div class="form-group text">
+    <textarea class="form-control" rows="5" type="text" name="page_description" placeholder="<?php _e( 'Description' );?>" style="resize:none;"><?php echo set_value( 'page_description' );?></textarea>
+</div>
+<div class="form-group text">
+    <select class="form-control" rows="5" type="text" name="page_parent">
+        <option value="0"><?php _e( 'Choose a parent' );?></option>
+        <?php
+        if( is_array( $available_pages ) ){
+            foreach( $available_pages as $_page ){
+                ?><option <?php echo set_select( 'page_parent' , $_page[ 'ID' ] );?> value="<?php echo $_page[ 'ID' ];?>"><?php echo $_page[ 'TITLE' ];?></option><?php
+            }
+        }
+        ?>
+    </select>
+</div>
+<div class="form-group text">
+    <select class="form-control" rows="5" type="text" name="page_controller_id">
+        <option value=""><?php _e( 'Bind to a controller' );?></option>
+        <?php
+        if(is_array( $available_controllers ) )
+        {
+            foreach( $available_controllers as $c)
+            {
+                ?>
+        <option <?php echo set_select( 'page_parent' , $c[ 'PAGE_CNAME' ] );?> value="<?php echo $c['PAGE_CNAME'];?>"><?php echo $c['PAGE_NAMES'];?></option>
+        <?php
+            }
+        }
+        ?>
+    </select>
+</div>
+<div class="form-group text">
+    <label  class="label-control switch" >
+        <input type="checkbox" name="page_status" value="1" checked/>
+    <span></span>
+    <p style="display:inline-block;vertical-align:bottom;font-weight:normal;margin-left:10px;"><?php _e( 'Publish' );?></p>
+    </label>
+</div>
+<input type="submit" class="btn btn-sm btn-default" value="<?php _e( 'Save' );?>" />
+<?php
+$col_2	=	ob_get_clean();
+
+$this->gui->set_item( array(
+	'type'	=>		'dom',
+	'value'	=>		$col
+) )->push_to( 'create-page' );
+
+$this->gui->set_item( array(
+	'type'	=>		'dom',
+	'value'	=>		$col_2
+) )->push_to( 'create-page-meta' );
+
+$this->gui->get();
+return;
+?>
 <?php echo $inner_head;?>
 <section id="w-f">
     <section class="hbox stretch">

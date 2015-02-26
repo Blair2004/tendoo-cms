@@ -351,7 +351,7 @@ Class users_global extends Libraries
 	}
 	public function sendValidationMail($email)
 	{
-		$option	=	$this->instance->meta_datas->get();
+		$option	=	get_meta( 'all' );
 		$user	=	$this->emailExist($email);
 		if($user)
 		{
@@ -397,10 +397,12 @@ This mail has been sended from <a href="'.$this->url->main_url().'">'.$this->url
 		$user	=	$this->emailExist($email);
 		if($user)
 		{
-			if($user['REF_ROLE_ID']	==	'SUPERADMIN')
+			/**
+			if( $user['REF_ROLE_ID']	==	'SUPERADMIN' ) // why this ?
 			{
 				return 'action-prohibited';
 			}
+			**/
 			$mail	=	 '
 <h4> ' . __( 'Password Recovery Wizard' ) . '</h4>
 

@@ -45,11 +45,11 @@ $page	=	get_core_vars( 'page' );
 										</h2>
 										<div class="metaInfo">
 											<span><i class="fa fa-user"></i> By <a href="#"><?php echo $post->author['PSEUDO'];?></a> </span>
-											<span><i class="fa fa-comments"></i> <a href="#"><?php echo $post->comments;?> Comments</a></span>
+											<span><i class="fa fa-comments"></i> <a href="#"><?php echo $post->comments;?> <?php _e( 'comments' );?></a></span>
 										</div>
 									</div>
 									<p><?php echo word_limiter(strip_tags($post->content), 50);?></p>
-									<a class="btn btn-small btn-default" href="<?php echo $post->link;?>">Lire la suite</a>
+									<a class="btn btn-small btn-default" href="<?php echo $post->link;?>"><?php _e( 'Read More' );?></a>
 									
 								</div>
 							</article>
@@ -70,7 +70,7 @@ $page	=	get_core_vars( 'page' );
 							else
 							{
 								?>
-								<p>Aucun article disponible désolé</p>
+								<p><?php _e( 'No posts available' );?></p>
 								<?php
 							}
 							?>

@@ -64,7 +64,6 @@ if(!function_exists('show_message'))
 	function show_error($content , $heading = '' )
 	{
 		$heading == '' ? __( 'Error Occured' ) : $heading;
-		
 		?>
         <p style="border:solid 1px #CCC;padding:1%;width:96%;margin:1%;text-align:center;background:#FFE6E6;color:#777;">
         	<h4><?php echo strip_tags( $heading );?></h4>
@@ -223,13 +222,13 @@ if(!function_exists('fetch_notice_from_url'))
 	function fetch_notice_from_url()
 	{
 		$notice = ''; $info = '';
-		if(isset($__GET['notice']))
+		if(isset($_GET['notice']))
 		{
-			$notice	= fetch_notice_output($__GET['notice']);
+			$notice	= fetch_notice_output($_GET['notice']);
 		}
-		if(isset($__GET['info']))
+		if(isset($_GET['info']))
 		{
-			$info	= tendoo_info($__GET['info']);
+			$info	= tendoo_info($_GET['info']);
 		}
 		return $notice . $info ;
 	}
@@ -442,9 +441,8 @@ if( !function_exists( 'page_header' ) )
 	function page_header()
 	{
 	?>
-<body style="background:<?php echo theme_background_color();?>">
-    <section class="vbox">
-<?php
+    <body class="skin-blue sidebar-open fixed">
+	<?php
     }
 }
 if( !function_exists( 'page_bottom' ) ){
@@ -749,9 +747,8 @@ Everything is done through Github where tendoo is hosted. We\'re waiting four yo
 		}
 		else
 		{
-		?>
-    </section>
-</body>
+			?>
+    </body>
 </html>
 <?php
 		}

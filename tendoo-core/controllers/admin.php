@@ -105,18 +105,23 @@ class Admin extends Libraries
 	}
 	private function file_loader()
 	{
-		css_push_if_not_exists('font');
-		css_push_if_not_exists('app.v2');
-		css_push_if_not_exists('tendoo_global');
-		css_push_if_not_exists('fuelux');
-		css_push_if_not_exists('font-awesome.min');
+		css_push_if_not_exists('../admin-lte/bootstrap/css/bootstrap.min');
+		css_push_if_not_exists('../admin-lte/font-awesome/font-awesome.4.3.0.min');
+		css_push_if_not_exists('../admin-lte/code.ionic/ionicons.min');
+		css_push_if_not_exists('../admin-lte/dist/css/AdminLTE.min');
+		css_push_if_not_exists('../admin-lte/dist/css/skins/_all-skins.min');
+		// css_push_if_not_exists('blue');
 		
-		// js_push_if_not_exists('jquery');
-		js_push_if_not_exists('app.min.vtendoo'); // _2
-		js_push_if_not_exists('jquery-1.10.2.min');
+		js_push_if_not_exists('../admin-lte/plugins/jQuery/jQuery-2.1.3.min');
+		js_push_if_not_exists('../admin-lte/bootstrap/js/bootstrap.min');
+		js_push_if_not_exists('../admin-lte/plugins/slimScroll/jquery.slimScroll.min');
+		js_push_if_not_exists('../admin-lte/plugins/fastclick/fastclick.min');
+		js_push_if_not_exists('../admin-lte/dist/js/app.min');
+		
 		js_push_if_not_exists('underscore.1.6.0');
-		js_push_if_not_exists('tendoo_loader');
 		js_push_if_not_exists('tendoo_app');
+		
+		return;		
 	}
 	private function __admin_widgets()
 	{
@@ -672,16 +677,20 @@ class Admin extends Libraries
 				}
 				else
 				{
-					
-					$BODY['RETURNED']					=	$interpretation;
-					$BODY['MCO']						=	FALSE;
-					set_core_vars( 'body' , $BODY );
-					
-					// If current module require GUI, let GUI handle header and global_body
-					if( !in_array( 'gui' , riake( 'require' , $module , array() ) ) )
+					// If nothing is returned, tendoo foresee that module use GUI library.
+					if( !is_null( $interpretation ) )
 					{
-						$this->load->view('admin/header',$this->data,false,false);
-						$this->load->view('admin/global_body',$this->data,false,false);
+						$BODY['RETURNED']					=	$interpretation;
+						$BODY['MCO']						=	FALSE;
+						
+						set_core_vars( 'body' , $BODY );
+						
+						// If current module require GUI, let GUI handle header and global_body
+						if( !in_array( 'gui' , riake( 'require' , $module , array() ) ) )
+						{
+							$this->load->view('admin/header',$this->data,false,false);
+							$this->load->view('admin/global_body',$this->data,false,false);
+						}
 					}
 				}
 

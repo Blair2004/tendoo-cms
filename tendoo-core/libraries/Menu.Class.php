@@ -90,12 +90,12 @@ class Menu extends Libraries
 						if( riake( 'href' , $_menu ) == get_instance()->url->site_url() )
 						{
 							$menu_status		=	'active';
-							$custom_ul_style	= 	'style="display: block;"';
+							$custom_ul_style	= 	'';//'style="display: block;"';
 						}
 						
 					}
 					// var_dump( $menus_similarity );
-					$class			=	is_array( $current_menu ) && count( $current_menu ) > 1 ? 'dropdown-submenu' : '';
+					$class			=	is_array( $current_menu ) && count( $current_menu ) > 1 ? 'treeview' : '';
 					$loop_index		=	0;
 					?>
 					<li class="<?php echo $class . ' ' . $menu_status;?>">
@@ -108,19 +108,23 @@ class Menu extends Libraries
 							if( $loop_index == 0 ) // First child, set a default page and first sub-menu.
 							{
 							?>
-								<a <?php echo $custom_style;?> href="javascript:void(0)" class="dropdown-toggle <?php echo $menu_status;?>"> 
-									<span class="pull-right auto"> <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> </span>
+								<a <?php echo $custom_style;?> href="javascript:void(0)" class="<?php echo $menu_status;?>"> 
 									<i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> 
 									<span><?php echo riake( 'title' , $menu );?></span> 
+                                    <i class="fa fa-angle-left pull-right"></i>
 								</a>
-								<ul <?php echo $custom_ul_style;?> class="nav none dker">
+								<ul <?php echo $custom_ul_style;?> class="treeview-menu">
 									<li> <a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>"><?php echo riake( 'title' , $menu );?></a> </li>	
 							<?php
 							}
 							else // after the first child, all are included as sub-menu
 							{
 								?>
-								<li> <a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>"><?php echo riake( 'title' , $menu );?></a> </li>	
+								<li> 
+                                	<a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>">
+										<?php echo riake( 'title' , $menu );?>
+                                    </a> 
+                                </li>	
 								<?php
 							}
 							if( $loop_index == ( count( $current_menu ) - 1 ) ) // we're at the end of the loop, so we close the "ul"

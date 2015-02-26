@@ -586,7 +586,7 @@ if(class_exists('tendoo_admin'))
 		{
 			$notice['error']	=	0;
 			$notice['success']	=	0;
-			foreach($array as $c)
+			foreach( force_array( $array ) as $c)
 			{
 				$exec	=	$this->deleteCat($c);
 				if($exec	==	'categoryDeleted')

@@ -1,12 +1,13 @@
 Tendoo-cms
 =========
-v.1.4 
+v1.4 
 ---------
 An easiest way to create web apps and blogs. Tendon has been improved, and for this release, you offer you the best tool, lightweight, customizable than ever.
 We are proud of this and thank all community members. Just help us make it more powerful than ever, by submitting issues or joining developers team.
 
 Whats new ?
 --------------
+- New Dashboard (AdminLTE v2.0)
 - Dashboard UI has changed. System menu doesn't exists no more, and all his sub-menu has been separated.
 - Events and Filters hooks introduced.
 - A fully customizable admin menu.
@@ -19,6 +20,10 @@ Whats new ?
 - Translation to english 80%.
 - Unique dashboard for account and admin.
 - New docs (being prepared)
+- Gui Bugs fixes
+- Messenger disabled temporarily
+- Tools disabled temporarily
+
 
 System Requirement
 ------------------

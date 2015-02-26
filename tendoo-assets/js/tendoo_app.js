@@ -4,7 +4,7 @@
 *	Cet objet permet de récuperé les dimensions de l'écran de l'appareil. "device.height" pour la hauteur, "device.width" pour la largeur.
 *	device.widthIs renvoie "true" si la largeur de l'écran est comprise entre la largeur minimal et maximal.
 **/
-var device 								= {};
+var 	device 								= {};
     	device.height 						= window.innerHeight;
     	device.width 						= window.innerWidth;
     	device.widthIs						= function(min, max) {
@@ -632,6 +632,10 @@ $(document).ready(function(){
 					tendoo.loader.hide();
 				},2000);
 			});
+			// Adjust height
+/**			var parent			=	$( '#inner-content' ).parent();
+			var parent_height	=	$(parent).height();
+			$( '#inner-content' ).find( '.content' ).height( parent_height );
 			/*$(tTab).bind('click',function(){
 				tendoo.tab.show();
 			});*/

@@ -3,9 +3,9 @@ class Session
 {
 	private $instance;
 	private $_user_data;
-	public function __construct(&$instance)
+	public function __construct()
 	{
-		$this->instance			=&	$instance;
+		$this->instance			= get_instance();
 		if(!isset($_SESSION['Session_User_data']))
 		{
 			$_SESSION['Session_User_data']	=	array();

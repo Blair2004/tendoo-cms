@@ -9,6 +9,15 @@ class GUI extends Libraries
 		__extends( $this );
 		$this->load->helper('gui');
 	}
+	//  @since GUI V.1
+	function config( $config_key , $value )
+	{
+		// Ouput content before and after cols
+		$ui_config	=	get_core_vars( 'ui_config' ) ? get_core_vars( 'ui_config' ) : array();
+		$ui_config[ 'output' ][ $config_key ]	=	$value;
+		return set_core_vars( 'ui_config' , $ui_config );
+	}
+	
 	public function enable( $element )
 	{
 		if( is_array( $element ) )
@@ -167,13 +176,14 @@ class GUI extends Libraries
 		}
 		return $this;
 	}
+	public $tables	=	array();
 	function get_table( $namespace , $class = '' , $attrs = '')
 	{
 		if( riake( $namespace , $this->tables ) )
 		{
 			$empty_table_message	=	$this->empty_table_message;
 			?>
-            <table class="<?php echo $class;?>" <?php echo $attrs;?>>
+            <table class="box-body <?php echo $class;?>" <?php echo $attrs;?>>
                 <thead>
                     <tr>
                         <?php

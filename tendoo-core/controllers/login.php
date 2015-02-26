@@ -12,15 +12,23 @@ Class login extends Libraries
 		$this->load->library('pagination');
 		$this->load->library('form_validation');
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		css_push_if_not_exists('font');
-		css_push_if_not_exists('app.v2');
-		css_push_if_not_exists('tendoo_global');
+		css_push_if_not_exists('../admin-lte/bootstrap/css/bootstrap.min');
+		css_push_if_not_exists('../admin-lte/font-awesome/font-awesome.4.3.0.min');
+		css_push_if_not_exists('../admin-lte/dist/css/AdminLTE.min');
+		css_push_if_not_exists('../admin-lte/plugins/iCheck/square/blue');
+
+		
+		js_push_if_not_exists('../admin-lte/plugins/jQuery/jQuery-2.1.3.min');
+		js_push_if_not_exists('../admin-lte/bootstrap/js/bootstrap.min');
+		js_push_if_not_exists('../admin-lte/plugins/iCheck/icheck.min');
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		// Has admin ?
 		($this->users_global->hasAdmin()=== FALSE) ? $this->url->redirect(array('registration','superAdmin')) : false;
 		// is Connected ?
 		($this->users_global->isConnected()=== TRUE) ? $this->url->redirect(array('index')) : false;
 		$this->data['options']		=	get_meta( 'all' );
+		
+		set_core_vars( 'tendoo_notices' , trigger_filters( 'declare_notices' , array( get_core_vars( 'default_notices' ) ) ) ); // @since 1.4		
 	}
 	public function index() // OK for 0.99
 	{
@@ -83,7 +91,7 @@ Class login extends Libraries
 	public function recovery($action	=	'home')
 	{
 		// Library
-		if( riake( 'allow_registration' , $this->data['options'] ) == "0")
+		if( riake( 'tendoo_registration_status' , $this->data['options'] ) == "0")
 		{
 			$this->url->redirect(array('error','code','registration-disabled'));
 		}
@@ -108,7 +116,7 @@ Class login extends Libraries
 				{
 					$this->url->redirect(array('login?notice='.$query)); // redirect to login
 				}
-				notice(fetch_notice_output($query));
+				get_instance()->notice->push_notice( fetch_notice_output($query) );
 			}
 			$this->data['pageTitle']	=	translate( 'Receive activation mail' );
 			set_page('title',$this->data['pageTitle']);
@@ -128,7 +136,7 @@ Class login extends Libraries
 				{
 					$this->url->redirect(array('login?notice='.$query)); // redirect to login
 				}
-				notice(fetch_notice_output($query));
+				notice( 'push' , fetch_notice_output($query) );
 			}
 			$this->data['pageTitle']	=	'Mot de passe perdu';
 			set_page('title',$this->data['pageTitle']);

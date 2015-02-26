@@ -328,7 +328,6 @@
 			$after_each_button_field	=	return_if_array_key_exists( 'after_each_button_field' , $array );
 			$before_each_field_text		=	return_if_array_key_exists( 'before_each_field_text' , $array );
 			$after_each_field_text		=	return_if_array_key_exists( 'after_each_field_text' , $array );
-			
 			foreach( get_active_theme_vars( $form_namespace ) as $field )
 			{
 				if(in_array($field->type, array('text','password')))

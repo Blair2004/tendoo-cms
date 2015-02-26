@@ -14,7 +14,7 @@ class blogster_frontend extends Libraries
 
 		$this->data['news']				=&		$this->news;
 		$this->data['userUtil']			=&		$this->users_global;	
-		$this->data['setting']			=		$this->news->getBlogsterSetting();	
+		$this->data['setting']			=		get_meta( 'blogster_settings' );
 		// Setting Bread
 		$this->data['current_page']		=	get_core_vars( 'page' );
 		set_bread( array (
@@ -69,10 +69,11 @@ class blogster_frontend extends Libraries
 			'text'	=>	$this->data['GetNews'][0]['TITLE']
 		) );
 		// End
-		$this->load->library('form_validation',null,null,$this);
-		$this->form_validation->set_rules('pseudo','Pseudo','required|min_length[3]|max_length[15]');
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('pseudo','Pseudo','required|max_length[15]');
 		$this->form_validation->set_rules('mail','Email','required|valid_email');
-		$this->form_validation->set_rules('content','Contenu','required|min_length[3]|max_length[1000]');
+		$this->form_validation->set_rules('content','Contenu','required|max_length[1000]');
+		
 		if($this->form_validation->run())
 		{
 			// Provisoire $this->input->post('author');

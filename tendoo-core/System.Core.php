@@ -181,7 +181,7 @@ class Instance extends Libraries
 					 * Checks if current module is supported by active theme
 					**/
 									
-					if( TRUE !== ( $active_theme = does_active_theme_support( $module[ 'handle' ] ) ) )
+					if( TRUE !== ( does_active_theme_support( $module[ 'handle' ] ) ) )
 					{
 						$this->url->redirect(array('error','code','unsupported-by-current-theme'));
 					}

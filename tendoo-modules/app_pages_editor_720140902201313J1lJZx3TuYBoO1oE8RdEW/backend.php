@@ -47,7 +47,7 @@ class Pages_editor_backend extends Libraries
 		set_core_vars( 'get_pages' , $get_pages );
 		set_page( 'title' , __( 'Page Creator' ) );
 		
-		return $this->load->view($this->opened_module['uri_path'].'views/main',$this->data,true,TRUE);
+		$this->load->view($this->opened_module['uri_path'].'views/main',$this->data,false,TRUE);
 	}
 	public function create()
 	{
@@ -74,7 +74,7 @@ class Pages_editor_backend extends Libraries
 		set_core_vars( 'available_pages' , $this->lib->get_pages( 'all_available' ) );
 		
 		$this->visual_editor->loadEditor(1);
-		return $this->load->view($this->opened_module['uri_path'].'views/create',$this->data,true,TRUE);
+		$this->load->view($this->opened_module['uri_path'].'views/create',$this->data,false,TRUE);
 	}
 	public function edit( $page_id )
 	{

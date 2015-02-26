@@ -1,14 +1,14 @@
 <?php
 declare_module( 'tendoo_contents' , array( 
-	'name'		=>		'Gestionnaire des médias',
+	'name'		=>		'Media Library',
 	'author'			=>		'Tendoo Luminax Group',
-	'description'		=>		'Ce module vous permet de gérer votre bibliothèque de médias.',
+	'description'		=>		'Media Manager for Tendoo CMS.',
 	'has_widget'		=>		TRUE,
 	'has_api'			=>		TRUE,
 	'has_icon'			=>		TRUE,
 	'handle'			=>		'APP',
-	'compatible'		=>		1.3,
-	'version'			=>		0.6
+	'compatible'		=>		1.4,
+	'version'			=>		0.4
 ) ); 
 push_module_sql( 'tendoo_contents' , 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'tendoo_contents` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -22,13 +22,13 @@ push_module_sql( 'tendoo_contents' , 'CREATE TABLE IF NOT EXISTS `'.DB_ROOT.'ten
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 push_module_action( 'tendoo_contents' , array(
 	'action'				=>	'delete_media',
-	'action_name'			=>	'Supprimer un contenu',
-	'action_description'	=>	'Cette action permet de supprimer des contenus.',
+	'action_name'			=>	'Delete Media File',
+	'action_description'	=>	'This let you delete media file.',
 	'mod_namespace'			=>	'tendoo_contents'
 ));
 push_module_action( 'tendoo_contents' , array(
 	'action'				=>	'upload_media',
-	'action_name'			=>	'Envoyer des fichiers',
-	'action_description'	=>	'Cette action permet aux utilisateurs de pouvoir envoyer des fichiers tels que des image, des vid&eacute;os ou des photos en ligne.',
+	'action_name'			=>	'Send Files',
+	'action_description'	=>	'This let you upload media file.',
 	'mod_namespace'			=>	'tendoo_contents'
 ));

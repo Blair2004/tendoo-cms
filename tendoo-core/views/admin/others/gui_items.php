@@ -13,8 +13,12 @@
 	}
 	if( $form_wrap )
 	{
+		/**
+		 *	@new	:	class, id
+		 *	@since	:	1.4
+		**/
 	?>
-	<form class="form" action="<?php echo $action;?>" enctype="<?php echo $enctype;?>" method="<?php echo $method;?>">
+	<form class="form <?php echo riake( 'class' , $form_wrap );?>" id="<?php echo riake( 'id' , $form_wrap );?>" action="<?php echo $action;?>" enctype="<?php echo $enctype;?>" method="<?php echo $method;?>">
     	<input type="hidden" name="gui_saver_ref" value="<?php echo $ref;?>" />
         <input type="hidden" name="gui_saver_option_namespace" value="<?php echo riake( 'namespace' , $panel );?>" />
         <input type="hidden" name="gui_saver_expiration_time" value="<?php echo $form_expire;?>" />
@@ -41,7 +45,7 @@
 				}
 				else
 				{
-					$attrs_string = $key . '="' . $value . '" ';
+					$attrs_string .= $key . '="' . $value . '" ';
 				}
 			}
 			$description		= '<em style="margin-left:5px;margin-top:0px;font-style:normal;display:block">' . strip_tags( riake( 'description' , $item , '' ) ) . '</em>';
@@ -152,7 +156,7 @@
 <div class="btn-group" data-toggle="buttons">
 <?php for( $i = 0 ; $i < count( $name ) ; $i++ ): ?>
 <label class="btn btn-primary">
-<input <?php echo $attrs_string;?> <?php echo $attrs_string;?> type="radio" name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
+<input <?php echo $attrs_string;?> type="radio" name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
 </label>
 <?php endfor;?>
 </div>
@@ -181,7 +185,7 @@
 <div class="btn-group" data-toggle="buttons">
 <?php for( $i = 0 ; $i < count( $name ) ; $i++ ): ?>
 <label class="btn btn-primary <?php echo riake( $i , $checked ) == true ? 'active' : '';?>">
-<input type="checkbox" <?php echo riake( $i , $checked ) == true ? 'checked="checked"' : '';?> <?php echo $attrs_string;?> <?php echo $attrs_string;?> name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
+<input type="checkbox" <?php echo riake( $i , $checked ) == true ? 'checked="checked"' : '';?> <?php echo $attrs_string;?> name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
 </label>
 <?php endfor;?>
 </div>
@@ -210,7 +214,7 @@
 <div class="form-group">
 <div class="input-group">
 <span class="input-group-addon"><?php echo $label ;?></span>
-<select <?php echo $attrs_string;?> <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control">
+<select <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control">
 
 <?php if( $placeholder ):?>
 <option value=""><?php echo $placeholder;?></option>
@@ -248,7 +252,7 @@
 <div class="form-group">
 <div class="input-group">
 <span class="input-group-addon"><?php echo $label ;?></span>
-<select multiple="multiple" <?php echo $attrs_string;?> <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control">
+<select multiple="multiple" <?php echo $attrs_string;?> name="<?php echo $name;?>" type="text" class="form-control">
 
 <?php if( $placeholder ):?>
 <option value=""><?php echo $placeholder;?></option>

@@ -456,12 +456,13 @@ class Tendoo
 	}
 	public function error($notice)
 	{
-		$error	=	fetch_notice_output($notice);
-		echo show_error( $error , $notice );
+		include_once( CONTROLLERS_DIR . '/error.php' );
+		$error		=	new Error;
+		$error->code( $notice );
 	}
 	public function show_error($error,$heading)
 	{
-		echo show_error( $error , $heading );
+		$this->error( $error );
 	}
 	public function paginate($elpp,$ttel,$pagestyle,$classOn,$classOff,$current_page,$baselink,$ajaxis_link=null) // Deprecated
 	{

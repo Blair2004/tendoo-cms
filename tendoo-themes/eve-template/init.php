@@ -12,7 +12,7 @@ class eva_theme_init_class
 			'after_each_input_field'	=>	'</div></div>',
 			'before_each_textarea_field'=>	'<div class="comment-box row"><div class="col-sm-12"><p>',
 			'after_each_textarea_field'	=>	'</p></div></div>',
-			'each_input_field_class'	=>	'col-lg-4 col-md-4 form-control" name="name" type="text" id="name" size="30" onfocus="if(this.value == \'Name\') { this.value = \'\'; }" onblur="if(this.value == \'\') { this.value = \'Name\'; }',
+			'each_input_field_class'	=>	'col-lg-4 col-md-4 form-control" type="text" id="name" size="30" onfocus="if(this.value == \'Name\') { this.value = \'\'; }" onblur="if(this.value == \'\') { this.value = \'Name\'; }',
 			'each_textarea_field_class'	=>	'form-control" rows="6" cols="40" id="comments" onfocus="if(this.value == \'Message\') { this.value = \'\'; }" onblur="if(this.value == \'\') { this.value = \'Message\'; }',
 			'each_button_field_class'	=>	'btn btn-lg btn-default',
 			'do_user_text'				=>	false

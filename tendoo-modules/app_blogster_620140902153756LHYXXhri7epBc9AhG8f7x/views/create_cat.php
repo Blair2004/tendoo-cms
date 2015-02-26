@@ -1,3 +1,32 @@
+<?php
+$this->gui->cols_width( 1 , 3 );
+
+$this->gui->set_meta( array(
+	'title'		=>	__( 'Create a category' ),
+	'type'		=>	'panel',
+	'namespace'	=>	'create-category-blogster',
+	'form_wrap'	=>	array(
+		'submit_text'	=>	__( 'Create' )
+	)
+) )->push_to( 1 );
+
+$this->gui->set_item( array(
+	'type'		=>	'text',
+	'name'		=>	'cat_name',
+	'label'		=>	__( 'Category Title' ),
+	'description'	=>	__( 'Provide a unique category title.' )
+) )->push_to( 'create-category-blogster' );
+
+$this->gui->set_item( array(
+	'type'		=>	'textarea',
+	'name'		=>	'cat_description',
+	'label'		=>	__( 'Category Description' ),
+	'description'	=>	__( 'Provide a description for your category.' )
+) )->push_to( 'create-category-blogster' );
+
+$this->gui->get();
+?>
+<?php return;?>
 <?php echo $inner_head;?>
 
 <section id="w-f">
