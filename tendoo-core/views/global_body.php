@@ -1,5 +1,5 @@
 <body class="login-page">
-	<?php echo $body;?>    
+	<?php echo get_core_vars( 'body' );?>    
 	<?php echo output('js');?>
 </body>
 </html>
@@ -20,7 +20,7 @@
 		<section class="scrollable">
 			<section id="content" class="wrapper-md animated fadeInUp"> 
 				
-				<?php echo $body;?>
+				<?php echo get_core_vars( 'body' );?>
 				 
 			</section>
 			<!-- footer -->

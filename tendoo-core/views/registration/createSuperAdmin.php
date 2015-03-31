@@ -18,7 +18,7 @@ $field_7	=	(form_error('priv_id')) ? form_error('priv_id' , '<span style="color:
   <div class="register-box-body">
     <p class="register-box-msg"><?php echo $pageTitle;?></p>
     <form action="" method="post">
-        <div class="body bg-gray">
+        <div class="body">
             <div class="form-group text">
                 <label class="control-label">
                     <?php _e( 'Pseudo' );?>
@@ -67,11 +67,12 @@ $field_7	=	(form_error('priv_id')) ? form_error('priv_id' , '<span style="color:
             <input class="btn btn-info" type="submit" value="<?php _e( 'Create User' );?>" />
             <input class="btn btn-darken" type="reset" value="<?php _e( 'Reset' );?>" />
         </div>
+        <br />
         <div class="footer">
-        	<?php echo tendoo_info( __( 'If you see this page, its means that there is not any Super Administrator for your website. <br> The super adminstrator has doesn\'t have any restrictions. He can create other users, creates roles, bind privileges to a specific roles, install apps, etc. <br>Its absolutely required to create a super adminstrator before you continue.' ) );?>
-            <a type="button" onclick="window.location	=	'<?php echo $this->instance->url->site_url(array('login'));?>'" class="btn btn-primary btn-lg btn-block" id="btn-1"> <i class="fa fa-signin text"></i> <span class="text">
+        	<?php echo tendoo_info( __( 'If you see this page, its means that there is not any Super Administrator for your website. <br> The super adminstrator doesn\'t have any restrictions. He can create others users, creates roles, bind privileges to a specific roles, install apps, etc. <br>Its absolutely required to create a super adminstrator before you continue.' ) );?>
+            <!--<a type="button" onclick="window.location	=	'<?php echo $this->instance->url->site_url(array('login'));?>'" class="btn btn-primary btn-lg btn-block" id="btn-1"> <i class="fa fa-signin text"></i> <span class="text">
             <?php _e( 'I already have an account' );?>
-            </span> <i class="fa fa-ok text-active"></i></a>
+            </span> <i class="fa fa-ok text-active"></i></a>-->
         </div>
     </form>
 	<!--

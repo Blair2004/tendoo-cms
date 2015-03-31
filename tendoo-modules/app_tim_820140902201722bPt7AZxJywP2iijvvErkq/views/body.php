@@ -360,12 +360,12 @@ if( $loopable_field =	return_if_array_key_exists( 'item_loopable_fields' , $item
 		var cloner	=	new function(){
 			var bind	=	function(){
 				$('.duplicator-panel').each(function(){
-					if( !tools.isDefined( $(this).attr( 'binded' ) ) ){
-						$(this).attr( 'binded' , 'true' );
+					if( !tools.isDefined( $(this).attr( 'bound' ) ) ){
+						$(this).attr( 'bound' , 'true' );
 						// Adding
 						$(this).find( 'li' ).eq(0).bind( 'click' , function(){
 							var clone	=	$(this).closest( '.duplicator' ).clone();
-							$(clone).find( '.duplicator-panel' ).removeAttr( 'binded' );
+							$(clone).find( '.duplicator-panel' ).removeAttr( 'bound' );
 							// Reset Values
 							$(clone).find( 'input' ).each(function(){
 								$(this).val('');

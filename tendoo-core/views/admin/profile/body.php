@@ -116,7 +116,7 @@ $this->gui->set_item( array(
 
 // Advanced Settings
 
-$themes			=	array( __( 'Inverse Theme' ) , __( 'Bubble Showcase' ) , __( 'Green Day' ) , __( 'Red Horn' ) , __( 'Selective Orange' ) , __( 'Skies' ) , __( 'Blurry' ) );
+$themes			=	adminlte_skin_names();
 $values			=	array_keys( $themes );
 
 $this->gui->set_item( array(

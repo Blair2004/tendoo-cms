@@ -26,7 +26,7 @@ Class login extends Libraries
 		($this->users_global->hasAdmin()=== FALSE) ? $this->url->redirect(array('registration','superAdmin')) : false;
 		// is Connected ?
 		($this->users_global->isConnected()=== TRUE) ? $this->url->redirect(array('index')) : false;
-		$this->data['options']		=	get_meta( 'all' );
+		$this->options		=	get_meta( 'all' );
 		
 		set_core_vars( 'tendoo_notices' , trigger_filters( 'declare_notices' , array( get_core_vars( 'default_notices' ) ) ) ); // @since 1.4		
 	}
@@ -67,43 +67,29 @@ Class login extends Libraries
 			}
 		}
 		// var_dump($this->load);
-		$this->data['pageTitle']	=	translate( 'Login' ) . ' - '.riake( 'site_name' , $this->data['options'] );
-		set_page('title',$this->data['pageTitle']);
+		set_core_vars( 'pageTitle' , 	translate( 'Login' ) . ' - '.riake( 'site_name' , $this->options ) );
+		set_page('title', get_core_vars( 'pageTitle' ) );		
+		set_core_vars( 'body' ,	$this->load->the_view('login/connect' , true ) );
 		
-		$this->data['body']	=	$this->load->view('login/connect',$this->data,true);
-		
-		$this->load->view('header',$this->data);
-		$this->load->view('global_body',$this->data);	
-	}
-	public function modal() // Disabled
-	{
-		$redirect	=	isset($_GET['ref']) ? $_GET['ref'] : '';
-		// Library
-		
-		$this->data['options']		=	get_meta( 'all' );
-		// Method
-		$this->data['redirect']		=	$redirect;
-		$this->data['body']	=	$this->load->view('login/connect_modal',$this->data,true);
-		
-		$this->load->view('header',$this->data);
-		$this->load->view('global_body',$this->data);	
+		$this->load->the_view('header');
+		$this->load->the_view('global_body');	
 	}
 	public function recovery($action	=	'home')
 	{
 		// Library
-		if( riake( 'tendoo_registration_status' , $this->data['options'] ) == "0")
+		if( riake( 'tendoo_registration_status' , $this->options ) == "0")
 		{
 			$this->url->redirect(array('error','code','registration-disabled'));
 		}
 		// Method
 		if($action == 'home')
 		{
-			$this->data['pageTitle']	=	translate( 'Password recovery wizard' );
-			set_page('title',$this->data['pageTitle']);
-			$this->data['body']	=	$this->load->view('login/recovery_main',$this->data,true);
+			set_core_vars( 'pageTitle' ,	translate( 'Password recovery wizard' ) );
+			set_page('title', get_core_vars( 'pageTitle' ) );
+			set_core_vars( 'body' ,	$this->load->view('login/recovery_main',true) );
 			
-			$this->load->view('header',$this->data);
-			$this->load->view('global_body',$this->data);	
+			$this->load->the_view('header');
+			$this->load->the_view('global_body');	
 		}
 		else if($action == 'receiveValidation')
 		{
@@ -118,12 +104,12 @@ Class login extends Libraries
 				}
 				get_instance()->notice->push_notice( fetch_notice_output($query) );
 			}
-			$this->data['pageTitle']	=	translate( 'Receive activation mail' );
-			set_page('title',$this->data['pageTitle']);
-			$this->data['body']	=	$this->load->view('login/recovery_mailOption',$this->data,true);
+			set_core_vars( 'pageTitle' , translate( 'Receive activation mail' ) );
+			set_page('title', get_core_vars( 'pageTitle' ) );
+			set_core_vars( 'body' ,	$this->load->view('login/recovery_mailOption',true) );
 			
-			$this->load->view('header',$this->data);
-			$this->load->view('global_body',$this->data);
+			$this->load->the_view('header');
+			$this->load->the_view('global_body');
 		}
 		else if($action == 'password_lost')
 		{
@@ -138,12 +124,12 @@ Class login extends Libraries
 				}
 				notice( 'push' , fetch_notice_output($query) );
 			}
-			$this->data['pageTitle']	=	'Mot de passe perdu';
-			set_page('title',$this->data['pageTitle']);
-			$this->data['body']	=	$this->load->view('login/recovery_password',$this->data,true);
+			set_core_vars( 'pageTitle' ,	'Mot de passe perdu' );
+			set_page('title', get_core_vars( 'pageTitle' ) );
+			set_core_vars( 'body' ,	$this->load->view('login/recovery_password',true) );
 			
-			$this->load->view('header',$this->data);
-			$this->load->view('global_body',$this->data);
+			$this->load->the_view('header');
+			$this->load->the_view('global_body');
 		}
 	}
 	public function activate($email,$timestamp,$password)
@@ -188,7 +174,7 @@ Class login extends Libraries
 				// Library
 				
 				$this->load->library('Tendoo_admin');	
-				if( riake( 'allow_registration' , $this->data['options'] ) == "0")
+				if( riake( 'allow_registration' , $this->options ) == "0")
 				{
 					$this->url->redirect(array('error','code','registration-disabled'));
 				}
@@ -210,13 +196,13 @@ Class login extends Libraries
 							notice(fetch_notice_output($query));
 						}
 					}
-					$this->data['pageTitle']	=	translate( 'Changing Password - Tendoo' );
-					set_page('title',$this->data['pageTitle']);
-					$this->data['menu']	=	$this->load->view('login/recovery_menu',$this->data,true);
-					$this->data['body']	=	$this->load->view('login/password_change',$this->data,true);
+					set_core_vars( 'pageTitle' , translate( 'Changing Password - Tendoo' ) );
+					set_page('title', get_core_vars( 'pageTitle' ) );
+					set_core_vars( 'menu' ,	$this->load->view('login/recovery_menu',true) );
+					set_core_vars( 'body' ,	$this->load->view('login/password_change',true) );
 					
-					$this->load->view('header',$this->data);
-					$this->load->view('global_body',$this->data);
+					$this->load->the_view('header');
+					$this->load->the_view('global_body');
 				}
 				else
 				{

@@ -1,9 +1,7 @@
 <?php 
 	$ui_config	=	get_core_vars( 'ui_config' );
-	$enabled	=	return_if_array_key_exists( 'enabled' , $ui_config ) 
-		? return_if_array_key_exists( 'enabled' , $ui_config ) : array();
-		
-	$output		=	riake( 'output' , $ui_config , array() );
+	$enabled	=	riake( 'enabled' , $ui_config , array() , true );
+	$output		=	riake( 'output' , $ui_config , array() , true );
 ?>
 <!-- 
 Library : GUI-V1
@@ -26,11 +24,11 @@ Tendoo Version Required : 1.4
                 <?php echo output('notice');?>
                 <?php
 				/**
-				 *	Details : Output content before cols
-				 *	Usage : set 'after_cols' key with GUI::config()
+				 *	Details 	: Output content before cols
+				 *	Usage 		: set 'after_cols' key with GUI::config()
 				**/
                 ?>
-                <?php echo riake( 'before_cols' , $output );?>
+                <?php echo riake( 'before_cols' , $output , '' );?>
                 <div class="row">
                     <?php $total_width = 12;?>
                     <?php foreach( force_array( $this->cols ) as $key	=>	$c):?>
@@ -40,7 +38,7 @@ Tendoo Version Required : 1.4
                         <?php $config = return_if_array_key_exists( 'configs' , $this->cols[ $key ] );?>
                         <?php 
 								// Inner Opening Wrapper
-								echo riake( 'inner-opening-wrapper' , $config );
+								echo riake( 'inner-opening-wrapper' , $config , '' );
                                 if( is_array( $config ) )
                                 {
                                     foreach( $config as $key => $_v )
@@ -50,40 +48,36 @@ Tendoo Version Required : 1.4
                                             foreach( $_v as $_k => $panel )
                                             {
 												// To add specfic wrapper before meta
-												echo riake( 'opening-wrapper' , $panel );
-                                                $type	=	riake( 'type' , $panel , 'panel' );											
+												echo riake( 'opening-wrapper' , $panel , '' );
+                                                $type	=	riake( 'type' , $panel , 'panel' );	
+												set_core_vars( 'panel' , $panel );
                                                 if( $type == "panel" )
                                                 {
                                         ?>
-                        <section class="box" namespace="<?php echo $panel[ 'namespace' ];?>">
+                        <section class="box <?php echo get_user_meta( 'gui_'.$panel[ 'namespace' ] );?>" namespace="<?php echo $panel[ 'namespace' ];?>">
                             <header class="box-header">
                             	<div class="box-tools pull-right">
                                     <button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 </div>
                                 <h3 class="box-title"><?php echo riake( 'title' , $panel );?></h3>
 							</header>
-                            <div class="box-body <?php echo get_user_meta( 'gui_'.$panel[ 'namespace' ] );?> clearfix">
+                            <div class="box-body clearfix">
                                 <?php 
-                                                
-												$this->load->view('admin/others/gui_items' , array(
-													'panel'		=>	$panel
-												) );
-												                                                
-                                                ?>
+								set_core_vars( 'panel' , $panel );
+								$this->load->view('admin/others/gui_items' );   
+								?>
                             </div>
                         </section>
                         <?php
                                                 }
                                                 else if( $type == 'unwrapped' )
                                                 {
-													$this->load->view('admin/others/gui_items' , array(
-														'panel'		=>	$panel
-													) );
+													$this->load->view('admin/others/gui_items' );
                                                 }
 												else if( $type == 'panel-ho' )
 												{
                                         ?>
-                        <section class="box" namespace="<?php echo $panel[ 'namespace' ];?>">
+                        <section class="box <?php echo get_user_meta( 'gui_'.$panel[ 'namespace' ] );?>" namespace="<?php echo $panel[ 'namespace' ];?>">
                             <header class="box-header">
                             	<div class="box-tools pull-right">
                                     <button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -91,9 +85,7 @@ Tendoo Version Required : 1.4
                                 <h3 class="box-title"><?php echo riake( 'title' , $panel );?></h3>
 							</header>
                             <?php
-                                            $this->load->view('admin/others/gui_items' , array(
-                                                'panel'		=>	$panel
-                                            ) );
+                                            $this->load->view('admin/others/gui_items' );
                                             ?>
                         </section>
                         <?php
@@ -102,18 +94,16 @@ Tendoo Version Required : 1.4
 												else if( $type == 'panel-footer' )
 												{
 													?>
-                        <section class="box" namespace="<?php echo $panel[ 'namespace' ];?>">
+                        <section class="box <?php echo get_user_meta( 'gui_'.$panel[ 'namespace' ] );?>" namespace="<?php echo $panel[ 'namespace' ];?>">
                             <header class="box-header">
                             	<div class="box-tools pull-right">
                                     <button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 </div>
                                 <h3 class="box-title"><?php echo riake( 'title' , $panel );?></h3>
 							</header>
-                            <div class="box-body <?php echo get_user_meta( 'gui_'.$panel[ 'namespace' ] );?> clearfix">
+                            <div class="box-body clearfix">
                                 <?php
-                                            $this->load->view('admin/others/gui_items' , array(
-                                                'panel'		=>	$panel
-                                            ) );
+                                            $this->load->view('admin/others/gui_items' );
                                             ?>
                             </div>
                             <footer class="panel-footer">
@@ -137,29 +127,33 @@ Tendoo Version Required : 1.4
                         <?php	
 												}
 												// To add specfic wrapper after meta
-												echo riake( 'closing-wrapper' , $panel );
+												echo riake( 'closing-wrapper' , $panel , '' );
                                             }
                                         }
                                     }
                                 }
 								// Inner Closing Wrapper
-								echo riake( 'inner-closing-wrapper' , $config );
+								echo riake( 'inner-closing-wrapper' , $config , '' );
                                 ?>
                     </div>
                     <?php endif;?>
-                    <?php echo riake( 'footer-script' , $config );?>
+                    <?php echo riake( 'footer-script' , $config , '' );?>
                     <?php endforeach;?>
                     <script>
 					$(document).ready(function(e) {
 						$('section[namespace]').each(function(){
 							var parent	=	$(this);
-							$(this).find('ul.nav li a.panel-toggle').bind('click',function(){
-								var status	=	$(parent).find('.panel-body').hasClass('collapse') ? "uncollapse" : "collapse";
+							$(this).find('.box-header button').bind('click',function(){
+								var status	=	$(parent).hasClass('collapsed-box') ? "default" : "collapsed-box";
 								tendoo.set_user_meta( 'gui_'+ $(parent).attr('namespace') , status );
 							});
 						});
 					});
 					</script>
+                    <?php if( in_array( 'dynamic-tables' , $enabled ) ) : ;?>
+						<?php get_instance()->load->view( 'admin/others/gui_dynamic_table_css' );?>
+                        <?php get_instance()->load->view( 'admin/others/gui_dynamic_table_js' );?>
+                    <?php endif;?>
                 </div>
                 <?php
 				/**
@@ -167,7 +161,7 @@ Tendoo Version Required : 1.4
 				 *	Usage : set 'after_cols' key with GUI::config()
 				**/
                 ?>
-                <?php echo riake( 'after_cols' , $output );?>
+                <?php echo riake( 'after_cols' , $output , '' );?>
         </section>
         <section class="content-footer" style="">
         	<div class="row m-t-sm text-center-xs">

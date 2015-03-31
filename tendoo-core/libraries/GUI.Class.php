@@ -30,9 +30,8 @@ class GUI extends Libraries
 		else
 		{
 			$ui_config	=	get_core_vars( 'ui_config' ) ? get_core_vars( 'ui_config' ) : array();
-			$enabled	=	return_if_array_key_exists( 'enabled' , $ui_config ) 
-				? return_if_array_key_exists( 'enabled' , $ui_config ) : array();
-			if( in_array( $element, array( 'pagination' , 'submit' , 'reset' , 'loader' ) ) )
+			$enabled	=	riake( 'enabled' , $ui_config , array() );
+			if( in_array( $element, array( 'pagination' , 'submit' , 'reset' , 'loader' , 'dynamic-tables' ) ) ) // dynamic-tables
 			{
 				$enabled[]	=	$element;
 			}
@@ -48,7 +47,7 @@ class GUI extends Libraries
 		
 		if( is_array( $options ) )
 		{
-			if( return_if_array_key_exists( 'namespace' , $options ) ){
+			if( riake( 'namespace' , $options ) ){
 				$saved_meta[ $options[ "namespace" ] ]	=	$options;
 			}
 		}
@@ -99,7 +98,7 @@ class GUI extends Libraries
 		$returnback	= get_instance()->url->site_url();
 		$action		= riake( 'action' , $array , '');
 		$enctype	= riake( 'enctype' , $array , '');
-		$type		= return_if_array_key_exists( 'type' , $array );
+		$type		= riake( 'type' , $array );
 		?>
         <?php
 	}
@@ -132,13 +131,12 @@ class GUI extends Libraries
 			// On parcours chaque colonnes
 			foreach( $this->cols as &$colones ){
 				// Si la colonne a une configuration
-				if( is_array( return_if_array_key_exists( 'configs' , $colones ) ) ){
+				if( is_array( riake( 'configs' , $colones , false ) ) ){
 					foreach( $colones[ 'configs' ] as 	&$configs ){
 						if( is_array( $configs ) ){
 							foreach( $configs as $key => &$metas ){
 								if( $key == $cols ){
-									$saved_items	=	return_if_array_key_exists( 'meta_items' , $metas ) 
-										? return_if_array_key_exists( 'meta_items' , $metas ) : array();
+									$saved_items	=	riake( 'meta_items' , $metas , array() );
 									$saved_items[] = 	$new_items;
 									$metas[ 'meta_items' ] = $saved_items;
 									// Coz we do need unique namespace per metas, we just get out after first meet
@@ -176,6 +174,14 @@ class GUI extends Libraries
 		}
 		return $this;
 	}
+	public function add_cols_width( $values )
+	{
+		if( is_array( $values ) )
+		{
+			$this->tables[ $this->current_table ][ 'cols_width' ]	=	$values;
+		}
+		return $this;
+	}
 	public $tables	=	array();
 	function get_table( $namespace , $class = '' , $attrs = '')
 	{
@@ -184,6 +190,63 @@ class GUI extends Libraries
 			$empty_table_message	=	$this->empty_table_message;
 			?>
             <table class="box-body <?php echo $class;?>" <?php echo $attrs;?>>
+                <thead>
+                    <tr>
+                        <?php
+						$col_span = 0;
+						foreach( riake( 'cols' , $this->tables[ $namespace ] , array() ) as $key	=>	$cols )
+						{
+							$col_span++;
+							?>
+                            <td width="<?php echo riake( $key , riake( 'cols_width' , $this->tables[ $namespace ] ) , 100 );?>"><?php echo $cols;?></td>
+                            <?php
+						}
+						?>
+                    </tr>
+                </thead>
+                <tbody>
+                    	<?php
+						if( count( riake( 'rows' , $this->tables[ $namespace ] , array() ) ) > 0 )
+						{
+							foreach( riake( 'rows' , $this->tables[ $namespace ] , array() ) as $rows )
+							{
+							?>
+                            <tr>
+                            <?php
+								foreach( force_array( $rows ) as $_values )
+								{
+								?>
+                                <td><?php echo $_values;?></td>
+								<?php
+								}
+							?>
+                            </tr>
+                            <?php
+							}
+						}
+						else
+						{
+							?>
+                            <tr>
+                            	<td colspan="<?php echo $col_span;?>"><?php echo $empty_table_message;?></td>
+                            </tr>
+                            <?php
+						}
+						?>
+                </tbody>
+            </table>
+            <?php
+		}
+		return false;
+	}
+	private $once_called	=	0;
+	function get_dynamic_table( $namespace , $class = '' , $attrs = '')
+	{
+		if( riake( $namespace , $this->tables ) )
+		{
+			$empty_table_message	=	$this->empty_table_message;
+			?>
+            <table class="box-body table <?php echo $class;?> dynamic-tables-<?php echo $this->once_called;?>" <?php echo $attrs;?>>
                 <thead>
                     <tr>
                         <?php
@@ -229,7 +292,13 @@ class GUI extends Libraries
 						?>
                 </tbody>
             </table>
+            <script>
+			$(document).ready(function(e) {
+                $('.dynamic-tables-<?php echo $this->once_called;?>').dynatable();
+            });
+			</script>
             <?php
+			$this->once_called++;
 		}
 		return false;
 	}

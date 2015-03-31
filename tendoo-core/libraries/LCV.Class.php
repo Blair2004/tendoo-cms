@@ -149,7 +149,7 @@ class Load_Core_Values
 		$__['notForYourPriv']			=	tendoo_warning('Acc&eacute;der &agrave; cet &eacute;l&eacute;ment ne fait pas partie de vos actions.');
 		$__['unknowAdmin']				=	tendoo_warning('Administrateur introuvable.');
 		$__['moduleBug']					=	tendoo_warning('Une erreur s\'est produite. Le module attach&eacute; &agrave; ce contr&ocirc;leur est introuvable ou d&eacute;sactiv&eacute;.');
-		$__['page-404-or-module-bug']	=	tendoo_warning( __( 'Error occured. Page not found or binded module is not well defined.' ) );
+		$__['page-404-or-module-bug']	=	tendoo_warning( __( 'Error occured. Page not found or bound module is not well defined.' ) );
 		$__['notAllowed']				=	tendoo_warning('Il ne vous est pas permis d\'effctuer cette op&eacute;ration. Soit compte tenu de votre privil&egrave;ge actuel, soit compte tenu de l\'indisponibilit&eacute; du service.');
 		$__['theme_alreadyExist']		=	tendoo_info('Ce th&egrave;me avait d&eacute;j&agrave; &eacute;t&eacute; install&eacute;.');
 		$__['NoCompatibleTheme']			=	tendoo_warning('Ce th&egrave;me n\'est pas compatible avec la version actuelle d\'tendoo.');
@@ -208,6 +208,23 @@ class Load_Core_Values
 		$__[ 'web-app-mode-enabled' ]			=	tendoo_warning( __( 'While "WebApp" Mode is enabled, frontend is disabled. Check your settings to define tendoo mode on Website setings tab.' ) );
 		$__['form-expired']						=	tendoo_warning( __( 'Current form data has expired. Please try to submit it again' ) );
 		
+		// CustomQuery Notices
+		$__['incorrect-given-meta']				=	tendoo_warning( __( 'Incorrect meta data. This meta doesn\'t seems to be approuved for the custom query.' ) );
+		$__['incorrect-key-given']				=	tendoo_warning( __( 'Incorrect key given.' ) );
+		$__['unknow-taxonomy-given']			=	tendoo_warning( __( 'Unknow taxonomy given.' ) );
+		$__['error-occured-while-checking-query-title']		=	tendoo_warning( __( 'Error occured while checking title.' ) );
+		$__['custom-query-saved']				=	tendoo_success( __( 'Custom Query has been saved.' ) );
+		$__['unknow-key-for-custom-query']		=	tendoo_warning( __( 'Unknow key for custom query.' ) );
+		$__['unknow-custom-query']				=	tendoo_warning( __( 'Unknow custom query.' ) );
+		$__['unknow-taxonomy-to-set-as-parent']	=	tendoo_warning( __( 'Unknow taxonomy to set as parent.' ) );
+		$__['taxonomy-set']						=	tendoo_success( __( 'Taxonomy has been set.' ) );
+		$__['taxonomy-already-exists']			=	tendoo_warning( __( 'Taxonomy already exists. Please choose another name.' ) );
+		$__['unknow-taxonomy']					=	tendoo_warning( __( 'Unknow taxonomy.' ) );
+		$__['taxonomy-cant-be-his-own-parent']	=	tendoo_warning( __( 'Taxonomy cant be his own parent.' ) );
+		$__['taxonomy-deleted']					=	tendoo_success( __( 'Taxonomy has been deleted.' ) );
+		$__['cant-delete-the-latest-taxonomy']	=	tendoo_warning( __( 'The latest taxonomy can\'t be deleted.' ) );
+		$__['taxonomy-not-found-or-bound']		=	tendoo_warning( __( 'The concerned taxonomy is not found or is already bound.' ) );
+		$__['dooooooooo']						=	tendoo_warning( __( 'dooooooooooo' ) );
 		set_core_vars( 'default_notices' , $__ );
 	}
 	/**
@@ -230,7 +247,12 @@ class Load_Core_Values
 	 * @access private
 	**/
 	private function db_vars()
-	{
+	{		
+		/**
+		 * Check tendoo mode and redirect if webmode is enabled, since frontend is also disabled while webapp mode is enabled
+		**/
+		
+		set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
 		set_core_vars( 'active_theme' , site_theme() );
 		set_core_vars( 'options' , $this->options	=	get_meta( 'all' ) , 'read_only' );
 		set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );

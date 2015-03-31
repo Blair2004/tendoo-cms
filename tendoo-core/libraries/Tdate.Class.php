@@ -21,7 +21,10 @@ class Tdate extends Libraries
 	}
 	public function time($timestamp	=	'',$toArray	=	false)
 	{
-		$timestamp	=	strtotime($timestamp);
+		if( ! is_int( ( int ) $timestamp ) && strlen( $timestamp ) >= 14 ) // This disable control for extact timestamp provided
+		{
+			$timestamp	=	strtotime($timestamp);
+		}
 		$this->load->helper('date');
 		$timezone	=	get_meta( 'site_timezone' );
 		$timeformat	=	get_meta( 'site_timeformat' );

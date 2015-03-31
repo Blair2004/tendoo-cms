@@ -59,16 +59,17 @@ Class registration extends Libraries
 			}
 			notice('push',fetch_notice_output($query));
 		}
-		$this->data['allowPrivilege']	=	$this->roles->get_public_roles();
-		$this->instance->session->set_userdata('captcha_code',$this->instance->captcha->get());
-		$this->data['captcha']	=	$this->instance->session->userdata('captcha_code');
-		$this->data['pageTitle']	=	sprintf( __( 'Create an account - %s ' ) , riake( 'site_name' , $options ) );
-		set_page('title',$this->data['pageTitle']);
+		set_core_vars( 'allowPrivilege' , $this->roles->get_public_roles() );
 		
-		$this->data['body']	=	$this->load->view('registration/createUser',$this->data,true);
+		$this->instance->session->set_userdata( 'captcha_code' , $this->instance->captcha->get() );
 		
-		$this->load->view('header',$this->data);
-		$this->load->view('global_body',$this->data);
+		set_core_vars( 'captcha' ,	$this->instance->session->userdata( 'captcha_code' ) );
+		set_core_vars( 'pageTitle' , sprintf( __( 'Create an account - %s ' ) , riake( 'site_name' , $options ) ) );
+		set_page( 'title' , get_core_vars( 'pageTitle' ) );		
+		set_core_vars( 'body' ,	$this->load->the_view('registration/createUser',true) );
+		
+		$this->load->view('header');
+		$this->load->view('global_body');
 	}
 	public function superAdmin()
 	{
@@ -93,13 +94,13 @@ Class registration extends Libraries
 			}
 			notice('push',fetch_notice_output('super-admin-creation-failed'));
 		}
-		$this->data['pageTitle']	=	__( 'Create Admin - Tendoo' );
-		set_page(	'title'	,	$this->data['pageTitle']);
+		set_core_vars( 'pageTitle' , __( 'Create Admin - Tendoo' ) );
+		set_page(	'title'	,	get_core_vars( 'pageTitle' ) );
 		set_page(	'description'	,	__( 'Create Super Admin - Tendoo' )	);
 		
-		$this->data['body']	=	$this->load->view('registration/createSuperAdmin',$this->data,true);
+		set_core_vars( 'body' ,	$this->load->view('registration/createSuperAdmin' , true ) );
 		
-		$this->load->view('header',$this->data);
-		$this->load->view('global_body',$this->data);
+		$this->load->view('header');
+		$this->load->view('global_body');
 	}
 }

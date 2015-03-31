@@ -273,9 +273,9 @@
 							$('[controller_form]').trigger('submit');
 						});
 						$('.edit_controller').each(function(){
-							if(!$(this).attr('binded'))
+							if(!$(this).attr('bound'))
 							{
-								$(this).attr('binded','true');
+								$(this).attr('bound','true');
 								$(this).bind('click',function(){
 									var data	=	$(this).closest('[controllers]');
 									// Ce contrôleur a-t-il des parents ?
@@ -312,9 +312,9 @@
 										 $(parent).find('[name="page_priority"]').attr('disabled','disabled').attr('title','<?php _e( "A child controller can\'t be set a main." );?>');
 									}
 									//
-									if(!$(parent).find('[prototype_submiter]').attr('binded'))
+									if(!$(parent).find('[prototype_submiter]').attr('bound'))
 									{
-										$(parent).find('[prototype_submiter]').attr('binded','true');
+										$(parent).find('[prototype_submiter]').attr('bound','true');
 										$(parent).find('[prototype_submiter]').bind('click',function(){
 											// Eq pour recupérer les premières occurences, afin de ne pas affecter les enfants également.
 											var prority =	$(parent).find('[name="page_priority"]').val();

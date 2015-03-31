@@ -1,8 +1,9 @@
 <?php
-	$form_wrap	=	riake( 'form_wrap' , $panel );
-	$action		=	riake( 'action' , $form_wrap );
-	$enctype	=	riake( 'enctype' , $form_wrap );
-	$method		=	riake( 'method' , $form_wrap ) ? return_if_array_key_exists( 'method' , $form_wrap ) : "POST";
+	$panel		=	get_core_vars( 'panel' );
+	$form_wrap	=	riake( 'form_wrap' , $panel , '');
+	$action		=	riake( 'action' , $form_wrap , '' );
+	$enctype	=	riake( 'enctype' , $form_wrap , '');
+	$method		=	riake( 'method' , $form_wrap , "POST" );
 	$content	=	riake( 'meta_items' , $panel );
 	$form_expire=	get_instance()->date->timestamp() + GUI_EXPIRE;
 	$ref		=	urlencode( get_instance()->url->site_url() );
@@ -59,10 +60,26 @@
 				$value			= return_if_array_key_exists( 'value' , $item );			
 				?>
 <div class="form-group">
+	<?php
+		/**
+		 * 	Hide Label if not set
+		**/
+		if( $label )
+		{
+			?>
 	<div class="input-group">
 	  <span class="input-group-addon"><?php echo $label ;?></span>
 	  <input name="<?php echo $name;?>" <?php echo $attrs_string;?> type="<?php echo $item[ 'type' ];?>" class="form-control" placeholder="<?php echo $placeholder;?>" value="<?php echo $value;?>">
 	</div>
+          <?php
+		}
+		else
+		{
+			?>
+            <input name="<?php echo $name;?>" <?php echo $attrs_string;?> type="<?php echo $item[ 'type' ];?>" class="form-control" placeholder="<?php echo $placeholder;?>" value="<?php echo $value;?>">
+            <?php
+		}
+		?>
     <?php echo $description;?>
 </div>
 				<?php
@@ -128,15 +145,13 @@
 				$id				= return_if_array_key_exists( 'name' , $item );
 				?>
 			<div class="form-group">
-				<div class="input-group">
 				<?php
 				echo $this->visual_editor->getEditor( array (
-					'name'		=>	$name,
-					'value'		=>	$value,
-					'id'		=>	$id
+					'name'				=>	$name,
+					'defaultValue'		=>	$value,
+					'id'				=>	$id
 				) );
 				?>
-				</div>
                 <?php echo $description;?>
 			</div>
 				<?php
@@ -296,8 +311,34 @@
 				{
 					get_instance()->gui->add_row( $row );
 				}
+				// Introducing col width
+				get_instance()->gui->add_cols_width( riake( 'cols_width' , $item ) );
 				// Get table
 				get_instance()->gui->get_table( $namespace, $class , $attrs_string );
+			}
+			else if( in_array( riake( 'type' , $item  ) , array( 'dynamic-table' ) ) )
+			{
+				$namespace			=	riake( 'name' , $item , 'default' );
+				$empty_message		=	riake( 'empty_message' , $item , __( 'No result available' ) );
+				
+				$class				=	riake( 'type' , $item  ) == 'table' ? 'table table-striped m-b-none' : '';
+				$class				=	riake( 'type' , $item  ) == 'table-panel' ? 'table table-striped m-b-none panel-body' : $class;
+				$class				.=  ' ' . get_user_meta( 'gui_'. riake( 'namespace' , $panel ) );
+				
+				get_instance()->gui->set_table( $namespace );
+				get_instance()->gui->empty_message( $empty_message );
+				// Creating Cols
+				foreach( force_array( riake( 'cols' , $item ) ) as $key	=>	$title )
+				{
+					get_instance()->gui->add_col( $key	, $title );
+				}
+				// Adding Row
+				foreach( force_array( riake( 'rows' , $item ) ) as $key 	=>	$row )
+				{
+					get_instance()->gui->add_row( $row );
+				}
+				// Get table
+				get_instance()->gui->get_dynamic_table( $namespace, $class , $attrs_string );
 			}
 			else if( riake( 'type' , $item  ) == 'dom' )
 			{

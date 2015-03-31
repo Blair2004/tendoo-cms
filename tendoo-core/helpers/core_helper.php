@@ -441,7 +441,7 @@ if( !function_exists( 'page_header' ) )
 	function page_header()
 	{
 	?>
-    <body class="skin-blue sidebar-open fixed">
+    <body class="<?php echo adminlte_skin( get_user_meta( 'dashboard_theme' ) );?> <?php echo get_user_meta( 'admin-left-menu-status' );?> sidebar-open fixed">
 	<?php
     }
 }

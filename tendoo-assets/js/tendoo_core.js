@@ -21,9 +21,9 @@ tendoo.panel_toggle		=	new function(){
 		});
 	};
 	this.bind			=	function(e){
-		if(typeof $(e).attr('panel_toogle_binded') == 'udefined')
+		if(typeof $(e).attr('panel_toogle_bound') == 'udefined')
 		{
-			$(e).attr('panel_toogle_binded','true');
+			$(e).attr('panel_toogle_bound','true');
 			$(e).bind('click',function(){
 				if($(e).hasClass('active')){
 					$(e).removeClass('active');

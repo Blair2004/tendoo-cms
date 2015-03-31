@@ -24,6 +24,7 @@
 	 * @param String (prefix)
 	 * @return String
 	**/
+	
 	function core_meta_namespace( $array , $base_prefix = '' )
 	{
 		if( is_string( $array ) )
@@ -317,8 +318,8 @@
 		return false;
 	}
 	function has_events( $events ){
-		$events_binded		=	get_core_vars( 'get_core_events' );
-		$current_events		=	return_if_array_key_exists( $events , $events_binded );
+		$events_bound		=	get_core_vars( 'get_core_events' );
+		$current_events		=	return_if_array_key_exists( $events , $events_bound );
 		if( is_array( $current_events ) )
 		{
 			return $current_events;
@@ -474,12 +475,14 @@
             <section class="content-header">
                 <h1>
                     <?php echo get_page('title');?>
-                    <small><?php echo get_page( 'description' );?></small>
+                    <!--<small><?php echo get_page( 'description' );?></small>-->
                 </h1>
+                <!--
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                     <li class="active">Widgets</li>
                 </ol>
+                -->
             </section>
             <?php
 		}
@@ -1396,4 +1399,15 @@
 		$fields_registered	=	riake( 'registered_fields' , get_core_vars() , array() );
 		return riake( $form_name , $fields_registered );
 	}
+	
+	/**
+	 *	Prepend 0 to single int
+	**/
+	
+	function unsinglerize( $int )
+	{
+		$num_padded = sprintf("%02d", $int);
+		return $num_padded; // returns 04
+	}
+	
 	

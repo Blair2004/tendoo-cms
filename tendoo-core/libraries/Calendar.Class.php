@@ -26,7 +26,7 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/calendar.html
  */
-class CI_Calendar {
+class Calendar {
 
 	var $CI;
 	var $lang;
@@ -45,14 +45,14 @@ class CI_Calendar {
 	 */
 	public function __construct($config = array())
 	{
-		$this->CI =& get_instance();
+		$this->CI = get_instance();
 
-		if ( ! in_array('calendar_lang.php', $this->CI->lang->is_loaded, TRUE))
+		/*if ( ! in_array('calendar_lang.php', $this->CI->lang->is_loaded, TRUE))
 		{
 			$this->CI->lang->load('calendar');
-		}
+		}*/
 
-		$this->local_time = time();
+		$this->local_time = $this->CI->date->timestamp();
 
 		if (count($config) > 0)
 		{
@@ -98,6 +98,7 @@ class CI_Calendar {
 	function generate($year = '', $month = '', $data = array())
 	{
 		// Set and validate the supplied month/year
+		
 		if ($year == '')
 			$year  = date("Y", $this->local_time);
 

@@ -2,12 +2,26 @@
 	/**
 	*
 	**/
-	function return_if_array_key_exists($key,$array, $default = false){
-		if(is_array($array))
+	function return_if_array_key_exists($key,$array, $default = false , $force_safe_mode = FALSE ){
+		if( SAFE_MODE === FALSE && $force_safe_mode === FALSE )
 		{
-			return array_key_exists($key, $array) ? $array[ $key ] : $default;
+			if( $default !== false )
+			{
+				return return_if_array_key_exists( $key , $array , $default , TRUE );
+			}
+			else
+			{
+				return $array[ $key ];
+			}
 		}
-		return $default;
+		else
+		{
+			if(is_array($array))
+			{
+				return array_key_exists($key, $array) ? $array[ $key ] : $default;
+			}
+			return $default;
+		}
 	}
 	/**
 	*	riake @lias return_if_array_key_exists( )
@@ -1210,4 +1224,30 @@ function uninstall_theme( $namespace ){
 		return get_instance()->tendoo_admin->drop( $theme[ 'uri_path' ] );
 	}
 	return false;
+}
+
+/**
+ * 	Returns skin name for specified int given
+**/
+
+function adminlte_skin( $code )
+{
+	if( between( 0 , 5 , $code ) )
+	{
+		switch( $code )
+		{
+			case 0 : return 'skin-blue';break;
+			case 1 : return 'skin-black';break;
+			case 2 : return 'skin-purple';break;
+			case 3 : return 'skin-green';break;
+			case 4 : return 'skin-red';break;
+			case 5 : return 'skin-yellow';break;
+		}
+	}
+	return 'skin-blue';
+}
+
+function adminlte_skin_names()
+{
+	return array( __( 'Default' ) , __( 'Darker' ) , __( 'Purple' ) , __( 'Green Horn' ) , __( 'Red Devils' ) , __( 'Y\'ello You' ) );
 }

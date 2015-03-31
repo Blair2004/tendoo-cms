@@ -44,8 +44,10 @@ include_once( SYSTEM_DIR . 'System.Libraries.php');
 include_once( SYSTEM_DIR . 'System.Core.php');
 /* =-=-=-=-=-=-=-=-=-=-=-=-= LOAD CLASSES -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 /* Loading all used classes by core Controller */
-include_once( LIBRARIES_DIR . 'Meta.Class.php');
+include_once( LIBRARIES_DIR . 'Meta.Class.php'); 
+include_once( LIBRARIES_DIR . 'Controller.Class.php');
 include_once( LIBRARIES_DIR . 'CustomQuery.Class.php');
+include_once( LIBRARIES_DIR . 'PostType.Class.php');
 include_once( LIBRARIES_DIR . 'String.Class.php');
 include_once( LIBRARIES_DIR . 'Tdate.Class.php');
 include_once( LIBRARIES_DIR . 'Lang.Class.php');

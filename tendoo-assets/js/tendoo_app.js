@@ -344,10 +344,10 @@ $(document).ready(function(){
 					}
 				});
 				$('[data-modal-id="'+currentId+'"]').find('form[action]').each(function(){
-					if(typeof $(this).attr('event-binded') == 'undefined')
+					if(typeof $(this).attr('event-bound') == 'undefined')
 					{
 						$(this).bind('submit',function(){
-							$(this).attr('event-binded','true');
+							$(this).attr('event-bound','true');
 							var finalQuery = {};
 							var datas = $(this).serializeArray();
 							for (i = 0; i < datas.length; i++)
@@ -492,158 +492,45 @@ $(document).ready(function(){
 			};
 		};
 		/**
-		*		tools.app : // Bientôt déprécié.
-		**/
-		tendoo.app			=	new function(){
-			this.bind		=	function(){
-				$(document).ready(function(){
-					$('.icon-grid .tendoo-icon-set').each(function(){
-						$(this).bind('click',function(){
-							if(typeof $(this).attr('tendoo_app_binded') == 'undefined')
-							{
-								$(this).attr('tendoo_app_binded','true');
-								if(typeof $(this).attr('data-status') == 'undefined' || $(this).attr('data-status') == 'clickable')
-								{
-									window.location	=	$(this).attr('data-url');
-									return; 
-									// Were no more handling ajax modal boxes
-									$(this).attr('data-status','clicked');
-									var $this		=	$(this);
-									var iconRef		=	$(this).attr('data-icon-url');
-									var windowRef	=	$(this).attr('data-url');
-									var title		=	$(this).attr('modal-title') ? $(this).attr('modal-title') : "Page Sans Titre";
-									var object;
-									$.ajax({
-										beforeSend		:	function(jqXHR, settings){
-											tendoo.loader.display();
-										},
-										complete		:	function(jqXHR, textStatus){
-										},
-										cache			:	false,
-										success			:	function(data, textStatus, jqXHR){
-											tendoo.loader.hide();
-											object		=	void(0);
-											tendoo.window.ajax(true).title(title).show(data);
-											$this.attr('data-status','clickable');
-										},
-										dataType		:	'html',
-										error			:	function(jqXHR, textStatus, errorThrown){
-											$this.attr('data-status','clickable');
-										},
-										type			:	'GET',
-										url				:	windowRef
-									});
-								}
-							}
-						});
-					});
-				});
-			};
-			this.bind();
-		};
-		/**
 		*		tools.loader : Cette méthode affiche un indice de chargement AJAX dans les pages qui dispose d'espace spécifié pour l'élément.
 		**/
 		tendoo.loader		=	new function(){
 			this.show		=	function(x,obj){
-				var cSpeed=9;
-				var cWidth=50;
-				var cHeight=50;
-				var cTotalFrames=32;
-				var cFrameWidth=50;
-				var cImageSrc=	tendoo.url.main()+'tendoo-assets/img/images/sprites.png';
-				var cImageTimeout=false;
-				if(typeof obj != 'undefined')
-				{
-					var cSpeed			=	obj.cSpeed 			? obj.cSpeed : 9
-					var cWidth			=	obj.cWidth 			? obj.cWidth : 50
-					var cHeight			=	obj.cHeight 		? obj.cHeight : 50
-					var cTotalFrames	=	obj.cTotalFrames 	? obj.cTotalFrames : 32
-					var cFrameWidth		=	obj.cFrameWidth 	? obj.cFrameWidth : 50
-					var cImageSrc		=	obj.cImageSrc 		? obj.cImageSrc : tendoo.url.main()+'tendoo-assets/img/images/sprites.png';
-					var cImageTimeout	=	obj.cImageTimeout 	? obj.cImageTimeout : 50
-				}
-				function startAnimation(){
-					
-					$(x).html('<canvas id="canvas" width="'+cWidth+'" height="'+cHeight+'"><p>Your browser does not support the canvas element.</p></canvas>');
-					//FPS = Math.round(100/(maxSpeed+2-speed));
-					FPS = Math.round(100/cSpeed);
-					SECONDS_BETWEEN_FRAMES = 1 / FPS;
-					g_GameObjectManager = null;
-					g_run=genImage;
-			
-					g_run.width=cTotalFrames*cFrameWidth;
-					genImage.onload=function (){cImageTimeout=setTimeout(fun, 0)};
-					initCanvas(cTotalFrames);
-				}
-				function imageLoader(s, fun)//Pre-loads the sprites image
-				{
-					clearTimeout(cImageTimeout);
-					cImageTimeout=0;
-					genImage = new Image();
-					genImage.onload=function (){cImageTimeout=setTimeout(function(){
-					fun()
-					}, 0)};
-					genImage.onerror=new Function('alert(\'Could not load the image\')');
-					genImage.src=s;
-				}
-				//The following code starts the animation
-				return new imageLoader(cImageSrc, startAnimation);
+				$( '#admin-logo-image' ).fadeOut( 500 , function(){
+					$( '.logo #canvasLoader' ).fadeIn( 500 ).css({
+						'margin-top'	:	'10px'
+					});						
+				});
 			};
 			this.remove		=	function(x){
-				$(x).find('canvas').fadeOut(500,function(){
-					$(this).remove();
-				});
+				
 			};
 			this.display	=	function(){
-				$('#ajaxLoading').css({'visibility':'visible','opacity':1}).fadeIn(500);
+				this.show();
 			};
 			this.dontdisplay=	function(){
-				$('#ajaxLoading').css({
-					'visibility'	:	'hidden'
-				});
+				
 			};
 			this.hide		=	function(){
-				$('#ajaxLoading').animate({
-					'opacity'	:	0
+				$( '.logo #canvasLoader' ).fadeOut( 500 , function(){
+					$( '#admin-logo-image' ).fadeIn( 500 );
 				});
 			};
 			// By default.
-			if($('#ajaxLoading').length > 0)
+			if($('#tendoo-admin-logo').length > 0)
 			{
-				this.show('#ajaxLoading',{
-					cHeight		:	30,
-					cWidth		:	30,
-					cFrameWidth	:	30
-				});
-				this.dontdisplay();
+				var cl = new CanvasLoader('tendoo-admin-logo');
+				cl.setColor('#FFFFFF'); // default is '#000000'
+				cl.setDiameter(32); // default is 40
+				cl.setDensity(41); // default is 40
+				cl.show(); // Hidden by default
+				this.hide();
 			}
 		};
 		/**
 		*		tendoo.boot : Démarrage du script.
 		**/	
 		tendoo.boot			=	new function(){
-			var tASE	=	'#tendooAppStore'; // TENDOO APP STORE DOM BUTTON ELEMENT
-			// var tTab	=	'.showAppTab'; // Tendoo Tab, panel d'application disponible partout.
-			$(tASE).bind('click',function(){
-				tendoo.notice.alert('Indisponible pour le moment.','info');
-				tendoo.loader.display();
-				setTimeout(function(){
-					tendoo.loader.hide();
-				},2000);
-			});
-			// Adjust height
-/**			var parent			=	$( '#inner-content' ).parent();
-			var parent_height	=	$(parent).height();
-			$( '#inner-content' ).find( '.content' ).height( parent_height );
-			/*$(tTab).bind('click',function(){
-				tendoo.tab.show();
-			});*/
-			if($(tASE).length > 0)
-			{
-				$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
-				$.ajax(tendoo.url.base_url()+'admin/ajax/check_updates');
-			}
 			var interval 	=	setInterval(function(){
 				if($('.alert').length > 0)
 				{
@@ -655,7 +542,7 @@ $(document).ready(function(){
 				}
 				if($('[dismissmodal]').length > 0)
 				{
-					if(!tools.isDefined($('[dismissmodal]').attr('binded')))
+					if(!tools.isDefined($('[dismissmodal]').attr('bound')))
 					{
 						$('[dismissmodal]').bind('click',function(){
 							tendoo.modal.dismiss();
@@ -713,9 +600,9 @@ $(document).ready(function(){
 		tendoo.dropdown		=	new function(){
 			this.bind		=	function(){
 				$('[data-toggle="dropdown"][select]').each(function(){
-					if(typeof $(this).attr('dropdown-binded') == 'undefined')
+					if(typeof $(this).attr('dropdown-bound') == 'undefined')
 					{
-						$(this).attr('dropdown-binded','true');
+						$(this).attr('dropdown-bound','true');
 						// Ajout d'un élément caché qui servira d'imput à la place du button.
 						$(this).after('<input type="hidden" class="button_hidden" name="'+$(this).attr('name')+'">');
 						// 
@@ -743,10 +630,10 @@ $(document).ready(function(){
 		tendoo.tableMultiSelect	=	new function(){
 			this.bind		=	function(){
 				$('table[tableMultiSelect]').each(function(){
-					if(!tools.isDefined($(this).attr('binded')))
+					if(!tools.isDefined($(this).attr('bound')))
 					{
 						var isOverCheckBox	=	false;
-						$(this).attr('binded','true');
+						$(this).attr('bound','true');
 						$(this).find('tbody tr input[type="checkbox"]').mouseenter(function(){
 							isOverCheckBox	=	true;
 						});
@@ -774,14 +661,14 @@ $(document).ready(function(){
 		tendoo.bulkSelect		=	new function(){
 			this.bind			=	function(){
 				$('[bulkSelect]').each(function(){
-					if(!tools.isDefined($(this).attr('binded')))
+					if(!tools.isDefined($(this).attr('bound')))
 					{
 						var parent		=	$(this);
 						var formTarget	=	$(this).attr('target');
 						// Au cas ou aucune cible n'est spécifiée.
 						if(!formTarget){return false}
 						
-						$(this).attr('binded','true');
+						$(this).attr('bound','true');
 						$(this).find('button').bind('click',function(){
 							$(formTarget).append('<input type="hidden" name="'+$(parent).find('select').attr('name')+'" value="'+$(parent).find('select').val()+'">');
 							$(formTarget).trigger('submit');
@@ -872,10 +759,10 @@ $(document).ready(function(){
 		tendoo.confirmEvent	=	new function(){
 			this.bind		=	function(){
 				$('[confirm-do]').each(function(index, element) {
-                    if(!tools.isDefined($(this).attr('confirm-binded')))
+                    if(!tools.isDefined($(this).attr('confirm-bound')))
 					{
 						var $this	=	$(this);
-						$(this).attr('confirm-binded','true');
+						$(this).attr('confirm-bound','true');
 						$(this).bind('click',function(){							
 							if(tools.isDefined($(this).attr('confirm-text')))
 							{
@@ -1001,14 +888,14 @@ $(document).ready(function(){
 		*		tendoo.toggleLeftMenu : sauvegarde le statut de menu gauche
 		**/	
 		tendoo.toggleLeftMenu		=	new function(){
-			$('[data-toggle="class:nav-vertical"]').bind('click',function(){
-				var currentStatus		=	$('body > section.thinwrapper > aside').hasClass('nav-vertical');
+			$('[data-toggle="offcanvas"]').bind('click',function(){
+				var currentStatus		=	$('body').hasClass('sidebar-collapse');
 				if( currentStatus ){
-					tendoo.set_user_meta( 'admin-left-menu-status' , 'nav-expanded' );
+					tendoo.set_user_meta( 'admin-left-menu-status' , 'sidebar-collapse' );
 				}
 				else
 				{
-					tendoo.set_user_meta( 'admin-left-menu-status' , 'nav-vertical' );
+					tendoo.set_user_meta( 'admin-left-menu-status' , 'sidebar-open' );
 				}
 			});
 		};

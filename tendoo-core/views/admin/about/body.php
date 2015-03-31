@@ -33,6 +33,7 @@
                                 <li><?php _e( 'Bootstrap' );?></li>
 								<li><a href="https://github.com/dbushell/Nestable">Nestable</a> Jquery plugin</li>
                                 <li><?php _e( 'jQuery UI' );?></li>
+                                <li><a href="http://github.com/heartcode/CanvasLoader"><?php _e( 'CanvasLoader' );?></a></li>
 							</ul>
                         </p>
                     </div>

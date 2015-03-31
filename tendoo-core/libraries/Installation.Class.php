@@ -53,7 +53,7 @@ class Installation extends Libraries
 			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 			`NAMESPACE` varchar(255) NOT NULL,
 			`TITLE` varchar(255),
-			`CONTENT` varchar(255) NOT NULL,
+			`CONTENT` text NOT NULL,
 			`DATE` datetime NOT NULL,
 			`EDITED` datetime NOT NULL,
 			`AUTHOR` varchar(255) NOT NULL,
@@ -70,6 +70,36 @@ class Installation extends Libraries
 			`QUERY_REF_ID` int(11) NOT NULL,
 			`KEY` varchar(255),
 			`VALUE` text NOT NULL,
+		PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB;';
+		if(!$this->db->query($sql))
+		{
+			return false;
+		};
+		/* CREATE tendoo_query_taxonomies */
+		$sql = 
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_query_taxonomies` (
+			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+			`NAMESPACE` varchar(255) NOT NULL,
+			`QUERY_NAMESPACE` varchar(200) NOT NULL,
+			`TITLE` varchar(255),
+			`CONTENT` text NOT NULL,
+			`DATE` datetime NOT NULL,
+			`EDITED` datetime NOT NULL,
+			`PARENT_REF_ID` int(11) NOT NULL,
+			`AUTHOR` varchar(255) NOT NULL,
+		PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB;';
+		if(!$this->db->query($sql))
+		{
+			return false;
+		};
+		/* CREATE tendoo_query_taxonomies */
+		$sql = 
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_query_taxonomies_relationships` (
+			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+			`TAXONOMY_REF_ID` int(11) NOT NULL,
+			`QUERY_REF_ID` int(11),
 		PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->db->query($sql))

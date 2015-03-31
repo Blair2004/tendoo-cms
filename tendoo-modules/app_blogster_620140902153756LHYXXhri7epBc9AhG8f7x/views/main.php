@@ -126,9 +126,9 @@ return;
 								?>
                                                 <script>
 								$('[data-doAction]').each(function(){
-									if(typeof $(this).attr('doAction-binded') == 'undefined')
+									if(typeof $(this).attr('doAction-bound') == 'undefined')
 									{
-										$(this).attr('doAction-binded','true');
+										$(this).attr('doAction-bound','true');
 										$(this).bind('click',function(){
 											var $this	=	$(this);
 											tendoo.modal.confirm('<?php _e( 'Do you wish to delete this ?' );?>',function(){

@@ -53,10 +53,6 @@ class Menu extends Libraries
 	{
 		return $this->get_menu_core( 'admin' , $namespace );
 	}
-	public function get_account_menu_core( $namespace )
-	{
-		return $this->get_menu_core( 'account' , $namespace );
-	}
 	public function add_menu_core( $interface , $namespace , $config )
 	{
 		if( in_array( $interface , $this->allowed_interface ) )
@@ -66,10 +62,6 @@ class Menu extends Libraries
 			return set_core_vars( $interface . '_menus_core' , $core_menus );
 		}
 		return false;
-	}
-	public function	add_account_menu_core( $namespace , $config )
-	{
-		return $this->add_menu_core( 'account' , $namespace , $config );
 	}
 	public function get_menu_core( $interface , $namespace )
 	{

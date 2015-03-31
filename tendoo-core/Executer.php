@@ -1,9 +1,9 @@
 <?php
-if(class_exists($Class.'_frontend'))
+if( class_exists($Class.'_frontend') )
 {
 	/**
 	 * @since 1.4
-	 * Launch binded events to "before_frontend" hook.
+	 * Launch bound events to "before_frontend" hook.
 	**/
 	
 	trigger_events( 'before_frontend' );
@@ -14,7 +14,8 @@ if(class_exists($Class.'_frontend'))
 		$this->tendoo->error( 'page-404' );
 	}
 }
-else if(class_exists('Tendoo_'.$Class)) // Deprecated
+/** // Deprecated
+else if(class_exists('Tendoo_'.$Class)) 
 {
 	if($this->tendoo->interpreter('Tendoo_'.$Class,$Method,$Parameters) === '404')
 	{
@@ -23,6 +24,7 @@ else if(class_exists('Tendoo_'.$Class)) // Deprecated
 		$this->tendoo->error('page-404');
 	}
 }
+**/
 else if(class_exists($Class))
 {
 	if($this->tendoo->interpreter($Class,$Method,$Parameters) === '404')

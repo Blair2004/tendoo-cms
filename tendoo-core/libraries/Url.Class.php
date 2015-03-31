@@ -542,18 +542,4 @@ Class Url
 	{
 		return $this->main_url().'tendoo-assets/font/'.$font;
 	}
-	public function get_controller_url()
-	{
-		$this->instance	=	get_instance();
-		$details	=	$this->http_request(TRUE);
-		if(array_key_exists(0,$details))
-		{
-			$controller	=	$this->instance->tendoo->getPage();
-			if(is_array($controller))
-			{
-				return $this->site_url(array($controller[0]['PAGE_CNAME']));
-			}
-			return $controller;
-		}
-	}
 }

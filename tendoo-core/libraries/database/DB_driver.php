@@ -580,7 +580,7 @@ class DB_driver {
 			$binds = array_slice($binds, 0, count($segments)-1);
 		}
 
-		// Construct the binded query
+		// Construct the bound query
 		$result = $segments[0];
 		$i = 0;
 		foreach ($binds as $bind)
@@ -1173,12 +1173,15 @@ class DB_driver {
 				// Found it - use a relative path for safety
 				$message[] = 'Filename: '.str_replace(array(DATABASE_DIR), '', $call['file']);
 				$message[] = 'Line Number: '.$call['line'];
-
 				break;
 			}
 		}
+		
+		$this->_reset_select(); // @bug fix, reset queries when error occured
+		
 		$error = $this->instance->exceptions;
 		echo $error->show_error($heading, $message, 'error_db');
+				
 		exit;
 	}
 

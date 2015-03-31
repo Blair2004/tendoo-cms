@@ -2,9 +2,6 @@
 Class Lang
 {
 	private $current;
-	public function __construct()
-	{
-	}
 	public function load($mixed_library = 'system')
 	{
 		switch($mixed_library)
@@ -133,6 +130,32 @@ Class Lang
 			if(array_key_exists($type,$lang))
 			{
 				return $lang[$type];
+			}
+		}
+		else
+		{
+			switch( $type )
+			{
+				case 'cal_january'	: return 'Janvier' ; break;
+				case 'cal_february'	: return 'Février' ; break;
+				case 'cal_march'	: return 'Mars' ; break;
+				case 'cal_april'	: return 'Avril' ; break;
+				case 'cal_mayl'		: return 'Mai' ; break;
+				case 'cal_june'		: return 'Juin' ; break;
+				case 'cal_july'		: return 'Juillet' ; break;
+				case 'cal_august'	: return 'Aout' ; break;
+				case 'cal_september': return 'Septembre' ; break;
+				case 'cal_october'	: return 'Octobre' ; break;
+				case 'cal_november'	: return 'Novembre' ; break;
+				case 'cal_december'	: return 'Décembre' ; break;
+				
+				case 'cal_su'		: return 'Lundi' ; break;
+				case 'cal_mo'		: return 'Mardi' ; break;
+				case 'cal_tu'		: return 'Mercredi' ; break;
+				case 'cal_we'		: return 'Jeudi' ; break;
+				case 'cal_th'		: return 'Vendredi' ; break;
+				case 'cal_fr'		: return 'Samedi' ; break;
+				case 'cal_sa'		: return 'Dimanche' ; break;
 			}
 		}
 		return 'Erreur inconnue';		

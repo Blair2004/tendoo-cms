@@ -31,10 +31,10 @@ class Instance extends Libraries
 			$this->meta_datas			=	new Meta_datas;
 		}
 		/* =-=-=-=-=-=-=-=-= URI HANDLER	-=-=-=-=-=-=-=-=-=-= */
-		$baseUrl	=	$this->url->site_url(array('index'));
-		$Class		=	$this->url->controller();	
-		$Method		=	$this->url->method();
-		$Parameters	=	$this->url->parameters();
+		set_core_vars( 'base_url' , 	$baseUrl		=	$this->url->site_url(array('index')) );
+		set_core_vars( 'controller' , 	$Class			=	$this->url->controller() );	
+		set_core_vars( 'method' , 		$Method			=	$this->url->method() );
+		set_core_vars( 'parameters' , 	$Parameters		=	$this->url->parameters() );
 		/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 		
 		/**
@@ -42,16 +42,19 @@ class Instance extends Libraries
 		**/
 		
 		is_compatible();
-
+		
 		/**
 		 * Load module and Themes if tendoo is installed
 		**/
-		
-		if( $this->is_installed == true ){			
+		if( $this->is_installed === true ){	
+			// Load Themes Only if Website mode is enabled.
+			if( get_core_vars( 'tendoo_mode' ) !== 'website' )
+			{
+				load_themes();
+			}
 			load_modules();
-			load_themes();
 		}
-		
+				
 		/**
 		 * Load Core Vars
 		**/
@@ -62,14 +65,14 @@ class Instance extends Libraries
 		 * Checking Controller
 		**/
 		
-		if( in_array( $this->url->controller() , array( 'install' , 'registration' , 'logoff' , 'admin' , 'login' , 'error' ) ) )
+		if( in_array( $Class , array( 'install' , 'registration' , 'logoff' , 'admin' , 'login' , 'error' ) ) )
 		{
-			( $this->url->controller() == 'admin' ) ? define( 'SCRIPT_CONTEXT' , 'ADMIN' ) : define( 'SCRIPT_CONTEXT' , 'PUBLIC' );
-			if($this->is_installed)
+			( $Class === 'admin' ) ? define( 'SCRIPT_CONTEXT' , 'ADMIN' ) : define( 'SCRIPT_CONTEXT' , 'PUBLIC' );
+			if( $this->is_installed )
 			{				
 				if( $this->db_connected() )
 				{
-					include_once( CONTROLLERS_DIR . $this->url->controller() . '.php' );
+					include_once( CONTROLLERS_DIR . $Class . '.php' );
 					include_once( SYSTEM_DIR . 'Executer.php' );
 				}
 				else
@@ -77,9 +80,9 @@ class Instance extends Libraries
 					$this->tendoo->error( 'db_connect_error' );die;
 				}
 			}
-			else if( $this->url->controller() == 'install' )
+			else if( $Class === 'install' )
 			{
-				include_once( CONTROLLERS_DIR . $this->url->controller() . '.php' );
+				include_once( CONTROLLERS_DIR . $Class . '.php' );
 				include_once( SYSTEM_DIR . 'Executer.php' );
 			}
 			else
@@ -107,19 +110,14 @@ class Instance extends Libraries
 				
 				! $this->db_connected()	? $this->tendoo->error('db_connect_error') : null;
 				
-				set_core_vars(	'options'	,	( $this->data['options']				=	get_meta( 'all' ) )	, 'readonly' );
-				
+				$options		=	get_core_vars( 'options' );
+								
 				/**
 				 * Loading Users Class
 				**/
 				
 				$this->load->library( 'users_global' );			
 				
-				/**
-				 * Check tendoo mode and redirect if webmode is enabled, since frontend is also disabled while webapp mode is enabled
-				**/
-				
-				set_core_vars( 'tendoo_mode' , riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) , 'readonly' );
 				// Conditional if webmode is enabled
 				( get_core_vars( 'tendoo_mode' ) == 'webapp' ) ? $this->url->redirect( array( 'admin' , 'index?notice=web-app-mode-enabled' ) ) : null;
 				
@@ -127,10 +125,10 @@ class Instance extends Libraries
 				 * Setting Core vars
 				**/
 				
-				set_core_vars(	'controllers'	,	$loaded_controllers	=	$this->tendoo->get_pages( '' , FALSE )	, 'readonly' ); // ??	
-				set_core_vars(	'page'			,	$unique_controller	=	$this->tendoo->getPage( $Class )	,'readonly');	
+				set_core_vars(	'controllers'	,	$loaded_controllers	=	$this->controller->get( '' , FALSE )	, 'readonly' ); // ??	
+				set_core_vars(	'page'			,	$unique_controller	=	$this->controller->_get( $Class )	,'readonly');	
 				set_core_vars(	'active_theme'	,	$active_theme		= 	get_themes( 'filter_active' ) );
-				set_core_vars(	'module_url'	,	$module_url			=	$this->url->get_controller_url() ,'readonly');
+				set_core_vars(	'module_url'	,	$module_url			=	$Class ,'readonly');
 				set_core_vars(	'module'		,  	$module 			= 	get_modules( 'filter_active_namespace' , $unique_controller[0]['PAGE_MODULES'] ) ,'readonly');
 				set_core_vars(	'opened_module'	,  	$module ,'readonly');
 				set_core_vars(	'app_module'	,	$app_module 		= 	get_modules( 'filter_active_app' ) ,'readonly' );
@@ -164,13 +162,13 @@ class Instance extends Libraries
 					 * Setting page meta datas
 					**/
 					
-					set_page( 'title' , $unique_controller[0]['PAGE_TITLE'] );
-					set_page( 'description' , $unique_controller[0]['PAGE_DESCRIPTION'] );
-					set_page( 'keywords' , $unique_controller[0]['PAGE_KEYWORDS']);
+					set_page( 'title' , 		$unique_controller[0]['PAGE_TITLE'] );
+					set_page( 'description' , 	$unique_controller[0]['PAGE_DESCRIPTION'] );
+					set_page( 'keywords' , 		$unique_controller[0]['PAGE_KEYWORDS']);
 					
 					// Saved First BreadCrumbs
 					
-					$INDEX	=	$this->tendoo->getPage( 'index' );
+					$INDEX	=	$this->controller->_get( 'index' );
 					
 					set_bread( array (
 						'link'	=>	$module_url,

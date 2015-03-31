@@ -83,9 +83,9 @@ return
 					function __bindKeyWordRemovalListener()
 					{
 						$('#articleKeyWords').find('.label').each(function(){
-							if(typeof $(this).attr('bindKeyWordRemovalListenerBinded') == 'undefined')
+							if(typeof $(this).attr('bindKeyWordRemovalListenerbound') == 'undefined')
 							{
-								$(this).attr('bindKeyWordRemovalListenerBinded','true');
+								$(this).attr('bindKeyWordRemovalListenerbound','true');
 								$(this).bind('click',function(){
 									$(this).fadeOut(500,function(){
 										$(this).remove();

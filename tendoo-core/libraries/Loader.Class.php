@@ -18,7 +18,7 @@ class Loader
 	private $tendoo_vue_dir			=	array(VIEWS_DIR => TRUE);
 	private $tendoo_mod_vue_dir		=	array(MODULES_DIR => TRUE);
 	private	$tendoo_main_dir		=	array('' => TRUE);
-	public function __construct(&$parent)
+	public function __construct( &$parent )
 	{
 		$this->parent					=	$parent;
 		$this->instance					=	get_instance();
@@ -43,25 +43,22 @@ class Loader
 		$this->parent->$var	=	$value;
 	}*/
 	
-	public function view($path,$array = NULL,$return = false, $load_from_main_dir = FALSE)
+	public function view( $path , $array = NULL , $return = false , $load_from_main_dir = FALSE)
 	{
-		return $this->load_ext(array('_Tendoo_view' => $path, '_Tendoo_vars' => $this->object_to_array($array), '_Tendoo_return' => $return),$load_from_main_dir);
+		// return $this->load_ext(array('_Tendoo_view' => $path, '_Tendoo_vars' => $this->object_to_array($array), '_Tendoo_return' => $return),$load_from_main_dir);
+		return $this->load_ext(array('_Tendoo_view' => $path , '_Tendoo_return' => $return ) , $load_from_main_dir );
 	}
 	// Doesn't support array passed as argument with key=>value transformed into available vars on the view file.
 	public function the_view( $path , $return = false , $load_from_main_dir = false )
 	{
-		return $this->load_ext(array('_Tendoo_view' => $path, '_Tendoo_vars' => array(), '_Tendoo_return' => $return),$load_from_main_dir);
-	}
-	protected function object_to_array($object)
-	{
-		return (is_object($object)) ? get_object_vars($object) : $object;
+		return $this->load_ext(array('_Tendoo_view' => $path, '_Tendoo_return' => $return),$load_from_main_dir);
 	}
 	private function load_ext($data,$lfmd)
 	{
 		// Set the default data variables : Study This Case
-		foreach (array('_Tendoo_view', '_Tendoo_vars', '_Tendoo_path', '_Tendoo_return') as $_values)
+		foreach (array('_Tendoo_view', '_Tendoo_path', '_Tendoo_return') as $_values)
 		{
-			$$_values = ( ! isset($data[$_values])) ? FALSE : $data[$_values];
+			$$_values = ( ! isset( $data[$_values] ) ) ? FALSE : $data[$_values];
 		}
 		// Get Core Vars 
 		foreach ( get_core_vars() as $core_keys	=>	$core_vars)
@@ -135,20 +132,6 @@ class Loader
 		}
 
 		/*
-		 * Extract and cache variables
-		 *
-		 * You can either set variables using the dedicated $this->load_vars()
-		 * function or via the second parameter of this function. We'll merge
-		 * the two types and cache them so that views that are embedded within
-		 * other views can have access to these variables.
-		 */
-		if (is_array($_Tendoo_vars))
-		{
-			$this->tendoo_vars_caches = array_merge($this->tendoo_vars_caches, $_Tendoo_vars);
-		}
-		extract($this->tendoo_vars_caches);
-
-		/*
 		 * Buffer the output
 		 *
 		 * We buffer the output for two reasons:
@@ -166,7 +149,7 @@ class Loader
 		// do a little string replacement, changing the short tags
 		// to standard PHP echo statements.
 
-		if ((bool) @ini_get('short_open_tag') === FALSE)
+		if ( (bool) @ini_get('short_open_tag') === FALSE)
 		{	
 			if(is_file($_Tendoo_path))
 			{	
@@ -248,7 +231,7 @@ class Loader
 		// Was the path included with the class name?
 		// We look for a slash to determine this
 		$subdir = '';
-		if (($last_slash = strrpos($class, '/')) !== FALSE)
+		if ( ($last_slash = strrpos($class, '/')) !== FALSE)
 		{
 			// Extract the path
 			$subdir = substr($class, 0, $last_slash + 1);

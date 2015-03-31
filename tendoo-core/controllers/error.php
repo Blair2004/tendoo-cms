@@ -38,8 +38,8 @@ class error extends Libraries
 	public function code($e)
 	{
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-		$this->data['code']				=	notice('push',fetch_notice_output($e));
-		$this->data['body']				=	$this->load->view('error/inner_body',$this->data,TRUE);
+		set_core_vars( 'code' ,	notice('push',fetch_notice_output($e)) );
+		set_core_vars( 'body' , $this->load->view('error/inner_body',$this->data,TRUE) );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		set_page('title', translate( 'Error - Tendoo' ) );
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
