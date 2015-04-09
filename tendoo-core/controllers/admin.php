@@ -24,14 +24,18 @@ class Admin extends Libraries
 		
 		trigger_inits(); // For Core menu extension, they are called after default menu.
 		
-		$this->notices_loader();				// 	Fin du constructeur
+		$this->notices_loader();
 		$this->file_loader();
+		
+		if( get_user_meta( 'tendoo_status' ) == false && get_instance()->url->method() != 'about' ): 
+			get_instance()->url->redirect( array( 'admin' , 'about' ) );
+		endif;
+		
 		
 		/**
 		 * 	Declare Notices : Notices are internal(system) or module/theme alert.
 		**/
 		set_core_vars( 'tendoo_notices' , trigger_filters( 'declare_notices' , array( get_core_vars( 'default_notices' ) ) ) ); // @since 1.4		
-		
 		set_page( 'description' , translate( 'Dashboard' ) . ' | '.get( 'core_version' ) );
 		
 		/*$this->tendoo_admin->system_not('Modifier vos param&ecirc;tre de s&eacute;curit&eacute;', 'Mettez vous &agrave; jour avec cette version', '#', '10 mai 2013', null);*/	
@@ -146,13 +150,13 @@ class Admin extends Libraries
 	}
 	private function file_loader()
 	{
+		css_push_if_not_exists('font');
 		css_push_if_not_exists('../admin-lte/bootstrap/css/bootstrap.min');
 		css_push_if_not_exists('../admin-lte/font-awesome/font-awesome.4.3.0.min');
 		css_push_if_not_exists('../admin-lte/code.ionic/ionicons.min');
 		css_push_if_not_exists('../admin-lte/dist/css/AdminLTE.min');
 		css_push_if_not_exists('../admin-lte/dist/css/skins/_all-skins.min');
 		css_push_if_not_exists('tendoo_global');
-		// css_push_if_not_exists('blue');
 		
 		js_push_if_not_exists('../admin-lte/plugins/jQuery/jQuery-2.1.3.min');
 		js_push_if_not_exists('../admin-lte/bootstrap/js/bootstrap.min');
@@ -218,10 +222,10 @@ class Admin extends Libraries
 		) );
 		
 		$this->menu->add_admin_menu_core( 'themes' , array(
-				'href'			=>		$this->instance->url->site_url('admin/controllers'),
-				'icon'			=>		'fa fa-bookmark',
-				'title'			=>		__( 'Menus' )
-			) );
+			'href'			=>		$this->instance->url->site_url('admin/controllers'),
+			'icon'			=>		'fa fa-bookmark',
+			'title'			=>		__( 'Menus' )
+		) );
 		//
 		
 		
@@ -280,21 +284,23 @@ class Admin extends Libraries
 			'href'			=>		$this->instance->url->site_url('index')
 		) );
 		
+		$notices_nbr		=		0;
+		$notices_nbr		+=		( get_user_meta( 'tendoo_status' ) == false ) ? 1 : 0;
+		
 		$this->menu->add_admin_menu_core( 'about' , array(
 			'title'			=>		__( 'About' ) ,
 			'icon'			=>		'fa fa-rocket',
-			'href'			=>		$this->instance->url->site_url('admin/about')
+			'href'			=>		$this->instance->url->site_url('admin/about'),
+			'notices_nbr'	=>		 $notices_nbr
 		) );
 		
 	}
 	// Tendoo 1.4
-	public function about($option	=	'index',$option_2 = 1)
+	public function about( $option	=	'index',$option_2 = 1)
 	{
+		set_user_meta( 'tendoo_status' , 1 );
 		set_page('title', translate( 'About - Tendoo' ) );
-		set_core_vars( 'body' , $this->load->view('admin/about/body',$this->data,true), 'read_only' );
-		
-		$this->load->view('admin/header',$this->data,false,false);
-		$this->load->view('admin/global_body',$this->data,false,false);	
+		$this->load->the_view( 'admin/about/body' );
 	}
 	public function active($e,$namespace)
 	{

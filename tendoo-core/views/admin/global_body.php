@@ -12,7 +12,7 @@
 		}
 		else
 		{
-			$this->instance->tendoo->show_error('Le tableau renvoy&eacute; manque d\'information suffisante pour l\'affichage int&eacute;grale de la page','Interpr&eacute;tation mal exprimé');
+			get_instance()->tendoo->show_error('Le tableau renvoy&eacute; manque d\'information suffisante pour l\'affichage int&eacute;grale de la page','Interpr&eacute;tation mal exprimé');
 		}
 	}
 	else

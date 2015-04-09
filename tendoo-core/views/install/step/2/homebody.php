@@ -1,45 +1,25 @@
-<section class="panel">
-    <?php echo $this->load->the_view( 'install/step/menu' , true );?>
-    <div class="step-content">
-        <div class="step-pane active" id="step2">
-            <div class="row">
-                <div class="col-lg-7">
-                    <div class="col-lg-13">
-                        <h4><i class="fa fa-exchange"></i><?php echo translate('Connecting to database');?></h4>
-                        <div>
-                            <?php echo translate('before using tendoo, you must define database login information.');?>
-                        </div>
+<div class="login-box" style="width:600px">
+    <div class="login-logo">
+        <a href="<?php echo get_instance()->url->main_url();?>">
+        <h3 style="text-align:center;"><img style="max-height:80px;margin-top:-3px;display:inline-block;" src="<?php echo get_instance()->url->img_url("logo_4.png");?>"> </h3>
+        </a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <h3 class="text-center" style="margin-top:0;"><?php echo get('core_version');?></h3>
+        <section class="panel">
+        	<form method="post">
+        	<div class="row">
+            	<div class="col-lg-12">
+                    <h4><i class="fa fa-exchange"></i> <?php echo translate('Connecting to database');?></h4>
+                    <div>
+                        <?php echo translate('before using tendoo, you must define database login information.');?>
                     </div>
-                    <?php 
-									$form_response	=	validation_errors('<li>', '</li>');
-									ob_start();
-									output('notice');
-									$query_error	=	strip_tags(ob_get_contents());
-									ob_end_clean();
-									if($form_response)
-									{
-										?>
-                    <div class="col-lg-13">
-                        <div class="panel-body">
-                            <?php echo tendoo_error('<strong>'.translate( 'Error occured. Please check your form data.' ).'</strong><br><br>'.$form_response);?>
-                        </div>
-                    </div>
-                    <?php
-									}
-									else if($query_error)
-									{
-										?>
-                    <div class="col-lg-13">
-                        <div class="panel-body">
-                            <?php echo tendoo_error('<strong>'.translate('Error Occured').'</strong><br><br>'.$query_error);?>
-                        </div>
-                    </div>
-                    <?php
-									}
-									?>
+                    <br>
+                    <?php echo output('notice');?>
                 </div>
-                <div class="col-lg-5">
-                    <h4><i class="fa fa-bullseye"></i><?php echo translate('Database Login Informations');?></h4>
+            	<div class="col-lg-12">
+                    <h4><i class="fa fa-bullseye"></i> <?php echo translate('Database Login Informations');?></h4>
                     <div class="form-group">
                         <label class="host_name"><?php echo translate('Host Name');?></label>
                         <input name="host_name" value="localhost" type="text" placeholder="<?php _e( 'localhost' );?>" class="form-control">
@@ -61,20 +41,28 @@
                         <input name="extension_name" type="text" placeholder="<?php _e( 'lumax_' );?>" class="form-control" value="lumax_">
                     </div>
                     <div class="form-group">
-                        <select class="input-sm form-control input-s-sm inline" name="db_type" style="color:#333;background:#FFF;">
+                    	<label><?php _e( 'Select your database type' );?></label>
+                        <select class="form-control" name="db_type" style="color:#333;background:#FFF;">
                             <option value="" style="color:#333"><?php echo translate('Database Type');?></option>
                             <option value="mysql" selected style="color:#333">Mysql</option>
                             <option value="mysqli" style="color:#333">Mysql Lite</option>
                             <option value="sqlite" style="color:#333">Sql Lite</option>
                         </select>
                     </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="line line-dashed">
-                    </div>
                     <button style="float:right" type="submit" class="btn btn-info"><?php echo translate('Next Step');?></button>
                 </div>
             </div>
-        </div>
+            </form>
+		</section>
     </div>
-</section>
+    <!-- /.login-box-body -->
+</div>
+<script>
+  $(function () {
+	$('input').iCheck({
+	  checkboxClass: 'icheckbox_square-blue',
+	  radioClass: 'iradio_square-blue',
+	  increaseArea: '20%' // optional
+	});
+  });
+</script> 

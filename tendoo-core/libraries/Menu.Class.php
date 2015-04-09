@@ -129,7 +129,18 @@ class Menu extends Libraries
 						else
 						{
 							?>
-							 <a href="<?php echo riake( 'href' , $menu , '#' );?>"> <i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> <span><?php echo riake( 'title' , $menu );?></span> </a>
+							 <a href="<?php echo riake( 'href' , $menu , '#' );?>"> 
+								<i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> 
+	                             <span><?php echo riake( 'title' , $menu );?></span> 
+                                 <?php
+								 if( riake( 'notices_nbr' , $menu ) == true )
+								 {
+								 ?>
+                                 <small class="label pull-right bg-yellow"><?php echo riake( 'notices_nbr' , $menu );?></small>
+                                 <?php
+								 }
+								 ?>
+                             </a>
 							<?php						
 						}
 						$loop_index++; // increment loop_index

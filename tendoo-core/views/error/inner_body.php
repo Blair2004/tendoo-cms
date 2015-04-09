@@ -34,7 +34,7 @@
             <?php _e( 'Log in' );?>
             </a>
             <?php
-                                    if( riake( 'allow_registration' , $options ) == '1')
+                                    if( riake( 'allow_registration' , get_core_vars( 'options' ) ) == '1')
                                     {
                                     ?>
             <a href="<?php echo $this->instance->url->site_url(array('registration'));?>" class="list-group-item"> <i class="fa fa-chevron-right"></i> <i class="fa fa-group"></i>

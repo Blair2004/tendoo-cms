@@ -11,7 +11,10 @@ class Install extends Libraries
 		$this->instance				=	get_instance();
 		$this->load->library('form_validation');
 		$this->load->library('installation');
+		$this->load->library('file');	
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		$this->file->css_push('font');
+		/**
 		$this->file->css_push('font');
 		$this->file->css_push('app.v2');
 		$this->file->css_push('fuelux');
@@ -19,6 +22,17 @@ class Install extends Libraries
 		$this->file->js_push('jquery');
 		$this->file->js_push('app.min.vtendoo');
 		$this->file->js_push('tendoo_app');
+		**/
+		
+		css_push_if_not_exists('../admin-lte/bootstrap/css/bootstrap.min');
+		css_push_if_not_exists('../admin-lte/font-awesome/font-awesome.4.3.0.min');
+		css_push_if_not_exists('../admin-lte/dist/css/AdminLTE.min');
+		css_push_if_not_exists('../admin-lte/plugins/iCheck/square/blue');
+
+		
+		js_push_if_not_exists('../admin-lte/plugins/jQuery/jQuery-2.1.3.min');
+		js_push_if_not_exists('../admin-lte/bootstrap/js/bootstrap.min');
+		js_push_if_not_exists('../admin-lte/plugins/iCheck/icheck.min');
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	}
 	public function index($i = 1,$e = '')
@@ -69,8 +83,8 @@ class Install extends Libraries
 			}
 			if(isset($_POST['host_name'],$_POST['user_name']))
 			{
-				$this->form_validation->set_rules('host_name',__( 'Host name' ),'trim|required');
-				$this->form_validation->set_rules('user_name',__( 'Use name' ),'trim|required');
+				$this->form_validation->set_rules( 'host_name' ,__( 'Host name' ),'trim|required');
+				$this->form_validation->set_rules( 'user_name' ,__( 'Use name' ),'trim|required');
 				// $this->form_validation->set_rules('host_password','mot de passe','trim|required'); // to allow empty password usage.
 				$this->form_validation->set_rules('db_name',__( 'Database name' ),'trim|required');
 				$this->form_validation->set_rules('db_type',__( 'Server type' ),'trim|required');
@@ -92,11 +106,11 @@ class Install extends Libraries
 					}
 				}
 			}
-			set_page('title', sprintf( translate( '%s &shy; Setting Database Information' ) , get( 'core_version' ) ) );
-			set_core_vars( 'installbody' , $this->load->the_view('install/step/2/homebody', true ) );
+			set_page( 'title', sprintf( translate( '%s &shy; Setting Database Information' ) , get( 'core_version' ) ) );
+			set_core_vars( 'body' , $this->load->the_view('install/step/2/homebody', true ) );
 			
-			$this->load->the_view('header',$this->data);			
-			$this->load->the_view( 'install/step/body' );
+			$this->load->the_view( 'header' , $this->data );			
+			$this->load->the_view( 'global_body' );
 		}
 		else if($i == 3)
 		{
@@ -115,10 +129,10 @@ class Install extends Libraries
 				}
 				set_page('title', sprintf( translate( '%s &shy; Providing Website name' ) , get( 'core_version' ) ) );
 				
-				set_core_vars( 'installbody' , $this->load->the_view('install/step/3/homebody', true ) );
+				set_core_vars( 'body' , $this->load->the_view('install/step/3/homebody', true ) );
 				
 				$this->load->the_view( 'header' , $this->data );
-				$this->load->the_view('install/step/body' );
+				$this->load->the_view( 'global_body' );
 			}
 			else
 			{

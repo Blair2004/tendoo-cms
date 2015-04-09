@@ -12,6 +12,7 @@ Class registration extends Libraries
 		$this->load->library('pagination');
 		$this->load->library('form_validation');
 		
+		css_push_if_not_exists('font');		
 		css_push_if_not_exists('../admin-lte/bootstrap/css/bootstrap.min');
 		css_push_if_not_exists('../admin-lte/font-awesome/font-awesome.4.3.0.min');
 		css_push_if_not_exists('../admin-lte/dist/css/AdminLTE.min');

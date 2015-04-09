@@ -99,9 +99,9 @@ class File
 	{
 		if($temporaryLocation == null)
 		{
-			if(!in_array($this->css_url.$e.'.css',$this->cssfiles))
+			if( ! in_array($this->css_url.$e.'.css',$this->cssfiles))
 			{
-				array_push($this->cssfiles,$this->css_url.$e.'.css');
+				array_push( $this->cssfiles , $this->css_url . $e . '.css' );
 				return true;
 			}
 		}

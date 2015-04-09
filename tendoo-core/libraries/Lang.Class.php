@@ -27,14 +27,14 @@ Class Lang
 	/*	TFC	=	Tendoo File Code;
 	*/
 
-	private $supportedLang	=	array('en_US','en_US');
+	private $supportedLang	=	array('en_US','fr_FR');
 	public function isLangSelected()
 	{
 		return defined( 'LANG' ) ? true : false;
 	}
-	public function defineLang($lang)
+	public function get_supported_lang()
 	{
-		return false; // deprecated
+		return $this->supportedLang;
 	}
 	public function getSystemLang()
 	{

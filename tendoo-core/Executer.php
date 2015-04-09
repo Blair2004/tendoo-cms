@@ -14,8 +14,7 @@ if( class_exists($Class.'_frontend') )
 		$this->tendoo->error( 'page-404' );
 	}
 }
-/** // Deprecated
-else if(class_exists('Tendoo_'.$Class)) 
+else if(class_exists('Tendoo_'.$Class))  // not deprecated
 {
 	if($this->tendoo->interpreter('Tendoo_'.$Class,$Method,$Parameters) === '404')
 	{
@@ -24,7 +23,6 @@ else if(class_exists('Tendoo_'.$Class))
 		$this->tendoo->error('page-404');
 	}
 }
-**/
 else if(class_exists($Class))
 {
 	if($this->tendoo->interpreter($Class,$Method,$Parameters) === '404')
