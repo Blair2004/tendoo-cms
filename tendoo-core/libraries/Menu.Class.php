@@ -77,14 +77,15 @@ class Menu extends Libraries
 					$custom_ul_style	=	'';
 					$custom_style		=	'';
 					// Preloop, to check if this menu has an  active child
+					$parent_notice_count=	0; // for displaying notice nbr count @since 1.4
 					foreach( $current_menu as $_menu )
 					{
+						$parent_notice_count +=	riake( 'notices_nbr' , $_menu );
 						if( riake( 'href' , $_menu ) == get_instance()->url->site_url() )
 						{
 							$menu_status		=	'active';
 							$custom_ul_style	= 	'';//'style="display: block;"';
 						}
-						
 					}
 					// var_dump( $menus_similarity );
 					$class			=	is_array( $current_menu ) && count( $current_menu ) > 1 ? 'treeview' : '';
@@ -102,11 +103,31 @@ class Menu extends Libraries
 							?>
 								<a <?php echo $custom_style;?> href="javascript:void(0)" class="<?php echo $menu_status;?>"> 
 									<i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> 
-									<span><?php echo riake( 'title' , $menu );?></span> 
+									<span><?php echo riake( 'title' , $menu );?></span>
                                     <i class="fa fa-angle-left pull-right"></i>
+                                    <?php
+									 if( $parent_notice_count > 0 )
+									 {
+									 ?>
+									 <small class="label pull-right bg-yellow"><?php echo $parent_notice_count;?></small>
+									 <?php
+									 }
+									 ?> 
 								</a>
 								<ul <?php echo $custom_ul_style;?> class="treeview-menu">
-									<li> <a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>"><?php echo riake( 'title' , $menu );?></a> </li>	
+									<li> 
+                                    	<a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>">
+											<span><?php echo riake( 'title' , $menu );?></span>
+                                            <?php
+											 if( riake( 'notices_nbr' , $menu ) == true )
+											 {
+											 ?>
+											 <small class="label pull-right bg-yellow"><?php echo riake( 'notices_nbr' , $menu );?></small>
+											 <?php
+											 }
+											 ?>                                        
+                                       	</a> 
+									</li>	
 							<?php
 							}
 							else // after the first child, all are included as sub-menu
@@ -114,7 +135,15 @@ class Menu extends Libraries
 								?>
 								<li> 
                                 	<a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>">
-										<?php echo riake( 'title' , $menu );?>
+										<span><?php echo riake( 'title' , $menu );?></span>
+                                        <?php
+										 if( riake( 'notices_nbr' , $menu ) == true )
+										 {
+										 ?>
+										 <small class="label pull-right bg-yellow"><?php echo riake( 'notices_nbr' , $menu );?></small>
+										 <?php
+										 }
+										 ?>
                                     </a> 
                                 </li>	
 								<?php

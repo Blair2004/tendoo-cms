@@ -195,8 +195,10 @@
 							$custom_ul_style	=	'';
 							$menu_status		=	'';
 							$menus_similarity	=	array();
+							$parent_notice_count=	0; // for displaying notice nbr count @since 1.4
 							foreach( $menu_list as $check )
 							{
+								$parent_notice_count +=	riake( 'notices_nbr' , $check );
 								if( riake( 'href' , $check ) == get_instance()->url->site_url() )
 								{
 									$custom_ul_style	= 	'style="display: block;"';
@@ -222,12 +224,32 @@
 												<i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> 
 												<span><?php echo $title;?></span> 
                                                 <i class="fa fa-angle-left pull-right"></i>
+                                                <?php
+												 if( $parent_notice_count > 0 )
+												 {
+												 ?>
+												 <small class="label pull-right bg-yellow"><?php echo $parent_notice_count;?></small>
+												 <?php
+												 }
+												 ?>     
 											</a>
 											<ul <?php echo $custom_ul_style;?> class="treeview-menu">
                                             <?php
 											// This let you choose if the first menu is also a submenu
 											if( $is_submenu ):?>
-												<li> <a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>"><?php echo riake( 'title' , $menu );?></a> </li>	
+												<li> 
+                                                	<a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>">
+														<span><?php echo riake( 'title' , $menu );?></span>
+                                                        <?php
+														 if( riake( 'notices_nbr' , $menu ) == true )
+														 {
+														 ?>
+														 <small class="label pull-right bg-yellow"><?php echo riake( 'notices_nbr' , $menu );?></small>
+														 <?php
+														 }
+														 ?>                                                             
+													</a> 
+												</li>	
                                             <?php 
 											endif;
 											
@@ -236,7 +258,19 @@
 										{
 											// inlight current page
 											?>
-												<li> <a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>"><?php echo riake( 'title' , $menu );?></a> </li>	
+                                            <li> 
+                                                <a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>">
+                                                    <span><?php echo riake( 'title' , $menu );?></span>
+													<?php
+                                                     if( riake( 'notices_nbr' , $menu ) == true )
+                                                     {
+                                                     ?>
+                                                     <small class="label pull-right bg-yellow"><?php echo riake( 'notices_nbr' , $menu );?></small>
+                                                     <?php
+                                                     }
+                                                     ?>                                                             
+                                                </a> 
+                                            </li>	
 											<?php
 										}
 										if( $first_index == ( count( $menu_list ) - 1 ) ) // If is last item of the menu
@@ -249,7 +283,18 @@
 									else // If no child exists
 									{
 										 ?>
-										 <a href="<?php echo riake( 'href' , $menu , '#' );?>"> <i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> <span><?php echo riake( 'title' , $menu );?></span> </a>
+										 <a href="<?php echo riake( 'href' , $menu , '#' );?>"> 
+                                         	<i class="<?php echo riake( 'icon' , $menu , 'fa fa-star' );?>"></i> 
+                                            <span><?php echo riake( 'title' , $menu );?></span> 
+											<?php
+                                             if( riake( 'notices_nbr' , $menu ) == true )
+                                             {
+                                             ?>
+                                             <small class="label pull-right bg-yellow"><?php echo riake( 'notices_nbr' , $menu );?></small>
+                                             <?php
+                                             }
+                                             ?>                                                             
+										</a>
 										 <?php
 									}
 								}

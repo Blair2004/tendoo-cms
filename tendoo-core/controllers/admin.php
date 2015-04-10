@@ -880,16 +880,18 @@ class Admin extends Libraries
 				set_core_vars( 'new_post_label' , $this->current_posttype->new_post_label );
 				
 				$this->load->library( 'form_validation' );
-				$this->form_validation->set_rules( 'post_title' , __( 'Post title' ) , 'required' );
+				$this->form_validation->set_rules( 'post_title' , __( 'Post title' ) );
 				
 				if( $this->form_validation->run() )
 				{
 					$return		=	$this->current_posttype->set( 
 						$this->input->post( 'post_title' ) , 
 						$this->input->post( 'post_content' ) , 
-						array(),
-						$_POST[ 'post_taxonomy' ],
-						$status = 'publish' 
+						riake( 'post_meta' , $_POST ),
+						riake( 'post_taxonomy' , $_POST ),
+						$this->input->post( 'post_status' ),
+						$this->input->post( 'post_parent' ),
+						$status = 'set' 
 					);					
 					
 					if( riake( 'msg' , $return ) === 'custom-query-saved' )
@@ -911,15 +913,17 @@ class Admin extends Libraries
 				set_core_vars( 'new_post_label' , $this->current_posttype->new_post_label );
 				
 				$this->load->library( 'form_validation' );
-				$this->form_validation->set_rules( 'post_title' , __( 'Post title' ) , 'required' );
+				$this->form_validation->set_rules( 'post_title' , __( 'Post title' ) );
 				
 				if( $this->form_validation->run() )
 				{
 					$return		=	$this->current_posttype->update( 
 						$this->input->post( 'post_title' ) , 
 						$this->input->post( 'post_content' ) , 
-						array(),
-						$_POST[ 'post_taxonomy' ],
+						riake( 'post_meta' , $_POST ),
+						riake( 'post_taxonomy' , $_POST ),
+						$this->input->post( 'post_status' ),
+						$this->input->post( 'post_parent' ),
 						$status = 'publish' , 
 						$id 
 					);					
@@ -937,6 +941,8 @@ class Admin extends Libraries
 				set_core_vars( 'post' , farray( $this->current_posttype->get( array( 
 					'where' =>	array( 'id'	=>	$id )
 				) ) ) );	
+				
+				// print_array( get_core_vars( 'post' ) );die;
 							
 				set_page( 'title' ,  $this->current_posttype->edit_post_label , 'Post List Label [#Unexpected error occured]' );
 				$this->load->the_view( 'admin/posttypes/edit' , false );

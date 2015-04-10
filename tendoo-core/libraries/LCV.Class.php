@@ -225,6 +225,8 @@ class Load_Core_Values
 		$__['cant-delete-the-latest-taxonomy']	=	tendoo_warning( __( 'The latest taxonomy can\'t be deleted.' ) );
 		$__['taxonomy-not-found-or-bound']		=	tendoo_warning( __( 'The concerned taxonomy is not found or is already bound.' ) );
 		$__['dooooooooo']						=	tendoo_warning( __( 'dooooooooooo' ) );
+		$__[ 'incorrect-query-parent' ]			=	tendoo_error( __( 'Incorrect parent has been given. Make sure that the parent id doesn\'t match the current query id.' ) );
+		
 		set_core_vars( 'default_notices' , $__ );
 	}
 	/**

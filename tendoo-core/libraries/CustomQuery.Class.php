@@ -5,6 +5,7 @@ class CustomQuery
 	private $saved_meta		=	array();
 	private $reserved_meta	=	array( 'TITLE' , 'CONTENT' , 'DATE' , 'AUTHOR' , 'NAMESPAACE' , 'ID' );
 	private $query_namespace;
+	private $is_hierarchical=	FALSE;
 	
 	function __construct( $config )
 	{
@@ -12,6 +13,8 @@ class CustomQuery
 		$this->query_namespace			=	riake( 'namespace' , $config , 'default' ); // Default with title and content only.
 		// meta should be given as array. Only new type of meta are accepted
 		$given_meta						=	riake( 'meta' , $config , array() );
+		$this->is_hierarchical			=	riake( 'is_hierarchical' , $config , FALSE );
+		
 		foreach( force_array( $given_meta )  as $_given_meta )
 		{
 			$this->saved_meta[]			=	$_given_meta;
@@ -71,8 +74,23 @@ class CustomQuery
 	 *	@return		:	Array
 	**/
 	
-	function set( $title , $content , $meta , $taxonomies , $mode = 'set' , $identifier = 0 , $filter = 'as_id' )
+	function set( $title , $content , $meta , $taxonomies , $status , $parent = 0, $mode = 'set' , $identifier = 0 , $filter = 'as_id' )
 	{
+		if( in_array( $title , array( FALSE , '' ) , TRUE ) )
+		{
+			$title		=	__( 'Untitled' );
+		}
+		if( in_array( $content , array( FALSE , '' ) , TRUE ) )
+		{
+			$content	=	'';
+		}
+		// Don't allow post to be himself a parent
+		if( $parent == $identifier && $this->is_hierarchical && $mode != 'set' )
+		{
+			return array( 'msg'	=>	'incorrect-query-parent' );
+		}
+		
+		// Meta are given as array
 		if( ! is_array( $meta ) ) 
 		{
 			return array( 'msg'	=>	'incorrect-given-meta' );
@@ -100,7 +118,6 @@ class CustomQuery
 			}
 		}
 		
-		
 		// BeWare : This only accepts that identifier is an int.
 		$title	=	$this->title_checker( $title , $identifier );
 		
@@ -110,10 +127,12 @@ class CustomQuery
 		}
 		// Saving Custom Query Only		
 		
-		$CQ_data		=	array(
-			'TITLE'		=>	$title,
-			'CONTENT'	=>	$content,
-			'AUTHOR'	=>	$this->user_id
+		$CQ_data				=	array(
+			'TITLE'				=>	$title,
+			'CONTENT'			=>	$content,
+			'AUTHOR'			=>	$this->user_id,
+			'PARENT_REF_ID'		=>	$parent,
+			'STATUS'			=>	$status
 		);
 		
 		if( $mode === 'set' )
@@ -161,8 +180,8 @@ class CustomQuery
 			
 			// Delete Saved Taxonomies
 		
-			$this->db->join( 'tendoo_query_taxonomies' , 'tendoo_query_taxonomies.ID = tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID' );
-			$this->db->join( 'tendoo_query' , 'tendoo_query.ID = tendoo_query_taxonomies_relationships.QUERY_REF_ID' );			
+			// $this->db->join( 'tendoo_query_taxonomies' , 'tendoo_query_taxonomies.ID = tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID' );
+			// $this->db->join( 'tendoo_query' , 'tendoo_query.ID = tendoo_query_taxonomies_relationships.QUERY_REF_ID' );			
 			$this->db->where( 'tendoo_query_taxonomies_relationships.QUERY_REF_ID' , riake( 'ID' , $result ) );			
 			$this->db->delete( 'tendoo_query_taxonomies_relationships' );
 			
@@ -179,16 +198,15 @@ class CustomQuery
 		foreach( force_array( $safe_taxonomies ) as $tax_id )
 		{
 			$taxonomy		=	farray( $this->__get_taxonomies( $tax_id ) );
-
+			
 			$this->db->insert( 'tendoo_query_taxonomies_relationships' , array(
 				'TAXONOMY_REF_ID'	=>	riake( 'ID' , $taxonomy ),
 				'QUERY_REF_ID'		=>	riake( 'ID' , $result )
 			) );
 		}
-		
 		// Saving Meta
 		// Save new ones
-		foreach( $meta as $key =>	$value )
+		foreach( force_array( $meta ) as $key =>	$value )
 		{
 			$this->db->insert( 'tendoo_query_meta' , array(
 				'QUERY_REF_ID'	=>	riake( 'ID' , $result ),
@@ -324,20 +342,37 @@ class CustomQuery
 		$CQ_query_1			=	$this->db->get();
 		$CQ_result			=	$CQ_query_1->result_array();
 		
-		// Before Procee, check if $return has an error 
+		// Before Proceed, check if $return has an error 
 		
 		if( $return !== FALSE ):  return $return; endif;
 		
 		// Fetching All Meta
 		foreach( $CQ_result as $CQ_key => &$__CQ_result )
 		{
-			$CQ_meta_query		=	$this->db->where( 'QUERY_REF_ID' , riake( 'QUERY_REF_ID' , $__CQ_result ) )->get( 'tendoo_query_meta' );
+			$CQ_meta_query		=	$this->db->where( 'QUERY_REF_ID' , riake( 'QUERY_ID' , $__CQ_result ) )->get( 'tendoo_query_meta' );
 			$CQ_meta_result		=	$CQ_meta_query->result_array();
+			
+			var_dump( $__CQ_result );
+			
 			foreach( $CQ_meta_result as $__CQ_meta_result )
 			{
 				$CQ_result[ $CQ_key ][ riake( 'KEY' , $__CQ_meta_result ) ] = riake( 'VALUE' , $__CQ_meta_result );
 			}
 			unset( $CQ_result[ $CQ_key ][ 'KEY' ] , $CQ_result[ $CQ_key ][ 'VALUE' ] ); // No more necessary
+			
+			// Getting Taxonomy
+			$this->db->select( 'tendoo_query_taxonomies.ID as TAXONOMY_ID' );
+			$this->db->from( 'tendoo_query_taxonomies' );
+			$this->db->join( 'tendoo_query_taxonomies_relationships' , 'tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID = tendoo_query_taxonomies.ID' , 'left' );
+			$CQ_taxonomy_query	=	$this->db->where( 'tendoo_query_taxonomies_relationships.QUERY_REF_ID' , riake( 'QUERY_REF_ID' , $__CQ_result ) )->get();
+			$CQ_taxonomy_result	=	$CQ_taxonomy_query->result_array();
+
+			foreach( $CQ_taxonomy_result as $__CQ_taxonomy_result )
+			{
+				$CQ_result[ $CQ_key ][ 'TAXONOMIES' ][] = riake( 'TAXONOMY_ID' , $__CQ_taxonomy_result );
+			}
+			unset( $CQ_result[ $CQ_key ][ 'TAXONOMY_REF_ID' ] ); // No more necessary
+			
 		}		
 		return $CQ_result;
 	}
@@ -610,11 +645,10 @@ class CustomQuery
 	
 	private function __get_taxonomies( $id )
 	{
-		$this->db->where( 'ID' , $id );
-		$query	=	$this->db
-		->where( 'QUERY_NAMESPACE' , $this->query_namespace )
-		->get( 'tendoo_query_taxonomies' );
-		
+		$query =	$this->db
+			->where( 'ID' , $id )		
+			->where( 'QUERY_NAMESPACE' , $this->query_namespace )
+			->get( 'tendoo_query_taxonomies' );			
 		return $query->result_array();
 	}
 	

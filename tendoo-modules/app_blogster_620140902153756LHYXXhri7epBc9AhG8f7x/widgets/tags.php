@@ -22,7 +22,7 @@ class tags_blogster_common_widget
 		$this->data['getTotalKeyWords']	=	$this->news->getAllPopularKeyWords($LIMIT);
 		// Recupération du contrôleur attaché au module.
 		
-		$controler		=	$this->instance->tendoo->getControllersAttachedToModule('blogster');
+		$controler		=	$this->instance->controller->getControllersAttachedToModule('blogster');
 		$tags			=	array();
 		foreach($this->data['getTotalKeyWords']  as $gtk)
 		{

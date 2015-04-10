@@ -69,7 +69,7 @@ $field_7	=	(form_error('priv_id')) ? form_error('priv_id' , '<span style="color:
         </div>
         <br />
         <div class="footer">
-        	<?php echo tendoo_info( __( 'If you see this page, its means that there is not any Super Administrator for your website. <br> The super adminstrator doesn\'t have any restrictions. He can create others users, creates roles, bind privileges to a specific roles, install apps, etc. <br>Its absolutely required to create a super adminstrator before you continue.' ) );?>
+        	<?php echo tendoo_info( __( 'If you see this page, it means that there is not any Super Administrator for your website. <br> The super adminstrator doesn\'t have any restrictions. He can create others users, creates roles, bind privileges to a specific roles, install apps, etc. <br>Its absolutely required to create a super adminstrator before you continue.' ) );?>
             <!--<a type="button" onclick="window.location	=	'<?php echo $this->instance->url->site_url(array('login'));?>'" class="btn btn-primary btn-lg btn-block" id="btn-1"> <i class="fa fa-signin text"></i> <span class="text">
             <?php _e( 'I already have an account' );?>
             </span> <i class="fa fa-ok text-active"></i></a>-->

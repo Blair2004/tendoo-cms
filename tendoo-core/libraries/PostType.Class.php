@@ -6,23 +6,24 @@ class PostType
 	**/
 	function __construct( $config )
 	{
-		$this->namespace			=	riake( 'namespace' , $config );
-		$this->meta					=	riake( 'meta' , $config );
-		$this->label				=	riake( 'label' , $config , $this->namespace );
-		$this->new_post_label		=	riake( 'new-post-label' , $config , sprintf( __( 'Create a new %s' ) , $this->namespace ) );
-		$this->edit_post_label		=	riake( 'edit-post-label' , $config , sprintf( __( 'Edit %s' ) , $this->namespace ) );
-		$this->posts_list_label		=	riake( 'posts-list-label' , $config , sprintf( __( '%s list' ) , $this->namespace ) );
-		$this->delete_post_label	=	riake( 'delete-post-label' , $config , sprintf( __( 'delete %s' ) , $this->namespace ) );
-		$this->menu_position		=	riake( 'menu-position' , $config , array( 'after' , 'dashboard' ) );
-		$this->menu_icon			=	riake( 'menu-icon' , $config , 'fa fa-star' );
-		$this->privilege			=	riake( 'privilege' , $config , 'system@manage_modules' );
+		$this->namespace			=	$this->config[ 'namespace' ]			=	riake( 'namespace' , $config );
+		$this->meta					=	$this->config[ 'meta' ]					=	riake( 'meta' , $config );
+		$this->label				=	$this->config[ 'label' ]				=	riake( 'label' , $config , $this->namespace );
+		$this->new_post_label		=	$this->config[ 'new-post-label' ]		=	riake( 'new-post-label' , $config , sprintf( __( 'Create a new %s' ) , $this->namespace ) );
+		$this->edit_post_label		=	$this->config[ 'edit-post-label' ]		=	riake( 'edit-post-label' , $config , sprintf( __( 'Edit %s' ) , $this->namespace ) );
+		$this->posts_list_label		=	$this->config[ 'posts-list-label' ]		=	riake( 'posts-list-label' , $config , sprintf( __( '%s list' ) , $this->namespace ) );
+		$this->delete_post_label	=	$this->config[ 'delete-post-label' ]	=	riake( 'delete-post-label' , $config , sprintf( __( 'delete %s' ) , $this->namespace ) );
+		$this->menu_position		=	$this->config[ 'menu-position' ]		=	riake( 'menu-position' , $config , array( 'after' , 'dashboard' ) );
+		$this->menu_icon			=	$this->config[ 'menu-icon' ]			=	riake( 'menu-icon' , $config , 'fa fa-star' );
+		$this->privilege			=	$this->config[ 'privilege' ]			=	riake( 'privilege' , $config , 'system@manage_modules' );
+		$this->displays				=	$this->config[ 'displays' ]				=	riake( 'displays' , $config , array( 'title' , 'editor' , 'publish' ) );
 		
 		if( ! $this->namespace )
 		{
 			return false;
 		}
 		
-		$this->query				=	new CustomQuery( array(
+		$this->query					=	new CustomQuery( array(
 			'namespace'					=>	$this->namespace,
 			'meta'						=>	$this->meta
 		) );
@@ -31,6 +32,10 @@ class PostType
 		$posttypes[ $this->namespace ]	=	$this;
 		
 		set_core_vars( 'posttypes' , $posttypes );
+	}
+	function get_config()
+	{
+		return $this->config;
 	}
 	function run()
 	{
@@ -98,9 +103,9 @@ class PostType
 	 * @return	:	String (Post status)
 	**/
 	
-	function set( $title , $content , $meta , $taxonomies , $mode = 'set' )
+	function set( $title , $content , $meta , $taxonomies , $status = 1, $parent = 0 , $mode = 'set' )
 	{
-		return $this->query->set( $title , $content , $meta , $taxonomies , $mode = 'set' );
+		return $this->query->set( $title , $content , $meta , $taxonomies , $status , $parent , $mode );
 	}
 	
 	/**
@@ -111,9 +116,9 @@ class PostType
 	 * @return	:	String (Post status)
 	**/
 	
-	function update( $title , $content , $status = 'publish' , $id = 0 )
+	function update( $title , $content , $meta , $taxonomies , $status = 1 , $parent = 0  , $mode = 'edit' , $id = 0 )
 	{
-		return $this->query->set( $title , $content , array() , array() , $mode = 'edit' , $id );
+		return $this->query->set( $title , $content , $meta , $taxonomies , $status , $parent , $mode , $id );
 	}
 	
 	/**

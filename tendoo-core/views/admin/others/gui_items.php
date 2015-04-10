@@ -274,7 +274,17 @@
 <?php endif;?>
 
 <?php for( $i = 0 ; $i < count( $text ) ; $i++ ): ?>
-	<?php $selected	=	( $value[ $i ] == $active ) ? 'selected="selected"' : '';?>
+	<?php if( is_array( $active ) ) : ?>
+    	<?php
+			$selected		=	'';
+			if( in_array( $value[ $i ] , $active ) )
+			{
+				$selected	=	'selected="selected"';
+			}
+		?>
+    <?php else : ?>
+    	<?php $selected	=	( $value[ $i ] == $active ) ? 'selected="selected"' : '';?>
+	<?php endif;?>
 <option value="<?php echo $value[ $i ];?>" <?php echo $selected;?>><?php echo $text[ $i ];?></option>
 <?php endfor;?>
 </select>

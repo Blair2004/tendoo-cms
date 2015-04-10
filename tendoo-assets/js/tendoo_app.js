@@ -524,7 +524,8 @@ $(document).ready(function(){
 				cl.setDiameter(32); // default is 40
 				cl.setDensity(41); // default is 40
 				cl.show(); // Hidden by default
-				this.hide();
+				// this.hide();
+				$( '.logo #canvasLoader' ).hide(); // instant hide
 			}
 		};
 		/**

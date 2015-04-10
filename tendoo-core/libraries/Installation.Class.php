@@ -57,6 +57,8 @@ class Installation extends Libraries
 			`DATE` datetime NOT NULL,
 			`EDITED` datetime NOT NULL,
 			`AUTHOR` varchar(255) NOT NULL,
+			`STATUS` int(11) NOT NULL,
+			`PARENT_REF_ID` int(11) NOT NULL,
 		PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB;';
 		if(!$this->db->query($sql))

@@ -21,8 +21,47 @@ class blogster_init_class extends Libraries
 			$this->both_context();
 		}
 	}
+	public function after_editor_plugin( $Params )
+	{
+		$gui		=	riake( 1 , $Params );
+		$posttype	=	riake( 0 , $Params );
+		$namespace	=	riake( 2 , $Params );
+		$post		=	riake( 3 , $Params ); // If set it means that the post is currently edited
+		
+		$namespace	=	riake( 'namespace' , $posttype->get_config() );
+		
+		var_dump( $post );die;
+		
+		if( $namespace == 'posts' )
+		{		
+			$gui->set_meta( array(
+				'type'			=>	'panel',
+				'namespace'		=>	'custom-meta-box',
+				'title'			=>	__( 'More Meta Box' )
+			) )->push_to( 1 );
+			
+			$gui->set_item( array(
+				'type'	=>	'text',
+				'name'	=>	'post_meta[custom]',
+				'label'	=>	__( 'Custom Post' )
+			) )->push_to( 'custom-meta-box' );
+		}
+	}
 	public function admin_context()
 	{
+		$this->salaire_personnel		=		new PostType( array(
+			'namespace'					=>		'posts',
+			'label'						=>		__( 'Post' ),
+			'meta'						=>		array( 'custom' )
+		) );
+		
+		$this->salaire_personnel->define_taxonomy( 'category' , __( 'Catégorie' ) , array(
+			'is_hierarchical'			=>		true
+		) );
+		
+		bind_event( 'after_editor_inition' , array( $this , 'after_editor_plugin' ) );
+				
+		$this->salaire_personnel->run();
 		// Creating Menu 1.4
 		create_admin_menu( 'blogster' , 'after' , 'dashboard' );
 		
@@ -31,12 +70,14 @@ class blogster_init_class extends Libraries
 			'href'	=>	module_url( array( 'index' ) , 'blogster' )
 		) );
 		add_admin_menu( 'blogster' , array(
-			'title'	=>	__( 'Write a new post' ), 
-			'href'	=>	module_url( array( 'publish' ) , 'blogster' )
+			'title'			=>	__( 'Write a new post' ), 
+			'href'			=>	module_url( array( 'publish' ) , 'blogster' ),
+			'notices_nbr'	=> 	3
 		) );
 		add_admin_menu( 'blogster' ,array(
-			'title'	=>	__( 'Create a new category' ), 
-			'href'	=>	module_url( array( 'category', 'create' ) , 'blogster' )
+			'title'			=>	__( 'Create a new category' ), 
+			'href'			=>	module_url( array( 'category', 'create' ) , 'blogster' ),
+			'notices_nbr'	=> 	1
 		) );
 		add_admin_menu( 'blogster' ,array(
 			'title'	=>	__( 'Categories' ), 
