@@ -2,6 +2,7 @@
 	$ui_config	=	get_core_vars( 'ui_config' );
 	$enabled	=	riake( 'enabled' , $ui_config , array() , true );
 	$output		=	riake( 'output' , $ui_config , array() , true );
+	$content_css=	riake( 'skip-header' , $output ) === true ? 'padding:0px' : '';
 ?>
 <!-- 
 Library : GUI-V1
@@ -18,9 +19,11 @@ Tendoo Version Required : 1.4
     <!-- Right side column. Contains the navbar and content of the page -->
     <aside class="right-side" id="inner-content"> 
         <!-- Content Header (Page header) -->
-        <?php output( 'content-header' );?>
+        <?php if( riake( 'skip-header' , $output ) !== true ):?>
+			<?php output( 'content-header' );?>
+        <?php endif;?>
         <!-- Main content -->
-        <section class="content" style="padding-bottom:50px;">
+        <section class="content" style="padding-bottom:50px;<?php echo $content_css;?>">
                 <?php echo output('notice');?>
                 <?php
 				/**
@@ -67,6 +70,17 @@ Tendoo Version Required : 1.4
 								$this->load->view('admin/others/gui_items' );   
 								?>
                             </div>
+                            <?php
+							// If pagination is defined
+							if( get_core_vars( 'pagination_data' ) )
+							{
+								?>
+							<div class="box-footer clearfix">
+                              <?php bs_pagination( get_core_vars( 'pagination_data' ) , $additionnal_class = "pagination pagination-sm no-margin pull-right");?>
+                            </div>
+                                <?php
+							}
+							?>
                         </section>
                         <?php
                                                 }
@@ -87,6 +101,17 @@ Tendoo Version Required : 1.4
                             <?php
                                             $this->load->view('admin/others/gui_items' );
                                             ?>
+							<?php
+							// If pagination is defined
+							if( get_core_vars( 'pagination_data' ) )
+							{
+								?>
+							<div class="box-footer clearfix">
+                            	<?php bs_pagination( get_core_vars( 'pagination_data' ) , $additionnal_class = "pagination pagination-sm no-margin pull-right");?>
+                            </div>
+                                <?php
+							}
+							?>
                         </section>
                         <?php
                                                     
@@ -122,6 +147,7 @@ Tendoo Version Required : 1.4
                                 <?php
 												}
 												?>
+								<?php bs_pagination( get_core_vars( 'pagination_data' ) , $additionnal_class = "pagination pagination-sm no-margin pull-right");?>
                             </footer>
                         </section>
                         <?php	

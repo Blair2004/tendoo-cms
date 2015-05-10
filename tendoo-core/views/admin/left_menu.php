@@ -36,6 +36,11 @@
 			get_instance()->menu->get_admin_menu_core( 'dashboard' );
 			show_admin_menu( 'after' , 'dashboard' );
 			
+			
+			show_admin_menu( 'before' , 'media' );
+			get_instance()->menu->get_admin_menu_core( 'media' );
+			show_admin_menu( 'after' , 'media' );
+			
 			// Controller menu has been deprecated
 			
 			show_admin_menu( 'before' , 'installer' );

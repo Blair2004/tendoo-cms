@@ -9,13 +9,22 @@ if(!function_exists('css_url'))
 }
 if(!function_exists('is_php'))
 {
-	function is_php($vers)
+	/**
+	 * @param  string  $version
+	 *
+	 * @return  bool
+	 */
+	function is_php($version = '5.0.0')
 	{
-		if($vers	>=	phpversion())
+		static $phpVer;
+		$version = (string) $version;
+	
+		if ( ! isset($phpVer[ $version ]))
 		{
-			return true;
+			$phpVer[ $version ] = (version_compare(PHP_VERSION, $version) < 0) ? false : true;
 		}
-		return false;
+	
+		return $phpVer[ $version ];
 	}
 }
 /**

@@ -19,7 +19,7 @@
         <div class="col-xs-8">    
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox"> <?php _e( 'Stay logged' );?>
+              <input type="checkbox" name="stayLoggedIn"> <?php _e( 'Stay logged' );?>
             </label>
           </div>                        
         </div><!-- /.col -->

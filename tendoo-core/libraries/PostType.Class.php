@@ -7,7 +7,7 @@ class PostType
 	function __construct( $config )
 	{
 		$this->namespace			=	$this->config[ 'namespace' ]			=	riake( 'namespace' , $config );
-		$this->meta					=	$this->config[ 'meta' ]					=	riake( 'meta' , $config );
+		// $this->meta					=	$this->config[ 'meta' ]					=	riake( 'meta' , $config ); Meta are no more white listed. They should be created using a proper form to be saved as meta data.
 		$this->label				=	$this->config[ 'label' ]				=	riake( 'label' , $config , $this->namespace );
 		$this->new_post_label		=	$this->config[ 'new-post-label' ]		=	riake( 'new-post-label' , $config , sprintf( __( 'Create a new %s' ) , $this->namespace ) );
 		$this->edit_post_label		=	$this->config[ 'edit-post-label' ]		=	riake( 'edit-post-label' , $config , sprintf( __( 'Edit %s' ) , $this->namespace ) );
@@ -17,6 +17,9 @@ class PostType
 		$this->menu_icon			=	$this->config[ 'menu-icon' ]			=	riake( 'menu-icon' , $config , 'fa fa-star' );
 		$this->privilege			=	$this->config[ 'privilege' ]			=	riake( 'privilege' , $config , 'system@manage_modules' );
 		$this->displays				=	$this->config[ 'displays' ]				=	riake( 'displays' , $config , array( 'title' , 'editor' , 'publish' ) );
+		$this->comment_enabled		=	$this->config[ 'comment-enabled' ]		=	riake( 'comment-enabled' , $config , TRUE );
+		$this->post_comment_label	=	$this->config[ 'post-comment-label' ]	=	riake( 'post-comment-label' , $config , __( 'Comments' ) );
+		$this->comments_list_label	=	$this->config[ 'comments-list-label' ]	=	riake( 'comments-list-label' , $config , sprintf( __( '%s comments' ) , $this->namespace ) ); 
 		
 		if( ! $this->namespace )
 		{
@@ -25,7 +28,7 @@ class PostType
 		
 		$this->query					=	new CustomQuery( array(
 			'namespace'					=>	$this->namespace,
-			'meta'						=>	$this->meta
+			// 'meta'						=>	$this->meta  // No more supported
 		) );
 		
 		$posttypes						=	get_core_vars( 'posttypes' );
@@ -59,6 +62,14 @@ class PostType
 				'title'			=>	$this->new_post_label, 
 				'href'			=>	get_instance()->url->site_url( array( 'admin' , 'posttype' , $this->namespace , 'new' ) ),
 			) );
+			
+			if( $this->comment_enabled === TRUE )
+			{
+				add_admin_menu( $this->namespace , array(
+					'title'			=>	$this->post_comment_label, 
+					'href'			=>	get_instance()->url->site_url( array( 'admin' , 'posttype' , $this->namespace , 'comments' ) ),
+				) );
+			}
 			
 			foreach( force_array( $this->query->get_defined_taxonomies() ) as $taxonomy )
 			{

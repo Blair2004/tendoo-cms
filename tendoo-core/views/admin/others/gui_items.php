@@ -197,13 +197,21 @@
 				{
 				?>
 <div class="form-group">
-<div class="btn-group" data-toggle="buttons">
+    <div class="btn-group" data-toggle="buttons">
+    <?php if( is_array( $name ) ):?>
 <?php for( $i = 0 ; $i < count( $name ) ; $i++ ): ?>
 <label class="btn btn-primary <?php echo riake( $i , $checked ) == true ? 'active' : '';?>">
-<input type="checkbox" <?php echo riake( $i , $checked ) == true ? 'checked="checked"' : '';?> <?php echo $attrs_string;?> name="<?php echo $name[ $i ];?>" id="option1" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
+<input type="checkbox" <?php echo riake( $i , $checked ) == true ? 'checked="checked"' : '';?> <?php echo $attrs_string;?> name="<?php echo $name[ $i ];?>" value="<?php echo $value[ $i ];?>"> <?php echo $label[ $i ];?>
 </label>
-<?php endfor;?>
-</div>
+	<?php 
+			endfor;
+		else: // for unique checkbox case fix.
+	?>
+<label class="btn btn-primary <?php echo riake( $i , $checked ) == true ? 'active' : '';?>">
+<input type="checkbox" <?php echo riake( $i , $checked ) == true ? 'checked="checked"' : '';?> <?php echo $attrs_string;?> name="<?php echo $name;?>" value="<?php echo $value;?>"> <?php echo $label;?>
+</label>
+	<?php endif;?>
+    </div>
 </div>
 				<?php
 				}

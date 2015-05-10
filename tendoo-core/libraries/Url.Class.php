@@ -32,13 +32,14 @@ Class Url
 		if(preg_match("#\\\#",$this->execution_dir))
 		{
 			$splitDir				=	explode('\\',$this->execution_dir);
-			$this->projet_dir		=	$splitDir[count($splitDir) -1];
+			$this->projet_dir		=	$splitDir[ count($splitDir) -1 ];
 		}
 		else
 		{
 			$splitDir				=	explode('/',$this->execution_dir);
-			$this->projet_dir		=	$splitDir[count($splitDir) -1];
+			$this->projet_dir		=	$splitDir[ count($splitDir) -1 ];
 		}
+		
 		$rootKey					=	0;
 		$newSpliterUrl				=	array();
 		$copy_new_url				=	false;

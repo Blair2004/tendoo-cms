@@ -108,6 +108,26 @@ class Installation extends Libraries
 		{
 			return false;
 		};
+		/* CREATE tendoo_query_comments */
+		$sql = 
+		'CREATE TABLE IF NOT EXISTS `'.$DB_ROOT.'tendoo_query_comments` (
+			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+			`AUTHOR` int(11) NOT NULL,
+			`COMMENTS` text,
+			`QUERY_NAMESPACE` varchar(200),
+			`CUSTOM_QUERY_ID` int(11) NOT NULL,
+			`STATUS` int(11) NOT NULL,
+			`DATE` datetime NOT NULL,
+			`EDITED datetime NOT NULL`
+			`REPLY_TO` int(11) NOT NULL,
+			`AUTHOR_EMAIL` varchar(200),
+			`AUTHOR_NAME` varchar(200),
+		PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB;';
+		if(!$this->db->query($sql))
+		{
+			return false;
+		};
 		/* 
 		 int(11) NOT NULL, Removed, only admin can access private stats.
 		*/

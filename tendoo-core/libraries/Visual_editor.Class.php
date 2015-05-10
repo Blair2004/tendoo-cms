@@ -96,15 +96,25 @@ class Visual_editor
 		}
 		if(!array_key_exists('id',$values)): $values['id']		=	'';endif;
 		if(!array_key_exists('name',$values)): $values['name']	=	'';endif;
-		return "<textarea class=\"cked\" name=\"".$values['name']."\" id=\"".$values['id']."\" style='height:".$default['height']."px;width:".$default['width']."px;'>".$defValue."</textarea>
+		ob_start();
+		?>
+        <textarea class="cked" 
+        	name="<?php echo $values['name'];?>" 
+            id="<?php echo $values['id'];?>" 
+            style='height:<?php echo $default['height'];?>"px;width:<?php echo $default['width'];?>px;'>
+				<?php echo $defValue;?>
+		</textarea>
 		<script>
-		".$customConfig."
-		var ".$values['id']."	=	
-		CKEDITOR.replace('".$values['id']."',{
-			".$toolBarConfig.",
-			heigth	:	'500px'
+		<?php echo $customConfig;?>
+		var <?php echo $values['id'];?>	=	
+		CKEDITOR.replace( '<?php echo $values['id'];?>' , {
+			<?php echo $toolBarConfig;?>,
+			filebrowserBrowseUrl : '<?php echo $this->instance->url->site_url( array( 'admin' , 'upload' ) ) . "?type=2&editor=ckeditor&fldr=" ;?>',
+			filebrowserUploadUrl : '<?php echo $this->instance->url->site_url( array( 'admin' , 'upload' ) ) . "?type=2&editor=ckeditor&fldr=";?>',
+			filebrowserImageBrowseUrl : '<?php echo $this->instance->url->site_url( array( 'admin' , 'upload' ) ) . "?type=1&editor=ckeditor&fldr=";?>'
 		});
 		</script>
-			";
+		<?php
+		return ob_get_clean();
 	}
 }

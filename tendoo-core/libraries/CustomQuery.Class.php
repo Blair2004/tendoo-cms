@@ -6,6 +6,8 @@ class CustomQuery
 	private $reserved_meta	=	array( 'TITLE' , 'CONTENT' , 'DATE' , 'AUTHOR' , 'NAMESPAACE' , 'ID' );
 	private $query_namespace;
 	private $is_hierarchical=	FALSE;
+	private $datetime;
+	private $user_id;
 	
 	function __construct( $config )
 	{
@@ -96,6 +98,8 @@ class CustomQuery
 			return array( 'msg'	=>	'incorrect-given-meta' );
 		}
 		
+		// Meta key is not white listed
+		/** 
 		foreach( array_keys( force_array( $meta ) ) as $meta_key )
 		{
 			if( ! in_array( $meta_key , $this->saved_meta ) )
@@ -103,6 +107,7 @@ class CustomQuery
 				return array( 'msg'		=>	'incorrect-key-given' );
 			}
 		}
+		**/
 		
 		$safe_taxonomies	=	array();
 		
@@ -352,8 +357,6 @@ class CustomQuery
 			$CQ_meta_query		=	$this->db->where( 'QUERY_REF_ID' , riake( 'QUERY_ID' , $__CQ_result ) )->get( 'tendoo_query_meta' );
 			$CQ_meta_result		=	$CQ_meta_query->result_array();
 			
-			var_dump( $__CQ_result );
-			
 			foreach( $CQ_meta_result as $__CQ_meta_result )
 			{
 				$CQ_result[ $CQ_key ][ riake( 'KEY' , $__CQ_meta_result ) ] = riake( 'VALUE' , $__CQ_meta_result );
@@ -372,7 +375,6 @@ class CustomQuery
 				$CQ_result[ $CQ_key ][ 'TAXONOMIES' ][] = riake( 'TAXONOMY_ID' , $__CQ_taxonomy_result );
 			}
 			unset( $CQ_result[ $CQ_key ][ 'TAXONOMY_REF_ID' ] ); // No more necessary
-			
 		}		
 		return $CQ_result;
 	}
@@ -723,5 +725,172 @@ class CustomQuery
 		$this->db->group_by( 'tendoo_query_taxonomies.ID' );
 		$query	=	$this->db->get( 'tendoo_taxonomies_relationships' );
 		return $query->resulat_array();
+	}
+	
+	/**
+	 * Get bound comment to a specific post
+	 *
+	 *	@acess 		:	Public
+	 *	@params		:	String(Post Namespace), Array(Config)
+	 * 	@return		:	Array
+	**/
+	
+	function get_comments( $config	= array() )
+	{
+		$this->db->where( 'QUERY_NAMESPACE' , $this->query_namespace );
+		var_dump( $this->query_namespace );
+		if( is_array( $config ) )
+		{
+			foreach( $config as $tag => $values )
+			{
+				if( strtolower( $tag ) == 'where' )
+				{
+					if( is_array( $values ) )
+					{
+						foreach( $values as $_key => $_value )
+						{
+							if( $_key == 'post_id' ) // Custom Search
+							{
+								$this->db->where( 'post_id' , $_value );
+							}
+							else
+							{
+								$this->db->where( strtoupper( $_key ) , $_value ); // to allow upper case for normal filter
+							}
+						}
+					}
+				}
+			}
+			if( riake( 'limit' , array_keys( $config ) ) )
+			{
+				$this->db->limit( riake( 'end' , $config[ 'limit' ] ) , riake( 'start' , $config[ 'limit' ] ) );
+			}
+		}
+		$query	=	$this->db->get( 'tendoo_query_comments' );
+		return $query->result_array();
+	}
+	
+	/**
+	 * 	Create a comment for a specifc post and post type
+	 *
+	 *	@access		:	public
+	 *	@params		:	string (post namespace), int( post id ), int ( author id if is connected ), string (comment content), int (comment parent id), string (author name), string (author email)
+	 *	@return 	:	string (response of the operation)
+	**/
+	
+	function post_comment( $post_id , $content , $author = false , $mode = 'create' , $comment_id = null , $author_name = '' , $author_email = ''  , $reply_to = false )
+	{		
+		// check if post exists
+		
+		$post	=	$this->get( array(
+			'where'	=>	array( 'id' =>	$post_id )
+		) );
+		
+		if( $post ) // if it doesn't return an empty array
+		{
+			$comment_array	=	array(
+				'QUERY_NAMESPACE'	=>	$this->query_namespace,
+				'COMMENT'			=>	$content,
+				'DATE'				=>	$this->datetime,
+			);
+			
+			// if reply_to == false, skipt
+			
+			if( $reply_to !== false )
+			{				
+				if( $comment	=	$this->get_comments( $this->query_namespace , array(
+					'id'	=>	$reply_to
+				) ) ) : // if parent comment exists
+				
+				$comment_array[ 'REPLY_TO' ]	=	$reply_to;
+				
+				endif; // end of if parent comment exists
+			}				
+			
+			// use default name and email provided
+			
+			$comment_array[ 'AUTHOR_NAME' ]			=	$author_name;
+			$comment_array[ 'AUTHOR_EMAIL' ]		=	$author_email;
+			
+			// getting user if set
+			
+			if( $author == false )
+			{
+				if( ( $user		=	get_user( 'as_id' , $author ) ) == false )
+				{
+					return 'unknow-user';
+				}
+				
+				// overwrite author email and name 
+				
+				$comment_array[ 'AUTHOR' ]			=	$author;
+				$comment_array[ 'AUTHOR_NAME' ]		=	riake( 'NAME' , $user , __( 'Not Set' ) );
+				$comment_array[ 'AUTHOR_EMAIL' ]	=	riake( 'EMAIL' , $user , __( 'Not Set' ) );
+			}
+			
+			// Checkfs if auto publish is allowed (for registered user) to edit comment status
+			
+			if( $mode == 'create' )
+			{
+				$this->db->insert( 'tendoo_query_comments' , $comment_array );
+			}
+			else if( $mode == 'edit' )
+			{
+				$this->db->where( 'ID' , $comment_id )->update( 'tendoo_query_comments' , $comment_array );
+			}
+			
+			return 'comment-submitted';
+		}
+		return 'unknow-post';		
+	}
+	
+	/**
+	 *  Delete a comment
+	 *
+	 *	 @access	:	Public
+	 *	 @params	:	int (comment id)
+	 *	 @return 	: 	string (response of the operation)
+	**/
+	
+	function delete_comment( $id , $filter = 'as_id' )
+	{
+		if( $filter == 'as_id' )
+		{
+			$comment	=	$this->get_comments( array( 
+				'where' 	=>	array( 'id'	=>	$id )
+			) );
+			if( $comment )
+			{
+				$this->db->where( 'ID' , $id )->delete( 'tendoo_query_comments' );
+			}
+			return 'comment-deleted';
+		}
+	}
+	
+	/**
+	 * 	Edit comment status
+	 *
+	 *	@access		:	Public
+	 *	@params		:	int (comment id), int (status 0:pending, 1:publish, 2:trash)
+	**/
+	
+	function comment_status( $id , $status = 0 )
+	{
+		if( ! between( 0 , 2 , $status ) ):
+			return 'unknow-status';
+		endif;
+		
+		$comments	=	$this->get_comments( array(
+			'where'	=>	array( 'id'	=>	$id )
+		) );
+		
+		// check if use can edit comment status
+		
+		if( $comments )
+		{
+			$this->db->where( 'ID' , $id )->update( 'STATUS' , $status );
+			return 'comment-edited';
+		}
+		return 'unknow-comment';
 	}
 }

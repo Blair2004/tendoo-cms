@@ -12,7 +12,16 @@ class blogster_init_class extends Libraries
 			if(SCRIPT_CONTEXT == 'ADMIN')
 			{
 				$this->admin_context();
-				// get_instance()->tendoo_admin->system_not('2 Nouveaux commentaires disponibles', 'Deux nouveaux commentaires sont dans la liste d\'attentes des [Lire la suite] ', '#', '10 mai 2013', null);
+				$this->salaire_personnel		=		new PostType( array(
+					'namespace'					=>		'posts',
+					'label'						=>		__( 'Mise à jour' )
+				) );
+				
+				$this->salaire_personnel->define_taxonomy( 'category' , __( 'Catégorie' ) , array(
+					'is_hierarchical'			=>		true
+				) );
+						
+				$this->salaire_personnel->run();
 			}
 			else
 			{
@@ -30,8 +39,6 @@ class blogster_init_class extends Libraries
 		
 		$namespace	=	riake( 'namespace' , $posttype->get_config() );
 		
-		var_dump( $post );die;
-		
 		if( $namespace == 'posts' )
 		{		
 			$gui->set_meta( array(
@@ -43,7 +50,8 @@ class blogster_init_class extends Libraries
 			$gui->set_item( array(
 				'type'	=>	'text',
 				'name'	=>	'post_meta[custom]',
-				'label'	=>	__( 'Custom Post' )
+				'label'	=>	__( 'Custom Post' ),
+				'value'	=>	riake( 'custom' , $post )
 			) )->push_to( 'custom-meta-box' );
 		}
 	}

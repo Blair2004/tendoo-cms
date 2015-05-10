@@ -246,7 +246,8 @@ class GUI extends Libraries
 		{
 			$empty_table_message	=	$this->empty_table_message;
 			?>
-            <table class="box-body table <?php echo $class;?> dynamic-tables-<?php echo $this->once_called;?>" <?php echo $attrs;?>>
+            <div class="box-body">
+            <table class="table table-bordered table-hover <?php echo $class;?> dynamic-tables-<?php echo $this->once_called;?>" <?php echo $attrs;?>>
                 <thead>
                     <tr>
                         <?php
@@ -294,9 +295,10 @@ class GUI extends Libraries
             </table>
             <script>
 			$(document).ready(function(e) {
-                $('.dynamic-tables-<?php echo $this->once_called;?>').dynatable();
+                $('.dynamic-tables-<?php echo $this->once_called;?>').dataTable();
             });
 			</script>
+            </div>
             <?php
 			$this->once_called++;
 		}

@@ -58,6 +58,12 @@ class Load_Core_Values
 					'action_name'		=>	__( 'Manage Tools' ),
 					'action_description'=>	__( 'This permissions allow user to manage tools' ),
 					'mod_namespace'		=>	'system'
+				),
+				array(  // @since 1.4
+					'action'			=>	'manage_media',
+					'action_name'		=>	__( 'Manage Media' ),
+					'action_description'=>	__( 'This permissions allow user to manage media' ),
+					'mod_namespace'		=>	'system'
 				)
 			)
 		) , 'read_only' );
@@ -226,6 +232,12 @@ class Load_Core_Values
 		$__['taxonomy-not-found-or-bound']		=	tendoo_warning( __( 'The concerned taxonomy is not found or is already bound.' ) );
 		$__['dooooooooo']						=	tendoo_warning( __( 'dooooooooooo' ) );
 		$__[ 'incorrect-query-parent' ]			=	tendoo_error( __( 'Incorrect parent has been given. Make sure that the parent id doesn\'t match the current query id.' ) );
+		$__[ 'unknow-post' ]					=	tendoo_error( __( 'Unknow post. provided id may be incorrect, or post not found.' ) );
+		$__[ 'unknow-user' ]					=	tendoo_error( __( 'Unknow user, or this user may no exists.' ) );
+		$__[ 'comment-submitted' ]				=	tendoo_success( __( 'Your comment has been successfully posted.' ) );
+		$__[ 'comment-deleted'	]				=	tendoo_error( __( 'The comment has been deleted.' ) );
+		$__[ 'unknow-status' ]					=	tendoo_error( __( 'Unknow status.' ) );
+		$__[ 'comment-edited' ]					=	tendoo_success( __( 'Comment edited' ) );
 		
 		set_core_vars( 'default_notices' , $__ );
 	}

@@ -20,6 +20,7 @@ class Loader
 	private	$tendoo_main_dir		=	array('' => TRUE);
 	public function __construct( &$parent )
 	{
+		$this->_Tendoo_ob_level			=	0;
 		$this->parent					=	$parent;
 		$this->instance					=	get_instance();
 	}
@@ -188,13 +189,14 @@ class Loader
 		 * template and any subsequent ones. Oy!
 		 *
 		 */
-		if (ob_get_level() > $this->_Tendoo_ob_level + 1)
+		 
+		if ( ob_get_level() > $this->_Tendoo_ob_level + 1)
 		{
 			ob_end_flush();
 		}
 		else
 		{
-			$_Tendoo_Tendoo->output->append_output(ob_get_contents());
+			$_Tendoo_Tendoo->output->append_output( ob_get_contents() );
 			@ob_end_clean();
 		}
 		$this->data['source_object']	=	NULL; // Reseting Object Saved

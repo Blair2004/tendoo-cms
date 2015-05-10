@@ -160,6 +160,9 @@ class Admin extends Libraries
 		
 		js_push_if_not_exists('../admin-lte/plugins/jQuery/jQuery-2.1.3.min');
 		js_push_if_not_exists('../admin-lte/bootstrap/js/bootstrap.min');
+		
+		js_push_if_not_exists('../admin-lte/plugins/datatables/jquery.dataTables');
+		js_push_if_not_exists('../admin-lte/plugins/datatables/dataTables.bootstrap');		
 		js_push_if_not_exists('../admin-lte/plugins/slimScroll/jquery.slimScroll.min');
 		js_push_if_not_exists('../admin-lte/plugins/fastclick/fastclick.min');
 		js_push_if_not_exists('../admin-lte/dist/js/app.min');
@@ -194,6 +197,15 @@ class Admin extends Libraries
 			'icon'			=>		'fa fa-dashboard',
 			'title'			=>		__( 'Dashboard' )
 		) );
+		
+		if( true /* current_user()->can( 'system@manage_media' ) */ )
+		{
+			$this->menu->add_admin_menu_core( 'media' , array(
+				'title'			=>		__( 'Media Library' ),
+				'icon'			=>		'fa fa-image',
+				'href'			=>		$this->instance->url->site_url('admin/media')
+			) );
+		}
 
 		// Controller has been deprecated for "menu" instead
 			
@@ -857,9 +869,11 @@ class Admin extends Libraries
 					$post_limit , 
 					$post_nbr , 
 					$id , 
-					get_instance()->url->site_url( array( 'admin' , 'posttype' , $namespace ) ),
+					get_instance()->url->site_url( array( 'admin' , 'posttype' , $namespace , 'list' ) ),
 					get_instance()->url->site_url( array( 'error' , 'code' , 'page-404' ) ) 
 				);
+				
+				set_core_vars( 'pagination_data' , $pagination );
 				
 				$post			=	$this->current_posttype->get( array(
 					'limit'		=>	array( 
@@ -1021,6 +1035,38 @@ class Admin extends Libraries
 				{
 					$this->url->redirect( array( 'error' , 'code' , 'unknow-taxonomy' ) );
 				}
+			}
+			else if( $page === 'comments' )
+			{
+				$id				=	$id 	=== 0 ? 1 : $id;
+				$comment_limit	=	10;
+				$comments_nbr	=	count( $this->current_posttype->query->get_comments() );				
+				
+				$pagination		=	pagination_helper(
+					$comment_limit,
+					$comments_nbr,
+					$id,
+					get_instance()->url->site_url( array( 'admin' , 'posttype' , $namespace , 'comments' ) ),
+					get_instance()->url->site_url( array( 'error' , 'code' , 'page-404' ) ) 
+				);
+				
+				set_core_vars( 'pagination_data' , $pagination );
+				 
+				$comments		=	farray( $this->current_posttype->query->get_comments( array( 
+					'limit'		=>	array(
+						'start'	=>	riake( 'start' , $pagination ),
+						'end'	=>	riake( 'end' , $pagination )
+					)
+				) ) );
+				
+				set_core_vars( 'comments' , $comments );				
+				set_core_vars( 'comments_list_label' , $this->current_posttype->comments_list_label );
+				
+				set_page( 'title' ,  $this->current_posttype->comments_list_label , 'Post List Label [#Unexpected error occured]' );
+				$this->load->the_view( 'admin/posttypes/comments-list' , false );
+			}
+			else if( $page === 'comment-edit' )
+			{
 			}
 		}
 		else
@@ -1491,6 +1537,34 @@ class Admin extends Libraries
 			
 			$this->load->the_view( 'admin/users/users' );
 		}
+	}
+	public function upload( $action = 'main' )
+	{
+		if( $action == 'main' )
+		{
+			$this->load->view( 'admin/uploads/dialog.php' );
+		}
+		else if( $action == 'ajax_call' )
+		{
+			$this->load->view( 'admin/uploads/ajax_call.php' );
+		}
+		else if( $action == 'execute' )
+		{
+			$this->load->view( 'admin/uploads/execute.php' );
+		}
+		else if( $action == 'force_download' )
+		{
+			$this->load->view( 'admin/uploads/force_download.php' );
+		}
+	}
+	public function send()
+	{
+		$this->load->view( 'admin/uploads/send.php' );
+	}
+	public function media()
+	{
+		set_page( 'title' , __( 'Media Library - Tendoo' ) );
+		$this->load->the_view( 'admin/uploads/media' , false );
 	}
 	// Public function
 
