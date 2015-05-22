@@ -738,7 +738,6 @@ class CustomQuery
 	function get_comments( $config	= array() )
 	{
 		$this->db->where( 'QUERY_NAMESPACE' , $this->query_namespace );
-		var_dump( $this->query_namespace );
 		if( is_array( $config ) )
 		{
 			foreach( $config as $tag => $values )
@@ -790,7 +789,7 @@ class CustomQuery
 		{
 			$comment_array	=	array(
 				'QUERY_NAMESPACE'	=>	$this->query_namespace,
-				'COMMENT'			=>	$content,
+				'COMMENTS'			=>	$content,
 				'DATE'				=>	$this->datetime,
 			);
 			
@@ -814,7 +813,7 @@ class CustomQuery
 			
 			// getting user if set
 			
-			if( $author == false )
+			if( $author !== false )
 			{
 				if( ( $user		=	get_user( 'as_id' , $author ) ) == false )
 				{
@@ -893,4 +892,25 @@ class CustomQuery
 		}
 		return 'unknow-comment';
 	}
+
+	/**
+	 *  Set custom Status
+	 *
+	 * @access	:	Public
+	 * @params 	:	int( Status tu convert to string )
+	**/
+	
+	function get_status( $int )
+	{
+		switch( ( int ) $int )
+		{
+			case 0 : return __( 'Draft' ) ; break;
+			case 1 : return __( 'Published' ) ; break;
+			case 2 : return __( 'Pending' ) ; break;
+			case 3 : return __( 'Trash' ) ; break;
+		}
+		return __( 'Unknow status' );
+	}
+
+	 
 }

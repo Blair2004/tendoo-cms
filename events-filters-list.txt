@@ -10,14 +10,4 @@ declare_notices :
 	@description	while declaring notice 
 	@file System.Core.php
 
-before_editor_inition :
-	@type event
-	@since 1.4
-	@description	Usually used to create custom field for post type meta before editor
-	@file tendoo-core/views/admin/posttypes/create.php
 	
-before_title_inition : 
-	@type event
-	@since 1.4
-	@description	Usually used to create custom field for post type meta before title
-	@file tendoo-core/views/admin/posttypes/create.php

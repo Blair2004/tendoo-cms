@@ -13,13 +13,22 @@ $table_row			=		array();
 
 foreach( force_array( $comments ) as $_comment )
 {
-	$user			=		( $pseudo = get_user( riake( 'AUTHOR' , $_comment ) , 'as_id' ) ) == '' ? $pseudo : riake( 'AUTHOR_NAME' , $_comment );
+	$user			=		( $pseudo = get_user( riake( 'AUTHOR' , $_comment ) , 'as_id' ) ) != false ? riake( 'PSEUDO' , $pseudo ) : riake( 'AUTHOR_NAME' , $_comment );
+	$user			=		$user == '' ? __( 'N/A' ) : $user ;
+	
 	$table_row[]	=		array(
 		'<input type="checkbox" name="post_id[]" style="height:30px" value="' . riake( 'QUERY_ID' , $_comment ) . '">',
-		'',
-		riake( 'PSEUDO' , $user ),
+		riake( 'COMMENTS' , $_comment ) . 
+		'<br>
+		<ul>
+			<li><a href=" ' . get_instance()->url->site_url( array( 'admin' , 'posttype' , $post_namespace , 'comments' , 'approve' , riake( 'ID' , $_comment ) ) ) . ' ">' . __( 'Approve' ) . '</a></li>
+			<li><a href=" ' . get_instance()->url->site_url( array( 'admin' , 'posttype' , $post_namespace , 'comments' , 'trash' , riake( 'ID' , $_comment ) ) ) . ' ">' . __( 'Trash' ) . '</a></li>
+			<li><a href=" ' . get_instance()->url->site_url( array( 'admin' , 'posttype' , $post_namespace , 'comments' , 'draft' , riake( 'ID' , $_comment ) ) ) . ' ">' . __( 'Draft' ) . '</a></li>
+			<li><a href=" ' . get_instance()->url->site_url( array( 'admin' , 'posttype' , $post_namespace , 'comments' , 'disapprove' , riake( 'ID' , $_comment ) ) ) . ' ">' . __( 'Disapprove' ) . '</a></li>
+		</ul>' ,
+		$user,
 		get_instance()->date->datetime( riake( 'DATE' , $_comment ) ),
-		''
+		$this->current_posttype->query->get_status( riake( 'STATUS' , $_comment ) )	
 	);
 }
 

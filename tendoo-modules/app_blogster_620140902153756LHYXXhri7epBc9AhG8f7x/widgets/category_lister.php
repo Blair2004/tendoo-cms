@@ -27,7 +27,7 @@ class aflecatdi_blogster_common_widget
 		
 		//eval($LIMIT)
 		$this->data['ttCat']	=	$this->news->getCatForWidgets(0,$LIMIT);
-		$controller		=	$this->instance->controller->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['namespace']);
+		$controller		=	$this->instance->tendoo->getControllersAttachedToModule($this->data['currentWidget']['WIDGET_MODULE']['namespace']);
 		$final_array	=	array();
 		foreach($this->data['ttCat'] as $t)
 		{

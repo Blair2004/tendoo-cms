@@ -198,7 +198,7 @@ class Admin extends Libraries
 			'title'			=>		__( 'Dashboard' )
 		) );
 		
-		if( true /* current_user()->can( 'system@manage_media' ) */ )
+		if( current_user()->can( 'system@manage_media' ) )
 		{
 			$this->menu->add_admin_menu_core( 'media' , array(
 				'title'			=>		__( 'Media Library' ),
@@ -1038,6 +1038,24 @@ class Admin extends Libraries
 			}
 			else if( $page === 'comments' )
 			{
+				if( $taxonomy_arg1 == 'approve' )
+				{
+					
+				}
+				else if( $taxonomy_arg1 == 'disapprove' )
+				{
+					
+				}
+				else if( $taxonomy_arg1 == 'trash' )
+				{
+					
+				}
+				else if( $taxonomy_arg1 == 'draft' )
+				{
+					
+				}
+				// $this->current_posttype->query->post_comment( 1 , 'Custom' , $author = false , $mode = 'create' , $comment_id = null , $author_name = 'Blair' , $author_email = 'carlos@hoazd.de'  , $reply_to = false );
+				
 				$id				=	$id 	=== 0 ? 1 : $id;
 				$comment_limit	=	10;
 				$comments_nbr	=	count( $this->current_posttype->query->get_comments() );				
@@ -1052,12 +1070,12 @@ class Admin extends Libraries
 				
 				set_core_vars( 'pagination_data' , $pagination );
 				 
-				$comments		=	farray( $this->current_posttype->query->get_comments( array( 
+				$comments		=	$this->current_posttype->query->get_comments( array( 
 					'limit'		=>	array(
 						'start'	=>	riake( 'start' , $pagination ),
 						'end'	=>	riake( 'end' , $pagination )
 					)
-				) ) );
+				) );
 				
 				set_core_vars( 'comments' , $comments );				
 				set_core_vars( 'comments_list_label' , $this->current_posttype->comments_list_label );

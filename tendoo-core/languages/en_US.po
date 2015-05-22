@@ -1,0 +1,881 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: Tendoo CMS Translation\n"
+"Last-Translator: Blair2004 <carlosjohnsonluv2004@gmail.com>\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Tendoo Lang Team\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en_US\n"
+"X-Generator: Poedit 1.6.9\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Tendoo Permissions"
+msgstr "Tendoo Permissions"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Manage Themes"
+msgstr "Manage Themes"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "This permissions allow user to manage themes (activate, uninstall)"
+msgstr "This permissions allow user to manage themes (activate, uninstall)"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Manage Modules"
+msgstr "Manage Modules"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "This permissions allow user to manage modules (activate, uninstall)"
+msgstr "This permissions allow user to manage modules (activate, uninstall)"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "This permissions allow user to manage controller (create, delete)"
+msgstr "This permissions allow user to manage controller (create, delete)"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Manage Settings"
+msgstr "Manage Settings"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "This permissions allow user to manage site settings"
+msgstr "This permissions allow user to manage site settings"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Install App"
+msgstr "Install App"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "This permissions allow user to install app"
+msgstr "This permissions allow user to install app"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Manage Roles"
+msgstr "Manage Roles"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "This permissions allow user to manage roles"
+msgstr "This permissions allow user to manage roles"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Manage Users"
+msgstr "Manage Users"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "This permissions allow user to manage users"
+msgstr "This permissions allow user to manage users"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Manage Tools"
+msgstr "Manage Tools"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "This permissions allow user to manage tools"
+msgstr "This permissions allow user to manage tools"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:120
+msgid "Global Stats"
+msgstr "Global Stats"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Stats"
+msgstr "Stats"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Modules"
+msgstr "Modules"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Themes"
+msgstr "Themes"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Controllers"
+msgstr "Controllers"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Privileges"
+msgstr "Privileges"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Users"
+msgstr "Users"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:122
+msgid "Show global stats"
+msgstr "Show global stats"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:127
+msgid "Welcome message"
+msgstr "Welcome message"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\others\widgets\welcome-message.php:3
+msgid "Welcome on tendoo"
+msgstr "Welcome on tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\others\widgets\welcome-message.php:5
+msgid ""
+"We&#039;re glad to see you trust in our services. Let&#039;s us introduce a "
+"new version of tendoo, with more flexibility and excelling performance. With "
+"tutorials, you&#039;ll be able to create easilly a very professionnal "
+"website."
+msgstr ""
+"We&#039;re glad to see you trust in our services. Let&#039;s us introduce a "
+"new version of tendoo, with more flexibility and excelling performance. With "
+"tutorials, you&#039;ll be able to create easilly a very professionnal "
+"website."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\others\widgets\welcome-message.php:6
+msgid "As start task, you can : "
+msgstr "As start task, you can : "
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\others\widgets\welcome-message.php:8
+msgid "Publish new blog post, to share something with the world."
+msgstr "Publish new blog post, to share something with the world."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\others\widgets\welcome-message.php:9
+msgid "Editing your website setting. You can enable registration there."
+msgstr "Editing your website setting. You can enable registration there."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\others\widgets\welcome-message.php:12
+msgid ""
+"To remove this widget, get to settings and disable &quot;Welcome "
+"Widget&quot;. You can either disable and enable every widget you want. Some "
+"widgets won&#039;t be visible due to user permission, as admin only you can "
+"allow widget access using permission management interface."
+msgstr ""
+"To remove this widget, get to settings and disable &quot;Welcome "
+"Widget&quot;. You can either disable and enable every widget you want. Some "
+"widgets won&#039;t be visible due to user permission, as admin only you can "
+"allow widget access using permission management interface."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:129
+msgid "Show welcome message"
+msgstr "Show welcome message"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:134
+msgid "Apps icons"
+msgstr "Apps icons"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:136
+msgid "Show available app icons"
+msgstr "Show available app icons"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Add an App"
+msgstr "Add an App"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Create a new User"
+msgstr "Create a new User"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "My Profile"
+msgstr "My Profile"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Roles"
+msgstr "Roles"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Create new role"
+msgstr "Create new role"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Roles permissions"
+msgstr "Roles permissions"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Settings"
+msgstr "Settings"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Visit %s"
+msgstr "Visit %s"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "About"
+msgstr "About"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:35
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\inner_head.php:27
+msgid "You got"
+msgstr "You got"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Notice(s)"
+msgstr "Notice(s)"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Tools"
+msgstr "Tools"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\inner_head.php:68
+msgid "Calendar"
+msgstr "Calendar"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\inner_head.php:69
+msgid "Seo"
+msgstr "Seo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Inbox"
+msgstr "Inbox"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Help"
+msgstr "Help"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Logoff"
+msgstr "Logoff"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\inner_head.php:115
+msgid "Search"
+msgstr "Search"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\inner_head.php:124
+msgid "unavaiable_for_this_tendoo"
+msgstr "unavaiable_for_this_tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:1020
+msgid "Manage users - Tendoo"
+msgstr "Manage users - Tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Id"
+msgstr "Id"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Pseudo"
+msgstr "Pseudo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Role"
+msgstr "Role"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Email"
+msgstr "Email"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "No result available"
+msgstr "No result available"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:812
+msgid "Website settings - Tendoo"
+msgstr "Website settings - Tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\setting\body.php:26
+msgid "Permissions"
+msgstr "Permissions"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\setting\body.php:31
+msgid "Website Settings"
+msgstr "Website Settings"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\setting\body.php:32
+msgid "Security"
+msgstr "Security"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Save Settings"
+msgstr "Save Settings"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Main Settings"
+msgstr "Main Settings"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Turn on the connection to the Store"
+msgstr "Turn on the connection to the Store"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Turn off the connection to the Store"
+msgstr "Turn off the connection to the Store"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Hide the tour"
+msgstr "Hide the tour"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Enable the tour"
+msgstr "Enable the tour"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Icons and Applications"
+msgstr "Icons and Applications"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "module"
+msgstr "module"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Display"
+msgstr "Display"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Widgets"
+msgstr "Widgets"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Icon"
+msgstr "Icon"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Module"
+msgstr "Module"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Status"
+msgstr "Status"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Privilege"
+msgstr "Privilege"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "allow privilege selection"
+msgstr "allow privilege selection"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid ""
+"You can define among the privileges that you have created, those who are "
+"available upon registration by users. Remember to choose among the "
+"privileges you have created those who will be available to the public."
+msgstr ""
+"You can define among the privileges that you have created, those who are "
+"available upon registration by users. Remember to choose among the "
+"privileges you have created those who will be available to the public."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Open access to public administration privileges"
+msgstr "Open access to public administration privileges"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid ""
+"It is important to know that this option prevent any part of the user open "
+"to the public privileges to access the administration area, regardless of "
+"the fact that the shares have been added to the various privileges available "
+"to the public. Similarly, when a privilege ceases to have acc&eacute;ssible "
+"publicly, any user that is part of this privilege can now access the "
+"administration area."
+msgstr ""
+"It is important to know that this option prevent any part of the user open "
+"to the public privileges to access the administration area, regardless of "
+"the fact that the shares have been added to the various privileges available "
+"to the public. Similarly, when a privilege ceases to have acc&eacute;ssible "
+"publicly, any user that is part of this privilege can now access the "
+"administration area."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "choose"
+msgstr "choose"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Yes"
+msgstr "Yes"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "No"
+msgstr "No"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Registration"
+msgstr "Registration"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Open Registration"
+msgstr "Open Registration"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Choose"
+msgstr "Choose"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:470
+msgid "Manage controllers - Tendoo"
+msgstr "Manage controllers - Tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Create a controller"
+msgstr "Create a controller"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Controller name"
+msgstr "Controller name"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "It will be used on links"
+msgstr "It will be used on links"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Controller Code"
+msgstr "Controller Code"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid ""
+"This text will be used on URL. The word must not have spaces and specials "
+"caracters. dashes and underscores are accepted. Example : %s or %s"
+msgstr ""
+"This text will be used on URL. The word must not have spaces and specials "
+"caracters. dashes and underscores are accepted. Example : %s or %s"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:925
+msgid "Install App - Tendoo"
+msgstr "Install App - Tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\installer\install.php:10
+msgid "install a new application"
+msgstr "install a new application"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Install new app"
+msgstr "Install new app"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid ""
+"Install new app. The install file must necessary be a zip file, and should "
+"be compatible with your current Tendoo Version : &lt;strong&gt;1.4&lt;/"
+"strong&gt;. Be safe, and install app from secure provider."
+msgstr ""
+"Install new app. The install file must necessary be a zip file, and should "
+"be compatible with your current Tendoo Version : &lt;strong&gt;1.4&lt;/"
+"strong&gt;. Be safe, and install app from secure provider."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Themes and modules can be installed through this interface."
+msgstr "Themes and modules can be installed through this interface."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Choose your file"
+msgstr "Choose your file"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Start installation"
+msgstr "Start installation"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:504
+msgid "Manage modules - Tendoo"
+msgstr "Manage modules - Tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Installed Modules"
+msgstr "Installed Modules"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Author"
+msgstr "Author"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Attributes"
+msgstr "Attributes"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Uninstall"
+msgstr "Uninstall"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Click here to uninstall"
+msgstr "Click here to uninstall"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Click here to enable"
+msgstr "Click here to enable"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:829
+msgid "Manage themes - Tendoo"
+msgstr "Manage themes - Tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\themes\main.php:15
+msgid "list of installed themes"
+msgstr "list of installed themes"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\themes\main.php:96
+msgid "next"
+msgstr "next"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\themes\main.php:97
+msgid "previous"
+msgstr "previous"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:940
+msgid "Password"
+msgstr "Password"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:941
+msgid "Password Confirm"
+msgstr "Password Confirm"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:942
+msgid "Sex"
+msgstr "Sex"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:943
+msgid "email"
+msgstr "email"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:944
+msgid "Select privilege"
+msgstr "Select privilege"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:967
+msgid "Manage Users - Tendoo"
+msgstr "Manage Users - Tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Create User"
+msgstr "Create User"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Create user"
+msgstr "Create user"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Reset Form"
+msgstr "Reset Form"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "How to create a user"
+msgstr "How to create a user"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Enter a Username"
+msgstr "Enter a Username"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Username"
+msgstr "Username"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Enter a password"
+msgstr "Enter a password"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Confirm password"
+msgstr "Confirm password"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Enter a user email"
+msgstr "Enter a user email"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Select user sex"
+msgstr "Select user sex"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Choose..."
+msgstr "Choose..."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Male"
+msgstr "Male"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Female"
+msgstr "Female"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "User Sex"
+msgstr "User Sex"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "User"
+msgstr "User"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Select user role"
+msgstr "Select user role"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "User role"
+msgstr "User role"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Users Names"
+msgstr "Users Names"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Edit profile"
+msgstr "Edit profile"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Advanced Settings"
+msgstr "Advanced Settings"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Save Advanced settings"
+msgstr "Save Advanced settings"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "User Name"
+msgstr "User Name"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Enter User Name"
+msgstr "Enter User Name"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "User Surname"
+msgstr "User Surname"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Enter User Surname"
+msgstr "Enter User Surname"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "User State"
+msgstr "User State"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Enter User State"
+msgstr "Enter User State"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "User City"
+msgstr "User City"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Enter User City"
+msgstr "Enter User City"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "User Avatar"
+msgstr "User Avatar"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Avatar pics should not exceed 300px on height and width"
+msgstr "Avatar pics should not exceed 300px on height and width"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "More about you"
+msgstr "More about you"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid ""
+"provide more information about you in this field. It may be used by themes."
+msgstr ""
+"provide more information about you in this field. It may be used by themes."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Inverse Theme"
+msgstr "Inverse Theme"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Bubble Showcase"
+msgstr "Bubble Showcase"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Green Day"
+msgstr "Green Day"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Red Horn"
+msgstr "Red Horn"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Selective Orange"
+msgstr "Selective Orange"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Skies"
+msgstr "Skies"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Blurry"
+msgstr "Blurry"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Dashboard Theme"
+msgstr "Dashboard Theme"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Old password"
+msgstr "Old password"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "To change a password, you must enter the previous password."
+msgstr "To change a password, you must enter the previous password."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "New password"
+msgstr "New password"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "It should be different from the previous one."
+msgstr "It should be different from the previous one."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "It should match the new password."
+msgstr "It should match the new password."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:1162
+msgid "Roles - Tendoo"
+msgstr "Roles - Tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Delete"
+msgstr "Delete"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Name"
+msgstr "Name"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Description"
+msgstr "Description"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Created"
+msgstr "Created"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Available on registration"
+msgstr "Available on registration"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:1179
+msgid "Privilege description"
+msgstr "Privilege description"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:1180
+msgid "Privilege name"
+msgstr "Privilege name"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Create new role | Tendoo %s"
+msgstr "Create new role | Tendoo %s"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Create a new role"
+msgstr "Create a new role"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Create Role"
+msgstr "Create Role"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Set unique name to identify this role."
+msgstr "Set unique name to identify this role."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Role name"
+msgstr "Role name"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Set to yes will makes this role will available for registration."
+msgstr "Set to yes will makes this role will available for registration."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Available for registration ?"
+msgstr "Available for registration ?"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Describe this role. The reason why you&#039;re creating this role."
+msgstr "Describe this role. The reason why you&#039;re creating this role."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Roles permissions - Tendoo"
+msgstr "Roles permissions - Tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Save Role Permissions"
+msgstr "Save Role Permissions"
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\others\widgets\welcome-message.php:5
+msgid "We&#039;re glad to see you trust in our services. Let&#039;s us introduce a new version of tendoo, with more flexibility and excelling performance. With tutorials, you&#039;ll be able to create easilly a very professionnal website."
+msgstr "We&#039;re glad to see you trust in our services. Let&#039;s us introduce a new version of tendoo, with more flexibility and excelling performance. With tutorials, you&#039;ll be able to create easilly a very professionnal website."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\views\admin\others\widgets\welcome-message.php:12
+msgid "To remove this widget, get to settings and disable &quot;Welcome Widget&quot;. You can either disable and enable every widget you want. Some widgets won&#039;t be visible due to user permission, as admin only you can allow widget access using permission management interface."
+msgstr "To remove this widget, get to settings and disable &quot;Welcome Widget&quot;. You can either disable and enable every widget you want. Some widgets won&#039;t be visible due to user permission, as admin only you can allow widget access using permission management interface."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Edit role | Tendoo %s"
+msgstr "Edit role | Tendoo %s"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Edit a role"
+msgstr "Edit a role"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Edit Role"
+msgstr "Edit Role"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\login.php:62
+msgid "Login"
+msgstr "Login"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Stay logged"
+msgstr "Stay logged"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "log in"
+msgstr "log in"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Create a new account"
+msgstr "Create a new account"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Recover a password"
+msgstr "Recover a password"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:427
+msgid "Dashboard - Tendoo"
+msgstr "Dashboard - Tendoo"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "A config file already exists. If you save new data the older will be overwritten"
+msgstr "A config file already exists. If you save new data the older will be overwritten"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Access denied. Your access is not granted to this page"
+msgstr "Access denied. Your access is not granted to this page"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:136
+msgid "error_occurred"
+msgstr "error_occurred"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:147
+msgid "module_installed"
+msgstr "module_installed"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:148
+msgid "module_already_exists"
+msgstr "module_already_exists"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:166
+msgid "module_compatibility_issues"
+msgstr "module_compatibility_issues"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:167
+msgid "module_updated"
+msgstr "module_updated"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Profile has been updated."
+msgstr "Profile has been updated."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "Role permissions has been saved."
+msgstr "Role permissions has been saved."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "While &quot;WebApp&quot; Mode is enabled, frontend is disabled. Check your settings to define tendoo mode on Website setings tab."
+msgstr "While &quot;WebApp&quot; Mode is enabled, frontend is disabled. Check your settings to define tendoo mode on Website setings tab."
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\controllers\admin.php:554
+msgid "The module &lt;strong&gt;%s&lt;/strong&gt; is now enabled"
+msgstr "The module &lt;strong&gt;%s&lt;/strong&gt; is now enabled"
+
+#: C:\wamp\www\tendoo-cms\tendoo-core\helpers\function_helper.php:368
+msgid "provide more information about you in this field. It may be used by themes."
+msgstr "provide more information about you in this field. It may be used by themes."
+
