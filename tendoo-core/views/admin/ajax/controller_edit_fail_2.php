@@ -1,1 +1,0 @@
-    tendoo.notice.alert('<?php echo addslashes(strip_tags(fetch_notice_output($notice)));?>','warning');

@@ -1,8 +1,0 @@
-.widget_item:hover
-{
-	cursor:pointer;
-}
-.widget_item_add
-{
-	border:dashed 1px #BBB;background:#EEE;text-align:center;padding:20px 15px;margin-bottom:20px;
-}
