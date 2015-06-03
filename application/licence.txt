@@ -1,5 +1,0 @@
-https://github.com/almasaeed2010/AdminLTE
-https://github.com/sekati/codeigniter-asset-helper
-https://github.com/zajohnson/CodeIgniter-enqueue
-https://github.com/bainternet/PHP-Hooks
-https://github.com/haseydesign/flexi-auth

@@ -1,0 +1,166 @@
+/* Main Style */
+.switcher h3 {
+	font-size:13px;
+	margin: 1px 0 3px 0;
+	color:#fff;
+}
+
+.switcher {
+    background:#000;
+	background:rgba(50, 58, 59, 0.8);
+	width:255px;
+	position:fixed;
+	top:20.4%;
+	z-index:99999;
+	left:0px;
+	border-radius: 0 0 4px 0;
+	border-right:none;
+	font-family: 'TitilliumText22LMedium', Arial, sans-serif;
+	-webkit-box-shadow:  0px 0px 4px 0px rgba(51, 51, 51, 0.4);
+	box-shadow:  0px 0px 4px 0px rgba(51, 51, 51, 0.4);
+}
+
+.switcher h2 {
+	background:#1B1A1A;
+	color: #FFFFFF;
+	padding: 0;
+	margin:0;
+	font-size: 15px;
+	padding: 5px 0 6px 15px;
+}
+
+.switcher h2 a {
+	background: url("icons/switcher.png") no-repeat scroll 5px center #1B1A1A;
+	display: block;
+	height: 41px;
+	position: absolute;
+	right: -39px;
+	text-indent: -9999px;
+	top: 0;
+	width: 39px;
+	border-radius: 0 4px 4px 0;
+}
+
+.switcher .content {
+	padding:5px 16px 16px 16px;
+	overflow:hidden;
+}
+
+.hide {
+	display:none; /* first load page enough */
+}
+
+/* Layout Box */
+.layout-switcher {
+	margin:0 0 10px 0;
+	overflow:hidden;
+}
+
+.layout-switcher a.layout {
+	padding: 6px 7px 8px 7px;
+	border-radius: 2px;
+	color:#fff;
+	font-weight: bold;
+	border:1px solid #6A6A6A;
+	width: 60px;
+	cursor: pointer;
+	float: left;
+	display: block;
+	margin: 0 6px 0 0;
+	text-align: center;
+	background: #1B1A1A;
+}
+/* Color Box */
+.switcher-box {
+	height:auto;
+	overflow:hidden;
+	margin-bottom:6px;
+}
+
+.styleswitch {
+	width: 35px;
+    height: 35px;
+	display: block;
+	cursor: pointer;
+	margin: 10px;
+	float:left;
+}
+
+/*.styleswitch.selected { box-shadow: 0 0 0 2px #474646 inset; }*/
+
+.styleswitch#default   { background-color:#e74c3c; }
+.styleswitch#Strongcyan   { background-color:#1abc9c; }
+.styleswitch#DarkCyan   { background-color:#008b8b; }
+.styleswitch#asphalt { background-color:#34495e; }
+.styleswitch#blue { background-color:#3498db; }
+.styleswitch#orange    { background-color:#e67e22; }
+.styleswitch#clouds  { background-color:#ecf0f1; }
+.styleswitch#concrete  { background-color:#95a5a6; }
+.styleswitch#purple  { background-color:#727CB6; }
+.styleswitch#Softred  { background-color:#ED687C; }
+
+
+/* Background Box */
+.bg {
+	height:auto;
+	overflow:hidden;
+	margin-bottom:6px;
+}
+
+.pattern {
+	width: 21px;
+    height: 24px;
+	display: block;
+	cursor: pointer;
+	margin: 0 4px 4px 0;
+	float:left;
+	box-shadow: 0 0 0 1px #D6D2D2 inset;
+}
+
+/*.pattern.selected2 { box-shadow: 0 0 0 2px #474646 inset; }*/
+
+.pattern#crossed { background: url("icons/icons/crossed.png") no-repeat ; }
+.pattern#fabric  { background: url("icons/icons/fabric.png") no-repeat ; }
+.pattern#linen   { background: url("icons/icons/woods.png") no-repeat ; }
+.pattern#wood    { background: url("icons/icons/woods.png") no-repeat ; }
+.pattern#diagmonds    { background: url("icons/icons/diagmonds.png") no-repeat ; }
+.pattern#triangles    { background: url("icons/icons/triangles.png") no-repeat ; }
+.pattern#black_mamba    { background: url("icons/icons/black_mamba.png") no-repeat ; }
+.pattern#vichy    { background: url("icons/icons/vichy.png") no-repeat ; }
+.pattern#back_pattern    { background: url("icons/icons/back_pattern.png") no-repeat ; }
+.pattern#checkered_pattern    { background: url("icons/icons/checkered_pattern.png") no-repeat ; }
+.pattern#diamond_upholstery    { background: url("icons/icons/diamond_upholstery.png") no-repeat ; }
+.pattern#lyonnette    { background: url("icons/icons/lyonnette.png") no-repeat ; }
+.pattern#graphy    { background: url("icons/icons/graphy.png") no-repeat ; }
+.pattern#black_thread    { background: url("icons/icons/black_thread.png") no-repeat ; }
+.pattern#subtlenet2    { background: url("icons/icons/subtlenet2.png") no-repeat ; }
+
+/* Dark Style */
+a.dark-style {
+	display:block;
+	padding:9px 0 11px 0;
+	text-align:center;
+	background:#292929;
+	color:#fff;
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+	.switcher{
+		display:none;
+	}
+}
+
+/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+@media only screen and (min-width: 480px) and (max-width: 767px) {	
+	.switcher{
+		display:none;
+	}
+}
+
+/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+@media only screen and (max-width: 479px) {
+	.switcher{
+		display:none;
+	}
+}

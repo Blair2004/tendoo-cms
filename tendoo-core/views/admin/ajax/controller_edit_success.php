@@ -1,0 +1,1 @@
+	tendoo.notice.alert( '<?php _e( 'This controller has been succefully edited' );?>' );

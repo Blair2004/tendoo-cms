@@ -1,7 +1,0 @@
-before_admin_menu 			:	trigger action before admin menu init
-display_login_fields		: 	displays login fields (app/views/login/body)
-set_login_rules				:	trigger form_validation rules for login page
-before_session_start		:	Trigger actions before ci session init
-display_admin_header_menu 	: 	trigger actions whichs displays header menu.
-log_user_out				:	trigger action to log user out
-create_dashboard_pages		:	Create dashboard page

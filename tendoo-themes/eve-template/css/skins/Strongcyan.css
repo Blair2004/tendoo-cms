@@ -1,0 +1,153 @@
+#top-bar{ background:#1ABC9C;}
+
+.top-info li a,.top-info li:first-child a{border-left-color:#5FD9C3; border-right-color:#109A81;}
+
+.top-info ul{border-right-color:#5FD9C3; border-left-color:#109A81;}
+
+.list_style.circle li a i,
+.flickr-feed li .hover,
+.progress_skill .bar,
+.swipe-navi .swipe-left,
+.swipe-navi .swipe-right,
+.blogPic .blog-hover .icon,
+.list_style.square li a i,
+.highlight.default,
+.pricingTable.business .heading,
+.blog_large .day, .blog_single .day,
+#filter li.selected a:before,
+.carousel-pagination li.active,
+.slider-read,
+.slider .new,.slider .light-pink,
+.theme-color-pt .pricingTable:before,
+.pricingBlock.theme-color-pt .pricingTable-header .price-value,
+.promo_content a.btn
+{
+	background-color: #1abc9c !important;
+}
+
+.navbar-nav > li > a:hover,.navbar-nav > li > a:focus,.navbar-nav > li.active > a,
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus,
+.navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,
+.navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+.navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus
+{
+    background:#1ABC9C !important;
+}
+@media only screen and (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus
+    {
+        background:#1ABC9C;
+    }
+}
+.navbar-nav > li > ul:before{ border-bottom-color:#1ABC9C; }
+.navbar-nav > li ul > li:first-child{ border-top:2px solid #1ABC9C; }
+.navbar-nav .dropdown-menu > li > a:hover{ color:#1ABC9C; }
+
+.dividerHeading h4,.widget_title h4,#site-searchform #s:focus{ border-color:#1ABC9C;}
+
+a,
+a.read:hover, 
+.recent_posts_list li a:hover,
+.testimonial-review small,
+.active .acc_head, .active .Eve_toggle_head,
+.list_style li a:hover,
+#breadcrumbs ul li:last-child a, #breadcrumbs ul li a,
+.tp-caption.large_bold_red,
+.blogMeta a:hover, .blogTitle span:hover,
+.serviceBox_2:hover i,
+.dropcap.default,
+.blogTitle > a:hover h2,
+.sidebar_widget ul.archives_list li a:hover, .sidebar_widget ul.arrows_list1 li a:hover i,
+.blog_large .post_meta .metaInfo > span > a:hover, .blog_single .post_meta .metaInfo > span > a:hover,
+#comment-list li .comment-container:hover a,
+#comment-list li .comment-container:hover .comment-date,
+.dividerHeading h4 span:before,
+.dividerHeading h4 span:after,
+.widget_title h4 span:after,
+.widget_title h4 span:before,
+.panel-heading:hover a, .panel-heading:hover .accordian-icon,
+.active_acc .panel-title a,
+.active_acc .accordian-icon,
+.panel-heading:hover  a,
+.panel-heading:hover .accordian-icon,
+.blog_medium .post_meta .metaInfo > span > a:hover,
+.blog_medium .post_meta h2:hover a,
+.sidebar_widget ul.arrows_list li a:hover, .sidebar_widget ul.arrows_list1 li a:hover i,
+.recent_tab_list li a:hover,
+.blog_large .post_meta h2:hover a, .blog_single .post_meta h2:hover a,
+.comments_list a,.sidebar .widget ul.arrows_list li a:hover, .sidebar .widget ul.arrows_list1 li a:hover i,
+.sidebar .widget ul.archives_list li a:hover, .sidebar .widget ul.arrows_list1 li a:hover i,
+.footer li a:hover,.author_bio > h5 a,.author_name > a:hover,.project_details .details li a:hover{
+    color: #1abc9c;
+}
+
+.testimonial-item blockquote { border-top: 3px solid #1abc9c;}
+.testimonial-review > img {border: 2px solid #1abc9c;}
+
+.serviceBox_2:hover{ background:#1abc9c; }
+.serviceBox_3:hover .service_3_detail{border-bottom-color:#1abc9c}
+.icon_service i{background:#1abc9c; }
+
+.blog_medium .day{background:#1abc9c;}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus,
+.nav-tabs li.active, .nav-tabs li.active a, .nav-tabs li.active a:hover
+{ border-top-color:#1abc9c; color:#1abc9c;}
+.panel.active_acc, .panel:hover{border-top-color:#1abc9c;}
+
+.fraction-slider .next:hover,.fraction-slider .prev:hover,
+.fraction-slider .next:hover:before,.fraction-slider .prev:hover:before {color:#1abc9c!important;border-color:#1abc9c!important;}
+
+.btn.btn-default,
+.tp-caption.modern_big_redbg,
+.tp-caption.medium_bg_red,
+.dropcap_block.default,
+.btn.btn-default.dark:hover,
+.btn.btn-default.dark:focus,
+.btn-group:focus .btn.btn-default.dark.dropdown-toggle,
+.icon_lists .fa-hover a:hover,
+#site-searchform #searchsubmit,
+.tags li a:hover,
+.shares li a:hover
+{
+	background-color:#1abc9c;
+}
+
+.comment-container:hover { border-color:#1abc9c;}
+
+.pricingTable:before,.pricingTable .btn-default{ background:#696868; }
+.pricingTable .btn-default:hover{background:#403F3F;}
+
+.theme-color-pt .btn-default {background:#1abc9c;}
+.btn-default:hover,.theme-color-pt .btn-default:hover{background-color:#18A288;}
+.promo_content a.btn{ border-bottom-color:#0DA286;}
+.promo_content a.btn:hover{ background:#0DA286!important; border-bottom-color:#0D7E6A;}
+
+.progress_skill:hover .bar,
+.pricingTable.business .pricingTable-header .price-value { background: #16a085 !important;}
+
+.form-control:focus,#site-searchform #s:focus { border-color:#1abc9c;box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(26, 188, 156, 0.6);}
+
+blockquote.default,.theme-color-pt .pricingTable {border-color:#1abc9c;}
+
+#filter li a{ background:#1abc9c;}
+
+
+.item-description,.social_media_team{background:rgba(26, 188, 156, 0.55);}
+.option a.hover-zoom,.option a.hover-link{color:#16CDAC;}
+.option a.hover-zoom:hover,.option a.hover-link:hover{background: #333;color:#fff;}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background:#1abc9c;
+    border-color: #1abc9c;
+}
+

@@ -1,0 +1,39 @@
+
+
+/* backgroud images for body */
+body.crossed { background:url(../icons/icons/crossed_stripes.jpg) repeat; }
+body.fabric { background:url(../icons/icons/classy_fabric.jpg) repeat; }
+body.linen { background:url(../icons/icons/low_contrast_linen.jpg) repeat; }
+body.wood {background: url("../icons/icons/wood.jpg");}
+body.diagmonds { background:url(../icons/icons/diagmonds.jpg) repeat; }
+body.triangles { background:url(../icons/icons/triangles.jpg) repeat; }
+body.black_mamba { background:url(../icons/icons/black_mamba.jpg) repeat; }
+body.vichy { background:url(../icons/icons/vichy.jpg) repeat; }
+body.back_pattern { background:url(../icons/icons/back_pattern.jpg) repeat; }
+body.checkered_pattern { background:url(../icons/icons/checkered_pattern.jpg) repeat; }
+body.diamond_upholstery { background:url(../icons/icons/diamond_upholstery.jpg) repeat; }
+body.lyonnette { background:url(../icons/icons/lyonnette.jpg) repeat; }
+body.graphy { background:url(../icons/icons/graphy.jpg) repeat; }
+body.black_thread { background:url(../icons/icons/black_thread.jpg) repeat; }
+body.subtlenet2 { background:url(../icons/icons/subtlenet2.jpg) repeat; }
+
+.wrapper {
+    background:#FFFFFF;
+    margin: 0 auto;
+    width: 1170px;
+}
+.slider-wrapper
+{
+    box-shadow:none!important;
+}
+.promo_box,.footer, #header, .footer_bottom{
+	width:1170px;
+	margin:0 auto;
+}
+.hidden {
+	display:block !important;
+	visibility:visible !important;
+}
+.slider-wrapper{
+    box-shadow :0 0 0 #fff;
+}

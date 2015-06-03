@@ -1,26 +1,36 @@
-Tendoo-ci3
+Tendoo-cms
 =========
-v0.1
+v1.4 
 ---------
-Another CMS using CodeIgniter. 
+An easiest way to create web apps and blogs. Tendon has been improved, and for this release, you offer you the best tool, lightweight, customizable than ever.
+We are proud of this and thank all community members. Just help us make it more powerful than ever, by submitting issues or joining developers team.
 
-Why ?
-------
-This repository is a web projet collection. We use popular Classes and Libraries (both JS and PHP) to create a more powerful CMS based on CodeIgniter.
-We are also inspired by existing CMS (for not wasting time reinventing the wheel) and use popular API such as Plugin API from WordPress.
-This projet is a best collection of several solutions, brings out by contributors around the world, which love CI.
-As you may see, this new generation of Tendoo-cms is using latest generation of CodeIgniter (V3).
+Whats new ?
+--------------
+- New Dashboard (AdminLTE v2.0)
+- Dashboard UI has changed. System menu doesn't exists no more, and all his sub-menu has been separated.
+- Events and Filters hooks introduced.
+- A fully customizable admin menu.
+- App Mode : which can fully turn Tendoo into a WebApp without Frontend.
+- Translated to english : This has been decided by Core team. English is now set as default language for future releases.
+- Blogster Update.
+- Tendoo Media Manager Update.
+- New UI.
+- New API, Library, Helpers.
+- Translation to english 80%.
+- Unique dashboard for account and admin.
+- New docs (being prepared)
+- Gui Bugs fixes
+- Messenger disabled temporarily
+- Tools disabled temporarily
 
-Do you want to get Involved ?
------------------------------
-Fork it a pull your new ideas
 
-Sub-projects added till now (See application/license.txt for more details)
----------------------------------------------------------------------------
-[AdminLTE 2.1.1](https://github.com/almasaeed2010/AdminLTE)
+System Requirement
+------------------
 
-[Assets Helper](https://github.com/sekati/codeigniter-asset-helper)
+Apache 	: 2.22.2
+PHP 	: 5.4
+Mysql 	: 5.5.24
 
-[CodeIgiter Enqueue](https://github.com/zajohnson/CodeIgniter-enqueue)
+** It may work with PHP 5.3, but we're haven't yet tried all feature on it. **
 
-[PHP-Hooks](https://github.com/bainternet/PHP-Hooks)

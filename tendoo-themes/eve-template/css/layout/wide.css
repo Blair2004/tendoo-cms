@@ -1,0 +1,12 @@
+@charset "utf-8";
+/* CSS Document */
+
+.wrapper {
+    background:#FFFFFF;
+    margin: 0 auto;
+    width: 100%;
+    clear:both;
+}
+.hidden {
+	display:none;
+}
