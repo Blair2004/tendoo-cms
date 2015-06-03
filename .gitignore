@@ -34,3 +34,9 @@ Icon
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
+
+# Ignore Tendoo CMS 1.4 branch folder
+
+/tendoo-core
+/tendoo-modules
+/tendoo-assets
