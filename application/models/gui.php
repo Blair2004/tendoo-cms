@@ -3,9 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class GUI extends CI_Model
 {
-	public $ui_cols		=	1;
-	private $nbr_ui_cols	=	array( 1 , 2 , 3 , 4 );
-	public $cols		=	array();
+	public $cols	=	array( 
+		1 			=>	array(),
+		2 			=>	array(),
+		3 			=>	array(),
+		4 			=>	array(),
+	);
+
 	private $created_page	=	array();
 
 	function __construct()
@@ -37,10 +41,10 @@ class GUI extends CI_Model
 	 *
 	**/
 	
-	public function load_page( $page_slug )
+	public function load_page( $page_slug , $params )
 	{
 		// load created pages
-		$this->events->do_action( 'create_dashboard_pages' );
+		$this->events->do_action_ref_array( 'create_dashboard_pages' , $params );
 		// output pages
 		if( riake( $page_slug , $this->created_page ) )
 		{
@@ -56,6 +60,15 @@ class GUI extends CI_Model
 				$this->html->set_description( __( 'Error page' ) );
 				$this->load->view( 'dashboard/error/output-not-found' );
 			}
+		}
+		else if( $page_slug == 'form-expired' )
+		{
+			// page doesn't exists load 404 internal page error
+			$this->html->set_title( sprintf( __( 'Error : Form Expired &mdash; %s' ) , get( 'core-signature' ) ) );
+			$this->html->set_description( __( 'Form Expired' ) );
+			$this->load->view( 'dashboard/error/custom' , array( 
+				'msg'	=>	__( 'This form has expired' )
+			) );
 		}
 		else
 		{
@@ -87,337 +100,89 @@ class GUI extends CI_Model
 	}
 	
 	/**
-	 * 	Get GUI cols
-	 *	@access		:	Public
-	 *	@returns	:	Array
+	 * New Gui
 	**/
-	
-	function get_cols()
-	{
-		return $this->cols;
-	}
-	
-	function ui_config( $config_key , $value )
-	{
-		// Ouput content before and after cols
-		$ui_config	=	get_core_vars( 'ui_config' ) ? get_core_vars( 'ui_config' ) : array();
-		$ui_config[ 'output' ][ $config_key ]	=	$value;
-		return set_core_vars( 'ui_config' , $ui_config );
-	}
-	
-	public function enable( $element )
-	{
-		if( is_array( $element ) )
-		{
-			foreach( $element as $_element )
-			{
-				$this->enable( $_element );
-			}
-		}
-		else
-		{
-			$ui_config	=	get_core_vars( 'ui_config' ) ? get_core_vars( 'ui_config' ) : array();
-			$enabled	=	riake( 'enabled' , $ui_config , array() );
-			if( in_array( $element, array( 'pagination' , 'submit' , 'reset' , 'loader' , 'dynamic-tables' ) ) ) // dynamic-tables
-			{
-				$enabled[]	=	$element;
-			}
-			$ui_config[ 'enabled' ] = $enabled;
-			return set_core_vars( 'ui_config' , $ui_config );
-		}
-	}
-	public function set_meta( $options , $title = 'unamed' , $type = 'panel' )
-	{
-		// Sauvegarde des boites méta en utilisant l'espacenom comme identifiant
-		$saved_meta	=	array();
+	/**
+	 * Set cols width
+	 * 
+	 * col_id should be between 1 and 4. Every cols are loaded even if they width is not set
+	 * @access : public
+	 * @param : int cold id
+	 * @param : int width
+	 * @return : void
+	**/
 		
-		if( is_array( $options ) )
-		{
-			if( riake( 'namespace' , $options ) ){
-				$saved_meta[ $options[ "namespace" ] ]	=	$options;
-			}
-		}
-		else
-		{
-			$saved_meta[ $options ]  =	array(
-				'namespace'	=>	$options,
-				'title'		=>	$title,
-				'type'		=>	$type
-			);
-		}
-		set_core_vars( 'gui_saved_meta' , $saved_meta );
-		return $this;
-	}
-	/*
-		Parameter : Array
-			keys  : label, 
-					placeholder, 
-					type[radio,checkbox,text,visual_editor,password,select,textarea], 
-					text[string/Array], 
-					value[string/Array], 
-	*/
-	public function set_item( $array ){
-		$saved_items	=	get_core_vars( 'gui_saved_items' ) ? get_core_vars( 'gui_saved_items' ) : array();
-		$saved_items	=	$array;
-		set_core_vars( 'gui_saved_items' , $saved_items );
-		// var_dump( get_core_vars( 'gui_saved_items' ) );die;
-		return $this;		
-	}
-	public function cols_width( $col , $width )
+	function col_width( $col_id , $width )
 	{
-		if( in_array( $col , $this->nbr_ui_cols , true ) )
+		if( in_array( $col_id , array( 1 , 2 , 3 , 4 ) ) )
 		{
-			if( in_array( $width , array( 1, 2, 3 ) , true ) )
+			$this->cols[ $col_id ][ 'width' ]	=	$width;
+		}
+	}
+	
+	function get_col( $col_id )
+	{
+		return riake( $col_id , $this->cols );
+	}
+	
+	function add_meta( $namespace , $title = 'Unamed' , $type = 'box-default' , $col_id = 1 )
+	{
+		if( in_array( $col_id , array( 1 , 2 , 3 , 4 ) ) )
+		{
+			if( is_array( $namespace ) )
 			{
-				return $this->cols[ $col ][ 'width' ] = $width;
+				$rnamespace			=	riake( 'namespace' , $namespace );
+				$col_id				=	riake( 'col_id' , $namespace );
+				$title				=	riake( 'title' , $namespace );
+				$type				=	riake( 'type' , $namespace );
+				
+				foreach( $namespace as $key => $value )
+				{
+					$this->cols[ $col_id ][ 'metas' ][ $rnamespace ][ $key ]	=	$value;
+				}
+				
+			}
+			else
+			{				
+				$this->cols[ $col_id ][ 'metas' ][ $namespace ]	=	array(
+					'namespace'		=>	$namespace,
+					'type'			=>	$type,
+					'title'			=>	$title
+				);
 			}
 		}
-		return false;
 	}
-	public function set_tab( $config )
+	
+	function add_item( $config , $metanamespace , $col_id )
 	{
-		
-		return $this;
+		if( in_array( $col_id , array( 1 , 2 , 3 , 4 ) ) && riake( 'type' , $config ) )
+		{
+			$this->cols[ $col_id ][ 'metas' ][ $metanamespace ][ 'items' ][]	=	$config;
+		}
 	}
-	public function col_config( $col , $data )
-	{
-		$this->cols[ $col ][ 'configs' ] =	$data;
-	}
-	public function set_form( $array )
-	{
-		$returnback	= get_instance()->url->site_url();
-		$action		= riake( 'action' , $array , '');
-		$enctype	= riake( 'enctype' , $array , '');
-		$type		= riake( 'type' , $array );
-	}
-	public function get()
+	
+	public function output()
 	{
 		set_core_vars( 'page-header' , $this->load->view( 'dashboard/gui/page-header' , array() , true ) );
 		
 		$this->load->view( 'dashboard/header' );		
 		$this->load->view( 'dashboard/horizontal-menu' );		
 		$this->load->view( 'dashboard/aside' );		
-		$this->load->view( 'dashboard/body' );
+		$this->load->view( 'dashboard/gui/body' , array(
+			'cols'		=>		$this->cols
+		) );
 		$this->load->view( 'dashboard/footer' );	
 		$this->load->view( 'dashboard/aside-right' );
 	}
-	// INSTANT USE
-	public function push_to( $cols ){
-		if( is_numeric( $cols ) ){
-			$saved_meta	=	get_core_vars( 'gui_saved_meta' );
-			$this->saved_meta 	=	$saved_meta;
-			// Seul les méta correctement définie peuvent être ajoutés à une colonne
-			if( $saved_meta ){
-				if( in_array( $cols , array( 1 , 2 , 3 , 4 ) ) )
-				{
-					$this->cols[ $cols ][ 'configs' ][]	 =  $saved_meta;
-				}
-			}
-			set_core_vars( 'gui_saved_meta' , false );
-		}
-		// Must be called after meta definition
-		// Meta namespace are unique
-		else if( is_string( $cols ) ){
-			// get latest item defined using set_meta or set_item
-			$new_items		=	get_core_vars( 'gui_saved_items' );
-			$new_sub_metas	=	get_core_vars( 'gui_saved_meta' );
-			// 
-			set_core_vars( 'gui_saved_items' , false );
-			set_core_vars( 'gui_saved_meta' , false );
-			// var_dump( $new_items , $new_sub_metas );
-			// reseting "gui_saved_meta" disabled because it's already disbled every time "set_meta" is used
-			
-			// On parcours chaque colonnes
-			foreach( $this->cols as &$colones ){
-				// Si la colonne a une configuration
-				if( is_array( riake( 'configs' , $colones , false ) ) ){
-					// parcours des différentes meta
-					foreach( $colones[ 'configs' ] as 	&$configs ){
-						if( is_array( $configs ) ){
-							foreach( $configs as $key => &$metas ){
-								// if current meta match the namespace defined as parameter
-								// "key" is the meta namespace
-								if( $key == $cols ){
-									// looking for "meta_item" key if not set create an empty array
-									$saved_items			=	riake( 'meta_items' , $metas , array() );
-									$saved_items[] 			= 	$new_items;
-									
-									$saved_metas			=	riake( 'sub_metas' , $metas , array() );
-									$saved_metas[] 			= 	$new_sub_metas;
-									// if item define is a new meta, it's saved under sub_meta
-									if( $new_sub_metas )
-									{
-										$metas[ 'sub_metas' ] 	= $saved_metas;
-									}
-									// else it's saved to meta items array
-									else
-									{
-										$metas[ 'meta_items' ] 	= $saved_items;
-									}
-									// Coz we do need unique namespace per metas, we just get out after first meet
-									break;
-								};
-							}
-						}
-					}
-				}
-			};
-			print_array( $this->cols );
-		}
-	}
-	// Table
-	private $current_table			=	'sample';
-	private $empty_table_message	=	'There are no result to display';
-	public function set_table( $namespace )
+	
+	/**
+	 * 	Get GUI cols
+	 *	@access		:	Public
+	 *	@returns	:	Array
+	**/
+	function get_cols()
 	{
-		$this->current_table	=	$namespace;
-		return $this;
+		return $this->cols;
 	}
-	public function empty_message( $message )
-	{
-		$this->empty_table_message	=	$message;
-		return $this;
-	}
-	public function add_col( $name , $title )
-	{
-		$this->tables[ $this->current_table ][ 'cols' ][ $name ]	=	$title;
-	}
-	public function add_row( $values )
-	{
-		if( is_array( $values ) )
-		{
-			$this->tables[ $this->current_table ][ 'rows' ][]	=	$values;
-		}
-		return $this;
-	}
-	public function add_cols_width( $values )
-	{
-		if( is_array( $values ) )
-		{
-			$this->tables[ $this->current_table ][ 'cols_width' ]	=	$values;
-		}
-		return $this;
-	}
-	public $tables	=	array();
-	function get_table( $namespace , $class = '' , $attrs = '')
-	{
-		if( riake( $namespace , $this->tables ) )
-		{
-			$empty_table_message	=	$this->empty_table_message;
-			?>
-            <table class="box-body <?php echo $class;?>" <?php echo $attrs;?>>
-                <thead>
-                    <tr>
-                        <?php
-						$col_span = 0;
-						foreach( riake( 'cols' , $this->tables[ $namespace ] , array() ) as $key	=>	$cols )
-						{
-							$col_span++;
-							?>
-                            <td width="<?php echo riake( $key , riake( 'cols_width' , $this->tables[ $namespace ] ) , 100 );?>"><?php echo $cols;?></td>
-                            <?php
-						}
-						?>
-                    </tr>
-                </thead>
-                <tbody>
-                    	<?php
-						if( count( riake( 'rows' , $this->tables[ $namespace ] , array() ) ) > 0 )
-						{
-							foreach( riake( 'rows' , $this->tables[ $namespace ] , array() ) as $rows )
-							{
-							?>
-                            <tr>
-                            <?php
-								foreach( force_array( $rows ) as $_values )
-								{
-								?>
-                                <td><?php echo $_values;?></td>
-								<?php
-								}
-							?>
-                            </tr>
-                            <?php
-							}
-						}
-						else
-						{
-							?>
-                            <tr>
-                            	<td colspan="<?php echo $col_span;?>"><?php echo $empty_table_message;?></td>
-                            </tr>
-                            <?php
-						}
-						?>
-                </tbody>
-            </table>
-            <?php
-		}
-		return false;
-	}
-	private $once_called	=	0;
-	function get_dynamic_table( $namespace , $class = '' , $attrs = '')
-	{
-		if( riake( $namespace , $this->tables ) )
-		{
-			$empty_table_message	=	$this->empty_table_message;
-			?>
-            <div class="box-body">
-            <table class="table table-bordered table-hover <?php echo $class;?> dynamic-tables-<?php echo $this->once_called;?>" <?php echo $attrs;?>>
-                <thead>
-                    <tr>
-                        <?php
-						$col_span = 0;
-						foreach( riake( 'cols' , $this->tables[ $namespace ] , array() ) as $cols )
-						{
-							$col_span++;
-							?>
-                            <td><?php echo $cols;?></td>
-                            <?php
-						}
-						?>
-                    </tr>
-                </thead>
-                <tbody>
-                    	<?php
-						if( count( riake( 'rows' , $this->tables[ $namespace ] , array() ) ) > 0 )
-						{
-							foreach( riake( 'rows' , $this->tables[ $namespace ] , array() ) as $rows )
-							{
-							?>
-                            <tr>
-                            <?php
-								foreach( force_array( $rows ) as $_values )
-								{
-								?>
-                                <td><?php echo $_values;?></td>
-								<?php
-								}
-							?>
-                            </tr>
-                            <?php
-							}
-						}
-						else
-						{
-							?>
-                            <tr>
-                            	<td colspan="<?php echo $col_span;?>"><?php echo $empty_table_message;?></td>
-                            </tr>
-                            <?php
-						}
-						?>
-                </tbody>
-            </table>
-            <script>
-			$(document).ready(function(e) {
-                $('.dynamic-tables-<?php echo $this->once_called;?>').dataTable();
-            });
-			</script>
-            </div>
-            <?php
-			$this->once_called++;
-		}
-		return false;
-	}
+	
 }

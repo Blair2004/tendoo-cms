@@ -17,6 +17,7 @@ class Tendoo_Controller extends CI_Controller
 			$this->events->do_action( 'before_session_start' );			
 			$this->load->library( 'flexi_auth' );
 			$this->load->model( 'users_model' , 'user' ); // run after flexi_auth
+			$this->load->model( 'options' );
 			
 			// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
 			if( ! $this->user->master_exists() && $this->uri->segment(1) != 'tendoo-setup' )

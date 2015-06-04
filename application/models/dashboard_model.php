@@ -14,15 +14,15 @@ class Dashboard_model extends CI_Model
 		
 		$this->events->add_action( 'before_admin_menu' , array( $this , 'set_admin_menu' ) );
 		$this->events->add_action( 'create_dashboard_pages' , array( $this , 'dashboard_home' ) );
-		$this->events->add_action( 'create_dashboard_pages' , array( $this , 'dashboard_settings' ) );
+		$this->events->add_action( 'create_dashboard_pages' , array( $this , 'dashboard_settings' ) , 10 , 2 );
 	}
 	
 	function dashboard_home()
 	{
 		// Create user page
-		$this->gui->create_page( 'home' , __( 'Page Users' ) , __( 'Page Description' ) );
+		$this->gui->create_page( 'index' , __( 'Page Users' ) , __( 'Page Description' ) );
 		$this->gui->set_title( 'Custom Title' );
-		$this->gui->page_content( 'home' , 'dashboard/index/body' );
+		$this->gui->page_content( 'index' , 'dashboard/index/body' );
 	}
 	
 	function dashboard_settings()
@@ -39,7 +39,7 @@ class Dashboard_model extends CI_Model
 	public function set_admin_menu()
 	{		
 		$this->menu->add_admin_menu_core( 'dashboard' , array(
-			'href'			=>		site_url('dashboard/page/home'),
+			'href'			=>		site_url('dashboard/home'),
 			'icon'			=>		'fa fa-dashboard',
 			'title'			=>		__( 'Dashboard' )
 		) );
@@ -47,29 +47,29 @@ class Dashboard_model extends CI_Model
 		$this->menu->add_admin_menu_core( 'media' , array(
 			'title'			=>		__( 'Media Library' ),
 			'icon'			=>		'fa fa-image',
-			'href'			=>		site_url('dashboard/page/media')
+			'href'			=>		site_url('dashboard/media')
 		) );
 		
 		$this->menu->add_admin_menu_core( 'installer' , array(
 			'title'			=>		__( 'Install Apps' ),
 			'icon'			=>		'fa fa-flask',
-			'href'			=>		site_url('dashboard/page/installer')
+			'href'			=>		site_url('dashboard/installer')
 		) );
 		
 		$this->menu->add_admin_menu_core( 'modules' , array(
 			'title'			=>		__( 'Modules' ),
 			'icon'			=>		'fa fa-puzzle-piece',
-			'href'			=>		site_url('dashboard/page/modules')
+			'href'			=>		site_url('dashboard/modules')
 		) );
 		
 		$this->menu->add_admin_menu_core( 'themes' , array(
 			'title'			=>		__( 'Themes' ),
 			'icon'			=>		'fa fa-columns',
-			'href'			=>		site_url('dashboard/page/themes')
+			'href'			=>		site_url('dashboard/themes')
 		) );
 		
 		$this->menu->add_admin_menu_core( 'themes' , array(
-			'href'			=>		site_url('dashboard/page/controllers'),
+			'href'			=>		site_url('dashboard/controllers'),
 			'icon'			=>		'fa fa-bookmark',
 			'title'			=>		__( 'Menus' )
 		) );
@@ -78,52 +78,52 @@ class Dashboard_model extends CI_Model
 		$this->menu->add_admin_menu_core( 'users' , array(
 			'title'			=>		__( 'Manage Users' ),
 			'icon'			=>		'fa fa-users',
-			'href'			=>		site_url('dashboard/page/users')
+			'href'			=>		site_url('dashboard/users')
 		) );
 		
 		$this->menu->add_admin_menu_core( 'users' , array(
 			'title'			=>		__( 'Create a new User' ),
 			'icon'			=>		'fa fa-users',
-			'href'			=>		site_url('dashboard/page/users/create')
+			'href'			=>		site_url('dashboard/users/create')
 		) );
 		// Self settings
 		$this->menu->add_admin_menu_core( 'users' , array(
 			'title'			=>		__( 'My Profile' ) , // current_user( 'PSEUDO' ),
 			'icon'			=>		'fa fa-users',
-			'href'			=>		site_url('dashboard/page/profile')
+			'href'			=>		site_url('dashboard/profile')
 		) );
 			
 		$this->menu->add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Roles & Groups' ),
 			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/page/roles')
+			'href'			=>		site_url('dashboard/roles')
 		) );
 		
 		$this->menu->add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Create new role' ),
 			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/page/roles/create')
+			'href'			=>		site_url('dashboard/roles/create')
 		) );
 		$this->menu->add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Roles permissions' ),
 			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/page/roles/permissions')
+			'href'			=>		site_url('dashboard/roles/permissions')
 		) );
 		$this->menu->add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Manage Groups' ),
 			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/page/roles/permissions')
+			'href'			=>		site_url('dashboard/roles/permissions')
 		) );
 		$this->menu->add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Create a new Group' ),
 			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/page/roles/permissions')
+			'href'			=>		site_url('dashboard/roles/permissions')
 		) );
 		
 		$this->menu->add_admin_menu_core( 'settings' , array(
 			'title'			=>		__( 'Settings' ),
 			'icon'			=>		'fa fa-cogs',
-			'href'			=>		site_url('dashboard/page/settings')
+			'href'			=>		site_url('dashboard/settings')
 		) );
 		
 		/** 
@@ -140,7 +140,7 @@ class Dashboard_model extends CI_Model
 		$this->menu->add_admin_menu_core( 'about' , array(
 			'title'			=>		__( 'About' ) ,
 			'icon'			=>		'fa fa-rocket',
-			'href'			=>		site_url('dashboard/page/about'),
+			'href'			=>		site_url('dashboard/about'),
 			'notices_nbr'	=>		 $notices_nbr
 		) );	
 		**/

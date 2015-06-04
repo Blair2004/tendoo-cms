@@ -5,6 +5,9 @@
 	$enctype	=	riake( 'enctype' , $form_wrap , '');
 	$method		=	riake( 'method' , $form_wrap , "POST" );
 	$content	=	riake( 'meta_items' , $panel );
+	
+	// var_dump( $panel );die;
+	
 	$form_expire=	strtotime( gmt_to_local( time() , 'UTC' ) ) + GUI_EXPIRE;
 	$ref		=	urlencode( current_url() );
 	

@@ -5,4 +5,4 @@
  *	Since		:	1.4
 **/
 
-$this->gui->get();
+$this->gui->output();

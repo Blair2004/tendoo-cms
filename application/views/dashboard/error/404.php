@@ -5,18 +5,20 @@
  *	Since		:	1.5
 **/
 
-$this->gui->cols_width( 1 , 4 );
+$this->gui->col_width( 1 , 4 );
 
-// creating unique meta
-$this->gui->set_meta( array(
-	'namespace'		=>		'error-body',
-	'type'			=>		'unwrapped'
-) )->push_to( 1 );
+$this->gui->add_meta( array(
+	'type'		=>	'dom',
+	'title'		=>	__( 'Error : 404' ),
+	'col_id'	=>	1,
+	'namespace'	=>	'error-section'
+) );
 
-// creating meta item
-$this->gui->set_item( array(
-	'type'			=>		'dom',
-	'value'			=>		tendoo_error( 'This page doesn\'t exists.' )
-) )->push_to( 'error-body' );
+$this->gui->add_item( array(
+	'type'		=>	'html-error',
+	'title'		=>	__( 'Oops ! An error occured' ),
+	'error-type'=>	__( '404' ),
+	'content'	=>	__( 'We could not locate this page. You can go back to the dashboard and try again' ),
+) , 'error-section' , 1 );
 
-$this->gui->get();
+$this->gui->output();

@@ -250,7 +250,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 \$db['default']['pconnect'] = FALSE;
 \$db['default']['db_debug'] = TRUE;
 \$db['default']['cache_on'] = FALSE;
-\$db['default']['cachedir'] = '';
+\$db['default']['cachedir'] = '/application/cache/database';
 \$db['default']['char_set'] = 'utf8';
 \$db['default']['dbcollat'] = 'utf8_general_ci';
 \$db['default']['swap_pre'] = '';

@@ -3,3 +3,4 @@ https://github.com/sekati/codeigniter-asset-helper
 https://github.com/zajohnson/CodeIgniter-enqueue
 https://github.com/bainternet/PHP-Hooks
 https://github.com/haseydesign/flexi-auth
+https://github.com/tamaspap/timezones

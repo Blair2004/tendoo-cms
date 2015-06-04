@@ -55,8 +55,20 @@ $route['translate_uri_dashes'] = TRUE;
 
 // Slugs.
 // must match reserved controllers and controllers requiring installation
-$route[ 'login' ]			=	'login';
-$route[ 'registration' ]	=	'registration';
-$route[ 'admin' ]			=	'admin';
-$route[ 'logout' ]			=	'logout';
-$route[ 'tendoo-setup' ]	=	'tendoo-setup';
+$route[ 'sign-in' ]						=	'sign_in';
+$route[ 'sign-up' ]						=	'sign_up';
+//$route[ 'dashboard/(:any)' ]			=	'dashboard/page/$1';
+// $route[ 'dashboard/(.+)' ]				=	'dashboard/page';
+/**
+
+$route[ 'dashboard/(:any)/(:any)/(:any)' ]			=	'dashboard/page/$1/$2/$3';
+$route[ 'dashboard/(:any)/(:any)/(:any)/(:any)' ]			=	'dashboard/page/$1/$2/$3/$4';
+$route[ 'dashboard/(:any)/(:any)/(:any)/(:any)/(:any)' ]			=	'dashboard/page/$1/$2/$3/$4/$5';
+$route[ 'dashboard/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)' ]			=	'dashboard/page/$1/$2/$3/$4/$5/$6';
+$route[ 'dashboard/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)' ]			=	'dashboard/page/$1/$2/$3/$4/$5/$6/$7';
+$route[ 'dashboard/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)' ]			=	'dashboard/page/$1/$2/$3/$4/$5/$6/$7/$8';
+$route[ 'dashboard/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)' ]			=	'dashboard/page/$1/$2/$3/$4/$5/$6/$7/$8/$9';
+$route[ 'dashboard/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)' ]			=	'dashboard/page/$1/$2/$3/$4/$5/$6/$7/$8/$9/$10';**/
+
+$route[ 'sign-out' ]					=	'sign_out';
+$route[ 'tendoo-setup' ]				=	'tendoo-setup';

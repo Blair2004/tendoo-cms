@@ -19,4 +19,4 @@ $this->gui->set_item( array(
 	'value'			=>		tendoo_error( 'This page has no output content. You may consider using GUI::page_content in order to create content. Please refer to Tendoo API.' )
 ) )->push_to( 'error-body' );
 
-$this->gui->get();
+$this->gui->output();

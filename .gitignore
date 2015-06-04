@@ -35,7 +35,7 @@ Icon
 .Spotlight-V100
 .Trashes
 
-# Ignore Tendoo CMS 1.4 branch folder
+#ignore tendoo 1.4 branch files
 
 /tendoo-core
 /tendoo-modules

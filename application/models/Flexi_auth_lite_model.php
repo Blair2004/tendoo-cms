@@ -103,7 +103,7 @@ class Flexi_auth_lite_model extends CI_Model
 				}
 			}
 		}
-
+		
 		// User session table
 		$this->auth->tbl_user_session = $database_config['user_sess']['table'];
 		$this->auth->tbl_join_user_session = $database_config['user_sess']['join'];

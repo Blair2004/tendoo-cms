@@ -5,27 +5,44 @@
  *	Since		:	1.4
 **/
 
-$this->gui->cols_width( 1 , 2 );
-$this->gui->cols_width( 2 , 2 );
+$this->gui->col_width( 1 , 2 );
 
-$this->gui->set_meta( array(
-	'namespace'	=>	'settings-tabs',
-	'type'		=>	'panel-tabbed',
-	'title'		=>	__( 'Custom' )
-) )->push_to( 1 );
+$this->gui->add_meta( array(
+	'type'		=>	'box-primary',
+	'title'		=>	__( 'General Settings' ),
+	'namespace'	=>	'mybox',
+	'col_id'	=>	1, // required,
+	'gui_saver'	=>	true, // use tendoo option saver
+	'footer'	=>	array(
+		'submit'	=>	array(
+			'label'	=>	__( 'Save Settings' )
+		)
+	),
+	'use_namespace'	=>	true
+) );
 
-$this->gui->set_meta( array(
-	'namespace'		=>	'custom',
-	'type'			=>	'panel',
-	'title'			=>	__( 'Tab 1' )
-) )->push_to( 'settings-tabs' );
+$this->gui->add_item( array(
+	'type'		=>	'text',
+	'name'		=>	'site-name',
+	'label'		=>	__( 'Site Name' ),
+	'placeholder'	=>	__( 'Enter your site name' )
+) , 'mybox' , 1 );
 
-$this->gui->set_meta( array(
-	'namespace'		=>	'costo',
-	'type'			=>	'panel',
-	'title'			=>	__( 'Tab 2' )
-) )->push_to( 'settings-tabs' );
+$this->gui->add_item( array(
+	'type'		=>	'textarea',
+	'name'		=>	'site-description',
+	'label'		=>	__( 'Site Description' ),
+	'placeholder'	=>	__( 'Enter your site description' )
+) , 'mybox' , 1 );
 
-die;
+$this->gui->add_item( array(
+	'type'			=>	'select',
+	'name'			=>	'site-timezone',
+	'label'			=>	__( 'Timezone' ),
+	'placeholder'	=>	__( 'Enter your site timezone' ),
+	'options'		=>	$this->config->item( 'site-timezone' )
+) , 'mybox' , 1 );
 
-$this->gui->get();
+$this->events->do_action( 'register_general_settings_fields' );
+
+$this->gui->output();

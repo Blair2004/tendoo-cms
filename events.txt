@@ -5,3 +5,4 @@ before_session_start		:	Trigger actions before ci session init
 display_admin_header_menu 	: 	trigger actions whichs displays header menu.
 log_user_out				:	trigger action to log user out
 create_dashboard_pages		:	Create dashboard page
+register_general_settings_fields	:	Trigger action when registering general settings fields
