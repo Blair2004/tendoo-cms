@@ -5,12 +5,16 @@
  *	Since		:	1.4
 **/
 
+/************************************************************************
+ ********************** 	GENERAL SETTINGS   **************************
+*************************************************************************/
+
 $this->gui->col_width( 1 , 2 );
 
 $this->gui->add_meta( array(
 	'type'		=>	'box-primary',
 	'title'		=>	__( 'General Settings' ),
-	'namespace'	=>	'mybox',
+	'namespace'	=>	'general-settings',
 	'col_id'	=>	1, // required,
 	'gui_saver'	=>	true, // use tendoo option saver
 	'footer'	=>	array(
@@ -26,14 +30,14 @@ $this->gui->add_item( array(
 	'name'		=>	'site-name',
 	'label'		=>	__( 'Site Name' ),
 	'placeholder'	=>	__( 'Enter your site name' )
-) , 'mybox' , 1 );
+) , 'general-settings' , 1 );
 
 $this->gui->add_item( array(
 	'type'		=>	'textarea',
 	'name'		=>	'site-description',
 	'label'		=>	__( 'Site Description' ),
 	'placeholder'	=>	__( 'Enter your site description' )
-) , 'mybox' , 1 );
+) , 'general-settings' , 1 );
 
 $this->gui->add_item( array(
 	'type'			=>	'select',
@@ -41,8 +45,27 @@ $this->gui->add_item( array(
 	'label'			=>	__( 'Timezone' ),
 	'placeholder'	=>	__( 'Enter your site timezone' ),
 	'options'		=>	$this->config->item( 'site-timezone' )
-) , 'mybox' , 1 );
+) , 'general-settings' , 1 );
 
 $this->events->do_action( 'register_general_settings_fields' );
+
+/************************************************************************
+ ********************** 	Advanced Settings   **************************
+*************************************************************************/
+$this->gui->col_width( 2 , 2 );
+
+$this->gui->add_meta( array(
+	'type'		=>	'box-primary',
+	'title'		=>	__( 'Advanced Settings' ),
+	'namespace'	=>	'advanced-settings',
+	'col_id'	=>	2, // required,
+	'gui_saver'	=>	true, // use tendoo option saver
+	'footer'	=>	array(
+		'submit'	=>	array(
+			'label'	=>	__( 'Save Advanced' )
+		)
+	),
+	'use_namespace'	=>	false
+) );
 
 $this->gui->output();
