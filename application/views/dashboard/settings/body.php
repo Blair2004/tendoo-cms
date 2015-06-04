@@ -18,7 +18,7 @@ $this->gui->add_meta( array(
 			'label'	=>	__( 'Save Settings' )
 		)
 	),
-	'use_namespace'	=>	true
+	'use_namespace'	=>	false
 ) );
 
 $this->gui->add_item( array(

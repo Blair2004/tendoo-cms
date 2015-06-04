@@ -39,7 +39,7 @@ class Dashboard_model extends CI_Model
 	public function set_admin_menu()
 	{		
 		$this->menu->add_admin_menu_core( 'dashboard' , array(
-			'href'			=>		site_url('dashboard/home'),
+			'href'			=>		site_url('dashboard'),
 			'icon'			=>		'fa fa-dashboard',
 			'title'			=>		__( 'Dashboard' )
 		) );

@@ -18,7 +18,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 			// if namespace is used and option exists
 			is_array( $form_option ) ? riake( $name , $form_option ) : 			
 			// if namespace is not used
-			$_option	=	$this->options->get( $name ) ? $_option : $value;
+			$_option	=	( $_option = $this->options->get( $name ) ) ? $_option : $value;
 		?>
         <div class="input-group" style="margin-bottom:5px;">
             <span class="input-group-addon"><?php echo riake( 'label' , $_item );?></span>
@@ -32,7 +32,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 			// if namespace is used and option exists
 			is_array( $form_option ) ? riake( $name , $form_option ) : 			
 			// if namespace is not used
-			$_option	=	$this->options->get( $name ) ? $_option : $value;
+			$_option	=	( $_option = $this->options->get( $name ) ) ? $_option : $value;
 		?>
         <div class="form-group">
           <label><?php echo $label;?></label>
@@ -56,7 +56,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 			// if namespace is used and option exists
 			is_array( $form_option ) ? riake( $name , $form_option ) : 			
 			// if namespace is not used
-			$_option	=	$this->options->get( $name ) ? $_option : false;
+			$_option	=	( $_option = $this->options->get( $name ) ) ? $_option : false;
 		// control check
 		$checked	=	$db_value == $value ? 'checked="checked"' : '';
 		?>
