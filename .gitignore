@@ -1,3 +1,6 @@
 tendoo-installer
 sitemap.xml
 tendoo-assets/img/avatars
+/application
+/public
+/cache
