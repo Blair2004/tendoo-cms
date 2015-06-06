@@ -4,3 +4,4 @@ https://github.com/zajohnson/CodeIgniter-enqueue
 https://github.com/bainternet/PHP-Hooks
 https://github.com/haseydesign/flexi-auth
 https://github.com/tamaspap/timezones
+http://alcwynparker.co.uk/2013/04/11/codeigniter-shortcodes-library-yet-another/

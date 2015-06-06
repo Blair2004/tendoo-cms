@@ -18,24 +18,17 @@ class GUI extends CI_Model
 	}
 	
 	/**
-	 * Create new admin page
-	 * Using page required page slug.
-	 *
-	 * @access : public
-	 * @param : string page slug required
-	 * @param : string page title (using page slug if not set)
-	 * @param : string page description (displays nothing if not set)
+	 * Register page for dashboard
 	**/
 	
-	public function create_page( $page_slug , $page_title , $page_description ) // may add role required to access this apge
+	function register_page( $page_slug , $function )
 	{
 		$this->created_page[ $page_slug ]	=	array(
-			'page_slug'						=>	$page_slug,
-			'page_title'					=>	$page_title,
-			'page_description'				=>	$page_description
+			'page-slug'		=>	$page_slug,
+			'function'		=>	$function
 		);
 	}
-	
+		
 	/** 
 	 * Load created page
 	 *
@@ -49,9 +42,9 @@ class GUI extends CI_Model
 		if( riake( $page_slug , $this->created_page ) )
 		{
 			// loading page content
-			if( $content	=	riake( 'content' , $this->created_page[ $page_slug ] ) )
+			if( $function	=	riake( 'function' , $this->created_page[ $page_slug ] ) )
 			{
-				echo $content();
+				call_user_func_array( $function , $params );
 			}
 			else
 			{
@@ -77,17 +70,6 @@ class GUI extends CI_Model
 			$this->html->set_description( __( 'Error page' ) );
 			$this->load->view( 'dashboard/error/404' );
 		}
-	}
-	/**
-	 * page_content
-	**/
-	
-	function page_content( $page_slug , $file_path , $array_vars = array() )
-	{
-		$current_object	=	$this;
-		$this->created_page[ $page_slug ][ 'content' ]	=	function() use ( $current_object , $page_slug , $file_path , $array_vars ){
-			return $current_object->load->view( $file_path , $array_vars , true );	
-		};
 	}
 	
 	/**

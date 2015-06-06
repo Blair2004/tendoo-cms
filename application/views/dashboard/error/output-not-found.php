@@ -5,18 +5,19 @@
  *	Since		:	1.5
 **/
 
-$this->gui->cols_width( 1 , 4 );
+$this->gui->col_width( 1 , 4 );
 
 // creating unique meta
-$this->gui->set_meta( array(
+$this->gui->add_meta( array(
 	'namespace'		=>		'error-body',
-	'type'			=>		'unwrapped'
-) )->push_to( 1 );
+	'type'			=>		'box',
+	'col_id'		=>		1
+) );
 
 // creating meta item
-$this->gui->set_item( array(
+$this->gui->add_item( array(
 	'type'			=>		'dom',
-	'value'			=>		tendoo_error( 'This page has no output content. You may consider using GUI::page_content in order to create content. Please refer to Tendoo API.' )
-) )->push_to( 'error-body' );
+	'content'		=>		tendoo_error( 'This page has no output content. You may consider using GUI::page_content in order to create content. Please refer to Tendoo API.' )
+) , 'error-body' , 1 );
 
 $this->gui->output();

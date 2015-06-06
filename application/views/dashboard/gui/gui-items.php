@@ -78,7 +78,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 				// if namespace is used and option exists
 				is_array( $form_option ) ? riake( riake( 'name' , $radio_item ) , $form_option ) : 			
 				// if namespace is not used
-				$_option	=	$this->options->get( riake( 'name' , $radio_item ) ) ? $_option : false;
+				$_option	=	( $_option = $this->options->get( riake( 'name' , $radio_item ) ) ) ? $_option : false;
 			// control check
 			$checked	=	$db_value == riake( 'value' , $radio_item ) ? 'checked="checked"' : '';
 		?>
@@ -97,7 +97,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 	/**
 	 * Form
 	 *
-	 * set_meta( array(
+	 * add_meta( array(
 	 *		'type'	=>	'multiple',
 	 *		'options'	=>	array(
 	 *			array(
@@ -121,7 +121,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 					// if namespace is used and option exists
 					is_array( $form_option ) ? riake( $name , $form_option ) : 			
 					// if namespace is not used
-					$_option	=	$this->options->get( $name ) ? $_option : false;
+					$_option	=	( $_option = $this->options->get( $name ) ) ? $_option : false;
 				// control check
 				$selected	=	$db_value == $value ? 'selected="selected"' : '';
 				?>
@@ -134,7 +134,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
         <?php
 	}
 	/**
-	 *  ..set_meta( array(
+	 *  ..add_meta( array(
 	 		'type'		=>		'html-list',
 			'options'	=>		array(
 				array( 
@@ -195,6 +195,67 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
               -->
             </div><!-- /.error-content -->
           </div>
+        <?php
+	}
+	
+	/**
+	 * ->add_item( array(
+	 *		'type'		=>	'table',
+	 *		'cols'		=>	array( __( 'Id' ) , __( 'Title' ) , __( 'Name' ), __( 'Description' ) ),
+	 *		'rows'		=>	array(
+	 *			array( 1 , __( 'Custom 1' ) , __( 'Name 1' ) , __( 'Description' ) ),
+	 *			array( 1 , __( 'Custom 1' ) , __( 'Name 1' ) , __( 'Description' ) ),
+	 * 			array( 1 , __( 'Custom 1' ) , __( 'Name 1' ) , __( 'Description' ) ),
+	 *			array( 1 , __( 'Custom 1' ) , __( 'Name 1' ) , __( 'Description' ) )	
+	 * 		)
+	 *	) , 'settings' , 2 );
+	**/
+	
+	else if( $type == 'table' )
+	{
+		// Optional riake( 'width' , $_item )
+		?>
+      <table class="table table-bordered">
+        <tbody><tr>
+        	<?php 
+			foreach( force_array( riake( 'cols' , $_item ) ) as $index	=>	$_col )
+			{
+				?>
+          		<th style="<?php echo $width =	riake( $index , riake( 'width' , $_item ) ) ? 'width:' . $width . ';' : '';?>"><?php echo $_col;?></th>
+                <?php
+			}
+			?>
+        </tr>
+        <?php
+		if( count( force_array( riake( 'rows' , $_item ) ) ) > 0 )
+		{
+			foreach( force_array( riake( 'rows' , $_item ) ) as $index => $_row )
+			{
+				?>
+				<tr>
+                	<?php
+					foreach( force_array( $_row ) as $_unique_col )
+					{
+					?>
+				  <td><?php echo $_unique_col;?></td>
+                  <?php
+					}
+				  ?>
+				</tr>
+				<?php 
+			}
+		}
+		else
+		{
+			?>
+            <tr>
+            	<td colspan="<?php count( force_array( riake( 'cols' , $_item ) ) );?>"><?php echo __( 'Empty table' );?></td>
+            </tr>
+            <?php
+		}
+		?>
+        
+      </tbody></table>
         <?php
 	}
 }

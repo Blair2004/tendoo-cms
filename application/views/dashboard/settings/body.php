@@ -1,8 +1,8 @@
 <?php
 /**
  * 	File Name 	: 	body.php
- *	Description :	header file for each admin page. include <html> tag and ends at </head> closing tag
- *	Since		:	1.4
+ *	Description :	settings option page for dashboard
+ *	Since		:	1.5
 **/
 
 /************************************************************************
@@ -52,6 +52,7 @@ $this->events->do_action( 'register_general_settings_fields' );
 /************************************************************************
  ********************** 	Advanced Settings   **************************
 *************************************************************************/
+
 $this->gui->col_width( 2 , 2 );
 
 $this->gui->add_meta( array(
@@ -63,9 +64,64 @@ $this->gui->add_meta( array(
 	'footer'	=>	array(
 		'submit'	=>	array(
 			'label'	=>	__( 'Save Advanced' )
-		)
+		),
 	),
 	'use_namespace'	=>	false
 ) );
+
+$this->gui->add_item( array(
+	'type'		=>	'select',
+	'name'		=>	'site-registration',
+	'label'		=>	__( 'Open registration' ),
+	'placeholder'=>	__( 'Open Registration ?' ),
+	'options'	=>	array(
+		'false'	=>	__( 'No' ),
+		'true'	=>	__( 'Yes' )
+	)
+) , 'advanced-settings' , 2 );
+
+$this->gui->add_item( array(
+	'type'		=>	'select',
+	'name'		=>	'allow-role-selection',
+	'label'		=>	__( 'Allow Role Selection' ),
+	'placeholder'=>	__( 'Allow Role selection' ),
+	'options'	=>	array(
+		'false'	=>	__( 'No' ),
+		'true'	=>	__( 'Yes' )
+	)
+) , 'advanced-settings' , 2 );
+
+$this->gui->add_item( array(
+	'type'		=>	'select',
+	'name'		=>	'auto-update',
+	'label'		=>	__( 'Auto update tendoo' ),
+	'placeholder'=>	__( 'Auto update tendoo' ),
+	'options'	=>	array(
+		'false'	=>	__( 'No' ),
+		'true'	=>	__( 'Yes' )
+	)
+) , 'advanced-settings' , 2 );
+
+$this->gui->add_item( array(
+	'type'		=>	'select',
+	'name'		=>	'remote-install',
+	'label'		=>	__( 'Enable Remote Themes and Module Installation' ),
+	'placeholder'=>	__( 'Enable Remote Themes and Module Installation' ),
+	'options'	=>	array(
+		'false'	=>	__( 'No' ),
+		'true'	=>	__( 'Yes' )
+	)
+) , 'advanced-settings' , 2 );
+
+$this->gui->add_item( array(
+	'type'		=>	'select',
+	'name'		=>	'enable-cache',
+	'label'		=>	__( 'Enable Cache' ),
+	'placeholder'=>	__( 'Enable Cache' ),
+	'options'	=>	array(
+		'false'	=>	__( 'No' ),
+		'true'	=>	__( 'Yes' )
+	)
+) , 'advanced-settings' , 2 );
 
 $this->gui->output();

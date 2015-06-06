@@ -105,6 +105,19 @@ Tendoo Version Required : 1.5
                             <button type="submit" class="btn btn-primary"><?php echo riake( 'label' , $footer_submit );?></button>
                             <?php
 							}
+							// if pagination is enabled
+							if( riake( 'pagination' , $footer ) )
+							{
+							?>
+                            <ul class="pagination pagination-sm no-margin pull-right">
+                                <li><a href="#">«</a></li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">»</a></li>
+                              </ul>
+							<?php
+							}
 							?>
                         </div>
                             <?php
@@ -121,7 +134,7 @@ Tendoo Version Required : 1.5
 						<?php
 					}
 				}
-				else if( $meta_type == 'dom' )
+				else
 				{
 					// meta icon ?
 					$icon			=	riake( 'icon' , $meta , false );

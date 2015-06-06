@@ -12,31 +12,56 @@ class Dashboard_model extends CI_Model
 	{
 		parent::__construct();
 		
-		$this->events->add_action( 'before_admin_menu' , array( $this , 'set_admin_menu' ) );
-		$this->events->add_action( 'create_dashboard_pages' , array( $this , 'dashboard_home' ) );
-		$this->events->add_action( 'create_dashboard_pages' , array( $this , 'dashboard_settings' ) , 10 , 2 );
+		$this->events->add_action( 'before_admin_menu' , array( $this , '__set_admin_menu' ) );
+		$this->events->add_action( 'create_dashboard_pages' , array( $this , '__dashboard_config' ) );
 	}
 	
-	function dashboard_home()
+	function __dashboard_config()
 	{
-		// Create user page
-		$this->gui->create_page( 'index' , __( 'Page Users' ) , __( 'Page Description' ) );
-		$this->gui->set_title( 'Custom Title' );
-		$this->gui->page_content( 'index' , 'dashboard/index/body' );
+		$this->gui->register_page( 'index' , array( $this , 'index' ) );
+		$this->gui->register_page( 'settings' , array( $this , 'settings' ) );
+		$this->gui->register_page( 'users' , array( $this , 'users' ) );
+	}
+	function index()
+	{
+		$this->gui->set_title( 'This Title' );
+		$this->load->view( 'dashboard/index/body' );
 	}
 	
-	function dashboard_settings()
+	function settings()
 	{
-		// Create user page
-		$this->gui->create_page( 'settings' , __( 'Page Users' ) , __( 'Page Description' ) );
 		$this->gui->set_title( sprintf( __( 'Settings &mdash; %s' ) , get( 'core-signature' ) ) );
-		$this->gui->page_content( 'settings' , 'dashboard/settings/body' );
+		$this->load->view( 'dashboard/settings/body' );
+	}
+	
+	function users( $page = 'list' , $index = 1 )
+	{		
+		if( $page == 'list' )
+		{
+			$this->gui->set_title( sprintf( __( 'Users &mdash; %s' ) , get( 'core-signature' ) ) );
+			$this->load->view( 'dashboard/users/body' );
+		}
+		else
+		{
+			// Group is choosen automatically	
+			// selecting privileges
+			$privileges	=	$this->flexi_auth->get_privileges( array(
+				'upriv_id as privilege_id',
+				'upriv_name as privilege_name'
+			) );			
+			
+			$this->gui->set_title( sprintf( __( 'Create a new user &mdash; %s' ) , get( 'core-signature' ) ) );
+			
+			$this->load->view( 'dashboard/users/create' , array( 
+				'privileges'	=>	$privileges
+			) );
+		}
 	}
 
 	/**
 	 * Define default menu for tendoo dashboard
 	**/
-	public function set_admin_menu()
+	public function __set_admin_menu()
 	{		
 		$this->menu->add_admin_menu_core( 'dashboard' , array(
 			'href'			=>		site_url('dashboard'),
