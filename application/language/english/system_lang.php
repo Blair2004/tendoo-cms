@@ -8,7 +8,7 @@ $lang[ 'error-occured' ]		=	tendoo_error( __( 'An error occured.' ) );
 $lang[ 'unexpected-error' ]		=	tendoo_error( __( 'An unexpected error occured.' ) );
 $lang[ 'access-denied' ]		=	tendoo_error( __( 'Access Denied.' ) );
 // Login page
-$lang[ 'signin-notice-message' ]	=	__( 'Sign in to start your session' );
+$lang[ 'signin_notice_message' ]	=	__( 'Sign in to start your session' );
 $lang[ 'user-logged-in' ]		= tendoo_success( __( 'You logged in successfully.' ) );
 $lang[ 'wrong-password-or-credentials' ]	= tendoo_error( __( 'Wrong Password or User Name' ) );
 $lang[ 'login-required' ]		=	tendoo_info( __( 'Login is required.' ) );

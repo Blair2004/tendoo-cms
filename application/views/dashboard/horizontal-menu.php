@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  
 **/
 ?>
-<body class="skin-blue fixed sidebar-mini">
+<body class="<?php echo $this->events->apply_filters( 'dashboard_skin_class' , 'skin-blue' );?> fixed sidebar-mini">
     <div class="wrapper">
         <header class="main-header"> 
             

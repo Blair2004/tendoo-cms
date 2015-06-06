@@ -17,7 +17,7 @@ class notice
 	{
 		$this->notice[]	=	$e;
 	}
-	public function parse_notice($return = FALSE)
+	public function output_notice($return = FALSE)
 	{
 		if(is_array($this->notice))
 		{

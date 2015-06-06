@@ -52,6 +52,8 @@
 	 *
 	 * All columns are required.
 	*/ 
+	// $dbprefix		=	 get_instance()->db->dbprefix;
+	
 	$config['database']['user_acc']['table'] = 'user_accounts';
 	$config['database']['user_acc']['join'] = 'user_accounts.uacc_id';
 	$config['database']['user_acc']['columns']['id'] = 'uacc_id';

@@ -18,7 +18,14 @@ $complete_users	=	array();
 // adding user to complete_users array
 foreach( $users->result_array() as $_user )
 {
-	$complete_users[]	=	array( riake( 'user_id' , $_user ) , riake( 'user_name' , $_user ) , riake( 'user_email' , $_user ) , riake( 'active' , $_user ) , riake( 'status' , $_user ) , riake( 'last_login' , $_user ) );
+	$complete_users[]	=	array( 
+		riake( 'user_id' , $_user ) , 
+		'<a href="' . site_url( array( 'dashboard' , 'users' , 'edit' , riake( 'user_id' , $_user ) ) ) . '">' . riake( 'user_name' , $_user ) . '</a>' , 
+		riake( 'user_email' , $_user ) , 
+		riake( 'active' , $_user ) , 
+		riake( 'status' , $_user ) , 
+		riake( 'last_login' , $_user ) 
+	);
 }
 
 $this->gui->col_width( 1 , 4 );

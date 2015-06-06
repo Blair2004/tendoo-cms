@@ -32,6 +32,19 @@ Tendoo Version Required : 1.5
     
     ?>
     <div class="content">
+    <?php 
+	// display notice
+	echo $this->notice->output_notice();	
+	if( function_exists( 'validation_errors' ) )
+	{
+		// validation errors
+		echo ( validation_errors() ) != '' ? tendoo_error( strip_tags( validation_errors() ) ) : '';
+	}
+	?>
+    <p><?php echo ( $msg = $this->flexi_auth->get_messages() ) != '' ? tendoo_info( strip_tags( $msg ) ) : '';?></p>
+    <p><?php echo fetch_notice_from_url();?></p>
+    
+    
     <div class="row">
         <?php foreach( force_array( $this->gui->get_cols() ) as $col_id =>	$col_data ):?>
         <div class="col-lg-<?php echo riake( 'width' , $col_data , 1 ) * 3 ;?>">
@@ -167,6 +180,29 @@ Tendoo Version Required : 1.5
 					echo $this->load->view( 'dashboard/gui/gui-items' , array(
 						'meta' 	=>	$meta
 					) , true );
+					
+					if( $footer	=	riake( 'footer' , $meta ) )
+					{
+						if( $footer_submit	= riake( 'submit' , $footer ) )
+						{
+						?>
+						<button type="submit" class="btn btn-primary"><?php echo riake( 'label' , $footer_submit );?></button>
+						<?php
+						}
+						// if pagination is enabled
+						if( riake( 'pagination' , $footer ) )
+						{
+						?>
+						<ul class="pagination pagination-sm no-margin pull-right">
+							<li><a href="#">«</a></li>
+							<li><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">»</a></li>
+						  </ul>
+						<?php
+						}
+					}
 										
 					// enable gui form saver
 					if( riake( 'gui_saver' , $meta ) )

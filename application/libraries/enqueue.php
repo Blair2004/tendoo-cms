@@ -29,7 +29,7 @@ class Enqueue {
 	
 	public function loadjs() {
 		foreach( $this->scripts as $script ) {
-			echo '<script src="' . base_url() . $this->path_js . $script . '.js" async></script>'."\n";
+			echo '<script src="' . base_url() . $this->path_js . $script . '.js"></script>'."\n";
 		}
 	}
 	

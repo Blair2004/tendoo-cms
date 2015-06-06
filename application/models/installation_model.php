@@ -128,8 +128,7 @@ class Installation_Model extends CI_Model
 					->add_key( 'ugrp_id' , true )
 				->create_table( 'user_groups' , TRUE, $attributes );
 				
-				// creating login session
-					
+				// creating login session					
 				$this->dbforge
 					->add_field( array(
 						'usess_uacc_fk'	=>	array(
@@ -168,8 +167,7 @@ class Installation_Model extends CI_Model
 					->add_key( 'upriv_id' , true )
 				->create_table( 'user_privileges' , TRUE, $attributes );
 				
-				// creating user privilèges
-					
+				// creating user privilèges					
 				$this->dbforge
 					->add_field( array(
 						'upriv_users_id'	=>	array(
@@ -186,7 +184,7 @@ class Installation_Model extends CI_Model
 					->add_key( 'upriv_users_uacc_fk' )
 					->add_key( 'upriv_users_upriv_fk' )
 				->create_table( 'user_privilege_users' , TRUE, $attributes );
-				
+								
 				// creating user privilèges group
 					
 				$this->dbforge
@@ -211,11 +209,9 @@ class Installation_Model extends CI_Model
 				$this->flexi_auth->insert_group( __( 'Administrators' ) , __( 'Adminitrators Group' ), true , array() );
 				$this->flexi_auth->insert_group( __( 'Users' ) , __( 'Users Group' ), false , array() );
 				// Creating privileges
-				$this->flexi_auth->insert_privilege( __( 'Master' ), __( 'Master priilege' ), array() );
-				$this->flexi_auth->insert_privilege( __( 'User' ), __( 'Master priilege' ), array() );
+				$this->flexi_auth->insert_privilege( __( 'Dashboard Access' ), __( 'Master priilege' ), array() );
 				// bind privilege to a group
-				$this->flexi_auth->insert_user_group_privilege( 1,  1 ); // (administrators/Master)
-				$this->flexi_auth->insert_user_group_privilege( 2,  2 ); // (Users/User)				
+				$this->flexi_auth->insert_user_group_privilege( 1,  1 ); // administrator can access dashboard
 				// creating config file
 				$this->create_config_file( $config );
 				

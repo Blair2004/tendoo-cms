@@ -7,7 +7,7 @@
       <div class="register-box-body">
         <p class="login-box-msg"><?php _e( 'Sign up to' );?></p>
         <p><?php echo validation_errors();?></p>
-        <p><?php echo $this->notice->parse_notice();?></p>
+        <p><?php echo $this->notice->output_notice();?></p>
         <form  method="post">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" placeholder="<?php _e( 'User Name' );?>" name="username">

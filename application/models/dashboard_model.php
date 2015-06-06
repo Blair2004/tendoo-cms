@@ -41,19 +41,102 @@ class Dashboard_model extends CI_Model
 			$this->gui->set_title( sprintf( __( 'Users &mdash; %s' ) , get( 'core-signature' ) ) );
 			$this->load->view( 'dashboard/users/body' );
 		}
-		else
+		else if( $page == 'edit') 
 		{
-			// Group is choosen automatically	
-			// selecting privileges
-			$privileges	=	$this->flexi_auth->get_privileges( array(
-				'upriv_id as privilege_id',
-				'upriv_name as privilege_name'
-			) );			
+			$user				=	$this->user->get( $index );
+			if( ! $user )
+			{
+				redirect( array( 'dashboard' , 'unknow-user' ) );
+			}
+			
+			// validaiton rules
+			
+			$this->load->library( 'form_validation' );
+			
+			// $this->form_validation->set_rules( 'username' , __( 'User Name' ), 'required|min_length[5]' ); can't be edited
+			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'required|valid_email' );
+			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'min_length[6]' );
+			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'matches[password]' );
+			$this->form_validation->set_rules( 'activate' , __( 'Activate' ), 'required' );
+			$this->form_validation->set_rules( 'userprivilege' , __( 'User Privilege' ), 'required' );
+			
+			// load custom rules
+			$this->events->do_action( 'user_creation_rules' );
+			
+			if( $this->form_validation->run() )
+			{
+				$exec	=	$this->user->edit(
+				 	$index , 
+					$this->input->post( 'user_email' ),
+					$this->input->post( 'password' ),
+					$this->input->post( 'activate' ),
+					$this->input->post( 'userprivilege' ), 
+					'',
+					''
+				);
+				
+				
+				// Refresh user data
+				$user				=	$this->user->get( $index );
+				if( ! $user )
+				{
+					redirect( array( 'dashboard' , 'unknow-user' ) );
+				}
+			}			
+			
+			// selecting groups
+			$groups	=	$this->flexi_auth->get_groups( array(
+				'ugrp_id as group_id',
+				'ugrp_name as group_name'
+			) );		
+			
+			$this->gui->set_title( sprintf( __( 'Edit user &mdash; %s' ) , get( 'core-signature' ) ) );
+			
+			$this->load->view( 'dashboard/users/edit' , array( 
+				'groups'	=>	$groups,
+				'user'			=>	$user
+			) );
+		}
+		else if( $page == 'create' )
+		{
+			$this->load->library( 'form_validation' );
+			
+			$this->form_validation->set_rules( 'username' , __( 'User Name' ), 'required|min_length[5]' );
+			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'required|valid_email' );
+			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'required|min_length[6]' );
+			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'required|matches[password]' );
+			$this->form_validation->set_rules( 'activate' , __( 'Activate' ), 'required' );
+			$this->form_validation->set_rules( 'userprivilege' , __( 'User Privilege' ), 'required' );
+			
+			// load custom rules
+			$this->events->do_action( 'user_creation_rules' );
+			
+			if( $this->form_validation->run() )
+			{
+				$exec	=	$this->user->create( 
+					$this->input->post( 'user_email' ),
+					$this->input->post( 'username' ),
+					$this->input->post( 'password' ),
+					$this->input->post( 'userprivilege' ),
+					$this->input->post( 'activate' )
+				);
+				if( $exec == 'user-created' )
+				{
+					redirect( array( 'dashboard' , 'users?notice=' . $exec ) ); exit;
+				}
+				$this->notice->push_notice( $this->lang->line( $exec ) );
+			}
+			
+			// selecting groups
+			$groups	=	$this->flexi_auth->get_groups( array(
+				'ugrp_id as group_id',
+				'ugrp_name as group_name'
+			) );		
 			
 			$this->gui->set_title( sprintf( __( 'Create a new user &mdash; %s' ) , get( 'core-signature' ) ) );
 			
 			$this->load->view( 'dashboard/users/create' , array( 
-				'privileges'	=>	$privileges
+				'groups'	=>	$groups
 			) );
 		}
 	}

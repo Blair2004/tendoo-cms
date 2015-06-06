@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <a href="<?php echo base_url();?>"><b><?php echo __( 'Tendoo CMS' );?></b> <?php echo get( 'core-version' );?></a>
       </div>
       <div class="login-box-body">
-        <p class="login-box-msg"><?php echo $this->events->apply_filters( 'signin-notice-message' , $this->lang->line( 'signin-notice-message' ) );?></p>
+        <p class="login-box-msg"><?php echo $this->events->apply_filters( 'signin_notice_message' , $this->lang->line( 'signin_notice_message' ) );?></p>
         <p><?php echo ( validation_errors() ) != '' ? tendoo_error( strip_tags( validation_errors() ) ) : '';?></p>
         <p><?php echo ( $msg = $this->flexi_auth->get_messages() ) != '' ? tendoo_error( strip_tags( $msg ) ) : '';?></p>
         <p><?php echo fetch_notice_from_url();?></p>

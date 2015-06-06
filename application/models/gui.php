@@ -54,13 +54,25 @@ class GUI extends CI_Model
 				$this->load->view( 'dashboard/error/output-not-found' );
 			}
 		}
-		else if( $page_slug == 'form-expired' )
+		else if( in_array( $page_slug , array( 'form_expired' , 'unknow_user' ) ) )
 		{
+			if( $page_slug == 'form_expired' )
+			{
+				$title			=	sprintf( __( 'Error : Form Expired &mdash; %s' ) , get( 'core-signature' ) );
+				$description	=	__( 'Form Expired' );
+				$msg			=	__( 'This form has expired' );
+			}
+			else if( $page_slug == 'unknow_user' )
+			{
+				$title			=	sprintf( __( 'Error : Unknow User &mdash; %s' ) , get( 'core-signature' ) );
+				$description	=	__( 'Unknow User' );
+				$msg			=	__( 'This user can\'t be found.' );
+			}
 			// page doesn't exists load 404 internal page error
-			$this->html->set_title( sprintf( __( 'Error : Form Expired &mdash; %s' ) , get( 'core-signature' ) ) );
-			$this->html->set_description( __( 'Form Expired' ) );
+			$this->html->set_title( $title );
+			$this->html->set_description( $description );
 			$this->load->view( 'dashboard/error/custom' , array( 
-				'msg'	=>	__( 'This form has expired' )
+				'msg'	=>	$msg
 			) );
 		}
 		else

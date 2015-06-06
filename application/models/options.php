@@ -54,22 +54,42 @@ class Options extends CI_Model
 	 * @return : var (can return null if key is not set)
 	**/
 	
-	function get( $key , $user_id = NULL )
+	function get( $key = null, $user_id = NULL , $autoload = false )
 	{
 		// get only data from user
 		if( $user_id != NULL ): $this->db->where( 'user' , $user_id ); endif;
 		
+		if( $key != null )
+		{
+			$this->db->where( 'key' , $key );
+		}
+		if( $autoload == true )
+		{
+			$this->db->where( 'autoload' , true );
+		}
 		// fetch data
-		$query		=	$this->db->where( 'key' , $key )->get( 'options' );
+		$query		=	$this->db->get( 'options' );
 		$option	=	$query->result_array();
 
 		// if there is any result
-		if( $option	)
+		if( $key != null )
 		{
-			$value	=	riake( 'value' , farray( $option ) );
-			$value		=	is_array( $array	=	json_decode( $value , true ) ) ? $array : $value; // converting array to JSON
-			$value		=	in_array( $value , array( 'true' , 'false' ) ) ? $value === 'true' ? true : false : $value; // Converting Bool to string
-			return $value;
+			if( $option	)
+			{
+				$value	=	riake( 'value' , farray( $option ) );
+				$value		=	is_array( $array	=	json_decode( $value , true ) ) ? $array : $value; // converting array to JSON
+				$value		=	in_array( $value , array( 'true' , 'false' ) ) ? $value === 'true' ? true : false : $value; // Converting Bool to string
+				return $value;
+			}
+		}
+		else
+		{
+			$key_value		=	array();
+			foreach( $option as $_option )
+			{
+				$key_value[ riake( 'key' , $_option ) ] = riake( 'value' , $_option );
+			}
+			return $key_value;
 		}
 		return NULL;
 	}

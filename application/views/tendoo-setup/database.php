@@ -6,7 +6,7 @@
 
       <div class="register-box-body">
         <p class="login-box-msg"><?php _e( 'Please enter your database details in order to proceed to installation. ' );?></p>
-        <?php echo $this->notice->parse_notice();?>
+        <?php echo $this->notice->output_notice();?>
         <?php echo validation_errors();?>
         <form method="post">
           <div class="form-group has-feedback">

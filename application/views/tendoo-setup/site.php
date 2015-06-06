@@ -7,7 +7,7 @@
       <div class="register-box-body">
         <p class="login-box-msg"><?php _e( 'Define site settings' );?></p>
         <p><?php echo fetch_notice_from_url();?></p>
-        <p><?php echo $this->notice->parse_notice();?></p>
+        <p><?php echo $this->notice->output_notice();?></p>
         <p><?php echo validation_errors();?></p>
         <form method="post">
           <div class="form-group has-feedback">
