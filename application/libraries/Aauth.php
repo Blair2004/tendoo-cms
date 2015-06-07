@@ -155,19 +155,20 @@ class Aauth {
 		$query = $this->CI->db->where('email', $email);
 		$query = $this->CI->db->get($this->config_vars['users']);
 		$row = $query->row();
-
+		
 		// only email found and login attempts exceeded
 		if ($query->num_rows() > 0 && $this->config_vars['ddos_protection'] && ! $this->update_login_attempts($row->email)) {
 
 			$this->error($this->CI->lang->line('aauth_error_login_attempts_exceeded'));
 			return FALSE;
 		}
-
+		
 		//recaptcha login_attempts check
 		$query = null;
 		$query = $this->CI->db->where('email', $email);
 		$query = $this->CI->db->get($this->config_vars['users']);
 		$row = $query->row();
+		
 		if($query->num_rows() > 0 && $this->config_vars['ddos_protection'] && $this->config_vars['recaptcha_active'] && $row->login_attempts >= $this->config_vars['recaptcha_login_attempts']){
 			$reCAPTCHA_cookie = array(
 				'name'	 => 'reCAPTCHA',
@@ -177,7 +178,7 @@ class Aauth {
 			);
 			$this->CI->input->set_cookie($reCAPTCHA_cookie);
 		}
-
+		
 		// if user is not verified
 		$query = null;
 		$query = $this->CI->db->where('email', $email);
@@ -189,7 +190,7 @@ class Aauth {
 			$this->error($this->CI->lang->line('aauth_error_account_not_verified'));
 			return FALSE;
 		}
-
+		
 		// to find user id, create sessions and cookies
 		$query = $this->CI->db->where('email', $email);
 		$query = $this->CI->db->get($this->config_vars['users']);
@@ -204,12 +205,11 @@ class Aauth {
 		$query = null;
 		$query = $this->CI->db->where('email', $email);
 
-		// Database stores pasword hashed password
+		// Database stores pasword hashed password0
 		$query = $this->CI->db->where('pass', $this->hash_password($pass, $user_id));
 		$query = $this->CI->db->where('banned', 0);
 
 		$query = $this->CI->db->get($this->config_vars['users']);
-
 		$row = $query->row();
 		if($this->CI->input->cookie('reCAPTCHA', TRUE) == 'true'){
 			$reCaptcha = new ReCaptcha( $this->config_vars['recaptcha_secret']);
@@ -1151,7 +1151,7 @@ class Aauth {
 	public function is_member( $group_par, $user_id = FALSE ) {
 
 		// if user_id FALSE (not given), current user
-		if( ! $user_id){
+		if( ! $user_id ){
 			$user_id = $this->CI->session->userdata('id');
 		}
 
@@ -1169,7 +1169,7 @@ class Aauth {
 			return FALSE;
 		}
 	}
-
+	
 	//tested
 	/**
 	 * Is admin

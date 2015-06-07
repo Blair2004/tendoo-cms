@@ -29,7 +29,7 @@ class Installation_Model extends CI_Model
 				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}options`;" );				
 				$this->db->query( "CREATE TABLE `{$database_prefix}options` (
 				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-				  `type` varchar(200) NOT NULL,
+				  `key` varchar(200) NOT NULL,
 				  `value` text,
 				  `autoload` int(11) NOT NULL,
 				  `user` int(11) NOT NULL,
@@ -102,7 +102,7 @@ class Installation_Model extends CI_Model
 				$this->db->query( "CREATE TABLE `{$database_prefix}aauth_users` (
 				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 				  `email` varchar(100) COLLATE utf8_general_ci NOT NULL,
-				  `pass` varchar(50) COLLATE utf8_general_ci NOT NULL,
+				  `pass` varchar(100) COLLATE utf8_general_ci NOT NULL,
 				  `name` varchar(100) COLLATE utf8_general_ci,
 				  `banned` tinyint(1) DEFAULT '0',
 				  `last_login` datetime DEFAULT NULL,
@@ -138,6 +138,9 @@ class Installation_Model extends CI_Model
 				
 				// Creating Database File
 				$this->create_config_file( $config );
+				
+				// Saving First Option
+				$this->options->set( 'database-version', $this->config->item( 'database-version' ), true );
 				
 				return 'database-installed';				
 			}
@@ -186,25 +189,16 @@ if(!defined('DB_PREFIX'))
 		fclose( $file );
 	}
 	function final_configuration( $site_name , $username , $password , $email )
-	{		
-		$this->load->model( 'options' );
-		$this->load->library( 'session' );
-		$this->load->library( 'flexi_auth' );
-		
+	{			
 		// checks user and email availability
-		if( ! $this->flexi_auth->identity_available( $username ) ) : return 'username-used'; endif;
-		if( ! $this->flexi_auth->identity_available( $email ) ) : return 'email-used'; endif;
+		if( $this->users->auth->user_exsist_by_name( $username ) ) 		: return 'username-used'; endif; 
+		if( $this->users->auth->user_exsist_by_email( $email ) ) 		: return 'email-used'; endif;
 		
 		// set site_name
 		$this->options->set( 'site-name' , $site_name );
 		
-		// Create user
-		if( $this->flexi_auth->insert_user( $email, $username, $password, array() , 1 , true ) ); // set to group 1 as
-		{
-			$this->flexi_auth->insert_privilege_user( 1 , 1 );// creating master
-			return 'user-created';
-		}
-		return 'unexpected-error';
+		// Creating Master & Groups
+		return $this->users->create_master( $email , $password , $username );
 	}
 	function is_installed()
 	{

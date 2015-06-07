@@ -6,7 +6,11 @@ class Users_model extends CI_Model
 	{
 		parent::__construct();
 		
-		$this->refresh_user_meta();
+		// Loading Aauth Class 
+		// @branch 1.5-auth-class		
+		$this->load->library( 'aauth' ,  array() ,  'auth' );
+		
+		// $this->refresh_user_meta();
 	}
 	
 	function refresh_user_meta()
@@ -24,11 +28,7 @@ class Users_model extends CI_Model
 	**/
 	function is_connected()
 	{
-		if( $this->flexi_auth->is_logged_in() || $this->flexi_auth->is_logged_in_via_password() )
-		{
-			return true;
-		}
-		return false;
+		return $this->auth->is_loggedin();
 	}
 	
 	/**
@@ -39,24 +39,45 @@ class Users_model extends CI_Model
 	
 	function master_exists()
 	{
-		$this->db->cache_on(); // update while saving data to user database
-			
-		$masters	=	farray( $this->flexi_auth->get_user_privileges( array(
-			'upriv_id as user_id',
-			'upriv_name as privilege_name',
-			'upriv_desc as privilege_desc',
-			'upriv_id as privilege_id'			
-		) , array(
-			'upriv_users_upriv_fk'	=>	1
-		) )->result_array() );
-		
-		$this->db->cache_off(); // turning off cache
-		
+		$masters	=	$this->auth->list_users( $this->config->item( 'master-group-label' ) );
 		if( $masters ) // if admin main privilège exists
 		{
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Creae Master User
+	**/
+	
+	function create_master( $email , $password , $username )
+	{
+		$this->auth->create_group( $this->config->item( 'master-group-label' ) );
+		// Create user
+		if( $this->auth->create_user( $email, $password , $username ) ); // set to group 1 as
+		{
+			// Add user to a group
+			// We assume 1 is the index of the first user
+			$master_id		=	$this->auth->get_user_id( $email );
+			$this->auth->add_member( $master_id , $this->config->item( 'master-group-label' ) );
+			// Send Verification
+			$this->auth->send_verification( $master_id );
+			// Activate Master
+			$users			=	$this->auth->get_user( $master_id );
+			$this->auth->verify_user( $master_id , $users->verification_code );
+			return 'user-created';
+		}
+		return 'unexpected-error';
+	}
+	
+	/**
+	 *
+	**/
+	
+	function logout()
+	{
+		return $this->auth->logout();
 	}
 	
 	/**

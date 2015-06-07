@@ -19,26 +19,26 @@ class Internal_modules extends CI_Model
 	function dashboard_skin_class( $skin )
 	{
 		// skin is defined by default
-		$skin	=	( $db_skin = $this->user->get_meta( 'theme-skin' ) ) ? $db_skin : $skin; // weird ??? lol
+		$skin	=	( $db_skin = $this->users->get_meta( 'theme-skin' ) ) ? $db_skin : $skin; // weird ??? lol
 		return $skin;
 	}
 	function user_custom_fields( $config )
 	{
 		// refresh user meta
-		$this->user->refresh_user_meta();
+		$this->users->refresh_user_meta();
 		
 		$this->gui->add_item( array(
 			'type'		=>		'text',
 			'name'		=>		'first-name',
 			'label'		=>		__( 'First Name' ),
-			'value'		=>		$this->user->get_meta( 'first-name' )
+			'value'		=>		$this->users->get_meta( 'first-name' )
 		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
 		
 		$this->gui->add_item( array(
 			'type'		=>		'text',
 			'name'		=>		'last-name',
 			'label'		=>		__( 'Last Name' ),
-			'value'		=>		$this->user->get_meta( 'last-name' )
+			'value'		=>		$this->users->get_meta( 'last-name' )
 		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
 		
 		ob_start();

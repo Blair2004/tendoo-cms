@@ -17,13 +17,11 @@ class Tendoo_Controller extends CI_Controller
 			// triggers actions before session init
 			$this->events->do_action( 'before_session_start' );			
 			
-			die( 'Before Load User Class' );
-			
 			$this->load->model( 'options' );
-			$this->load->model( 'users_model' , 'user' ); // run after flexi_auth
+			$this->load->model( 'users_model' , 'users' ); // run after flexi_auth
 			
 			// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
-			if( ! $this->user->master_exists() && $this->uri->segment(1) != 'tendoo-setup' )
+			if( ! $this->users->master_exists() && $this->uri->segment(1) != 'tendoo-setup' )
 			{
 				redirect( array( 'tendoo-setup' , 'site' ) );
 			}
@@ -48,11 +46,10 @@ class Tendoo_Controller extends CI_Controller
 			// force user to be connected for certain controller
 			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers-requiring-login' ) ) && $this->setup->is_installed() )
 			{
-				if( ! $this->user->is_connected() )
+				if( ! $this->users->is_connected() )
 				{
 					redirect( array( 'sign-in?notice=login-required' ) );
 				}
-				
 			}
 			
 			// loading assets for reserved controller

@@ -10,7 +10,7 @@
 // Config variables
 
 $config['aauth'] = array(
-    'login_page' => '/login',
+    'login_page' => '/sign-in',
     // if user don't have permisssion to see the page he will be
     // redirected the page spesificed below
     'no_permission' => '/',
@@ -50,7 +50,7 @@ $config['aauth'] = array(
 
     // ddos protection,
     //if it is true, the user will be banned temporary when he exceed the login 'try'
-    'ddos_protection' => true,
+    'ddos_protection' => false, // temporarily
 
     'recaptcha_active' => false, 
     'recaptcha_login_attempts' => 4,

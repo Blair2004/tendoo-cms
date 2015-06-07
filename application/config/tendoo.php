@@ -17,6 +17,7 @@ $config[ 'core-signature' ]						=	'Tendoo 1.5'; // core id
 $config[ 'version' ]							=	'1.5'; // core id
 $config[ 'supported-lang' ]						=	array( 'english' );
 $config[ 'database-version' ]					=	'1.0';
+$config[ 'master-group-label' ]					=	'master';
 $config[ 'site-timezone' ]						=	array_flip( array (
     '(UTC-11:00) Midway Island' => 'Pacific/Midway',
     '(UTC-11:00) Samoa' => 'Pacific/Samoa',

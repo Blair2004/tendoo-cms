@@ -40,8 +40,17 @@ Tendoo Version Required : 1.5
 		// validation errors
 		echo ( validation_errors() ) != '' ? tendoo_error( strip_tags( validation_errors() ) ) : '';
 	}
-	?>
-    <p><?php echo ( $msg = $this->flexi_auth->get_messages() ) != '' ? tendoo_info( strip_tags( $msg ) ) : '';?></p>
+	
+	// Aauth Errors
+	$errors	=	$this->users->auth->get_errors_array();
+	if( $errors )
+	{
+		foreach( $errors as $error )
+		{
+			echo tendoo_error( $error );
+		}
+	}
+	?></p>    
     <p><?php echo fetch_notice_from_url();?></p>
     
     

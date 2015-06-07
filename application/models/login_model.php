@@ -67,12 +67,12 @@ class Login_model extends CI_Model
 	function login()
 	{
 		$login_fields_namespace		=	 $this->events->apply_filters( 'signin_fields_namespaces' , $this->default_login_fields_namespace );
-		$exec		=		$this->flexi_auth->login( 
+		$exec		=		$this->users->auth->login( 
 			$this->input->post( riake( 'username_or_email' , $login_fields_namespace ) ) , 
 			$this->input->post( riake( 'password' , $login_fields_namespace ) ) , 
 			$this->input->post( riake( 'keep_connected' , $login_fields_namespace ) ) ? true : false
 		); 
-		if( $this->flexi_auth->is_logged_in_via_password() )
+		if( $this->users->auth->is_loggedin() )
 		{
 			return 'user-logged-in';
 		}

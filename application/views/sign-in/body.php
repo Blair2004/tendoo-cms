@@ -15,8 +15,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="login-box-body">
         <p class="login-box-msg"><?php echo $this->events->apply_filters( 'signin_notice_message' , $this->lang->line( 'signin_notice_message' ) );?></p>
         <p><?php echo ( validation_errors() ) != '' ? tendoo_error( strip_tags( validation_errors() ) ) : '';?></p>
-        <p><?php echo ( $msg = $this->flexi_auth->get_messages() ) != '' ? tendoo_error( strip_tags( $msg ) ) : '';?></p>
         <p><?php echo fetch_notice_from_url();?></p>
+        <p>
+		<?php 
+			$errors	=	$this->users->auth->get_errors_array();
+			if( $errors )
+			{
+				foreach( $errors as $error )
+				{
+					echo tendoo_error( $error );
+				}
+			}
+		?></p>
         <form method="post">
         	<?php $this->events->do_action( 'display_login_fields' );?>
         </form>

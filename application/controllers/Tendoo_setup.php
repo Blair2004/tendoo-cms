@@ -84,7 +84,7 @@ class Tendoo_setup extends Tendoo_Controller {
 		$this->load->database();
 		
 		// checks if master doesn't exists
-		if( $this->user->master_exists() ): redirect( array( 'login?notice=access-denied' ) ); endif;		
+		if( $this->users->master_exists() ): redirect( array( 'login?notice=access-denied' ) ); endif;		
 				
 		$this->form_validation->set_rules( 'site_name' , __( 'Site Name' ), 'required' );
 		$this->form_validation->set_rules( 'username' , __( 'User Name' ), 'required|min_length[5]' );

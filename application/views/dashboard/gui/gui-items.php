@@ -6,8 +6,8 @@ $saver_enabled		=	riake( 'action' , riake( 'custom' , $meta ) ) == false ? false
 
 foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 {
-	$name	=	riake( 'name' , $_item );
-	$type   = 	riake( 'type' , $_item );
+	$name			=	riake( 'name' , $_item );
+	$type   		= 	riake( 'type' , $_item );
 	$placeholder	=	riake( 'placeholder' , $_item );
 	$value			=	riake( 'value' , $_item );
 	$icon			=	riake( 'icon' , $_item );
