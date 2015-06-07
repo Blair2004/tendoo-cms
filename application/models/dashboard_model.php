@@ -195,11 +195,13 @@ class Dashboard_model extends CI_Model
 			'href'			=>		site_url('dashboard/users/create')
 		) );
 		// Self settings
+		/** 
 		$this->menu->add_admin_menu_core( 'users' , array(
 			'title'			=>		__( 'My Profile' ) , // current_user( 'PSEUDO' ),
 			'icon'			=>		'fa fa-users',
 			'href'			=>		site_url('dashboard/profile')
 		) );
+		**/
 			
 		$this->menu->add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Roles & Groups' ),
