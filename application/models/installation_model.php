@@ -204,14 +204,7 @@ class Installation_Model extends CI_Model
 					->add_key( 'upriv_groups_upriv_fk' )
 				->create_table( 'user_privilege_groups' , TRUE, $attributes );
 				// populating flexi
-				$this->load->library( 'flexi_auth' );
-				// Creating Group
-				$this->flexi_auth->insert_group( __( 'Administrators' ) , __( 'Adminitrators Group' ), true , array() );
-				$this->flexi_auth->insert_group( __( 'Users' ) , __( 'Users Group' ), false , array() );
-				// Creating privileges
-				$this->flexi_auth->insert_privilege( __( 'Dashboard Access' ), __( 'Master priilege' ), array() );
-				// bind privilege to a group
-				$this->flexi_auth->insert_user_group_privilege( 1,  1 ); // administrator can access dashboard
+				
 				// creating config file
 				$this->create_config_file( $config );
 				
