@@ -340,7 +340,7 @@ function get($key) // add to doc
 	$instance	=	get_instance();
 	switch($key)
 	{
-		case "core-version"	:
+		case "core_version"	:
 			return (float) $instance->config->item( 'version' );
 		break;
 		case "core-signature"	:

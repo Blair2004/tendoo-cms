@@ -67,6 +67,6 @@ class Login_model extends CI_Model
 	function get_fields_namespace()
 	{
 		// Apply Fields Namespace
-		return $login_fields_namespace		=	 $this->events->apply_filters( 'signin_fields_namespaces' , $this->default_login_fields_namespace );
+		return $login_fields_namespace		=	 $this->events->apply_filters( 'signin_fields_namespace' , $this->default_login_fields_namespace );
 	}
 }

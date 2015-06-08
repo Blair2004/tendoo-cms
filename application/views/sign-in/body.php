@@ -10,10 +10,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body class="login-page">
     <div class="login-box">
       <div class="register-logo">
-        <a href="<?php echo base_url();?>"><b><?php echo __( 'Tendoo CMS' );?></b> <?php echo get( 'core-version' );?></a>
+        <a href="<?php echo base_url();?>"><b><?php echo __( 'Tendoo CMS' );?></b> <?php echo get( 'core_version' );?></a>
       </div>
       <div class="login-box-body">
-        <p class="login-box-msg"><?php echo $this->events->apply_filters( 'signin_notice_message' , $this->lang->line( 'signin_notice_message' ) );?></p>
+        <p class="login-box-msg"><?php echo $this->events->apply_filters( 'signin_notice_message' , $this->lang->line( 'signin-notice-message' ) );?></p>
         <p><?php echo ( validation_errors() ) != '' ? tendoo_error( strip_tags( validation_errors() ) ) : '';?></p>
         <p><?php echo fetch_notice_from_url();?></p>
         <p>
@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php
 		// May checks whether recovery is enabled
 		?>
-        <a href="<?php echo site_url( array( 'sign-in' , 'recovery' ) ) ;?>"><?php _e( 'I lost my password' );?></a><br>
+        <a href="<?php echo site_url( array( 'sign-in' , 'recovery' ) ) ;?>"><?php _e( 'I Lost My Password' );?></a><br>
 		<?php
         // Should checks whether a registration is enabled
         ?>

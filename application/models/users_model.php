@@ -148,7 +148,7 @@ class Users_model extends CI_Model
 	
 	function send_recovery_email( $email )
 	{
-		if( ! $this->auth->user_exsist_by_email( $email ) )
+		if( $this->auth->user_exsist_by_email( $email ) )
 		{
 			$exec	=	$this->auth->remind_password( $email );
 			return 'recovery-email-send';

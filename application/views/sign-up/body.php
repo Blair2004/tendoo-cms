@@ -1,7 +1,7 @@
 <body class="register-page">
     <div class="register-box">
       <div class="register-logo">
-        <a href="<?php echo base_url();?>"><b><?php echo __( 'Tendoo CMS' );?></b> <?php echo get( 'core-version' );?></a>
+        <a href="<?php echo base_url();?>"><b><?php echo __( 'Tendoo CMS' );?></b> <?php echo get( 'core_version' );?></a>
       </div>
 
       <div class="register-box-body">
@@ -38,11 +38,11 @@
         <?php
 		// May checks whether recovery is enabled
 		?>
-        <a href="<?php echo site_url( array( 'sign-in' , 'recovery' ) ) ;?>"><?php _e( 'I lost my password' );?></a><br>
+        <a href="<?php echo site_url( array( 'sign-in' , 'recovery' ) ) ;?>"><?php _e( 'I Lost My Password' );?></a><br>
         <?php
 		// may checks whether login if login is enabled
 		?>
-        <a href="<?php echo site_url( array( 'sign-in' ) );?>" class="text-center"><?php _e( 'I already have an account' );?></a><br>
+        <a href="<?php echo site_url( array( 'sign-in' ) );?>" class="text-center"><?php _e( 'I Already Have An Account' );?></a><br>
         
       </div><!-- /.form-box -->
     </div><!-- /.register-box -->

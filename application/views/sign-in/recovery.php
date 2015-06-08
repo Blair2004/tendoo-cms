@@ -10,10 +10,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body class="login-page">
     <div class="login-box" style="width:50%;">
       <div class="register-logo">
-        <a href="<?php echo base_url();?>"><b><?php echo __( 'Tendoo CMS' );?></b> <?php echo get( 'core-version' );?></a>
+        <a href="<?php echo base_url();?>"><b><?php echo __( 'Tendoo CMS' );?></b> <?php echo get( 'core_version' );?></a>
       </div>
       <div class="login-box-body">
-        <p class="login-box-msg"><?php echo $this->events->apply_filters( 'signin_notice_message' , $this->lang->line( 'signin_notice_message' ) );?></p>
+      	<p class="login-box-msg"><?php echo $this->events->apply_filters( 'recovery_notice_message' , $this->lang->line( 'recovery-notice-message' ) );?></p>
         <p><?php echo ( validation_errors() ) != '' ? tendoo_error( strip_tags( validation_errors() ) ) : '';?></p>
         <p><?php $this->notice->output_notice();?></p>
         <?php echo tendoo_info( __( 'Please provide your user email in order to get recovery email' ) );?>
