@@ -18,7 +18,7 @@ class Dashboard extends Tendoo_Controller {
 		parent::__construct();
 		
 		// Special assets loading for dashboard
-		$this->enqueue->enqueue_js( 'plugins/SlimScroll/jquery.slimscroll.min' );
+		$this->enqueue->enqueue_js( '../plugins/SlimScroll/jquery.slimscroll.min' );
 		
 		$this->load->library( 'menu' );	
 		$this->load->model( 'gui' );

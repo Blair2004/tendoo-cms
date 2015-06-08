@@ -7,9 +7,9 @@ class Sign_in extends Tendoo_Controller {
 	 * Index Page for this controller.
 	 *
 	 * Maps to the following URL
-	 * 		http://example.com/index.php/login
+	 * 		http://example.com/index.php/sing-in
 	 *	- or -
-	 * 		http://example.com/index.php/welcome/login
+	 * 		http://example.com/index.php/welcome/sing-in
 	 */
 	function __construct()
 	{
@@ -23,7 +23,11 @@ class Sign_in extends Tendoo_Controller {
 		$this->events->do_action( 'set_login_rules' );
 		if( $this->form_validation->run() )
 		{
-			$exec 	=	$this->login_model->login();
+			// Apply filter before login
+			$fields_namespace	=	$this->login_model->get_fields_namespace();
+			
+			// Log User After Applying Filters
+			$exec 	=	$this->users->login( $fields_namespace );
 			if( $exec == 'user-logged-in' )
 			{
 				if( riake( 'redirect' , $_GET ) )
@@ -49,12 +53,20 @@ class Sign_in extends Tendoo_Controller {
 		$this->form_validation->set_rules( 'user_email' , __( 'User Email' ) , 'required|valid_email' );
 		if( $this->form_validation->run() )
 		{
+			/**
+			 * Actions to be run before sending recovery email
+			 * It can allow use to edit email
+			**/
+			$this->events->do_action( 'send_recovery_email' );
+			
+			// Send Recovery
 			$exec 	=	$this->user->send_recovery_email( $this->input->post( 'user_email' ) );
+			
 			if( $exec === 'recovery-email-send' )
 			{
 				redirect( array( 'sign-in?notice=' . $exec ) );
 			}
-			$this->notice->push_notice( $exec );
+			$this->notice->push_notice( $this->lang->line( $exec ) );
 		}
 		$this->html->set_title( sprintf( __( 'Recover Password &mdash; %s' ) , get( 'core-signature' ) ) );
 		$this->load->view( 'shared/header' );

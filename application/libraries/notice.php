@@ -26,11 +26,27 @@ class notice
 			{
 				if($return == FALSE)
 				{
-					echo $n;
+					if( is_callable( $n ) )
+					{
+						$n();
+					}
+					else
+					{
+						echo $n;
+					};
 				}
 				else
 				{
-					$final	.=	$n;
+					if( is_callable( $n ) )
+					{
+						ob_start();
+						$n();
+						$final	.=	ob_get_clean();
+					}
+					else
+					{
+						$final	.=	$n;
+					};
 				}
 			}
 			return $final;

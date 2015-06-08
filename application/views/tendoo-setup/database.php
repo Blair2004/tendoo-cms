@@ -1,7 +1,7 @@
 <body class="register-page">
     <div class="register-box">
       <div class="register-logo">
-        <a href="<?php echo base_url();?>"><b><?php echo __( 'Tendoo CMS' );?></b> <?php echo get( 'core-version' );?></a>
+        <a href="<?php echo base_url();?>"><b><?php echo __( 'Tendoo CMS' );?></b> <?php echo get( 'core_version' );?></a>
       </div>
 
       <div class="register-box-body">

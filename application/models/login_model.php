@@ -49,7 +49,7 @@ class Login_model extends CI_Model
 				<div class="col-xs-8">    
 				  <div class="checkbox icheck">
 					<label>
-					  <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false" style="position: relative;"><input type="checkbox" name="keep_connected"><ins class="iCheck-helper"></ins></div>' . __( 'Remember me' ) . '
+					  <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false"><input type="checkbox" name="keep_connected"><ins class="iCheck-helper"></ins></div> ' . __( 'Remember me' ) . '
 					</label>
 				  </div>                        
 				</div><!-- /.col -->
@@ -64,18 +64,9 @@ class Login_model extends CI_Model
 		$this->form_validation->set_rules( 'username_or_email' , __( 'Email or User Name' ) , 'required|min_length[5]' );
 		$this->form_validation->set_rules( 'password' , __( 'Email or User Name' ) , 'required|min_length[6]' );
 	}
-	function login()
+	function get_fields_namespace()
 	{
-		$login_fields_namespace		=	 $this->events->apply_filters( 'signin_fields_namespaces' , $this->default_login_fields_namespace );
-		$exec		=		$this->flexi_auth->login( 
-			$this->input->post( riake( 'username_or_email' , $login_fields_namespace ) ) , 
-			$this->input->post( riake( 'password' , $login_fields_namespace ) ) , 
-			$this->input->post( riake( 'keep_connected' , $login_fields_namespace ) ) ? true : false
-		); 
-		if( $this->flexi_auth->is_logged_in_via_password() )
-		{
-			return 'user-logged-in';
-		}
-		return 'wrong-password-or-credentials';
+		// Apply Fields Namespace
+		return $login_fields_namespace		=	 $this->events->apply_filters( 'signin_fields_namespace' , $this->default_login_fields_namespace );
 	}
 }

@@ -8,3 +8,4 @@ create_dashboard_pages		:	Create dashboard page
 register_general_settings_fields	:	Trigger action when registering general settings fields
 load_users_custom_fields	:	Load user creation custom fields
 user_creation_rules			:	add rules to user creation form_validation for custom fields
+send_recovery_email			:	Triggers Actions before sending recovery email

@@ -1,8 +1,9 @@
 // Sign in
 signin_fields 				: apply filter to login fields
-signin_fields_namespaces	:	apply field to signin field namespace
+signin_fields_namespace	:	apply field to signin field namespace
 signin_notice_message		:	add message to user sign in form
 
 // User creation
 custom_user_meta			:	add custom user meta fields
 dashboard_skin_class		:	apply filter to skin color class
+recovery_notice_message		:	Let you change the message display at the top of the box on recovery password page.

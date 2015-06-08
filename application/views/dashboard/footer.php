@@ -8,7 +8,7 @@
 
 <footer class="main-footer">
 <div class="pull-right hidden-xs">
-  <b><?php _e( 'Tendoo' );?></b> <?php echo get( 'core-version' );?>
+  <b><?php _e( 'Tendoo' );?></b> <?php echo get( 'core_version' );?>
 </div>
 <small><?php _e( 'Thanks you for using Tendoo CMS' );?></small>
 </footer>

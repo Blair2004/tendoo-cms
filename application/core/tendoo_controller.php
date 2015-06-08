@@ -11,18 +11,17 @@ class Tendoo_Controller extends CI_Controller
 		// if is installed
 		if( $this->setup->is_installed() )
 		{
-			$this->auth		=	new stdClass; // for flexi_auth purposes 
 			// Load internal modules here
 			$this->load->model( 'internal_modules' );
 			// Should load modules and themes heres
 			// triggers actions before session init
 			$this->events->do_action( 'before_session_start' );			
-			$this->load->library( 'flexi_auth' );
+			
 			$this->load->model( 'options' );
-			$this->load->model( 'users_model' , 'user' ); // run after flexi_auth
+			$this->load->model( 'users_model' , 'users' ); // run after flexi_auth
 			
 			// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
-			if( ! $this->user->master_exists() && $this->uri->segment(1) != 'tendoo-setup' )
+			if( ! $this->users->master_exists() && $this->uri->segment(1) != 'tendoo-setup' )
 			{
 				redirect( array( 'tendoo-setup' , 'site' ) );
 			}
@@ -47,11 +46,19 @@ class Tendoo_Controller extends CI_Controller
 			// force user to be connected for certain controller
 			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers-requiring-login' ) ) && $this->setup->is_installed() )
 			{
-				if( ! $this->user->is_connected() )
+				if( ! $this->users->is_connected() )
 				{
-					redirect( array( 'sign-in?notice=login-required' ) );
+					redirect( array( $this->config->item( 'default-login-route' ) ) );
 				}
-				
+			}
+
+			// force user to be connected for certain controller
+			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers-requiring-logout' ) ) && $this->setup->is_installed() )
+			{
+				if( $this->users->is_connected() )
+				{
+					redirect( array( $this->config->item( 'default-logout-route' ) ) );
+				}
 			}
 			
 			// loading assets for reserved controller
@@ -59,13 +66,14 @@ class Tendoo_Controller extends CI_Controller
 			$this->enqueue->enqueue_css( 'AdminLTE.min' );
 			$this->enqueue->enqueue_css( 'skins/_all-skins.min' );			
 			$this->enqueue->enqueue_css( 'font-awesome-4.3.0' );
+			$this->enqueue->enqueue_css( '../plugins/iCheck/square/blue' );
 			/**
 			 * 	Enqueueing Js
 			**/
 			
-			$this->enqueue->enqueue_js( 'plugins/jQuery/jQuery-2.1.4.min' );
+			$this->enqueue->enqueue_js( '../plugins/jQuery/jQuery-2.1.4.min' );
 			$this->enqueue->enqueue_js( 'bootstrap.min' );
-			$this->enqueue->enqueue_js( 'plugins/iCheck/icheck.min' );		
+			$this->enqueue->enqueue_js( '../plugins/iCheck/icheck.min' );		
 			$this->enqueue->enqueue_js( 'app.min' );
 		}
 		// Special config for login page

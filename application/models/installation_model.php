@@ -26,194 +26,121 @@ class Installation_Model extends CI_Model
 			if( $this->dbutil->database_exists( $database_name ) )
 			{
 				// Creating option table
-				$attributes = array('ENGINE' => 'InnoDB');
-				$this->dbforge->add_field( 'id', true )->create_table( 'options' , TRUE, $attributes );
-				$fields		=	array(
-					'key' 	=>	array( 
-						'type'			=>	'VARCHAR',
-						'constraint'	=>	'220',
-						'null'			=>	false
-					),
-					'value'	=>	array(
-						'type'			=>	'VARCHAR',
-						'constraint'	=>	'220',
-						'null'			=>	false
-					),
-					'autoload'	=>	array(
-						'type'			=>	'INT',
-						'constraint'	=>	'11',
-						'null'			=>	false
-					),
-					'user'				=>	array(
-						'type'			=>	'INT',
-						'constraint'	=>	11,
-						'null'			=>	false
-					),
-					'app'				=>	array(
-						'type'			=>	'VARCHAR',
-						'constraint'	=>	100,
-						'null'			=>	false
-					)
-				);
-				$this->dbforge->add_column( 'options' , $fields );
+				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}options`;" );				
+				$this->db->query( "CREATE TABLE `{$database_prefix}options` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `key` varchar(200) NOT NULL,
+				  `value` text,
+				  `autoload` int(11) NOT NULL,
+				  `user` int(11) NOT NULL,
+				  `app` varchar(100) NOT NULL,
+				  PRIMARY KEY (`id`)
+				) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+				" );
 				
-				$this->options->set( 'database-version', $this->config->item( 'database-version' ), true );
+				// Creatin Auth Group
+				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_groups`;" );
+				$this->db->query( "CREATE TABLE `{$database_prefix}aauth_groups` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `name` varchar(100),
+				  `definition` text,
+				  PRIMARY KEY (`id`)
+				) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;" );
 				
-				// creating ci_sessions	
-				$this->dbforge
-					->add_field( 'session_id varchar(40) NOT NULL' )
-					->add_field( 'ip_address varchar(16) NOT NULL' )
-					->add_field( 'user_agent varchar(120) NOT NULL' )
-					->add_field( 'last_activity int(10) unsigned NOT NULL' )
-					->add_field( 'user_data text NOT NULL' )
-					->add_key( 'last_activity' )
-					->add_key( 'session_id' , true )
-				->create_table( 'ci_sessions' , TRUE, $attributes );
+				// Creating Auth Permission
+				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_perms`;" );
+				$this->db->query( "
+				CREATE TABLE `{$database_prefix}aauth_perms` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `name` varchar(100),
+				  `definition` text,
+				  PRIMARY KEY (`id`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+				" );
 				
+				// Creating Permission to Group
+				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_perm_to_group`;" );
+				$this->db->query( "CREATE TABLE `{$database_prefix}aaauth_perm_to_group` (
+				  `perm_id` int(11) unsigned DEFAULT NULL,
+				  `group_id` int(11) unsigned DEFAULT NULL,
+				  PRIMARY KEY (`perm_id`,`group_id`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
 				
-				// Creating User Table
+				// Auth Permission to User
+				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_perm_to_user`;" );
+				$this->db->query( "CREATE TABLE `{$database_prefix}aauth_perm_to_user` (
+				  `perm_id` int(11) unsigned DEFAULT NULL,
+				  `user_id` int(11) unsigned DEFAULT NULL,
+				  PRIMARY KEY (`perm_id`,`user_id`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
 				
-				$this->dbforge
-					->add_field( array(
-						'uacc_id'	=>	array(
-							'type'				=> 	'INT',
-							'constraint' 		=> 	11,
-							'unsigned' 			=> 	TRUE,
-							'auto_increment' 	=> 	TRUE,
-							'null'				=>	false,
-							'primary'			=>	true
-						)
-					) )
-					->add_field( 'uacc_group_fk smallint(5) unsigned NOT NULL' )
-					->add_field( 'uacc_email varchar(100) NOT NULL' )
-					->add_field( 'uacc_username varchar(15) NOT NULL' )
-					->add_field( 'uacc_password varchar(60) NOT NULL' )
-					->add_field( 'uacc_ip_address varchar(40) NOT NULL' )
-					->add_field( 'uacc_salt varchar(60) NOT NULL' )
-					->add_field( 'uacc_activation_token varchar(60) NOT NULL' )
-					->add_field( 'uacc_forgotten_password_token varchar(60) NOT NULL' )
-					->add_field( 'uacc_forgotten_password_expire datetime NOT NULL' )
-					->add_field( 'uacc_update_email_token varchar(60) NOT NULL' )
-					->add_field( 'uacc_update_email varchar(100) NOT NULL' )
-					->add_field( 'uacc_active tinyint(1) NOT NULL' )
-					->add_field( 'uacc_suspend tinyint(1) NOT NULL' )
-					->add_field( 'uacc_fail_login_attempts smallint(5) NOT NULL' )
-					->add_field( 'uacc_fail_login_ip_address varchar(60) NOT NULL' )
-					->add_field( 'uacc_date_fail_login_ban datetime NOT NULL' )
-					->add_field( 'uacc_date_last_login  datetime NOT NULL' )
-					->add_field( 'uacc_date_added datetime NOT NULL' )
-					->add_key( 'uacc_group_fk' )
-					->add_key( 'uacc_email' )
-					->add_key( 'uacc_username' )
-					->add_key( 'uacc_fail_login_ip_address' )
-					->add_key( 'uacc_id' , true )
-				->create_table( 'user_accounts' , TRUE, $attributes );
+				// Auth PMS
+				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_pms`;" );
+				$this->db->query( "CREATE TABLE `{$database_prefix}aauth_pms` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `sender_id` int(11) unsigned NOT NULL,
+				  `receiver_id` int(11) unsigned NOT NULL,
+				  `title` varchar(255) NOT NULL,
+				  `message` text,
+				  `date` datetime DEFAULT NULL,
+				  `read` tinyint(1) DEFAULT '0',
+				  PRIMARY KEY (`id`),
+				  KEY `full_index` (`id`,`sender_id`,`receiver_id`,`read`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
 				
-				// creating group table	
-				$this->dbforge
-					->add_field( array(
-						'ugrp_id'	=>	array(
-							'type'				=> 	'INT',
-							'constraint' 		=> 	11,
-							'unsigned' 			=> 	TRUE,
-							'auto_increment' 	=> 	TRUE,
-							'null'				=>	false,
-							'primary'			=>	true
-						)
-					) )
-					->add_field( 'ugrp_name varchar(20) NOT NULL' )
-					->add_field( 'ugrp_desc varchar(100) NOT NULL' )
-					->add_field( 'ugrp_admin tinyint(1) NOT NULL' )
-					->add_field( 'user_data text NOT NULL' )
-					->add_key( 'ugrp_id' , true )
-				->create_table( 'user_groups' , TRUE, $attributes );
+				// System Variables
+				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_system_variables`;" );
+				$this->db->query( "CREATE TABLE `{$database_prefix}aauth_system_variables` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `key` varchar(100) NOT NULL,
+				  `value` text,
+				  PRIMARY KEY (`id`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
 				
-				// creating login session					
-				$this->dbforge
-					->add_field( array(
-						'usess_uacc_fk'	=>	array(
-							'type'				=> 	'INT',
-							'constraint' 		=> 	11,
-							'null'				=>	false,
-						),
-						'usess_token'	=>	array(
-							'type'				=> 	'VARCHAR',
-							'constraint' 		=> 	100,
-							'null'				=>	false,
-							'primary'			=>	true
-						)
-					) )
-					->add_field( 'usess_series varchar(40) NOT NULL' )					
-					->add_field( 'usess_login_date datetime NOT NULL' )
-					->add_key( 'usess_token' , true )
-				->create_table( 'user_login_sessions' , TRUE, $attributes );
+				// Auth User Table
+				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_users`;" );
+				$this->db->query( "CREATE TABLE `{$database_prefix}aauth_users` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `email` varchar(100) COLLATE utf8_general_ci NOT NULL,
+				  `pass` varchar(100) COLLATE utf8_general_ci NOT NULL,
+				  `name` varchar(100) COLLATE utf8_general_ci,
+				  `banned` tinyint(1) DEFAULT '0',
+				  `last_login` datetime DEFAULT NULL,
+				  `last_activity` datetime DEFAULT NULL,
+				  `last_login_attempt` datetime DEFAULT NULL,
+				  `forgot_exp` text COLLATE utf8_general_ci,
+				  `remember_time` datetime DEFAULT NULL,
+				  `remember_exp` text COLLATE utf8_general_ci,
+				  `verification_code` text COLLATE utf8_general_ci,
+				  `ip_address` text COLLATE utf8_general_ci,
+				  `login_attempts` int(11) DEFAULT '0',
+				  PRIMARY KEY (`id`)
+				) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;" );
 				
-				// ALTER TABLE `tendoo_user_login_sessions` ADD UNIQUE(`usess_token`)
+				// User Auth Group
+				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_user_to_group`;" );
+				$this->db->query( "CREATE TABLE `{$database_prefix}aauth_user_to_group` (
+				  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+				  `group_id` int(11) unsigned NOT NULL DEFAULT '0',
+				  PRIMARY KEY (`user_id`,`group_id`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
 				
-				// creating user privilèges
-					
-				$this->dbforge
-					->add_field( array(
-						'upriv_id'	=>	array(
-							'type'				=> 	'INT',
-							'constraint' 		=> 	11,
-							'null'				=>	false,
-							'auto_increment'	=>	true,
-							'primary'			=>	true
-						)
-					) )
-					->add_field( 'upriv_name varchar(40) NOT NULL' )
-					->add_field( 'upriv_desc varchar(100) NOT NULL' )
-					->add_key( 'upriv_id' , true )
-				->create_table( 'user_privileges' , TRUE, $attributes );
+				// Auth User Variable
+				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_user_variables`;" );
+				$this->db->query( "CREATE TABLE `{$database_prefix}aauth_user_variables` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `user_id` int(11) unsigned NOT NULL,
+				  `key` varchar(100) NOT NULL,
+				  `value` text,
+				  PRIMARY KEY (`id`),
+				  KEY `user_id_index` (`user_id`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
 				
-				// creating user privilèges					
-				$this->dbforge
-					->add_field( array(
-						'upriv_users_id'	=>	array(
-							'type'				=> 	'INT',
-							'constraint' 		=> 	11,
-							'null'				=>	false,
-							'auto_increment'	=>	true,
-							'primary'			=>	true
-						)
-					) )
-					->add_field( 'upriv_users_uacc_fk int(11) NOT NULL' )
-					->add_field( 'upriv_users_upriv_fk smallint(5) NOT NULL' )
-					->add_key( 'upriv_users_id' , true )
-					->add_key( 'upriv_users_uacc_fk' )
-					->add_key( 'upriv_users_upriv_fk' )
-				->create_table( 'user_privilege_users' , TRUE, $attributes );
-								
-				// creating user privilèges group
-					
-				$this->dbforge
-					->add_field( array(
-						'upriv_groups_id'	=>	array(
-							'type'				=> 	'INT',
-							'constraint' 		=> 	11,
-							'null'				=>	false,
-							'auto_increment'	=>	true,
-							'primary'			=>	true
-						)
-					) )
-					->add_field( 'upriv_groups_ugrp_fk int(11) NOT NULL' )
-					->add_field( 'upriv_groups_upriv_fk smallint(5) NOT NULL' )
-					->add_key( 'upriv_groups_id' , true )
-					->add_key( 'upriv_groups_ugrp_fk' )
-					->add_key( 'upriv_groups_upriv_fk' )
-				->create_table( 'user_privilege_groups' , TRUE, $attributes );
-				// populating flexi
-				$this->load->library( 'flexi_auth' );
-				// Creating Group
-				$this->flexi_auth->insert_group( __( 'Administrators' ) , __( 'Adminitrators Group' ), true , array() );
-				$this->flexi_auth->insert_group( __( 'Users' ) , __( 'Users Group' ), false , array() );
-				// Creating privileges
-				$this->flexi_auth->insert_privilege( __( 'Dashboard Access' ), __( 'Master priilege' ), array() );
-				// bind privilege to a group
-				$this->flexi_auth->insert_user_group_privilege( 1,  1 ); // administrator can access dashboard
-				// creating config file
+				// Creating Database File
 				$this->create_config_file( $config );
+				
+				// Saving First Option
+				$this->options->set( 'database-version', $this->config->item( 'database-version' ), true );
 				
 				return 'database-installed';				
 			}
@@ -262,25 +189,17 @@ if(!defined('DB_PREFIX'))
 		fclose( $file );
 	}
 	function final_configuration( $site_name , $username , $password , $email )
-	{		
-		$this->load->model( 'options' );
-		$this->load->library( 'session' );
-		$this->load->library( 'flexi_auth' );
-		
+	{			
 		// checks user and email availability
-		if( ! $this->flexi_auth->identity_available( $username ) ) : return 'username-used'; endif;
-		if( ! $this->flexi_auth->identity_available( $email ) ) : return 'email-used'; endif;
+		if( $this->users->auth->user_exsist_by_name( $username ) ) 		: return 'username-used'; endif; 
+		if( $this->users->auth->user_exsist_by_email( $email ) ) 		: return 'email-used'; endif;
 		
 		// set site_name
 		$this->options->set( 'site-name' , $site_name );
 		
-		// Create user
-		if( $this->flexi_auth->insert_user( $email, $username, $password, array() , 1 , true ) ); // set to group 1 as
-		{
-			$this->flexi_auth->insert_privilege_user( 1 , 1 );// creating master
-			return 'user-created';
-		}
-		return 'unexpected-error';
+		// Creating Master & Groups
+		$this->users->create_default_groups();
+		return $this->users->create_master( $email , $password , $username );
 	}
 	function is_installed()
 	{

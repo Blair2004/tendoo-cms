@@ -19,7 +19,7 @@ class Sign_out extends Tendoo_Controller {
 	}
 	function log_user_out()
 	{
-		if( $this->flexi_auth->logout() )
+		if( $this->users->logout() == NULL )
 		{
 			if( ( $redir	=	riake( 'redirect' , $_GET ) ) != false )
 			{

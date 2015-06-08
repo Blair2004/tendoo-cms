@@ -10,13 +10,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | 
 */
 
+// Reserved Controllers
 $config[ 'reserved-controllers' ]				= 	array( 'dashboard' , 'sign-in', 'sign-out' , 'sign-up' , 'tendoo-setup' );
 $config[ 'controllers-requiring-installation' ]	=	array( 'dashboard' , 'sign-in' , 'sign-out' , 'sign-up' );
 $config[ 'controllers-requiring-login' ]		=	array( 'dashboard' , 'sign-out' );
+	$config[ 'default-login-route' ]			=	'/sign-in/?notice=login-required';
+$config[ 'controllers-requiring-logout' ]		=	array( 'sign-in' , 'sign-up' );
+	$config[ 'default-logout-route' ]			=	'/dashboard/?notice=logout-required';
+
+// Core ID	
 $config[ 'core-signature' ]						=	'Tendoo 1.5'; // core id
 $config[ 'version' ]							=	'1.5'; // core id
 $config[ 'supported-lang' ]						=	array( 'english' );
 $config[ 'database-version' ]					=	'1.0';
+
+// Default Group
+$config[ 'master-group-label' ]					=	'master';
+$config[ 'public-group-label' ]					=	'public';
+
+// For Auth Class (Email Purpose)
+// default route to access email verifcaion
+$config[ 'route-for-verification' ]				=	'/sign-in/verify';
+// default route to access password reset
+$config[ 'route-for-reset' ]					=	'/sign-in/reset';
+
+// Site Time Zone
 $config[ 'site-timezone' ]						=	array_flip( array (
     '(UTC-11:00) Midway Island' => 'Pacific/Midway',
     '(UTC-11:00) Samoa' => 'Pacific/Samoa',
