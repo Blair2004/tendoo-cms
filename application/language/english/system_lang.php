@@ -19,3 +19,18 @@ $lang[ 'user-created' ]			=	tendoo_success( __( 'The user has been successfully 
 // Recovery
 $lang[ 'unknow-email' ]			=	tendoo_error( __( 'Unknow email address' ) );
 $lang[ 'recovery-email-send' ]	=	tendoo_success( __( 'The recovery email has been send. Please check your email, open the recovery email and follow the instructions.' ) );
+// General
+$lang[ 'logout-required' ]		=	tendoo_info( __( 'You must logout first to access that page.' ) );
+$lang[ 'fetch-error-from-auth' ]=	function(){
+	$errors_array	=	get_instance()->users->auth->get_errors_array();
+	$notice_array	=	get_instance()->users->auth->get_infos_array();
+	foreach( $errors_array as $_error )
+	{
+		echo tendoo_error( $_error );
+	}
+	
+	foreach( $notice_array as $notice )
+	{
+		echo tendoo_error( $notice );
+	}
+};

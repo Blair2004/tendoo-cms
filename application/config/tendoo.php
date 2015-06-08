@@ -12,12 +12,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $config[ 'reserved-controllers' ]				= 	array( 'dashboard' , 'sign-in', 'sign-out' , 'sign-up' , 'tendoo-setup' );
 $config[ 'controllers-requiring-installation' ]	=	array( 'dashboard' , 'sign-in' , 'sign-out' , 'sign-up' );
+
 $config[ 'controllers-requiring-login' ]		=	array( 'dashboard' , 'sign-out' );
+	$config[ 'default-login-route' ]			=	'/sign-in/?notice=login-required';
+	
+$config[ 'controllers-requiring-logout' ]		=	array( 'sign-in' , 'sign-up' );
+	$config[ 'default-logout-route' ]			=	'/dashboard/?notice=logout-required';
+	
 $config[ 'core-signature' ]						=	'Tendoo 1.5'; // core id
 $config[ 'version' ]							=	'1.5'; // core id
 $config[ 'supported-lang' ]						=	array( 'english' );
 $config[ 'database-version' ]					=	'1.0';
 $config[ 'master-group-label' ]					=	'master';
+$config[ 'public-group-label' ]					=	'public';
 $config[ 'site-timezone' ]						=	array_flip( array (
     '(UTC-11:00) Midway Island' => 'Pacific/Midway',
     '(UTC-11:00) Samoa' => 'Pacific/Samoa',

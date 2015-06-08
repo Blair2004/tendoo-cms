@@ -36,9 +36,14 @@
           </div>
         </form> 
         <?php
+		// May checks whether recovery is enabled
+		?>
+        <a href="<?php echo site_url( array( 'sign-in' , 'recovery' ) ) ;?>"><?php _e( 'I lost my password' );?></a><br>
+        <?php
 		// may checks whether login if login is enabled
 		?>
-        <a href="<?php echo site_url( array( 'sign-in' ) );?>" class="text-center"><?php _e( 'I already have an account' );?></a>
+        <a href="<?php echo site_url( array( 'sign-in' ) );?>" class="text-center"><?php _e( 'I already have an account' );?></a><br>
+        
       </div><!-- /.form-box -->
     </div><!-- /.register-box -->
   

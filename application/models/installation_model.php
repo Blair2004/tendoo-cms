@@ -198,6 +198,7 @@ if(!defined('DB_PREFIX'))
 		$this->options->set( 'site-name' , $site_name );
 		
 		// Creating Master & Groups
+		$this->users->create_default_groups();
 		return $this->users->create_master( $email , $password , $username );
 	}
 	function is_installed()

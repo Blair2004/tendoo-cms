@@ -16,7 +16,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <p class="login-box-msg"><?php echo $this->events->apply_filters( 'signin_notice_message' , $this->lang->line( 'signin_notice_message' ) );?></p>
         <p><?php echo ( validation_errors() ) != '' ? tendoo_error( strip_tags( validation_errors() ) ) : '';?></p>
         <p><?php $this->notice->output_notice();?></p>
-        <p><?php echo ( $msg = $this->flexi_auth->get_messages() ) != '' ? tendoo_error( strip_tags( $msg ) ) : '';?></p>
         <?php echo tendoo_info( __( 'Please provide your user email in order to get recovery email' ) );?>
         <form method="post">
 			<?php
@@ -35,11 +34,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php
         // Should checks whether a login page is enabled
         ?>
-        <a class="btn btn-primary" href="<?php echo site_url( array( 'login' ) );?>"><?php _e( 'Sign In' );?></a>
+        <a class="btn btn-primary" href="<?php echo site_url( array( 'sign-in' ) );?>"><?php _e( 'Sign In' );?></a>
 		<?php
         // Should checks whether a registration is enabled
         ?>
-        <a class="btn btn-default" href="<?php echo site_url( array( 'sign-in' ) );?>" class="text-center"><?php _e( 'Sign Up' );?></a>
+        <a class="btn btn-default" href="<?php echo site_url( array( 'sign-up' ) );?>" class="text-center"><?php _e( 'Sign Up' );?></a>
 
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->

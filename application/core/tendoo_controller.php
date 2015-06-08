@@ -48,7 +48,16 @@ class Tendoo_Controller extends CI_Controller
 			{
 				if( ! $this->users->is_connected() )
 				{
-					redirect( array( 'sign-in?notice=login-required' ) );
+					redirect( array( $this->config->item( 'default-login-route' ) ) );
+				}
+			}
+
+			// force user to be connected for certain controller
+			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers-requiring-logout' ) ) && $this->setup->is_installed() )
+			{
+				if( $this->users->is_connected() )
+				{
+					redirect( array( $this->config->item( 'default-logout-route' ) ) );
 				}
 			}
 			
@@ -57,13 +66,14 @@ class Tendoo_Controller extends CI_Controller
 			$this->enqueue->enqueue_css( 'AdminLTE.min' );
 			$this->enqueue->enqueue_css( 'skins/_all-skins.min' );			
 			$this->enqueue->enqueue_css( 'font-awesome-4.3.0' );
+			$this->enqueue->enqueue_css( '../plugins/iCheck/square/blue' );
 			/**
 			 * 	Enqueueing Js
 			**/
 			
-			$this->enqueue->enqueue_js( 'plugins/jQuery/jQuery-2.1.4.min' );
+			$this->enqueue->enqueue_js( '../plugins/jQuery/jQuery-2.1.4.min' );
 			$this->enqueue->enqueue_js( 'bootstrap.min' );
-			$this->enqueue->enqueue_js( 'plugins/iCheck/icheck.min' );		
+			$this->enqueue->enqueue_js( '../plugins/iCheck/icheck.min' );		
 			$this->enqueue->enqueue_js( 'app.min' );
 		}
 		// Special config for login page

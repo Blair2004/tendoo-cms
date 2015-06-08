@@ -7,9 +7,9 @@ class Sign_in extends Tendoo_Controller {
 	 * Index Page for this controller.
 	 *
 	 * Maps to the following URL
-	 * 		http://example.com/index.php/login
+	 * 		http://example.com/index.php/sing-in
 	 *	- or -
-	 * 		http://example.com/index.php/welcome/login
+	 * 		http://example.com/index.php/welcome/sing-in
 	 */
 	function __construct()
 	{
@@ -23,7 +23,11 @@ class Sign_in extends Tendoo_Controller {
 		$this->events->do_action( 'set_login_rules' );
 		if( $this->form_validation->run() )
 		{
-			$exec 	=	$this->login_model->login();
+			// Apply filter before login
+			$fields_namespace	=	$this->login_model->get_fields_namespace();
+			
+			// Log User After Applying Filters
+			$exec 	=	$this->users->login( $fields_namespace );
 			if( $exec == 'user-logged-in' )
 			{
 				if( riake( 'redirect' , $_GET ) )
@@ -54,6 +58,7 @@ class Sign_in extends Tendoo_Controller {
 			{
 				redirect( array( 'sign-in?notice=' . $exec ) );
 			}
+			var_dump( $exec );die;
 			$this->notice->push_notice( $exec );
 		}
 		$this->html->set_title( sprintf( __( 'Recover Password &mdash; %s' ) , get( 'core-signature' ) ) );
