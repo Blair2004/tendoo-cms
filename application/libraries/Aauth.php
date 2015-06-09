@@ -428,7 +428,7 @@ class Aauth {
 
 		if ($query->num_rows() > 0){
 			$row = $query->row();
-
+			
 			$ver_code = random_string('alnum', 16);
 
 			$data['verification_code'] = $ver_code;
@@ -456,6 +456,8 @@ class Aauth {
 		$query = $this->CI->db->where('id', $user_id);
 		$query = $this->CI->db->where('verification_code', $ver_code);
 		$query = $this->CI->db->get( $this->config_vars['users'] );
+		
+		var_dump( $this->config_vars );die;
 
 		$pass = random_string('alnum',8);
 
