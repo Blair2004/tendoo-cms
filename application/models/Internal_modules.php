@@ -27,6 +27,7 @@ class Internal_modules extends CI_Model
 		$auth	=	$this->config->item( 'auth' );
 		$auth[ 'email' ]	=	'cms@tendoo.org';
 		$auth[ 'name' ]		=	get( 'core_version' ); 
+		$this->config->set_item( 'auth' , $auth );
 	}
 	function dashboard_skin_class( $skin )
 	{
