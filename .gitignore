@@ -40,3 +40,7 @@ Icon
 /tendoo-core
 /tendoo-modules
 /tendoo-assets
+
+#Ignore Unused Files
+
+/application/config/database.php
