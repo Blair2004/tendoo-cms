@@ -24,7 +24,7 @@ class Internal_modules extends CI_Model
 	**/
 	function change_auth_settings()
 	{
-		$auth	=	&$this->users->auth->config_vars;
+		$auth				=	&$this->users->auth->config_vars;
 		$auth[ 'email' ]	=	'cms@tendoo.org';
 		$auth[ 'name' ]		=	get( 'core_signature' ); 
 	}
