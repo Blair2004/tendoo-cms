@@ -1,41 +1,4 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Icon must ends with two \r.
-Icon
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-#ignore tendoo 1.4 branch files
+#Ignore tendoo 1.4 branch files
 
 /tendoo-core
 /tendoo-modules
@@ -43,4 +6,4 @@ Icon
 
 #Ignore Unused Files
 
-/application/config/database.php
+application/config/database.php
