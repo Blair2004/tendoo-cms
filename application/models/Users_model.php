@@ -39,7 +39,7 @@ class Users_model extends CI_Model
 	
 	function master_exists()
 	{
-		$masters	=	$this->auth->list_users( $this->config->item( 'master-group-label' ) );
+		$masters	=	$this->auth->list_users( $this->config->item( 'master_group_label' ) );
 		if( $masters ) // if admin main privilège exists
 		{
 			return true;
@@ -50,13 +50,13 @@ class Users_model extends CI_Model
 	function create_default_groups()
 	{
 		// Only create if group does'nt exists (it's optional)
-		if( ! $group = $this->auth->get_group_id( $this->config->item( 'master-group-label' ) ) )
+		if( ! $group = $this->auth->get_group_id( $this->config->item( 'master_group_label' ) ) )
 		{
-			$this->auth->create_group( $this->config->item( 'master-group-label' ) );
+			$this->auth->create_group( $this->config->item( 'master_group_label' ) );
 		}
-		if( ! $group = $this->auth->get_group_id( $this->config->item( 'public-group-label' ) ) )
+		if( ! $group = $this->auth->get_group_id( $this->config->item( 'public_group_label' ) ) )
 		{
-			$this->auth->create_group( $this->config->item( 'public-group-label' ) );
+			$this->auth->create_group( $this->config->item( 'public_group_label' ) );
 		}
 	}
 	
@@ -72,7 +72,7 @@ class Users_model extends CI_Model
 			// Add user to a group
 			// We assume 1 is the index of the first user
 			$master_id		=	$this->auth->get_user_id( $email );
-			$this->auth->add_member( $master_id , $this->config->item( 'master-group-label' ) );
+			$this->auth->add_member( $master_id , $this->config->item( 'master_group_label' ) );
 			// Send Verification
 			$this->auth->send_verification( $master_id );
 			// Activate Master

@@ -44,7 +44,7 @@ class Sign_in extends Tendoo_Controller {
 		// load login fields
 		$this->config->set_item( 'signin_fields' , $this->events->apply_filters( 'signin_fields' , $this->config->item( 'signin_fields' ) ) );
 		
-		$this->html->set_title( sprintf( __( 'Sign In &mdash; %s' ) , get( 'core-signature' ) ) );
+		$this->html->set_title( sprintf( __( 'Sign In &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'sign-in/body' );
 	}
@@ -68,7 +68,7 @@ class Sign_in extends Tendoo_Controller {
 			}
 			$this->notice->push_notice( $this->lang->line( $exec ) );
 		}
-		$this->html->set_title( sprintf( __( 'Recover Password &mdash; %s' ) , get( 'core-signature' ) ) );
+		$this->html->set_title( sprintf( __( 'Recover Password &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'sign-in/recovery' );
 	}

@@ -28,36 +28,36 @@ class Tendoo_Controller extends CI_Controller
 		}
 		
 		// if is reserved controllers only
-		if( in_array( $this->uri->segment(1) , $this->config->item( 'reserved-controllers' ) ) )
+		if( in_array( $this->uri->segment(1) , $this->config->item( 'reserved_controllers' ) ) )
 		{
 			$this->load->library( 'notice' );
 		}
 				
 		// Checks system status
-		if( in_array( $this->uri->segment(1) , $this->config->item( 'reserved-controllers' ) ) || $this->uri->segment(1) == null ) // null for index page
+		if( in_array( $this->uri->segment(1) , $this->config->item( 'reserved_controllers' ) ) || $this->uri->segment(1) == null ) // null for index page
 		{			
 			// there are some section which need tendoo to be installed. Before getting there, tendoo controller checks if for those
 			// section tendoo is installed. If segment(1) returns null, it means the current section is index. Even for index,
 			// installation is required
-			if( ( in_array( $this->uri->segment(1) , $this->config->item( 'controllers-requiring-installation' ) ) || $this->uri->segment(1) == null ) && ! $this->setup->is_installed() )
+			if( ( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_installation' ) ) || $this->uri->segment(1) == null ) && ! $this->setup->is_installed() )
 			{
 				redirect( array( 'tendoo-setup' ) );
 			}
 			// force user to be connected for certain controller
-			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers-requiring-login' ) ) && $this->setup->is_installed() )
+			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_login' ) ) && $this->setup->is_installed() )
 			{
 				if( ! $this->users->is_connected() )
 				{
-					redirect( array( $this->config->item( 'default-login-route' ) ) );
+					redirect( array( $this->config->item( 'default_login_route' ) ) );
 				}
 			}
 
 			// force user to be connected for certain controller
-			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers-requiring-logout' ) ) && $this->setup->is_installed() )
+			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_logout' ) ) && $this->setup->is_installed() )
 			{
 				if( $this->users->is_connected() )
 				{
-					redirect( array( $this->config->item( 'default-logout-route' ) ) );
+					redirect( array( $this->config->item( 'default_logout_route' ) ) );
 				}
 			}
 			

@@ -49,7 +49,7 @@ class GUI extends CI_Model
 			else
 			{
 				// page doesn't exists load 404 internal page error
-				$this->html->set_title( sprintf( __( 'Error : Output Not Found &mdash; %s' ) , get( 'core-signature' ) ) );
+				$this->html->set_title( sprintf( __( 'Error : Output Not Found &mdash; %s' ) , get( 'core_signature' ) ) );
 				$this->html->set_description( __( 'Error page' ) );
 				$this->load->view( 'dashboard/error/output-not-found' );
 			}
@@ -58,13 +58,13 @@ class GUI extends CI_Model
 		{
 			if( $page_slug == 'form_expired' )
 			{
-				$title			=	sprintf( __( 'Error : Form Expired &mdash; %s' ) , get( 'core-signature' ) );
+				$title			=	sprintf( __( 'Error : Form Expired &mdash; %s' ) , get( 'core_signature' ) );
 				$description	=	__( 'Form Expired' );
 				$msg			=	__( 'This form has expired' );
 			}
 			else if( $page_slug == 'unknow_user' )
 			{
-				$title			=	sprintf( __( 'Error : Unknow User &mdash; %s' ) , get( 'core-signature' ) );
+				$title			=	sprintf( __( 'Error : Unknow User &mdash; %s' ) , get( 'core_signature' ) );
 				$description	=	__( 'Unknow User' );
 				$msg			=	__( 'This user can\'t be found.' );
 			}
@@ -78,7 +78,7 @@ class GUI extends CI_Model
 		else
 		{
 			// page doesn't exists load 404 internal page error
-			$this->html->set_title( sprintf( __( 'Error : 404 &mdash; %s' ) , get( 'core-signature' ) ) );
+			$this->html->set_title( sprintf( __( 'Error : 404 &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->html->set_description( __( 'Error page' ) );
 			$this->load->view( 'dashboard/error/404' );
 		}

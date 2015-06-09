@@ -11,31 +11,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // Reserved Controllers
-$config[ 'reserved-controllers' ]				= 	array( 'dashboard' , 'sign-in', 'sign-out' , 'sign-up' , 'tendoo-setup' );
-$config[ 'controllers-requiring-installation' ]	=	array( 'dashboard' , 'sign-in' , 'sign-out' , 'sign-up' );
-$config[ 'controllers-requiring-login' ]		=	array( 'dashboard' , 'sign-out' );
-	$config[ 'default-login-route' ]			=	'/sign-in/?notice=login-required';
-$config[ 'controllers-requiring-logout' ]		=	array( 'sign-in' , 'sign-up' );
-	$config[ 'default-logout-route' ]			=	'/dashboard/?notice=logout-required';
+$config[ 'reserved_controllers' ]				= 	array( 'dashboard' , 'sign-in', 'sign-out' , 'sign-up' , 'tendoo-setup' );
+$config[ 'controllers_requiring_installation' ]	=	array( 'dashboard' , 'sign-in' , 'sign-out' , 'sign-up' );
+$config[ 'controllers_requiring_login' ]		=	array( 'dashboard' , 'sign-out' );
+	$config[ 'default_login_route' ]			=	'/sign-in/?notice=login-required';
+$config[ 'controllers_requiring_logout' ]		=	array( 'sign-in' , 'sign-up' );
+	$config[ 'default_logout_route' ]			=	'/dashboard/?notice=logout-required';
 
 // Core ID	
-$config[ 'core-signature' ]						=	'Tendoo 1.5'; // core id
-$config[ 'version' ]							=	'1.5'; // core id
-$config[ 'supported-lang' ]						=	array( 'english' );
-$config[ 'database-version' ]					=	'1.0';
+$config[ 'version' ]							=	$config[ 'core_version' ]	=	1.5; // core id
+$config[ 'core_signature' ]						=	'Tendoo ' . $config[ 'version' ]; // core id
+
+$config[ 'supported_lang' ]						=	array( 'english' );
+$config[ 'database_version' ]					=	'1.0';
 
 // Default Group
-$config[ 'master-group-label' ]					=	'master';
-$config[ 'public-group-label' ]					=	'public';
+$config[ 'master_group_label' ]					=	'master';
+$config[ 'public_group_label' ]					=	'public';
 
 // For Auth Class (Email Purpose)
 // default route to access email verifcaion
-$config[ 'route-for-verification' ]				=	'/sign-in/verify/';
+$config[ 'route_for_verification' ]				=	'/sign-in/verify/';
 // default route to access password reset
-$config[ 'route-for-reset' ]					=	'/sign-in/reset/';
+$config[ 'route_for_reset' ]					=	'/sign-in/reset/';
 
 // Site Time Zone
-$config[ 'site-timezone' ]						=	array_flip( array (
+$config[ 'site_timezone' ]						=	array_flip( array (
     '(UTC-11:00) Midway Island' => 'Pacific/Midway',
     '(UTC-11:00) Samoa' => 'Pacific/Samoa',
     '(UTC-10:00) Hawaii' => 'Pacific/Honolulu',

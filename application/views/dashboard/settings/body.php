@@ -41,10 +41,10 @@ $this->gui->add_item( array(
 
 $this->gui->add_item( array(
 	'type'			=>	'select',
-	'name'			=>	'site-timezone',
+	'name'			=>	'site_timezone',
 	'label'			=>	__( 'Timezone' ),
 	'placeholder'	=>	__( 'Enter your site timezone' ),
-	'options'		=>	$this->config->item( 'site-timezone' )
+	'options'		=>	$this->config->item( 'site_timezone' )
 ) , 'general-settings' , 1 );
 
 $this->events->do_action( 'register_general_settings_fields' );

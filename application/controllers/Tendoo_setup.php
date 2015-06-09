@@ -37,7 +37,7 @@ class Tendoo_setup extends Tendoo_Controller {
 		if( $this->setup->is_installed() ): redirect( array( 'init' ) ); endif;
 		
 		// set title
-		$this->html->set_title( sprintf( __( 'Welcome Page &mdash; %s' ) , get( 'core-signature' ) ) );
+		$this->html->set_title( sprintf( __( 'Welcome Page &mdash; %s' ) , get( 'core_signature' ) ) );
 		// $this->load->model( 'tendoo_setup' );
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'tendoo-setup/index' );
@@ -70,7 +70,7 @@ class Tendoo_setup extends Tendoo_Controller {
 			$this->notice->push_notice( $this->lang->line( $exec ) );
 		}
 		
-		$this->html->set_title( sprintf( __( 'Database config &mdash; %s' ) , get( 'core-signature' ) ) );
+		$this->html->set_title( sprintf( __( 'Database config &mdash; %s' ) , get( 'core_signature' ) ) );
 		// $this->load->model( 'tendoo_setup' );
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'tendoo-setup/database' );
@@ -107,7 +107,7 @@ class Tendoo_setup extends Tendoo_Controller {
 		}		
 		
 		// Outputing
-		$this->html->set_title( sprintf( __( 'Site & Master account &mdash; %s' ) , get( 'core-signature' ) ) );
+		$this->html->set_title( sprintf( __( 'Site & Master account &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'tendoo-setup/site' );
 	}

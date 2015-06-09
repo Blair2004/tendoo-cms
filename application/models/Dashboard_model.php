@@ -30,7 +30,7 @@ class Dashboard_model extends CI_Model
 	
 	function settings()
 	{
-		$this->gui->set_title( sprintf( __( 'Settings &mdash; %s' ) , get( 'core-signature' ) ) );
+		$this->gui->set_title( sprintf( __( 'Settings &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'dashboard/settings/body' );
 	}
 	
@@ -38,7 +38,7 @@ class Dashboard_model extends CI_Model
 	{		
 		if( $page == 'list' )
 		{
-			$this->gui->set_title( sprintf( __( 'Users &mdash; %s' ) , get( 'core-signature' ) ) );
+			$this->gui->set_title( sprintf( __( 'Users &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/users/body' );
 		}
 		else if( $page == 'edit') 
@@ -90,7 +90,7 @@ class Dashboard_model extends CI_Model
 				'ugrp_name as group_name'
 			) );		
 			
-			$this->gui->set_title( sprintf( __( 'Edit user &mdash; %s' ) , get( 'core-signature' ) ) );
+			$this->gui->set_title( sprintf( __( 'Edit user &mdash; %s' ) , get( 'core_signature' ) ) );
 			
 			$this->load->view( 'dashboard/users/edit' , array( 
 				'groups'	=>	$groups,
@@ -133,7 +133,7 @@ class Dashboard_model extends CI_Model
 				'ugrp_name as group_name'
 			) );		
 			
-			$this->gui->set_title( sprintf( __( 'Create a new user &mdash; %s' ) , get( 'core-signature' ) ) );
+			$this->gui->set_title( sprintf( __( 'Create a new user &mdash; %s' ) , get( 'core_signature' ) ) );
 			
 			$this->load->view( 'dashboard/users/create' , array( 
 				'groups'	=>	$groups

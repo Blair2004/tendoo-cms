@@ -140,7 +140,7 @@ class Installation_Model extends CI_Model
 				$this->create_config_file( $config );
 				
 				// Saving First Option
-				$this->options->set( 'database-version', $this->config->item( 'database-version' ), true );
+				$this->options->set( 'database_version', $this->config->item( 'database_version' ), true );
 				
 				return 'database-installed';				
 			}

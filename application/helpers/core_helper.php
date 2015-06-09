@@ -343,8 +343,8 @@ function get($key) // add to doc
 		case "core_version"	:
 			return (float) $instance->config->item( 'version' );
 		break;
-		case "core-signature"	:
-			return $instance->config->item( 'core-signature' );
+		case "core_signature"	:
+			return $instance->config->item( 'core_signature' );
 		break;
 		case "declared-shortcuts"	:
 			return get_declared_shortcuts();
@@ -368,7 +368,7 @@ if(!function_exists('translate')) // gt = Get Text
 		$instance		=	get_instance();
 		$heavy__		=	array();
 		
-		if( in_array( $instance->config->item( 'language' ) , $instance->config->item( 'supported-lang' ) ) )
+		if( in_array( $instance->config->item( 'language' ) , $instance->config->item( 'supported_lang' ) ) )
 		{
 			// Lang Recorder is only enabled while en_US lang is activated
 			if( LANG_RECORDER_ENABLED == true && $textdomain = 'tendoo-core' )

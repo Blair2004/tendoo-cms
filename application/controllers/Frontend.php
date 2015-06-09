@@ -21,7 +21,7 @@ class Frontend extends Tendoo_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->reserved_controllers	=	$this->config->item( 'reserved-controllers' );	
+		$this->reserved_controllers	=	$this->config->item( 'reserved_controllers' );	
 		// Get Reserved Controllers		
 	}
 	public function index()
