@@ -30,9 +30,9 @@ $config[ 'public-group-label' ]					=	'public';
 
 // For Auth Class (Email Purpose)
 // default route to access email verifcaion
-$config[ 'route-for-verification' ]				=	'/sign-in/verify';
+$config[ 'route-for-verification' ]				=	'/sign-in/verify/';
 // default route to access password reset
-$config[ 'route-for-reset' ]					=	'/sign-in/reset';
+$config[ 'route-for-reset' ]					=	'/sign-in/reset/';
 
 // Site Time Zone
 $config[ 'site-timezone' ]						=	array_flip( array (

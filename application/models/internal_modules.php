@@ -14,8 +14,20 @@ class Internal_modules extends CI_Model
 		$this->events->add_action( 'load_users_custom_fields' , array( $this , 'user_custom_fields' ) );
 		$this->events->add_filter( 'custom_user_meta' , array( $this , 'custom_user_meta' ) , 10 , 1 );
 		$this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );
+		
+		// change send administrator emails
+		$this->events->add_action( 'send_recovery_email' , array( $this , 'change_auth_settings' ) );
 	}
 	
+	/**
+	 * Perform Change over Auth emails config
+	**/
+	function change_auth_settings()
+	{
+		$auth	=	$this->config->item( 'auth' );
+		$auth[ 'email' ]	=	'cms@tendoo.org';
+		$auth[ 'name' ]		=	get( 'core_version' );
+	}
 	function dashboard_skin_class( $skin )
 	{
 		// skin is defined by default
