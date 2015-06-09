@@ -6,4 +6,4 @@
 
 #Ignore Unused Files
 
-/application
+application/config/database.php
