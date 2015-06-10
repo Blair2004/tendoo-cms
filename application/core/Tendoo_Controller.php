@@ -15,9 +15,9 @@ class Tendoo_Controller extends CI_Controller
 			$this->load->model( 'internal_modules' );
 			// Should load modules and themes heres
 			// triggers actions before session init
-			// $this->events->do_action( 'before_session_start' );			
+			$this->events->do_action( 'before_session_start' );			
 			
-			// $this->load->model( 'options' );
+			$this->load->model( 'options' );
 			$this->load->model( 'users_model' , 'users' ); // run after flexi_auth
 			
 			// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup

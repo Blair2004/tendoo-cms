@@ -17,6 +17,7 @@ class Dashboard extends Tendoo_Controller {
 	{
 		parent::__construct();
 		
+		// All those variable are not required for option interface
 		// Special assets loading for dashboard
 		$this->enqueue->enqueue_js( '../plugins/SlimScroll/jquery.slimscroll.min' );
 		
@@ -31,16 +32,15 @@ class Dashboard extends Tendoo_Controller {
 	}
 	function _remap( $page , $params = array() )
 	{
-		$this->benchmark->mark( 'before-remap' );
 		if( method_exists( $this , $page ) )
 		{
 			return call_user_func_array( array( $this, $page ), $params);
 		}
 		else
-		{
+		{			
+			
 			$this->gui->load_page( $page , $params );
 		}
-		$this->output->enable_profiler( TRUE );
 	}
 	function options( $mode = 'list' )
 	{
@@ -81,6 +81,4 @@ class Dashboard extends Tendoo_Controller {
 			}
 		}
 	}
-	
-	
 }

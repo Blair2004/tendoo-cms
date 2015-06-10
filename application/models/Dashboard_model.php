@@ -24,7 +24,7 @@ class Dashboard_model extends CI_Model
 	}
 	function index()
 	{
-		$this->gui->set_title( 'This Title' );
+		$this->gui->set_title( sprintf( __( 'Dashboard &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'dashboard/index/body' );
 	}
 	
@@ -198,14 +198,6 @@ class Dashboard_model extends CI_Model
 			'icon'			=>		'fa fa-users',
 			'href'			=>		site_url('dashboard/users/create')
 		) );
-		// Self settings
-		/** 
-		$this->menu->add_admin_menu_core( 'users' , array(
-			'title'			=>		__( 'My Profile' ) , // current_user( 'PSEUDO' ),
-			'icon'			=>		'fa fa-users',
-			'href'			=>		site_url('dashboard/profile')
-		) );
-		**/
 			
 		$this->menu->add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Roles & Groups' ),
@@ -239,30 +231,5 @@ class Dashboard_model extends CI_Model
 			'icon'			=>		'fa fa-cogs',
 			'href'			=>		site_url('dashboard/settings')
 		) );
-		
-		/** 
-		$this->menu->add_admin_menu_core( 'frontend' , array(
-			'title'			=>		sprintf( __( 'Visit %s' ) , riake( 'site_name' , $this->options ) ) ,
-			'icon'			=>		'fa fa-eye',
-			'href'			=>		site_url('index')
-		) );
-		
-		
-		$notices_nbr		=		0;
-		// $notices_nbr		+=		( get_user_meta( 'tendoo_status' ) == false ) ? 1 : 0;
-		
-		$this->menu->add_admin_menu_core( 'about' , array(
-			'title'			=>		__( 'About' ) ,
-			'icon'			=>		'fa fa-rocket',
-			'href'			=>		site_url('dashboard/about'),
-			'notices_nbr'	=>		 $notices_nbr
-		) );	
-		**/
 	}	
-	
-	/**
-	 * Create dashboard page
-	**/
-	
-	
 }

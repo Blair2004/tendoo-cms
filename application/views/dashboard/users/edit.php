@@ -87,7 +87,7 @@ $this->gui->add_item( array(
 	'label'			=>	__( 'Add to a group' ),
 	'name'			=>	'userprivilege',
 	'options'		=>	$groups_array,
-	'active'		=>	$user_group->group_id
+	'active'		=>	$user_group ? $user_group->group_id : null
 ) , 'edit_user' , 1 );
 
 // load custom field for user creatin

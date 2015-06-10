@@ -2,7 +2,7 @@
 
 // items set buy GUI::get_items
 $form_option		=	get_core_vars( riake( 'namespace' , $meta ) );
-$saver_enabled		=	riake( 'action' , riake( 'custom' , $meta ) ) == false ? false : true;
+$saver_enabled		=	riake( 'action' , riake( 'custom' , $meta ) ) == false ? true : false;
 
 foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 {
