@@ -38,12 +38,16 @@ class Dashboard_model extends CI_Model
 	{		
 		if( $page == 'list' )
 		{
+			// $this->users() it's the current method, $this->users is the main user object
+			$users			=		$this->users->auth->list_users($group_par = FALSE, $limit = FALSE, $offset = FALSE, $include_banneds = FALSE);
 			$this->gui->set_title( sprintf( __( 'Users &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->load->view( 'dashboard/users/body' );
+			$this->load->view( 'dashboard/users/body' , array( 
+				'users'	=>	$users
+			) );
 		}
 		else if( $page == 'edit') 
 		{
-			$user				=	$this->user->get( $index );
+			$user				=	$this->users->auth->get_user( $index );			
 			if( ! $user )
 			{
 				redirect( array( 'dashboard' , 'unknow-user' ) );
@@ -65,7 +69,7 @@ class Dashboard_model extends CI_Model
 			
 			if( $this->form_validation->run() )
 			{
-				$exec	=	$this->user->edit(
+				$exec	=	$this->users->edit(
 				 	$index , 
 					$this->input->post( 'user_email' ),
 					$this->input->post( 'password' ),
@@ -77,24 +81,24 @@ class Dashboard_model extends CI_Model
 				
 				
 				// Refresh user data
-				$user				=	$this->user->get( $index );
+				$user				=	$this->users->auth->get_user( $index );
 				if( ! $user )
 				{
 					redirect( array( 'dashboard' , 'unknow-user' ) );
 				}
 			}			
 			
+			// User Goup
+			$user_group			=	farray( $this->users->auth->get_user_groups( $user->id ) );
 			// selecting groups
-			$groups	=	$this->flexi_auth->get_groups( array(
-				'ugrp_id as group_id',
-				'ugrp_name as group_name'
-			) );		
+			$groups				=	$this->users->auth->list_groups();		
 			
 			$this->gui->set_title( sprintf( __( 'Edit user &mdash; %s' ) , get( 'core_signature' ) ) );
 			
 			$this->load->view( 'dashboard/users/edit' , array( 
-				'groups'	=>	$groups,
-				'user'			=>	$user
+				'groups'		=>	$groups,
+				'user'			=>	$user,
+				'user_group'	=>	$user_group
 			) );
 		}
 		else if( $page == 'create' )

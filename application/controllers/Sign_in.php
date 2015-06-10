@@ -18,6 +18,14 @@ class Sign_in extends Tendoo_Controller {
 		$this->load->model( 'login_model' );
 		$this->load->model( 'users_model' , 'user' );
 	}
+	
+	/**
+	 * Sign In index page
+	 *
+	 *	Displays login page
+	 * 	@return : void
+	**/
+	
 	public function index()
 	{
 		$this->events->do_action( 'set_login_rules' );
@@ -48,6 +56,15 @@ class Sign_in extends Tendoo_Controller {
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'sign-in/body' );
 	}
+	
+	/**
+	 * 	Recovery Method
+	 *	
+	 *	Allow user to get reset email for his account
+	 *
+	 *	@return void
+	**/
+	
 	function recovery()
 	{
 		$this->form_validation->set_rules( 'user_email' , __( 'User Email' ) , 'required|valid_email' );
@@ -71,5 +88,56 @@ class Sign_in extends Tendoo_Controller {
 		$this->html->set_title( sprintf( __( 'Recover Password &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'sign-in/recovery' );
+	}
+	
+	/**
+	 * 	Reset
+	 * 	
+	 *	Checks a verification code an send a new password to user email
+	 *
+	 * 	@access : public
+	 *	@params : int user_id
+	 * 	@params : string verfication code
+	 * 	@return : void
+	 * 
+	**/
+	
+	function reset( $user_id , $ver_code )
+	{
+		$user	=	$this->users->auth->get_user( $user_id );
+		if( $user )
+		{
+			if( $this->users->auth->reset_password( $user_id , $ver_code) )
+			{
+				redirect( array( 'sign-in?notice=new-password-created' ) );
+			}
+			redirect( array( 'sign-in?notice=error-occured' ) );
+		} 		
+		redirect( array( 'sign-in?notice=unknow-user' ) );
+	}
+	
+	/**
+	 * Verify
+	 * 
+	 * 	Verify actvaton code for specifc user
+	 *
+	 *	@access : public
+	 *	@params : int user_id
+	 *	@params : string verification code
+	 *	@status	: untested
+	**/
+	
+	function verify( $user_id , $ver_code )
+	{
+		$user	=	$this->users->auth->get_user( $user_id );
+		if( $user )
+		{
+			if( $this->users->auth->verify_user( $user_id , $ver_code) )
+			{
+				redirect( array( 'sign-in?notice=account-activated' ) );
+			}
+			redirect( array( 'sign-in?notice=error-occured' ) );
+		} 		
+		redirect( array( 'sign-in?notice=unknow-user' ) );
 	}
 }

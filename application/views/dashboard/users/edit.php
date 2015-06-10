@@ -29,7 +29,7 @@ $this->gui->add_item( array(
 	'name'			=>	'username',
 	'description'	=>	__( 'Descrption' ),
 	'disabled'		=>	true,
-	'value'			=>	riake( 'user_name' , $user )
+	'value'			=>	$user->name
 ) , 'edit_user' , 1 );
 
 // User email
@@ -39,7 +39,7 @@ $this->gui->add_item( array(
 	'label'			=>	__( 'User Email' ),
 	'name'			=>	'user_email',
 	'description'	=>	__( 'Descrption' ),
-	'value'			=>	riake( 'user_email' , $user )
+	'value'			=>	$user->email
 ) , 'edit_user' , 1 );
 
 // user password
@@ -77,9 +77,9 @@ $this->gui->add_item( array(
 
 $groups_array	=	array();
 
-foreach( $groups->result_array() as $group )
+foreach( $groups as $group )
 {
-	$groups_array[ riake( 'group_id' , $group ) ] = riake( 'group_name' , $group );
+	$groups_array[ $group->id ] = $group->name;
 }
 
 $this->gui->add_item( array(
@@ -87,7 +87,7 @@ $this->gui->add_item( array(
 	'label'			=>	__( 'Add to a group' ),
 	'name'			=>	'userprivilege',
 	'options'		=>	$groups_array,
-	'active'		=>	riake( 'group_id' , $user )
+	'active'		=>	$user_group->group_id
 ) , 'edit_user' , 1 );
 
 // load custom field for user creatin
@@ -98,7 +98,7 @@ $this->events->do_action( 'load_users_custom_fields' , array(
 	'meta_namespace'=>	'edit_user',
 	'col_id'		=>	1,
 	'gui'			=>	$this->gui,
-	'user_id'		=>	riake( 'user_id' , $user )
+	'user_id'		=>	$user->id
 ) );
 
 $this->gui->output();

@@ -15,7 +15,7 @@ class Users_model extends CI_Model
 	
 	function refresh_user_meta()
 	{
-		$this->meta		=	$this->options->get( null , $this->flexi_auth->get_user_id() , true );	
+		$this->meta		=	$this->options->get( null , $this->users->auth->get_user_id() , true );	
 	}
 	public function get_meta( $key )
 	{
@@ -164,13 +164,7 @@ class Users_model extends CI_Model
 	**/
 	function get( $user_id )
 	{
-		$user	=	$this->flexi_auth->get_user_by_id( $user_id , array(
-			'uacc_id as user_id',
-			'uacc_email as user_email',
-			'uacc_username as user_name',
-			'uacc_active as active',
-			'uacc_group_fk as group_id'
-		) )->result_array();
+		$user	=	$this->auth->get_user_by_id( $user_id );
 		
 		return farray( $user );		
 	}
@@ -187,19 +181,6 @@ class Users_model extends CI_Model
 		// activate convert
 		$activate 			= 	$activate === 'yes' ? true : false;
 		
-		$default_fields	=	array(
-			'uacc_email'		=>	$email,
-			'uacc_active'		=>	$activate,
-			'uacc_group_fk'		=>	$group_id,
-			'uacc_active'		=>	$activate
-		);		
-		
-		// password is not required
-		if( $password )
-		{
-			$default_fields[ 'uacc_password' ] =  $password;
-		}
-		
 		// add custom user fields
 		$custom_fields	=	$this->events->apply_filters( 'custom_user_meta' , array() );
 		
@@ -208,6 +189,6 @@ class Users_model extends CI_Model
 			$this->options->set( $key , $value , $autoload = true , $user_id , $app = 'users' );
 		}
 		
-		$this->flexi_auth->update_user( $user_id , $default_fields );
+		return $this->users->auth->update_user( $user_id , $email , $password );
 	}
 }

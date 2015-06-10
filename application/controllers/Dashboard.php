@@ -31,6 +31,7 @@ class Dashboard extends Tendoo_Controller {
 	}
 	function _remap( $page , $params = array() )
 	{
+		$this->benchmark->mark( 'before-remap' );
 		if( method_exists( $this , $page ) )
 		{
 			return call_user_func_array( array( $this, $page ), $params);
@@ -39,6 +40,7 @@ class Dashboard extends Tendoo_Controller {
 		{
 			$this->gui->load_page( $page , $params );
 		}
+		$this->output->enable_profiler( TRUE );
 	}
 	function options( $mode = 'list' )
 	{

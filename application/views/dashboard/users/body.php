@@ -5,26 +5,16 @@
  *	Since		:	1.4
 **/
 
-$users			=	$this->flexi_auth->get_users( array(
-	'uacc_id as user_id',
-	'uacc_username as user_name',
-	'uacc_email as user_email',
-	'uacc_active as active',
-	'uacc_suspend as status',
-	'uacc_date_last_login as last_login'
-) );
-
 $complete_users	=	array();
 // adding user to complete_users array
-foreach( $users->result_array() as $_user )
+foreach( $users as $user )
 {
 	$complete_users[]	=	array( 
-		riake( 'user_id' , $_user ) , 
-		'<a href="' . site_url( array( 'dashboard' , 'users' , 'edit' , riake( 'user_id' , $_user ) ) ) . '">' . riake( 'user_name' , $_user ) . '</a>' , 
-		riake( 'user_email' , $_user ) , 
-		riake( 'active' , $_user ) , 
-		riake( 'status' , $_user ) , 
-		riake( 'last_login' , $_user ) 
+		$user->id , 
+		'<a href="' . site_url( array( 'dashboard' , 'users' , 'edit' , $user->id ) ) . '">' . $user->name . '</a>' , 
+		$user->email , 
+		$user->banned , 
+		$user->last_login 
 	);
 }
 
@@ -40,7 +30,7 @@ $this->gui->add_meta( array(
 
 $this->gui->add_item( array(
 	'type'		=>	'table',
-	'cols'		=>	array( __( 'User Id' ) , __( 'Pseudo' ) , __( 'Email' ) , __( 'Active' ) , __( 'Status' ) , __( 'Activity' ) ),
+	'cols'		=>	array( __( 'User Id' ) , __( 'Pseudo' ) , __( 'Email' ) , __( 'Status' ) , __( 'Activity' ) ),
 	'rows'		=>	$complete_users
 ) , 'user-list' , 1 );
 

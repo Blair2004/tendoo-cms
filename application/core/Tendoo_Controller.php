@@ -8,16 +8,16 @@ class Tendoo_Controller extends CI_Controller
 		// get system lang
 		$this->lang->load( 'system' );	
 		
-		// if is installed
+		// if is installed, setup is always loaded
 		if( $this->setup->is_installed() )
 		{
 			// Load internal modules here
 			$this->load->model( 'internal_modules' );
 			// Should load modules and themes heres
 			// triggers actions before session init
-			$this->events->do_action( 'before_session_start' );			
+			// $this->events->do_action( 'before_session_start' );			
 			
-			$this->load->model( 'options' );
+			// $this->load->model( 'options' );
 			$this->load->model( 'users_model' , 'users' ); // run after flexi_auth
 			
 			// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
@@ -30,6 +30,7 @@ class Tendoo_Controller extends CI_Controller
 		// if is reserved controllers only
 		if( in_array( $this->uri->segment(1) , $this->config->item( 'reserved_controllers' ) ) )
 		{
+			$this->load->helper( 'ui' );
 			$this->load->library( 'notice' );
 		}
 				
@@ -75,10 +76,6 @@ class Tendoo_Controller extends CI_Controller
 			$this->enqueue->enqueue_js( 'bootstrap.min' );
 			$this->enqueue->enqueue_js( '../plugins/iCheck/icheck.min' );		
 			$this->enqueue->enqueue_js( 'app.min' );
-		}
-		// Special config for login page
-		if( $this->uri->segment(1) == 'sign-in' ) // change to custom slug defined on routes.php
-		{
 		}
 	}
 }

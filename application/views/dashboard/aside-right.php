@@ -1,8 +1,8 @@
 <?php
 /**
- * 	File Name 	: footer.php
+ * 	File Name 	: aside-right.php
  *	Description :	hold dasboard aside section
- *	Since		:	1.4
+ *	Since		:	1.5
 **/
 ?>
 
