@@ -17,7 +17,13 @@ class Options extends CI_Model
 	function set( $key , $value , $autoload = false , $user = 0 , $app = 'system' )
 	{
 		// get option if exists
-		$query		=	$this->db->where( 'key' , $key )->get( 'options' );		
+		$this->db->where( 'key' , $key );
+		if( $user != 0 )
+		{
+			$this->db->where( 'user' , $user );
+		}
+		
+		$query		=	$this->db->get( 'options' );			
 		$options	=	$query->result_array();
 		$value		=	is_array( $value ) ? json_encode( $value ) : $value; // converting array to JSON
 		$value		=	is_bool( $value ) ? $value === true ? 'true' : 'false' : $value; // Converting Bool to string
@@ -70,7 +76,7 @@ class Options extends CI_Model
 		// fetch data
 		$query		=	$this->db->get( 'options' );
 		$option	=	$query->result_array();
-
+		
 		// if there is any result
 		if( $key != null )
 		{
@@ -92,5 +98,36 @@ class Options extends CI_Model
 			return $key_value;
 		}
 		return NULL;
+	}
+	
+	/**
+	 * Delete Option
+	 *
+	 * @access : public
+	 * @params : string
+	 * @params : int users id
+	 * @return : bool
+	**/
+	
+	function delete( $key = NULL , $user_id = NULL , $app = 'system' )
+	{
+		// Each options can't be deleted
+		if( $key == null && $app == 'system' )
+		{
+			return false;
+		}
+		
+		// get only data from user
+		if( $user_id != NULL ): $this->db->where( 'user' , $user_id ); endif;
+		
+		// filter app option
+		$this->db->where( 'app' , $app );		
+		
+		if( $key != null )
+		{
+			$this->db->where( 'key' , $key );
+		}
+		// fetch data
+		return $this->db->delete( 'options' );
 	}
 }

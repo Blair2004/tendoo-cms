@@ -93,7 +93,7 @@ class Users_model extends CI_Model
 	 * 	@return : bool
 	**/
 	
-	function create( $email , $password , $username , $validate = false )
+	function create( $email , $password , $username , $group_par , $validate = false )
 	{
 		$user_creation_status	=	$this->auth->create_user($email, $password, $username);
 		if( ! $user_creation_status )
@@ -176,11 +176,14 @@ class Users_model extends CI_Model
 	 * @param
 	**/
 	
-	function edit( $user_id , $email , $password , $activate , $group_id )
+	function edit( $user_id , $email , $password , $group_id , $user_group )
 	{
-		// activate convert
-		$activate 			= 	$activate === 'yes' ? true : false;
+		// remove member
+		$this->users->auth->remove_member( $user_id , $user_group->group_id );
 		
+		// refresh group
+		$this->users->auth->add_member( $user_id , $group_id );
+				
 		// add custom user fields
 		$custom_fields	=	$this->events->apply_filters( 'custom_user_meta' , array() );
 		
@@ -188,7 +191,6 @@ class Users_model extends CI_Model
 		{
 			$this->options->set( $key , $value , $autoload = true , $user_id , $app = 'users' );
 		}
-		
 		return $this->users->auth->update_user( $user_id , $email , $password );
 	}
 }

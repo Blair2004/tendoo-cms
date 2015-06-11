@@ -57,25 +57,13 @@ $this->gui->add_item( array(
 	'description'	=>	__( 'Descrption' )
 ) , 'create_user' , 1 );
 
-// Activate
-
-$this->gui->add_item( array(
-	'type'			=>	'select',
-	'label'			=>	__( 'Activate user ?' ),
-	'name'			=>	'activate',
-	'options'		=>	array(
-		'no'		=>	__( 'No' ),
-		'yes'		=>	__( 'Yes' )
-	)
-) , 'create_user' , 1 );
-
 // add to a group
 
 $groups_array	=	array();
 
-foreach( $groups->result_array() as $group )
+foreach( $groups as $group )
 {
-	$groups_array[ riake( 'group_id' , $group ) ] = riake( 'group_name' , $group );
+	$groups_array[ $group->id ] = $group->name;
 }
 
 $this->gui->add_item( array(

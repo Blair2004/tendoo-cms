@@ -38,7 +38,6 @@ class Dashboard extends Tendoo_Controller {
 		}
 		else
 		{			
-			
 			$this->gui->load_page( $page , $params );
 		}
 	}

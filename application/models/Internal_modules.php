@@ -15,6 +15,9 @@ class Internal_modules extends CI_Model
 		$this->events->add_filter( 'custom_user_meta' , array( $this , 'custom_user_meta' ) , 10 , 1 );
 		$this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );
 		
+		// Change user name in the user menu
+		$this->events->add_filter( 'user_menu_name' , array( $this , 'user_menu_name' ) );
+		
 		// change send administrator emails
 		$this->events->add_action( 'send_recovery_email' , array( $this , 'change_auth_settings' ) );
 	}
@@ -22,6 +25,10 @@ class Internal_modules extends CI_Model
 	/**
 	 * Perform Change over Auth emails config
 	**/
+	function user_menu_name( $user_name )
+	{
+		return $user_name;
+	}
 	function change_auth_settings()
 	{
 		$auth				=	&$this->users->auth->config_vars;
@@ -43,14 +50,14 @@ class Internal_modules extends CI_Model
 			'type'		=>		'text',
 			'name'		=>		'first-name',
 			'label'		=>		__( 'First Name' ),
-			'value'		=>		$this->users->get_meta( 'first-name' )
+			'value'		=>		$this->options->get( 'first-name' , riake( 'user_id' , $config ) )
 		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
 		
 		$this->gui->add_item( array(
 			'type'		=>		'text',
 			'name'		=>		'last-name',
 			'label'		=>		__( 'Last Name' ),
-			'value'		=>		$this->users->get_meta( 'last-name' )
+			'value'		=>		$this->options->get( 'last-name' , riake( 'user_id' , $config ) )
 		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
 		
 		ob_start();
@@ -164,7 +171,6 @@ class Internal_modules extends CI_Model
 	{
 		$fields[ 'first-name' ]		=	( $fname = $this->input->post( 'first-name' ) ) ? $fname : '';
 		$fields[ 'last-name' ]		=	( $lname = $this->input->post( 'last-name' ) ) ? $lname : '';
-		
 		$fields[ 'theme-skin' ]		=	( $skin	=	$this->input->post( 'theme-skin' ) ) ? $skin : 'skin-blue';
 		return $fields;
 	}

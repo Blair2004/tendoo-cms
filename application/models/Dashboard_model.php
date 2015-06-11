@@ -47,21 +47,21 @@ class Dashboard_model extends CI_Model
 		}
 		else if( $page == 'edit') 
 		{
+			// User Goup
 			$user				=	$this->users->auth->get_user( $index );			
+			$user_group			=	farray( $this->users->auth->get_user_groups( $index ) );
+
 			if( ! $user )
 			{
 				redirect( array( 'dashboard' , 'unknow-user' ) );
 			}
 			
-			// validaiton rules
-			
+			// validation rules			
 			$this->load->library( 'form_validation' );
 			
-			// $this->form_validation->set_rules( 'username' , __( 'User Name' ), 'required|min_length[5]' ); can't be edited
 			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'required|valid_email' );
 			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'min_length[6]' );
 			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'matches[password]' );
-			$this->form_validation->set_rules( 'activate' , __( 'Activate' ), 'required' );
 			$this->form_validation->set_rules( 'userprivilege' , __( 'User Privilege' ), 'required' );
 			
 			// load custom rules
@@ -73,15 +73,15 @@ class Dashboard_model extends CI_Model
 				 	$index , 
 					$this->input->post( 'user_email' ),
 					$this->input->post( 'password' ),
-					$this->input->post( 'activate' ),
-					$this->input->post( 'userprivilege' ), 
-					'',
-					''
-				);
-				
-				
+					$this->input->post( 'userprivilege' ),
+					$user_group
+				);			
+				$this->notice->push_notice( $this->lang->line( 'user-updated' ) );
 				// Refresh user data
 				$user				=	$this->users->auth->get_user( $index );
+				// User Goup
+				$user_group			=	farray( $this->users->auth->get_user_groups( $index ) );
+				
 				if( ! $user )
 				{
 					redirect( array( 'dashboard' , 'unknow-user' ) );
@@ -109,7 +109,6 @@ class Dashboard_model extends CI_Model
 			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'required|valid_email' );
 			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'required|min_length[6]' );
 			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'required|matches[password]' );
-			$this->form_validation->set_rules( 'activate' , __( 'Activate' ), 'required' );
 			$this->form_validation->set_rules( 'userprivilege' , __( 'User Privilege' ), 'required' );
 			
 			// load custom rules
@@ -117,12 +116,11 @@ class Dashboard_model extends CI_Model
 			
 			if( $this->form_validation->run() )
 			{
-				$exec	=	$this->user->create( 
+				$exec	=	$this->users->create( 
 					$this->input->post( 'user_email' ),
 					$this->input->post( 'username' ),
 					$this->input->post( 'password' ),
-					$this->input->post( 'userprivilege' ),
-					$this->input->post( 'activate' )
+					$this->input->post( 'userprivilege' )
 				);
 				if( $exec == 'user-created' )
 				{
@@ -132,16 +130,26 @@ class Dashboard_model extends CI_Model
 			}
 			
 			// selecting groups
-			$groups	=	$this->flexi_auth->get_groups( array(
-				'ugrp_id as group_id',
-				'ugrp_name as group_name'
-			) );		
+			$groups				=	$this->users->auth->list_groups();
 			
 			$this->gui->set_title( sprintf( __( 'Create a new user &mdash; %s' ) , get( 'core_signature' ) ) );
 			
 			$this->load->view( 'dashboard/users/create' , array( 
 				'groups'	=>	$groups
 			) );
+		}
+		else if( $page == 'delete' )
+		{
+			$user	=	$this->users->auth->user_exsist_by_id( $index );
+			if( $user )
+			{
+				// delete options
+				$this->options->delete( null , $index );
+				// remove front auth class
+				$this->users->auth->delete_user( $index );
+				redirect( array( 'dashboard' , 'users?notice=user-deleted' ) );
+			}
+			redirect( array( 'dashboard' , 'unknow-user' ) );
 		}
 	}
 

@@ -26,7 +26,6 @@ $lang[ 'recovery-email-send' ]			=	tendoo_success( __( 'The recovery email has b
 $lang[ 'logout-required' ]				=	tendoo_info( __( 'You must logout first to access that page.' ) );
 // General
 $lang[ 'new-password-created' ]			=	tendoo_success( __( 'A new password has been created for your account. Check your email to get it.' ) );
-
 $lang[ 'fetch-error-from-auth' ]		=	function(){
 	$errors_array	=	get_instance()->users->auth->get_errors_array();
 	$notice_array	=	get_instance()->users->auth->get_infos_array();
@@ -38,5 +37,7 @@ $lang[ 'fetch-error-from-auth' ]		=	function(){
 	foreach( $notice_array as $notice )
 	{
 		echo tendoo_error( $notice );
-	}
-};
+	}};
+// User Edition
+$lang[ 'user-updated' ]					=	tendoo_success( __( 'User settings\'s has been updated.' ) );
+$lang[ 'user-deleted' ]					=	tendoo_success( __( 'The user has been deleted.' ) );

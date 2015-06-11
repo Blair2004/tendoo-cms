@@ -181,4 +181,9 @@ $config[ 'site_timezone' ]						=	array_flip( array (
     '(UTC+12:00) Wellington' => 'Pacific/Auckland',
     '(UTC+13:00) Nuku\'alofa' => 'Pacific/Tongatapu'
 ) );
+// 
+$config[ 'default_user_names' ]					=	'John Doe';
+
+// Tendoo logo for the dashboard
+$config[ 'tendoo_logo_long' ]					=	'<b>Tend</b>oo';
 

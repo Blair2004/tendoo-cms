@@ -14,7 +14,8 @@ foreach( $users as $user )
 		'<a href="' . site_url( array( 'dashboard' , 'users' , 'edit' , $user->id ) ) . '">' . $user->name . '</a>' , 
 		$user->email , 
 		$user->banned , 
-		$user->last_login 
+		$user->last_login,
+		 '<a href="' . site_url( array( 'dashboard' , 'users' , 'delete' , $user->id ) ) . '">' . __( 'Delete' ) . '</a>' , 
 	);
 }
 
@@ -30,7 +31,7 @@ $this->gui->add_meta( array(
 
 $this->gui->add_item( array(
 	'type'		=>	'table',
-	'cols'		=>	array( __( 'User Id' ) , __( 'Pseudo' ) , __( 'Email' ) , __( 'Status' ) , __( 'Activity' ) ),
+	'cols'		=>	array( __( 'User Id' ) , __( 'Username' ) , __( 'Email' ) , __( 'Status' ) , __( 'Activity' ) , __( 'Actions' ) ),
 	'rows'		=>	$complete_users
 ) , 'user-list' , 1 );
 

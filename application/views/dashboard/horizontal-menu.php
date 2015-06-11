@@ -14,9 +14,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- Logo --> 
             <a href="../admin/index2.html" class="logo"> 
             <!-- mini logo for sidebar mini 50x50 pixels --> 
-            <span class="logo-mini"><b>A</b>LT</span> 
+            <span class="logo-mini"><?php echo $this->events->apply_filters( 'dashboard_logo_small' );?></span> 
             <!-- logo for regular state and mobile devices --> 
-            <span class="logo-lg"><b>Admin</b>LTE</span> </a> 
+            <span class="logo-lg"><?php echo $this->events->apply_filters( 'dashboard_logo_long' );?></span> </a> 
             
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation"> 
@@ -127,11 +127,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </ul>
                         </li>
                         <!-- User Account: style can be found in dropdown.less -->
-                        <li class="dropdown user user-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <!--<img class="img-circle" alt="user image"/>--> <span class="hidden-xs">Alexander Pierce</span> </a>
+                        <li class="dropdown user user-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <!--<img class="img-circle" alt="user image"/>--> <span class="hidden-xs"><?php echo $this->events->apply_filters( 'user_menu_name' , $this->config->item( 'default_user_names' ) );?></span> </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header"> <!--<img class="img-circle" alt="user image"/>-->
-                                    <p> Alexander Pierce - Web Developer <small>Member since Nov. 2012</small> </p>
+                                    <p><?php echo $this->events->apply_filters( 'user_menu_card_header' , $this->config->item( 'default_user_names' ) );?></p>
                                 </li>
                                 <!-- Menu Body -->
                                 <li class="user-body">

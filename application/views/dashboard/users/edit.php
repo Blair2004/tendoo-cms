@@ -12,7 +12,7 @@ $this->gui->add_meta( array(
 	'namespace'	=>	'edit_user',
 	'gui_saver'	=>	true,
 	'custom'	=>	array(
-		'action'	=>	false
+		'action'	=>	''
 	),
 	'footer'	=>	array(
 		'submit'	=>	array(
@@ -60,19 +60,6 @@ $this->gui->add_item( array(
 	'description'	=>	__( 'Descrption' )
 ) , 'edit_user' , 1 );
 
-// Activate
-
-$this->gui->add_item( array(
-	'type'			=>	'select',
-	'label'			=>	__( 'Activate user ?' ),
-	'name'			=>	'activate',
-	'options'		=>	array(
-		'no'		=>	__( 'No' ),
-		'yes'		=>	__( 'Yes' )
-	),
-	'active'		=>	riake( 'active' , $user ) == '1' ? 'yes' : 'no'
-) , 'edit_user' , 1 );
-
 // add to a group
 
 $groups_array	=	array();
@@ -87,7 +74,7 @@ $this->gui->add_item( array(
 	'label'			=>	__( 'Add to a group' ),
 	'name'			=>	'userprivilege',
 	'options'		=>	$groups_array,
-	'active'		=>	$user_group ? $user_group->group_id : null
+	'active'		=>	 is_object( $user_group ) ? $user_group->group_id : null
 ) , 'edit_user' , 1 );
 
 // load custom field for user creatin
