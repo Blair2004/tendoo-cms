@@ -47,6 +47,11 @@ class Dashboard_model extends CI_Model
 		}
 		else if( $page == 'edit') 
 		{
+			// if current user matches user id
+			if( $this->users->auth->get_user_id() == $index )
+			{
+				redirect( array( 'dashboard' , 'users' , 'profile' ) );
+			}
 			// User Goup
 			$user				=	$this->users->auth->get_user( $index );			
 			$user_group			=	farray( $this->users->auth->get_user_groups( $index ) );
@@ -147,6 +152,23 @@ class Dashboard_model extends CI_Model
 				redirect( array( 'dashboard' , 'users?notice=user-deleted' ) );
 			}
 			redirect( array( 'dashboard' , 'unknow-user' ) );
+		}
+		else if( $page == 'profile' )
+		{
+			$this->load->library( 'form_validation' );
+			
+			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'required|valid_email' );
+			$this->form_validation->set_rules( 'old_pass' , __( 'Old Pass' ), 'required|min_length[6]' );
+			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'required|min_length[6]' );
+			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'required|matches[password]' );
+			$this->form_validation->set_rules( 'userprivilege' , __( 'User Privilege' ), 'required' );
+			
+			// Launch events for user profiles edition rules
+			$this->events->do_action( 'user_profile_rules' );
+			
+			$this->gui->set_title( sprintf( __( 'My Profile &mdash; %s' ) , get( 'core_signature' ) ) );
+			
+			$this->load->view( 'dashboard/users/profile' );
 		}
 	}
 

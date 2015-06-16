@@ -1,11 +1,23 @@
 before_admin_menu 			:	trigger action before admin menu init
+
 display_login_fields		: 	displays login fields (app/views/login/body)
+
 set_login_rules				:	trigger form_validation rules for login page
+
 before_session_start		:	Trigger actions before ci session init
+
 display_admin_header_menu 	: 	trigger actions whichs displays header menu.
+
 log_user_out				:	trigger action to log user out
+
 create_dashboard_pages		:	Create dashboard page
+
 register_general_settings_fields	:	Trigger action when registering general settings fields
+
 load_users_custom_fields	:	Load user creation custom fields
+
 user_creation_rules			:	add rules to user creation form_validation for custom fields
+
+user_profile_rules			:	 add rules for user profile edition for form validation custom fields
+
 send_recovery_email			:	Triggers Actions before sending recovery email

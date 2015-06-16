@@ -18,7 +18,8 @@ class Users_model extends CI_Model
 	
 	function refresh_user_meta()
 	{
-		$this->meta		=	$this->options->get( null , $this->auth->get_user_id() , true );	
+		$this->meta		=	$this->options->get( null , $this->auth->get_user_id() , true );
+		$this->current	=	$this->auth->get_user();	
 	}
 	public function get_meta( $key )
 	{
