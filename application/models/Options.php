@@ -63,9 +63,9 @@ class Options extends CI_Model
 	function get( $key = null, $user_id = NULL , $autoload = false )
 	{
 		// get only data from user
-		if( $user_id != NULL ): $this->db->where( 'user' , $user_id ); endif;
+		if( $user_id !== NULL ): $this->db->where( 'user' , $user_id ); endif;
 		
-		if( $key != null )
+		if( $key !== NULL )
 		{
 			$this->db->where( 'key' , $key );
 		}
@@ -112,7 +112,7 @@ class Options extends CI_Model
 	function delete( $key = NULL , $user_id = NULL , $app = 'system' )
 	{
 		// Each options can't be deleted
-		if( $key == null && $app == 'system' )
+		if( $key == null && $app == 'system' && $user_id == null )
 		{
 			return false;
 		}

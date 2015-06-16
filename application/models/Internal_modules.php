@@ -17,30 +17,95 @@ class Internal_modules extends CI_Model
 		
 		// Change user name in the user menu
 		$this->events->add_filter( 'user_menu_name' , array( $this , 'user_menu_name' ) );
+		$this->events->add_filter( 'user_menu_card_header' , array( $this , 'user_menu_header' ) );
 		
 		// change send administrator emails
 		$this->events->add_action( 'send_recovery_email' , array( $this , 'change_auth_settings' ) );
+		// load custom config
+		$this->events->add_action( 'before_session_starts' , array( $this , 'before_session_starts' ) );
+	}
+	
+	/**
+	 * 	Edit Tendoo.php config before session starts
+	 *
+	 *	@return	: void
+	**/
+	
+	function before_session_starts()
+	{
+		$this->config->set_item( 'tendoo_logo_long' , '<b>Tend</b>oo' );
+		$this->config->set_item( 'tendoo_logo_min' , '<img style="height:40px;" src="' . img_url() . 'logo_minim.png' . '" alt=logo>' );
 	}
 	
 	/**
 	 * Perform Change over Auth emails config
+	 * 
+	 * @access : public
+	 * @params : string user names
+	 * @return : string
 	**/
+	
 	function user_menu_name( $user_name )
 	{
-		return $user_name;
+		$name 	=	$this->users->get_meta( 'first-name' );
+		$last	=	$this->users->get_meta( 'last-name' );
+		$full	=	trim( ucwords( substr( $name , 0 , 1 ) ) . '.' . ucwords( $last ) );
+		return $full == '.' ? $user_name : $full;
 	}
+	
+	/**
+	 * Perform Change over Auth emails config
+	 * 
+	 * @access : public
+	 * @params : string user names
+	 * @return : string
+	**/
+	
+	function user_menu_header( $user_name )
+	{
+		$name 	=	$this->users->get_meta( 'first-name' );
+		$last	=	$this->users->get_meta( 'last-name' );
+		$full	=	trim( ucwords( substr( $name , 0 , 1 ) ) . '.' . ucwords( $last ) );
+		return $full == '.' ? $user_name : $full;
+	}
+	
+	/**
+	 * Change Auth Class Email Settings
+	 *
+	 * @return : void
+	**/
+	
 	function change_auth_settings()
 	{
 		$auth				=	&$this->users->auth->config_vars;
 		$auth[ 'email' ]	=	'cms@tendoo.org';
 		$auth[ 'name' ]		=	get( 'core_signature' ); 
 	}
+	
+	/**
+	 * Get dashboard skin for current user
+	 *
+	 * @access : public
+	 * @params : string
+	 * @return : string
+	**/
+	
 	function dashboard_skin_class( $skin )
 	{
+		//var_dump( $this->users->get_meta( 'theme-skin' ) );die;
 		// skin is defined by default
 		$skin	=	( $db_skin = $this->users->get_meta( 'theme-skin' ) ) ? $db_skin : $skin; // weird ??? lol
 		return $skin;
 	}
+	
+	/**
+	 * Adds custom fields for user creation and edit
+	 *
+	 * @access : public
+	 * @params : Array
+	 * @return : Array
+	**/
+	
 	function user_custom_fields( $config )
 	{
 		// refresh user meta
@@ -138,7 +203,7 @@ class Internal_modules extends CI_Model
                 <p class="text-center no-margin" style="font-size: 12px;">Yellow Light</p>
             </li>
         </ul>
-        <input type="hidden" name="theme-skin" />
+        <input type="hidden" name="theme-skin" value="<?php echo $skin;?>" />
 		<style>
         .theme-selector li a.active
         {
@@ -167,6 +232,15 @@ class Internal_modules extends CI_Model
 			'content'	=>	$dom
 		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
 	}
+	
+	/**
+	 * Adds custom meta for user
+	 *
+	 * @access : public
+	 * @params : Array
+	 * @return : Array
+	**/
+	
 	function custom_user_meta( $fields )
 	{
 		$fields[ 'first-name' ]		=	( $fname = $this->input->post( 'first-name' ) ) ? $fname : '';

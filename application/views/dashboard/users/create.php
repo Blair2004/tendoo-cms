@@ -12,7 +12,7 @@ $this->gui->add_meta( array(
 	'namespace'	=>	'create_user',
 	'gui_saver'	=>	true,
 	'custom'	=>	array(
-		'action'	=>	false
+		'action'	=>	''
 	),
 	'footer'	=>	array(
 		'submit'	=>	array(

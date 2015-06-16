@@ -183,7 +183,3 @@ $config[ 'site_timezone' ]						=	array_flip( array (
 ) );
 // 
 $config[ 'default_user_names' ]					=	'John Doe';
-
-// Tendoo logo for the dashboard
-$config[ 'tendoo_logo_long' ]					=	'<b>Tend</b>oo';
-

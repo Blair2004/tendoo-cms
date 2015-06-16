@@ -8,14 +8,17 @@ class Users_model extends CI_Model
 		
 		// Loading Aauth Class 
 		// @branch 1.5-auth-class		
-		$this->load->library( 'aauth' ,  array() ,  'auth' );
+		$this->load->library( 'aauth' ,  array() ,  'auth' );		
 		
-		// $this->refresh_user_meta();
+		if( $this->auth->is_loggedin() )
+		{
+			$this->refresh_user_meta();
+		}
 	}
 	
 	function refresh_user_meta()
 	{
-		$this->meta		=	$this->options->get( null , $this->users->auth->get_user_id() , true );	
+		$this->meta		=	$this->options->get( null , $this->auth->get_user_id() , true );	
 	}
 	public function get_meta( $key )
 	{
@@ -114,6 +117,46 @@ class Users_model extends CI_Model
 		return 'user-created';		
 	}
 	
+	/***
+	 * Edit user
+	 *
+	 * @access : public
+	 * @param
+	**/
+	
+	function edit( $user_id , $email , $password , $group_id , $user_group )
+	{
+		// remove member
+		$this->users->auth->remove_member( $user_id , $user_group->group_id );
+		
+		// refresh group
+		$this->users->auth->add_member( $user_id , $group_id );
+				
+		// add custom user fields
+		$custom_fields	=	$this->events->apply_filters( 'custom_user_meta' , array() );
+		
+		foreach( force_array( $custom_fields ) as $key => $value )
+		{
+			$this->options->set( $key , $value , $autoload = true , $user_id , $app = 'users' );
+		}
+		return $this->users->auth->update_user( $user_id , $email , $password );
+	}
+	
+	/**
+	 * Delete specified user with his meta
+	 *
+	 * @access : public
+	 * @params : array
+	 * @return : bool
+	**/
+	
+	function delete( $user_id )
+	{
+		// delete options
+		$this->options->delete( null , $user_id , 'users' );
+		// remove front auth class
+		return $this->users->auth->delete_user( $user_id );
+	}
 	/**
 	 *
 	**/
@@ -167,30 +210,5 @@ class Users_model extends CI_Model
 		$user	=	$this->auth->get_user_by_id( $user_id );
 		
 		return farray( $user );		
-	}
-	
-	/***
-	 * Edit user
-	 *
-	 * @access : public
-	 * @param
-	**/
-	
-	function edit( $user_id , $email , $password , $group_id , $user_group )
-	{
-		// remove member
-		$this->users->auth->remove_member( $user_id , $user_group->group_id );
-		
-		// refresh group
-		$this->users->auth->add_member( $user_id , $group_id );
-				
-		// add custom user fields
-		$custom_fields	=	$this->events->apply_filters( 'custom_user_meta' , array() );
-		
-		foreach( force_array( $custom_fields ) as $key => $value )
-		{
-			$this->options->set( $key , $value , $autoload = true , $user_id , $app = 'users' );
-		}
-		return $this->users->auth->update_user( $user_id , $email , $password );
 	}
 }

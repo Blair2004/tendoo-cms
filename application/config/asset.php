@@ -50,15 +50,15 @@
 |
 */
 
-$config['asset_path'] 		= 'assets/';
-$config['css_path'] 		= 'assets/css/';
-$config['download_path'] 	= 'assets/download/';
-$config['less_path'] 		= 'assets/less/';
-$config['js_path'] 			= 'assets/js/';
-$config['img_path'] 		= 'assets/img/';
-$config['swf_path'] 		= 'assets/swf/';
-$config['upload_path'] 		= 'assets/upload/';
-$config['xml_path'] 		= 'assets/xml/';
+$config['asset_path'] 		= 'public/';
+$config['css_path'] 		= 'public/css/';
+$config['download_path'] 	= 'public/download/';
+$config['less_path'] 		= 'public/less/';
+$config['js_path'] 			= 'public/js/';
+$config['img_path'] 		= 'public/img/';
+$config['swf_path'] 		= 'public/swf/';
+$config['upload_path'] 		= 'public/upload/';
+$config['xml_path'] 		= 'public/xml/';
 
 
 /* End of file asset.php */

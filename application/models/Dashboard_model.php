@@ -118,8 +118,8 @@ class Dashboard_model extends CI_Model
 			{
 				$exec	=	$this->users->create( 
 					$this->input->post( 'user_email' ),
-					$this->input->post( 'username' ),
 					$this->input->post( 'password' ),
+					$this->input->post( 'username' ),					
 					$this->input->post( 'userprivilege' )
 				);
 				if( $exec == 'user-created' )
@@ -143,10 +143,7 @@ class Dashboard_model extends CI_Model
 			$user	=	$this->users->auth->user_exsist_by_id( $index );
 			if( $user )
 			{
-				// delete options
-				$this->options->delete( null , $index );
-				// remove front auth class
-				$this->users->auth->delete_user( $index );
+				$this->users->delete( $index );
 				redirect( array( 'dashboard' , 'users?notice=user-deleted' ) );
 			}
 			redirect( array( 'dashboard' , 'unknow-user' ) );
