@@ -11,6 +11,7 @@ class Internal_modules extends CI_Model
 	function __construct()
 	{
 		parent::__construct();		
+		
 		$this->events->add_action( 'load_users_custom_fields' , array( $this , 'user_custom_fields' ) );
 		$this->events->add_filter( 'custom_user_meta' , array( $this , 'custom_user_meta' ) , 10 , 1 );
 		$this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );
@@ -95,6 +96,7 @@ class Internal_modules extends CI_Model
 		//var_dump( $this->users->get_meta( 'theme-skin' ) );die;
 		// skin is defined by default
 		$skin	=	( $db_skin = $this->users->get_meta( 'theme-skin' ) ) ? $db_skin : $skin; // weird ??? lol
+		unset( $db_skin );
 		return $skin;
 	}
 	
@@ -231,6 +233,8 @@ class Internal_modules extends CI_Model
 			'type'		=>	'dom',
 			'content'	=>	$dom
 		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
+		// Clean
+		unset( $skin, $config , $dom );
 	}
 	
 	/**

@@ -12,6 +12,8 @@ class Dashboard_model extends CI_Model
 	{
 		parent::__construct();
 		
+		// $this->output->cache( 5 );// remain for 5 minutes
+		
 		$this->events->add_action( 'before_admin_menu' , array( $this , '__set_admin_menu' ) );
 		$this->events->add_action( 'create_dashboard_pages' , array( $this , '__dashboard_config' ) );
 	}
@@ -157,14 +159,27 @@ class Dashboard_model extends CI_Model
 		{
 			$this->load->library( 'form_validation' );
 			
-			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'required|valid_email' );
-			$this->form_validation->set_rules( 'old_pass' , __( 'Old Pass' ), 'required|min_length[6]' );
-			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'required|min_length[6]' );
-			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'required|matches[password]' );
-			$this->form_validation->set_rules( 'userprivilege' , __( 'User Privilege' ), 'required' );
+			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'valid_email' );
+			$this->form_validation->set_rules( 'old_pass' , __( 'Old Pass' ), 'min_length[6]' );
+			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'min_length[6]' );
+			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'matches[password]' );
 			
 			// Launch events for user profiles edition rules
 			$this->events->do_action( 'user_profile_rules' );
+			if( $this->form_validation->run() )
+			{
+				$exec	=	$this->users->edit(
+					$this->users->auth->get_user_id() , 
+					$this->input->post( 'user_email' ),
+					$this->input->post( 'password' ),
+					$this->input->post( 'userprivilege' ),
+					null, // user Privilege can't be editer through profile dash
+					$this->input->post( 'old_pass' ),
+					'profile'
+				);
+				
+				$this->notice->push_notice_array( $exec );
+			}
 			
 			$this->gui->set_title( sprintf( __( 'My Profile &mdash; %s' ) , get( 'core_signature' ) ) );
 			

@@ -17,6 +17,26 @@ class notice
 	{
 		$this->notice[]	=	$e;
 	}
+	
+	/**
+	 * Push Notice notice into
+	 *
+	 *
+	**/
+	public function push_notice_array( $notice_array )
+	{
+		if( is_array( $notice_array ) )
+		{
+			foreach( force_array( $notice_array ) as $notice )
+			{
+				$this->push_notice( get_instance()->lang->line( $notice ) );
+			}
+		}
+		else
+		{
+			$this->push_notice( get_instance()->lang->line( $notice_array ) );
+		}
+	}
 	public function output_notice($return = FALSE)
 	{
 		if(is_array($this->notice))

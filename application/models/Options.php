@@ -17,7 +17,10 @@ class Options extends CI_Model
 	function set( $key , $value , $autoload = false , $user = 0 , $app = 'system' )
 	{
 		// get option if exists
-		$this->db->where( 'key' , $key );
+		if( $key != null )
+		{
+			$this->db->where( 'key' , $key );
+		}
 		if( $user != 0 )
 		{
 			$this->db->where( 'user' , $user );

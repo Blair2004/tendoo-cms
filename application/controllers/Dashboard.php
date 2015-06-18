@@ -17,6 +17,7 @@ class Dashboard extends Tendoo_Controller {
 	{
 		parent::__construct();
 		
+		// $this->output->enable_profiler(TRUE);
 		// All those variable are not required for option interface
 		// Special assets loading for dashboard
 		$this->enqueue->enqueue_js( '../plugins/SlimScroll/jquery.slimscroll.min' );

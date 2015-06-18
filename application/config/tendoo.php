@@ -30,6 +30,8 @@ $config[ 'master_group_label' ]					=	'master';
 $config[ 'public_group_label' ]					=	'public';
 
 // For Auth Class (Email Purpose)
+// Uses Username to login
+$config[ 'username_login' ]						=	TRUE;
 // default route to access email verifcaion
 $config[ 'route_for_verification' ]				=	'/sign-in/verify/';
 // default route to access password reset

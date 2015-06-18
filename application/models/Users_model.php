@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Users_model extends CI_Model
 {
 	private $meta			=	array(); // empty meta
@@ -19,7 +21,7 @@ class Users_model extends CI_Model
 	function refresh_user_meta()
 	{
 		$this->meta		=	$this->options->get( null , $this->auth->get_user_id() , true );
-		$this->current	=	$this->auth->get_user();	
+		// $this->current	=	$this->auth->get_user();	
 	}
 	public function get_meta( $key )
 	{
@@ -125,13 +127,36 @@ class Users_model extends CI_Model
 	 * @param
 	**/
 	
-	function edit( $user_id , $email , $password , $group_id , $user_group )
+	function edit( $user_id , $email , $password , $group_id , $user_group , $old_password = null , $mode = 'edit' )
 	{
-		// remove member
-		$this->users->auth->remove_member( $user_id , $user_group->group_id );
+		$return		=	'user-updated';
+		// old password has been defined
+		if( $old_password != NULL && $mode == 'profile' )
+		{
+			if( $password === $old_password ): return 'pass-change-error'; endif;
+			// get user using old password
+			$query	=	$this->db->where( 'id' , $user_id )->where( 'pass' , $this->auth->hash_password( $old_password , $user_id ) )->get( 'aauth_users' );
+			// if password is correct
+			if( $query->result_array() )
+			{
+				 $return	=	array();
+				 $return[]	=	$this->auth->update_user( $user_id , $email , $password );
+			}
+			else
+			{
+				return 'old-pass-incorrect';
+			}
+		}
 		
-		// refresh group
-		$this->users->auth->add_member( $user_id , $group_id );
+		// This prevent editing privilege on profile dash
+		if( $mode == 'edit' )
+		{
+			// remove member
+			$this->auth->remove_member( $user_id , $user_group->group_id );
+			
+			// refresh group
+			$this->auth->add_member( $user_id , $group_id );
+		}
 				
 		// add custom user fields
 		$custom_fields	=	$this->events->apply_filters( 'custom_user_meta' , array() );
@@ -140,7 +165,7 @@ class Users_model extends CI_Model
 		{
 			$this->options->set( $key , $value , $autoload = true , $user_id , $app = 'users' );
 		}
-		return $this->users->auth->update_user( $user_id , $email , $password );
+		return $return;
 	}
 	
 	/**
@@ -156,7 +181,7 @@ class Users_model extends CI_Model
 		// delete options
 		$this->options->delete( null , $user_id , 'users' );
 		// remove front auth class
-		return $this->users->auth->delete_user( $user_id );
+		return $this->auth->delete_user( $user_id );
 	}
 	/**
 	 *
@@ -172,14 +197,15 @@ class Users_model extends CI_Model
 	**/
 	
 	function login( $login_fields_namespace )
-	{		
+	{
 		$exec		=		$this->auth->login( 
 			$this->input->post( riake( 'username_or_email' , $login_fields_namespace ) ) , 
 			$this->input->post( riake( 'password' , $login_fields_namespace ) ) , 
-			$this->input->post( riake( 'keep_connected' , $login_fields_namespace ) ) ? true : false
+			$this->input->post( riake( 'keep_connected' , $login_fields_namespace ) ) ? true : false,
+			$this->config->item( 'username_login' )
 		); 
 		
-		if( $this->users->auth->is_loggedin() )
+		if( $this->auth->is_loggedin() )
 		{
 			return 'user-logged-in';
 		}

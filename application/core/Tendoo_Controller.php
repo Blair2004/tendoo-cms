@@ -21,7 +21,7 @@ class Tendoo_Controller extends CI_Controller
 			$this->load->model( 'users_model' , 'users' ); // run after flexi_auth
 			
 			// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
-			if( ! $this->users->master_exists() && $this->uri->segment(1) != 'tendoo-setup' )
+			if( ! $this->users->master_exists() && $this->uri->segment(1) !== 'tendoo-setup' )
 			{
 				redirect( array( 'tendoo-setup' , 'site' ) );
 			}
@@ -35,12 +35,12 @@ class Tendoo_Controller extends CI_Controller
 		}
 				
 		// Checks system status
-		if( in_array( $this->uri->segment(1) , $this->config->item( 'reserved_controllers' ) ) || $this->uri->segment(1) == null ) // null for index page
+		if( in_array( $this->uri->segment(1) , $this->config->item( 'reserved_controllers' ) ) || $this->uri->segment(1) === null ) // null for index page
 		{			
 			// there are some section which need tendoo to be installed. Before getting there, tendoo controller checks if for those
 			// section tendoo is installed. If segment(1) returns null, it means the current section is index. Even for index,
 			// installation is required
-			if( ( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_installation' ) ) || $this->uri->segment(1) == null ) && ! $this->setup->is_installed() )
+			if( ( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_installation' ) ) || $this->uri->segment(1) === null ) && ! $this->setup->is_installed() )
 			{
 				redirect( array( 'tendoo-setup' ) );
 			}
