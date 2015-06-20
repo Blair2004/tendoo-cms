@@ -32,7 +32,13 @@ class Options extends CI_Model
 		$value		=	is_bool( $value ) ? $value === true ? 'true' : 'false' : $value; // Converting Bool to string
 		if( $options )
 		{
-			$this->db->where( 'key' , $key )->update( 'options' , array(
+			$this->db->where( 'key' , $key );
+			
+			if( $user != 0 )
+			{
+				$this->db->where( 'user' , $user );
+			}
+			$this->db->update( 'options' , array(
 				'key'		=>	$key,
 				'value'		=>	$value,
 				'autoload'	=>	$autoload,

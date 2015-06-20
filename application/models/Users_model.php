@@ -21,7 +21,7 @@ class Users_model extends CI_Model
 	function refresh_user_meta()
 	{
 		$this->meta		=	$this->options->get( null , $this->auth->get_user_id() , true );
-		// $this->current	=	$this->auth->get_user();	
+		$this->current	=	$this->auth->get_user();	
 	}
 	public function get_meta( $key )
 	{
@@ -156,6 +156,9 @@ class Users_model extends CI_Model
 			
 			// refresh group
 			$this->auth->add_member( $user_id , $group_id );
+			
+			// Change user password and email
+			$this->auth->update_user( $user_id , $email , $password );
 		}
 				
 		// add custom user fields
