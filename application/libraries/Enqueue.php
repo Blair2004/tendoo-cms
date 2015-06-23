@@ -7,35 +7,28 @@
  */
 
 class Enqueue {
-	public $scripts;
-	public $styles;
-	public $path_js;
-	public $path_css;
+	public static $scripts = array();
+	public static $styles = array();
+	public static $path_js = 'public/js/';
+	public static $path_css = 'public/css/';
 	
-	public function __construct( $path_js = 'public/js/', $path_css = 'public/css/' ) {
-		$this->scripts = array();
-		$this->styles = array();
-		$this->path_js = $path_js;
-		$this->path_css = $path_css;
+	public static function enqueue_js( $script, $jsHelper = null ) {
+		self::$scripts[] = (string)$script;
 	}
 	
-	public function enqueue_js( $script, $jsHelper = null ) {
-		$this->scripts[] = (string)$script;
+	public static function enqueue_css( $style ) {
+		self::$styles[] = (string)$style;
 	}
 	
-	public function enqueue_css( $style ) {
-		$this->styles[] = (string)$style;
-	}
-	
-	public function loadjs() {
-		foreach( $this->scripts as $script ) {
-			echo '<script src="' . base_url() . $this->path_js . $script . '.js"></script>'."\n";
+	public static function loadjs() {
+		foreach( self::$scripts as $script ) {
+			echo '<script src="' . base_url() . self::$path_js . $script . '.js"></script>'."\n";
 		}
 	}
 	
-	public function loadcss() {
-		foreach( $this->styles as $style ) {
-			echo '<link rel="stylesheet" href="' . base_url() . $this->path_css . $style . '.css" />'."\n";
+	public static function loadcss() {
+		foreach( self::$styles as $style ) {
+			echo '<link rel="stylesheet" href="' . base_url() . self::$path_css . $style . '.css" />'."\n";
 		}
 	}
 }

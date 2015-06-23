@@ -9,8 +9,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<?php $this->enqueue->loadcss();?>
-<?php $this->enqueue->loadjs();?>
+<?php Enqueue::loadcss();?>
+<?php Enqueue::loadjs();?>
 <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />-->
-<?php $this->html->title();?>
+<?php Html::title();?>
 </head>

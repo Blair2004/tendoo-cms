@@ -5,6 +5,10 @@ class Tendoo_Controller extends CI_Controller
 	{
 		parent::__construct();
 		
+		// Include default library class
+		include_once( LIBPATH .'/Html.php' );
+		include_once( LIBPATH .'/Enqueue.php' );
+		
 		// get system lang
 		$this->lang->load( 'system' );	
 		
@@ -63,19 +67,19 @@ class Tendoo_Controller extends CI_Controller
 			}
 			
 			// loading assets for reserved controller
-			$this->enqueue->enqueue_css( 'bootstrap.min' );
-			$this->enqueue->enqueue_css( 'AdminLTE.min' );
-			$this->enqueue->enqueue_css( 'skins/_all-skins.min' );			
-			$this->enqueue->enqueue_css( 'font-awesome-4.3.0' );
-			$this->enqueue->enqueue_css( '../plugins/iCheck/square/blue' );
+			Enqueue::enqueue_css( 'bootstrap.min' );
+			Enqueue::enqueue_css( 'AdminLTE.min' );
+			Enqueue::enqueue_css( 'skins/_all-skins.min' );			
+			Enqueue::enqueue_css( 'font-awesome-4.3.0' );
+			Enqueue::enqueue_css( '../plugins/iCheck/square/blue' );
 			/**
 			 * 	Enqueueing Js
 			**/
 			
-			$this->enqueue->enqueue_js( '../plugins/jQuery/jQuery-2.1.4.min' );
-			$this->enqueue->enqueue_js( 'bootstrap.min' );
-			$this->enqueue->enqueue_js( '../plugins/iCheck/icheck.min' );		
-			$this->enqueue->enqueue_js( 'app.min' );
+			Enqueue::enqueue_js( '../plugins/jQuery/jQuery-2.1.4.min' );
+			Enqueue::enqueue_js( 'bootstrap.min' );
+			Enqueue::enqueue_js( '../plugins/iCheck/icheck.min' );		
+			Enqueue::enqueue_js( 'app.min' );
 		}
 	}
 }

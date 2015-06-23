@@ -3,18 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Menu
 {
-	public $admin_menus_core	=	array();
-	public function add_admin_menu_core( $namespace , $config )
+	public static $admin_menus_core	=	array();
+	public static function add_admin_menu_core( $namespace , $config )
 	{
-		$this->admin_menus_core[ $namespace ][]	=	$config;
+		self::$admin_menus_core[ $namespace ][]	=	$config;
 	}
-	public function get_admin_menu_core( $namespace )
+	public static function get_admin_menu_core( $namespace )
 	{
-		return $this->get_menu_core( 'admin' , $namespace );
+		return self::get_menu_core( 'admin' , $namespace );
 	}
-	public function get_menu_core( $interface , $namespace )
+	public static function get_menu_core( $interface , $namespace )
 	{
-		$core_menus	=	$this->admin_menus_core;
+		$core_menus	=	self::$admin_menus_core;
 		if( $core_menus )
 		{
 			$current_menu	=	riake( $namespace , $core_menus );
@@ -62,6 +62,7 @@ class Menu
 								 ?> 
 							</a>
 							<ul <?php echo $custom_ul_style;?> class="treeview-menu">
+                            	<?php if( riake( 'disable' , $menu ) === false ) : // is used to disable menu title showed as first submenu.?>
 								<li> 
 									<a <?php echo $custom_style;?> href="<?php echo riake( 'href' , $menu , '#' );?>">
 										<span><?php echo riake( 'title' , $menu );?></span>
@@ -75,6 +76,7 @@ class Menu
 										 ?>                                        
 									</a> 
 								</li>	
+                                <?php endif;?>
 						<?php
 						}
 						else // after the first child, all are included as sub-menu

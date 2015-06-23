@@ -18,18 +18,18 @@ class Tendoo_setup extends Tendoo_Controller {
 		$this->load->library( 'notice' );		
 		$this->load->library( 'form_validation' ); // loading form_validation library
 		
-		$this->enqueue->enqueue_css( 'bootstrap.min' );
-		$this->enqueue->enqueue_css( 'AdminLTE.min' );
-		$this->enqueue->enqueue_css( 'skins/_all-skins.min' );
+		Enqueue::enqueue_css( 'bootstrap.min' );
+		Enqueue::enqueue_css( 'AdminLTE.min' );
+		Enqueue::enqueue_css( 'skins/_all-skins.min' );
 		
 		/**
 		 * 	Enqueueing Js
 		**/
 		
-		$this->enqueue->enqueue_js( 'plugins/jQuery/jQuery-2.1.4.min' );
-		$this->enqueue->enqueue_js( 'bootstrap.min' );
-		$this->enqueue->enqueue_js( 'plugins/iCheck/icheck.min' );		
-		$this->enqueue->enqueue_js( 'app.min' );
+		Enqueue::enqueue_js( 'plugins/jQuery/jQuery-2.1.4.min' );
+		Enqueue::enqueue_js( 'bootstrap.min' );
+		Enqueue::enqueue_js( 'plugins/iCheck/icheck.min' );		
+		Enqueue::enqueue_js( 'app.min' );
 	}
 	public function index()
 	{
@@ -37,7 +37,7 @@ class Tendoo_setup extends Tendoo_Controller {
 		if( $this->setup->is_installed() ): redirect( array( 'init' ) ); endif;
 		
 		// set title
-		$this->html->set_title( sprintf( __( 'Welcome Page &mdash; %s' ) , get( 'core_signature' ) ) );
+		Html::set_title( sprintf( __( 'Welcome Page &mdash; %s' ) , get( 'core_signature' ) ) );
 		// $this->load->model( 'tendoo_setup' );
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'tendoo-setup/index' );
@@ -70,7 +70,7 @@ class Tendoo_setup extends Tendoo_Controller {
 			$this->notice->push_notice( $this->lang->line( $exec ) );
 		}
 		
-		$this->html->set_title( sprintf( __( 'Database config &mdash; %s' ) , get( 'core_signature' ) ) );
+		Html::set_title( sprintf( __( 'Database config &mdash; %s' ) , get( 'core_signature' ) ) );
 		// $this->load->model( 'tendoo_setup' );
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'tendoo-setup/database' );
@@ -107,7 +107,7 @@ class Tendoo_setup extends Tendoo_Controller {
 		}		
 		
 		// Outputing
-		$this->html->set_title( sprintf( __( 'Site & Master account &mdash; %s' ) , get( 'core_signature' ) ) );
+		Html::set_title( sprintf( __( 'Site & Master account &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'tendoo-setup/site' );
 	}

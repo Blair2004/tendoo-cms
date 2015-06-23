@@ -23,6 +23,7 @@ class Dashboard_model extends CI_Model
 		$this->gui->register_page( 'index' , array( $this , 'index' ) );
 		$this->gui->register_page( 'settings' , array( $this , 'settings' ) );
 		$this->gui->register_page( 'users' , array( $this , 'users' ) );
+		$this->gui->register_page( 'roles' , array( $this , 'roles' ) );
 	}
 	function index()
 	{
@@ -186,89 +187,118 @@ class Dashboard_model extends CI_Model
 			$this->load->view( 'dashboard/users/profile' );
 		}
 	}
+	
+	/**
+	 * Admin Roles
+	 *
+	 * Handle Groups management
+	 * @since 1.5
+	**/
+	
+	function roles( $page = 'list' , $index = 1 )
+	{
+		// Display all roles
+		if( $page == 'list' )
+		{
+			$this->gui->set_title( sprintf( __( 'Roles &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/roles/body' );
+		}
+		// Display Creation form
+		else if( $page == 'create' )
+		{
+			$this->gui->set_title( sprintf( __( 'Create new role &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/roles/create' );
+		}
+		// Display Edit form
+		else if( $page == 'edit' )
+		{
+			$this->gui->set_title( sprintf( __( 'Edit Roles &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/roles/edit' );
+		}
+	}
 
 	/**
 	 * Define default menu for tendoo dashboard
 	**/
 	public function __set_admin_menu()
 	{		
-		$this->menu->add_admin_menu_core( 'dashboard' , array(
+		Menu::add_admin_menu_core( 'dashboard' , array(
 			'href'			=>		site_url('dashboard'),
 			'icon'			=>		'fa fa-dashboard',
 			'title'			=>		__( 'Dashboard' )
 		) );
 		
-		$this->menu->add_admin_menu_core( 'media' , array(
+		Menu::add_admin_menu_core( 'media' , array(
 			'title'			=>		__( 'Media Library' ),
 			'icon'			=>		'fa fa-image',
 			'href'			=>		site_url('dashboard/media')
 		) );
 		
-		$this->menu->add_admin_menu_core( 'installer' , array(
+		Menu::add_admin_menu_core( 'installer' , array(
 			'title'			=>		__( 'Install Apps' ),
 			'icon'			=>		'fa fa-flask',
 			'href'			=>		site_url('dashboard/installer')
 		) );
 		
-		$this->menu->add_admin_menu_core( 'modules' , array(
+		Menu::add_admin_menu_core( 'modules' , array(
 			'title'			=>		__( 'Modules' ),
 			'icon'			=>		'fa fa-puzzle-piece',
 			'href'			=>		site_url('dashboard/modules')
 		) );
 		
-		$this->menu->add_admin_menu_core( 'themes' , array(
+		Menu::add_admin_menu_core( 'themes' , array(
 			'title'			=>		__( 'Themes' ),
 			'icon'			=>		'fa fa-columns',
 			'href'			=>		site_url('dashboard/themes')
 		) );
 		
-		$this->menu->add_admin_menu_core( 'themes' , array(
+		Menu::add_admin_menu_core( 'themes' , array(
 			'href'			=>		site_url('dashboard/controllers'),
 			'icon'			=>		'fa fa-bookmark',
 			'title'			=>		__( 'Menus' )
 		) );
 		//
 		
-		$this->menu->add_admin_menu_core( 'users' , array(
+		Menu::add_admin_menu_core( 'users' , array(
 			'title'			=>		__( 'Manage Users' ),
 			'icon'			=>		'fa fa-users',
 			'href'			=>		site_url('dashboard/users')
 		) );
 		
-		$this->menu->add_admin_menu_core( 'users' , array(
+		Menu::add_admin_menu_core( 'users' , array(
 			'title'			=>		__( 'Create a new User' ),
 			'icon'			=>		'fa fa-users',
 			'href'			=>		site_url('dashboard/users/create')
 		) );
 			
-		$this->menu->add_admin_menu_core( 'roles' , array(
-			'title'			=>		__( 'Roles & Groups' ),
+		Menu::add_admin_menu_core( 'roles' , array(
+			'title'			=>		__( 'Roles' ),
 			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles')
+			'href'			=>		site_url('dashboard/roles'),
 		) );
 		
-		$this->menu->add_admin_menu_core( 'roles' , array(
+		Menu::add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Create new role' ),
 			'icon'			=>		'fa fa-shield',
 			'href'			=>		site_url('dashboard/roles/create')
 		) );
-		$this->menu->add_admin_menu_core( 'roles' , array(
+		Menu::add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Roles permissions' ),
 			'icon'			=>		'fa fa-shield',
 			'href'			=>		site_url('dashboard/roles/permissions')
 		) );
-		$this->menu->add_admin_menu_core( 'roles' , array(
+		Menu::add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Manage Groups' ),
 			'icon'			=>		'fa fa-shield',
 			'href'			=>		site_url('dashboard/roles/permissions')
 		) );
-		$this->menu->add_admin_menu_core( 'roles' , array(
+		Menu::add_admin_menu_core( 'roles' , array(
 			'title'			=>		__( 'Create a new Group' ),
 			'icon'			=>		'fa fa-shield',
 			'href'			=>		site_url('dashboard/roles/permissions')
 		) );
 		
-		$this->menu->add_admin_menu_core( 'settings' , array(
+		Menu::add_admin_menu_core( 'settings' , array(
 			'title'			=>		__( 'Settings' ),
 			'icon'			=>		'fa fa-cogs',
 			'href'			=>		site_url('dashboard/settings')

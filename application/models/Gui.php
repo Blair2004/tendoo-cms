@@ -49,8 +49,8 @@ class GUI extends CI_Model
 			else
 			{
 				// page doesn't exists load 404 internal page error
-				$this->html->set_title( sprintf( __( 'Error : Output Not Found &mdash; %s' ) , get( 'core_signature' ) ) );
-				$this->html->set_description( __( 'Error page' ) );
+				Html::set_title( sprintf( __( 'Error : Output Not Found &mdash; %s' ) , get( 'core_signature' ) ) );
+				Html::set_description( __( 'Error page' ) );
 				$this->load->view( 'dashboard/error/output-not-found' );
 			}
 		}
@@ -69,8 +69,8 @@ class GUI extends CI_Model
 				$msg			=	__( 'This user can\'t be found.' );
 			}
 			// page doesn't exists load 404 internal page error
-			$this->html->set_title( $title );
-			$this->html->set_description( $description );
+			Html::set_title( $title );
+			Html::set_description( $description );
 			$this->load->view( 'dashboard/error/custom' , array( 
 				'msg'	=>	$msg
 			) );
@@ -78,8 +78,8 @@ class GUI extends CI_Model
 		else
 		{
 			// page doesn't exists load 404 internal page error
-			$this->html->set_title( sprintf( __( 'Error : 404 &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->html->set_description( __( 'Error page' ) );
+			Html::set_title( sprintf( __( 'Error : 404 &mdash; %s' ) , get( 'core_signature' ) ) );
+			Html::set_description( __( 'Error page' ) );
 			$this->load->view( 'dashboard/error/404' );
 		}
 	}
@@ -90,7 +90,7 @@ class GUI extends CI_Model
 	
 	function set_title( $title )
 	{
-		$this->html->set_title( $title );
+		Html::set_title( $title );
 	}
 	
 	/**

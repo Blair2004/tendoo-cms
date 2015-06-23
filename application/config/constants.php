@@ -98,4 +98,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 define( 'LANG_RECORDER_ENABLED' , FALSE ); // enable auto recorder for unregistered lang code.
 define( 'GUI_EXPIRE' , 60*60*6 );
 
+// Libraries path
+define( 'LIBPATH' , APPPATH . 'libraries' );
+
 

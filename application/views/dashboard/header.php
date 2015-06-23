@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<?php $this->enqueue->loadcss();?>
-<?php $this->enqueue->loadjs();?>
-<title><?php echo $this->html->get_title();?></title>
+<?php Enqueue::loadcss();?>
+<?php Enqueue::loadjs();?>
+<title><?php echo Html::get_title();?></title>
 </head>

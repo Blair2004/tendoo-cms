@@ -1,13 +1,8 @@
 <?php
 class Html
 {
-	private $page_title ;
-	private $page_description;
-	
-	function __construct()
-	{
-		$this->page_title	=	__( 'Untitled Page' );
-	}
+	private static $page_title = 'Untitled Page';
+	private static $page_description;
 	
 	/**
 	 * 	Get Title
@@ -15,9 +10,9 @@ class Html
 	 * @return : string
 	**/
 	
-	function get_title()
+	static function get_title()
 	{
-		return $this->page_title;
+		return self::$page_title;
 	}
 	
 	/**
@@ -30,9 +25,9 @@ class Html
 	 * @return : void
 	**/
 	
-	function set_title( $title )
+	static function set_title( $title )
 	{
-		$this->page_title	=	$title;
+		self::$page_title	=	$title;
 	}
 	
 	/**
@@ -44,10 +39,10 @@ class Html
 	 * @return : string
 	**/
 	
-	function title()
+	static function title()
 	{
 		?>
-        <title><?php echo $this->page_title;?></title>
+        <title><?php echo self::$page_title;?></title>
         <?php
 	}
 	
@@ -59,9 +54,9 @@ class Html
 	 * @return : void
 	**/
 	
-	function set_description( $description )
+	static function set_description( $description )
 	{
-		$this->page_description	=	$description;
+		self::$page_description	=	$description;
 	}
 	
 	/**
@@ -71,8 +66,8 @@ class Html
 	 * @return : string page description
 	**/
 	
-	function get_description()
+	static function get_description()
 	{
-		return $this->page_description;
+		return self::$page_description;
 	}
 }
