@@ -26,8 +26,8 @@ $config[ 'supported_lang' ]						=	array( 'english' );
 $config[ 'database_version' ]					=	'1.0';
 
 // Default Group
-$config[ 'master_group_label' ]					=	'master';
-$config[ 'public_group_label' ]					=	'public';
+$config[ 'master_group_label' ]					=	array( 'master' );
+$config[ 'public_group_label' ]					=	array( 'public' );
 
 // For Auth Class (Email Purpose)
 // Uses Username to login

@@ -45,24 +45,37 @@ class Users_model extends CI_Model
 	
 	function master_exists()
 	{
-		$masters	=	$this->auth->list_users( $this->config->item( 'master_group_label' ) );
-		if( $masters ) // if admin main privilège exists
+		foreach( $this->config->item( 'master_group_label' ) as $group_name )
 		{
-			return true;
-		}
+			$masters	=	$this->auth->list_users( $group_name );
+			if( $masters ) // if admin main privilège exists
+			{
+				return true;
+			}
+		}		
 		return false;
 	}
 	
+	// Should be called by tendoo only
 	function create_default_groups()
 	{
 		// Only create if group does'nt exists (it's optional)
-		if( ! $group = $this->auth->get_group_id( $this->config->item( 'master_group_label' ) ) )
+		// Creating admin Group
+		foreach( $this->config->item( 'master_group_label' ) as $group_name )
 		{
-			$this->auth->create_group( $this->config->item( 'master_group_label' ) );
+			if( ! $group = $this->auth->get_group_id( $group_name ) )
+			{
+				$this->auth->create_group( $group_name );
+			}
 		}
-		if( ! $group = $this->auth->get_group_id( $this->config->item( 'public_group_label' ) ) )
+		
+		// Creating Public Group
+		foreach( $this->config->item( 'public_group_label' ) as $group_name )
 		{
-			$this->auth->create_group( $this->config->item( 'public_group_label' ) );
+			if( ! $group = $this->auth->get_group_id( $group_name ) )
+			{
+				$this->auth->create_group( $group_name );
+			}
 		}
 	}
 	
@@ -77,8 +90,11 @@ class Users_model extends CI_Model
 		{
 			// Add user to a group
 			// We assume 1 is the index of the first user
-			$master_id		=	$this->auth->get_user_id( $email );
-			$this->auth->add_member( $master_id , $this->config->item( 'master_group_label' ) );
+			$master_id				=	$this->auth->get_user_id( $email );
+			
+			// Fetch Master Group Name
+			$master_group_array		=	$this->config->item( 'master_group_label' );
+			$this->auth->add_member( $master_id , $master_group_array[0] ); // assign user to one of the admin group
 			// Send Verification
 			$this->auth->send_verification( $master_id );
 			// Activate Master
@@ -225,7 +241,6 @@ class Users_model extends CI_Model
 		{
 			$exec	=	$this->auth->remind_password( $email );
 			return 'recovery-email-send';
-
 		}
 		else
 		{
@@ -240,5 +255,46 @@ class Users_model extends CI_Model
 		$user	=	$this->auth->get_user_by_id( $user_id );
 		
 		return farray( $user );		
+	}
+	
+	/**
+	 * Create a new role
+	 *
+	 * @access public
+	 * @params string role name
+	 * @params string role definition
+	 * @params string role type
+	 * @return string error code
+	**/
+	
+	function create_role( $name , $definition , $type )
+	{
+		// Check wether a group using this name exists
+		$group	=	$this->auth->get_group_name( $name );
+		
+		if( $group === FALSE )
+		{
+			$this->users->auth->create_group( $name );
+			$admin_groups		=	force_array( $this->options->get( 'admin_groups' ) );
+			$public_groups		=	force_array( $this->options->get( 'public_groups' ) );  
+			// make sure to delete groups saved on option table
+			if( ! in_array( $name , $admin_groups ) &&  ! in_array( $name , $public_groups ) )
+			{
+				// Saving as public group
+				if( $type === 'public' )
+				{
+					$public_groups[]	=	$name;
+					$this->options->set( 'public_groups' , $public_groups );
+				}
+				// Saving as admin group
+				else
+				{
+					$admin_groups[]	=	$name;
+					$this->options->set( 'admin_groups' , $admin_groups );
+				}
+				return 'group-created';
+			}
+		}
+		return 'group-already-exists';
 	}
 }

@@ -200,12 +200,37 @@ class Dashboard_model extends CI_Model
 		// Display all roles
 		if( $page == 'list' )
 		{
+			$groups		=	$this->users->auth->list_groups();
+			
 			$this->gui->set_title( sprintf( __( 'Roles &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->load->view( 'dashboard/roles/body' );
+			$this->load->view( 'dashboard/roles/body' , array(
+				'groups'	=>	$groups
+			) );
 		}
 		// Display Creation form
 		else if( $page == 'create' )
 		{
+			// Validating role creation form
+			$this->load->library( 'form_validation' );
+			$this->form_validation->set_rules( 'role_name' , __( 'Role Name' ) , 'required' );
+			$this->form_validation->set_rules( 'role_type' , __( 'Role Type' ) , 'required' );
+			$this->form_validation->set_rules( 'role_definition' , __( 'Role Definition' ) , 'required' );
+			
+			if( $this->form_validation->run() )
+			{
+				$exec 	=	$this->users->create_role( 
+					$this->input->post( 'role_name' ),
+					$this->input->post( 'role_definition' ),
+					$this->input->post( 'role_type' )
+				);
+				if( $exec == 'group-created' )
+				{
+					redirect( array( 'dashboard' , 'roles?notice=' . $exec ) );
+				}
+				$this->notice->push_notice( $this->lang->line( $exec ) );
+			}
+			
+			
 			$this->gui->set_title( sprintf( __( 'Create new role &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/roles/create' );
 		}

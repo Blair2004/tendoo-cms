@@ -43,3 +43,7 @@ $lang[ 'user-updated' ]					=	tendoo_success( __( 'User settings\'s has been upd
 $lang[ 'user-deleted' ]					=	tendoo_success( __( 'The user has been deleted.' ) );
 $lang[ 'pass-change-error' ]			=	tendoo_error( __( 'The new password cannot match the old one, please use another password.' ) );
 $lang[ 'old-pass-incorrect' ]			=	tendoo_error( __( 'Your old password is not correct.' ) );
+
+// Group
+$lang[ 'group-already-exists' ]			=	tendoo_error( __( 'A group with this name already exists. Please choose another name.' ) );
+$lang[ 'group-created' ]				=	tendoo_success( __( 'Group has been created.' ) );

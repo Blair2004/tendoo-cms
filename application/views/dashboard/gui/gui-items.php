@@ -282,7 +282,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 		{
 			?>
             <tr>
-            	<td colspan="<?php count( force_array( riake( 'cols' , $_item ) ) );?>"><?php echo __( 'Empty table' );?></td>
+            	<td colspan="<?php echo count( force_array( riake( 'cols' , $_item ) ) );?>"><?php echo __( 'Empty table' );?></td>
             </tr>
             <?php
 		}

@@ -24,6 +24,8 @@ class Internal_modules extends CI_Model
 		$this->events->add_action( 'send_recovery_email' , array( $this , 'change_auth_settings' ) );
 		// load custom config
 		$this->events->add_action( 'before_session_starts' , array( $this , 'before_session_starts' ) );
+		// After option init
+		$this->events->add_action( 'after_session_starts' , array( $this , 'after_session_starts' ) );
 	}
 	
 	/**
@@ -36,6 +38,30 @@ class Internal_modules extends CI_Model
 	{
 		$this->config->set_item( 'tendoo_logo_long' , '<b>Tend</b>oo' );
 		$this->config->set_item( 'tendoo_logo_min' , '<img style="height:40px;" src="' . img_url() . 'logo_minim.png' . '" alt=logo>' );
+		
+	}
+	
+	/**
+	 * After options init
+	 *
+	 * @return void
+	**/
+	
+	function after_session_starts()
+	{
+		// Load created roles add push it to their respective type
+		$admin_groups	=	$this->options->get( 'admin_groups' );
+		$public_groups	=	$this->options->get( 'public_groups' );
+		
+		// For public groups
+		$tendoo_public_groups	=	$this->config->item( 'public_group_label' );
+		$merged_public_groups	=	array_merge( $tendoo_public_groups , $admin_groups );
+		$this->config->set_item( 'public_group_label' , $merged_public_groups );
+		
+		// for admin groups
+		$tendoo_admin_groups	=	$this->config->item( 'master_group_label' );
+		$merged_admin_groups	=	array_merge( $tendoo_admin_groups , $admin_groups );
+		$this->config->set_item( 'master_group_label' , $merged_admin_groups );
 	}
 	
 	/**
