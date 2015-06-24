@@ -35,7 +35,6 @@ class Tendoo_Controller extends CI_Controller
 		// if is reserved controllers only
 		if( in_array( $this->uri->segment(1) , $this->config->item( 'reserved_controllers' ) ) )
 		{
-			$this->load->helper( 'ui' );
 			$this->load->library( 'notice' );
 		}
 				

@@ -27,57 +27,7 @@
     <!-- /.search form --> 
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
-	<?php
-	
-	/**
-	 * 	Trigger before_admin_menu action in order to get defined menu
-	**/
-
-    show_admin_menu( 'before' , 'menu' );					
-	
-   	show_admin_menu( 'before' , 'dashboard' );
-    Menu::get_admin_menu_core( 'dashboard' );
-    show_admin_menu( 'after' , 'dashboard' );
-    
-    
-    show_admin_menu( 'before' , 'media' );
-    Menu::get_admin_menu_core( 'media' );
-    show_admin_menu( 'after' , 'media' );
-    
-    // Controller menu has been deprecated
-    
-    show_admin_menu( 'before' , 'installer' );
-    Menu::get_admin_menu_core( 'installer' );
-    show_admin_menu( 'after' , 'installer' );
-    
-    show_admin_menu( 'before' , 'modules' );
-    Menu::get_admin_menu_core( 'modules' );
-    show_admin_menu( 'after' , 'modules' );
-    
-    if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
-    {						
-        show_admin_menu( 'before' , 'themes' );
-        Menu::get_admin_menu_core( 'themes' );
-        show_admin_menu( 'after' , 'themes' );
-    }
-
-    show_admin_menu( 'before' , 'settings' );
-    Menu::get_admin_menu_core( 'settings' );
-    show_admin_menu( 'after' , 'settings' );
-
-    if( riake( 'tendoo_mode' , get_core_vars( 'options' ) , 'website' ) == 'website' )
-    {
-        show_admin_menu( 'before' , 'frontend' );
-        Menu::get_admin_menu_core( 'frontend' );
-        show_admin_menu( 'after' , 'frontend' );
-    }
-    
-    show_admin_menu( 'before' , 'about' );
-    Menu::get_admin_menu_core( 'about' );
-    show_admin_menu( 'after', 'about' );
-    
-    show_admin_menu( 'after' , 'menu' );
-    ?>
+	<?php Menu::load(); ?>
     </ul>
   </section>
   <!-- /.sidebar --> 

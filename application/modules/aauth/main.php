@@ -4,18 +4,18 @@ class auth_module_class extends CI_model
 	function __construct()
 	{
 		$this->events->add_action( 'load_users_custom_fields' , array( $this , 'user_custom_fields' ) );
-		// $this->events->add_filter( 'custom_user_meta' , array( $this , 'custom_user_meta' ) , 10 , 1 );
-		// $this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );
+		$this->events->add_filter( 'custom_user_meta' , array( $this , 'custom_user_meta' ) , 10 , 1 );
+		$this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );
 		
 		// Change user name in the user menu
-		// $this->events->add_filter( 'user_menu_name' , array( $this , 'user_menu_name' ) );
-		// $this->events->add_filter( 'user_menu_card_header' , array( $this , 'user_menu_header' ) );
+		$this->events->add_filter( 'user_menu_name' , array( $this , 'user_menu_name' ) );
+		$this->events->add_filter( 'user_menu_card_header' , array( $this , 'user_menu_header' ) );
 		
 		// change send administrator emails
 		$this->events->add_action( 'send_recovery_email' , array( $this , 'change_auth_settings' ) );
 		$this->events->add_action( 'after_app_init' , array( $this , 'after_session_starts' ) );
-		//$this->events->add_action( 'displays_dashboard_errors' , array( $this , 'displays_dashboard_errors' ) );
-		$this->events->add_filter( 'before_admin_menu' , array( $this , 'menu' ) );
+		$this->events->add_action( 'displays_dashboard_errors' , array( $this , 'displays_dashboard_errors' ) );
+		$this->events->add_filter( 'admin_menus' , array( $this , 'menu' ) );
 		$this->events->add_action( 'dashboard_loaded' , array( $this , 'dashboard' ) );	
 	}
 	
@@ -298,49 +298,46 @@ class auth_module_class extends CI_model
 	
 	function menu( $menus )
 	{
-		create_admin_menu( 'users' , 'before' , 'settings' );
-		
-		add_admin_menu( 'users' , array(
-			'title'			=>		__( 'Manage Users' ),
-			'icon'			=>		'fa fa-users',
-			'href'			=>		site_url('dashboard/users')
-		) );
-		
-		add_admin_menu( 'users' , array(
-			'title'			=>		__( 'Create a new User' ),
-			'icon'			=>		'fa fa-users',
-			'href'			=>		site_url('dashboard/users/create')
-		) );
-		
-		add_admin_menu( 'users' , array(
-			'title'			=>		__( 'Roles' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles'),
-		) );
-		
-		add_admin_menu( 'users' , array(
-			'title'			=>		__( 'Create new role' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles/create')
-		) );
-		
-		add_admin_menu( 'users' , array(
-			'title'			=>		__( 'Roles permissions' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles/permissions')
-		) );
-		
-		add_admin_menu( 'users' , array(
-			'title'			=>		__( 'Manage Groups' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles/permissions')
-		) );
-		
-		add_admin_menu( 'users' , array(
-			'title'			=>		__( 'Create a new Group' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles/permissions')
-		) );
+		$menus[ 'users' ]		=	array(
+			array(
+				'title'			=>		__( 'Manage Users' ),
+				'icon'			=>		'fa fa-users',
+				'href'			=>		site_url('dashboard/users')
+			),
+			array(
+				'title'			=>		__( 'Create a new User' ),
+				'icon'			=>		'fa fa-users',
+				'href'			=>		site_url('dashboard/users/create')
+			)			
+		);
+		$menus[ 'roles' ]		=		array(
+			array(
+				'title'			=>		__( 'Roles' ),
+				'icon'			=>		'fa fa-shield',
+				'href'			=>		site_url('dashboard/roles'),
+			),
+			array(
+				'title'			=>		__( 'Create new role' ),
+				'icon'			=>		'fa fa-shield',
+				'href'			=>		site_url('dashboard/roles/create')
+			),
+			array(
+				'title'			=>		__( 'Roles permissions' ),
+				'icon'			=>		'fa fa-shield',
+				'href'			=>		site_url('dashboard/roles/permissions')
+			),
+			array(
+				'title'			=>		__( 'Manage Groups' ),
+				'icon'			=>		'fa fa-shield',
+				'href'			=>		site_url('dashboard/roles/permissions')
+			),
+			array(
+				'title'			=>		__( 'Create a new Group' ),
+				'icon'			=>		'fa fa-shield',
+				'href'			=>		site_url('dashboard/roles/permissions')
+			)			
+		);
+		return $menus;
 	}
 	
 	function users( $page = 'list' , $index = 1 )
