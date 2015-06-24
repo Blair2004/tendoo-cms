@@ -47,3 +47,6 @@ $lang[ 'old-pass-incorrect' ]			=	tendoo_error( __( 'Your old password is not co
 // Group
 $lang[ 'group-already-exists' ]			=	tendoo_error( __( 'A group with this name already exists. Please choose another name.' ) );
 $lang[ 'group-created' ]				=	tendoo_success( __( 'Group has been created.' ) );
+$lang[ 'group-not-found' ]				=	tendoo_error( __( 'This group does\'nt exists or has been deleted.' ) );
+$lang[ 'unknow-group' ]					=	tendoo_error( __( 'Unknow group.' ) );
+$lang[ 'updated' ]						=	tendoo_success( __( 'Group has been updated.' ) );

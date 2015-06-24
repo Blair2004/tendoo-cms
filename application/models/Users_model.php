@@ -267,33 +267,81 @@ class Users_model extends CI_Model
 	 * @return string error code
 	**/
 	
-	function create_role( $name , $definition , $type )
+	function set_role( $name , $definition , $type , $mode = 'create' , $group_id = 0 )
 	{
+		$name	=	strtolower( $name );
 		// Check wether a group using this name exists
 		$group	=	$this->auth->get_group_name( $name );
 		
-		if( $group === FALSE )
+		if( $mode === 'create' )
 		{
-			$this->users->auth->create_group( $name );
-			$admin_groups		=	force_array( $this->options->get( 'admin_groups' ) );
-			$public_groups		=	force_array( $this->options->get( 'public_groups' ) );  
-			// make sure to delete groups saved on option table
-			if( ! in_array( $name , $admin_groups ) &&  ! in_array( $name , $public_groups ) )
+			if( $group === FALSE )
 			{
-				// Saving as public group
-				if( $type === 'public' )
+				$this->users->auth->create_group( $name );
+				$admin_groups		=	force_array( $this->options->get( 'admin_groups' ) );
+				$public_groups		=	force_array( $this->options->get( 'public_groups' ) );  
+				// make sure to delete groups saved on option table
+				if( ! in_array( $name , $admin_groups ) &&  ! in_array( $name , $public_groups ) )
 				{
-					$public_groups[]	=	$name;
-					$this->options->set( 'public_groups' , $public_groups );
+					// Saving as public group
+					if( $type === 'public' )
+					{
+						$public_groups[]	=	$name;
+						$this->options->set( 'public_groups' , $public_groups );
+					}
+					// Saving as admin group
+					else
+					{
+						$admin_groups[]	=	$name;
+						$this->options->set( 'admin_groups' , $admin_groups );
+					}
+					return 'group-created';
 				}
-				// Saving as admin group
-				else
-				{
-					$admin_groups[]	=	$name;
-					$this->options->set( 'admin_groups' , $admin_groups );
-				}
-				return 'group-created';
 			}
+		}
+		else
+		{
+			$group_name			=	$this->auth->get_group_name( $group_id );
+			if( $group_name )
+			{
+				$admin_groups		=	force_array( $this->options->get( 'admin_groups' ) );
+				$public_groups		=	force_array( $this->options->get( 'public_groups' ) );  
+				
+				// remove from admin_groups
+				array_walk( $admin_groups , function( &$item , $key , $group_name ) use( &$admin_groups ){					
+					if( $group_name === $item )
+					{
+						unset( $admin_groups[ $key ] );
+					}
+				} , $group_name );
+				
+				// remove from public group
+				array_walk( $public_groups , function( &$item , $key , $group_name ) use( &$public_groups ){
+					if( $group_name === $item )
+					{
+						unset( $public_groups[ $key ] );
+					}
+				} , $group_name );
+				
+				// make sure to delete groups saved on option table
+				if( ! in_array( $name , $admin_groups ) || ! in_array( $name , $public_groups ) )
+				{
+					// Saving as public group
+					if( $type === 'public' )
+					{
+						$public_groups[]	=	$name;
+						$this->options->set( 'public_groups' , $public_groups );
+					}
+					// Saving as admin group
+					else
+					{
+						$admin_groups[]	=	$name;
+						$this->options->set( 'admin_groups' , $admin_groups );
+					}
+					return 'group-updated';
+				}
+			}
+			return 'unknow-group';
 		}
 		return 'group-already-exists';
 	}

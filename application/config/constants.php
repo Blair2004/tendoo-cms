@@ -101,4 +101,6 @@ define( 'GUI_EXPIRE' , 60*60*6 );
 // Libraries path
 define( 'LIBPATH' , APPPATH . 'libraries' );
 
+// Modules Paths
 
+define( 'MODULESPATH' , APPPATH . 'modules' );

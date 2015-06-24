@@ -39,6 +39,7 @@ class GUI extends CI_Model
 		// load created pages
 		$this->events->do_action_ref_array( 'create_dashboard_pages' , $params );
 		// output pages
+		
 		if( riake( $page_slug , $this->created_page ) )
 		{
 			// loading page content
@@ -54,23 +55,15 @@ class GUI extends CI_Model
 				$this->load->view( 'dashboard/error/output-not-found' );
 			}
 		}
-		else if( in_array( $page_slug , array( 'form_expired' , 'unknow_user' ) ) )
+		// We do convert page slug into error code key form
+		else if( in_array( $page_code	=	str_replace( '_' , '-' , $page_slug ) , array_keys( $this->lang->language ) ) )
 		{
-			if( $page_slug == 'form_expired' )
-			{
-				$title			=	sprintf( __( 'Error : Form Expired &mdash; %s' ) , get( 'core_signature' ) );
-				$description	=	__( 'Form Expired' );
-				$msg			=	__( 'This form has expired' );
-			}
-			else if( $page_slug == 'unknow_user' )
-			{
-				$title			=	sprintf( __( 'Error : Unknow User &mdash; %s' ) , get( 'core_signature' ) );
-				$description	=	__( 'Unknow User' );
-				$msg			=	__( 'This user can\'t be found.' );
-			}
+			$title			=	sprintf( __( 'Error : An error occured &mdash; %s' ) , get( 'core_signature' ) );
+			$description	=	__( 'An Error occured' );
+			$msg			=	riake( $page_code , $this->lang->language );
 			// page doesn't exists load 404 internal page error
 			Html::set_title( $title );
-			Html::set_description( $description );
+			// Html::set_description( $description );
 			$this->load->view( 'dashboard/error/custom' , array( 
 				'msg'	=>	$msg
 			) );

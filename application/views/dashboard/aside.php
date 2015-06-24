@@ -60,14 +60,6 @@
         Menu::get_admin_menu_core( 'themes' );
         show_admin_menu( 'after' , 'themes' );
     }
-    
-    show_admin_menu( 'before' , 'users' );
-    Menu::get_admin_menu_core( 'users' );
-    show_admin_menu( 'after' , 'users' );
-
-    show_admin_menu( 'before' , 'roles' );
-    Menu::get_admin_menu_core( 'roles' );
-    show_admin_menu( 'after' , 'roles' );
 
     show_admin_menu( 'before' , 'settings' );
     Menu::get_admin_menu_core( 'settings' );

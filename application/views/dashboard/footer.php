@@ -10,5 +10,5 @@
 <div class="pull-right hidden-xs">
   <b><?php _e( 'Tendoo' );?></b> <?php echo get( 'core_version' );?>
 </div>
-<small><?php _e( 'Thanks you for using Tendoo CMS' );?></small>
+<small><?php _e( 'Thanks you for using Tendoo CMS' );?> - <?php echo $this->benchmark->memory_usage();?></small>
 </footer>

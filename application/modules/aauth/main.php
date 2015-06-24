@@ -1,67 +1,44 @@
-<?php
-/**
- *
- * Title 	:	 Internal Modules model
- * Details	:	 All usefull modules are loaded before session_start
- *
-**/
-
-class Internal_modules extends CI_Model
+<?php 
+class auth_module_class extends CI_model
 {
 	function __construct()
 	{
-		parent::__construct();		
-		
 		$this->events->add_action( 'load_users_custom_fields' , array( $this , 'user_custom_fields' ) );
-		$this->events->add_filter( 'custom_user_meta' , array( $this , 'custom_user_meta' ) , 10 , 1 );
-		$this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );
+		// $this->events->add_filter( 'custom_user_meta' , array( $this , 'custom_user_meta' ) , 10 , 1 );
+		// $this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );
 		
 		// Change user name in the user menu
-		$this->events->add_filter( 'user_menu_name' , array( $this , 'user_menu_name' ) );
-		$this->events->add_filter( 'user_menu_card_header' , array( $this , 'user_menu_header' ) );
+		// $this->events->add_filter( 'user_menu_name' , array( $this , 'user_menu_name' ) );
+		// $this->events->add_filter( 'user_menu_card_header' , array( $this , 'user_menu_header' ) );
 		
 		// change send administrator emails
 		$this->events->add_action( 'send_recovery_email' , array( $this , 'change_auth_settings' ) );
-		// load custom config
-		$this->events->add_action( 'before_session_starts' , array( $this , 'before_session_starts' ) );
-		// After option init
-		$this->events->add_action( 'after_session_starts' , array( $this , 'after_session_starts' ) );
+		$this->events->add_action( 'after_app_init' , array( $this , 'after_session_starts' ) );
+		//$this->events->add_action( 'displays_dashboard_errors' , array( $this , 'displays_dashboard_errors' ) );
+		$this->events->add_filter( 'before_admin_menu' , array( $this , 'menu' ) );
+		$this->events->add_action( 'dashboard_loaded' , array( $this , 'dashboard' ) );	
+	}
+	
+	function dashboard()
+	{
+		$this->gui->register_page( 'users' , array( $this , 'users' ) );
+		$this->gui->register_page( 'roles' , array( $this , 'roles' ) );
 	}
 	
 	/**
-	 * 	Edit Tendoo.php config before session starts
-	 *
-	 *	@return	: void
+	 * Displays Error on Dashboard Page
 	**/
 	
-	function before_session_starts()
+	function displays_dashboard_errors()
 	{
-		$this->config->set_item( 'tendoo_logo_long' , '<b>Tend</b>oo' );
-		$this->config->set_item( 'tendoo_logo_min' , '<img style="height:40px;" src="' . img_url() . 'logo_minim.png' . '" alt=logo>' );
-		
-	}
-	
-	/**
-	 * After options init
-	 *
-	 * @return void
-	**/
-	
-	function after_session_starts()
-	{
-		// Load created roles add push it to their respective type
-		$admin_groups	=	$this->options->get( 'admin_groups' );
-		$public_groups	=	$this->options->get( 'public_groups' );
-		
-		// For public groups
-		$tendoo_public_groups	=	$this->config->item( 'public_group_label' );
-		$merged_public_groups	=	array_merge( $tendoo_public_groups , $admin_groups );
-		$this->config->set_item( 'public_group_label' , $merged_public_groups );
-		
-		// for admin groups
-		$tendoo_admin_groups	=	$this->config->item( 'master_group_label' );
-		$merged_admin_groups	=	array_merge( $tendoo_admin_groups , $admin_groups );
-		$this->config->set_item( 'master_group_label' , $merged_admin_groups );
+		$errors	=	$this->users->auth->get_errors_array();
+		if( $errors )
+		{
+			foreach( $errors as $error )
+			{
+				echo tendoo_error( $error );
+			}
+		}
 	}
 	
 	/**
@@ -278,4 +255,319 @@ class Internal_modules extends CI_Model
 		$fields[ 'theme-skin' ]		=	( $skin	=	$this->input->post( 'theme-skin' ) ) ? $skin : 'skin-blue';
 		return $fields;
 	}
+	
+	/**
+	 * After options init
+	 *
+	 * @return void
+	**/
+	
+	function after_session_starts()
+	{
+		// load user model
+		$this->load->model( 'users_model' , 'users' );
+		// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
+		if( ! $this->users->master_exists() && $this->uri->segment(1) !== 'tendoo-setup' )
+		{
+			redirect( array( 'tendoo-setup' , 'site' ) );
+		}
+		
+		// force user to be connected for certain controller
+		if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_login' ) ) && $this->setup->is_installed() )
+		{
+			if( ! $this->users->is_connected() )
+			{
+				redirect( array( $this->config->item( 'default_login_route' ) ) );
+			}
+		}
+		
+		// Load created roles add push it to their respective type
+		$admin_groups	=	$this->options->get( 'admin_groups' );
+		$public_groups	=	$this->options->get( 'public_groups' );
+		
+		// For public groups
+		$tendoo_public_groups	=	$this->config->item( 'public_group_label' );
+		$merged_public_groups	=	array_merge( $tendoo_public_groups , $admin_groups );
+		$this->config->set_item( 'public_group_label' , $merged_public_groups );
+		
+		// for admin groups
+		$tendoo_admin_groups	=	$this->config->item( 'master_group_label' );
+		$merged_admin_groups	=	array_merge( $tendoo_admin_groups , $admin_groups );
+		$this->config->set_item( 'master_group_label' , $merged_admin_groups );
+	}
+	
+	function menu( $menus )
+	{
+		create_admin_menu( 'users' , 'before' , 'settings' );
+		
+		add_admin_menu( 'users' , array(
+			'title'			=>		__( 'Manage Users' ),
+			'icon'			=>		'fa fa-users',
+			'href'			=>		site_url('dashboard/users')
+		) );
+		
+		add_admin_menu( 'users' , array(
+			'title'			=>		__( 'Create a new User' ),
+			'icon'			=>		'fa fa-users',
+			'href'			=>		site_url('dashboard/users/create')
+		) );
+		
+		add_admin_menu( 'users' , array(
+			'title'			=>		__( 'Roles' ),
+			'icon'			=>		'fa fa-shield',
+			'href'			=>		site_url('dashboard/roles'),
+		) );
+		
+		add_admin_menu( 'users' , array(
+			'title'			=>		__( 'Create new role' ),
+			'icon'			=>		'fa fa-shield',
+			'href'			=>		site_url('dashboard/roles/create')
+		) );
+		
+		add_admin_menu( 'users' , array(
+			'title'			=>		__( 'Roles permissions' ),
+			'icon'			=>		'fa fa-shield',
+			'href'			=>		site_url('dashboard/roles/permissions')
+		) );
+		
+		add_admin_menu( 'users' , array(
+			'title'			=>		__( 'Manage Groups' ),
+			'icon'			=>		'fa fa-shield',
+			'href'			=>		site_url('dashboard/roles/permissions')
+		) );
+		
+		add_admin_menu( 'users' , array(
+			'title'			=>		__( 'Create a new Group' ),
+			'icon'			=>		'fa fa-shield',
+			'href'			=>		site_url('dashboard/roles/permissions')
+		) );
+	}
+	
+	function users( $page = 'list' , $index = 1 )
+	{		
+		if( $page == 'list' )
+		{
+			// $this->users() it's the current method, $this->users is the main user object
+			$users			=		$this->users->auth->list_users($group_par = FALSE, $limit = FALSE, $offset = FALSE, $include_banneds = FALSE);
+			$this->gui->set_title( sprintf( __( 'Users &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/users/body' , array( 
+				'users'	=>	$users
+			) );
+		}
+		else if( $page == 'edit') 
+		{
+			// if current user matches user id
+			if( $this->users->auth->get_user_id() == $index )
+			{
+				redirect( array( 'dashboard' , 'users' , 'profile' ) );
+			}
+			// User Goup
+			$user				=	$this->users->auth->get_user( $index );			
+			$user_group			=	farray( $this->users->auth->get_user_groups( $index ) );
+
+			if( ! $user )
+			{
+				redirect( array( 'dashboard' , 'unknow-user' ) );
+			}
+			
+			// validation rules			
+			$this->load->library( 'form_validation' );
+			
+			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'required|valid_email' );
+			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'min_length[6]' );
+			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'matches[password]' );
+			$this->form_validation->set_rules( 'userprivilege' , __( 'User Privilege' ), 'required' );
+			
+			// load custom rules
+			$this->events->do_action( 'user_creation_rules' );
+			
+			if( $this->form_validation->run() )
+			{
+				$exec	=	$this->users->edit(
+				 	$index , 
+					$this->input->post( 'user_email' ),
+					$this->input->post( 'password' ),
+					$this->input->post( 'userprivilege' ),
+					$user_group
+				);			
+				$this->notice->push_notice( $this->lang->line( 'user-updated' ) );
+				// Refresh user data
+				$user				=	$this->users->auth->get_user( $index );
+				// User Goup
+				$user_group			=	farray( $this->users->auth->get_user_groups( $index ) );
+				
+				if( ! $user )
+				{
+					redirect( array( 'dashboard' , 'unknow-user' ) );
+				}
+			}			
+			
+			// User Goup
+			$user_group			=	farray( $this->users->auth->get_user_groups( $user->id ) );
+			// selecting groups
+			$groups				=	$this->users->auth->list_groups();		
+			
+			$this->gui->set_title( sprintf( __( 'Edit user &mdash; %s' ) , get( 'core_signature' ) ) );
+			
+			$this->load->view( 'dashboard/users/edit' , array( 
+				'groups'		=>	$groups,
+				'user'			=>	$user,
+				'user_group'	=>	$user_group
+			) );
+		}
+		else if( $page == 'create' )
+		{
+			$this->load->library( 'form_validation' );
+			
+			$this->form_validation->set_rules( 'username' , __( 'User Name' ), 'required|min_length[5]' );
+			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'required|valid_email' );
+			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'required|min_length[6]' );
+			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'required|matches[password]' );
+			$this->form_validation->set_rules( 'userprivilege' , __( 'User Privilege' ), 'required' );
+			
+			// load custom rules
+			$this->events->do_action( 'user_creation_rules' );
+			
+			if( $this->form_validation->run() )
+			{
+				$exec	=	$this->users->create( 
+					$this->input->post( 'user_email' ),
+					$this->input->post( 'password' ),
+					$this->input->post( 'username' ),					
+					$this->input->post( 'userprivilege' )
+				);
+				if( $exec == 'user-created' )
+				{
+					redirect( array( 'dashboard' , 'users?notice=' . $exec ) ); exit;
+				}
+				$this->notice->push_notice( $this->lang->line( $exec ) );
+			}
+			
+			// selecting groups
+			$groups				=	$this->users->auth->list_groups();
+			
+			$this->gui->set_title( sprintf( __( 'Create a new user &mdash; %s' ) , get( 'core_signature' ) ) );
+			
+			$this->load->view( 'dashboard/users/create' , array( 
+				'groups'	=>	$groups
+			) );
+		}
+		else if( $page == 'delete' )
+		{
+			$user	=	$this->users->auth->user_exsist_by_id( $index );
+			if( $user )
+			{
+				$this->users->delete( $index );
+				redirect( array( 'dashboard' , 'users?notice=user-deleted' ) );
+			}
+			redirect( array( 'dashboard' , 'unknow-user' ) );
+		}
+		else if( $page == 'profile' )
+		{
+			$this->load->library( 'form_validation' );
+			
+			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'valid_email' );
+			$this->form_validation->set_rules( 'old_pass' , __( 'Old Pass' ), 'min_length[6]' );
+			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'min_length[6]' );
+			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'matches[password]' );
+			
+			// Launch events for user profiles edition rules
+			$this->events->do_action( 'user_profile_rules' );
+			if( $this->form_validation->run() )
+			{
+				$exec	=	$this->users->edit(
+					$this->users->auth->get_user_id() , 
+					$this->input->post( 'user_email' ),
+					$this->input->post( 'password' ),
+					$this->input->post( 'userprivilege' ),
+					null, // user Privilege can't be editer through profile dash
+					$this->input->post( 'old_pass' ),
+					'profile'
+				);
+				
+				$this->notice->push_notice_array( $exec );
+			}
+			
+			$this->gui->set_title( sprintf( __( 'My Profile &mdash; %s' ) , get( 'core_signature' ) ) );
+			
+			$this->load->view( 'dashboard/users/profile' );
+		}
+	}
+	
+	/**
+	 * Admin Roles
+	 *
+	 * Handle Groups management
+	 * @since 1.5
+	**/
+	
+	function roles( $page = 'list' , $index = 1 )
+	{
+		// Display all roles
+		if( $page == 'list' )
+		{
+			$groups		=	$this->users->auth->list_groups();
+			
+			$this->gui->set_title( sprintf( __( 'Roles &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/roles/body' , array(
+				'groups'	=>	$groups
+			) );
+		}
+		// Display Creation form
+		else if( $page == 'create' )
+		{
+			// Validating role creation form
+			$this->load->library( 'form_validation' );
+			$this->form_validation->set_rules( 'role_name' , __( 'Role Name' ) , 'required' );
+			$this->form_validation->set_rules( 'role_type' , __( 'Role Type' ) , 'required' );
+			
+			if( $this->form_validation->run() )
+			{
+				$exec 	=	$this->users->set_role( 
+					$this->input->post( 'role_name' ),
+					$this->input->post( 'role_definition' ),
+					$this->input->post( 'role_type' )
+				);
+				if( $exec == 'group-created' )
+				{
+					redirect( array( 'dashboard' , 'roles?notice=' . $exec ) );
+				}
+				$this->notice->push_notice( $this->lang->line( $exec ) );
+			}
+			
+			
+			$this->gui->set_title( sprintf( __( 'Create new role &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/roles/create' );
+		}
+		// Display Edit form
+		else if( $page == 'edit' )
+		{
+			// Fetch role or redirect
+			$role	=	$this->users->auth->get_group_name( $index );
+			if( $role === FALSE ): redirect( array( 'dashboard' , 'group-not-found' ) ); endif;
+			
+			$this->load->library( 'form_validation' );
+			$this->form_validation->set_rules( 'role_name' , __( 'Role Name' ) , 'required' );
+			$this->form_validation->set_rules( 'role_type' , __( 'Role Type' ) , 'required' );
+			if( $this->form_validation->run() )
+			{
+				$exec 	=	$this->users->set_role( 
+					$this->input->post( 'role_name' ),
+					$this->input->post( 'role_definition' ),
+					$this->input->post( 'role_type' ),
+					'edit', 
+					$index
+				);
+				if( $exec == 'group-created' )
+				{
+					redirect( array( 'dashboard' , 'roles?notice=' . $exec ) );
+				}
+				$this->notice->push_notice( $this->lang->line( $exec ) );
+			}
+			
+			$this->gui->set_title( sprintf( __( 'Edit Roles &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/roles/edit' );
+		}
+	}
 }
+new auth_module_class;

@@ -185,3 +185,7 @@ $config[ 'site_timezone' ]						=	array_flip( array (
 ) );
 // 
 $config[ 'default_user_names' ]					=	'John Doe';
+
+$config[ 'admin_menus' ]						=	array();
+$config[ 'admin_menu_position' ]				=	array( 'before' , 'after' );
+$config[ 'admin_menu_item' ]					=	array();

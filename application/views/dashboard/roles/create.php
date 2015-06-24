@@ -1,8 +1,8 @@
 <?php
 /**
- * 	File Name 	: 	body.php
- *	Description :	header file for each admin page. include <html> tag and ends at </head> closing tag
- *	Since		:	1.4
+ * 	File Name 	: 	create.php
+ *	Description :	header file for role creation. include <html> tag and ends at </head> closing tag
+ *	Since		:	1.5
 **/
 
 $this->gui->col_width( 1 , 3 );
@@ -43,15 +43,6 @@ $this->gui->add_item( array(
 	),
 	'label'			=>	__( 'Role Type' ),
 	'placeholder'	=>	__( 'Role Type' )
-) , 'create_role' , 1 );
-
-// Group definition
-$this->gui->add_item( array(
-	'type'		=>	'textarea',
-	'name'		=>	'role_definition',
-	'description'	=>	__( 'Enter role description' ),
-	'label'		=>	__( 'Role Description' ),
-	'placeholder'	=>	__( 'Role Description' )
 ) , 'create_role' , 1 );
 
 $this->gui->output();

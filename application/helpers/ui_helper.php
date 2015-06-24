@@ -11,12 +11,16 @@ function __create_menu( $interface , $namespace , $position , $item )
 {
 	if( in_array( $interface , array( 'admin' , 'account' ) ) ) 
 	{
-		$interface_menus	=	get_core_vars( $interface . '_menus' );
-		if( in_array( $position , get_core_vars( $interface . '_menu_position' ) ) && in_array( $item , get_core_vars( $interface . '_menu_items' ) ) )
+		$interface_menus	=	get_instance()->config->item( $interface . '_menus' );
+		
+		if( 
+			in_array( $position , get_instance()->config->item( $interface . '_menu_position' ) ) && 
+			in_array( $item , get_instance()->config->item( $interface . '_menu_items' ) ) 
+		)
 		{
 			$interface_menus[ $item ][ $position ][ $namespace ]	=	array(); // Saving menu namespace
 		}
-		return set_core_vars( $interface . '_menus' , $interface_menus ); // save it to the main array;
+		return get_instance()->config->set_item( $interface . '_menus' , $interface_menus ); // save it to the main array;
 	}
 	return false;
 }
@@ -34,7 +38,7 @@ function __add_menu( $interface , $namespace , $config )
 		/*
 		*	[title, href, icon] config keys
 		*/
-		$interface_menus	=	is_array( $array	=	get_core_vars( $interface . '_menus' ) ) ? $array : array();
+		$interface_menus	=	is_array( $array	=	get_instance()->config->item( $interface . '_menus' ) ) ? $array : array();
 		if( is_array( $interface_menus ) )
 		{
 			foreach( $interface_menus as $item_key	=>	$items )
@@ -58,7 +62,7 @@ function __add_menu( $interface , $namespace , $config )
 			}
 		}
 		// Saving Menu
-		set_core_vars( $interface . '_menus' , $interface_menus );
+		get_instance()->config->set_item( $interface . '_menus' , $interface_menus );
 	}
 }
 /**
@@ -68,12 +72,13 @@ function __show_menu( $interface , $position , $item )
 {
 	if( in_array( $interface , array( 'admin' , 'account' ) ) ) 
 	{
-		if( in_array( $item , force_array( get_core_vars( $interface . '_menu_items' ) ) ) )
+		if( in_array( $item , force_array( get_instance()->config->item( $interface . '_menu_items' ) ) ) )
 		{
 			if( in_array( $position , array( 'before' , 'after' ) ) )
 			{
-				$get_menus		=	riake( $item , get_core_vars( $interface . '_menus' ) , array() );
+				$get_menus		=	riake( $item , get_instance()->config->item( $interface . '_menus' ) , array() );
 				$menu_position	=	riake( $position , $get_menus , array() );
+				var_dump( $menu_position );die;
 				if( is_array( $menu_position ) )
 				{
 					foreach( $menu_position as $namespace	=>	 $menu_list )

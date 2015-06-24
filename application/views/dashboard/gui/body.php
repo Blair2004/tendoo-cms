@@ -42,14 +42,7 @@ Tendoo Version Required : 1.5
 	}
 	
 	// Aauth Errors
-	$errors	=	$this->users->auth->get_errors_array();
-	if( $errors )
-	{
-		foreach( $errors as $error )
-		{
-			echo tendoo_error( $error );
-		}
-	}
+	$this->events->do_action( 'displays_dashboard_errors' );
 	?></p>    
     <p><?php echo fetch_notice_from_url();?></p>
     
@@ -229,7 +222,7 @@ Tendoo Version Required : 1.5
         <?php echo riake( 'footer-script' , $config , '' );?>
         <?php endforeach;?>
         <script>
-        $(document).ready(function(e) {
+        /** $(document).ready(function(e) {
             $('section[namespace]').each(function(){
                 var parent	=	$(this);
                 $(this).find('.box-header button').bind('click',function(){
@@ -237,7 +230,7 @@ Tendoo Version Required : 1.5
                     tendoo.set_user_meta( 'gui_'+ $(parent).attr('namespace') , status );
                 });
             });
-        });
+        }); **/
         </script>
         <?php if( in_array( 'dynamic-tables' , $enabled ) ) : ;?>
             <?php get_instance()->load->view( 'admin/gui/gui_dynamic_table_css' );?>

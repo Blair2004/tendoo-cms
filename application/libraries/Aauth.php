@@ -89,9 +89,9 @@ class Aauth {
 		if(CI_VERSION >= 2.2){
 			$this->CI->load->library('driver');
 		}
-		$this->CI->load->library('session');
+		//$this->CI->load->library('session');
 		$this->CI->load->library('email');
-		$this->CI->load->database();
+		// $this->CI->load->database();
 		$this->CI->load->helper('url');
 		$this->CI->load->helper('string');
 		$this->CI->load->helper('email');

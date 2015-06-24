@@ -10,20 +10,16 @@ class Dashboard_model extends CI_Model
 {
 	function __construct()
 	{
-		parent::__construct();
-		
-		// $this->output->cache( 5 );// remain for 5 minutes
-		
+		parent::__construct();		
+		$this->events->do_action( 'dashboard_loaded' );	
 		$this->events->add_action( 'before_admin_menu' , array( $this , '__set_admin_menu' ) );
-		$this->events->add_action( 'create_dashboard_pages' , array( $this , '__dashboard_config' ) );
+		$this->events->add_action( 'create_dashboard_pages' , array( $this , '__dashboard_config' ) );			
 	}
 	
 	function __dashboard_config()
 	{
 		$this->gui->register_page( 'index' , array( $this , 'index' ) );
 		$this->gui->register_page( 'settings' , array( $this , 'settings' ) );
-		$this->gui->register_page( 'users' , array( $this , 'users' ) );
-		$this->gui->register_page( 'roles' , array( $this , 'roles' ) );
 	}
 	function index()
 	{
@@ -37,296 +33,64 @@ class Dashboard_model extends CI_Model
 		$this->load->view( 'dashboard/settings/body' );
 	}
 	
-	function users( $page = 'list' , $index = 1 )
-	{		
-		if( $page == 'list' )
-		{
-			// $this->users() it's the current method, $this->users is the main user object
-			$users			=		$this->users->auth->list_users($group_par = FALSE, $limit = FALSE, $offset = FALSE, $include_banneds = FALSE);
-			$this->gui->set_title( sprintf( __( 'Users &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->load->view( 'dashboard/users/body' , array( 
-				'users'	=>	$users
-			) );
-		}
-		else if( $page == 'edit') 
-		{
-			// if current user matches user id
-			if( $this->users->auth->get_user_id() == $index )
-			{
-				redirect( array( 'dashboard' , 'users' , 'profile' ) );
-			}
-			// User Goup
-			$user				=	$this->users->auth->get_user( $index );			
-			$user_group			=	farray( $this->users->auth->get_user_groups( $index ) );
-
-			if( ! $user )
-			{
-				redirect( array( 'dashboard' , 'unknow-user' ) );
-			}
-			
-			// validation rules			
-			$this->load->library( 'form_validation' );
-			
-			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'required|valid_email' );
-			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'min_length[6]' );
-			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'matches[password]' );
-			$this->form_validation->set_rules( 'userprivilege' , __( 'User Privilege' ), 'required' );
-			
-			// load custom rules
-			$this->events->do_action( 'user_creation_rules' );
-			
-			if( $this->form_validation->run() )
-			{
-				$exec	=	$this->users->edit(
-				 	$index , 
-					$this->input->post( 'user_email' ),
-					$this->input->post( 'password' ),
-					$this->input->post( 'userprivilege' ),
-					$user_group
-				);			
-				$this->notice->push_notice( $this->lang->line( 'user-updated' ) );
-				// Refresh user data
-				$user				=	$this->users->auth->get_user( $index );
-				// User Goup
-				$user_group			=	farray( $this->users->auth->get_user_groups( $index ) );
-				
-				if( ! $user )
-				{
-					redirect( array( 'dashboard' , 'unknow-user' ) );
-				}
-			}			
-			
-			// User Goup
-			$user_group			=	farray( $this->users->auth->get_user_groups( $user->id ) );
-			// selecting groups
-			$groups				=	$this->users->auth->list_groups();		
-			
-			$this->gui->set_title( sprintf( __( 'Edit user &mdash; %s' ) , get( 'core_signature' ) ) );
-			
-			$this->load->view( 'dashboard/users/edit' , array( 
-				'groups'		=>	$groups,
-				'user'			=>	$user,
-				'user_group'	=>	$user_group
-			) );
-		}
-		else if( $page == 'create' )
-		{
-			$this->load->library( 'form_validation' );
-			
-			$this->form_validation->set_rules( 'username' , __( 'User Name' ), 'required|min_length[5]' );
-			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'required|valid_email' );
-			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'required|min_length[6]' );
-			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'required|matches[password]' );
-			$this->form_validation->set_rules( 'userprivilege' , __( 'User Privilege' ), 'required' );
-			
-			// load custom rules
-			$this->events->do_action( 'user_creation_rules' );
-			
-			if( $this->form_validation->run() )
-			{
-				$exec	=	$this->users->create( 
-					$this->input->post( 'user_email' ),
-					$this->input->post( 'password' ),
-					$this->input->post( 'username' ),					
-					$this->input->post( 'userprivilege' )
-				);
-				if( $exec == 'user-created' )
-				{
-					redirect( array( 'dashboard' , 'users?notice=' . $exec ) ); exit;
-				}
-				$this->notice->push_notice( $this->lang->line( $exec ) );
-			}
-			
-			// selecting groups
-			$groups				=	$this->users->auth->list_groups();
-			
-			$this->gui->set_title( sprintf( __( 'Create a new user &mdash; %s' ) , get( 'core_signature' ) ) );
-			
-			$this->load->view( 'dashboard/users/create' , array( 
-				'groups'	=>	$groups
-			) );
-		}
-		else if( $page == 'delete' )
-		{
-			$user	=	$this->users->auth->user_exsist_by_id( $index );
-			if( $user )
-			{
-				$this->users->delete( $index );
-				redirect( array( 'dashboard' , 'users?notice=user-deleted' ) );
-			}
-			redirect( array( 'dashboard' , 'unknow-user' ) );
-		}
-		else if( $page == 'profile' )
-		{
-			$this->load->library( 'form_validation' );
-			
-			$this->form_validation->set_rules( 'user_email' , __( 'User Email' ), 'valid_email' );
-			$this->form_validation->set_rules( 'old_pass' , __( 'Old Pass' ), 'min_length[6]' );
-			$this->form_validation->set_rules( 'password' , __( 'Password' ), 'min_length[6]' );
-			$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'matches[password]' );
-			
-			// Launch events for user profiles edition rules
-			$this->events->do_action( 'user_profile_rules' );
-			if( $this->form_validation->run() )
-			{
-				$exec	=	$this->users->edit(
-					$this->users->auth->get_user_id() , 
-					$this->input->post( 'user_email' ),
-					$this->input->post( 'password' ),
-					$this->input->post( 'userprivilege' ),
-					null, // user Privilege can't be editer through profile dash
-					$this->input->post( 'old_pass' ),
-					'profile'
-				);
-				
-				$this->notice->push_notice_array( $exec );
-			}
-			
-			$this->gui->set_title( sprintf( __( 'My Profile &mdash; %s' ) , get( 'core_signature' ) ) );
-			
-			$this->load->view( 'dashboard/users/profile' );
-		}
-	}
-	
-	/**
-	 * Admin Roles
-	 *
-	 * Handle Groups management
-	 * @since 1.5
-	**/
-	
-	function roles( $page = 'list' , $index = 1 )
-	{
-		// Display all roles
-		if( $page == 'list' )
-		{
-			$groups		=	$this->users->auth->list_groups();
-			
-			$this->gui->set_title( sprintf( __( 'Roles &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->load->view( 'dashboard/roles/body' , array(
-				'groups'	=>	$groups
-			) );
-		}
-		// Display Creation form
-		else if( $page == 'create' )
-		{
-			// Validating role creation form
-			$this->load->library( 'form_validation' );
-			$this->form_validation->set_rules( 'role_name' , __( 'Role Name' ) , 'required' );
-			$this->form_validation->set_rules( 'role_type' , __( 'Role Type' ) , 'required' );
-			$this->form_validation->set_rules( 'role_definition' , __( 'Role Definition' ) , 'required' );
-			
-			if( $this->form_validation->run() )
-			{
-				$exec 	=	$this->users->create_role( 
-					$this->input->post( 'role_name' ),
-					$this->input->post( 'role_definition' ),
-					$this->input->post( 'role_type' )
-				);
-				if( $exec == 'group-created' )
-				{
-					redirect( array( 'dashboard' , 'roles?notice=' . $exec ) );
-				}
-				$this->notice->push_notice( $this->lang->line( $exec ) );
-			}
-			
-			
-			$this->gui->set_title( sprintf( __( 'Create new role &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->load->view( 'dashboard/roles/create' );
-		}
-		// Display Edit form
-		else if( $page == 'edit' )
-		{
-			$this->gui->set_title( sprintf( __( 'Edit Roles &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->load->view( 'dashboard/roles/edit' );
-		}
-	}
-
-	/**
-	 * Define default menu for tendoo dashboard
-	**/
 	public function __set_admin_menu()
-	{		
-		Menu::add_admin_menu_core( 'dashboard' , array(
-			'href'			=>		site_url('dashboard'),
-			'icon'			=>		'fa fa-dashboard',
-			'title'			=>		__( 'Dashboard' )
-		) );
+	{	
+		$admin_menus		=	array(
+			'dashboard'		=>	array(
+				array(	
+					'href'			=>		site_url('dashboard'),
+					'icon'			=>		'fa fa-dashboard',
+					'title'			=>		__( 'Dashboard' )
+				)
+			),
+			'media'			=>	array(
+				array(
+					'title'			=>		__( 'Media Library' ),
+					'icon'			=>		'fa fa-image',
+					'href'			=>		site_url('dashboard/media')
+				)
+			),
+			'installer'			=>	array(
+				array(
+					'title'			=>		__( 'Install Apps' ),
+					'icon'			=>		'fa fa-flask',
+					'href'			=>		site_url('dashboard/installer')
+				)
+			),
+			'modules'			=>	array(
+				array(
+					'title'			=>		__( 'Modules' ),
+					'icon'			=>		'fa fa-puzzle-piece',
+					'href'			=>		site_url('dashboard/modules')
+				)
+			),
+			'themes'			=>	array(
+				array(
+					'title'			=>		__( 'Themes' ),
+					'icon'			=>		'fa fa-columns',
+					'href'			=>		site_url('dashboard/themes')
+				),
+				array(
+					'href'			=>		site_url('dashboard/controllers'),
+					'icon'			=>		'fa fa-bookmark',
+					'title'			=>		__( 'Menus' )
+				)
+			),
+			'settings'			=>	array(
+				array(
+					'title'			=>		__( 'Settings' ),
+					'icon'			=>		'fa fa-cogs',
+					'href'			=>		site_url('dashboard/settings')
+				)
+			),
+		);
 		
-		Menu::add_admin_menu_core( 'media' , array(
-			'title'			=>		__( 'Media Library' ),
-			'icon'			=>		'fa fa-image',
-			'href'			=>		site_url('dashboard/media')
-		) );
-		
-		Menu::add_admin_menu_core( 'installer' , array(
-			'title'			=>		__( 'Install Apps' ),
-			'icon'			=>		'fa fa-flask',
-			'href'			=>		site_url('dashboard/installer')
-		) );
-		
-		Menu::add_admin_menu_core( 'modules' , array(
-			'title'			=>		__( 'Modules' ),
-			'icon'			=>		'fa fa-puzzle-piece',
-			'href'			=>		site_url('dashboard/modules')
-		) );
-		
-		Menu::add_admin_menu_core( 'themes' , array(
-			'title'			=>		__( 'Themes' ),
-			'icon'			=>		'fa fa-columns',
-			'href'			=>		site_url('dashboard/themes')
-		) );
-		
-		Menu::add_admin_menu_core( 'themes' , array(
-			'href'			=>		site_url('dashboard/controllers'),
-			'icon'			=>		'fa fa-bookmark',
-			'title'			=>		__( 'Menus' )
-		) );
-		//
-		
-		Menu::add_admin_menu_core( 'users' , array(
-			'title'			=>		__( 'Manage Users' ),
-			'icon'			=>		'fa fa-users',
-			'href'			=>		site_url('dashboard/users')
-		) );
-		
-		Menu::add_admin_menu_core( 'users' , array(
-			'title'			=>		__( 'Create a new User' ),
-			'icon'			=>		'fa fa-users',
-			'href'			=>		site_url('dashboard/users/create')
-		) );
-			
-		Menu::add_admin_menu_core( 'roles' , array(
-			'title'			=>		__( 'Roles' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles'),
-		) );
-		
-		Menu::add_admin_menu_core( 'roles' , array(
-			'title'			=>		__( 'Create new role' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles/create')
-		) );
-		Menu::add_admin_menu_core( 'roles' , array(
-			'title'			=>		__( 'Roles permissions' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles/permissions')
-		) );
-		Menu::add_admin_menu_core( 'roles' , array(
-			'title'			=>		__( 'Manage Groups' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles/permissions')
-		) );
-		Menu::add_admin_menu_core( 'roles' , array(
-			'title'			=>		__( 'Create a new Group' ),
-			'icon'			=>		'fa fa-shield',
-			'href'			=>		site_url('dashboard/roles/permissions')
-		) );
-		
-		Menu::add_admin_menu_core( 'settings' , array(
-			'title'			=>		__( 'Settings' ),
-			'icon'			=>		'fa fa-cogs',
-			'href'			=>		site_url('dashboard/settings')
-		) );
+		foreach( force_array( $this->events->apply_filters( 'admin_menus' , $admin_menus ) ) as $namespace => $menus )
+		{
+			foreach( $menus as $menu )
+			{
+				Menu::add_admin_menu_core( $namespace , $menu  );
+			}
+		}		
 	}	
 }

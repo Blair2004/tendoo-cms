@@ -102,7 +102,11 @@ class Options extends CI_Model
 			$key_value		=	array();
 			foreach( $option as $_option )
 			{
-				$key_value[ riake( 'key' , $_option ) ] = riake( 'value' , $_option );
+				$value		=	riake( 'value' , $_option );
+				$value		=	is_array( $array	=	json_decode( $value , true ) ) ? $array : $value; // converting array to JSON
+				$value		=	in_array( $value , array( 'true' , 'false' ) ) ? $value === 'true' ? true : false : $value; // Converting Bool to string
+
+				$key_value[ riake( 'key' , $_option ) ] = $value;
 			}
 			return $key_value;
 		}
