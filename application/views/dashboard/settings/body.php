@@ -27,14 +27,14 @@ $this->gui->add_meta( array(
 
 $this->gui->add_item( array(
 	'type'		=>	'text',
-	'name'		=>	'site-name',
+	'name'		=>	'site_name',
 	'label'		=>	__( 'Site Name' ),
 	'placeholder'	=>	__( 'Enter your site name' )
 ) , 'general-settings' , 1 );
 
 $this->gui->add_item( array(
 	'type'		=>	'textarea',
-	'name'		=>	'site-description',
+	'name'		=>	'site_description',
 	'label'		=>	__( 'Site Description' ),
 	'placeholder'	=>	__( 'Enter your site description' )
 ) , 'general-settings' , 1 );

@@ -83,23 +83,24 @@ class Tendoo_setup extends Tendoo_Controller {
 		// load database
 		$this->load->database();
 		
+		$this->events->do_action( 'tendoo_setup' );
+		
 		// checks if master doesn't exists
-		if( $this->users->master_exists() ): redirect( array( 'login?notice=access-denied' ) ); endif;		
+		// if( $this->users->master_exists() ): redirect( array( 'login?notice=access-denied' ) ); endif;		
 				
 		$this->form_validation->set_rules( 'site_name' , __( 'Site Name' ), 'required' );
+		/** 
 		$this->form_validation->set_rules( 'username' , __( 'User Name' ), 'required|min_length[5]' );
 		$this->form_validation->set_rules( 'email' , __( 'Email' ), 'required|valid_email' );
 		$this->form_validation->set_rules( 'password' , __( 'Password' ), 'required|min_length[6]' );
 		$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'required|matches[password]' );
+		**/
 		if( $this->form_validation->run() )
 		{
 			$exec	=	$this->setup->final_configuration( 
-				$this->input->post( 'site_name' ) , 
-				$this->input->post( 'username' ) , 
-				$this->input->post( 'password' ) , 
-				$this->input->post( 'email' ) 
+				$this->input->post( 'site_name' ) 
 			);
-			if( $exec == 'user-created' )
+			if( $exec == 'tendoo-installed' )
 			{
 				redirect( array( 'sign-in?redirect=dashboard/index&notice=' . $exec  ) );
 			}

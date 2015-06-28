@@ -16,7 +16,7 @@ class Sign_in extends Tendoo_Controller {
 		parent::__construct();
 		$this->load->library( 'form_validation' );
 		$this->load->model( 'login_model' );
-		$this->load->model( 'users_model' , 'user' );
+		// $this->load->model( 'users_model' , 'user' );
 	}
 	
 	/**
@@ -29,13 +29,17 @@ class Sign_in extends Tendoo_Controller {
 	public function index()
 	{
 		$this->events->do_action( 'set_login_rules' );
+
+		// in order to let validation return true
+		$this->form_validation->set_rules( 'submit_button' , __( 'Submit button' ) , '' );
 		if( $this->form_validation->run() )
 		{
 			// Apply filter before login
 			$fields_namespace	=	$this->login_model->get_fields_namespace();
 			
 			// Log User After Applying Filters
-			$exec 	=	$this->users->login( $fields_namespace );
+			$this->events->do_action( 'tendoo_login' );
+			$exec 	=	$this->events->apply_filters( 'tendoo_login_notice' , 'user-logged-in' );
 			if( $exec == 'user-logged-in' )
 			{
 				if( riake( 'redirect' , $_GET ) )

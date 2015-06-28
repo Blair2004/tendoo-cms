@@ -13,22 +13,7 @@
           <div class="form-group has-feedback">
             <input type="text" class="form-control" placeholder="<?php _e( 'Site Name' );?>" name="site_name" value="<?php echo set_value( 'site_name' );?>">
           </div>
-          <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="<?php _e( 'User Name' );?>" name="username" value="<?php echo set_value( 'username' );?>">
-            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-          </div>
-          <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="<?php _e( 'Email' );?>" name="email" value="<?php echo set_value( 'email' );?>">
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-          </div>
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="<?php _e( 'Password' );?>" name="password" value="<?php echo set_value( 'password' );?>">
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-          </div>
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="<?php _e( 'Password confirm' );?>" name="confirm" value="<?php echo set_value( 'confirm' );?>">
-            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-          </div>
+          <?php echo $this->events->apply_filters( 'installation_fields' , '' );?>
           <div class="row">
             <div class="col-xs-8">    
             </div><!-- /.col -->

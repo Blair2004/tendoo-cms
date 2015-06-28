@@ -13,3 +13,5 @@ dashboard_logo_small		:	apply filter to dashboard min logo name
 dashboard_logo_long			:	apply filter to dashboard long logo name
 user_menu_card_header		:	apply filter to user menu header
 user_menu_name				:	apply filter to user 
+validating_tendoo_setup	:	apply filter to tendoo validation notice code during tendoo installation.
+tendoo_login_notice		:	apply filter to tendoo login notice code during tendoo login

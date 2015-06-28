@@ -18,14 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <p><?php echo fetch_notice_from_url();?></p>
         <p>
 		<?php 
-			$errors	=	$this->users->auth->get_errors_array();
-			if( $errors )
-			{
-				foreach( $errors as $error )
-				{
-					echo tendoo_error( $error );
-				}
-			}
+			$this->events->do_action( 'displays_public_errors' );
 		?></p>
         <form method="post">
         	<?php $this->events->do_action( 'display_login_fields' );?>

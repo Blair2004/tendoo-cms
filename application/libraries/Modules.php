@@ -12,7 +12,7 @@ class Modules
 		{
 			if( substr( $file , -10 ) === 'config.ini' )
 			{
-				$config		=	parse_ini_file( $module_path . '/' . $file );
+				$config		=	parse_ini_file( $module_path . '/' . $file , true );
 			}
 			else if( is_dir( $module_path . '/' . $file ) && ! in_array( $file , array( '.' , '..' ) ) )
 			{
@@ -42,9 +42,9 @@ class Modules
 	
 	static function init( $actives_modules )
 	{
-		$modules	=	self::get();
+		$modules		=	self::get();
 		$modules_array	=	array();
-		foreach( $modules as $module )
+		foreach( force_array( $modules ) as $module )
 		{
 			// $modules_array[]	=	riake( 'main' , $module ) ;
 			if( is_file( $init_file = riake( 'main' , $module ) ) && in_array( $init_file , $actives_modules ) )

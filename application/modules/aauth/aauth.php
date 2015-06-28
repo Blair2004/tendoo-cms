@@ -5,20 +5,234 @@ class auth_module_class extends CI_model
 	{
 		$this->events->add_action( 'load_users_custom_fields' , array( $this , 'user_custom_fields' ) );
 		$this->events->add_filter( 'custom_user_meta' , array( $this , 'custom_user_meta' ) , 10 , 1 );
-		$this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );
-		
+		$this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );		
 		// Change user name in the user menu
 		$this->events->add_filter( 'user_menu_name' , array( $this , 'user_menu_name' ) );
 		$this->events->add_filter( 'user_menu_card_header' , array( $this , 'user_menu_header' ) );
+		$this->events->add_filter( 'admin_menus' , array( $this , 'menu' ) );
+		$this->events->add_filter( 'installation_fields' , array( $this , 'installation_fields' ) , 10 , 1 );
 		
 		// change send administrator emails
 		$this->events->add_action( 'send_recovery_email' , array( $this , 'change_auth_settings' ) );
 		$this->events->add_action( 'after_app_init' , array( $this , 'after_session_starts' ) );
 		$this->events->add_action( 'displays_dashboard_errors' , array( $this , 'displays_dashboard_errors' ) );
-		$this->events->add_filter( 'admin_menus' , array( $this , 'menu' ) );
-		$this->events->add_action( 'dashboard_loaded' , array( $this , 'dashboard' ) );	
+		$this->events->add_action( 'dashboard_loaded' , array( $this , 'dashboard' ) );			
+		$this->events->add_action( 'tendoo_settings_tables' , array( $this , 'sql' ) );
+		$this->events->add_action( 'tendoo_settings_final_config' , array( $this , 'final_config' ) );
+		$this->events->add_action( 'tendoo_login' , array ( $this , 'tendoo_login' ) );
+		$this->events->add_action( 'is_connected' , array( $this , 'is_connected' ) );
+		$this->events->add_action( 'displays_public_errors' , array( $this , 'public_errors' ) );
+		// add action to display login fields
+		// $this->events->add_action( 'display_login_fields' , array( $this , 'display_login_fields' ) );		
+		$this->events->add_action( 'set_login_rules' , array( $this , 'set_login_rules' ) );		
 	}
 	
+	
+	function create_login_fields()
+	{
+		// default login fields
+		$this->config->set_item( 'signin_fields' , array(  
+			'pseudo'	=>
+			'<div class="form-group has-feedback">
+				<input type="text" class="form-control" placeholder="' . __( 'Email or User Name' ) .'" name="username_or_email">
+				<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			</div>',		
+			'password'	=>
+			'<div class="form-group has-feedback">
+				<input type="password" class="form-control" placeholder="' . __( 'Password' ) .'" name="password">
+				<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			</div>',
+			'submit'	=>
+			'<div class="row">
+				<div class="col-xs-8">    
+				  <div class="checkbox icheck">
+					<label>
+					  <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false"><input type="checkbox" name="keep_connected"><ins class="iCheck-helper"></ins></div> ' . __( 'Remember me' ) . '
+					</label>
+				  </div>                        
+				</div><!-- /.col -->
+				<div class="col-xs-4">
+				  <button type="submit" class="btn btn-primary btn-block btn-flat">' . __( 'Sign In' ) .'</button>
+				</div><!-- /.col -->
+			</div>' 
+		) );
+	}
+	function set_login_rules()
+	{
+		$this->form_validation->set_rules( 'username_or_email' , __( 'Email or User Name' ) , 'required|min_length[5]' );
+		$this->form_validation->set_rules( 'password' , __( 'Email or User Name' ) , 'required|min_length[6]' );
+	}
+	function public_errors()
+	{
+		$errors	=	$this->users->auth->get_errors_array();
+		if( $errors )
+		{
+			foreach( $errors as $error )
+			{
+				echo tendoo_error( $error );
+			}
+		}
+	}
+	function is_connected()
+	{
+		if( $this->users->is_connected() )
+		{
+			redirect( array( $this->config->item( 'default_logout_route' ) ) );
+		}
+	}
+	function tendoo_login()
+	{
+		$exec 	=	$this->users->login( $fields_namespace );
+		if( $exec == 'user-logged-in' )
+		{
+			if( riake( 'redirect' , $_GET ) )
+			{
+				redirect( riake( 'redirect' , $_GET ) );
+			}
+			else
+			{
+				redirect( array( 'dashboard' ) );
+			}
+		}
+		$this->notice->push_notice( $this->lang->line( $exec ) );
+	}
+	
+	function installation_fields( $fields )
+	{
+		ob_start();
+		?>
+      <div class="form-group has-feedback">
+         <input type="text" class="form-control" placeholder="<?php _e( 'User Name' );?>" name="username" value="<?php echo set_value( 'username' );?>">
+         <span class="glyphicon glyphicon-user form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="email" class="form-control" placeholder="<?php _e( 'Email' );?>" name="email" value="<?php echo set_value( 'email' );?>">
+         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="password" class="form-control" placeholder="<?php _e( 'Password' );?>" name="password" value="<?php echo set_value( 'password' );?>">
+         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="password" class="form-control" placeholder="<?php _e( 'Password confirm' );?>" name="confirm" value="<?php echo set_value( 'confirm' );?>">
+         <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+       </div>
+      <?php
+		$fields	=	ob_get_clean();
+	}
+	function final_config()
+	{
+		// checks user and email availability
+		if( $this->users->auth->user_exsist_by_name( $username ) ) 		: return 'username-used'; endif; 
+		if( $this->users->auth->user_exsist_by_email( $email ) ) 		: return 'email-used'; endif;
+		
+		// set site_name
+		$this->options->set( 'site_name' , $site_name );
+		
+		// Creating Master & Groups
+		$this->users->create_default_groups();
+		$this->users->create_master( $email , $password , $username );
+	}
+	function sql()
+	{
+		// Creatin Auth Group
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_groups`;" );
+		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_groups` (
+		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		  `name` varchar(100),
+		  `definition` text,
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;" );
+		
+		// Creating Auth Permission
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_perms`;" );
+		$this->db->query( "
+		CREATE TABLE `{$database_prefix}aauth_perms` (
+		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		  `name` varchar(100),
+		  `definition` text,
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+		" );
+		
+		// Creating Permission to Group
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_perm_to_group`;" );
+		$this->db->query( "CREATE TABLE `{$database_prefix}aaauth_perm_to_group` (
+		  `perm_id` int(11) unsigned DEFAULT NULL,
+		  `group_id` int(11) unsigned DEFAULT NULL,
+		  PRIMARY KEY (`perm_id`,`group_id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
+		
+		// Auth Permission to User
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_perm_to_user`;" );
+		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_perm_to_user` (
+		  `perm_id` int(11) unsigned DEFAULT NULL,
+		  `user_id` int(11) unsigned DEFAULT NULL,
+		  PRIMARY KEY (`perm_id`,`user_id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
+		
+		// Auth PMS
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_pms`;" );
+		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_pms` (
+		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		  `sender_id` int(11) unsigned NOT NULL,
+		  `receiver_id` int(11) unsigned NOT NULL,
+		  `title` varchar(255) NOT NULL,
+		  `message` text,
+		  `date` datetime DEFAULT NULL,
+		  `read` tinyint(1) DEFAULT '0',
+		  PRIMARY KEY (`id`),
+		  KEY `full_index` (`id`,`sender_id`,`receiver_id`,`read`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
+		
+		// System Variables
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_system_variables`;" );
+		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_system_variables` (
+		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		  `key` varchar(100) NOT NULL,
+		  `value` text,
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
+		
+		// Auth User Table
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_users`;" );
+		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_users` (
+		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		  `email` varchar(100) COLLATE utf8_general_ci NOT NULL,
+		  `pass` varchar(100) COLLATE utf8_general_ci NOT NULL,
+		  `name` varchar(100) COLLATE utf8_general_ci,
+		  `banned` tinyint(1) DEFAULT '0',
+		  `last_login` datetime DEFAULT NULL,
+		  `last_activity` datetime DEFAULT NULL,
+		  `last_login_attempt` datetime DEFAULT NULL,
+		  `forgot_exp` text COLLATE utf8_general_ci,
+		  `remember_time` datetime DEFAULT NULL,
+		  `remember_exp` text COLLATE utf8_general_ci,
+		  `verification_code` text COLLATE utf8_general_ci,
+		  `ip_address` text COLLATE utf8_general_ci,
+		  `login_attempts` int(11) DEFAULT '0',
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;" );
+		
+		// User Auth Group
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_user_to_group`;" );
+		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_user_to_group` (
+		  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+		  `group_id` int(11) unsigned NOT NULL DEFAULT '0',
+		  PRIMARY KEY (`user_id`,`group_id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
+		
+		// Auth User Variable
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_user_variables`;" );
+		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_user_variables` (
+		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		  `user_id` int(11) unsigned NOT NULL,
+		  `key` varchar(100) NOT NULL,
+		  `value` text,
+		  PRIMARY KEY (`id`),
+		  KEY `user_id_index` (`user_id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
+	}
 	function dashboard()
 	{
 		$this->gui->register_page( 'users' , array( $this , 'users' ) );
