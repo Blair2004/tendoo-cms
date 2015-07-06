@@ -235,7 +235,7 @@ class Users_model extends CI_Model
 	 * Send recovery email to an registered email
 	**/
 	
-	function send_recovery_email( $email )
+	function do_send_recovery( $email )
 	{
 		if( $this->auth->user_exsist_by_email( $email ) )
 		{

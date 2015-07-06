@@ -16,13 +16,14 @@ class auth_module_class extends CI_model
 		$this->events->add_filter( 'installation_fields' , array( $this , 'installation_fields' ) , 10 , 1 );
 		
 		// change send administrator emails
-		$this->events->add_action( 'send_recovery_email' , array( $this , 'change_auth_settings' ) );
+		$this->events->add_action( 'do_send_recovery' , array( $this , 'change_auth_settings' ) );
+		$this->events->add_action( 'do_send_recovery' , array( $this , 'recovery_email' ) );
 		$this->events->add_action( 'after_app_init' , array( $this , 'after_session_starts' ) );
 		$this->events->add_action( 'displays_dashboard_errors' , array( $this , 'displays_dashboard_errors' ) );
 		$this->events->add_action( 'dashboard_loaded' , array( $this , 'dashboard' ) );			
 		$this->events->add_action( 'tendoo_settings_tables' , array( $this , 'sql' ) );
 		$this->events->add_action( 'tendoo_settings_final_config' , array( $this , 'final_config' ) );
-		$this->events->add_action( 'tendoo_login' , array ( $this , 'tendoo_login' ) );
+		$this->events->add_action( 'do_login' , array ( $this , 'tendoo_login' ) );
 		$this->events->add_action( 'is_connected' , array( $this , 'is_connected' ) );
 		$this->events->add_action( 'displays_public_errors' , array( $this , 'public_errors' ) );
 		$this->events->add_action( 'log_user_out' , array( $this , 'log_user_out' ) );
@@ -35,6 +36,17 @@ class auth_module_class extends CI_model
 		$this->events->add_filter( 'displays_registration_fields' , array( $this , 'registration_fields' ) );	
 	}
 	
+	function recovery_email()
+	{
+			// Send Recovery
+			$exec 	=	$this->user->send_recovery_email( $this->input->post( 'user_email' ) );
+			
+			if( $exec === 'recovery-email-send' )
+			{
+				redirect( array( 'sign-in?notice=' . $exec ) );
+			}
+			$this->notice->push_notice( $this->lang->line( $exec ) );
+	}
 	function registration_fields( $fields )
 	{
 		ob_start();

@@ -34,9 +34,9 @@ class Sign_in extends Tendoo_Controller {
 		if( $this->form_validation->run() )
 		{			
 			// Log User After Applying Filters
-			$this->events->do_action( 'tendoo_login' );
-			$exec 	=	$this->events->apply_filters( 'tendoo_login_notice' , 'user-logged-in' );
-			if( $exec == 'user-logged-in' )
+			$this->events->do_action( 'do_login' );
+			$exec 		=	$this->events->apply_filters( 'tendoo_login_notice' , 'user-logged-in' );
+			if( $exec 	== 'user-logged-in' )
 			{
 				if( riake( 'redirect' , $_GET ) )
 				{
@@ -74,16 +74,7 @@ class Sign_in extends Tendoo_Controller {
 			 * Actions to be run before sending recovery email
 			 * It can allow use to edit email
 			**/
-			$this->events->do_action( 'send_recovery_email' );
-			
-			// Send Recovery
-			$exec 	=	$this->user->send_recovery_email( $this->input->post( 'user_email' ) );
-			
-			if( $exec === 'recovery-email-send' )
-			{
-				redirect( array( 'sign-in?notice=' . $exec ) );
-			}
-			$this->notice->push_notice( $this->lang->line( $exec ) );
+			$this->events->do_action( 'do_send_recovery' );
 		}
 		Html::set_title( sprintf( __( 'Recover Password &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'shared/header' );
