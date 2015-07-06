@@ -31,26 +31,13 @@ class Sign_up extends Tendoo_Controller {
 	}
 	public function index()
 	{	
-		$this->form_validation->set_rules( 'username' , __( 'User Name' ) , 'required' );
-		$this->form_validation->set_rules( 'email' , __( 'Email' ) , 'valid_email|required' );
-		$this->form_validation->set_rules( 'password' , __( 'Password' ) , 'required|min_length[6]' );
-		$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ) , 'matches[password]' );
+		$this->events->do_action( 'registration_rules' );	
 		
 		if( $this->form_validation->run() )
 		{
-			$exec	=	$this->users->create( 
-				$this->input->post( 'email' ), 
-				$this->input->post( 'password' ),
-				$this->input->post( 'username' )
-			);
-			
-			if( $exec === 'user-created' )
-			{
-				redirect( array( 'sign-in?notice=' . $exec ) );
-			}
-			
-			$this->notice->push_notice( $this->lang->line( $exec ) );
+			$this->events->do_action( 'do_register_user' );
 		}
+		
 		$this->load->view( 'shared/header' );
 		$this->load->view( 'sign-up/body' );
 	}

@@ -28,9 +28,67 @@ class auth_module_class extends CI_model
 		$this->events->add_action( 'log_user_out' , array( $this , 'log_user_out' ) );
 		// add action to display login fields
 		$this->events->add_action( 'display_login_fields' , array( $this , 'create_login_fields' ) );		
-		$this->events->add_action( 'set_login_rules' , array( $this , 'set_login_rules' ) );		
+		$this->events->add_action( 'set_login_rules' , array( $this , 'set_login_rules' ) );
+		$this->events->add_action( 'registration_rules' , array( $this , 'registration_rules' ) );
+		$this->events->add_action( 'do_register_user' , array( $this , 'register_user' ) );	
+		
+		$this->events->add_filter( 'displays_registration_fields' , array( $this , 'registration_fields' ) );	
 	}
 	
+	function registration_fields( $fields )
+	{
+		ob_start();
+		?>
+      <div class="form-group has-feedback">
+         <input type="text" class="form-control" placeholder="<?php _e( 'User Name' );?>" name="username">
+         <span class="glyphicon glyphicon-user form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="email" class="form-control" placeholder="<?php _e( 'Email' );?>" name="email">
+         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="password" class="form-control" placeholder="<?php _e( 'Password' );?>" name="password">
+         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="password" class="form-control" placeholder="<?php _e( 'Confirm' );?>" name="confirm">
+         <span class="glyphicon glyphicon-lock  form-control-feedback"></span>
+       </div>
+       <div class="row">
+         <div class="col-xs-8">    
+           <div class="checkbox icheck">
+           </div>                        
+         </div><!-- /.col -->
+         <div class="col-xs-4">
+           <button type="submit" class="btn btn-primary btn-block btn-flat"><?php _e( 'Sign Up' );?></button>
+         </div><!-- /.col -->
+       </div>
+      <?php
+		return $fields .= ob_get_clean();
+	}
+	function register_user()
+	{
+		$exec	=	$this->users->create( 
+			$this->input->post( 'email' ), 
+			$this->input->post( 'password' ),
+			$this->input->post( 'username' )
+		);
+		
+		if( $exec === 'user-created' )
+		{
+			redirect( array( 'sign-in?notice=' . $exec ) );
+		}
+		
+		$this->notice->push_notice( $this->lang->line( $exec ) );
+	}
+	function registration_rules()
+	{
+		$this->form_validation->set_rules( 'username' , __( 'User Name' ) , 'required' );
+		$this->form_validation->set_rules( 'email' , __( 'Email' ) , 'valid_email|required' );
+		$this->form_validation->set_rules( 'password' , __( 'Password' ) , 'required|min_length[6]' );
+		$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ) , 'matches[password]' );
+	}
 	function log_user_out()
 	{
 		if( $this->users->logout() == NULL )
