@@ -30,11 +30,13 @@ class Tendoo_setup extends Tendoo_Controller {
 		Enqueue::enqueue_js( 'bootstrap.min' );
 		Enqueue::enqueue_js( 'plugins/iCheck/icheck.min' );		
 		Enqueue::enqueue_js( 'app.min' );
+		
+		Modules::load( MODULESPATH );
 	}
 	public function index()
 	{
 		// checks if tendoo is not installed
-		if( $this->setup->is_installed() ): redirect( array( 'init' ) ); endif;
+		if( $this->setup->is_installed() ): redirect( array( 'init?notice=is-installed' ) ); endif;
 		
 		// set title
 		Html::set_title( sprintf( __( 'Welcome Page &mdash; %s' ) , get( 'core_signature' ) ) );

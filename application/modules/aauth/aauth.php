@@ -3,6 +3,9 @@ class auth_module_class extends CI_model
 {
 	function __construct()
 	{
+		parent::__construct();
+		$this->load->model( 'users_model' , 'users' );
+		// Events
 		$this->events->add_action( 'load_users_custom_fields' , array( $this , 'user_custom_fields' ) );
 		$this->events->add_filter( 'custom_user_meta' , array( $this , 'custom_user_meta' ) , 10 , 1 );
 		$this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );		
@@ -22,12 +25,28 @@ class auth_module_class extends CI_model
 		$this->events->add_action( 'tendoo_login' , array ( $this , 'tendoo_login' ) );
 		$this->events->add_action( 'is_connected' , array( $this , 'is_connected' ) );
 		$this->events->add_action( 'displays_public_errors' , array( $this , 'public_errors' ) );
+		$this->events->add_action( 'log_user_out' , array( $this , 'log_user_out' ) );
 		// add action to display login fields
-		// $this->events->add_action( 'display_login_fields' , array( $this , 'display_login_fields' ) );		
+		$this->events->add_action( 'display_login_fields' , array( $this , 'create_login_fields' ) );		
 		$this->events->add_action( 'set_login_rules' , array( $this , 'set_login_rules' ) );		
 	}
 	
-	
+	function log_user_out()
+	{
+		if( $this->users->logout() == NULL )
+		{
+			if( ( $redir	=	riake( 'redirect' , $_GET ) ) != false )
+			{
+				// if redirect parameter is set
+			}
+			else
+			{
+				redirect( array( 'sign-in' ) );
+			}
+		}
+		// not trying to handle false since this controller require login. 
+		// While accessing this controller twice, a redirection will be made to login page from "tendoo_controller".
+	}
 	function create_login_fields()
 	{
 		// default login fields
@@ -82,7 +101,9 @@ class auth_module_class extends CI_model
 	}
 	function tendoo_login()
 	{
-		$exec 	=	$this->users->login( $fields_namespace );
+		// Apply filter before login
+		$fields_namespace	=	$this->login_model->get_fields_namespace();
+		$exec 				=	$this->users->login( $fields_namespace );
 		if( $exec == 'user-logged-in' )
 		{
 			if( riake( 'redirect' , $_GET ) )
@@ -118,23 +139,27 @@ class auth_module_class extends CI_model
          <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
        </div>
       <?php
-		$fields	=	ob_get_clean();
+		return $fields	.=	ob_get_clean();
 	}
 	function final_config()
 	{
 		// checks user and email availability
-		if( $this->users->auth->user_exsist_by_name( $username ) ) 		: return 'username-used'; endif; 
-		if( $this->users->auth->user_exsist_by_email( $email ) ) 		: return 'email-used'; endif;
+		if( $this->users->auth->user_exsist_by_name( $this->input->post( 'username' ) ) ) 		: return 'username-used'; endif; 
+		if( $this->users->auth->user_exsist_by_email( $this->input->post( 'email' ) ) ) 		: return 'email-used'; endif;
 		
 		// set site_name
 		$this->options->set( 'site_name' , $site_name );
 		
 		// Creating Master & Groups
 		$this->users->create_default_groups();
-		$this->users->create_master( $email , $password , $username );
+		$this->users->create_master( $this->input->post( 'email' ) , $this->input->post( 'password' ) , $this->input->post( 'username' ) );
 	}
-	function sql()
+	function sql( $config )
 	{
+		// let's set this module active
+		Modules::enable( 'auth' );
+		
+		extract( $config );
 		// Creatin Auth Group
 		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_groups`;" );
 		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_groups` (
@@ -496,8 +521,8 @@ class auth_module_class extends CI_model
 		}
 		
 		// Load created roles add push it to their respective type
-		$admin_groups	=	$this->options->get( 'admin_groups' );
-		$public_groups	=	$this->options->get( 'public_groups' );
+		$admin_groups	=	force_array( $this->options->get( 'admin_groups' ) );
+		$public_groups	=	force_array( $this->options->get( 'public_groups' ) );
 		
 		// For public groups
 		$tendoo_public_groups	=	$this->config->item( 'public_group_label' );

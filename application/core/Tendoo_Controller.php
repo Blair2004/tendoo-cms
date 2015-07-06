@@ -27,9 +27,14 @@ class Tendoo_Controller extends CI_Controller
 			$this->load->model( 'options' );			
 			
 			// Get Active Modules and load it
-			Modules::init( force_array( $this->options->get( 'active_modules' ) ) );
+			Modules::init( 'actives' );
 			
 			$this->events->do_action( 'after_app_init' );
+		}
+		else
+		{
+			// this backet let module being called during tendoo installation
+			Modules::init( 'all' );
 		}
 		
 		// if is reserved controllers only
@@ -61,6 +66,7 @@ class Tendoo_Controller extends CI_Controller
 			Enqueue::enqueue_css( 'skins/_all-skins.min' );			
 			Enqueue::enqueue_css( 'font-awesome-4.3.0' );
 			Enqueue::enqueue_css( '../plugins/iCheck/square/blue' );
+			
 			/**
 			 * 	Enqueueing Js
 			**/

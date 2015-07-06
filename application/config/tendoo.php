@@ -11,34 +11,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // Reserved Controllers
-$config[ 'reserved_controllers' ]				= 	array( 'dashboard' , 'sign-in', 'sign-out' , 'sign-up' , 'tendoo-setup' );
+$config[ 'reserved_controllers' ]					= 	array( 'dashboard' , 'sign-in', 'sign-out' , 'sign-up' , 'tendoo-setup' );
 $config[ 'controllers_requiring_installation' ]	=	array( 'dashboard' , 'sign-in' , 'sign-out' , 'sign-up' );
-$config[ 'controllers_requiring_login' ]		=	array( 'dashboard' , 'sign-out' );
-	$config[ 'default_login_route' ]			=	'/sign-in/?notice=login-required';
-$config[ 'controllers_requiring_logout' ]		=	array( 'sign-in' , 'sign-up' );
-	$config[ 'default_logout_route' ]			=	'/dashboard/?notice=logout-required';
+$config[ 'controllers_requiring_login' ]			=	array( 'dashboard' , 'sign-out' );
+	$config[ 'default_login_route' ]					=	'/sign-in/?notice=login-required';
+$config[ 'controllers_requiring_logout' ]			=	array( 'sign-in' , 'sign-up' );
+	$config[ 'default_logout_route' ]				=	'/dashboard/?notice=logout-required';
 
 // Core ID	
-$config[ 'version' ]							=	$config[ 'core_version' ]	=	1.5; // core id
-$config[ 'core_signature' ]						=	'Tendoo ' . $config[ 'version' ]; // core id
+$config[ 'version' ]										=	$config[ 'core_version' ]	=	1.5; // core id
+$config[ 'core_signature' ]							=	'Tendoo ' . $config[ 'version' ]; // core id
 
-$config[ 'supported_lang' ]						=	array( 'english' );
-$config[ 'database_version' ]					=	'1.0';
+$config[ 'supported_lang' ]							=	array( 'english' );
+$config[ 'database_version' ]							=	'1.0';
 
 // Default Group
-$config[ 'master_group_label' ]					=	array( 'master' );
-$config[ 'public_group_label' ]					=	array( 'public' );
+$config[ 'master_group_label' ]						=	array( 'master' );
+$config[ 'public_group_label' ]						=	array( 'public' );
 
 // For Auth Class (Email Purpose)
 // Uses Username to login
-$config[ 'username_login' ]						=	TRUE;
+$config[ 'username_login' ]							=	TRUE;
 // default route to access email verifcaion
-$config[ 'route_for_verification' ]				=	'/sign-in/verify/';
+$config[ 'route_for_verification' ]					=	'/sign-in/verify/';
 // default route to access password reset
-$config[ 'route_for_reset' ]					=	'/sign-in/reset/';
+$config[ 'route_for_reset' ]							=	'/sign-in/reset/';
 
 // Site Time Zone
-$config[ 'site_timezone' ]						=	array_flip( array (
+$config[ 'site_timezone' ]								=	array_flip( array (
     '(UTC-11:00) Midway Island' => 'Pacific/Midway',
     '(UTC-11:00) Samoa' => 'Pacific/Samoa',
     '(UTC-10:00) Hawaii' => 'Pacific/Honolulu',
@@ -184,8 +184,8 @@ $config[ 'site_timezone' ]						=	array_flip( array (
     '(UTC+13:00) Nuku\'alofa' => 'Pacific/Tongatapu'
 ) );
 // 
-$config[ 'default_user_names' ]					=	'John Doe';
+$config[ 'default_user_names' ]						=	'John Doe';
 
-$config[ 'admin_menus' ]						=	array();
-$config[ 'admin_menu_position' ]				=	array( 'before' , 'after' );
-$config[ 'admin_menu_item' ]					=	array( 'dashboard' , 'menu' , 'about' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' );
+$config[ 'admin_menus' ]								=	array();
+$config[ 'admin_menu_position' ]						=	array( 'before' , 'after' );
+$config[ 'admin_menu_item' ]							=	array( 'dashboard' , 'menu' , 'about' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' );

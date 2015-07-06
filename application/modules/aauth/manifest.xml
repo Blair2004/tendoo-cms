@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding="UTF-8" standalone="yes" ?>
+<application>
+	<config>
+		<file name="config.php">Config PHP</file>
+		<file name="dot.php">dot.php</file>
+	</config>
+	<models>
+		<file name="custom.php">Custom</file>
+	</models>
+</application>

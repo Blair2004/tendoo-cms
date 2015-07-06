@@ -60,7 +60,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array( 'events' );
+$autoload['libraries'] = array( 'events' , 'XML2Array' );
 
 
 /*

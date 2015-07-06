@@ -38,7 +38,10 @@ class Installation_Model extends CI_Model
 				) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 				" );
 				
-				$this->events->do_action( 'tendoo_settings_tables' );
+				$this->events->do_action( 'tendoo_settings_tables' , array(
+					'database_prefix'		=>		$database_prefix,
+					'install_model'		=>		$this
+				) );
 				
 				// Creating Database File
 				$this->create_config_file( $config );
@@ -92,7 +95,7 @@ if(!defined('DB_PREFIX'))
 		fwrite( $file , $string_config );
 		fclose( $file );
 	}
-	function final_configuration( $site_name , $username , $password , $email )
+	function final_configuration( $site_name )
 	{	
 		// Saving Site name
 		$this->options->set( 'site_name' , $site_name );

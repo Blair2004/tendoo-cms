@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<application>
+	<details>
+		<namespace>Dashboard</namespace>
+		<version>1.0</version>
+		<author>Tendoo Dev Team</author>
+		<description>Sample Description</description>
+		<main>main.php</main>
+	</details>
+	<permission>
+		<namespace>call_foreign</namespace>
+		<title>Call Foreign</title>
+		<description>Call Foreign</description>
+	</permission>
+</application>
