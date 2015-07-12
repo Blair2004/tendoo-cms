@@ -11,7 +11,7 @@ class Dashboard_model extends CI_Model
 	function __construct()
 	{
 		parent::__construct();		
-		$this->events->do_action( 'dashboard_loaded' );	
+		$this->events->do_action( 'load_dashboard' );	
 		$this->events->add_action( 'before_admin_menu' , array( $this , '__set_admin_menu' ) );
 		$this->events->add_action( 'create_dashboard_pages' , array( $this , '__dashboard_config' ) );			
 	}

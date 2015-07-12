@@ -15,3 +15,4 @@ user_menu_card_header		:	apply filter to user menu header
 user_menu_name				:	apply filter to user 
 validating_tendoo_setup	:	apply filter to tendoo validation notice code during tendoo installation.
 tendoo_login_notice		:	apply filter to tendoo login notice code during tendoo login
+ui_notices					:	return ui notices array

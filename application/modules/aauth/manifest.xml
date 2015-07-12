@@ -5,6 +5,9 @@
 		<file name="dot.php">dot.php</file>
 	</config>
 	<models>
-		<file name="custom.php">Custom</file>
+		<file name="Users_model.php">Users_model</file>
 	</models>
+	<library>
+		<file name="aauth.php">Aauth</file>
+	</library>
 </application>

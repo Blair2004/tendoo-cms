@@ -70,6 +70,9 @@ $config['aauth'] = array(
     
 );
 
+// Default Group
+$config[ 'master_group_label' ]						=	array( 'master' , 'editors' , 'moderators' , 'authors' );
+$config[ 'public_group_label' ]						=	array( 'subscribers' );
 
 /* End of file aauth.php */
 /* Location: ./application/config/aauth.php */

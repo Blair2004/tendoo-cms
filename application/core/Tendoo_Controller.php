@@ -9,6 +9,7 @@ class Tendoo_Controller extends CI_Controller
 		include_once( LIBPATH .'/Html.php' );
 		include_once( LIBPATH .'/Enqueue.php' );
 		include_once( LIBPATH .'/Modules.php' );
+		include_once( LIBPATH .'/UI.php' );
 		
 		// get system lang
 		$this->lang->load( 'system' );	
@@ -31,12 +32,15 @@ class Tendoo_Controller extends CI_Controller
 			
 			$this->events->do_action( 'after_app_init' );
 		}
-		else
+		// Only for controller requiring installation
+		else if( $this->uri->segment(1) === 'tendoo-setup' && $this->uri->segment(2) === 'database' )
 		{
-			// this backet let module being called during tendoo installation
-			Modules::init( 'all' );
+			$this->events->add_action( 'before_setting_tables' , function(){
+				// this hook let modules being called during tendoo installation
+				// Only when site name is being defined
+				Modules::init( 'all' );
+			});
 		}
-		
 		// if is reserved controllers only
 		if( in_array( $this->uri->segment(1) , $this->config->item( 'reserved_controllers' ) ) )
 		{

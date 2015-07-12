@@ -17,6 +17,7 @@ class Installation_Model extends CI_Model
 		$config['dbcollat'] = 'utf8_general_ci';
 		
 		$this->load->database( $config );
+		$this->load->library( 'session' );
 		$this->load->dbutil();
 		$this->load->dbforge();
 		$this->load->model( 'options' );
@@ -25,6 +26,14 @@ class Installation_Model extends CI_Model
 		{
 			if( $this->dbutil->database_exists( $database_name ) )
 			{
+				// Before tendoo settings tables
+				// Used internaly to load module only when database connection is established.
+				
+				$this->events->do_action( 'before_setting_tables' , array(
+					'database_prefix'		=>		$database_prefix,
+					'install_model'		=>		$this
+				) );
+				
 				// Creating option table
 				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}options`;" );				
 				$this->db->query( "CREATE TABLE `{$database_prefix}options` (

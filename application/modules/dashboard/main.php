@@ -6,7 +6,13 @@ class dashboard_manager extends CI_model
 		parent::__construct();		
 		// load custom config
 		$this->events->add_action( 'after_app_init' , array( $this , 'before_session_starts' ) );
+		$this->events->add_action( 'tendoo_settings_tables' , array( $this , 'set_tables' ) );
 		
+	}
+	
+	function set_tables()
+	{
+		Modules::enable( 'dashboard' );
 	}
 	
 	/**

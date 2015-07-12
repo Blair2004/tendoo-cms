@@ -73,7 +73,7 @@ class Modules
 	 *		is most used by tendoo core
 	**/
 	
-	function enable( $module_namespace )
+	static function enable( $module_namespace )
 	{
 		$activated_modules			=	get_instance()->options->get( 'actives_modules' );
 		if( ! in_array( $module_namespace , $activated_modules ) )
@@ -92,7 +92,7 @@ class Modules
 	 * @returns bool
 	**/
 	
-	function is_active( $module_namespace )
+	static function is_active( $module_namespace )
 	{
 		$activated_modules			=	get_instance()->options->get( 'actives_modules' );
 		if( ! in_array( $module_namespace , $activated_modules ) )
@@ -110,7 +110,7 @@ class Modules
 	 * @return void
 	**/
 	
-	function disable( $module_namespace )
+	static function disable( $module_namespace )
 	{
 		$activated_modules			=	get_instance()->options->get( 'actives_modules' );
 		if( in_array( $module_namespace , $activated_modules ) )

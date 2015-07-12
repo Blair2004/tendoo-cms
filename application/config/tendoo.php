@@ -25,9 +25,6 @@ $config[ 'core_signature' ]							=	'Tendoo ' . $config[ 'version' ]; // core id
 $config[ 'supported_lang' ]							=	array( 'english' );
 $config[ 'database_version' ]							=	'1.0';
 
-// Default Group
-$config[ 'master_group_label' ]						=	array( 'master' );
-$config[ 'public_group_label' ]						=	array( 'public' );
 
 // For Auth Class (Email Purpose)
 // Uses Username to login
@@ -188,4 +185,4 @@ $config[ 'default_user_names' ]						=	'John Doe';
 
 $config[ 'admin_menus' ]								=	array();
 $config[ 'admin_menu_position' ]						=	array( 'before' , 'after' );
-$config[ 'admin_menu_item' ]							=	array( 'dashboard' , 'menu' , 'about' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'roles' , 'frontend' );
+$config[ 'admin_menu_item' ]							=	array( 'dashboard' , 'menu' , 'about' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'frontend' );

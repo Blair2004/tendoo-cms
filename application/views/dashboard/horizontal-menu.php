@@ -27,6 +27,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <ul class="nav navbar-nav">
                         <!-- Messages: style can be found in dropdown.less-->
                         <?php $this->events->do_action( 'display_admin_header_menu' );?>
+                        <?php if( true === false ):?>
+                        <!-- DISABLED -->
                         <li class="dropdown messages-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-envelope-o"></i> <span class="label label-success">4</span> </a>
                             <ul class="dropdown-menu">
                                 <li class="header">You have 4 messages</li>
@@ -65,23 +67,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <li class="footer"><a href="#">See All Messages</a></li>
                             </ul>
                         </li>
+                        <!-- End DISABLED -->
+                        <?php endif;?>
                         <!-- Notifications: style can be found in dropdown.less -->
-                        <li class="dropdown notifications-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <span class="label label-warning">10</span> </a>
+                        <?php
+								// Fetch notices from filter "ui_notices".
+								$ui_notices	=	$this->events->apply_filters( 'ui_notices' , array() );
+								UI::push_notice( $ui_notices );						
+								
+								// Fetch declared notices
+								$notices		=	UI::get_notices();
+								$notices_nbr=	count( $notices );
+								?>
+                        <li class="dropdown notifications-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> 
+                        <?php if( $notices_nbr > 0 ):?>
+                        <span class="label label-warning"><?php echo $notices_nbr;?></span> 
+                        <?php endif;?>
+                        </a>
                             <ul class="dropdown-menu">
-                                <li class="header">You have 10 notifications</li>
+                                <li class="header"><?php echo sprintf( __( 'You have %s notices' ) , count( $notices ) );?> </li>
                                 <li> 
                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu">
-                                        <li> <a href="#"> <i class="fa fa-users text-aqua"></i> 5 new members joined today </a> </li>
-                                        <li> <a href="#"> <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the page and may cause design problems </a> </li>
-                                        <li> <a href="#"> <i class="fa fa-users text-red"></i> 5 new members joined </a> </li>
-                                        <li> <a href="#"> <i class="fa fa-shopping-cart text-green"></i> 25 sales made </a> </li>
-                                        <li> <a href="#"> <i class="fa fa-user text-red"></i> You changed your username </a> </li>
+                                    <?php 
+													foreach( $notices as $notice ):
+														if( ! isset( $notice[ 'icon' ] ) )
+														{
+															$notice_icon	=	$notice[ 'icon' ];
+														}
+														else
+														{
+															switch( $notice[ 'type' ] )
+															{
+																case 'success' : $notice_icon = 'thumbs-up'; break;
+																case 'warning' : $notice_icon = 'warning'; break;
+																default : $notice_icon = 'info-circle'; break;
+															}
+														}
+												?>
+                                        <li> <a href="#"> <i class="fa fa-<?php echo $notice_icon;?> text-aqua"></i> <?php $notice[ 'msg' ];?></a> </li>
+												<?php endforeach;?>
                                     </ul>
                                 </li>
                                 <li class="footer"><a href="#">View all</a></li>
                             </ul>
                         </li>
+                        
+                        <?php if( true === false ):?>
+                        <!-- DISABLED -->
                         <!-- Tasks: style can be found in dropdown.less -->
                         <li class="dropdown tasks-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-flag-o"></i> <span class="label label-danger">9</span> </a>
                             <ul class="dropdown-menu">
@@ -126,6 +159,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <li class="footer"> <a href="#">View all tasks</a> </li>
                             </ul>
                         </li>
+                        <!-- End DISABLED -->
+                        <?php endif;?>
+                        
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <!--<img class="img-circle" alt="user image"/>--> <span class="hidden-xs"><?php echo $this->events->apply_filters( 'user_menu_name' , $this->config->item( 'default_user_names' ) );?></span> </a>
                             <ul class="dropdown-menu">
