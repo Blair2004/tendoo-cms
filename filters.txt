@@ -5,7 +5,7 @@ signin_notice_message		:	add message to user sign in form
 
 // User creation
 custom_user_meta			:	add custom user meta fields
-dashboard_skin_class		:	apply filter to skin color class
+dashboard_body_class		:	apply filter to skin color class
 recovery_notice_message		:	Let you change the message display at the top of the box on recovery password page.
 
 // UI filter
@@ -16,3 +16,7 @@ user_menu_name				:	apply filter to user
 validating_tendoo_setup	:	apply filter to tendoo validation notice code during tendoo installation.
 tendoo_login_notice		:	apply filter to tendoo login notice code during tendoo login
 ui_notices					:	return ui notices array
+after_user_card			:	let user add field after user card on user header menu (views/dashboard/horizontal-menu.php)
+user_header_profile_link	:	contain profile link displayed on user header menu (views/dashboard/horizontal-menu.php)
+user_header_sign_out_link	:	contain sign out link displayed on user header menu (views/dashboard/horizontal-menu.php)
+tendoo_object_user_id		:	contain user id for tendoo object  saved on header.php

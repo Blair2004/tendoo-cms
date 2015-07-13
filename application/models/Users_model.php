@@ -127,12 +127,24 @@ class Users_model extends CI_Model
 		// Send Verification
 		$this->auth->send_verification( $user_id );
 		
+		// Adding to a group		
+		// refresh group
+		$this->auth->add_member( $user_id , $group_par );			
+		
 		// Validate User
 		if( $validate == true )
 		{
 			$user			=	$this->auth->get_user( $user_id );
 			$this->auth->verify_user( $user , $users->verification_code );
 		}
+		
+		// add custom user fields
+		$custom_fields	=	$this->events->apply_filters( 'custom_user_meta' , array() );		
+		foreach( force_array( $custom_fields ) as $key => $value )
+		{
+			$this->options->set( $key , $value , $autoload = true , $user_id , $app = 'users' );
+		}
+		
 		return 'user-created';		
 	}
 	
@@ -167,6 +179,7 @@ class Users_model extends CI_Model
 		// This prevent editing privilege on profile dash
 		if( $mode == 'edit' )
 		{
+			// var_dump( $user_group );
 			// remove member
 			$this->auth->remove_member( $user_id , $user_group->group_id );
 			

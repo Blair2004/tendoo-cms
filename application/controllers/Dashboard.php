@@ -27,6 +27,7 @@ class Dashboard extends Tendoo_Controller {
 		
 		// Enqueuing slimscroll
 		Enqueue::enqueue_js( '../plugins/SlimScroll/jquery.slimscroll.min' );
+		Enqueue::enqueue_js( 'tendoo.core' );
 		
 		
 		$this->load->model( 'gui' );
@@ -84,6 +85,25 @@ class Dashboard extends Tendoo_Controller {
 					$this->options->set( $this->input->post( 'gui_saver_option_namespace' ) , $content );
 				}
 				redirect( urldecode( $this->input->post( 'gui_saver_ref' ) ) . '?notice=option-saved' );
+			}
+		}
+		else if( $mode == 'save_user_meta' )
+		{
+			if( $this->input->post( 'gui_saver_expiration_time' ) >  gmt_to_local( time() , 'UTC' ) )
+			{
+				$content	=	array();
+				// loping post value
+				foreach( $_POST as $key => $value )
+				{
+					if( ! in_array( $key , array( 'gui_saver_option_namespace' , 'gui_saver_ref' , 'gui_saver_expiration_time' , 'gui_saver_use_namespace' , 'user_id' ) ) )
+					{
+						// save only when it's not an array
+						if( ! is_array( $_POST[ $key ] ) )
+						{
+							$this->options->set( $key , $this->input->post( $key ) , true , $this->input->post( 'user_id' ) );
+						}
+					}
+				}
 			}
 		}
 	}

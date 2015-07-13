@@ -7,12 +7,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  
 **/
 ?>
-<body class="<?php echo $this->events->apply_filters( 'dashboard_skin_class' , 'skin-blue' );?> fixed sidebar-mini">
+<body class="<?php echo $this->events->apply_filters( 'dashboard_body_class' , 'skin-blue' );?> fixed sidebar-mini">
     <div class="wrapper">
         <header class="main-header"> 
             
             <!-- Logo --> 
-            <a href="../admin/index2.html" class="logo"> 
+            <a href="<?php echo site_url( array( 'admin' ) );?>" class="logo"> 
             <!-- mini logo for sidebar mini 50x50 pixels --> 
             <span class="logo-mini"><?php echo $this->events->apply_filters( 'dashboard_logo_small' , $this->config->item( 'tendoo_logo_min' ) );?></span> 
             <!-- logo for regular state and mobile devices --> 
@@ -170,20 +170,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <p><?php echo $this->events->apply_filters( 'user_menu_card_header' , $this->config->item( 'default_user_names' ) );?></p>
                                 </li>
                                 <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="col-xs-4 text-center"> <a href="#">Followers</a> </div>
-                                    <div class="col-xs-4 text-center"> <a href="#">Sales</a> </div>
-                                    <div class="col-xs-4 text-center"> <a href="#">Friends</a> </div>
-                                </li>
+                                <?php echo $this->events->apply_filters( 'after_user_card' , '' );?>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
-                                    <div class="pull-left"> <a href="#" class="btn btn-default btn-flat">Profile</a> </div>
-                                    <div class="pull-right"> <a href="<?php echo site_url( array( 'sign-out' ) );?>" class="btn btn-default btn-flat"><?php _e( 'Sign Out' );?></a> </div>
+                                    <div class="pull-left"> <a href="<?php echo $this->events->apply_filters( 'user_header_profile_link' , '#' );?>" class="btn btn-default btn-flat"><?php _e( 'Profile' );?></a> </div>
+                                    <div class="pull-right"> <a href="<?php echo $this->events->apply_filters( 'user_header_sign_out_link' , site_url( array( 'sign-out' ) ) );?>" class="btn btn-default btn-flat"><?php _e( 'Sign Out' );?></a> </div>
                                 </li>
                             </ul>
                         </li>
                         <!-- Control Sidebar Toggle Button -->
-                        <li> <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a> </li>
+                        <!-- <li> <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a> </li>-->
                     </ul>
                 </div>
             </nav>

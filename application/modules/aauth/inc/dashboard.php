@@ -5,10 +5,37 @@ class aauth_dashboard extends CI_model
 	{
 		$this->events->add_action( 'load_dashboard' , array( $this , 'dashboard' ) );	
 		$this->events->add_filter( 'admin_menus' , array( $this , 'menu' ) );		
-		$this->events->add_filter( 'dashboard_skin_class' , array( $this , 'dashboard_skin_class' ) , 5 , 1 );		
+		$this->events->add_filter( 'dashboard_body_class' , array( $this , 'dashboard_body_class' ) , 5 , 1 );		
 		// Change user name in the user menu
 		$this->events->add_filter( 'user_menu_name' , array( $this , 'user_menu_name' ) );
 		$this->events->add_filter( 'user_menu_card_header' , array( $this , 'user_menu_header' ) );
+		$this->events->add_filter( 'tendoo_object_user_id' , array( $this , 'user_id' ) );
+		$this->events->add_filter( 'user_header_profile_link' , array( $this , 'user_profile_link' ) );
+	}
+	function user_profile_link( $link )
+	{
+		return site_url( array( 'dashboard' , 'users' , 'profile' ) );
+	}
+	function user_id( $user_id )
+	{
+		if( $user_id == 'false' )
+		{
+			return $this->users->auth->get_user_id();
+		}
+	}
+	function before_dashboard_menu()
+	{
+		return; // disabled
+		ob_start();
+		?>
+      <div class="user-panel">
+         <div class="pull-left image"><img class="img-circle" alt="user image" src=""/></div>
+         <div class="pull-left info">
+           <p><?php echo $this->events->apply_filters( 'user_menu_name' , $this->config->item( 'default_user_names' ) );?></p>
+           <a href="#"><i class="fa fa-circle text-success"></i> Online</a> </div>
+       </div>
+      <?php
+		return ob_get_clean();
 	}
 	function dashboard()
 	{
@@ -103,13 +130,25 @@ class aauth_dashboard extends CI_model
 	 * @return : string
 	**/
 	
-	function dashboard_skin_class( $skin )
+	function dashboard_body_class( $class )
 	{
 		//var_dump( $this->users->get_meta( 'theme-skin' ) );die;
 		// skin is defined by default
-		$skin	=	( $db_skin = $this->users->get_meta( 'theme-skin' ) ) ? $db_skin : $skin; // weird ??? lol
+		$class	=	( $db_skin = $this->users->get_meta( 'theme-skin' ) ) ? $db_skin : $class; // weird ??? lol
 		unset( $db_skin );
-		return $skin;
+		
+		// get user sidebar status
+		$sidebar		=	$this->users->get_meta( 'dashboard-sidebar' );
+		if( $sidebar == true )
+		{
+			$class	.= ' ' . $sidebar;
+		}
+		else
+		{
+			$class	.=	' sidebar-expanded';
+		}
+		return $class;
+		
 	}
 	
 	function users( $page = 'list' , $index = 1 )

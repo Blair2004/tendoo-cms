@@ -62,10 +62,10 @@ Tendoo Version Required : 1.5
 				if( in_array( $meta_type = riake( 'type' , $meta ) , array( 'box-default' , 'box-primary' , 'box-success' , 'box-info' , 'box-warning' , 'box' ) ) )
 				{
 					// meta icon ?
-					$icon			=	riake( 'icon' , $meta , false );
+					$icon				=	riake( 'icon' , $meta , false );
 					// enable gui form saver
 					$form_expire	=	gmt_to_local( time() , 'UTC' ) + GUI_EXPIRE;
-					$ref			=	urlencode( current_url() );
+					$ref				=	urlencode( current_url() );
 					$use_namespace	=	riake( 'use_namespace' , $meta , false );
 					$class			=	riake( 'classes' , riake( 'custom' , $meta ) );
 					$id				=	riake( 'id' , riake( 'custom' , $meta ) );
