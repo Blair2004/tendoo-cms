@@ -7,3 +7,4 @@
 #Ignore Unused Files
 
 application/config/database.php
+application/temp
