@@ -20,10 +20,10 @@ $lang[ 'username-already-taken' ]		=	tendoo_error( __( 'This username seems to b
 $lang[ 'user-created' ]					=	tendoo_success( __( 'The user has been successfully created.' ) );
 $lang[ 'account-activated' ]			=	tendoo_success( __( 'Your Account has been activated. Please Sign-up' ) );
 // Recovery
-$lang[ 'unknow-email' ]					=	tendoo_error( __( 'Unknow email address' ) );
+$lang[ 'unknow-email' ]						=	tendoo_error( __( 'Unknow email address' ) );
 $lang[ 'recovery-email-send' ]			=	tendoo_success( __( 'The recovery email has been send. Please check your email, open the recovery email and follow the instructions.' ) );
 // Logout
-$lang[ 'logout-required' ]				=	tendoo_info( __( 'You must logout first to access that page.' ) );
+$lang[ 'logout-required' ]					=		tendoo_info( __( 'You must logout first to access that page.' ) );
 // General
 $lang[ 'new-password-created' ]			=	tendoo_success( __( 'A new password has been created for your account. Check your email to get it.' ) );
 $lang[ 'fetch-error-from-auth' ]		=	function(){
@@ -45,8 +45,24 @@ $lang[ 'pass-change-error' ]			=	tendoo_error( __( 'The new password cannot matc
 $lang[ 'old-pass-incorrect' ]			=	tendoo_error( __( 'Your old password is not correct.' ) );
 
 // Group
-$lang[ 'group-already-exists' ]			=	tendoo_error( __( 'A group with this name already exists. Please choose another name.' ) );
+$lang[ 'group-already-exists' ]		=	tendoo_error( __( 'A group with this name already exists. Please choose another name.' ) );
 $lang[ 'group-created' ]				=	tendoo_success( __( 'Group has been created.' ) );
 $lang[ 'group-not-found' ]				=	tendoo_error( __( 'This group does\'nt exists or has been deleted.' ) );
 $lang[ 'unknow-group' ]					=	tendoo_error( __( 'Unknow group.' ) );
 $lang[ 'updated' ]						=	tendoo_success( __( 'Group has been updated.' ) );
+
+// Extension
+$lang[ 'fetch-from-upload' ]			=	function(){
+		$error = array('error' =>get_instance()->upload->display_errors());
+		foreach( $error as $type => $_error )
+		{
+			if( $type == 'error' )
+			{
+				echo tendoo_error( strip_tags( $_error ) );
+			}
+			else
+			{
+				echo tendoo_info( strip_tags( $_error ) );
+			}
+		}
+};

@@ -95,16 +95,7 @@ class Sign_in extends Tendoo_Controller {
 	
 	function reset( $user_id , $ver_code )
 	{
-		$user	=	$this->users->auth->get_user( $user_id );
-		if( $user )
-		{
-			if( $this->users->auth->reset_password( $user_id , $ver_code) )
-			{
-				redirect( array( 'sign-in?notice=new-password-created' ) );
-			}
-			redirect( array( 'sign-in?notice=error-occured' ) );
-		} 		
-		redirect( array( 'sign-in?notice=unknow-user' ) );
+		$this->events->do_action( 'do_reset_user' , $user_id , $ver_code );
 	}
 	
 	/**
@@ -120,15 +111,6 @@ class Sign_in extends Tendoo_Controller {
 	
 	function verify( $user_id , $ver_code )
 	{
-		$user	=	$this->users->auth->get_user( $user_id );
-		if( $user )
-		{
-			if( $this->users->auth->verify_user( $user_id , $ver_code) )
-			{
-				redirect( array( 'sign-in?notice=account-activated' ) );
-			}
-			redirect( array( 'sign-in?notice=error-occured' ) );
-		} 		
-		redirect( array( 'sign-in?notice=unknow-user' ) );
+		$this->events->do_action( 'do_verify_user' , $user_id , $ver_code );
 	}
 }

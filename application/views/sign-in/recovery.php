@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * 	@details : Recovery 
- *	@role : This page page is used to displays forgotten password field
+ *		@role : This page page is used to displays forgotten password field
  * 	@since : 1.5
  *  
 **/
@@ -16,19 +16,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       	<p class="login-box-msg"><?php echo $this->events->apply_filters( 'recovery_notice_message' , $this->lang->line( 'recovery-notice-message' ) );?></p>
         <p><?php echo ( validation_errors() ) != '' ? tendoo_error( strip_tags( validation_errors() ) ) : '';?></p>
         <p><?php $this->notice->output_notice();?></p>
-        <?php echo tendoo_info( __( 'Please provide your user email in order to get recovery email' ) );?>
+        
         <form method="post">
-			<?php
-            // May action for recovery fields
-            ?>
-            <div class="input-group">
-              <span class="input-group-addon" id="basic-addon1"><?php _e( 'User email or Pseudo' );?></span>
-              <input type="text" class="form-control" placeholder="<?php _e( 'User email or Pseudo' );?>" aria-describedby="basic-addon1" name="user_email">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="submit"><?php _e( 'Get recovery Email' );?></button>
-              </span>
-            </div>
-            
+				<?php echo $this->events->apply_filters( 'recovery_fields' , '' );    ?>            
         </form>
         <br>
 		<?php

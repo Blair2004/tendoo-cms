@@ -39,3 +39,4 @@ displays_dashboard_errors	:	t-a-r to display admin errors
 registration_rules			: define registration rules
 
 register_user				: 	triggers actions while registering user
+do_reset_user				:	do reset user for recovery

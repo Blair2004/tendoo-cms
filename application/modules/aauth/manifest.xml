@@ -1,13 +1,18 @@
 <?xml version = "1.0" encoding="UTF-8" standalone="yes" ?>
 <application>
 	<config>
-		<file name="config.php">Config PHP</file>
-		<file name="dot.php">dot.php</file>
+		<file>config.php</file>
+		<file>dot.php</file>
 	</config>
 	<models>
-		<file name="Users_model.php">Users_model</file>
+		<file>Users_model.php</file>
 	</models>
 	<library>
-		<file name="aauth.php">Aauth</file>
+		<file>Aauth.php</file>
 	</library>
+	<language>
+		<english>
+			<file>aauth_lang.php</file>
+		</english>
+	</language>
 </application>

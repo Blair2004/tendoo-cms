@@ -24,3 +24,5 @@ Sub-projects added till now (See application/license.txt for more details)
 [CodeIgiter Enqueue](https://github.com/zajohnson/CodeIgniter-enqueue)
 
 [PHP-Hooks](https://github.com/bainternet/PHP-Hooks)
+
+[Unzip](https://github.com/philsturgeon/codeigniter-unzip/blob/master/libraries/Unzip.php)

@@ -20,3 +20,4 @@ after_user_card			:	let user add field after user card on user header menu (view
 user_header_profile_link	:	contain profile link displayed on user header menu (views/dashboard/horizontal-menu.php)
 user_header_sign_out_link	:	contain sign out link displayed on user header menu (views/dashboard/horizontal-menu.php)
 tendoo_object_user_id		:	contain user id for tendoo object  saved on header.php
+recovery_fields			:	 contain user account recovery fields (views/sign-in/recovery.php)

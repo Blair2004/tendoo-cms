@@ -48,6 +48,22 @@ class Dashboard extends Tendoo_Controller {
 		{			
 			$this->gui->load_page( $page , $params );
 		}
+	} 
+	function modules( $page = 'list' )
+	{
+		if( $page === 'list' )
+		{
+		}
+		else if( $page === 'install_zip' )
+		{
+			if( isset( $_FILES[ 'extension_zip' ] ) )
+			{
+				Modules::install( 'extension_zip' );
+			}
+			$this->gui->set_title( sprintf( __( 'Add a new extension &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/modules/install' );
+		}
+		
 	}
 	function options( $mode = 'list' )
 	{

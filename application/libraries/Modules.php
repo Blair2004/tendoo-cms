@@ -36,7 +36,7 @@ class Modules
 		{
 			return self::$modules;
 		}
-		return self::$modules[ $namespace ]; // if module exists
+		return isset( self::$modules[ $namespace ] ) ? self::$modules[ $namespace ] : false; // if module exists
 	}
 	
 	/**
@@ -119,5 +119,77 @@ class Modules
 			unset( $activated_modules[ $key ] );
 			get_instance()->options->set( 'actives_modules' , $activated_modules );
 		}
+	}
+	
+	/**
+	 * Install module
+	**/
+	
+	static function install( $file_name )
+	{
+		 $config[ 'upload_path' ]        =  APPPATH . '/temp/';
+		 $config[ 'allowed_types' ]		=	'zip';
+		 
+		 get_instance()->load->library( 'upload' , $config );
+		 
+		 if ( ! get_instance()->upload->do_upload( $file_name ) )
+		 { 
+				get_instance()->notice->push_notice( get_instance()->lang->line( 'fetch-from-upload' ) );
+		 }
+		 else
+		 {
+				$data = array( 'upload_data' => get_instance()->upload->data());
+				$extraction_temp_path		=	self::__unzip( $data );
+				// Look for config.xml file to read config
+				if( file_exists( $extraction_temp_path . '/config.xml' ) )
+				{
+					$module_array	=	get_instance()->xml2array->createArray( file_get_contents( $module_path . '/' . $file ) );					
+					if( isset( $module_array[ 'application' ][ 'details' ][ 'namespace' ] ) )
+					{
+						$module_namespace	= $module_array[ 'application' ][ 'details' ][ 'namespace' ];
+						$old_module = self::get( $module_namespace );
+						// if module with a same namespace already exists
+						if( $old_module && true == false ) // disabling update
+						{
+							if( isset( $old_module[ 'application' ][ 'details' ][ 'version' ] ) )
+							{
+								
+							}
+						}
+						// if module does'nt exists
+						else
+						{
+							self::__parse_path( $extraction_temp_path );	
+						}
+					}
+					return 'incorrect-config-file';
+				}
+				return 'config-file-not-found';
+		 }
+	}
+	
+	static function __unzip( $upload_details )
+	{
+		$extraction_path		=	$upload_details[ 'upload_data' ][ 'file_path' ] . $upload_details[ 'upload_data' ][ 'raw_name' ];
+		get_instance()->load->library( 'unzip' );	
+		get_instance()->unzip->extract( 
+			$upload_details[ 'upload_data' ][ 'full_path' ] , 
+			$extraction_path
+		);
+		return $extraction_path;
+	}
+	static function __parse_path( $path )
+	{
+		if( $dir	=	opendir( $path ) )
+		{
+			while( false !== ( $file	=	readdir( $dir ) ) )
+			{
+				if( ! in_array( $file , array( '.' , '..' ) , true ) )
+				{
+					
+				}
+			}
+		}
+		return 'extraction-path-not-found';
 	}
 }
