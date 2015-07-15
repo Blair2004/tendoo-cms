@@ -22,9 +22,13 @@ email : admin@tendoo.org
 password : tendoo
 
 [Get to app settings now](http://ci3.tendoo.org/index.php/dashboard/settings)
+
 [Get to user profile](http://ci3.tendoo.org/index.php/dashboard/profile)
+
 [Get to module installation screen](http://ci3.tendoo.org/index.php/dashboard/modules/install_zip)
+
 [Get to user management screen](http://ci3.tendoo.org/index.php/dashboard/users)
+
 [Login page](http://ci3.tendoo.org/index.php/sign-in)
 
 More a coming...
