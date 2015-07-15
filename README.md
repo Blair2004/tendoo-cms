@@ -11,6 +11,26 @@ We are also inspired by existing CMS (for not wasting time reinventing the wheel
 This projet is a best collection of several solutions, brings out by contributors around the world, which love CI.
 As you may see, this new generation of Tendoo-cms is using latest generation of CodeIgniter (V3).
 
+Just let us know what you think about
+-------------------------------------
+
+You can log in to test the new branch in action. Module Installation is in progress, 
+app settings are done, user creation is also done (few bug being fixed).
+
+credientials : 
+email : admin@tendoo.org
+password : tendoo
+
+[Get to app settings now](http://ci3.tendoo.org/index.php/dashboard/settings)
+[Get to user profile](http://ci3.tendoo.org/index.php/dashboard/profile)
+[Get to module installation screen](http://ci3.tendoo.org/index.php/dashboard/modules/install_zip)
+[Get to user management screen](http://ci3.tendoo.org/index.php/dashboard/users)
+[Login page](http://ci3.tendoo.org/index.php/sign-in)
+
+More a coming...
+
+
+
 Do you want to get Involved ?
 -----------------------------
 Fork it a pull your new ideas
