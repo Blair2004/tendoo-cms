@@ -50,3 +50,5 @@ Sub-projects added till now (See application/license.txt for more details)
 [PHP-Hooks](https://github.com/bainternet/PHP-Hooks)
 
 [Unzip](https://github.com/philsturgeon/codeigniter-unzip/blob/master/libraries/Unzip.php)
+
+[CI MarkDown](https://github.com/jonlabelle/ci-markdown)

@@ -159,7 +159,13 @@ class Modules
 						// if module does'nt exists
 						else
 						{
-							self::__parse_path( $extraction_temp_path );	
+							$module_global_manifest	=	self::__parse_path( $extraction_temp_path );	
+							if( is_array( $module_global_manifest ) )
+							{
+								self::__move_to_real_path( $module_global_manifest[0] , $module_global_manifest[1] );
+							}
+							// If it's not an array, return the error code.
+							return $module_global_manifest;
 						}
 					}
 					return 'incorrect-config-file';
@@ -180,16 +186,55 @@ class Modules
 	}
 	static function __parse_path( $path )
 	{
+		$manifest	=	array();
+		$module_manifest	=	array();
 		if( $dir	=	opendir( $path ) )
 		{
 			while( false !== ( $file	=	readdir( $dir ) ) )
 			{
 				if( ! in_array( $file , array( '.' , '..' ) , true ) )
 				{
-					
+					// Set sub dir path
+					$sub_dir_path	=	$path . '/' . $dir;
+					// If a correct folder is found
+					if( in_array( $file , array( 'libraries' , 'modules' , 'config' , 'helpers' ) && is_dir( $path . '/' . $dir ) ) )
+					{
+						/**
+						 * Reading folder is disabled since it doesn't 
+						 * really seem to be a good pratice
+						**/						
+						
+						// adding module file to manifest
+						/**
+						 * Return error if a conflic occur
+						**/						
+						$sub_dir	=	opendir( $sub_dir_path );
+						while( false !== ( $_file = readdir( $sub_dir ) ) )
+						{
+							if( ! file_exists( APPPATH . $file . '/' . $_file ) )
+							{
+								$manifest[]	=	$sub_dir_path . '/' . $_file;
+							}
+							else
+							{
+								return 'file-conflict';
+							}
+						}						
+					}
+					// for other file and folder, they are included in module dir
+					else
+					{
+						$module_manifest[]	=	$sub_dir_path . '/' . $file;
+					}
 				}
 			}
+			// When everything seems to be alright
+			return array( $module_manifest , $manifest );
 		}
 		return 'extraction-path-not-found';
+	}
+	static function __move_to_module_dir( $global_manifest , $manifest )
+	{
+		// moving global manifest
 	}
 }
