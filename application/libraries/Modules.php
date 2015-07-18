@@ -143,7 +143,7 @@ class Modules
 				// Look for config.xml file to read config
 				if( file_exists( $extraction_temp_path . '/config.xml' ) )
 				{
-					$module_array	=	get_instance()->xml2array->createArray( file_get_contents( $module_path . '/' . $file ) );					
+					$module_array	=	get_instance()->xml2array->createArray( file_get_contents( $extraction_temp_path . '/config.xml' ) );					
 					if( isset( $module_array[ 'application' ][ 'details' ][ 'namespace' ] ) )
 					{
 						$module_namespace	= $module_array[ 'application' ][ 'details' ][ 'namespace' ];
@@ -162,7 +162,7 @@ class Modules
 							$module_global_manifest	=	self::__parse_path( $extraction_temp_path );	
 							if( is_array( $module_global_manifest ) )
 							{
-								self::__move_to_real_path( $module_global_manifest[0] , $module_global_manifest[1] );
+								self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] );
 							}
 							// If it's not an array, return the error code.
 							return $module_global_manifest;
@@ -195,9 +195,9 @@ class Modules
 				if( ! in_array( $file , array( '.' , '..' ) , true ) )
 				{
 					// Set sub dir path
-					$sub_dir_path	=	$path . '/' . $dir;
+					$sub_dir_path	=	$path;
 					// If a correct folder is found
-					if( in_array( $file , array( 'libraries' , 'modules' , 'config' , 'helpers' ) && is_dir( $path . '/' . $dir ) ) )
+					if( in_array( $file , array( 'libraries' , 'models' , 'config' , 'helpers' ) ) && is_dir( $path . '/' . $file ) )
 					{
 						/**
 						 * Reading folder is disabled since it doesn't 
@@ -208,22 +208,30 @@ class Modules
 						/**
 						 * Return error if a conflic occur
 						**/						
-						$sub_dir	=	opendir( $sub_dir_path );
+						$sub_dir	=	opendir( $path . '/' . $file );
 						while( false !== ( $_file = readdir( $sub_dir ) ) )
 						{
-							if( ! file_exists( APPPATH . $file . '/' . $_file ) )
+							if( ! in_array( $_file , array( '.' , '..' ) ) )
 							{
-								$manifest[]	=	$sub_dir_path . '/' . $_file;
-							}
-							else
-							{
-								return 'file-conflict';
+								// remove it later
+								$manifest[]	=	$path . '/' . $file . '/' . $_file ;
+								
+								if( ! file_exists( APPPATH . $file . '/' . $_file ) )
+								{
+									// 	var_dump( $sub_dir_path . '/' . $_file );
+									$manifest[]	=	$path . '/' . $file . '/' . $_file ;
+								}
+								else
+								{
+									// return 'file-conflict';
+								}
 							}
 						}						
 					}
 					// for other file and folder, they are included in module dir
 					else
 					{
+						// var_dump( $sub_dir_path );
 						$module_manifest[]	=	$sub_dir_path . '/' . $file;
 					}
 				}
@@ -233,8 +241,56 @@ class Modules
 		}
 		return 'extraction-path-not-found';
 	}
-	static function __move_to_module_dir( $global_manifest , $manifest )
+
+	/**
+	 * Move module temp fil to valid module folder
+	**/
+	
+	static function __move_to_module_dir( $module_array , $global_manifest , $manifest )
 	{
+		get_instance()->load->helper( 'file' );
+		$module_dir_path		=	APPPATH . '/modules/' . $module_array[ 'application' ][ 'details' ][ 'namespace' ];
+		if( ! is_dir( APPPATH . '/modules/' . $module_array[ 'application' ][ 'details' ][ 'namespace' ] ) )
+		{
+			mkdir( APPPATH . '/modules/' . $module_array[ 'application' ][ 'details' ][ 'namespace' ] , 0777 , true );
+		}
 		// moving global manifest
+		var_dump( $global_manifest );
+		var_dump( $manifest );
+		foreach( $global_manifest as $_manifest )
+		{
+			// creating folder if it does'nt exists
+			if( ! is_file( $_manifest ) )
+			{
+				// filter app folder and tendoo folder
+				$dir	=	strtolower( basename( $_manifest ) );
+				
+				if( ! in_array( $dir , array( 'config' , 'models' , 'libraries' , 'helpers' ) ) )
+				{
+					if( ! is_dir( $module_dir_path . '/' . $dir ) ) : mkdir( $module_dir_path . '/' . $dir , 0777 , true ); endif;
+				}
+			}
+			else
+			{
+				var_dump( $_manifest );
+				// write_file( $module_dir_path , file_get_contents( $_manifest ) );
+			}
+			
+			// var_dump( $module_dir_path );
+			// var_dump( $module_dir_path );
+			// var_dump( $_manifest );
+			
+			// write file on the new folder
+		}
+		// moving manifest to system folder
+		foreach( $manifest as $_manifest )
+		{
+			// creating folder if it does'nt exists
+			$dir	=	dirname( APPPATH . '/' . $_manifest );
+			if( ! is_dir( $dir ) ) : mkdir( $dir , 0777 , true ); endif;
+			
+			// write file on the new folder
+			write_file( APPPATH . '/' . $_manifest , file_get_contents( $_manifest ) );
+		}
 	}
 }

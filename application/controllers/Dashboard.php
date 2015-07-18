@@ -59,6 +59,7 @@ class Dashboard extends Tendoo_Controller {
 			if( isset( $_FILES[ 'extension_zip' ] ) )
 			{
 				Modules::install( 'extension_zip' );
+				die;
 			}
 			$this->gui->set_title( sprintf( __( 'Add a new extension &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/modules/install' );
