@@ -262,13 +262,8 @@ class Modules
 			// creating folder if it does'nt exists
 			if( ! is_file( $_manifest ) )
 			{
-				// filter app folder and tendoo folder
-				$dir	=	strtolower( basename( $_manifest ) );
-				
-				if( ! in_array( $dir , array( 'config' , 'models' , 'libraries' , 'helpers' ) ) )
-				{
-					if( ! is_dir( $module_dir_path . '/' . $dir ) ) : mkdir( $module_dir_path . '/' . $dir , 0777 , true ); endif;
-				}
+				var_dump( $_manifest );
+				// SimpleFileManager::copy(=*
 			}
 			else
 			{
