@@ -95,7 +95,8 @@ class Modules
 	static function is_active( $module_namespace )
 	{
 		$activated_modules			=	get_instance()->options->get( 'actives_modules' );
-		if( ! in_array( $module_namespace , $activated_modules ) )
+
+		if( in_array( $module_namespace , $activated_modules , true ) )
 		{
 			return true;
 		}
