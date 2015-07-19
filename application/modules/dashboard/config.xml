@@ -6,6 +6,7 @@
 		<author>Tendoo Dev Team</author>
 		<description>Sample Description</description>
 		<main>main.php</main>
+		<name>Dashboard</name>
 	</details>
 	<permission>
 		<namespace>call_foreign</namespace>

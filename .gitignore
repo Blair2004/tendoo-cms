@@ -1,10 +1,13 @@
 #Ignore tendoo 1.4 branch files
-
 /tendoo-core
 /tendoo-modules
 /tendoo-assets
 
 #Ignore Unused Files
-
 application/config/database.php
 application/temp
+application/modules
+
+#Exception for default modules
+!application/modules/aauth
+!application/modules/dashboard

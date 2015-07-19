@@ -6,6 +6,7 @@
 		<author>Tendoo Dev Team</author>
 		<description>Sample Description</description>
 		<main>aauth.php</main>
+		<name>Auth Library</name>
 	</details>
 	<permission>
 		<namespace>call_foreign</namespace>

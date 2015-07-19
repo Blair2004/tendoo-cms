@@ -19,7 +19,7 @@ Tendoo Version Required : 1.5
 <!-- Content Header (Page header) -->
 	<?php 
     
-    echo  	get_core_vars( 'page-header' );
+    echo  	$this->events->apply_filters( 'gui_page_title' , get_core_vars( 'page-header' ) );
     
     // echo	notice( 'parse' );
     

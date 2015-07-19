@@ -53,18 +53,31 @@ class Dashboard extends Tendoo_Controller {
 	{
 		if( $page === 'list' )
 		{
+			$this->events->add_filter( 'gui_page_title' , function( $title ){
+				return '<section class="content-header"><h1>' . strip_tags( $title ) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url( array( 'dashboard' , 'modules' , 'install_zip' ) ) . '">' . __( 'Upload a zip file' ) . '</a></h1></section>'; 
+			});
+			$this->gui->set_title( sprintf( __( 'Module List &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/modules/list' );
 		}
 		else if( $page === 'install_zip' )
 		{
+			$this->events->add_filter( 'gui_page_title' , function( $title ){
+				return '<section class="content-header"><h1>' . strip_tags( $title ) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url( array( 'dashboard' , 'modules' ) ) . '">' . __( 'Back to modules list' ) . '</a></h1></section>'; 
+			});
 			if( isset( $_FILES[ 'extension_zip' ] ) )
 			{
-				Modules::install( 'extension_zip' );
-				die;
+				$notice	=	Modules::install( 'extension_zip' );
+				
+				// it means that module has been installed
+				if( is_array( $notice ) )
+				{
+					redirect( array( 'dashboard' , 'modules' , 'list?highlight=' . $notice[ 'namespace' ] . '&notice=' . $notice[ 'msg' ] ) );
+				}
+				
 			}
 			$this->gui->set_title( sprintf( __( 'Add a new extension &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/modules/install' );
-		}
-		
+		}		
 	}
 	function options( $mode = 'list' )
 	{

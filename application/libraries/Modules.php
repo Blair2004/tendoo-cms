@@ -138,7 +138,7 @@ class Modules
 		 }
 		 else
 		 {
-				$data = array( 'upload_data' => get_instance()->upload->data());
+				$data = array( 'upload_data' => get_instance()->upload->data() );
 				$extraction_temp_path		=	self::__unzip( $data );
 				// Look for config.xml file to read config
 				if( file_exists( $extraction_temp_path . '/config.xml' ) )
@@ -162,7 +162,11 @@ class Modules
 							$module_global_manifest	=	self::__parse_path( $extraction_temp_path );	
 							if( is_array( $module_global_manifest ) )
 							{
-								self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] );
+								self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data );
+								return array( 
+									'namespace'		=>	$module_array[ 'application' ][ 'details' ][ 'namespace' ],
+									'msg'				=>	'module-installed'
+								);
 							}
 							// If it's not an array, return the error code.
 							return $module_global_manifest;
@@ -213,17 +217,13 @@ class Modules
 						{
 							if( ! in_array( $_file , array( '.' , '..' ) ) )
 							{
-								// remove it later
-								$manifest[]	=	$path . '/' . $file . '/' . $_file ;
-								
 								if( ! file_exists( APPPATH . $file . '/' . $_file ) )
 								{
-									// 	var_dump( $sub_dir_path . '/' . $_file );
 									$manifest[]	=	$path . '/' . $file . '/' . $_file ;
 								}
 								else
 								{
-									// return 'file-conflict';
+									return 'file-conflict';
 								}
 							}
 						}						
@@ -231,7 +231,6 @@ class Modules
 					// for other file and folder, they are included in module dir
 					else
 					{
-						// var_dump( $sub_dir_path );
 						$module_manifest[]	=	$sub_dir_path . '/' . $file;
 					}
 				}
@@ -246,46 +245,42 @@ class Modules
 	 * Move module temp fil to valid module folder
 	**/
 	
-	static function __move_to_module_dir( $module_array , $global_manifest , $manifest )
+	static function __move_to_module_dir( $module_array , $global_manifest , $manifest , $extraction_data )
 	{
 		get_instance()->load->helper( 'file' );
-		$module_dir_path		=	APPPATH . '/modules/' . $module_array[ 'application' ][ 'details' ][ 'namespace' ];
-		if( ! is_dir( APPPATH . '/modules/' . $module_array[ 'application' ][ 'details' ][ 'namespace' ] ) )
+		$folder_to_lower		=	strtolower( $module_array[ 'application' ][ 'details' ][ 'namespace' ] );
+		$module_dir_path		=	APPPATH . 'modules/' . $folder_to_lower;
+		if( ! is_dir( APPPATH . 'modules/' . $folder_to_lower ) )
 		{
-			mkdir( APPPATH . '/modules/' . $module_array[ 'application' ][ 'details' ][ 'namespace' ] , 0777 , true );
+			mkdir( APPPATH . 'modules/' . $folder_to_lower , 0777 , true );
 		}
 		// moving global manifest
-		var_dump( $global_manifest );
-		var_dump( $manifest );
 		foreach( $global_manifest as $_manifest )
 		{
 			// creating folder if it does'nt exists
 			if( ! is_file( $_manifest ) )
 			{
-				var_dump( $_manifest );
-				// SimpleFileManager::copy(=*
+				$dir_name	=	basename( $_manifest );
+				SimpleFileManager::copy( $_manifest , $module_dir_path . '/' . $dir_name );
 			}
 			else
 			{
-				var_dump( $_manifest );
-				// write_file( $module_dir_path , file_get_contents( $_manifest ) );
+				$file_name	=	basename( $_manifest );
+				write_file( $module_dir_path . '/' . $file_name , file_get_contents( $_manifest ) );
 			}
-			
-			// var_dump( $module_dir_path );
-			// var_dump( $module_dir_path );
-			// var_dump( $_manifest );
-			
-			// write file on the new folder
 		}
+		$relative_json_manifest			=	array();
 		// moving manifest to system folder
 		foreach( $manifest as $_manifest )
 		{
-			// creating folder if it does'nt exists
-			$dir	=	dirname( APPPATH . '/' . $_manifest );
-			if( ! is_dir( $dir ) ) : mkdir( $dir , 0777 , true ); endif;
-			
+			// removing raw_name from old manifest to ease copy
+			$relative_path_to_file	=	explode( $extraction_data[ 'upload_data' ][ 'raw_name' ] . '/' , $_manifest );
 			// write file on the new folder
-			write_file( APPPATH . '/' . $_manifest , file_get_contents( $_manifest ) );
+			write_file( APPPATH . $relative_path_to_file[1] , file_get_contents( $_manifest ) );
+			// relative json manifest
+			$relative_json_manifest[]	=	str_replace( '/', '\\' , APPPATH . $relative_path_to_file[1] );
 		}
+		// Creating Manifest
+		file_put_contents( $module_dir_path . '/manifest.json' , json_encode( $relative_json_manifest ) );
 	}
 }
