@@ -1,0 +1,296 @@
+<?php
+class aauth_fields extends CI_model
+{
+	function __construct()
+	{
+		$this->events->add_filter( 'installation_fields' , array( $this , 'installation_fields' ) , 10 , 1 );
+		// add action to display login fields
+		$this->events->add_action( 'display_login_fields' , array( $this , 'create_login_fields' ) );		
+		$this->events->add_action( 'load_users_custom_fields' , array( $this , 'user_custom_fields' ) );
+		$this->events->add_filter( 'displays_registration_fields' , array( $this , 'registration_fields' ) );	
+		$this->events->add_action( 'displays_public_errors' , array( $this , 'public_errors' ) );
+		$this->events->add_action( 'displays_dashboard_errors' , array( $this , 'displays_dashboard_errors' ) );
+		$this->events->add_filter( 'custom_user_meta' , array( $this , 'custom_user_meta' ) , 10 , 1 );
+		$this->events->add_filter( 'recovery_fields' , array( $this , 'recovery_fields' ) );
+	}
+	function recovery_fields()
+	{
+		ob_start();
+		?>
+      <?php echo tendoo_info( __( 'Please provide your user email in order to get recovery email' ) );?>
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1"><?php _e( 'User email or Pseudo' );?></span>
+        <input type="text" class="form-control" placeholder="<?php _e( 'User email or Pseudo' );?>" aria-describedby="basic-addon1" name="user_email">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit"><?php _e( 'Get recovery Email' );?></button>
+        </span>
+      </div>
+      <?php
+		return ob_get_clean();
+	}
+	function installation_fields( $fields )
+	{
+		ob_start();
+		?>
+      <div class="form-group has-feedback">
+         <input type="text" class="form-control" placeholder="<?php _e( 'User Name' );?>" name="username" value="<?php echo set_value( 'username' );?>">
+         <span class="glyphicon glyphicon-user form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="email" class="form-control" placeholder="<?php _e( 'Email' );?>" name="email" value="<?php echo set_value( 'email' );?>">
+         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="password" class="form-control" placeholder="<?php _e( 'Password' );?>" name="password" value="<?php echo set_value( 'password' );?>">
+         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="password" class="form-control" placeholder="<?php _e( 'Password confirm' );?>" name="confirm" value="<?php echo set_value( 'confirm' );?>">
+         <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+       </div>
+      <?php
+		return $fields	.=	ob_get_clean();
+	}
+	function create_login_fields()
+	{
+		// default login fields
+		$this->config->set_item( 'signin_fields' , array(  
+			'pseudo'	=>
+			'<div class="form-group has-feedback">
+				<input type="text" class="form-control" placeholder="' . __( 'Email or User Name' ) .'" name="username_or_email">
+				<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			</div>',		
+			'password'	=>
+			'<div class="form-group has-feedback">
+				<input type="password" class="form-control" placeholder="' . __( 'Password' ) .'" name="password">
+				<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			</div>',
+			'submit'	=>
+			'<div class="row">
+				<div class="col-xs-8">    
+				  <div class="checkbox icheck">
+					<label>
+					  <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false"><input type="checkbox" name="keep_connected"><ins class="iCheck-helper"></ins></div> ' . __( 'Remember me' ) . '
+					</label>
+				  </div>                        
+				</div><!-- /.col -->
+				<div class="col-xs-4">
+				  <button type="submit" class="btn btn-primary btn-block btn-flat">' . __( 'Sign In' ) .'</button>
+				</div><!-- /.col -->
+			</div>' 
+		) );
+	}
+	function public_errors()
+	{
+		$errors	=	$this->users->auth->get_errors_array();
+		if( $errors )
+		{
+			foreach( $errors as $error )
+			{
+				echo tendoo_error( $error );
+			}
+		}
+	}
+	function registration_fields( $fields )
+	{
+		ob_start();
+		?>
+      <div class="form-group has-feedback">
+         <input type="text" class="form-control" placeholder="<?php _e( 'User Name' );?>" name="username">
+         <span class="glyphicon glyphicon-user form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="email" class="form-control" placeholder="<?php _e( 'Email' );?>" name="email">
+         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="password" class="form-control" placeholder="<?php _e( 'Password' );?>" name="password">
+         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+       </div>
+       <div class="form-group has-feedback">
+         <input type="password" class="form-control" placeholder="<?php _e( 'Confirm' );?>" name="confirm">
+         <span class="glyphicon glyphicon-lock  form-control-feedback"></span>
+       </div>
+       <div class="row">
+         <div class="col-xs-8">    
+           <div class="checkbox icheck">
+           </div>                        
+         </div><!-- /.col -->
+         <div class="col-xs-4">
+           <button type="submit" class="btn btn-primary btn-block btn-flat"><?php _e( 'Sign Up' );?></button>
+         </div><!-- /.col -->
+       </div>
+      <?php
+		return $fields .= ob_get_clean();
+	}
+	
+	/**
+	 * Adds custom fields for user creation and edit
+	 *
+	 * @access : public
+	 * @params : Array
+	 * @return : Array
+	**/
+	
+	function user_custom_fields( $config )
+	{
+		// refresh user meta
+		$this->users->refresh_user_meta();
+		
+		$this->gui->add_item( array(
+			'type'		=>		'text',
+			'name'		=>		'first-name',
+			'label'		=>		__( 'First Name' ),
+			'value'		=>		$this->options->get( 'first-name' , riake( 'user_id' , $config ) )
+		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
+		
+		$this->gui->add_item( array(
+			'type'		=>		'text',
+			'name'		=>		'last-name',
+			'label'		=>		__( 'Last Name' ),
+			'value'		=>		$this->options->get( 'last-name' , riake( 'user_id' , $config ) )
+		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
+		
+		ob_start();
+		$skin	=	$this->options->get( 'theme-skin' , riake( 'user_id' , $config ) );
+		?>
+        <h3><?php _e( 'Select a theme' );?></h3>
+        <ul class="list-unstyled clearfix theme-selector">
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-blue" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-blue' ? 'active' : '';?>">
+                <div><span style="display:block; width: 20%; float: left; height: 7px; background: #367fa9;"></span><span class="bg-light-blue" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222d32;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin">Blue</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-black" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-black' ? 'active' : '';?>">
+                <div style="box-shadow: 0 0 2px rgba(0,0,0,0.1)" class="clearfix"><span style="display:block; width: 20%; float: left; height: 7px; background: #fefefe;"></span><span style="display:block; width: 80%; float: left; height: 7px; background: #fefefe;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin">Black</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-purple" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-purple' ? 'active' : '';?>">
+                <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-purple-active"></span><span class="bg-purple" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222d32;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin">Purple</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-green" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-green' ? 'active' : '';?>">
+                <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-green-active"></span><span class="bg-green" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222d32;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin">Green</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-red" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-red' ? 'active' : '';?>">
+                <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-red-active"></span><span class="bg-red" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222d32;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin">Red</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-yellow" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-yellow' ? 'active' : '';?>">
+                <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-yellow-active"></span><span class="bg-yellow" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222d32;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin">Yellow</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-blue-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-blue-light' ? 'active' : '';?>">
+                <div><span style="display:block; width: 20%; float: left; height: 7px; background: #367fa9;"></span><span class="bg-light-blue" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin" style="font-size: 12px">Blue Light</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-black-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-black-light' ? 'active' : '';?>">
+                <div style="box-shadow: 0 0 2px rgba(0,0,0,0.1)" class="clearfix"><span style="display:block; width: 20%; float: left; height: 7px; background: #fefefe;"></span><span style="display:block; width: 80%; float: left; height: 7px; background: #fefefe;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin" style="font-size: 12px">Black Light</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-purple-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-purple-light' ? 'active' : '';?>">
+                <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-purple-active"></span><span class="bg-purple" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin" style="font-size: 12px">Purple Light</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-green-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-green-light' ? 'active' : '';?>">
+                <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-green-active"></span><span class="bg-green" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin" style="font-size: 12px">Green Light</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-red-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-red-light' ? 'active' : '';?>">
+                <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-red-active"></span><span class="bg-red" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin" style="font-size: 12px">Red Light</p>
+            </li>
+            <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-yellow-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-yellow-light' ? 'active' : '';?>">
+                <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-yellow-active"></span><span class="bg-yellow" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
+                <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
+                </a>
+                <p class="text-center no-margin" style="font-size: 12px;">Yellow Light</p>
+            </li>
+        </ul>
+        <input type="hidden" name="theme-skin" value="<?php echo $skin;?>" />
+		<style>
+        .theme-selector li a.active
+        {
+            opacity:1 !important;
+            box-shadow:0px 0px 5px 2px #666 !important;
+        }
+        </style>
+        <script>
+        $( '.theme-selector li a' ).each(function(){
+            $(this).bind( 'click' , function(){
+                // remove active status
+                $( '.theme-selector li a' ).each( function(){
+                    $(this).removeClass( 'active' );
+                });
+                
+                $(this).toggleClass( 'active' );
+                $('input[name="theme-skin"]').val( $(this).data( 'skin' ) );
+                // console.log( $(this).data( 'skin' ) );
+            });
+        })
+        </script>
+		<?php
+		$dom	=	ob_get_clean();
+		riake( 'gui' , $config )->add_item( array(
+			'type'		=>	'dom',
+			'content'	=>	$dom
+		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
+		// Clean
+		unset( $skin, $config , $dom );
+	}
+	
+	/**
+	 * Displays Error on Dashboard Page
+	**/
+	
+	function displays_dashboard_errors()
+	{
+		$errors	=	$this->users->auth->get_errors_array();
+		if( $errors )
+		{
+			foreach( $errors as $error )
+			{
+				echo tendoo_error( $error );
+			}
+		}
+	}
+	
+	/**
+	 * Adds custom meta for user
+	 *
+	 * @access : public
+	 * @params : Array
+	 * @return : Array
+	**/
+	
+	function custom_user_meta( $fields )
+	{
+		$fields[ 'first-name' ]		=	( $fname = $this->input->post( 'first-name' ) ) ? $fname : '';
+		$fields[ 'last-name' ]		=	( $lname = $this->input->post( 'last-name' ) ) ? $lname : '';
+		$fields[ 'theme-skin' ]		=	( $skin	=	$this->input->post( 'theme-skin' ) ) ? $skin : 'skin-blue';
+		return $fields;
+	}
+}
+new aauth_fields;

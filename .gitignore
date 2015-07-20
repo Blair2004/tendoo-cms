@@ -6,7 +6,6 @@
 #Ignore Unused Files
 application/config/database.php
 application/temp
-application/modules
 
 #Exception for default modules
 !application/modules/aauth
