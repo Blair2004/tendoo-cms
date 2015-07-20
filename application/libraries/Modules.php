@@ -96,7 +96,7 @@ class Modules
 	{
 		$activated_modules			=	get_instance()->options->get( 'actives_modules' );
 
-		if( in_array( $module_namespace , $activated_modules , true ) )
+		if( in_array( $module_namespace , force_array( $activated_modules ) , true ) )
 		{
 			return true;
 		}
@@ -140,6 +140,7 @@ class Modules
 		 else
 		 {
 				$data = array( 'upload_data' => get_instance()->upload->data() );
+				
 				$extraction_temp_path		=	self::__unzip( $data );
 				// Look for config.xml file to read config
 				if( file_exists( $extraction_temp_path . '/config.xml' ) )
@@ -161,6 +162,7 @@ class Modules
 						else
 						{
 							$module_global_manifest	=	self::__parse_path( $extraction_temp_path );	
+
 							if( is_array( $module_global_manifest ) )
 							{
 								self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data );
@@ -202,7 +204,7 @@ class Modules
 					// Set sub dir path
 					$sub_dir_path	=	$path;
 					// If a correct folder is found
-					if( in_array( $file , array( 'libraries' , 'models' , 'config' , 'helpers' ) ) && is_dir( $path . '/' . $file ) )
+					if( in_array( $file , array( 'libraries' , 'models' , 'config' , 'helpers' , 'language' ) ) && is_dir( $path . '/' . $file ) )
 					{
 						/**
 						 * Reading folder is disabled since it doesn't 
@@ -218,7 +220,7 @@ class Modules
 						{
 							if( ! in_array( $_file , array( '.' , '..' ) ) )
 							{
-								if( ! file_exists( APPPATH . $file . '/' . $_file ) )
+								if( ! file_exists( APPPATH . $file . '/' . $_file ) && is_file( APPPATH . $file . '/' . $_file ) )
 								{
 									$manifest[]	=	$path . '/' . $file . '/' . $_file ;
 								}
@@ -283,5 +285,30 @@ class Modules
 		}
 		// Creating Manifest
 		file_put_contents( $module_dir_path . '/manifest.json' , json_encode( $relative_json_manifest ) );
+	}
+	
+	/**
+	 * Uninstall a module
+	 *
+	**/
+	
+	static function uninstall( $module_namespace )
+	{
+		// Disable first
+		self::disable( $module_namespace );
+		
+		// 
+		$module 			=	self::get( $module_namespace );
+		$modulepath		=	dirname( $module[ 'application' ][ 'details' ][ 'main' ] );
+		$manifest_file	=	$modulepath . '/manifest.json';
+		
+		$manifest_array	=	json_decode( file_get_contents( $manifest_file ) , true );
+		// removing file
+		foreach( $manifest_array as $file )
+		{
+			if( is_file( $file ) ): unlink( $file );endif;
+		}
+		// Drop Module Folder
+		SimpleFileManager::drop( $modulepath );
 	}
 }

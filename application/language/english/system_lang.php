@@ -26,6 +26,9 @@ $lang[ 'recovery-email-send' ]			=	tendoo_success( __( 'The recovery email has b
 $lang[ 'logout-required' ]					=		tendoo_info( __( 'You must logout first to access that page.' ) );
 // General
 $lang[ 'new-password-created' ]			=	tendoo_success( __( 'A new password has been created for your account. Check your email to get it.' ) );
+$lang[ 'module-enabled' ]					=	tendoo_success( __( 'The module has been enabled.' ) );
+$lang[ 'module-disabled' ]					=	tendoo_success( __( 'The module has been disabled.' ) );
+$lang[ 'module-removed' ]					=	tendoo_success( __( 'The module has been removed.' ) );
 $lang[ 'fetch-error-from-auth' ]		=	function(){
 	$errors_array	=	get_instance()->users->auth->get_errors_array();
 	$notice_array	=	get_instance()->users->auth->get_infos_array();

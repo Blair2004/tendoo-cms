@@ -49,7 +49,7 @@ class Dashboard extends Tendoo_Controller {
 			$this->gui->load_page( $page , $params );
 		}
 	} 
-	function modules( $page = 'list' )
+	function modules( $page = 'list' , $arg2 = null )
 	{
 		if( $page === 'list' )
 		{
@@ -78,6 +78,33 @@ class Dashboard extends Tendoo_Controller {
 			$this->gui->set_title( sprintf( __( 'Add a new extension &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/modules/install' );
 		}		
+		else if( $page == 'enable' )
+		{
+			$this->events->add_action( 'enable_module' , function( $arg2 ){
+				Modules::enable( $arg2 );
+			});
+			//
+			$this->events->do_action( 'enable_module' , $arg2 );
+			redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_activation_status' , 'module-enabled' ) ) );
+		}
+		else if( $page == 'disable' )
+		{
+			$this->events->add_action( 'disable_module' , function( $arg2 ){
+				Modules::disable( $arg2 );
+			});
+			//
+			$this->events->do_action( 'disable_module' , $arg2 );
+			redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_disabling_status' , 'module-disabled' ) ) );
+		}
+		else if( $page == 'remove' )
+		{
+			$this->events->add_action( 'remove_module' , function( $arg2 ){
+				Modules::uninstall( $arg2 );
+			});
+			
+			$this->events->do_action( 'remove_module' , $arg2 );
+			// redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_disabling_status' , 'module-removed' ) ) );
+		}
 	}
 	function options( $mode = 'list' )
 	{
