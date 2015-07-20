@@ -56,6 +56,13 @@ class Dashboard extends Tendoo_Controller {
 			$this->events->add_filter( 'gui_page_title' , function( $title ){
 				return '<section class="content-header"><h1>' . strip_tags( $title ) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url( array( 'dashboard' , 'modules' , 'install_zip' ) ) . '">' . __( 'Upload a zip file' ) . '</a></h1></section>'; 
 			});
+			
+			$this->events->add_action( 'displays_dashboard_errors' , function(){
+				if( isset( $_GET[ 'extra' ] ) )
+				{
+					echo tendoo_error( __( 'An error occured during module installation. There was a file conflict during module installation process.<br>This file seems to be already installed : ' . $_GET[ 'extra' ] ) );
+				}
+			});
 			$this->gui->set_title( sprintf( __( 'Module List &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/modules/list' );
 		}
@@ -67,11 +74,15 @@ class Dashboard extends Tendoo_Controller {
 			if( isset( $_FILES[ 'extension_zip' ] ) )
 			{
 				$notice	=	Modules::install( 'extension_zip' );
-				
+								
 				// it means that module has been installed
 				if( is_array( $notice ) )
 				{
-					redirect( array( 'dashboard' , 'modules' , 'list?highlight=' . $notice[ 'namespace' ] . '&notice=' . $notice[ 'msg' ] ) );
+					redirect( array( 'dashboard' , 'modules' , 'list?highlight=' . $notice[ 'namespace' ] . '&notice=' . $notice[ 'msg' ] . ( isset( $notice[ 'extra' ] ) ? '&extra=' . $notice[ 'extra' ] : '' ) ) );
+				}
+				else
+				{
+					$this->notice->push_notice( $this->lang->line( $notice ) );
 				}
 				
 			}
