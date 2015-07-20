@@ -1303,7 +1303,7 @@
 	*	set_meta()
 	*	futur : ajouter un timestamp à une clé et leur donner uen valeur d'un mois.
 	**/
-	function set_meta($key,$value,$source	=	 "from_options")
+	function set_meta($key,$value,$source	=	 "from_options" , $user_id = null )
 	{
 		if($source	==	"from_options")
 		{
@@ -1311,7 +1311,7 @@
 		}
 		else if($source	==	"from_user_meta")
 		{
-			return get_instance()->meta_datas->set_user_meta( $key , $value );
+			return get_instance()->meta_datas->set_user_meta( $key , $value , $user_id );
 		}
 	}
 	function set_meta_array( $array , $source = 'from_options' )

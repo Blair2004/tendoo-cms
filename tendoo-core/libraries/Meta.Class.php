@@ -64,7 +64,7 @@ class Meta_datas extends Libraries
 			) );
 		}
 	}
-	// Becode unset already taken
+	// Because unset is already taken
 	public function _unset( $key ){
 		return get_db()->where( 'KEY' , $key )->where( 'USER' , '' )->delete( 'tendoo_meta' );
 	}
