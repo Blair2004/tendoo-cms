@@ -10,6 +10,18 @@ class aauth_action extends CI_model
 		$this->events->add_action( 'do_login' , array ( $this , 'tendoo_login' ) );
 		$this->events->add_action( 'do_reset_user' , array( $this , 'do_reset_user' ) );
 		$this->events->add_action( 'do_verify_user' , array( $this , 'do_verify_user' ) );
+		$this->events->add_action( 'do_remove_module' , array( $this , 'module_access' ) , 1 , 1);
+		$this->events->add_action( 'do_disable_module' , array( $this , 'module_access' ) , 1 , 1);
+		$this->events->add_action( 'do_enable_module' , array( $this , 'module_access' ) , 1 , 1);
+	}
+	
+	/**
+	 * Checks whether user is granted to access modules
+	**/
+	
+	function module_access()
+	{
+		if( User::can( 'manage_modules' ) ): redirect( array( 'dashboard?notice=access-denied' ) ); endif;
 	}
 	function do_verify_user( $user_id , $ver_code )
 	{

@@ -91,29 +91,29 @@ class Dashboard extends Tendoo_Controller {
 		}		
 		else if( $page == 'enable' )
 		{
-			$this->events->add_action( 'enable_module' , function( $arg2 ){
+			$this->events->add_action( 'do_enable_module' , function( $arg2 ){
 				Modules::enable( $arg2 );
 			});
 			//
-			$this->events->do_action( 'enable_module' , $arg2 );
+			$this->events->do_action( 'do_enable_module' , $arg2 );
 			redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_activation_status' , 'module-enabled' ) ) );
 		}
 		else if( $page == 'disable' )
 		{
-			$this->events->add_action( 'disable_module' , function( $arg2 ){
+			$this->events->add_action( 'do_disable_module' , function( $arg2 ){
 				Modules::disable( $arg2 );
 			});
 			//
-			$this->events->do_action( 'disable_module' , $arg2 );
+			$this->events->do_action( 'do_disable_module' , $arg2 );
 			redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_disabling_status' , 'module-disabled' ) ) );
 		}
 		else if( $page == 'remove' )
 		{
-			$this->events->add_action( 'remove_module' , function( $arg2 ){
+			$this->events->add_action( 'do_remove_module' , function( $arg2 ){
 				Modules::uninstall( $arg2 );
 			});
 			
-			$this->events->do_action( 'remove_module' , $arg2 );
+			$this->events->do_action( 'do_remove_module' , $arg2 );
 			// redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_disabling_status' , 'module-removed' ) ) );
 		}
 	}
