@@ -45,19 +45,29 @@ class aauth_dashboard extends CI_model
 		$this->gui->register_page( 'groups' , array( $this , 'groups' ) );
 	}
 	function menu( $menus )
-	{
+	{		
 		$menus[ 'users' ]		=	array(
 			array(
 				'title'			=>		__( 'Manage Users' ),
 				'icon'			=>		'fa fa-users',
 				'href'			=>		site_url('dashboard/users')
-			),
-			array(
-				'title'			=>		__( 'Create a new User' ),
-				'icon'			=>		'fa fa-users',
-				'href'			=>		site_url('dashboard/users/create')
-			)			
+			)
 		);
+		
+		/**
+		 * Checks whether a user can manage user
+		**/
+		
+		if( User::can( 'manage_users' ) ) :
+		
+		$menus[ 'users' ][]	=				array(
+			'title'			=>		__( 'Create a new User' ),
+			'icon'			=>		'fa fa-users',
+			'href'			=>		site_url('dashboard/users/create')
+		);
+		
+		endif; // for manage_users permission
+		
 		$menus[ 'roles' ]		=		array(
 			/** 
 			array(
@@ -89,6 +99,7 @@ class aauth_dashboard extends CI_model
 			)	
 			**/		
 		);
+		
 		return $menus;
 	}
 	
@@ -166,8 +177,16 @@ class aauth_dashboard extends CI_model
 				'users'	=>	$users
 			) );
 		}
+		
+		/**
+		 * Status : 
+		 * 	permissions ok
+		**/
+		
 		else if( $page == 'edit') 
 		{
+			if( ! User::can( 'manage_users' ) ) : redirect( array( 'dashboard?notice=access-denied' ) ); endif; // permission checks
+			
 			// if current user matches user id
 			if( $this->users->auth->get_user_id() == $index )
 			{
@@ -227,8 +246,16 @@ class aauth_dashboard extends CI_model
 				'user_group'	=>	$user_group
 			) );
 		}
+		
+		/**
+		 * Status : 
+		 * 	permissions ok
+		**/
+		
 		else if( $page == 'create' )
 		{
+			if( ! User::can( 'manage_users' ) ) : redirect( array( 'dashboard?notice=access-denied' ) ); endif; // permission checks
+			
 			$this->load->library( 'form_validation' );
 			
 			$this->form_validation->set_rules( 'username' , __( 'User Name' ), 'required|min_length[5]' );
@@ -264,8 +291,16 @@ class aauth_dashboard extends CI_model
 				'groups'	=>	$groups
 			) );
 		}
+
+		/**
+		 * Status : 
+		 * 	permissions ok
+		**/
+		
 		else if( $page == 'delete' )
 		{
+			if( ! User::can( 'manage_users' ) ) : redirect( array( 'dashboard?notice=access-denied' ) ); endif; // permission checks
+			
 			$user	=	$this->users->auth->user_exsist_by_id( $index );
 			if( $user )
 			{
@@ -325,9 +360,17 @@ class aauth_dashboard extends CI_model
 				'groups'	=>	$groups
 			) );
 		}
-		// Display Creation form
+		
+		/**
+		 * Details : Display Creation form
+		 * Status : 
+		 * 	permissions ok
+		**/
+		
 		else if( $page == 'new' )
 		{
+			if( ! User::can( 'manage_users' ) ) : redirect( array( 'dashboard?notice=access-denied' ) ); endif; // permission checks
+			
 			// Validating role creation form
 			$this->load->library( 'form_validation' );
 			$this->form_validation->set_rules( 'role_name' , __( 'Role Name' ) , 'required' );
@@ -351,9 +394,17 @@ class aauth_dashboard extends CI_model
 			$this->gui->set_title( sprintf( __( 'Create new role &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( '../modules/aauth/views/groups/create' );
 		}
-		// Display Edit form
+		
+		/**
+		 * Details : Display Edit form
+		 * Status : 
+		 * 	permissions ok
+		**/
+		
 		else if( $page == 'edit' )
 		{			
+			if( ! User::can( 'manage_users' ) ) : redirect( array( 'dashboard?notice=access-denied' ) ); endif; // permission checks
+			
 			$this->load->library( 'form_validation' );
 			$this->form_validation->set_rules( 'role_name' , __( 'Role Name' ) , 'required' );
 			$this->form_validation->set_rules( 'role_type' , __( 'Role Type' ) , 'required' );
@@ -383,12 +434,6 @@ class aauth_dashboard extends CI_model
 				'group'		=>		$group
 			) );
 		}
-		else if( $page == 'permissions' )
-		{						
-			$this->gui->set_title( sprintf( __( 'Edit Roles &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->load->view( '../modules/aauth/views/groups/permissions' , array(
-			) );
-		}		
 	}
 }
 new aauth_dashboard;
