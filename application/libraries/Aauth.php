@@ -1213,7 +1213,7 @@ class Aauth {
 		$row = $query->row();
 		return $row->name;
 	}
-
+	
 	//tested
 	/**
 	 * Get group id
@@ -1491,10 +1491,22 @@ class Aauth {
 	 * List all permissions
 	 * @return object Array of permissions
 	 */
-	public function list_perms() {
-
-		$query = $this->CI->db->get($this->config_vars['perms']);
-		return $query->result();
+	public function list_perms( $group_par = null ) {
+		if( $group_par == null ){
+			$query = $this->CI->db->get($this->config_vars['perms']);
+			return $query->result();
+		} else {
+			$query = $this->CI->db->select(
+				$this->config_vars[ 'perms' ] . '.name as perm_name,' .
+				$this->config_vars[ 'perms' ] . '.definition as perm_desc,'
+			)
+			->join( $this->config_vars[ 'perms' ] , $this->config_vars[ 'user_to_group' ] . '.perm_id = ' . $this->config_vars[ 'perms' ] . '.id' )
+			->join( $this->config_vars[ 'groups' ] , $this->config_vars[ 'user_to_group' ] . '.group_id = ' . $this->config_vars[ 'groups'] . '.id' )
+			->where( $this->config_vars[ 'groups' ] . '.id' , $group_par )
+			->get( $this->config_vars[ 'perm_to_group' ] );
+			return $query->result();
+		}
+		
 	}
 
 	//tested
@@ -1761,7 +1773,7 @@ class Aauth {
 	 */
 	public function clear_errors()
 	{
-		$this->errors = [];
+		$this->errors = array();
 		$this->CI->session->set_flashdata('errors', $this->errors);
 	}
 
@@ -2107,6 +2119,40 @@ class Aauth {
 			$content .= "<div class='g-recaptcha' data-sitekey='{$siteKey}'></div>";
 		}
 		return $content;
+	}
+	
+	/**
+	 * Get a Group
+	 * Get group using provided id
+	 * @param int group id
+	 * @return object
+	**/
+	
+	function get_group( $group_id ){
+		$query = $this->db->where('id', $group_id);
+		$query = $this->db->get($this->config_vars['groups']);
+
+		if ($query->num_rows() == 0)
+			return FALSE;
+
+		$row = $query->row();
+		return $row;
+	}
+	
+	/**
+	 * Is public group
+	 * return whether a group is public or not
+	**/
+	
+	function is_public_group( $group_name )
+	{
+		$admin_groups		=	force_array( get_instance()->options->get( 'admin_groups' ) );
+		
+		if( in_array( $group_name , $admin_groups ) )
+		{
+			return false;
+		}
+		return true;
 	}
 
 } // end class

@@ -45,3 +45,30 @@ $lang['aauth_error_no_pm'] = __( 'Private Message not found' );
 $lang['aauth_info_already_member'] = __( 'User is already member of group' );
 $lang['aauth_info_group_exists'] = __( 'Group name already exists' );
 $lang['aauth_info_perm_exists'] = __( 'Permission name already exists' );
+
+$lang[ 'group-updated' ]			=	tendoo_success( __( 'The group has been updated' ) );
+
+$lang[ 'fetch-error-from-auth' ]		=	function(){
+	$errors_array	=	get_instance()->users->auth->get_errors_array();
+	$notice_array	=	get_instance()->users->auth->get_infos_array();
+	foreach( $errors_array as $_error )
+	{
+		echo tendoo_error( $_error );
+	}
+	
+	foreach( $notice_array as $notice )
+	{
+		echo tendoo_error( $notice );
+	}};
+// User Edition
+$lang[ 'user-updated' ]					=	tendoo_success( __( 'User settings\'s has been updated.' ) );
+$lang[ 'user-deleted' ]					=	tendoo_success( __( 'The user has been deleted.' ) );
+$lang[ 'pass-change-error' ]			=	tendoo_error( __( 'The new password cannot match the old one, please use another password.' ) );
+$lang[ 'old-pass-incorrect' ]			=	tendoo_error( __( 'Your old password is not correct.' ) );
+
+// Group
+$lang[ 'group-already-exists' ]		=	tendoo_error( __( 'A group with this name already exists. Please choose another name.' ) );
+$lang[ 'group-created' ]				=	tendoo_success( __( 'Group has been created.' ) );
+$lang[ 'group-not-found' ]				=	tendoo_error( __( 'This group does\'nt exists or has been deleted.' ) );
+$lang[ 'unknow-group' ]					=	tendoo_error( __( 'Unknow group.' ) );
+$lang[ 'updated' ]						=	tendoo_success( __( 'Group has been updated.' ) );

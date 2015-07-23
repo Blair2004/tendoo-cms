@@ -14,7 +14,7 @@ class aauth_setup extends CI_model
 		if( $this->users->auth->user_exsist_by_email( $this->input->post( 'email' ) ) ) 		: return 'email-used'; endif;
 		
 		// set site_name
-		$this->options->set( 'site_name' , $site_name );
+		$this->options->set( 'site_name' , $this->input->post( 'site_name' ) );
 		
 		// Creating Master & Groups
 		$this->users->create_default_groups();
@@ -23,7 +23,7 @@ class aauth_setup extends CI_model
 	function sql( $config )
 	{
 		// let's set this module active
-		Modules::enable( 'auth' );
+		Modules::enable( 'aauth' );
 		
 		extract( $config );
 		// Creatin Auth Group
@@ -48,7 +48,7 @@ class aauth_setup extends CI_model
 		
 		// Creating Permission to Group
 		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_perm_to_group`;" );
-		$this->db->query( "CREATE TABLE `{$database_prefix}aaauth_perm_to_group` (
+		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_perm_to_group` (
 		  `perm_id` int(11) unsigned DEFAULT NULL,
 		  `group_id` int(11) unsigned DEFAULT NULL,
 		  PRIMARY KEY (`perm_id`,`group_id`)

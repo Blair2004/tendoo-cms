@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * 	File Name 	: 	edit.php
  *	Description :	header file for role edition. include <html> tag and ends at </head> closing tag
@@ -30,7 +32,8 @@ $this->gui->add_item( array(
 	'name'			=>	'role_name',
 	'description'	=>	__( 'Edit role name' ),
 	'label'			=>	__( 'Role Name' ),
-	'placeholder'	=>	__( 'Role Name' )
+	'placeholder'	=>	__( 'Role Name' ),
+	'value'			=>	$group->name
 ) , 'create_role' , 1 );
 
 // Is it an admin group ?
@@ -42,7 +45,10 @@ $this->gui->add_item( array(
 		'admin'		=>	__( 'Admin' )
 	),
 	'label'			=>	__( 'Role Type' ),
-	'placeholder'	=>	__( 'Role Type' )
+	'placeholder'	=>	__( 'Role Type' ),
+	'active'			=>	$this->users->is_public_group( $group->name ) ? 'public' : 'admin'
 ) , 'create_role' , 1 );
+
+// var_dump( $this->users->is_public_group( $group->name ) ? 'public' : 'admin' );die;
 
 $this->gui->output();

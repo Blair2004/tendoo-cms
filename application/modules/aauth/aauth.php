@@ -4,12 +4,12 @@ class auth_module_class extends CI_model
 	function __construct()
 	{
 		parent::__construct();
-		
 		// Load Model if tendoo is installed
 		if( $this->setup->is_installed() )
 		{
 			$this->load->model( 'users_model' , 'users' );
 		}
+		
 		// Events	
 		// change send administrator emails		
 		$this->events->add_action( 'after_app_init' , array( $this , 'after_session_starts' ) );		
@@ -43,17 +43,6 @@ class auth_module_class extends CI_model
 	}
 	
 	
-	
-	function dashboard()
-	{
-		$this->gui->register_page( 'users' , array( $this , 'users' ) );
-		$this->gui->register_page( 'roles' , array( $this , 'roles' ) );
-	}	
-	
-	
-	
-	
-	
 	/**
 	 * After options init
 	 *
@@ -62,6 +51,22 @@ class auth_module_class extends CI_model
 	
 	function after_session_starts()
 	{
+		// Load created roles add push it to their respective type
+		$admin_groups	=	force_array( $this->options->get( 'admin_groups' ) );
+		$public_groups	=	force_array( $this->options->get( 'public_groups' ) );
+		
+		// For public groups
+		if( $public_groups )
+		{
+			$this->config->set_item( 'public_group_label' , $public_groups );
+		}
+		
+		// for admin groups
+		if( $admin_groups )
+		{
+			$this->config->set_item( 'master_group_label' , $admin_groups );
+		}
+
 		// load user model
 		$this->load->model( 'users_model' , 'users' );
 		// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
@@ -77,21 +82,7 @@ class auth_module_class extends CI_model
 			{
 				redirect( array( $this->config->item( 'default_login_route' ) ) );
 			}
-		}
-		
-		// Load created roles add push it to their respective type
-		$admin_groups	=	force_array( $this->options->get( 'admin_groups' ) );
-		$public_groups	=	force_array( $this->options->get( 'public_groups' ) );
-		
-		// For public groups
-		$tendoo_public_groups	=	$this->config->item( 'public_group_label' );
-		$merged_public_groups	=	array_merge( $tendoo_public_groups , $admin_groups );
-		$this->config->set_item( 'public_group_label' , $merged_public_groups );
-		
-		// for admin groups
-		$tendoo_admin_groups	=	$this->config->item( 'master_group_label' );
-		$merged_admin_groups	=	array_merge( $tendoo_admin_groups , $admin_groups );
-		$this->config->set_item( 'master_group_label' , $merged_admin_groups );
+		}		
 	}	
 	
 	

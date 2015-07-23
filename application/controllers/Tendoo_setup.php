@@ -91,12 +91,7 @@ class Tendoo_setup extends Tendoo_Controller {
 		// if( $this->users->master_exists() ): redirect( array( 'login?notice=access-denied' ) ); endif;		
 				
 		$this->form_validation->set_rules( 'site_name' , __( 'Site Name' ), 'required' );
-		/** 
-		$this->form_validation->set_rules( 'username' , __( 'User Name' ), 'required|min_length[5]' );
-		$this->form_validation->set_rules( 'email' , __( 'Email' ), 'required|valid_email' );
-		$this->form_validation->set_rules( 'password' , __( 'Password' ), 'required|min_length[6]' );
-		$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ), 'required|matches[password]' );
-		**/
+
 		if( $this->form_validation->run() )
 		{
 			$exec	=	$this->setup->final_configuration( 

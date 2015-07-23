@@ -31,31 +31,7 @@ $lang[ 'module-disabled' ]					=	tendoo_success( __( 'The module has been disabl
 $lang[ 'module-removed' ]					=	tendoo_success( __( 'The module has been removed.' ) );
 $lang[ 'module-updated' ]					=	tendoo_success( __( 'The module has been updated.' ) );
 $lang[ 'old-version-cannot-be-installed' ]	=	tendoo_error( __( 'The version installed is already up to date.' ) );
-$lang[ 'unable-to-update' ]				=	
-$lang[ 'fetch-error-from-auth' ]		=	function(){
-	$errors_array	=	get_instance()->users->auth->get_errors_array();
-	$notice_array	=	get_instance()->users->auth->get_infos_array();
-	foreach( $errors_array as $_error )
-	{
-		echo tendoo_error( $_error );
-	}
-	
-	foreach( $notice_array as $notice )
-	{
-		echo tendoo_error( $notice );
-	}};
-// User Edition
-$lang[ 'user-updated' ]					=	tendoo_success( __( 'User settings\'s has been updated.' ) );
-$lang[ 'user-deleted' ]					=	tendoo_success( __( 'The user has been deleted.' ) );
-$lang[ 'pass-change-error' ]			=	tendoo_error( __( 'The new password cannot match the old one, please use another password.' ) );
-$lang[ 'old-pass-incorrect' ]			=	tendoo_error( __( 'Your old password is not correct.' ) );
-
-// Group
-$lang[ 'group-already-exists' ]		=	tendoo_error( __( 'A group with this name already exists. Please choose another name.' ) );
-$lang[ 'group-created' ]				=	tendoo_success( __( 'Group has been created.' ) );
-$lang[ 'group-not-found' ]				=	tendoo_error( __( 'This group does\'nt exists or has been deleted.' ) );
-$lang[ 'unknow-group' ]					=	tendoo_error( __( 'Unknow group.' ) );
-$lang[ 'updated' ]						=	tendoo_success( __( 'Group has been updated.' ) );
+$lang[ 'unable-to-update' ]				=	tendoo_error( __( 'An error occured during update.' ) );
 
 // Extension
 $lang[ 'fetch-from-upload' ]			=	function(){

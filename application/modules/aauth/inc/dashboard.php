@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class aauth_dashboard extends CI_model
 {
 	function __construct()
@@ -40,7 +42,7 @@ class aauth_dashboard extends CI_model
 	function dashboard()
 	{
 		$this->gui->register_page( 'users' , array( $this , 'users' ) );
-		$this->gui->register_page( 'roles' , array( $this , 'roles' ) );
+		$this->gui->register_page( 'groups' , array( $this , 'groups' ) );
 	}
 	function menu( $menus )
 	{
@@ -72,18 +74,20 @@ class aauth_dashboard extends CI_model
 			array(
 				'title'			=>		__( 'Groups' ),
 				'icon'			=>		'fa fa-shield',
-				'href'			=>		site_url('dashboard/roles/groups')
+				'href'			=>		site_url('dashboard/groups')
 			),
 			array(
 				'title'			=>		__( 'Create a new group' ),
 				'icon'			=>		'fa fa-shield',
-				'href'			=>		site_url('dashboard/roles/groups/new')
+				'href'			=>		site_url('dashboard/groups/new')
 			),
+			/**
 			array(
 				'title'			=>		__( 'Groups permissions' ),
 				'icon'			=>		'fa fa-shield',
-				'href'			=>		site_url('dashboard/roles/groups/permissions')
-			)			
+				'href'			=>		site_url('dashboard/groups/permissions')
+			)	
+			**/		
 		);
 		return $menus;
 	}
@@ -309,7 +313,7 @@ class aauth_dashboard extends CI_model
 	 * @since 1.5
 	**/
 	
-	function roles( $page = 'list' , $index = 1 )
+	function groups( $page = 'list' , $index = 1 )
 	{
 		// Display all roles
 		if( $page == 'list' )
@@ -317,12 +321,12 @@ class aauth_dashboard extends CI_model
 			$groups		=	$this->users->auth->list_groups();
 			
 			$this->gui->set_title( sprintf( __( 'Roles &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->load->view( 'dashboard/roles/body' , array(
+			$this->load->view( '../modules/aauth/views/groups/body' , array(
 				'groups'	=>	$groups
 			) );
 		}
 		// Display Creation form
-		else if( $page == 'create' )
+		else if( $page == 'new' )
 		{
 			// Validating role creation form
 			$this->load->library( 'form_validation' );
@@ -331,51 +335,60 @@ class aauth_dashboard extends CI_model
 			
 			if( $this->form_validation->run() )
 			{
-				$exec 	=	$this->users->set_role( 
+				$exec 	=	$this->users->set_group( 
 					$this->input->post( 'role_name' ),
 					$this->input->post( 'role_definition' ),
 					$this->input->post( 'role_type' )
 				);
 				if( $exec == 'group-created' )
 				{
-					redirect( array( 'dashboard' , 'roles?notice=' . $exec ) );
+					redirect( array( 'dashboard' , 'groups?notice=' . $exec ) );
 				}
 				$this->notice->push_notice( $this->lang->line( $exec ) );
 			}
 			
 			
 			$this->gui->set_title( sprintf( __( 'Create new role &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->load->view( 'dashboard/roles/create' );
+			$this->load->view( '../modules/aauth/views/groups/create' );
 		}
 		// Display Edit form
 		else if( $page == 'edit' )
-		{
-			// Fetch role or redirect
-			$role	=	$this->users->auth->get_group_name( $index );
-			if( $role === FALSE ): redirect( array( 'dashboard' , 'group-not-found' ) ); endif;
-			
+		{			
 			$this->load->library( 'form_validation' );
 			$this->form_validation->set_rules( 'role_name' , __( 'Role Name' ) , 'required' );
 			$this->form_validation->set_rules( 'role_type' , __( 'Role Type' ) , 'required' );
 			if( $this->form_validation->run() )
 			{
-				$exec 	=	$this->users->set_role( 
+				$exec 	=	$this->users->set_group( 
 					$this->input->post( 'role_name' ),
 					$this->input->post( 'role_definition' ),
 					$this->input->post( 'role_type' ),
 					'edit', 
 					$index
 				);
-				if( $exec == 'group-created' )
+				if( $exec == 'group-updated' )
 				{
-					redirect( array( 'dashboard' , 'roles?notice=' . $exec ) );
+					redirect( current_url() . '?notice=' . $exec );
 				}
 				$this->notice->push_notice( $this->lang->line( $exec ) );
 			}
+			// Fetch role or redirect
+			$group	=	$this->users->get_group( $index );
+			
+			if( is_object( $group ) === FALSE ): redirect( array( 'dashboard' , 'group-not-found' ) ); endif;
+			$usergroup			=	$this->users->auth->get_user_groups( $index );
 			
 			$this->gui->set_title( sprintf( __( 'Edit Roles &mdash; %s' ) , get( 'core_signature' ) ) );
-			$this->load->view( 'dashboard/roles/edit' );
+			$this->load->view( '../modules/aauth/views/groups/edit' , array(
+				'group'		=>		$group
+			) );
 		}
+		else if( $page == 'permissions' )
+		{						
+			$this->gui->set_title( sprintf( __( 'Edit Roles &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( '../modules/aauth/views/groups/permissions' , array(
+			) );
+		}		
 	}
 }
 new aauth_dashboard;

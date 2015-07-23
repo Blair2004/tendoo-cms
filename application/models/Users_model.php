@@ -9,7 +9,7 @@ class Users_model extends CI_Model
 		parent::__construct();
 		
 		// Loading Aauth Class 
-		// @branch 1.5-auth-class		
+		// @branch 1.5-auth-class
 		$this->load->library( 'aauth' ,  array() ,  'auth' );		
 		
 		if( $this->auth->is_loggedin() )
@@ -280,7 +280,7 @@ class Users_model extends CI_Model
 	 * @return string error code
 	**/
 	
-	function set_role( $name , $definition , $type , $mode = 'create' , $group_id = 0 )
+	function set_group( $name , $definition , $type , $mode = 'create' , $group_id = 0 )
 	{
 		$name	=	strtolower( $name );
 		// Check wether a group using this name exists
@@ -317,6 +317,10 @@ class Users_model extends CI_Model
 			$group_name			=	$this->auth->get_group_name( $group_id );
 			if( $group_name )
 			{
+				// Update group name
+				$this->auth->update_group($group_id, $name );
+				
+				// get all groups types
 				$admin_groups		=	force_array( $this->options->get( 'admin_groups' ) );
 				$public_groups		=	force_array( $this->options->get( 'public_groups' ) );  
 				
@@ -343,14 +347,17 @@ class Users_model extends CI_Model
 					if( $type === 'public' )
 					{
 						$public_groups[]	=	$name;
-						$this->options->set( 'public_groups' , $public_groups );
+						
 					}
 					// Saving as admin group
 					else
-					{
+					{ 
 						$admin_groups[]	=	$name;
-						$this->options->set( 'admin_groups' , $admin_groups );
+						
 					}
+					$this->options->set( 'public_groups' , $public_groups );
+					$this->options->set( 'admin_groups' , $admin_groups );
+
 					return 'group-updated';
 				}
 			}
@@ -358,4 +365,6 @@ class Users_model extends CI_Model
 		}
 		return 'group-already-exists';
 	}
+
+
 }

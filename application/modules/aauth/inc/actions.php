@@ -4,7 +4,6 @@ class aauth_action extends CI_model
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model( 'Users_model' , 'user' );
 		$this->events->add_action( 'do_register_user' , array( $this , 'register_user' ) );	
 		$this->events->add_action( 'do_send_recovery' , array( $this , 'change_auth_settings' ) );
 		$this->events->add_action( 'do_send_recovery' , array( $this , 'recovery_email' ) );

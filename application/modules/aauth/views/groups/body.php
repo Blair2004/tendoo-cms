@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * 	File Name 	: 	body.php
  *	Description :	header file for each admin page. include <html> tag and ends at </head> closing tag
@@ -21,15 +23,16 @@ $group_array		=	array();
 foreach( force_array( $groups ) as $group )
 {
 	$group_array[]	=	array(
-		'<a href="' . site_url( array( 'dashboard' , 'roles' , 'edit' , $group->id ) ) . '">' . $group->name . '</a>',
+		'<a href="' . site_url( array( 'dashboard' , 'groups' , 'edit' , $group->id ) ) . '">' . $group->name . '</a>',
 		$group->definition,
-		in_array( $group->name , $this->config->item( 'master_group_label' ) ) ? __( 'Yes' ) : __( 'No' )
+		in_array( $group->name , $this->config->item( 'master_group_label' ) ) ? __( 'Yes' ) : __( 'No' ),
+		var_dump( $this->users->auth->list_perms( $group->id ) )		
 	);
 }
 
 $this->gui->add_item( array(
 	'type'			=>	'table',
-	'cols'			=>	array( __( 'Role name' ) , __( 'Description' ) , __( 'Admin' ) ),
+	'cols'			=>	array( __( 'Role name' ) , __( 'Description' ) , __( 'Admin' ) , __( 'Permissions' ) ),
 	'rows'			=>	$group_array
 ) , 'role_list' , 1 );
 

@@ -6,13 +6,13 @@ $saver_enabled		=	riake( 'action' , riake( 'custom' , $meta ) ) !== '' ? true : 
 
 foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 {
-	$name			=	riake( 'name' , $_item );
-	$type   		= 	riake( 'type' , $_item );
+	$name				=	riake( 'name' , $_item );
+	$type   			= 	riake( 'type' , $_item );
 	$placeholder	=	riake( 'placeholder' , $_item );
 	$value			=	riake( 'value' , $_item );
-	$icon			=	riake( 'icon' , $_item );
+	$icon				=	riake( 'icon' , $_item );
 	$label			=	riake( 'label' , $_item );
-	$rows			=	riake( 'rows' , $_item );
+	$rows				=	riake( 'rows' , $_item );
 	$disabled		=	riake( 'disabled' , $_item );
 	$description	=	riake( 'description' , $_item );
 	$active			=	riake( 'active' , $_item );
@@ -74,7 +74,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 		?>
         <div class="checkbox">
           <label>
-            <input <?php echo $disabled === true ? 'disabled="disabled"' : '';?> type="checkbox" value="<?php echo $value;?>" name="<?php echo $name;?>" <?php echo $checked;?>> <?php echo $label;?>
+            <input <?php echo $disabled === true ? 'disabled="disabled"' : '';?> type="checkbox" value="<?php echo $value;?>" name="<?php echo $name;?>" <?php echo $checked;?>/> <?php echo $label;?>
           </label>
         </div>
         <?php
@@ -106,7 +106,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 			?>
           <div class="radio">
             <label>
-              <input <?php echo $disabled === true ? 'disabled="disabled"' : '';?> type="radio" name="<?php echo riake( 'name' , $radio_item );?>" id="optionsRadios1" value="<?php echo riake( 'value' , $radio_item );?>" <?php echo $checked;?>>
+              <input <?php echo $disabled === true ? 'disabled="disabled"' : '';?> type="radio" name="<?php echo riake( 'name' , $radio_item );?>" id="optionsRadios1" value="<?php echo riake( 'value' , $radio_item );?>" <?php echo $checked;?>/>
               <?php echo riake( 'description' , $radio_item );?>
             </label>
           </div>
@@ -140,7 +140,8 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
           	<?php 
 			foreach( force_array( riake( 'options' , $_item ) ) as $value	=>	$text )
 			{
-				if( $saver_enabled )
+				// Only when action is not changed (which send request to dashboard/options/set), Gui_saver is supported.
+				if( $saver_enabled && riake( 'action' , riake( 'custom' , $meta ) ) )
 				{
 					// reset value
 					$db_value		=	
@@ -158,7 +159,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 					$selected	=	riake( 'active' , $_item ) == $value ? 'selected="selected"' : '';		
 				}
 				?>
-            <option <?php echo $selected;?> value="<?php echo $value;?>"><?php echo $text;?>
+            <option <?php echo $selected;?> value="<?php echo $value;?>"><?php echo $text;?></option>
 				<?php
 			}
 			?>

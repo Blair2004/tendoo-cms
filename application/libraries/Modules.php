@@ -75,13 +75,18 @@ class Modules
 	
 	static function enable( $module_namespace )
 	{
-		$activated_modules			=	get_instance()->options->get( 'actives_modules' );
-		if( ! in_array( $module_namespace , $activated_modules ) )
+		$module		=	self::get( $module_namespace );
+		if( $module )
 		{
-			$activated_modules[]		=	$module_namespace;
-			get_instance()->options->set( 'actives_modules' , $activated_modules );
+			$activated_modules			=	get_instance()->options->get( 'actives_modules' );
+			if( ! in_array( $module_namespace , force_array( $activated_modules ) ) )
+			{
+				$activated_modules[]		=	$module_namespace;
+				get_instance()->options->set( 'actives_modules' , $activated_modules );
+			}
 		}
-		return;
+		// if module doesn't exists
+		return false;
 	}
 	
 	/**
