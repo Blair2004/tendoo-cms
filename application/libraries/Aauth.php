@@ -1446,9 +1446,9 @@ class Aauth {
 	 */
 	public function allow_group($group_par, $perm_par) {
 
-		$perm_id = $this->get_perm_id($perm_par);
-		$group_id = $this->get_group_id($group_par);
-
+		$perm_id 	= $this->get_perm_id($perm_par);
+		$group_id 	= $this->get_group_id($group_par);
+		
 		$query = $this->CI->db->where('group_id',$group_id);
 		$query = $this->CI->db->where('perm_id',$perm_id);
 		$query = $this->CI->db->get($this->config_vars['perm_to_group']);
@@ -1500,8 +1500,8 @@ class Aauth {
 				$this->config_vars[ 'perms' ] . '.name as perm_name,' .
 				$this->config_vars[ 'perms' ] . '.definition as perm_desc,'
 			)
-			->join( $this->config_vars[ 'perms' ] , $this->config_vars[ 'user_to_group' ] . '.perm_id = ' . $this->config_vars[ 'perms' ] . '.id' )
-			->join( $this->config_vars[ 'groups' ] , $this->config_vars[ 'user_to_group' ] . '.group_id = ' . $this->config_vars[ 'groups'] . '.id' )
+			->join( $this->config_vars[ 'perms' ] , $this->config_vars[ 'perm_to_group' ] . '.perm_id = ' . $this->config_vars[ 'perms' ] . '.id' )
+			->join( $this->config_vars[ 'groups' ] , $this->config_vars[ 'perm_to_group' ] . '.group_id = ' . $this->config_vars[ 'groups'] . '.id' )
 			->where( $this->config_vars[ 'groups' ] . '.id' , $group_par )
 			->get( $this->config_vars[ 'perm_to_group' ] );
 			return $query->result();

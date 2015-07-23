@@ -7,7 +7,7 @@
 		{
 			$module_namespace		=	$_module[ 'application' ][ 'details' ][ 'namespace' ];
 	?>
-	<div class="col-lg-4">
+	<div class="col-lg-3">
    	<div class="box" id="#module-">
       	<div class="box-header">
          	<h3 class="box-title"><?php echo isset( $_module[ 'application' ][ 'details' ][ 'name' ] ) ? $_module[ 'application' ][ 'details' ][ 'name' ] : __( 'Tendoo Extension' );?></h3>

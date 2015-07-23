@@ -19,6 +19,7 @@ class aauth_setup extends CI_model
 		// Creating Master & Groups
 		$this->users->create_default_groups();
 		$this->users->create_master( $this->input->post( 'email' ) , $this->input->post( 'password' ) , $this->input->post( 'username' ) );
+		$this->users->create_permissions();
 	}
 	function sql( $config )
 	{

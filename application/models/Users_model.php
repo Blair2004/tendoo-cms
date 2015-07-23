@@ -346,14 +346,12 @@ class Users_model extends CI_Model
 					// Saving as public group
 					if( $type === 'public' )
 					{
-						$public_groups[]	=	$name;
-						
+						$public_groups[]	=	$name;						
 					}
 					// Saving as admin group
 					else
 					{ 
-						$admin_groups[]	=	$name;
-						
+						$admin_groups[]	=	$name;						
 					}
 					$this->options->set( 'public_groups' , $public_groups );
 					$this->options->set( 'admin_groups' , $admin_groups );
@@ -365,6 +363,21 @@ class Users_model extends CI_Model
 		}
 		return 'group-already-exists';
 	}
+	
+	function create_permissions()
+	{
+		// Creating default permissions
+		$this->auth->create_perm( 'manage_options' , 'Let user access settings page and to manage it.' ); // index 1
+		$this->auth->create_perm( 'manage_modules' , 'Let user access to modules list and to manage it.' ); // 2
+		$this->auth->create_perm( 'manage_users' , 'Let user access user list and manage them.' ); // index 3		
 
-
+		// Master		
+		$this->users->auth->allow_group( 'master' , 'manage_options' );
+		$this->users->auth->allow_group( 'master' , 'manage_modules' );
+		$this->users->auth->allow_group( 'master' , 'manage_users' );
+		
+		// Administrators
+		$this->users->auth->allow_group( 'administrators' , 'manage_options' );
+		$this->users->auth->allow_group( 'administrators' , 'manage_modules' );		
+	}
 }

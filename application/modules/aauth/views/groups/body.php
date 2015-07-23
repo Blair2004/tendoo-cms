@@ -22,11 +22,21 @@ $this->gui->add_meta( array(
 $group_array		=	array();
 foreach( force_array( $groups ) as $group )
 {
+	ob_start();
+	$permissions	=	$this->users->auth->list_perms( $group->id );
+	foreach( $permissions as $perm )
+	{
+		$colors		=	array( 'bg-red' , 'bg-green' , 'bg-yellow' , 'bg-blue' );
+	?>
+   <span class="label bg-blue"><?php echo $perm->perm_name;?></span>
+   <?php
+	}
+	$label_permissions	=	ob_get_clean();
 	$group_array[]	=	array(
 		'<a href="' . site_url( array( 'dashboard' , 'groups' , 'edit' , $group->id ) ) . '">' . $group->name . '</a>',
 		$group->definition,
 		in_array( $group->name , $this->config->item( 'master_group_label' ) ) ? __( 'Yes' ) : __( 'No' ),
-		var_dump( $this->users->auth->list_perms( $group->id ) )		
+		$label_permissions
 	);
 }
 
