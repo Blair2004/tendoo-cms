@@ -72,3 +72,4 @@ $lang[ 'group-created' ]				=	tendoo_success( __( 'Group has been created.' ) );
 $lang[ 'group-not-found' ]				=	tendoo_error( __( 'This group does\'nt exists or has been deleted.' ) );
 $lang[ 'unknow-group' ]					=	tendoo_error( __( 'Unknow group.' ) );
 $lang[ 'updated' ]						=	tendoo_success( __( 'Group has been updated.' ) );
+

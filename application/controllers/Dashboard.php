@@ -111,6 +111,7 @@ class Dashboard extends Tendoo_Controller {
 		{
 			$this->events->add_action( 'do_remove_module' , function( $arg2 ){
 				Modules::uninstall( $arg2 );
+				redirect( array( 'dashboard' , 'modules?notice=module-removed' ) );
 			});
 			
 			$this->events->do_action( 'do_remove_module' , $arg2 );
