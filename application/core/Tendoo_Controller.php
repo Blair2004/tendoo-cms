@@ -11,7 +11,6 @@ class Tendoo_Controller extends CI_Controller
 		include_once( LIBPATH .'/Modules.php' );
 		include_once( LIBPATH .'/UI.php' );
 		include_once( LIBPATH .'/SimpleFileManager.php' );
-		include_once( LIBPATH .'/User.php' );
 		
 		// get system lang
 		$this->lang->load( 'system' );	

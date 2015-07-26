@@ -15,6 +15,9 @@ class auth_module_class extends CI_model
 		$this->events->add_action( 'after_app_init' , array( $this , 'after_session_starts' ) );		
 		$this->events->add_action( 'is_connected' , array( $this , 'is_connected' ) );		
 		$this->events->add_action( 'log_user_out' , array( $this , 'log_user_out' ) );
+		$this->events->add_action( 'do_enable_module' , function( $module_namespace ){
+
+		});
 		// Tendoo Setup			
 	}	
 	function log_user_out()
@@ -88,6 +91,8 @@ class auth_module_class extends CI_model
 	
 }
 new auth_module_class;
+
+require( LIBPATH . '/User.php' );
 
 require( dirname( __FILE__ ) . '/inc/dashboard.php' );
 require( dirname( __FILE__ ) . '/inc/setup.php' );

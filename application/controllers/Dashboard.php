@@ -91,10 +91,13 @@ class Dashboard extends Tendoo_Controller {
 		}		
 		else if( $page == 'enable' )
 		{
-			$this->events->add_action( 'do_enable_module' , function( $arg2 ){
-				Modules::enable( $arg2 );
-			});
-			//
+			/**
+			 * Module should be enabled before trigger this action
+			**/
+			
+			Modules::enable( $arg2 );
+			
+			// Run the action
 			$this->events->do_action( 'do_enable_module' , $arg2 );
 			redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_activation_status' , 'module-enabled' ) ) );
 		}

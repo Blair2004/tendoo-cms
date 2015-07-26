@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															}
 														}
 												?>
-                                        <li> <a href="#"> <i class="fa fa-<?php echo $notice_icon;?> text-aqua"></i> <?php $notice[ 'msg' ];?></a> </li>
+                                        <li> <a href="#"> <i class="fa fa-<?php echo $notice_icon;?> text-aqua"></i> <?php echo $notice[ 'msg' ];?></a> </li>
 												<?php endforeach;?>
                                     </ul>
                                 </li>
