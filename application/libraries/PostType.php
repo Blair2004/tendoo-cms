@@ -6,6 +6,7 @@ class PostType
 	**/
 	function __construct( $config )
 	{
+		$this->events					=	get_instance()->events;
 		$this->namespace				=	$this->config[ 'namespace' ]				=	riake( 'namespace' , $config );
 		// $this->meta					=	$this->config[ 'meta' ]						=	riake( 'meta' , $config ); Meta are no more white listed. They should be created using a proper form to be saved as meta data.
 		$this->label					=	$this->config[ 'label' ]					=	riake( 'label' , $config , $this->namespace );
@@ -42,48 +43,50 @@ class PostType
 	}
 	function run()
 	{
-		if( current_user()->can( $this->privilege ) )
-		{
-			create_admin_menu( $this->namespace , riake( 0 , $this->menu_position ) , riake( 1 , $this->menu_position ) );
+		$this->events->add_filter( 'admin_menus' , function( $menus ){
 			
-			add_admin_menu( $this->namespace , array(
-				'title'			=>	$this->label, 
-				'href'			=>	'#',
-				'is_submenu'	=>	false,
-				'icon'			=>	$this->menu_icon
-			) );
-			
-			add_admin_menu( $this->namespace , array(
-				'title'			=>	$this->posts_list_label, 
-				'href'			=>	get_instance()->url->site_url( array( 'admin' , 'posttype' , $this->namespace , 'list' ) ),
-			) );
-			
-			add_admin_menu( $this->namespace , array(
-				'title'			=>	$this->new_post_label, 
-				'href'			=>	get_instance()->url->site_url( array( 'admin' , 'posttype' , $this->namespace , 'new' ) ),
-			) );
-			
-			if( $this->comment_enabled === TRUE )
+			if( User::can( $this->privilege ) )
 			{
-				add_admin_menu( $this->namespace , array(
-					'title'			=>	$this->post_comment_label, 
-					'href'			=>	get_instance()->url->site_url( array( 'admin' , 'posttype' , $this->namespace , 'comments' ) ),
-				) );
-			}
-			
-			foreach( force_array( $this->query->get_defined_taxonomies() ) as $taxonomy )
-			{
-				add_admin_menu( $this->namespace , array(
-					'title'			=>	riake( 'taxonomy-list-label' , $taxonomy , sprintf( __( '%s list' ) , riake( 'namespace' , $taxonomy ) ) ), 
-					'href'			=>	get_instance()->url->site_url( array( 'admin' , 'posttype' , $this->namespace , 'taxonomy' , riake( 'namespace' , $taxonomy ) , 'list' ) ),
-				) );
+				$menus[ $this->namespace ]	=	array(
+					array(
+						'title'			=>	$this->label, 
+						'href'			=>	'#',
+						'disable'		=>	true,
+						'icon'			=>	$this->menu_icon
+					),				
+					array(
+						'title'			=>	$this->posts_list_label, 
+						'href'			=>	site_url( array( 'dashboard' , 'posttype' , $this->namespace , 'list' ) ),
+					),
+					array(
+						'title'			=>	$this->new_post_label, 
+						'href'			=>	site_url( array( 'dashboard' , 'posttype' , $this->namespace , 'new' ) ),
+					)
+				);
 				
-				add_admin_menu( $this->namespace , array(
-					'title'			=>	riake( 'new-taxonomy-label' , $taxonomy , sprintf( __( 'New %s' ) , riake( 'namespace' , $taxonomy ) ) ), 
-					'href'			=>	get_instance()->url->site_url( array( 'admin' , 'posttype' , $this->namespace , 'taxonomy' , riake( 'namespace' , $taxonomy ) , 'new' ) ),
-				) );
+				if( $this->comment_enabled === TRUE )
+				{
+					$menus[ $this->namespace ][] = array(
+						'title'			=>	$this->post_comment_label, 
+						'href'			=>	site_url( array( 'dashboard' , 'posttype' , $this->namespace , 'comments' ) ),
+					);
+				}
+				
+				foreach( force_array( $this->query->get_defined_taxonomies() ) as $taxonomy )
+				{
+					$menus[ $this->namespace ][] =  array(
+						'title'			=>	riake( 'taxonomy-list-label' , $taxonomy , sprintf( __( '%s list' ) , riake( 'namespace' , $taxonomy ) ) ), 
+						'href'			=>	site_url( array( 'dashboard' , 'posttype' , $this->namespace , 'taxonomy' , riake( 'namespace' , $taxonomy ) , 'list' ) ),
+					);
+					
+					$menus[ $this->namespace ][] = array(
+						'title'			=>	riake( 'new-taxonomy-label' , $taxonomy , sprintf( __( 'New %s' ) , riake( 'namespace' , $taxonomy ) ) ), 
+						'href'			=>	site_url( array( 'dashboard' , 'posttype' , $this->namespace , 'taxonomy' , riake( 'namespace' , $taxonomy ) , 'new' ) ),
+					);
+				}
 			}
-		}
+			return $menus;
+		});
 	}
 	
 	/**

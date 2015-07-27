@@ -13,19 +13,20 @@ class UI
 	 * @returns bool
 	**/
 	
-	static function push_notice( $message , $type = 'info' , $icon = false )
+	static function push_notice( $message , $type = 'info' , $icon = false , $href= '#' )
 	{
 		if( is_array( $message ) && count( $message ) > 0 )
 		{
 			// var_dump( $message );
-			self::push_notice( $message[ 'msg' ] , riake( 'type' , $message ) , riake( 'icon' , $message ) );
+			self::push_notice( $message[ 'msg' ] , riake( 'type' , $message ) , riake( 'icon' , $message ) , riake( 'href' , $message , $href ) );
 		}
 		else if( is_string( $message ) )
 		{
 			self::$notices[]	=	array(
 				'type'		=>	$type,
 				'msg'			=>	$message,
-				'icon'		=>	$icon
+				'icon'		=>	$icon,
+				'href'		=>	$href
 			);
 		}
 	}

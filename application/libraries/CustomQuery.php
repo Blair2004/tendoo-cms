@@ -1,5 +1,5 @@
 <?php
-class CustomQuery extends CI_model
+class CustomQuery
 {
 	private $custom_queries	=	array(); // where every defined query are saved.
 	private $saved_meta		=	array();
@@ -11,7 +11,7 @@ class CustomQuery extends CI_model
 	
 	function __construct( $config )
 	{
-		parent::__construct();
+		$this->db							=	get_instance()->db;
 		$this->query_namespace			=	riake( 'namespace' , $config , 'default' ); // Default with title and content only.
 		// meta should be given as array. Only new type of meta are accepted
 		$given_meta						=	riake( 'meta' , $config , array() );

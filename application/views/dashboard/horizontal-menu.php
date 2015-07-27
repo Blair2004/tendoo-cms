@@ -78,6 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								// Fetch declared notices
 								$notices		=	UI::get_notices();
 								$notices_nbr=	count( $notices );
+								
 								?>
                         <li class="dropdown notifications-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> 
                         <?php if( $notices_nbr > 0 ):?>
@@ -105,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															}
 														}
 												?>
-                                        <li> <a href="#"> <i class="fa fa-<?php echo $notice_icon;?> text-aqua"></i> <?php echo $notice[ 'msg' ];?></a> </li>
+                                        <li> <a href="<?php echo $notice[ 'href' ];?>"> <i class="fa fa-<?php echo $notice_icon;?> text-aqua"></i> <?php echo $notice[ 'msg' ];?></a> </li>
 												<?php endforeach;?>
                                     </ul>
                                 </li>
