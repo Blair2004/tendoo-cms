@@ -141,8 +141,8 @@ class post_type extends CI_model
 	{
 		if( $this->current_posttype	= riake( $namespace , $this->config->item( 'posttypes' ) ) )
 		{
-			$this->config->set_item( 'current_posttype' , $this->current_posttype );
-			$this->config->set_item( 'post_namespace' , $namespace );
+			$data[ 'current_posttype' ]	= $this->current_posttype;
+			$data[ 'post_namespace' ]		= $namespace;
 						
 			if( $page === 'list' )
 			{
@@ -150,12 +150,13 @@ class post_type extends CI_model
 				$post_limit	=	20;
 				$post_nbr	=	count( $this->current_posttype->get() );
 				
+				
 				$pagination	=	pagination_helper( 
 					$post_limit , 
 					$post_nbr , 
 					$id , 
-					get_instance()->url->site_url( array( 'admin' , 'posttype' , $namespace , 'list' ) ),
-					get_instance()->url->site_url( array( 'error' , 'code' , 'page-404' ) ) 
+					site_url( array( 'dashboard' , 'posttype' , $namespace , 'list' ) ),
+					site_url( array( 'error' , 'code' , 'page-404' ) ) 
 				);
 				
 				$this->config->set_item( 'pagination_data' , $pagination );
@@ -167,16 +168,16 @@ class post_type extends CI_model
 					)
 				) );
 				
-				$this->config->set_item( 'post' , $post );				
-				$this->config->set_item( 'post_list_label' , $this->current_posttype->posts_list_label );
+				$data[ 'post' ]				= $post;				
+				$data[ 'post_list_label' ]	= $this->current_posttype->posts_list_label;
 				
-				set_page( 'title' ,  $this->current_posttype->posts_list_label , 'Post List Label [#Unexpected error occured]' );
-				$this->load->the_view( 'admin/posttypes/list' , false );
+				$this->gui->set_title( $this->current_posttype->posts_list_label );
+				$this->load->view( '../modules/post_type/views/list' , $data , false );
 			}
 			else if( $page === 'new' )
 			{
-				$this->config->set_item( 'post_namespace' , $namespace );
-				$this->config->set_item( 'new_post_label' , $this->current_posttype->new_post_label );
+				$data[ 'post_namespace' ] 	=	$namespace;
+				$data[ 'new_post_label' ] 	=	$this->current_posttype->new_post_label;
 				
 				$this->load->library( 'form_validation' );
 				$this->form_validation->set_rules( 'post_title' , __( 'Post title' ) );
@@ -195,22 +196,19 @@ class post_type extends CI_model
 					
 					if( riake( 'msg' , $return ) === 'custom-query-saved' )
 					{
-						get_instance()->url->redirect( 
-							array( 'admin' , 'posttype' , $namespace , 'edit' , riake( 'id' , $return ) . '?notice=' . riake( 'msg' , $return ) )
+						redirect( 
+							array( 'dashboard' , 'posttype' , $namespace , 'edit' , riake( 'id' , $return ) . '?notice=' . riake( 'msg' , $return ) )
 						);
 					}
 					
 					get_instance()->notice->push_notice( fetch_notice_output( riake( 'msg' , $return ) ) );
 				}			
 				
-				set_page( 'title' ,  $this->current_posttype->new_post_label , 'Post List Label [#Unexpected error occured]' );
-				$this->load->view( '../modules/post_type/posttypes/create' , false );
+				$this->gui->set_title( $this->current_posttype->new_post_label );
+				$this->load->view( '../modules/post_type/views/create' , $data , false );
 			}
 			else if( $page === 'edit' )
-			{
-				$this->config->set_item( 'post_namespace' , $namespace );
-				$this->config->set_item( 'new_post_label' , $this->current_posttype->new_post_label );
-				
+			{				
 				$this->load->library( 'form_validation' );
 				$this->form_validation->set_rules( 'post_title' , __( 'Post title' ) );
 				
@@ -229,22 +227,25 @@ class post_type extends CI_model
 					
 					if( riake( 'msg' , $return ) === 'custom-query-saved' )
 					{
-						get_instance()->url->redirect( 
-							array( 'admin' , 'posttype' , $namespace , 'edit' , riake( 'id' , $return ) . '?notice=' . riake( 'msg' , $return ) )
+						redirect( 
+							array( 'dashboard' , 'posttype' , $namespace , 'edit' , riake( 'id' , $return ) . '?notice=' . riake( 'msg' , $return ) )
 						);
 					}
 					
 					get_instance()->notice->push_notice( fetch_notice_output( riake( 'msg' , $return ) ) );
 				}		
 				
-				$this->config->set_item( 'post' , farray( $this->current_posttype->get( array( 
-					'where' =>	array( 'id'	=>	$id )
-				) ) ) );	
-				
 				// print_array( get_core_vars( 'post' ) );die;
 							
-				set_page( 'title' ,  $this->current_posttype->edit_post_label , 'Post List Label [#Unexpected error occured]' );
-				$this->load->the_view( 'admin/posttypes/edit' , false );
+				$this->gui->set_title( $this->current_posttype->edit_post_label );
+				$this->load->view( '../modules/post_type/views/edit' , array(
+					'post_namespace'		=>		$namespace,
+					'new_post_label'		=>		$this->current_posttype->new_post_label,
+					'current_posttype'	=>		$this->current_posttype,
+					'post'					=>		farray( $this->current_posttype->get( array( 
+						'where' =>	array( 'id'	=>	$id )
+					) ) )
+				) , false );
 			}
 			else if( $page === 'taxonomy' )
 			{
@@ -266,13 +267,13 @@ class post_type extends CI_model
 							$taxonomy_limit , 
 							$taxonomies_nbr , 
 							$taxonomy_arg2 , 
-							get_instance()->url->site_url( array( 'admin' , 'posttype' , $namespace , $page , $id , $taxonomy_arg1 ) ) , 
-							get_instance()->url->site_url( array('error','code','page-404' ) ) ) 
+							site_url( array( 'admin' , 'posttype' , $namespace , $page , $id , $taxonomy_arg1 ) ) , 
+							site_url( array('error','code','page-404' ) ) ) 
 						);
 						$this->config->set_item( 'taxonomies' , $this->current_posttype->query->get_taxonomies( $pagination[ 'start' ] , $pagination[ 'end' ] ) );
 						
 						set_page( 'title' ,  riake( 'new-taxonomy-label' , $current_taxonomy ) , 'Post List Label [#Unexpected error occured]' );
-						$this->load->the_view( 'admin/posttypes/taxonomy-list' , false );
+						$this->load->view( 'admin/posttypes/taxonomy-list' , false );
 					}
 					else if( $taxonomy_arg1 === 'new' )
 					{
@@ -291,7 +292,7 @@ class post_type extends CI_model
 						}
 						
 						set_page( 'title' ,  riake( 'new-taxonomy-label' , $current_taxonomy , __( 'New taxonomy' ) ) , 'Post List Label [#Unexpected error occured]' );
-						$this->load->the_view( 'admin/posttypes/taxonomy-create' , false );
+						$this->load->view( 'admin/posttypes/taxonomy-create' , false );
 					}
 					else if( $taxonomy_arg1 === 'edit' )
 					{
@@ -313,7 +314,7 @@ class post_type extends CI_model
 						$this->config->set_item( 'taxonomy_id' , $taxonomy_arg2 );
 						$this->config->set_item( 'get_taxonomy' , farray( $this->current_posttype->query->get_taxonomies( $taxonomy_namespace , $taxonomy_arg2 , 'as_id' ) ) );						
 						set_page( 'title' ,  riake( 'edit-taxonomy-label' , $current_taxonomy , __( 'Edit taxonomy' ) ) , 'Post List Label [#Unexpected error occured]' );
-						$this->load->the_view( 'admin/posttypes/taxonomy-edit' , false );
+						$this->load->view( 'admin/posttypes/taxonomy-edit' , false );
 					}
 				}
 				else
@@ -379,8 +380,8 @@ class post_type extends CI_model
 					$comment_limit,
 					$comments_nbr,
 					$id,
-					get_instance()->url->site_url( array( 'admin' , 'posttype' , $namespace , 'comments' ) ),
-					get_instance()->url->site_url( array( 'error' , 'code' , 'page-404' ) ) 
+					site_url( array( 'admin' , 'posttype' , $namespace , 'comments' ) ),
+					site_url( array( 'error' , 'code' , 'page-404' ) ) 
 				);
 				
 				$this->config->set_item( 'pagination_data' , $pagination );
@@ -396,7 +397,7 @@ class post_type extends CI_model
 				$this->config->set_item( 'comments_list_label' , $this->current_posttype->comments_list_label );
 				
 				set_page( 'title' ,  $this->current_posttype->comments_list_label , 'Post List Label [#Unexpected error occured]' );
-				$this->load->the_view( 'admin/posttypes/comments-list' , false );
+				$this->load->view( 'admin/posttypes/comments-list' , false );
 			}
 			else if( $page === 'comment-edit' )
 			{

@@ -33,4 +33,9 @@ class User
 		$Instance	=	get_instance();
 		return $Instance->users->is_connected();
 	}
+	
+	static function get( $user_par )
+	{
+		return get_instance()->auth->get_user( $user_par );
+	}
 }

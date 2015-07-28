@@ -150,13 +150,12 @@ class GUI extends CI_Model
 	
 	public function output()
 	{
-		set_core_vars( 'page-header' , $this->load->view( 'dashboard/gui/page-header' , array() , true ) );
-		
 		$this->load->view( 'dashboard/header' );		
 		$this->load->view( 'dashboard/horizontal-menu' );		
 		$this->load->view( 'dashboard/aside' );		
 		$this->load->view( 'dashboard/gui/body' , array(
-			'cols'		=>		$this->cols
+			'page_header'	=>	$this->load->view( 'dashboard/gui/page-header' , array() , true ),
+			'cols'			=>		$this->cols
 		) );
 		$this->load->view( 'dashboard/footer' );	
 		$this->load->view( 'dashboard/aside-right' );
@@ -172,4 +171,16 @@ class GUI extends CI_Model
 		return $this->cols;
 	}
 	
+	/**
+	 * Allow Gui customization.
+	 *
+	 * @access public
+	 * @param mixed
+	 * @return void
+	**/
+	
+	function config( $config )
+	{
+		$this->config	=	$config;
+	}
 }

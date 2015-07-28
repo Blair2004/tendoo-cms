@@ -4,10 +4,6 @@
  *	Description :	hold gui main body
  *	Since		:	1.4
 **/
-$ui_config		=	get_core_vars( 'ui_config' );
-$enabled		=	riake( 'enabled' , $ui_config , array() , true );
-$output			=	riake( 'output' , $ui_config , array() , true );
-$content_css	=	riake( 'skip-header' , $output ) === true ? 'padding:0px' : '';
 ?>
 <!-- 
 Library : GUI-V2
@@ -19,7 +15,7 @@ Tendoo Version Required : 1.5
 <!-- Content Header (Page header) -->
 	<?php 
     
-    echo  	$this->events->apply_filters( 'gui_page_title' , get_core_vars( 'page-header' ) );
+    echo  	$this->events->apply_filters( 'gui_page_title' , $page_header );
     
     // echo	notice( 'parse' );
     
@@ -28,7 +24,7 @@ Tendoo Version Required : 1.5
 *	Usage 		: set 'after_cols' key with GUI::config()
 **/
     
-    echo 	riake( 'before_cols' , $output , '' );
+    echo 	$this->events->apply_filters( 'gui_before_cols' , '' );
     
     ?>
     <div class="content">
@@ -53,7 +49,7 @@ Tendoo Version Required : 1.5
             <?php 
 			$config = riake( 'configs' , $col_data );
 			// Inner Opening Wrapper
-			echo riake( 'inner-opening-wrapper' , $config , '' );
+			echo $this->events->apply_filters( 'gui_opening_wrapper' , '' );    
 			
 			// looping $col_data[ 'metas' ];
 			foreach( force_array( riake( 'metas' , $col_data ) ) as $meta )
@@ -73,10 +69,6 @@ Tendoo Version Required : 1.5
 					$method			=	riake( 'method' , riake( 'custom' , $meta ) , 'POST' );
 					$enctype		=	riake( 'enctype' , riake( 'custom' , $meta ) , 'multipart/form-data' );
 					$namespace		=	riake( 'namespace' , $meta );
-					if( $use_namespace )
-					{
-						set_core_vars( $namespace , $this->options->get( $namespace ) );
-					}
 					
 					if( riake( 'gui_saver' , $meta ) )
 					{
@@ -105,8 +97,9 @@ Tendoo Version Required : 1.5
                         </div><!-- /.box-header -->
                         <div class="box-body">
                           	<?php echo $this->load->view( 'dashboard/gui/gui-items' , array(
-								'meta' 	=>	$meta
-							) , true );;?>
+										'namespace'	=>	$namespace,
+										'meta' 	=>	$meta
+									) , true );;?>
                         </div><!-- /.box-body -->
                         <?php 
 						if( $footer	=	riake( 'footer' , $meta ) )
@@ -163,11 +156,7 @@ Tendoo Version Required : 1.5
 					$method			=	riake( 'method' , riake( 'custom' , $meta ) , 'POST' );
 					$enctype		=	riake( 'enctype' , riake( 'custom' , $meta ) , 'multipart/form-data' );
 					$namespace		=	riake( 'namespace' , $meta );
-					if( $use_namespace )
-					{
-						set_core_vars( $namespace , $this->options->get( $namespace ) );
-					}
-					
+										
 					if( riake( 'gui_saver' , $meta ) )
 					{
 						?>
@@ -180,7 +169,8 @@ Tendoo Version Required : 1.5
 					}
 					
 					echo $this->load->view( 'dashboard/gui/gui-items' , array(
-						'meta' 	=>	$meta
+						'meta' 			=>	$meta,
+						'namespace'		=>	$namespace
 					) , true );
 					
 					if( $footer	=	riake( 'footer' , $meta ) )
@@ -216,10 +206,10 @@ Tendoo Version Required : 1.5
 				}
 			}
 			// Inner Closing Wrapper
-			echo riake( 'inner-closing-wrapper' , $config , '' );
+			echo $this->events->apply_filters( 'gui_inner_wrapper' , '' );    
 			?>
         </div>
-        <?php echo riake( 'footer-script' , $config , '' );?>
+        <?php echo $this->events->apply_filters( 'gui_footer' , '' );    ?>
         <?php endforeach;?>
         <script>
         /** $(document).ready(function(e) {
@@ -232,7 +222,7 @@ Tendoo Version Required : 1.5
             });
         }); **/
         </script>
-        <?php if( in_array( 'dynamic-tables' , $enabled ) ) : ;?>
+        <?php if( in_array( 'dynamic-tables' , $this->events->apply_filters( 'gui_enabled' , array() ) ) ) : ;?>
             <?php get_instance()->load->view( 'admin/gui/gui_dynamic_table_css' );?>
             <?php get_instance()->load->view( 'admin/gui/gui_dynamic_table_js' );?>
         <?php endif;?>
@@ -245,6 +235,6 @@ Tendoo Version Required : 1.5
 *	Usage : set 'after_cols' key with GUI::config()
 **/
     
-    echo riake( 'after_cols' , $output , '' );    
+    echo $this->events->apply_filters( 'gui_after_cols' , '' );    
     ?>
 </div>

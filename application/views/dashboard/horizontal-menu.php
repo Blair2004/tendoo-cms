@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <header class="main-header"> 
             
             <!-- Logo --> 
-            <a href="<?php echo site_url( array( 'admin' ) );?>" class="logo"> 
+            <a href="<?php echo site_url( array( 'dashboard' ) );?>" class="logo"> 
             <!-- mini logo for sidebar mini 50x50 pixels --> 
             <span class="logo-mini"><?php echo $this->events->apply_filters( 'dashboard_logo_small' , $this->config->item( 'tendoo_logo_min' ) );?></span> 
             <!-- logo for regular state and mobile devices --> 

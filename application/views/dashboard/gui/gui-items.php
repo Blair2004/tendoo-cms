@@ -1,8 +1,10 @@
 <?php
-
-// items set buy GUI::get_items
-$form_option		=	get_core_vars( riake( 'namespace' , $meta ) );
 $saver_enabled		=	riake( 'action' , riake( 'custom' , $meta ) ) !== '' ? true : false;
+
+if( $saver_enabled )
+{
+	$form_option		=	$this->options->get( riake( 'namespace' , $meta ) );
+}
 
 foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 {
@@ -18,14 +20,15 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 	$active			=	riake( 'active' , $_item );
 	
 	// fetch option from dashboard
-	if( $saver_enabled )
+
+	if( $saver_enabled && ! in_array( $type , array( 'html-list' , 'dom' , 'file-input' , 'html-error' , 'table' , 'buttons' ) ) )
 	{
 		// if namespace is used
-		if( is_array( $form_option ) )
+		if( riake( 'use_namespace' , $meta ) === true )
 		{
 			$value	=	( $db_value	 	=	riake( $name , $form_option ) ) ? $db_value : $value;
 		}
-		// fetch option directly from dashboard
+		// fetch option directly from options table
 		else
 		{
 			$value	=	( $db_value 	=	$this->options->get( $name ) ) ? $db_value : $value;
@@ -34,10 +37,18 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 	if( in_array( $type , array( 'text' , 'password' , 'email' , 'tel' ) ) )
 	{
 		?>
+      	<?php if( riake( 'label' , $_item ) ):?>
         <div class="input-group" style="margin-bottom:5px;">
+        		
+				
             <span class="input-group-addon"><?php echo riake( 'label' , $_item );?></span>
+
+            
             <input <?php echo $disabled === true ? 'readonly="readonly"' : '';?> type="<?php echo $type;?>" name="<?php echo riake( 'name' , $_item );?>" class="form-control" placeholder="<?php echo riake( 'placeholder' , $_item );?>" value="<?php echo $value;?>">
         </div>
+        	<?php else:?>
+         <input <?php echo $disabled === true ? 'readonly="readonly"' : '';?> type="<?php echo $type;?>" name="<?php echo riake( 'name' , $_item );?>" class="form-control" placeholder="<?php echo riake( 'placeholder' , $_item );?>" value="<?php echo $value;?>">
+			<?php endif;?>
         <?php
 	}
 	else if( $type == 'textarea' )
@@ -291,5 +302,28 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
         
       </tbody></table>
         <?php
+	}
+
+	else if( $type == 'buttons' )
+	{
+ 			$value		 	= force_array( riake( 'value' , $_item ) );
+			$buttons_types	= force_array( riake( 'buttons_types' , $_item , 'submit' ) );
+			$name				= force_array( riake( 'name' , $_item ) );
+			$classes			= force_array( riake( 'classes' , $_item , 'btn-primary' ) );
+			$attrs_string	= force_array( riake( 'attrs_string' , $_item , '' ) );
+		?>
+<div class="form-group">
+	<div class="input-group">
+    	<?php foreach( $value as $_key => $_button )
+		{
+			?>
+	  <input class="btn btn-sm <?php echo riake( $_key , $classes , 'btn-primary' );?>" <?php echo riake( $_key , $attrs_string );?> type="<?php echo riake( $_key , $buttons_types , 'submit' );?>" name="<?php echo riake( $_key , $name );?>" value="<?php echo $_button ;?>" style="margin-right:10px;">
+      <?php
+		}
+	  ?>
+	</div>
+    <?php echo $description;?>
+</div>
+		<?php
 	}
 }

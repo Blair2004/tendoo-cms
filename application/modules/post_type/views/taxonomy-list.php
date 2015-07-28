@@ -5,8 +5,9 @@ $this->gui->cols_width( 1 , 4 );
 $this->gui->set_meta( array(
 	'type'			=>		'panel-ho',
 	'namespace'		=>		$taxonomy_namespace . '-table-list',
-	'title'			=>		$taxonomy_list_label
-) )->push_to( 1 );
+	'title'			=>		$taxonomy_list_label,
+	'col_id'			=>		1
+) );
 
 $default_cols		=		array( __( 'Select' ) , __( 'Title' ) , __( 'By' ) , __( 'On' ) );
 $table_row			=		array();
@@ -27,6 +28,6 @@ $this->gui->set_item( array(
 	'cols'			=>		$default_cols,
 	'rows'			=>		$table_row,
 	'cols_width'	=>		array( 5 , 200 , 100 , 100 )
-) )->push_to( $taxonomy_namespace . '-table-list' );
+) , $taxonomy_namespace . '-table-list' , 1 );
 
-$this->gui->get();
+$this->gui->output();
