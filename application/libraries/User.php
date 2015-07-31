@@ -38,4 +38,55 @@ class User
 	{
 		return get_instance()->auth->get_user( $user_par );
 	}
+	
+	/**
+	 * Group Is
+	 *
+	 * Check whether a user belong to a specific group
+	 *
+	 * @access public
+	 * @param string
+	 * @return bool
+	**/
+	
+	static function group_is( $group_name )
+	{
+		return get_instance()->auth->is_member( $group_name );
+	}
+	
+	/**
+	 * Pseudo
+	 * retreive user pseudo
+	 * 
+	 * @access public
+	 * @param int (optional)
+	 * @return string
+	**/
+	
+	static function pseudo( $id = null )
+	{
+		if( $id === null )
+		{
+			$user		=	get_instance()->auth->get_user();
+		}
+		else
+		{
+			$user		=	get_instance()->auth->get_user( $id );
+		}		
+		return $user ? $user->name : __( 'N/A' );
+	}
+	
+	/**
+	 * Id
+	 * return current user id
+	 *
+	 * @access public
+	 * @return int
+	**/
+	
+	static function id()
+	{
+		$user			=	get_instance()->auth->get_user();
+		return $user ? $user->id : 0;
+	}
 }

@@ -1,4 +1,4 @@
-before_admin_menu 			:	trigger action before admin menu init
+before_dashboard_menu 			:	trigger action before admin menu init
 
 display_login_fields		: 	displays login fields (app/views/login/body)
 

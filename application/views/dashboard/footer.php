@@ -12,3 +12,4 @@
 </div>
 <small><?php _e( 'Thanks you for using Tendoo CMS' );?> - <?php echo $this->benchmark->memory_usage();?></small>
 </footer>
+<?php echo $this->events->apply_filters( 'dashboard_footer' , '' );?>

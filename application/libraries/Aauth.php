@@ -742,7 +742,7 @@ class Aauth {
 		$query = $this->CI->db->get($this->config_vars['users']);
 
 		if ($query->num_rows() <= 0){
-			$this->error($this->CI->lang->line('aauth_error_no_user'));
+			// $this->error($this->CI->lang->line('aauth_error_no_user'));
 			return FALSE;
 		}
 		return $query->row();

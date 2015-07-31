@@ -46,7 +46,7 @@ $this->events->do_action( 'before_post_editor' , array( $current_posttype , $thi
 if( in_array( 'editor' , riake( 'displays' , $current_posttype->get_config() ) ) )
 {
 	$this->gui->add_item( array(
-		'type'			=>		'textarea',
+		'type'			=>		'editor',
 		'name'			=>		'post_content'
 	) , $post_namespace . '-create-new' , 1 );
 }

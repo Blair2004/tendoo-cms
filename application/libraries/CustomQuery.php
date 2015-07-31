@@ -22,7 +22,7 @@ class CustomQuery
 			$this->saved_meta[]			=	$_given_meta;
 		}
 		$this->datetime					=	date( 'y-m-d' ) ; // get_instance()->date->datetime();
-		$this->user_id						=	999;//current_user( 'ID' );
+		$this->user_id						=	User::id();
 	}
 	
 	/**

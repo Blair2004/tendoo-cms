@@ -25,18 +25,11 @@ class Dashboard extends Tendoo_Controller {
 		include_once( LIBPATH .'/Menu.php' );
 		include_once( LIBPATH .'/Notice.php' );
 		
-		// Enqueuing slimscroll
-		Enqueue::enqueue_js( '../plugins/SlimScroll/jquery.slimscroll.min' );
-		Enqueue::enqueue_js( 'tendoo.core' );
-		
-		
-		$this->load->model( 'gui' );
-		$this->load->model( 'dashboard_model' , 'dashboard' );
-		
+		$this->load->model( 'gui' );		
 		// Loading Admin Menu
 		// this action was move to Dashboard controler instead of aside.php output file. 
 		// which was called every time "create_dashboard_pages" was triggered
-		$this->events->do_action( 'before_admin_menu' );
+		$this->events->do_action( 'before_dashboard_menus' );
 	}
 	function _remap( $page , $params = array() )
 	{
@@ -180,3 +173,4 @@ class Dashboard extends Tendoo_Controller {
 		}
 	}
 }
+

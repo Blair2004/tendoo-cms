@@ -60,6 +60,15 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
         </div>
         <?php
 	}
+	else if( $type == 'editor' )
+	{
+		?>
+        <div class="form-group">
+          <label><?php echo $label;?></label>
+          <textarea id="wysihtml5" <?php echo $disabled === true ? 'disabled="disabled"' : '';?> class="form-control" rows="3" placeholder="<?php echo $placeholder;?>" name="<?php echo $name;?>"><?php echo $value;?></textarea>
+        </div>
+        <?php
+	}
 	else if( $type == 'file-input' )
 	{
 		?>
