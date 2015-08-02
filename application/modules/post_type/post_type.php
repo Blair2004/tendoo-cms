@@ -19,6 +19,7 @@ class post_type extends CI_model
 			{
 				$this->__install_tables();
 			}
+			$this->load->language( 'blog_lang' );
 			// including CustomQuery.php library file
 			include_once( LIBPATH . '/CustomQuery.php' );
 			
@@ -199,7 +200,7 @@ class post_type extends CI_model
 						);
 					}
 					
-					get_instance()->notice->push_notice( fetch_notice_output( riake( 'msg' , $return ) ) );
+					get_instance()->notice->push_notice( $this->lang->line( riake( 'msg' , $return ) ) );
 				}			
 				
 				$this->gui->set_title( $this->current_posttype->new_post_label );
@@ -230,7 +231,7 @@ class post_type extends CI_model
 						);
 					}
 					
-					get_instance()->notice->push_notice( fetch_notice_output( riake( 'msg' , $return ) ) );
+					get_instance()->notice->push_notice( $this->lang->line( riake( 'msg' , $return ) ) );
 				}		
 				
 				// print_array( get_core_vars( 'post' ) );die;
@@ -286,7 +287,7 @@ class post_type extends CI_model
 								$this->input->post( 'taxonomy_content' ) , 
 								in_array( $this->input->post( 'taxonomy_parent' ) , array( false , '' ) , TRUE ) ? null : $this->input->post( 'taxonomy_parent' )								
 							);
-							get_instance()->notice->push_notice( fetch_notice_output( $result ) );
+							get_instance()->notice->push_notice( $this->lang->line( $result ) );
 						}
 						
 						set_page( 'title' ,  riake( 'new-taxonomy-label' , $current_taxonomy , __( 'New taxonomy' ) ) , 'Post List Label [#Unexpected error occured]' );
@@ -306,7 +307,7 @@ class post_type extends CI_model
 								in_array( $this->input->post( 'taxonomy_parent' ) , array( false , '' ) , TRUE ) ? null : $this->input->post( 'taxonomy_parent' ),
 								$taxonomy_arg2 // Since this is the taxonomy id					
 							);
-							get_instance()->notice->push_notice( fetch_notice_output( 'taxonomy-set' ) );
+							get_instance()->notice->push_notice( $this->lang->line( 'taxonomy-set' ) );
 						}
 						
 						$this->config->set_item( 'taxonomy_id' , $taxonomy_arg2 );
@@ -382,8 +383,6 @@ class post_type extends CI_model
 					site_url( array( 'error' , 'code' , 'page-404' ) ) 
 				);
 				
-				$this->config->set_item( 'pagination_data' , $pagination );
-				 
 				$comments		=	$this->current_posttype->query->get_comments( array( 
 					'limit'		=>	array(
 						'start'	=>	riake( 'start' , $pagination ),
@@ -395,9 +394,12 @@ class post_type extends CI_model
 				$this->config->set_item( 'comments_list_label' , $this->current_posttype->comments_list_label );
 				
 				$this->gui->set_title( $this->current_posttype->comments_list_label );
-				$this->load->view( '../modules/post_type/views/comments-list' , false , array(
-					'pagination_data'		=>		$pagination
-				) );
+				$this->load->view( '../modules/post_type/views/comments-list' , array(
+					'pagination_data'		=>		$pagination,
+					'post_namespace' 		=>		$namespace,
+					'comments_list_label'=>		$this->current_posttype->comments_list_label,
+					'comments'				=>		$comments
+				) , false );
 			}
 			else if( $page === 'comment-edit' )
 			{

@@ -177,7 +177,7 @@ class CustomQuery
 				);
 			}
 			
-			$CQ_data[ 'EDITED'	]		=	$this->datetime;
+			$CQ_data[ 'EDITED' ]		=	$this->datetime;
 			
 			$this->db->where( 'tendoo_query.ID' , riake( 'ID' , $result ) );
 			$this->db->where( 'tendoo_query.NAMESPACE' , $this->query_namespace );

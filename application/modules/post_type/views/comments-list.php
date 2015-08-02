@@ -3,7 +3,7 @@
 $this->gui->col_width( 1 , 4 );
 
 $this->gui->add_meta( array(
-	'type'			=>		'panel-ho',
+	'type'			=>		'box',
 	'namespace'		=>		$post_namespace . '-table-list',
 	'title'			=>		$comments_list_label,
 	'col_id'			=>		1
@@ -47,4 +47,4 @@ $this->gui->add_item( array(
 	'cols_width'	=>		array( 5 , 200 , 100 , 100 , 100 , 100 )
 ) , $post_namespace . '-table-list' , 1 );
 
-$this->gui->get();
+$this->gui->output();

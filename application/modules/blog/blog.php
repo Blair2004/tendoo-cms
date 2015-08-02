@@ -27,6 +27,7 @@ class blog_module extends CI_Model
 			'namespace'		=>		'page',
 			'label'			=>		__( 'Pages' ),
 			'menu-icon'				=>		'fa fa-file',
+			'is-hierarchical'		=>	true
 		) , 'page' );
 		
 		$this->page->run();

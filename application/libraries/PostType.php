@@ -29,7 +29,7 @@ class PostType
 		
 		$this->query					=	new CustomQuery( array(
 			'namespace'					=>	$this->namespace,
-			'is_hierarchical'			=>	riake( 'is-hierarchical' , $this->is_hierarchical )
+			'is_hierarchical'			=>	$this->is_hierarchical
 			// 'meta'						=>	$this->meta  // No more supported
 		) );
 		
