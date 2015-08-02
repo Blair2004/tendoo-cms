@@ -24,13 +24,8 @@ class post_type extends CI_model
 			
 			$this->events->add_action( 'load_dashboard' , array( $this , '__register_page' ) );
 			// include_once( LIBPATH . '/PostType.php' ); can be loaded using $this->load
-			// Demo
-			$this->load->library( 'posttype' , array(
-				'namespace'		=>		'blog',
-				'label'			=>		__( 'Blog Post' )
-			) );
 			
-			$this->posttype->run();
+			$this->events->do_action( 'load_post_types' );
 		}
 		else
 		{
@@ -270,7 +265,7 @@ class post_type extends CI_model
 							$taxonomy_limit , 
 							$taxonomies_nbr , 
 							$taxonomy_arg2 , 
-							site_url( array( 'admin' , 'posttype' , $namespace , $page , $id , $taxonomy_arg1 ) ) , 
+							site_url( array( 'dashboard' , 'posttype' , $namespace , $page , $id , $taxonomy_arg1 ) ) , 
 							site_url( array('error','code','page-404' ) ) ) 
 						);
 						$this->config->set_item( 'taxonomies' , $this->current_posttype->query->get_taxonomies( $pagination[ 'start' ] , $pagination[ 'end' ] ) );
@@ -332,9 +327,9 @@ class post_type extends CI_model
 					$exec	=	$this->current_posttype->query->comment_status( $taxonomy_arg1 , 1 );
 					if( $exec == 'comment-edited' )
 					{
-						$this->url->redirect( array( 'admin' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
+						$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
 					}
-					$this->url->redirect( array( 'admin' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
+					$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
 					
 				}
 				else if( $id === 'disapprove' && $taxonomy_arg1 != 0 )
@@ -342,36 +337,36 @@ class post_type extends CI_model
 					$exec	=	$this->current_posttype->query->comment_status( $taxonomy_arg1 , 4 );
 					if( $exec == 'comment-edited' )
 					{
-						$this->url->redirect( array( 'admin' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
+						$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
 					}
-					$this->url->redirect( array( 'admin' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
+					$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
 				}
 				else if( $id === 'trash' && $taxonomy_arg1 != 0 )
 				{
 					$exec	=	$this->current_posttype->query->comment_status( $taxonomy_arg1 , 3 );
 					if( $exec == 'comment-edited' )
 					{
-						$this->url->redirect( array( 'admin' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
+						$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
 					}
-					$this->url->redirect( array( 'admin' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
+					$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
 				}
 				else if( $id === 'draft' && $taxonomy_arg1 != 0 )
 				{
 					$exec	=	$this->current_posttype->query->comment_status( $taxonomy_arg1 , 0 );
 					if( $exec == 'comment-edited' )
 					{
-						$this->url->redirect( array( 'admin' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
+						$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
 					}
-					$this->url->redirect( array( 'admin' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
+					$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
 				}
 				else if( $id === 'delete' && $taxonomy_arg1 != 0 )
 				{
 					$exec	=	$this->current_posttype->query->delete_comment( $taxonomy_arg1 , 'as_id' );
 					if( $exec == 'comment-edited' )
 					{
-						$this->url->redirect( array( 'admin' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
+						$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
 					}
-					$this->url->redirect( array( 'admin' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
+					$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
 				}
 				// $this->current_posttype->query->post_comment( 1 , 'Custom' , $author = false , $mode = 'create' , $comment_id = null , $author_name = 'Blair' , $author_email = 'carlos@hoazd.de'  , $reply_to = false );
 				
@@ -383,7 +378,7 @@ class post_type extends CI_model
 					$comment_limit,
 					$comments_nbr,
 					$id,
-					site_url( array( 'admin' , 'posttype' , $namespace , 'comments' ) ),
+					site_url( array( 'dashboard' , 'posttype' , $namespace , 'comments' ) ),
 					site_url( array( 'error' , 'code' , 'page-404' ) ) 
 				);
 				
@@ -399,8 +394,10 @@ class post_type extends CI_model
 				$this->config->set_item( 'comments' , $comments );				
 				$this->config->set_item( 'comments_list_label' , $this->current_posttype->comments_list_label );
 				
-				set_page( 'title' ,  $this->current_posttype->comments_list_label , 'Post List Label [#Unexpected error occured]' );
-				$this->load->view( 'admin/posttypes/comments-list' , false );
+				$this->gui->set_title( $this->current_posttype->comments_list_label );
+				$this->load->view( '../modules/post_type/views/comments-list' , false , array(
+					'pagination_data'		=>		$pagination
+				) );
 			}
 			else if( $page === 'comment-edit' )
 			{

@@ -93,6 +93,7 @@ if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) 
 	{
 		// get common post list
 		$post_legacy		=	$current_posttype->query->get_post_legacy( riake( 'QUERY_ID' , $post ) );
+		
 		$legacy_statement	=	array();
 		foreach( force_array( $post_legacy ) as $_legacy )
 		{
@@ -105,7 +106,11 @@ if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) 
 		
 		foreach( force_array( $postlist ) as $_post )
 		{
-			$postarray[ riake( 'QUERY_ID' , $_post ) ]	=	riake( 'TITLE' , $_post );
+			// disable current element to be selected as parent.
+			if( $_post[ 'QUERY_ID' ] != riake( 'QUERY_ID' , $post ) )
+			{
+				$postarray[ riake( 'QUERY_ID' , $_post ) ]	=	riake( 'TITLE' , $_post );
+			}
 		}
 
 		$this->gui->add_item( array(
@@ -114,7 +119,7 @@ if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) 
 			'options'		=>		$postarray,
 			'active'			=>		riake( 'PARENT_REF_ID' , $post ),
 			'placeholder'	=>		__( 'Choose a parent' ),
-			'label'			=>		__( 'Seleect Parent' )
+			'label'			=>		__( 'Select Parent' )
 		) , $post_namespace . '-edit-new-sidebar' , 2 );
 	}
 }

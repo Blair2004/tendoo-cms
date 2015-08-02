@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<application>
+	<details>
+		<namespace>blog</namespace>
+		<version>1.0</version>
+		<main>blog.php</main>
+		<description>Blog Section for your Website</description>
+		<name>Blog Module</name>
+		<author>Blair Jersyer</author>
+	</details>
+</application>
