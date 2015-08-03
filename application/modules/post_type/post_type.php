@@ -245,7 +245,7 @@ class post_type extends CI_model
 				}
 				else
 				{
-					$this->url->redirect( array( 'error' , 'code' , 'unknow-taxonomy' ) );
+					redirect( array( 'dashboard' , 'error' , 'unknow-taxonomy' ) );
 				}
 			}
 			else if( $page === 'comments' )
@@ -255,9 +255,9 @@ class post_type extends CI_model
 					$exec	=	$this->current_posttype->query->comment_status( $taxonomy_arg1 , 1 );
 					if( $exec == 'comment-edited' )
 					{
-						$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
+						redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
 					}
-					$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
+					redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
 					
 				}
 				else if( $id === 'disapprove' && $taxonomy_arg1 != 0 )
@@ -265,36 +265,36 @@ class post_type extends CI_model
 					$exec	=	$this->current_posttype->query->comment_status( $taxonomy_arg1 , 4 );
 					if( $exec == 'comment-edited' )
 					{
-						$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
+						redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
 					}
-					$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
+					redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
 				}
 				else if( $id === 'trash' && $taxonomy_arg1 != 0 )
 				{
 					$exec	=	$this->current_posttype->query->comment_status( $taxonomy_arg1 , 3 );
 					if( $exec == 'comment-edited' )
 					{
-						$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
+						redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
 					}
-					$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
+					redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
 				}
 				else if( $id === 'draft' && $taxonomy_arg1 != 0 )
 				{
 					$exec	=	$this->current_posttype->query->comment_status( $taxonomy_arg1 , 0 );
 					if( $exec == 'comment-edited' )
 					{
-						$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
+						redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
 					}
-					$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
+					redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
 				}
 				else if( $id === 'delete' && $taxonomy_arg1 != 0 )
 				{
 					$exec	=	$this->current_posttype->query->delete_comment( $taxonomy_arg1 , 'as_id' );
 					if( $exec == 'comment-edited' )
 					{
-						$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
+						redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=' . $exec ) );
 					}
-					$this->url->redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
+					redirect( array( 'dashboard' , 'posttype' , $namespace , $page . '?notice=error-occured' ) );
 				}
 				// $this->current_posttype->query->post_comment( 1 , 'Custom' , $author = false , $mode = 'create' , $comment_id = null , $author_name = 'Blair' , $author_email = 'carlos@hoazd.de'  , $reply_to = false );
 				
@@ -334,7 +334,7 @@ class post_type extends CI_model
 		}
 		else
 		{
-			$this->url->redirect( array( 'error' , 'code' , 'unknow-post-type' ) );
+			redirect( array( 'dashboard' , 'error' , 'unknow-post-type' ) );
 		}
 	}	
 }
