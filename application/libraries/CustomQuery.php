@@ -269,7 +269,6 @@ class CustomQuery
 	
 	function get( $arg = array() )
 	{
-		$this->db->cache_on();
 		// To avoid MySQL Query crash
 		$return		=	false;
 		// Filter Namespace
@@ -431,7 +430,6 @@ class CustomQuery
 			}
 			unset( $CQ_result[ $CQ_key ][ 'TAXONOMY_REF_ID' ] ); // No more necessary
 		}	
-		$this->db->cache_off();	
 		return $CQ_result;
 	}
 	
