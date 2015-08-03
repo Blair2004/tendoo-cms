@@ -175,8 +175,15 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 				}
 				else
 				{
-					// control check
-					$selected	=	riake( 'active' , $_item ) == $value ? 'selected="selected"' : '';		
+					if( ! is_array( $active = riake( 'active' , $_item ) ) )
+					{
+						// control check
+						$selected	=	$active == $value ? 'selected="selected"' : '';		
+					}
+					else
+					{
+						$selected  = in_array( $value , $active ) ? 'selected="selected"' : '';
+					}
 				}
 				?>
             <option <?php echo $selected;?> value="<?php echo $value;?>"><?php echo $text;?></option>

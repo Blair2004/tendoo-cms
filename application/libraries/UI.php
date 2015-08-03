@@ -17,8 +17,10 @@ class UI
 	{
 		if( is_array( $message ) && count( $message ) > 0 )
 		{
-			// var_dump( $message );
-			self::push_notice( $message[ 'msg' ] , riake( 'type' , $message ) , riake( 'icon' , $message ) , riake( 'href' , $message , $href ) );
+			foreach( $message as $_message )
+			{
+				self::push_notice( $_message[ 'msg' ] , riake( 'type' , $_message ) , riake( 'icon' , $_message ) , riake( 'href' , $_message , $href ) );
+			}
 		}
 		else if( is_string( $message ) )
 		{

@@ -13,124 +13,42 @@ class post_type extends CI_model
 	
 	function loader()
 	{
-		if( Modules::is_active( 'aauth' ) )
-		{
-			if( ! $this->__is_installed() )
-			{
-				$this->__install_tables();
-			}
-			$this->load->language( 'blog_lang' );
-			// including CustomQuery.php library file
-			include_once( LIBPATH . '/CustomQuery.php' );
-			
-			$this->events->add_action( 'load_dashboard' , array( $this , '__register_page' ) );
-			// include_once( LIBPATH . '/PostType.php' ); can be loaded using $this->load
-			
-			$this->events->do_action( 'load_post_types' );
-		}
-		else
+		if( ! Modules::is_active( 'aauth' ) )
 		{
 			$this->events->add_filter( 'ui_notices' , function( $notices ){
-				return $notices[]		=	array(
+				$notices[]		=	array(
 					'msg'		=>		__( 'Aauth Module is required, please install or enable it' ),
 					'type'	=>		'warning',
 					'icon'	=>		'users',
 					'href'	=>		site_url( array( 'dashboard' , 'modules' ) )
 				);
+				return $notices;
 			});
 		}
-	}
-	private function __is_installed()
-	{
-		if( $this->options->get( 'post_type' ) != $this->version )
+		if( ! Modules::is_active( 'dashboard' ) )
 		{
-			return false;
+			$this->events->add_filter( 'ui_notices' , function( $notices ){
+				$notices[]		=	array(
+					'msg'		=>		__( 'Dashboard Module is required, please install or enable it' ),
+					'type'	=>		'warning',
+					'icon'	=>		'users',
+					'href'	=>		site_url( array( 'dashboard' , 'modules' ) )
+				);
+				return $notices;
+			});
 		}
-		return true;
-	}
-	private function __install_tables()
-	{
-		$this->options->set( 'post_type' , $this->version );
-		$sql = 
-		'CREATE TABLE IF NOT EXISTS `' . $this->db->dbprefix( 'query' ) . '` (
-			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-			`NAMESPACE` varchar(255) NOT NULL,
-			`TITLE` varchar(255),
-			`CONTENT` text NOT NULL,
-			`DATE` datetime NOT NULL,
-			`EDITED` datetime NOT NULL,
-			`AUTHOR` varchar(255) NOT NULL,
-			`STATUS` int(11) NOT NULL,
-			`PARENT_REF_ID` int(11) NOT NULL,
-		PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB;';
-		if( ! $this->db->query($sql) )
+		if( Modules::is_active( 'aauth' ) && Modules::is_active( 'dashboard' ) )
 		{
-			return false;
-		};
-		/* CREATE tendoo_query_attachment */
-		$sql = 
-		'CREATE TABLE IF NOT EXISTS `' . $this->db->dbprefix( 'query_meta' ) . '` (
-			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-			`QUERY_REF_ID` int(11) NOT NULL,
-			`KEY` varchar(255),
-			`VALUE` text NOT NULL,
-		PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB;';
-		if(!$this->db->query($sql))
-		{
-			return false;
-		};
-		/* CREATE tendoo_query_taxonomies */
-		$sql = 
-		'CREATE TABLE IF NOT EXISTS `' . $this->db->dbprefix( 'query_taxonomies' ) . '` (
-			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-			`NAMESPACE` varchar(255) NOT NULL,
-			`QUERY_NAMESPACE` varchar(200) NOT NULL,
-			`TITLE` varchar(255),
-			`CONTENT` text NOT NULL,
-			`DATE` datetime NOT NULL,
-			`EDITED` datetime NOT NULL,
-			`PARENT_REF_ID` int(11) NOT NULL,
-			`AUTHOR` varchar(255) NOT NULL,
-		PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB;';
-		if(!$this->db->query($sql))
-		{
-			return false;
-		};
-		/* CREATE tendoo_query_taxonomies */
-		$sql = 
-		'CREATE TABLE IF NOT EXISTS `' . $this->db->dbprefix( 'query_taxonomies_relationships' ) . '` (
-			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-			`TAXONOMY_REF_ID` int(11) NOT NULL,
-			`QUERY_REF_ID` int(11),
-		PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB;';
-		if(!$this->db->query($sql))
-		{
-			return false;
-		};
-		/* CREATE tendoo_query_comments */
-		$sql = 
-		'CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix( 'query_comments' ) .'` (
-			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-			`AUTHOR` int(11) NOT NULL,
-			`COMMENTS` text,
-			`QUERY_NAMESPACE` varchar(200),
-			`CUSTOM_QUERY_ID` int(11) NOT NULL,
-			`STATUS` int(11) NOT NULL,
-			`DATE` datetime NOT NULL,
-			`EDITED` datetime NOT NULL,
-			`REPLY_TO` int(11) NOT NULL,
-			`AUTHOR_EMAIL` varchar(200),
-			`AUTHOR_NAME` varchar(200),
-		PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB;';
-		if(!$this->db->query($sql))
-		{
-			return false;
-		};
+			$this->load->language( 'blog_lang' );
+			// including CustomQuery.php library file
+			include_once( LIBPATH . '/CustomQuery.php' );
+			include_once( dirname( __FILE__ ) . '/inc/setup.php' );
+			
+			$this->events->add_action( 'load_dashboard' , array( $this , '__register_page' ) );
+			
+			// Load Post Types			
+			$this->events->do_action( 'load_post_types' );
+		}
 	}
 	function __register_page()
 	{
@@ -251,28 +169,35 @@ class post_type extends CI_model
 				// $id is taxonomy namespace here
 				if( in_array( $id , array_keys( force_array( $taxonomy	=	$this->current_posttype->query->get_defined_taxonomies() ) ) ) )
 				{
-					$this->config->set_item( 'current_taxonomy' , $current_taxonomy	=	riake( $id , $taxonomy ) );
-					$this->config->set_item( 'taxonomy_namespace' , $taxonomy_namespace	=	$id );					
-					$this->config->set_item( 'taxonomy' , $taxonomy );
-					$this->config->set_item( 'taxonomy_list_label' , riake( 'taxonomy-list-label' , $current_taxonomy ) );
+					$data					=	array();
+					$data[ 'current_taxonomy' ]	=	$current_taxonomy	=	riake( $id , $taxonomy );
+					$data[ 'taxonomy_namespace' ]	= 	$taxonomy_namespace	=	$id;					
+					$data[ 'taxonomy' ]				= 	$taxonomy;
+					$data[ 'taxonomy_list_label' ]=	riake( 'taxonomy-list-label' , $current_taxonomy );
+					$data[ 'post_namespace' ]		=	$namespace;
 					
 					if( $taxonomy_arg1 === 'list' )
 					{
 						$taxonomy_limit		=	20;
 						$taxonomy_arg2		=	$taxonomy_arg2 	=== 0 ? 1 : $taxonomy_arg2;
 						
-						$this->config->set_item( 'taxonomies_nbr' , $taxonomies_nbr 	=	count( $this->current_posttype->query->get_taxonomies( $taxonomy_namespace ) ) ); 
-						$this->config->set_item( 'pagination' , $pagination =	pagination_helper( 
+						$taxonomies_nbr 	=	count( $this->current_posttype->query->get_taxonomies( $taxonomy_namespace ) );
+						$pagination =	pagination_helper( 
 							$taxonomy_limit , 
 							$taxonomies_nbr , 
 							$taxonomy_arg2 , 
 							site_url( array( 'dashboard' , 'posttype' , $namespace , $page , $id , $taxonomy_arg1 ) ) , 
-							site_url( array('error','code','page-404' ) ) ) 
+							site_url( array('error','code','page-404' ) ) 
 						);
-						$this->config->set_item( 'taxonomies' , $this->current_posttype->query->get_taxonomies( $pagination[ 'start' ] , $pagination[ 'end' ] ) );
 						
-						set_page( 'title' ,  riake( 'new-taxonomy-label' , $current_taxonomy ) , 'Post List Label [#Unexpected error occured]' );
-						$this->load->view( 'admin/posttypes/taxonomy-list' , false );
+						$data[ 'taxonomy_list_label' ]	=	riake( 'taxonomy-list-label' , $current_taxonomy );
+						$data[ 'taxonomies' ]				=	$this->current_posttype->query->get_taxonomies( $taxonomy_namespace , $pagination[ 'start' ] , $pagination[ 'end' ] );
+						$data[ 'taxonomies_nbr' ]			=	$taxonomies_nbr;
+						$data[ 'pagination' ]				=	$pagination;
+						$data[ 'current_taxonomy' ]		=	$current_taxonomy;
+						
+						$this->gui->set_title( riake( 'new-taxonomy-label' , $current_taxonomy ) );
+						$this->load->view( '../modules/post_type/views/taxonomy-list' , $data );
 					}
 					else if( $taxonomy_arg1 === 'new' )
 					{
@@ -282,7 +207,7 @@ class post_type extends CI_model
 						if( $this->form_validation->run() )
 						{
 							$result	=	$this->current_posttype->query->set_taxonomy( 
-								$id , 
+								$data[ 'taxonomy_namespace' ] , 
 								$this->input->post( 'taxonomy_title' ) , 
 								$this->input->post( 'taxonomy_content' ) , 
 								in_array( $this->input->post( 'taxonomy_parent' ) , array( false , '' ) , TRUE ) ? null : $this->input->post( 'taxonomy_parent' )								
@@ -290,8 +215,8 @@ class post_type extends CI_model
 							get_instance()->notice->push_notice( $this->lang->line( $result ) );
 						}
 						
-						set_page( 'title' ,  riake( 'new-taxonomy-label' , $current_taxonomy , __( 'New taxonomy' ) ) , 'Post List Label [#Unexpected error occured]' );
-						$this->load->view( 'admin/posttypes/taxonomy-create' , false );
+						$this->gui->set_title( riake( 'new-taxonomy-label' , $current_taxonomy , __( 'New taxonomy' ) ) );
+						$this->load->view( '../modules/post_type/views/taxonomy-create' , $data , false );
 					}
 					else if( $taxonomy_arg1 === 'edit' )
 					{
@@ -304,16 +229,18 @@ class post_type extends CI_model
 								$id , 
 								$this->input->post( 'taxonomy_title' ) , 
 								$this->input->post( 'taxonomy_content' ) , 
-								in_array( $this->input->post( 'taxonomy_parent' ) , array( false , '' ) , TRUE ) ? null : $this->input->post( 'taxonomy_parent' ),
-								$taxonomy_arg2 // Since this is the taxonomy id					
+								$taxonomy_arg2,
+								in_array( $this->input->post( 'taxonomy_parent' ) , array( false , '' ) , TRUE ) ? null : $this->input->post( 'taxonomy_parent' )	
 							);
+							
 							get_instance()->notice->push_notice( $this->lang->line( 'taxonomy-set' ) );
 						}
 						
-						$this->config->set_item( 'taxonomy_id' , $taxonomy_arg2 );
-						$this->config->set_item( 'get_taxonomy' , farray( $this->current_posttype->query->get_taxonomies( $taxonomy_namespace , $taxonomy_arg2 , 'as_id' ) ) );						
-						set_page( 'title' ,  riake( 'edit-taxonomy-label' , $current_taxonomy , __( 'Edit taxonomy' ) ) , 'Post List Label [#Unexpected error occured]' );
-						$this->load->view( 'admin/posttypes/taxonomy-edit' , false );
+						$data[ 'taxonomy_id' ]	=	 $taxonomy_arg2;
+						$data[ 'get_taxonomy' ]	=	 farray( $this->current_posttype->query->get_taxonomies( $taxonomy_namespace , $taxonomy_arg2 , 'as_id' ) );						
+						
+						$this->gui->set_title(  riake( 'edit-taxonomy-label' , $current_taxonomy , __( 'Edit taxonomy' ) ) );
+						$this->load->view( '../modules/post_type/views/taxonomy-edit' , $data );
 					}
 				}
 				else

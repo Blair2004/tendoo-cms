@@ -43,7 +43,7 @@ class Dashboard_model extends CI_Model
 					'title'			=>		__( 'Dashboard' )
 				)
 			),
-			'media'			=>	array(
+			/** 'media'			=>	array(
 				array(
 					'title'			=>		__( 'Media Library' ),
 					'icon'			=>		'fa fa-image',
@@ -57,6 +57,7 @@ class Dashboard_model extends CI_Model
 					'href'			=>		site_url('dashboard/installer')
 				)
 			),
+			**/
 			'modules'			=>	array(
 				array(
 					'title'			=>		__( 'Modules' ),
@@ -64,7 +65,7 @@ class Dashboard_model extends CI_Model
 					'href'			=>		site_url('dashboard/modules')
 				)
 			),
-			'themes'			=>	array(
+			/** 'themes'			=>	array(
 				array(
 					'title'			=>		__( 'Themes' ),
 					'icon'			=>		'fa fa-columns',
@@ -76,6 +77,7 @@ class Dashboard_model extends CI_Model
 					'title'			=>		__( 'Menus' )
 				)
 			),
+			**/
 			'settings'			=>	array(
 				array(
 					'title'			=>		__( 'Settings' ),

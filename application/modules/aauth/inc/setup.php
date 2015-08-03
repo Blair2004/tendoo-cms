@@ -5,7 +5,6 @@ class aauth_setup extends CI_model
 	{
 		$this->events->add_action( 'tendoo_settings_tables' , array( $this , 'sql' ) );
 		$this->events->add_action( 'tendoo_settings_final_config' , array( $this , 'final_config' ) );
-		
 	}
 	function final_config()
 	{

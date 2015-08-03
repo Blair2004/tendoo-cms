@@ -14,7 +14,7 @@ class CustomQuery
 		$this->db							=	get_instance()->db;
 		$this->query_namespace			=	riake( 'namespace' , $config , 'default' ); // Default with title and content only.
 		// meta should be given as array. Only new type of meta are accepted
-		$given_meta						=	riake( 'meta' , $config , array() );
+		$given_meta							=	riake( 'meta' , $config , array() );
 		$this->is_hierarchical			=	riake( 'is_hierarchical' , $config , FALSE );
 		
 		foreach( force_array( $given_meta )  as $_given_meta )
@@ -269,6 +269,7 @@ class CustomQuery
 	
 	function get( $arg = array() )
 	{
+		$this->db->cache_on();
 		// To avoid MySQL Query crash
 		$return		=	false;
 		// Filter Namespace
@@ -429,7 +430,8 @@ class CustomQuery
 				$CQ_result[ $CQ_key ][ 'TAXONOMIES' ][] = riake( 'TAXONOMY_ID' , $__CQ_taxonomy_result );
 			}
 			unset( $CQ_result[ $CQ_key ][ 'TAXONOMY_REF_ID' ] ); // No more necessary
-		}		
+		}	
+		$this->db->cache_off();	
 		return $CQ_result;
 	}
 	
@@ -632,7 +634,7 @@ class CustomQuery
 			'TITLE'					=>		$title,
 			'CONTENT'				=>		$content,
 			'DATE'					=>		$this->datetime,
-			'AUTHOR'				=>		$this->user_id
+			'AUTHOR'					=>		$this->user_id
 		);
 		
 		// If hierarchy is supported

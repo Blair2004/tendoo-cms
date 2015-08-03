@@ -73,8 +73,7 @@ if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) 
 			$this->gui->add_item( array( 
 				'type'			=>		'multiple',
 				'name'			=>		'post_taxonomy['. $tax_namespace.'][]',
-				'text'			=>		$taxonomy_text,
-				'value'			=>		$taxonomy_value,
+				'options'			=>		$taxonomy_array,
 				'label'			=>		__( 'Select a taxonomy' ),
 				'active'		=>		riake( 'TAXONOMIES' , $post )
 			) , $post_namespace . '-edit-new-sidebar' , 2 );
