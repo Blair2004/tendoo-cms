@@ -65,8 +65,8 @@ $config['aauth'] = array(
     'verification' => false,
 
     // system email.
-    'email' => 'admin@admin.com',
-    'name' => 'Emre Akay'
+    'email' => 'user@tendoo.org',
+    'name' => 'Tendoo CMS'
     
 );
 
