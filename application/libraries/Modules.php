@@ -47,6 +47,7 @@ class Modules
 	{
 		$modules		=	self::get();
 		$modules_array	=	array();
+		
 		foreach( force_array( $modules ) as $module )
 		{
 			// print_array( $modules );
