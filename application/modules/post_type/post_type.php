@@ -47,7 +47,7 @@ class post_type extends CI_model
 			$this->events->add_action( 'load_dashboard' , array( $this , '__register_page' ) );
 			
 			// Load Post Types			
-			$this->events->do_action( 'load_post_types' );
+			$this->events->do_action( 'load_post_types' , 15 );
 		}
 	}
 	function __register_page()
