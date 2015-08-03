@@ -9,13 +9,14 @@ class blog_module extends CI_Model
 		});
 
 		$this->events->add_action( 'after_app_init' , array( $this , 'loader' ) );
+		$this->events->add_action( 'load_post_types' , array( $this , 'blog_post_type' ) );
 	 }
 	 
 	 function loader()
 	 {
 		if( Modules::is_active( 'post_type' ) )
 		{
-			$this->events->add_action( 'load_post_types' , array( $this , 'blog_post_type' ) );
+			
 		}
 		else
 		{
