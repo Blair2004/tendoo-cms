@@ -1,0 +1,172 @@
+<?php
+namespace System\Core;
+
+use Composer\Autoload\ClassLoader;
+use System\Http\Message\Response;
+use System\Http\Message\ServerRequest;
+use System\Http\Routing\Router;
+use System\Http\Routing\Routes;
+
+class App
+{
+	/**
+	 * @var ClassLoader
+	 */
+	protected $loader;
+
+	/**
+	 * @var Container
+	 */
+	protected $container;
+
+	/**
+	 * @var Config
+	 */
+	protected $config;
+
+	/**
+	 * @var string
+	 */
+	protected $charset;
+
+	/**
+	 * @var array
+	 */
+	protected $modules;
+
+	/**
+	 * @param ClassLoader $loader
+	 */
+	public function __construct(ClassLoader $loader)
+	{
+		$this->loader = $loader;
+
+		// set core
+		$this->initialize();
+
+		// set default configs
+		$this->configure();
+
+		// set modules auto load
+
+		$routes = new Routes();
+
+		foreach ($this->config->get('app.modules', []) as $module) {
+			$path = MODULES_PATH . $module . DIRECTORY_SEPARATOR . 'Modules.php';
+			if (file_exists($path)) {
+				include_once $path;
+				$this->modules[$module] = $moduleObj = $this->container->get($module . '\\Modules');
+
+				if (method_exists($moduleObj, 'getRoutes')) {
+					$moduleObj->getRoutes($routes);
+				}
+			}
+		}
+
+		// Dispatcher
+
+		/** @var ServerRequest $request */
+		$request = $this->container->get('request');
+		list($route, $parameters) = (new Router($routes))->route($request);
+
+		(new Dispatcher(new Response(), $route, $parameters, $this->container))->dispatch()->send();
+	}
+
+	/**
+	 * Returns the environment. NULL is returned if no environment is specified.
+	 *
+	 * @return  string|null
+	 */
+	public function getEnvironment()
+	{
+		return getenv('APP_ENV') ?: null;
+	}
+
+	/**
+	 * Returns the app charset.
+	 *
+	 * @return  string
+	 */
+	public function getCharset()
+	{
+		return $this->charset;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getModules()
+	{
+		return $this->modules;
+	}
+
+	/**
+	 * @return object
+	 */
+	public function getModule($name)
+	{
+		if (isset($this->modules[$name])) {
+			return $this->modules[$name];
+		}
+
+		throw new \OutOfBoundsException(sprintf('Module "%s" doesn\'t exist', $name));
+	}
+
+	/**
+	 * @return ClassLoader
+	 */
+	public function getLoader()
+	{
+		return $this->loader;
+	}
+
+	/**
+	 * Sets up the framework core.
+	 */
+	protected function initialize()
+	{
+		// Create IoC container instance and register it in itself so that it can be injected
+		$this->container = new Container();
+		$this->container->registerInstance(['System\Core\Container', 'container'], $this->container);
+
+		// Register self so that the app instance can be injected
+		$this->container->registerInstance(['System\Core\App', 'app'], $this);
+
+		// Register config instance
+		$this->config = new Config(APP_PATH . 'config', $this->getEnvironment());
+		$this->container->registerInstance(['System\Core\Config', 'config'], $this->config);
+
+		// set services
+		foreach ($this->config->get('app.services') as $class) {
+			/** @var \System\Services\Service $class */
+			$class = new $class($this->container);
+			$class->register();
+		}
+	}
+
+	/**
+	 * Configure.
+	 *
+	 * @access  protected
+	 */
+	protected function configure()
+	{
+		$config = $this->config->get('app');
+
+		// set default mb functions encodings and site default encoding
+		$this->charset = $config['charset'];
+		if (empty($this->charset)) {
+			$this->config->set('app.charset', $this->charset = 'UTF-8');
+		}
+		mb_language('uni');
+		mb_regex_encoding($this->charset);
+		mb_internal_encoding($this->charset);
+
+		// set default app time zone
+		$timezone = $config['timezone'];
+		if (empty($timezone)) {
+			$this->config->set('app.timezone', $timezone = 'Asia/Tehran');
+		}
+		date_default_timezone_set($timezone);
+	}
+}

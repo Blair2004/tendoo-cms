@@ -1,0 +1,25 @@
+{
+	"name": "elegantweb/elegantcmf",
+	"description": "elegantcmf for build web apps",
+	"authors": [
+		{
+			"name": "sina sharifzade",
+			"email": "sharifzadesina@gmail.com"
+		}
+	],
+	"minimum-stability": "stable",
+	"autoload": {
+		"psr-4": {
+			"System\\": "System"
+		}
+	},
+	"require": {
+		"elegantweb/jdatetime": "*",
+		"phpmailer/phpmailer": "*",
+		"ircmaxell/password-compat": "*",
+		"ramsey/array_column": "*",
+		"google/recaptcha": "*",
+		"psr/http-message": "*"
+	},
+	"require-dev": {}
+}
