@@ -1,0 +1,23 @@
+Options -Indexes
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . index.php
+
+# Deny accessing below extensions
+<Files ~ "(.json|.lock|.git|.php)">
+	Order Allow,Deny
+	Deny from all
+</Files>
+
+# Allow accessing index.php file
+<Files index.php>
+	Order Allow,Deny
+	Allow from all
+</Files>
+
+# Deny accessing dot files
+RewriteRule (^\.|/\.) - [F]
+
+# App Environment [ dev or prod ]
+SetEnv APP_ENV dev
