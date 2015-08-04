@@ -16,7 +16,7 @@ foreach( force_array( $post ) as $_post )
 	$user				=		User::get( riake( 'AUTHOR' , $_post ) , 'as_id' );
 	$table_row[]	=		array(
 		'<input type="checkbox" name="post_id[]" style="height:30px" value="' . riake( 'QUERY_ID' , $_post ) . '">',
-		'<a href="' . site_url( array( 'dashboard' , 'posttype' , $post_namespace , 'edit' , riake( 'QUERY_ID' , $_post ) ) ) . '">' . riake( 'TITLE' , $_post ) . '</a>', 
+		'<a href="' . site_url( array( 'dashboard' , 'posttype' , $post_namespace , 'edit' , xss_clean( riake( 'QUERY_ID' , $_post ) ) ) ) . '">' . xss_clean( riake( 'TITLE' , $_post ) ) . '</a>', 
 		'',
 		User::pseudo( riake( 'AUTHOR' , $_post ) ),
 		riake( 'DATE' , $_post ),

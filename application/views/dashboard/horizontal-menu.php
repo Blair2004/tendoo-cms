@@ -7,16 +7,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  
 **/
 ?>
-<body class="<?php echo $this->events->apply_filters( 'dashboard_body_class' , 'skin-blue' );?> fixed sidebar-mini">
+<body class="<?php echo xss_clean( $this->events->apply_filters( 'dashboard_body_class' , 'skin-blue' ) );?> fixed sidebar-mini">
     <div class="wrapper">
         <header class="main-header"> 
             
             <!-- Logo --> 
             <a href="<?php echo site_url( array( 'dashboard' ) );?>" class="logo"> 
             <!-- mini logo for sidebar mini 50x50 pixels --> 
-            <span class="logo-mini"><?php echo $this->events->apply_filters( 'dashboard_logo_small' , $this->config->item( 'tendoo_logo_min' ) );?></span> 
+            <span class="logo-mini"><?php echo xss_clean( $this->events->apply_filters( 'dashboard_logo_small' , $this->config->item( 'tendoo_logo_min' ) ) );?></span> 
             <!-- logo for regular state and mobile devices --> 
-            <span class="logo-lg"><?php echo $this->events->apply_filters( 'dashboard_logo_long' , $this->config->item( 'tendoo_logo_long' ) );?></span> </a> 
+            <span class="logo-lg"><?php echo xss_clean( $this->events->apply_filters( 'dashboard_logo_long' , $this->config->item( 'tendoo_logo_long' ) ) );?></span> </a> 
             
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation"> 
@@ -106,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															}
 														}
 												?>
-                                        <li> <a href="<?php echo $notice[ 'href' ];?>"> <i class="fa fa-<?php echo $notice_icon;?> text-aqua"></i> <?php echo $notice[ 'msg' ];?></a> </li>
+                                        <li> <a href="<?php echo xss_clean( $notice[ 'href' ] );?>"> <i class="fa fa-<?php echo xss_clean( $notice_icon );?> text-aqua"></i> <?php echo xss_clean( $notice[ 'msg' ] );?></a> </li>
 												<?php endforeach;?>
                                     </ul>
                                 </li>
@@ -164,18 +164,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php endif;?>
                         
                         <!-- User Account: style can be found in dropdown.less -->
-                        <li class="dropdown user user-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <!--<img class="img-circle" alt="user image"/>--> <span class="hidden-xs"><?php echo $this->events->apply_filters( 'user_menu_name' , $this->config->item( 'default_user_names' ) );?></span> </a>
+                        <li class="dropdown user user-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <!--<img class="img-circle" alt="user image"/>--> <span class="hidden-xs"><?php echo xss_clean( $this->events->apply_filters( 'user_menu_name' , $this->config->item( 'default_user_names' ) ) );?></span> </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header"> <!--<img class="img-circle" alt="user image"/>-->
-                                    <p><?php echo $this->events->apply_filters( 'user_menu_card_header' , $this->config->item( 'default_user_names' ) );?></p>
+                                    <p><?php echo xss_clean( $this->events->apply_filters( 'user_menu_card_header' , $this->config->item( 'default_user_names' ) ) );?></p>
                                 </li>
                                 <!-- Menu Body -->
-                                <?php echo $this->events->apply_filters( 'after_user_card' , '' );?>
+                                <?php echo xss_clean( $this->events->apply_filters( 'after_user_card' , '' ) );?>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
-                                    <div class="pull-left"> <a href="<?php echo $this->events->apply_filters( 'user_header_profile_link' , '#' );?>" class="btn btn-default btn-flat"><?php _e( 'Profile' );?></a> </div>
-                                    <div class="pull-right"> <a href="<?php echo $this->events->apply_filters( 'user_header_sign_out_link' , site_url( array( 'sign-out' ) ) );?>" class="btn btn-default btn-flat"><?php _e( 'Sign Out' );?></a> </div>
+                                    <div class="pull-left"> <a href="<?php echo xss_clean( $this->events->apply_filters( 'user_header_profile_link' , '#' ) );?>" class="btn btn-default btn-flat"><?php _e( 'Profile' );?></a> </div>
+                                    <div class="pull-right"> <a href="<?php echo xss_clean( $this->events->apply_filters( 'user_header_sign_out_link' , site_url( array( 'sign-out' ) ) ) );?>" class="btn btn-default btn-flat"><?php _e( 'Sign Out' );?></a> </div>
                                 </li>
                             </ul>
                         </li>
