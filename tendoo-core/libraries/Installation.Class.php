@@ -118,7 +118,7 @@ class Installation extends Libraries
 			`CUSTOM_QUERY_ID` int(11) NOT NULL,
 			`STATUS` int(11) NOT NULL,
 			`DATE` datetime NOT NULL,
-			`EDITED datetime NOT NULL`
+			`EDITED` datetime NOT NULL,
 			`REPLY_TO` int(11) NOT NULL,
 			`AUTHOR_EMAIL` varchar(200),
 			`AUTHOR_NAME` varchar(200),
