@@ -7,13 +7,10 @@ use System\Mvc\View\ViewRenderer;
 
 class Modules
 {
-	public function __construct(App $app)
+	public function onBootstrap(App $app, ViewRenderer $viewRenderer)
 	{
 		$app->getLoader()->addPsr4(__NAMESPACE__ . '\\', MODULES_PATH . __NAMESPACE__);
-	}
 
-	public function onBootstrap(ViewRenderer $viewRenderer)
-	{
 		$viewRenderer->setPath(MODULES_PATH . __NAMESPACE__ . DIRECTORY_SEPARATOR . 'views');
 	}
 

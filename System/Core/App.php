@@ -44,7 +44,7 @@ class App
 		// Dispatcher
 
 		/** @var ServerRequest $request */
-		$request = $this->container->get('request');
+		$request = $this->container->get('serverRequest');
 
 		/** @var ModulesManager $modulesManager */
 		$modulesManager = $this->container->get('modulesManager');
