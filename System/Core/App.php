@@ -98,20 +98,8 @@ class App
 		// Register config instance
 		$this->config = new Config(APP_PATH . 'config', $this->getEnvironment());
 		$this->container->registerInstance(['System\Core\Config', 'config'], $this->config);
-
-		// set services
-		foreach ($this->config->get('app.services') as $class) {
-			/** @var \System\Services\Service $class */
-			$class = new $class($this->container);
-			$class->register();
-		}
 	}
 
-	/**
-	 * Configure.
-	 *
-	 * @access  protected
-	 */
 	protected function configure()
 	{
 		$config = $this->config->get('app');
@@ -131,5 +119,12 @@ class App
 			$this->config->set('app.timezone', $timezone = 'Asia/Tehran');
 		}
 		date_default_timezone_set($timezone);
+
+		// set services
+		foreach ($config['services'] as $service) {
+			/** @var \System\Services\Service $service */
+			$service = new $service($this->container);
+			$service->register();
+		}
 	}
 }

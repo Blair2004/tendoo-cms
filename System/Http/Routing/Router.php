@@ -82,7 +82,7 @@ class Router
 					// from all routes matching the requested path. We'll then add an "allows" header
 					// to the matched route
 					if ($requestMethod === 'OPTIONS') {
-						return [$this->optionsRoute($requestUri), []];
+						return $this->optionsRoute($requestUri);
 					}
 
 					// set request attributes

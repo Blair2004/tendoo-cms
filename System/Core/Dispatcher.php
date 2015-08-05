@@ -3,17 +3,16 @@ namespace System\Core;
 
 use Closure;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use System\Http\Message\Response;
-use System\Http\Message\ServerRequest;
 use System\Http\Routing\Route;
 use System\Mvc\View\View;
-use System\Mvc\View\ViewRenderer;
 
 class Dispatcher
 {
 	/**
-	 * @var ServerRequest
+	 * @var ServerRequestInterface
 	 */
 	protected $request;
 
@@ -45,12 +44,12 @@ class Dispatcher
 	protected $skipAfterFilters = false;
 
 	/**
-	 * @param   ServerRequest     $request
-	 * @param   ResponseInterface $response
-	 * @param   Route             $route     The route we're dispatching
-	 * @param   Container         $container IoC container
+	 * @param   ServerRequestInterface $request
+	 * @param   ResponseInterface      $response
+	 * @param   Route                  $route     The route we're dispatching
+	 * @param   Container              $container IoC container
 	 */
-	public function __construct(ServerRequest $request, ResponseInterface $response, Route $route, Container $container = null)
+	public function __construct(ServerRequestInterface $request, ResponseInterface $response, Route $route, Container $container = null)
 	{
 		$this->request = $request;
 		$this->response = $response;

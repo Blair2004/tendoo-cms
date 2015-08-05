@@ -79,7 +79,7 @@ class Request extends Message implements RequestInterface
 			$target = '/';
 		}
 
-		return $target;
+		return $this->requestTarget = $target;
 	}
 
 	/**
