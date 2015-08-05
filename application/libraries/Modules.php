@@ -361,11 +361,15 @@ class Modules
 		$modulepath		=	dirname( $module[ 'application' ][ 'details' ][ 'main' ] );
 		$manifest_file	=	$modulepath . '/manifest.json';
 		
-		$manifest_array	=	json_decode( file_get_contents( $manifest_file ) , true );
-		// removing file
-		foreach( $manifest_array as $file )
+		// Only delete when manifest exits
+		if( is_file( $manifest_file ) )
 		{
-			if( is_file( $file ) ): unlink( $file );endif;
+			$manifest_array	=	json_decode( file_get_contents( $manifest_file ) , true );
+			// removing file
+			foreach( $manifest_array as $file )
+			{
+				if( is_file( $file ) ): unlink( $file );endif;
+			}
 		}
 		// Drop Module Folder
 		SimpleFileManager::drop( $modulepath );
