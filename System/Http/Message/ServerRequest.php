@@ -112,7 +112,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
 		$this->collectInfo();
 
-		$this->requestTarget = $this->path = $this->determinePath();
+		$this->path = $this->determinePath();
 
 		$uri = $this->getBaseUrl() . $this->getPath() . (! empty($this->serverParams['QUERY_STRING']) ? '?' . $this->serverParams['QUERY_STRING'] : '');
 
