@@ -204,7 +204,7 @@ class Modules
 
 							if( is_array( $module_global_manifest ) )
 							{
-								$response	=	self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data );
+								$response	=	self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data , true );
 								// Delete temp file
 								SimpleFileManager::drop( $extraction_temp_path );
 								if( $response !== true )
@@ -270,7 +270,7 @@ class Modules
 					}
 				}
 			}
-			closedir( $path );
+			closedir( $dir );
 			// When everything seems to be alright
 			return array( $module_manifest , $manifest );
 		}
@@ -281,9 +281,9 @@ class Modules
 	 * Move module temp fil to valid module folder
 	**/
 	
-	static function __move_to_module_dir( $module_array , $global_manifest , $manifest , $extraction_data , $disable_conflict_checker = false )
+	static function __move_to_module_dir( $module_array , $global_manifest , $manifest , $extraction_data , $conflict_checker = false )
 	{
-		if( $disable_conflict_checker )
+		if( $conflict_checker === true )
 		{
 			// Check first
 			foreach( $manifest as $_manifest_file )
