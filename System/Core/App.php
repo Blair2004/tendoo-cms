@@ -5,7 +5,6 @@ use Composer\Autoload\ClassLoader;
 use System\Http\Message\Response;
 use System\Http\Message\ServerRequest;
 use System\Http\Routing\Router;
-use System\Http\Routing\Routes;
 
 class App
 {
@@ -30,11 +29,6 @@ class App
 	protected $charset;
 
 	/**
-	 * @var array
-	 */
-	protected $modules;
-
-	/**
 	 * @param ClassLoader $loader
 	 */
 	public function __construct(ClassLoader $loader)
@@ -47,29 +41,18 @@ class App
 		// set default configs
 		$this->configure();
 
-		// set modules auto load
-
-		$routes = new Routes();
-
-		foreach ($this->config->get('app.modules', []) as $module) {
-			$path = MODULES_PATH . $module . DIRECTORY_SEPARATOR . 'Modules.php';
-			if (file_exists($path)) {
-				include_once $path;
-				$this->modules[$module] = $moduleObj = $this->container->get($module . '\\Modules');
-
-				if (method_exists($moduleObj, 'getRoutes')) {
-					$moduleObj->getRoutes($routes);
-				}
-			}
-		}
-
 		// Dispatcher
 
 		/** @var ServerRequest $request */
 		$request = $this->container->get('request');
-		list($route, $parameters) = (new Router($routes))->route($request);
 
-		(new Dispatcher(new Response(), $route, $parameters, $this->container))->dispatch()->send();
+		/** @var ModulesManager $modulesManager */
+		$modulesManager = $this->container->get('modulesManager');
+
+		// get route
+		$route = (new Router($this->container, $modulesManager->getModules()))->route($request);
+
+		(new Dispatcher($request, new Response(), $route, $this->container))->dispatch()->send();
 	}
 
 	/**
@@ -90,26 +73,6 @@ class App
 	public function getCharset()
 	{
 		return $this->charset;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getModules()
-	{
-		return $this->modules;
-	}
-
-	/**
-	 * @return object
-	 */
-	public function getModule($name)
-	{
-		if (isset($this->modules[$name])) {
-			return $this->modules[$name];
-		}
-
-		throw new \OutOfBoundsException(sprintf('Module "%s" doesn\'t exist', $name));
 	}
 
 	/**

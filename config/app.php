@@ -6,6 +6,7 @@ return [
 
 	'services' => [
 		'System\Services\Request',
+		'System\Services\ModulesManager',
 		'System\Services\Routes',
 		'System\Services\Session',
 		'System\Services\ViewRenderer',
