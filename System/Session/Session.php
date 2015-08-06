@@ -33,6 +33,8 @@ class Session
 		! $handler or session_set_save_handler($handler);
 		register_shutdown_function([$this, 'destruct']);
 
+		$this->started = PHP_SESSION_ACTIVE === session_status();
+
 		$_SESSION = [];
 	}
 
@@ -48,10 +50,6 @@ class Session
 	{
 		if ($this->started) {
 			return;
-		}
-
-		if (PHP_SESSION_ACTIVE === session_status()) {
-			throw new RuntimeException('Failed to start the session: already started by PHP.');
 		}
 
 		if (ini_get('session.use_cookies') and headers_sent($file, $line)) {

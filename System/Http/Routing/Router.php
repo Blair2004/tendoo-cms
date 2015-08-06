@@ -85,9 +85,9 @@ class Router
 					}
 
 					// run module bootstrap
-					if (method_exists($module, 'onBootstrap')) {
+					if (method_exists($module, 'onRoute')) {
 						/** @var callable $module */
-						$this->container->call([$module, 'onBootstrap']);
+						$this->container->call([$module, 'onRoute']);
 					}
 
 					return $route;
