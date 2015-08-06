@@ -16,7 +16,7 @@ class Modules
 
 	public function getRoutes(Routes $routes)
 	{
-		$routes->any('/', 'App\Controllers\Home::index', 'route1');
+		$routes->any('/test', 'App\Controllers\Home::index', 'route1');
 
 		return $routes;
 	}

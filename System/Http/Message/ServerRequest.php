@@ -349,14 +349,12 @@ class ServerRequest extends Request implements ServerRequestInterface
 				$path = mb_substr($path, mb_strlen($basePath));
 			}
 
-			$path = rawurldecode(rtrim($path, '/'));
+			$path = rawurldecode($path);
 
-			if ($path !== '') {
+			if ($path !== '/') {
 				$path = $this->stripLocaleSegment($languages, $path);
 			}
-		}
-
-		if (empty($path)) {
+		} else {
 			$path = '/';
 		}
 
