@@ -1,12 +1,11 @@
 <?php
 namespace System\Http\Routing;
 
-use InvalidArgumentException;
+use Psr\Http\Message\ServerRequestInterface;
 use System\Core\Container;
 use System\Http\Exceptions\NotFoundException;
 use System\Http\Exceptions\MethodNotAllowedException;
 use System\Http\Message\Response;
-use System\Http\Message\ServerRequest;
 
 class Router
 {
@@ -38,14 +37,14 @@ class Router
 	/**
 	 * Matches and returns the appropriate route along with its parameters.
 	 *
-	 * @param ServerRequest $request
+	 * @param ServerRequestInterface $request
 	 * @return  Route
 	 */
-	public function route(ServerRequest $request)
+	public function route(ServerRequestInterface $request)
 	{
 		$parameters = [];
 
-		$requestUri = $request->getPath();
+		$requestTarget = parse_url($request->getRequestTarget(), PHP_URL_PATH);
 		$requestMethod = $request->getMethod();
 
 		foreach ($this->modules as $moduleName) {
@@ -62,17 +61,12 @@ class Router
 				continue;
 			}
 
-			/** @var Routes $routes */
-			$routes = $module->getRoutes(new Routes());
-			if (! $routes instanceof Routes) {
-				throw new InvalidArgumentException(
-					'Modules getRoutes method must return an instanceof System\Http\Routing\Routes'
-				);
-			}
+			$routes = new Routes();
+			$module->getRoutes($routes);
 
 			/** @var Route $route */
 			foreach ($routes->getRoutes() as $route) {
-				if ($this->matches($route, $requestUri, $parameters)) {
+				if ($this->matches($route, $requestTarget, $parameters)) {
 					if (! $route->allows($requestMethod)) {
 						$this->matchedRoutes[] = $route;
 						continue;
@@ -82,7 +76,7 @@ class Router
 					// from all routes matching the requested path. We'll then add an "allows" header
 					// to the matched route
 					if ($requestMethod === 'OPTIONS') {
-						return $this->optionsRoute($requestUri);
+						return $this->optionsRoute($requestTarget);
 					}
 
 					// set request attributes
@@ -105,7 +99,7 @@ class Router
 			// We found a matching route but it does not allow the request method
 			// so we'll throw a 405 exception
 			throw new MethodNotAllowedException(
-				$this->getAllowedMethodsForMatchingRoutes($requestUri)
+				$this->getAllowedMethodsForMatchingRoutes($requestTarget)
 			);
 		} else {
 			// No routes matched so we'll throw a 404 exception
@@ -117,13 +111,13 @@ class Router
 	 * Returns TRUE if the route matches the request uri and FALSE if not.
 	 *
 	 * @param   Route  $route
-	 * @param   string $uri
+	 * @param   string $requestTarget
 	 * @param   array  $parameters Parameters
 	 * @return  boolean
 	 */
-	protected function matches(Route $route, $uri, array &$parameters = [])
+	protected function matches(Route $route, $requestTarget, array &$parameters = [])
 	{
-		if (preg_match($route->getPattern(), $uri, $parameters)) {
+		if (preg_match($route->getPattern(), $requestTarget, $parameters)) {
 			foreach ($parameters as $key => $value) {
 				if (is_int($key)) {
 					unset($parameters[$key]);
@@ -139,16 +133,16 @@ class Router
 	/**
 	 * Returns an array of all allowed request methods for the requested route.
 	 *
-	 * @param   string $requestUri
+	 * @param   string $requestTarget
 	 * @return  array
 	 */
-	protected function getAllowedMethodsForMatchingRoutes($requestUri)
+	protected function getAllowedMethodsForMatchingRoutes($requestTarget)
 	{
 		$methods = [];
 
 		/** @var Route $route */
 		foreach ($this->matchedRoutes as $route) {
-			if ($this->matches($route, $requestUri)) {
+			if ($this->matches($route, $requestTarget)) {
 				$methods = array_merge($methods, $route->getMethods());
 			}
 		}
@@ -159,12 +153,12 @@ class Router
 	/**
 	 * Returns a route with a closure action that sets the allow header.
 	 *
-	 * @param   string $request_uri
+	 * @param   string $requestTarget
 	 * @return  Route
 	 */
-	protected function optionsRoute($request_uri)
+	protected function optionsRoute($requestTarget)
 	{
-		$allowedMethods = $this->getAllowedMethodsForMatchingRoutes($request_uri);
+		$allowedMethods = $this->getAllowedMethodsForMatchingRoutes($requestTarget);
 
 		return new Route([], '', function () use ($allowedMethods) {
 			return (new Response())->withHeader('allow', implode(',', $allowedMethods));

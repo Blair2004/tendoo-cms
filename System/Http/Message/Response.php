@@ -15,7 +15,7 @@ class Response extends Message implements ResponseInterface
 	 *
 	 * @var boolean
 	 */
-	protected $gzip = true;
+	protected $gzip = false;
 
 	/**
 	 * @var array

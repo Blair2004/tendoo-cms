@@ -112,9 +112,11 @@ class ServerRequest extends Request implements ServerRequestInterface
 
 		$this->collectInfo();
 
-		$this->path = $this->determinePath();
 
-		$uri = $this->getBaseUrl() . $this->getPath() . (! empty($this->serverParams['QUERY_STRING']) ? '?' . $this->serverParams['QUERY_STRING'] : '');
+		$this->path = $this->determinePath();
+		$query = empty($this->serverParams['QUERY_STRING']) ? '' : '?' . $this->serverParams['QUERY_STRING'];
+		$this->requestTarget = $this->getPath() . $query;
+		$uri = $this->getBaseUrl() . $this->getPath() . $query;
 
 		parent::__construct($body, $uri, $this->determineMethod(), $this->collectHeaders());
 	}
@@ -347,10 +349,18 @@ class ServerRequest extends Request implements ServerRequestInterface
 				$path = mb_substr($path, mb_strlen($basePath));
 			}
 
-			$path = rawurldecode($path);
+			$path = rawurldecode(rtrim($path, '/'));
+
+			if ($path !== '') {
+				$path = $this->stripLocaleSegment($languages, $path);
+			}
 		}
 
-		return $this->stripLocaleSegment($languages, rtrim($path, '/'));
+		if (empty($path)) {
+			$path = '/';
+		}
+
+		return $path;
 	}
 
 	/**

@@ -2,7 +2,6 @@
 namespace System\Http\Routing;
 
 use Closure;
-use OutOfBoundsException;
 
 class Routes
 {
@@ -130,11 +129,7 @@ class Routes
 			}
 		}
 
-		if ($route->getName() === null) {
-			return $this->routes[] = $route;
-		} else {
-			return $this->routes[$route->getName()] = $route;
-		}
+		return $this->routes[] = $route;
 	}
 
 	/**
@@ -145,35 +140,6 @@ class Routes
 	public function getRoutes()
 	{
 		return $this->routes;
-	}
-
-	/**
-	 * Returns TRUE if the named route exists and FALSE if not.
-	 *
-	 * @param   string   $name  Route name
-	 * @return  boolean
-	 */
-	public function hasNamedRoute($name)
-	{
-		return isset($this->routes[$name]);
-	}
-
-	/**
-	 * Returns the named route.
-	 *
-	 * @param   string $name  Route name
-	 * @return  Route
-	 */
-	public function getNamedRoute($name)
-	{
-		if (! $this->hasNamedRoute($name)) {
-			throw new OutOfBoundsException(sprintf(
-				"%s(): No route named [ %s ] has been defined.",
-				__METHOD__, $name
-			));
-		}
-
-		return $this->routes[$name];
 	}
 
 	/**
