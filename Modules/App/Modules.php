@@ -14,10 +14,8 @@ class Modules
 		$viewRenderer->setPath(MODULES_PATH . __NAMESPACE__ . DIRECTORY_SEPARATOR . 'views');
 	}
 
-	public function getRoutes(Routes $routes)
+	public function routes(Routes $routes)
 	{
-		$routes->any('/test', 'App\Controllers\Home::index', 'route1');
-
-		return $routes;
+		$routes->any('/', 'App\Controllers\Home::index');
 	}
 }

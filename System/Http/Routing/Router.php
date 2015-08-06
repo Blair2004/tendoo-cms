@@ -57,12 +57,12 @@ class Router
 			include $modulePath;
 			$module = $this->container->get($moduleName . '\\Modules');
 
-			if (! method_exists($module, 'getRoutes')) {
+			if (! method_exists($module, 'routes')) {
 				continue;
 			}
 
 			$routes = new Routes();
-			$module->getRoutes($routes);
+			$module->routes($routes);
 
 			/** @var Route $route */
 			foreach ($routes->getRoutes() as $route) {
