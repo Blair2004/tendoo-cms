@@ -50,25 +50,18 @@ class Route
 	/**
 	 * @var string
 	 */
-	protected $name;
-
-	/**
-	 * @var string
-	 */
 	protected $namePrefix = '';
 
 	/**
 	 * @param   array       $methods    Route methods
 	 * @param   array       $uri
 	 * @param   string|Closure    $action     Route action
-	 * @param   string|null $name       Route name
 	 */
-	public function __construct(array $methods, $uri, $action, $name = null)
+	public function __construct(array $methods, $uri, $action)
 	{
 		$this->methods = $methods;
-		$this->uri = rtrim($uri, '/');
+		$this->uri = $uri;
 		$this->action = $action;
-		$this->name = $name;
 	}
 
 	/**
@@ -115,26 +108,6 @@ class Route
 	public function getNamespace()
 	{
 		return $this->namespace;
-	}
-
-	/**
-	 * Returns the route name.
-	 *
-	 * @return  string|null
-	 */
-	public function getName()
-	{
-		return $this->name === null ? null : $this->namePrefix . $this->name;
-	}
-
-	/**
-	 * get route name prefix
-	 *
-	 * @return string|null
-	 */
-	public function getNamePrefix()
-	{
-		return $this->namePrefix;
 	}
 
 	/**

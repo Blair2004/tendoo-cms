@@ -3,18 +3,18 @@ namespace System\Core;
 
 use Closure;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use System\Http\Message\Response;
 use System\Http\Routing\Route;
 use System\Mvc\View\View;
-use System\Mvc\View\ViewRenderer;
 
 class Dispatcher
 {
 	/**
-	 * @var Container
+	 * @var ServerRequestInterface
 	 */
-	protected $container;
+	protected $request;
 
 	/**
 	 * @var Response
@@ -27,16 +27,14 @@ class Dispatcher
 	protected $route;
 
 	/**
+	 * @var Container
+	 */
+	protected $container;
+
+	/**
 	 * @var mixed
 	 */
 	protected $return;
-
-	/**
-	 * Route parameters.
-	 *
-	 * @var array
-	 */
-	protected $parameters;
 
 	/**
 	 * Should the after filters be skipped?
@@ -46,16 +44,16 @@ class Dispatcher
 	protected $skipAfterFilters = false;
 
 	/**
-	 * @param   ResponseInterface $response
-	 * @param   Route             $route      The route we're dispatching
-	 * @param   array             $parameters Route parameters
-	 * @param   Container         $container  IoC container
+	 * @param   ServerRequestInterface $request
+	 * @param   ResponseInterface      $response
+	 * @param   Route                  $route     The route we're dispatching
+	 * @param   Container              $container IoC container
 	 */
-	public function __construct(ResponseInterface $response, Route $route, array $parameters = [], Container $container = null)
+	public function __construct(ServerRequestInterface $request, ResponseInterface $response, Route $route, Container $container = null)
 	{
+		$this->request = $request;
 		$this->response = $response;
 		$this->route = $route;
-		$this->parameters = $parameters;
 		$this->container = $container ?: new Container;
 	}
 
@@ -65,14 +63,7 @@ class Dispatcher
 	public function send()
 	{
 		if ($this->return instanceof View) {
-			/** @var App $app */
-			$app = $this->container->get('app');
-			$module = $app->getModule(current(explode('\\', $this->route->getAction())));
-
-			/** @var ViewRenderer $r */
-			$r = $this->container->get('viewRenderer');
-			$r->setPath($module->getConfig()['view_path']);
-			$r->render($this->return);
+			$this->container->get('viewRenderer')->render($this->return);
 		} elseif ($this->return instanceof ResponseInterface) {
 			$this->return->send();
 		} else {
@@ -122,7 +113,7 @@ class Dispatcher
 	 */
 	protected function dispatchClosure(Closure $closure)
 	{
-		$this->return = $this->container->call($closure, $this->parameters);
+		$this->return = $this->container->call($closure, $this->request->getAttributes());
 	}
 
 	/**
@@ -145,7 +136,9 @@ class Dispatcher
 			// The before filter didn't return any data so we can set the
 			// response body to whatever the route action returns
 
-			$this->return = $this->container->call([$controller, $method], $this->parameters);
+			$this->return = $this->container->call(
+				[$controller, $method], $this->request->getAttributes()
+			);
 
 			// Execute the after filter if we have one
 

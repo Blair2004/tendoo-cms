@@ -5,7 +5,8 @@ return [
 	],
 
 	'services' => [
-		'System\Services\Request',
+		'System\Services\ServerRequest',
+		'System\Services\ModulesManager',
 		'System\Services\Routes',
 		'System\Services\Session',
 		'System\Services\ViewRenderer',

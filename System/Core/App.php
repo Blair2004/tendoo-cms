@@ -5,7 +5,6 @@ use Composer\Autoload\ClassLoader;
 use System\Http\Message\Response;
 use System\Http\Message\ServerRequest;
 use System\Http\Routing\Router;
-use System\Http\Routing\Routes;
 
 class App
 {
@@ -30,11 +29,6 @@ class App
 	protected $charset;
 
 	/**
-	 * @var array
-	 */
-	protected $modules;
-
-	/**
 	 * @param ClassLoader $loader
 	 */
 	public function __construct(ClassLoader $loader)
@@ -47,29 +41,18 @@ class App
 		// set default configs
 		$this->configure();
 
-		// set modules auto load
-
-		$routes = new Routes();
-
-		foreach ($this->config->get('app.modules', []) as $module) {
-			$path = MODULES_PATH . $module . DIRECTORY_SEPARATOR . 'Modules.php';
-			if (file_exists($path)) {
-				include_once $path;
-				$this->modules[$module] = $moduleObj = $this->container->get($module . '\\Modules');
-
-				if (method_exists($moduleObj, 'getRoutes')) {
-					$moduleObj->getRoutes($routes);
-				}
-			}
-		}
-
 		// Dispatcher
 
 		/** @var ServerRequest $request */
-		$request = $this->container->get('request');
-		list($route, $parameters) = (new Router($routes))->route($request);
+		$request = $this->container->get('serverRequest');
 
-		(new Dispatcher(new Response(), $route, $parameters, $this->container))->dispatch()->send();
+		/** @var ModulesManager $modulesManager */
+		$modulesManager = $this->container->get('modulesManager');
+
+		// get route
+		$route = (new Router($this->container, $modulesManager->getModules()))->route($request);
+
+		(new Dispatcher($request, new Response(), $route, $this->container))->dispatch()->send();
 	}
 
 	/**
@@ -90,26 +73,6 @@ class App
 	public function getCharset()
 	{
 		return $this->charset;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getModules()
-	{
-		return $this->modules;
-	}
-
-	/**
-	 * @return object
-	 */
-	public function getModule($name)
-	{
-		if (isset($this->modules[$name])) {
-			return $this->modules[$name];
-		}
-
-		throw new \OutOfBoundsException(sprintf('Module "%s" doesn\'t exist', $name));
 	}
 
 	/**
@@ -135,20 +98,8 @@ class App
 		// Register config instance
 		$this->config = new Config(APP_PATH . 'config', $this->getEnvironment());
 		$this->container->registerInstance(['System\Core\Config', 'config'], $this->config);
-
-		// set services
-		foreach ($this->config->get('app.services') as $class) {
-			/** @var \System\Services\Service $class */
-			$class = new $class($this->container);
-			$class->register();
-		}
 	}
 
-	/**
-	 * Configure.
-	 *
-	 * @access  protected
-	 */
 	protected function configure()
 	{
 		$config = $this->config->get('app');
@@ -168,5 +119,12 @@ class App
 			$this->config->set('app.timezone', $timezone = 'Asia/Tehran');
 		}
 		date_default_timezone_set($timezone);
+
+		// set services
+		foreach ($config['services'] as $service) {
+			/** @var \System\Services\Service $service */
+			$service = new $service($this->container);
+			$service->register();
+		}
 	}
 }

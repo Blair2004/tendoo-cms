@@ -3,6 +3,7 @@ namespace App;
 
 use System\Core\App;
 use System\Http\Routing\Routes;
+use System\Mvc\View\ViewRenderer;
 
 class Modules
 {
@@ -11,15 +12,13 @@ class Modules
 		$app->getLoader()->addPsr4(__NAMESPACE__ . '\\', MODULES_PATH . __NAMESPACE__);
 	}
 
-	public function getRoutes(Routes $routes)
+	public function onRoute(ViewRenderer $viewRenderer)
 	{
-		$routes->any('/', 'App\Controllers\Home::index', 'route1');
+		$viewRenderer->setPath(MODULES_PATH . __NAMESPACE__ . DIRECTORY_SEPARATOR . 'views');
 	}
 
-	public function getConfig()
+	public function routes(Routes $routes)
 	{
-		return [
-			'view_path' => MODULES_PATH . __NAMESPACE__ . DIRECTORY_SEPARATOR . 'views'
-		];
+		$routes->any('/', 'App\Controllers\Home::index');
 	}
 }

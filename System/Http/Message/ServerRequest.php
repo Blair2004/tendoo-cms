@@ -112,8 +112,11 @@ class ServerRequest extends Request implements ServerRequestInterface
 
 		$this->collectInfo();
 
+
 		$this->path = $this->determinePath();
-		$uri = $this->getBaseUrl() . $this->getPath() . (! empty($this->serverParams['QUERY_STRING']) ? '?' . $this->serverParams['QUERY_STRING'] : '');
+		$query = empty($this->serverParams['QUERY_STRING']) ? '' : '?' . $this->serverParams['QUERY_STRING'];
+		$this->requestTarget = $this->getPath() . $query;
+		$uri = $this->getBaseUrl() . $this->getPath() . $query;
 
 		parent::__construct($body, $uri, $this->determineMethod(), $this->collectHeaders());
 	}
@@ -339,23 +342,23 @@ class ServerRequest extends Request implements ServerRequestInterface
 	 */
 	protected function determinePath(array $languages = [])
 	{
-		$path = '/';
-
-		if (isset($this->serverParams['PATH_INFO'])) {
-			$path = $this->serverParams['PATH_INFO'];
-		} elseif (isset($this->serverParams['REQUEST_URI'])) {
-			if ($path = parse_url($this->serverParams['REQUEST_URI'], PHP_URL_PATH)) {
-				// Remove base path from the request path
-				$basePath = $this->getBasePath();
-				if ($basePath !== '/' and stripos($path, $basePath) === 0) {
-					$path = mb_substr($path, mb_strlen($basePath));
-				}
-
-				$path = rawurldecode($path);
+		if ($path = parse_url($this->serverParams['REQUEST_URI'], PHP_URL_PATH)) {
+			// Remove base path from the request path
+			$basePath = $this->getBasePath();
+			if ($basePath !== '/' and stripos($path, $basePath) === 0) {
+				$path = mb_substr($path, mb_strlen($basePath));
 			}
+
+			$path = rawurldecode($path);
+
+			if ($path !== '/') {
+				$path = $this->stripLocaleSegment($languages, $path);
+			}
+		} else {
+			$path = '/';
 		}
 
-		return $this->stripLocaleSegment($languages, rtrim($path, '/'));
+		return $path;
 	}
 
 	/**

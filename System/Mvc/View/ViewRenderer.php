@@ -46,7 +46,8 @@ class ViewRenderer
 	 */
 	public function __construct($cachePath, $charset = 'UTF-8')
 	{
-		$this->setCachePath($cachePath)->setCharset($charset);
+		$this->setCachePath($cachePath);
+		$this->setCharset($charset);
 	}
 
 	/**
@@ -135,7 +136,8 @@ class ViewRenderer
 			// We didn't find the view so we'll throw an exception or return false
 			if ($throwException) {
 				throw new RuntimeException(sprintf(
-					"%s(): The [ %s ] view does not exist.", __METHOD__, $view
+					"%s(): The [ %s ] view does not exist.",
+					__METHOD__, $view
 				));
 			}
 
@@ -180,11 +182,6 @@ class ViewRenderer
 	public function render(View $view)
 	{
 		list($path, $extension) = $this->getViewPathAndExtension($view->getTemplate());
-
-		/** @var View $view */
-		if (! $view->hasHeader('Content-Type')) {
-			$view = $view->withHeader('Content-Type', 'text/html; charset=' . $this->getCharset());
-		}
 
 		$renderer = $this->resolveRenderer($extension);
 		$view->getBody()->write($renderer->render($path, $view->getVariables() + $this->globalVariables));
