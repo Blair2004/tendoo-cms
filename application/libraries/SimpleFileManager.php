@@ -73,6 +73,30 @@ class SimpleFileManager
 			self::drop($source);
 		}
 	}
+	static function file_copy( $source , $destination )
+	{
+		if( is_file( $source ) )
+		{
+			$file_content	=	file_get_contents( $source );
+			
+			// Checks if all directory exists
+			$path_explode 	=	explode( DIRECTORY_SEPARATOR , $destination );
+			$path_progressive	=	'';
+			foreach( $path_explode as $index => $file ){
+				// last index is not handled
+				if( $index < count( $path_explode ) - 1 )
+				{
+					$path_progressive	.= $file . DIRECTORY_SEPARATOR;
+					if( ! is_dir( $path_progressive ) )
+					{
+						mkdir( $path_progressive );
+					}
+				}
+			}
+			file_put_contents( $destination , $file_content );			
+		}
+		return false;
+	}
 	static function copy($source,$destination,$dir_limit = 10)
 	{
 		if(!is_dir($destination))

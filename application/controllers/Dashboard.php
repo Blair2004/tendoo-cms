@@ -82,7 +82,7 @@ class Dashboard extends Tendoo_Controller {
 			$this->gui->set_title( sprintf( __( 'Add a new extension &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/modules/install' );
 		}		
-		else if( $page == 'enable' )
+		else if( $page === 'enable' )
 		{
 			/**
 			 * Module should be enabled before trigger this action
@@ -94,7 +94,7 @@ class Dashboard extends Tendoo_Controller {
 			$this->events->do_action( 'do_enable_module' , $arg2 );
 			redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_activation_status' , 'module-enabled' ) ) );
 		}
-		else if( $page == 'disable' )
+		else if( $page === 'disable' )
 		{
 			$this->events->add_action( 'do_disable_module' , function( $arg2 ){
 				Modules::disable( $arg2 );
@@ -103,7 +103,7 @@ class Dashboard extends Tendoo_Controller {
 			$this->events->do_action( 'do_disable_module' , $arg2 );
 			redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_disabling_status' , 'module-disabled' ) ) );
 		}
-		else if( $page == 'remove' )
+		else if( $page === 'remove' )
 		{
 			$this->events->add_action( 'do_remove_module' , function( $arg2 ){
 				Modules::uninstall( $arg2 );
@@ -112,6 +112,16 @@ class Dashboard extends Tendoo_Controller {
 			
 			$this->events->do_action( 'do_remove_module' , $arg2 );
 			// redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_disabling_status' , 'module-removed' ) ) );
+		}
+		else if( $page === 'extract' )
+		{
+			$this->events->add_action( 'do_extract_module' , function( $arg2 ){
+				Modules::extract( $arg2 );
+				// redirect( array( 'dashboard' , 'modules?notice=module-extracted' ) );
+			});
+			
+			$this->events->do_action( 'do_extract_module' , $arg2 );
+			//redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_disabling_status' , 'module-removed' ) ) );
 		}
 	}
 	function options( $mode = 'list' )
@@ -171,6 +181,16 @@ class Dashboard extends Tendoo_Controller {
 				}
 			}
 		}
+	}
+	function update()
+	{
+		if( $module	=	Modules::get( 'restserver' ) )
+		{
+			
+			
+			return;
+		}
+		redirect( array( 'dashboard?notice=restserver-is-required' ) );
 	}
 }
 

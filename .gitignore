@@ -1,13 +1,7 @@
-#Ignore tendoo 1.4 branch files
-/tendoo-core
-/tendoo-modules
-/tendoo-assets
-
-#Ignore Unused Files
+tendoo-installer
+sitemap.xml
+tendoo-assets/img/avatars
+tendoo-modules/
+tendoo-core/
+application/temp/
 application/config/database.php
-application/temp
-application/cache
-
-#Exception for default modules
-!application/modules/aauth
-!application/modules/dashboard

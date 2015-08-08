@@ -8,7 +8,7 @@
 
 <footer class="main-footer">
 <div class="pull-right hidden-xs">
-  <b><?php _e( 'Tendoo' );?></b> <?php echo get( 'core_version' );?>
+  <b><?php _e( 'Tendoo' );?></b> <?php echo get( 'str_core' );?>
 </div>
 <small><?php _e( 'Thanks you for using Tendoo CMS' );?> - <?php echo $this->benchmark->memory_usage();?></small>
 </footer>

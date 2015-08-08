@@ -396,4 +396,61 @@ class Modules
 		}
 		return false;
 	}
+	
+	/**
+	 * Extract an module with all his dependency
+	 *
+	 * @access public
+	 * @param string module namespace
+	 * @return void
+	**/
+	
+	static function extract( $module_namespace )
+	{
+		$module = self::get( $module_namespace );
+		if( $module )
+		{
+			get_instance()->load->library( 'zip' );
+			get_instance()->load->helper( 'security' );
+			//get_instance()->zip->download( $module_namespace );
+
+			// check manifest
+			if( is_file( $manifest	=	MODULESPATH  . $module_namespace . DIRECTORY_SEPARATOR . 'manifest.json' ) )
+			{
+				$manifest_content	=	file_get_contents( $manifest );
+				$manifest_array	=	json_decode( $manifest_content );
+				//var_dump( $manifest_content );
+				// manifest is valid
+				if( is_array( $manifest_array ) )
+				{
+					// creating temp folder
+					$temp_folder	=	APPPATH . 'temp' . DIRECTORY_SEPARATOR . do_hash( $module_namespace );
+					if( !is_dir( $temp_folder ) )
+					{
+						mkdir( $temp_folder );
+					}
+					// var_dump( $manifest_array );
+					// moving manifest file to temp folder
+					foreach( array( 'models' , 'libraries' , 'language' , 'config' ) as $reserved_folder ){
+						foreach( $manifest_array as $file ){
+							var_dump( $path_id_separator = APPPATH . $reserved_folder );
+							if( strstr( $file , $path_id_separator = APPPATH . $reserved_folder ) )
+							{
+								// we found a a file
+								$path_splited	= explode( $path_id_separator , $file );
+								var_dump( $path_splited );
+								SimpleFileManager::file_copy( 
+									APPPATH . $reserved_folder . $path_splited[1] , 
+									$temp_folder . DIRECTORY_SEPARATOR . $reserved_folder . $path_splited[1]
+								);
+
+							}
+						}
+					}
+					// delete temp folder
+					// SimpleFileManager::drop( $temp_folder );
+				}
+			}
+		}
+	}
 }

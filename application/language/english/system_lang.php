@@ -29,6 +29,7 @@ $lang[ 'new-password-created' ]			=	tendoo_success( __( 'A new password has been
 $lang[ 'module-enabled' ]					=	tendoo_success( __( 'The module has been enabled.' ) );
 $lang[ 'module-disabled' ]					=	tendoo_success( __( 'The module has been disabled.' ) );
 $lang[ 'module-removed' ]					=	tendoo_success( __( 'The module has been removed.' ) );
+$lang[ 'module-extracted' ]					=	tendoo_success( __( 'The module has been extracted.' ) );
 $lang[ 'module-updated' ]					=	tendoo_success( __( 'The module has been updated.' ) );
 $lang[ 'old-version-cannot-be-installed' ]	=	tendoo_error( __( 'The version installed is already up to date.' ) );
 $lang[ 'unable-to-update' ]				=	tendoo_error( __( 'An error occured during update.' ) );

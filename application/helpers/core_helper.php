@@ -308,6 +308,7 @@ function get_core_vars($key = null)
 
 /**
 *	push_core_vars : ajoute une nouvelle valeur à un tableau déjà existant dans le tableau du noyau
+*  Deprecated
 **/
 
 function push_core_vars( $key , $var , $value = null ){
@@ -340,6 +341,9 @@ function get($key) // add to doc
 	$instance	=	get_instance();
 	switch($key)
 	{
+		case "str_core"		: 
+			return $instance->config->item( 'version' );
+		break;
 		case "core_version"	:
 			return (float) $instance->config->item( 'version' );
 		break;

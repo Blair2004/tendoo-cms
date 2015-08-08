@@ -43,3 +43,5 @@ do_reset_user				:	do reset user for recovery
 do_enable_module				:	trigger action while enabling a module
 do_disable_module				:	trigger actions while disabling a module
 do_remove_module				:	remove module action
+load_frontend					:	triggers action during frontend loading provide URI segments as array
+do_extract_module				: triggers actions during module extraction pass module namespace (as string) as unique parameter

@@ -24,15 +24,12 @@ class Frontend extends Tendoo_Controller {
 		$this->reserved_controllers	=	$this->config->item( 'reserved_controllers' );	
 		// Get Reserved Controllers		
 	}
-	public function index()
-	{					
-		if( false == true ) // look if current segment is a saved controller through dashboard
-		{
-			
-		}
-		else
-		{
-			show_404( 'Unable to find this page' );
+	function _remap( $page , $params = array() )
+	{
+		if( ! method_exists( $this , $page ) )
+		{	
+			$segments	=	$this->uri->segment_array();
+			$this->events->do_action( 'load_frontend' , $segments );
 		}
 	}
 }
