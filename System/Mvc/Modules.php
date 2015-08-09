@@ -97,7 +97,7 @@ class Modules
 	 * @param Routes $routes
 	 * @return Routes
 	 */
-	public function getRoutes(Routes $routes)
+	public function routes(Routes $routes)
 	{
 		$oldRoutes = [];
 		foreach ($this->performModules() as $moduleName => $module) {

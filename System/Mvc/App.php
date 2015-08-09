@@ -52,8 +52,9 @@ class App
 		/** @var ServerRequest $request */
 		$request = $this->container->get('serverRequest');
 
-		// get routes
-		$routes = $this->modules->getRoutes(new Routes());
+		// get routes from all modules
+		$routes = new Routes();
+		$this->modules->routes($routes);
 
 		// get current route
 		$route = (new Router($routes))->route($request);
