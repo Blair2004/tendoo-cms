@@ -1,7 +1,7 @@
 <?php
 namespace System\Services;
 
-use System\Core\Container;
+use System\Mvc\Container;
 
 abstract class Service
 {

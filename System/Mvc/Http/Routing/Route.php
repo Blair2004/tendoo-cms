@@ -1,5 +1,5 @@
 <?php
-namespace System\Http\Routing;
+namespace System\Mvc\Http\Routing;
 
 use Closure;
 

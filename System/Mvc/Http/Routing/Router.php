@@ -1,10 +1,10 @@
 <?php
-namespace System\Http\Routing;
+namespace System\Mvc\Http\Routing;
 
 use Psr\Http\Message\ServerRequestInterface;
-use System\Core\Container;
-use System\Http\Exceptions\NotFoundException;
-use System\Http\Exceptions\MethodNotAllowedException;
+use System\Mvc\Container;
+use System\Mvc\Http\Exceptions\NotFoundException;
+use System\Mvc\Http\Exceptions\MethodNotAllowedException;
 use System\Http\Message\Response;
 
 class Router
@@ -26,7 +26,7 @@ class Router
 
 	/**
 	 * @param Container $container
-	 * @param array     $modules
+	 * @param array     $modules array of Module.php file object
 	 */
 	public function __construct(Container $container, array $modules = [])
 	{
@@ -47,22 +47,13 @@ class Router
 		$requestTarget = parse_url($request->getRequestTarget(), PHP_URL_PATH);
 		$requestMethod = $request->getMethod();
 
-		foreach ($this->modules as $moduleName) {
-
-			$modulePath = MODULES_PATH . $moduleName . DIRECTORY_SEPARATOR . 'Modules.php';
-			if (! file_exists($modulePath)) {
+		foreach ($this->modules as $module) {
+			if (! method_exists($module, 'getRoutes')) {
 				continue;
 			}
 
-			include $modulePath;
-			$module = $this->container->get($moduleName . '\\Modules');
-
-			if (! method_exists($module, 'routes')) {
-				continue;
-			}
-
-			$routes = new Routes();
-			$module->routes($routes);
+			/** @var Routes $route */
+			$routes = $this->container->call([$module, 'getRoutes']);
 
 			/** @var Route $route */
 			foreach ($routes->getRoutes() as $route) {
@@ -84,7 +75,7 @@ class Router
 						$request->withAttribute($name, $value);
 					}
 
-					// run module bootstrap
+					// we are in this modules route so run onRoute
 					if (method_exists($module, 'onRoute')) {
 						/** @var callable $module */
 						$this->container->call([$module, 'onRoute']);

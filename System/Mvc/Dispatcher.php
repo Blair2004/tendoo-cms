@@ -1,12 +1,12 @@
 <?php
-namespace System\Core;
+namespace System\Mvc;
 
 use Closure;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use System\Http\Message\Response;
-use System\Http\Routing\Route;
+use System\Mvc\Http\Routing\Route;
 use System\Mvc\View\View;
 
 class Dispatcher

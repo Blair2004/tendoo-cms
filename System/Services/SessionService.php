@@ -1,7 +1,7 @@
 <?php
 namespace System\Services;
 
-class Session extends Service
+class SessionService extends Service
 {
 	/**
 	 * {@inheritdoc}

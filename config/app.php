@@ -5,11 +5,10 @@ return [
 	],
 
 	'services' => [
-		'System\Services\ServerRequest',
-		'System\Services\ModulesManager',
-		'System\Services\Routes',
-		'System\Services\Session',
-		'System\Services\ViewRenderer',
+		'System\Services\ServerRequestService',
+		'System\Services\RoutesService',
+		'System\Services\SessionService',
+		'System\Services\ViewRendererService',
 	],
 
 	/**
