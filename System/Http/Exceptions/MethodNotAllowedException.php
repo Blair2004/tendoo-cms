@@ -1,4 +1,5 @@
-<?php namespace System\Http\Exceptions;
+<?php
+namespace System\Http\Exceptions;
 
 use Exception;
 

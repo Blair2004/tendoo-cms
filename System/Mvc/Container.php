@@ -1,5 +1,5 @@
 <?php
-namespace System\Core;
+namespace System\Mvc;
 
 use Closure;
 use ReflectionClass;

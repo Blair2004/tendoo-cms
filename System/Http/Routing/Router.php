@@ -2,7 +2,6 @@
 namespace System\Http\Routing;
 
 use Psr\Http\Message\ServerRequestInterface;
-use System\Core\Container;
 use System\Http\Exceptions\NotFoundException;
 use System\Http\Exceptions\MethodNotAllowedException;
 use System\Http\Message\Response;
@@ -10,28 +9,16 @@ use System\Http\Message\Response;
 class Router
 {
 	/**
-	 * @var Container
+	 * @var Routes
 	 */
-	protected $container;
+	protected $routes;
 
 	/**
-	 * @var array
+	 * @param Routes $routes
 	 */
-	protected $modules;
-
-	/**
-	 * @var array array of uri matched Routes but method not allow
-	 */
-	protected $matchedRoutes;
-
-	/**
-	 * @param Container $container
-	 * @param array     $modules
-	 */
-	public function __construct(Container $container, array $modules = [])
+	public function __construct(Routes $routes)
 	{
-		$this->container = $container;
-		$this->modules = $modules;
+		$this->routes = $routes;
 	}
 
 	/**
@@ -42,60 +29,37 @@ class Router
 	 */
 	public function route(ServerRequestInterface $request)
 	{
+		$matched = false;
 		$parameters = [];
 
 		$requestTarget = parse_url($request->getRequestTarget(), PHP_URL_PATH);
 		$requestMethod = $request->getMethod();
 
-		foreach ($this->modules as $moduleName) {
-
-			$modulePath = MODULES_PATH . $moduleName . DIRECTORY_SEPARATOR . 'Modules.php';
-			if (! file_exists($modulePath)) {
-				continue;
-			}
-
-			include $modulePath;
-			$module = $this->container->get($moduleName . '\\Modules');
-
-			if (! method_exists($module, 'routes')) {
-				continue;
-			}
-
-			$routes = new Routes();
-			$module->routes($routes);
-
-			/** @var Route $route */
-			foreach ($routes->getRoutes() as $route) {
-				if ($this->matches($route, $requestTarget, $parameters)) {
-					if (! $route->allows($requestMethod)) {
-						$this->matchedRoutes[] = $route;
-						continue;
-					}
-
-					// If this is an "OPTIONS" request then well collect all the allowed request methods
-					// from all routes matching the requested path. We'll then add an "allows" header
-					// to the matched route
-					if ($requestMethod === 'OPTIONS') {
-						return $this->optionsRoute($requestTarget);
-					}
-
-					// set request attributes
-					foreach ($parameters as $name => $value) {
-						$request->withAttribute($name, $value);
-					}
-
-					// run module bootstrap
-					if (method_exists($module, 'onRoute')) {
-						/** @var callable $module */
-						$this->container->call([$module, 'onRoute']);
-					}
-
-					return $route;
+		/** @var Route $route */
+		foreach ($this->routes->getRoutes() as $route) {
+			if ($this->matches($route, $requestTarget, $parameters)) {
+				if (! $route->allows($requestMethod)) {
+					$matched = true;
+					continue;
 				}
+
+				// If this is an "OPTIONS" request then well collect all the allowed request methods
+				// from all routes matching the requested path. We'll then add an "allows" header
+				// to the matched route
+				if ($requestMethod === 'OPTIONS') {
+					return $this->optionsRoute($requestTarget);
+				}
+
+				// set request attributes
+				foreach ($parameters as $name => $value) {
+					$request->withAttribute($name, $value);
+				}
+
+				return $route;
 			}
 		}
 
-		if ($this->matchedRoutes) {
+		if ($matched) {
 			// We found a matching route but it does not allow the request method
 			// so we'll throw a 405 exception
 			throw new MethodNotAllowedException(
@@ -141,7 +105,7 @@ class Router
 		$methods = [];
 
 		/** @var Route $route */
-		foreach ($this->matchedRoutes as $route) {
+		foreach ($this->routes->getRoutes() as $route) {
 			if ($this->matches($route, $requestTarget)) {
 				$methods = array_merge($methods, $route->getMethods());
 			}

@@ -1,10 +1,11 @@
 <?php
-namespace System\Core;
+namespace System\Mvc;
 
 use Composer\Autoload\ClassLoader;
 use System\Http\Message\Response;
 use System\Http\Message\ServerRequest;
 use System\Http\Routing\Router;
+use System\Http\Routing\Routes;
 
 class App
 {
@@ -22,6 +23,11 @@ class App
 	 * @var Config
 	 */
 	protected $config;
+
+	/**
+	 * @var Modules
+	 */
+	protected $modules;
 
 	/**
 	 * @var string
@@ -46,11 +52,15 @@ class App
 		/** @var ServerRequest $request */
 		$request = $this->container->get('serverRequest');
 
-		/** @var ModulesManager $modulesManager */
-		$modulesManager = $this->container->get('modulesManager');
+		// get routes from all modules
+		$routes = new Routes();
+		$this->modules->routes($routes);
 
-		// get route
-		$route = (new Router($this->container, $modulesManager->getModules()))->route($request);
+		// get current route
+		$route = (new Router($routes))->route($request);
+
+		// if its in module then run module
+		$this->modules->runActive($route);
 
 		(new Dispatcher($request, new Response(), $route, $this->container))->dispatch()->send();
 	}
@@ -90,14 +100,20 @@ class App
 	{
 		// Create IoC container instance and register it in itself so that it can be injected
 		$this->container = new Container();
-		$this->container->registerInstance(['System\Core\Container', 'container'], $this->container);
+		$this->container->registerInstance(['System\Mvc\Container', 'container'], $this->container);
 
 		// Register self so that the app instance can be injected
-		$this->container->registerInstance(['System\Core\App', 'app'], $this);
+		$this->container->registerInstance(['System\Mvc\App', 'app'], $this);
 
 		// Register config instance
 		$this->config = new Config(APP_PATH . 'config', $this->getEnvironment());
-		$this->container->registerInstance(['System\Core\Config', 'config'], $this->config);
+		$this->container->registerInstance(['System\Mvc\Config', 'config'], $this->config);
+
+		// insert mvc modules
+		$this->modules = new Modules(
+			$this->container, APP_PATH . 'Modules', $this->config->get('app.modules', [])
+		);
+		$this->container->registerInstance(['System\Mvc\Modules', 'modules'], $this->modules);
 	}
 
 	protected function configure()

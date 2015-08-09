@@ -49,4 +49,6 @@ $loader = require APP_PATH . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 /**
  * create new app :)
  */
-new \System\Core\App($loader);
+new \System\Mvc\App($loader);
+
+var_dump(microtime(true) - APP_START_TIME);

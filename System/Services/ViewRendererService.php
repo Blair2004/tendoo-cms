@@ -1,9 +1,9 @@
 <?php
 namespace System\Services;
 
-use System\Core\App;
+use System\Mvc\App;
 
-class ViewRenderer extends Service
+class ViewRendererService extends Service
 {
 	/**
 	 * {@inheritdoc}

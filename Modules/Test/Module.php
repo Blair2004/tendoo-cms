@@ -1,11 +1,11 @@
 <?php
-namespace App;
+namespace Test;
 
-use System\Core\App;
+use System\Mvc\App;
 use System\Http\Routing\Routes;
 use System\Mvc\View\ViewRenderer;
 
-class Modules
+class Module
 {
 	public function __construct(App $app)
 	{
@@ -19,6 +19,6 @@ class Modules
 
 	public function routes(Routes $routes)
 	{
-		$routes->any('/', 'App\Controllers\Home::index');
+		$routes->any('/test', 'Test\Controllers\Home::index');
 	}
 }

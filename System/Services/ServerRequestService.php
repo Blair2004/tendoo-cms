@@ -3,7 +3,7 @@ namespace System\Services;
 
 use System\Http\Message\ServerRequestFactory;
 
-class ServerRequest extends Service
+class ServerRequestService extends Service
 {
 	/**
 	 * {@inheritdoc}
