@@ -3,7 +3,8 @@ namespace System\Mvc;
 
 use OutOfBoundsException;
 use RuntimeException;
-use System\Mvc\Http\Routing\Router;
+use System\Http\Routing\Route;
+use System\Http\Routing\Routes;
 
 class Modules
 {
@@ -21,6 +22,11 @@ class Modules
 	 * @var array
 	 */
 	protected $modules;
+
+	/**
+	 * @var array
+	 */
+	protected $routes = [];
 
 	/**
 	 * @param Container $container
@@ -62,16 +68,16 @@ class Modules
 			));
 		}
 
-		$modulePath = $this->path . $name . DIRECTORY_SEPARATOR . 'Modules.php';
+		$modulePath = $this->path . $name . DIRECTORY_SEPARATOR . 'Module.php';
 		if (! file_exists($modulePath)) {
 			throw new RuntimeException(sprintf(
 				'Module "%s" config file does not exist.', $name
 			));
 		}
 
-		require $modulePath;
+		require_once $modulePath;
 
-		return $this->container->get($name . '\\Modules');
+		return $this->container->get($name . '\\Module');
 	}
 
 	/**
@@ -88,10 +94,56 @@ class Modules
 	}
 
 	/**
-	 * @return Router
+	 * @param Routes $routes
+	 * @return Routes
 	 */
-	public function getRouter()
+	public function getRoutes(Routes $routes)
 	{
-		return new Router($this->container, $this->performModules());
+		$oldRoutes = [];
+		foreach ($this->performModules() as $moduleName => $module) {
+			if (! method_exists($module, 'routes')) {
+				continue;
+			}
+
+			$module->routes($routes);
+
+			$routesArr = $routes->getRoutes();
+			$this->routes[$moduleName] = array_udiff($routesArr, $oldRoutes, function ($a, $b) {
+				return strcmp(spl_object_hash($a), spl_object_hash($b));
+			});
+			$oldRoutes = $routesArr;
+		}
+
+		return $routes;
+	}
+
+	/**
+	 * @param Route $route
+	 * @return object|null
+	 */
+	public function getActive(Route $route)
+	{
+		foreach ($this->routes as $moduleName => $routes) {
+			if (in_array($route, $routes, true)) {
+				return $this->performModule($moduleName);
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param Route $route
+	 */
+	public function runActive(Route $route)
+	{
+		$module = $this->getActive($route);
+		if (! $module) {
+			return;
+		}
+
+		if (method_exists($module, 'onRoute')) {
+			$this->container->call([$module, 'onRoute']);
+		}
 	}
 }

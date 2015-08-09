@@ -4,6 +4,8 @@ namespace System\Mvc;
 use Composer\Autoload\ClassLoader;
 use System\Http\Message\Response;
 use System\Http\Message\ServerRequest;
+use System\Http\Routing\Router;
+use System\Http\Routing\Routes;
 
 class App
 {
@@ -50,8 +52,14 @@ class App
 		/** @var ServerRequest $request */
 		$request = $this->container->get('serverRequest');
 
-		// get route
-		$route = $this->modules->getRouter()->route($request);
+		// get routes
+		$routes = $this->modules->getRoutes(new Routes());
+
+		// get current route
+		$route = (new Router($routes))->route($request);
+
+		// if its in module then run module
+		$this->modules->runActive($route);
 
 		(new Dispatcher($request, new Response(), $route, $this->container))->dispatch()->send();
 	}

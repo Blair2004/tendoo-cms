@@ -1,5 +1,5 @@
 <?php
-namespace System\Mvc\Http\Exceptions;
+namespace System\Http\Exceptions;
 
 use Exception;
 

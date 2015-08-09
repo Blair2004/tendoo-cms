@@ -1,11 +1,11 @@
 <?php
-namespace App;
+namespace Test;
 
 use System\Mvc\App;
-use System\Mvc\Http\Routing\Routes;
+use System\Http\Routing\Routes;
 use System\Mvc\View\ViewRenderer;
 
-class Modules
+class Module
 {
 	public function __construct(App $app)
 	{
@@ -17,10 +17,8 @@ class Modules
 		$viewRenderer->setPath(MODULES_PATH . __NAMESPACE__ . DIRECTORY_SEPARATOR . 'views');
 	}
 
-	public function getRoutes(Routes $routes)
+	public function routes(Routes $routes)
 	{
-		$routes->any('/', 'App\Controllers\Home::index');
-
-		return $routes;
+		$routes->any('/test', 'Test\Controllers\Home::index');
 	}
 }
