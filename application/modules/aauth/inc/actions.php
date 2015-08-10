@@ -99,18 +99,9 @@ class aauth_action extends CI_model
 		// Apply filter before login
 		$fields_namespace	=	$this->login_model->get_fields_namespace();
 		$exec 				=	$this->users->login( $fields_namespace );
-		if( $exec == 'user-logged-in' )
-		{
-			if( riake( 'redirect' , $_GET ) )
-			{
-				redirect( riake( 'redirect' , $_GET ) );
-			}
-			else
-			{
-				redirect( array( 'dashboard' ) );
-			}
-		}
-		$this->notice->push_notice( $this->lang->line( $exec ) );
+		$this->events->add_filter( 'tendoo_login_notice' , function() use ( $exec ) {
+			return $exec;
+		});
 	}
 }
 new aauth_action;

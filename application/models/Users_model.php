@@ -300,13 +300,13 @@ class Users_model extends CI_Model
 					if( $type === 'public' )
 					{
 						$public_groups[]	=	$name;
-						$this->options->set( 'public_groups' , $public_groups );
+						$this->options->set( 'public_groups' , $public_groups , true );
 					}
 					// Saving as admin group
 					else
 					{
 						$admin_groups[]	=	$name;
-						$this->options->set( 'admin_groups' , $admin_groups );
+						$this->options->set( 'admin_groups' , $admin_groups , true );
 					}
 					return 'group-created';
 				}
@@ -353,8 +353,8 @@ class Users_model extends CI_Model
 					{ 
 						$admin_groups[]	=	$name;						
 					}
-					$this->options->set( 'public_groups' , $public_groups );
-					$this->options->set( 'admin_groups' , $admin_groups );
+					$this->options->set( 'public_groups' , $public_groups , true );
+					$this->options->set( 'admin_groups' , $admin_groups , true );
 
 					return 'group-updated';
 				}

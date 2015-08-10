@@ -27,7 +27,6 @@ class aauth_dashboard extends CI_model
 	}
 	function before_dashboard_menu()
 	{
-		return; // disabled
 		ob_start();
 		?>
       <div class="user-panel">

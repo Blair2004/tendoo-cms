@@ -24,12 +24,9 @@ class Frontend extends Tendoo_Controller {
 		$this->reserved_controllers	=	$this->config->item( 'reserved_controllers' );	
 		// Get Reserved Controllers		
 	}
-	function _remap( $page , $params = array() )
+	function index()
 	{
-		if( ! method_exists( $this , $page ) )
-		{	
-			$segments	=	$this->uri->segment_array();
-			$this->events->do_action( 'load_frontend' , $segments );
-		}
+		$segments	=	$this->uri->segment_array();
+		$this->events->do_action( 'load_frontend' , $segments );
 	}
 }

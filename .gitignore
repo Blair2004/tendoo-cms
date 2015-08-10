@@ -3,5 +3,11 @@ sitemap.xml
 tendoo-assets/img/avatars
 tendoo-modules/
 tendoo-core/
+application/cache/
 application/temp/
 application/config/database.php
+application/modules/*
+!application/modules/aauth/
+!application/modules/dashboard/
+!application/modules/post_type/
+!application/modules/blog/

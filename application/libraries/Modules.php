@@ -2,6 +2,7 @@
 class Modules
 {
 	private static	$modules;
+	private static $actives  = array();
 	static function load( $module_path )
 	{
 		$dir	=	opendir( $module_path );
@@ -47,6 +48,7 @@ class Modules
 	{
 		$modules		=	self::get();
 		$modules_array	=	array();
+		$actives_modules	=	force_array( get_instance()->options->get( 'actives_modules' ) );
 		
 		foreach( force_array( $modules ) as $module )
 		{
@@ -58,9 +60,9 @@ class Modules
 			}
 			else if( is_file( $init_file = $module[ 'application' ][ 'details' ][ 'main' ] ) && $filter === 'actives' )
 			{
-				$actives_modules		=	force_array( get_instance()->options->get( 'actives_modules' ) );
 				if( in_array( strtolower( $module[ 'application' ][ 'details' ][ 'namespace' ] ) , $actives_modules ) )
 				{
+					self::$actives[]	=	$module[ 'application' ][ 'details' ][ 'namespace' ];
 					// Check compatibility and other stuffs
 					include_once( $init_file );
 				}
@@ -76,14 +78,23 @@ class Modules
 	
 	static function enable( $module_namespace )
 	{
+		global $Options;
+		// var_dump( $Options[ 'actives_modules' ] , get_instance()->options->get( 'actives_modules' ) );
 		$module		=	self::get( $module_namespace );
 		if( $module )
 		{
-			$activated_modules			=	get_instance()->options->get( 'actives_modules' );
+			$activated_modules			=	riake( 'actives_modules' , $Options );
 			if( ! in_array( $module_namespace , force_array( $activated_modules ) ) )
 			{
 				$activated_modules[]		=	$module_namespace;
-				get_instance()->options->set( 'actives_modules' , $activated_modules );
+				get_instance()->options->set( 'actives_modules' , $activated_modules , true );
+				
+				// Check whether cache is enabled
+				if( riake( 'enable_cache' , $Options ) )
+				{
+					// Delete modules list cache
+					get_instance()->db->cache_delete( 'dashboard' , 'modules' , 'list' );
+				}
 			}
 		}
 		// if module doesn't exists
@@ -98,9 +109,15 @@ class Modules
 	 * @returns bool
 	**/
 	
-	static function is_active( $module_namespace )
+	static function is_active( $module_namespace , $fresh = false )
 	{
-		$activated_modules			=	get_instance()->options->get( 'actives_modules' );
+		global $Options;
+		
+		if( $fresh === TRUE ){
+			$activated_modules			=	riake( 'actives_modules' , $Options );
+		} else {
+			$activated_modules			=	self::$actives;
+		}
 
 		if( in_array( $module_namespace , force_array( $activated_modules ) , true ) )
 		{
@@ -119,12 +136,21 @@ class Modules
 	
 	static function disable( $module_namespace )
 	{
-		$activated_modules			=	get_instance()->options->get( 'actives_modules' );
+		global $Options;
+		$activated_modules			=	riake( 'actives_modules' , $Options );
+		
 		if( in_array( $module_namespace , $activated_modules ) )
 		{
 			$key	=	array_search( $module_namespace , $activated_modules );
 			unset( $activated_modules[ $key ] );
-			get_instance()->options->set( 'actives_modules' , $activated_modules );
+			get_instance()->options->set( 'actives_modules' , $activated_modules , true );
+
+			// Check whether cache is enabled
+			if( riake( 'enable_cache' , $Options ) )
+			{
+				// Delete modules list cache
+				get_instance()->db->cache_delete( 'dashboard' , 'modules' , 'list' );
+			}
 		}
 	}
 	
@@ -369,6 +395,13 @@ class Modules
 		}
 		// Drop Module Folder
 		SimpleFileManager::drop( $modulepath );
+		
+		// Check whether cache is enabled
+		if( get_instance()->options->get( 'enable_cache' ) )
+		{
+			// Delete modules list cache
+			get_instance()->db->cache_delete( 'dashboard' , 'modules' , 'list' );
+		}
 	}
 	
 	static function scan( $folder )
@@ -412,10 +445,15 @@ class Modules
 		{
 			get_instance()->load->library( 'zip' );
 			get_instance()->load->helper( 'security' );
-			//get_instance()->zip->download( $module_namespace );
-
+			$module_temp_folder_name	=	do_hash( $module_namespace );
+			$module_installed_dir		=	MODULESPATH  . $module_namespace . DIRECTORY_SEPARATOR;
+			// creating temp folder
+			$temp_folder	=	APPPATH . 'temp' . DIRECTORY_SEPARATOR . $module_temp_folder_name;
+			if( !is_dir( $temp_folder ) ){
+				mkdir( $temp_folder );
+			}
 			// check manifest
-			if( is_file( $manifest	=	MODULESPATH  . $module_namespace . DIRECTORY_SEPARATOR . 'manifest.json' ) )
+			if( is_file( $manifest	=	$module_installed_dir . 'manifest.json' ) )
 			{
 				$manifest_content	=	file_get_contents( $manifest );
 				$manifest_array	=	json_decode( $manifest_content );
@@ -423,27 +461,19 @@ class Modules
 				// manifest is valid
 				if( is_array( $manifest_array ) )
 				{
-					// creating temp folder
-					$temp_folder	=	APPPATH . 'temp' . DIRECTORY_SEPARATOR . do_hash( $module_namespace );
-					if( !is_dir( $temp_folder ) )
-					{
-						mkdir( $temp_folder );
-					}
-					// var_dump( $manifest_array );
+					//var_dump( $manifest_array );
 					// moving manifest file to temp folder
 					foreach( array( 'models' , 'libraries' , 'language' , 'config' ) as $reserved_folder ){
 						foreach( $manifest_array as $file ){
-							var_dump( $path_id_separator = APPPATH . $reserved_folder );
-							if( strstr( $file , $path_id_separator = APPPATH . $reserved_folder ) )
-							{
+							//var_dump( $path_id_separator = APPPATH . $reserved_folder );
+							if( strstr( $file , $path_id_separator = APPPATH . $reserved_folder ) ){
 								// we found a a file
 								$path_splited	= explode( $path_id_separator , $file );
-								var_dump( $path_splited );
+								//var_dump( $path_splited );
 								SimpleFileManager::file_copy( 
 									APPPATH . $reserved_folder . $path_splited[1] , 
 									$temp_folder . DIRECTORY_SEPARATOR . $reserved_folder . $path_splited[1]
 								);
-
 							}
 						}
 					}
@@ -451,6 +481,18 @@ class Modules
 					// SimpleFileManager::drop( $temp_folder );
 				}
 			}
+			
+			// move module file to temp folder
+			SimpleFileManager::copy( $module_installed_dir , $temp_folder );			
+
+			// read temp folder and download it
+			get_instance()->zip->read_dir( APPPATH . 'temp' . DIRECTORY_SEPARATOR . $module_temp_folder_name , false , APPPATH . 'temp' . DIRECTORY_SEPARATOR . $module_temp_folder_name . DIRECTORY_SEPARATOR );
+			// delete temp folder
+			SimpleFileManager::drop( $temp_folder );
+			
+			get_instance()->zip->download( $module_namespace );
+			
+			
 		}
 	}
 }

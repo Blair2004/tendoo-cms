@@ -16,6 +16,7 @@ class Dashboard extends Tendoo_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		// $this->output->enable_profiler(TRUE);
 		
 		// $this->output->enable_profiler(TRUE);
 		// All those variable are not required for option interface
@@ -71,6 +72,7 @@ class Dashboard extends Tendoo_Controller {
 				// it means that module has been installed
 				if( is_array( $notice ) )
 				{
+					// redirecting
 					redirect( array( 'dashboard' , 'modules' , 'list?highlight=' . $notice[ 'namespace' ] . '&notice=' . $notice[ 'msg' ] . ( isset( $notice[ 'extra' ] ) ? '&extra=' . $notice[ 'extra' ] : '' ) ) );
 				}
 				else
@@ -101,12 +103,13 @@ class Dashboard extends Tendoo_Controller {
 			});
 			//
 			$this->events->do_action( 'do_disable_module' , $arg2 );
+			
 			redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_disabling_status' , 'module-disabled' ) ) );
 		}
 		else if( $page === 'remove' )
 		{
 			$this->events->add_action( 'do_remove_module' , function( $arg2 ){
-				Modules::uninstall( $arg2 );
+				Modules::uninstall( $arg2 );				
 				redirect( array( 'dashboard' , 'modules?notice=module-removed' ) );
 			});
 			
@@ -117,11 +120,9 @@ class Dashboard extends Tendoo_Controller {
 		{
 			$this->events->add_action( 'do_extract_module' , function( $arg2 ){
 				Modules::extract( $arg2 );
-				// redirect( array( 'dashboard' , 'modules?notice=module-extracted' ) );
 			});
 			
 			$this->events->do_action( 'do_extract_module' , $arg2 );
-			//redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_disabling_status' , 'module-removed' ) ) );
 		}
 	}
 	function options( $mode = 'list' )
@@ -149,7 +150,7 @@ class Dashboard extends Tendoo_Controller {
 							}
 							else
 							{
-								$this->options->set( $key , $this->input->post( $key ) );
+								$this->options->set( $key , $this->input->post( $key ) , true );
 							}							
 						}
 					}
@@ -157,7 +158,7 @@ class Dashboard extends Tendoo_Controller {
 				// saving all post using namespace
 				if( $this->input->post( 'gui_saver_use_namespace' ) == 'true' )
 				{
-					$this->options->set( $this->input->post( 'gui_saver_option_namespace' ) , $content );
+					$this->options->set( $this->input->post( 'gui_saver_option_namespace' ) , $content , true );
 				}
 				redirect( urldecode( $this->input->post( 'gui_saver_ref' ) ) . '?notice=option-saved' );
 			}

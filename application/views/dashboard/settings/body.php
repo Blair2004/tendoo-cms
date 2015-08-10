@@ -71,12 +71,24 @@ $this->gui->add_meta( array(
 
 $this->gui->add_item( array(
 	'type'		=>	'select',
-	'name'		=>	'site-registration',
+	'name'		=>	'site_registration',
 	'label'		=>	__( 'Open registration' ),
 	'placeholder'=>	__( 'Open Registration ?' ),
 	'options'	=>	array(
-		'false'	=>	__( 'No' ),
-		'true'	=>	__( 'Yes' )
+		0	=>	__( 'No' ),
+		1	=>	__( 'Yes' )
+	)
+) , 'advanced-settings' , 2 );
+
+$this->gui->add_item( array(
+	'type'		=>	'select',
+	'name'		=>	'webdev_mode',
+	'label'		=>	__( 'Enable Developer mode ?' ),
+	'placeholder'=>	__( 'Enable developer mode' ),
+	'description'	=>	__( 'Tools like module package will be enabled.' ),
+	'options'	=>	array(
+		0	=>	__( 'No' ),
+		1	=>	__( 'Yes' )
 	)
 ) , 'advanced-settings' , 2 );
 
@@ -86,41 +98,41 @@ $this->gui->add_item( array(
 	'label'		=>	__( 'Allow Role Selection' ),
 	'placeholder'=>	__( 'Allow Role selection' ),
 	'options'	=>	array(
-		'false'	=>	__( 'No' ),
-		'true'	=>	__( 'Yes' )
+		0	=>	__( 'No' ),
+		1	=>	__( 'Yes' )
 	)
 ) , 'advanced-settings' , 2 );
 
 $this->gui->add_item( array(
 	'type'		=>	'select',
-	'name'		=>	'auto-update',
+	'name'		=>	'auto_update',
 	'label'		=>	__( 'Auto update tendoo' ),
 	'placeholder'=>	__( 'Auto update tendoo' ),
 	'options'	=>	array(
-		'false'	=>	__( 'No' ),
-		'true'	=>	__( 'Yes' )
+		0	=>	__( 'No' ),
+		1	=>	__( 'Yes' )
 	)
 ) , 'advanced-settings' , 2 );
 
 $this->gui->add_item( array(
 	'type'		=>	'select',
-	'name'		=>	'remote-install',
+	'name'		=>	'remote_install',
 	'label'		=>	__( 'Enable Remote Themes and Module Installation' ),
 	'placeholder'=>	__( 'Enable Remote Themes and Module Installation' ),
 	'options'	=>	array(
-		'false'	=>	__( 'No' ),
-		'true'	=>	__( 'Yes' )
+		0	=>	__( 'No' ),
+		1	=>	__( 'Yes' )
 	)
 ) , 'advanced-settings' , 2 );
 
 $this->gui->add_item( array(
 	'type'		=>	'select',
-	'name'		=>	'enable-cache',
+	'name'		=>	'enable_cache',
 	'label'		=>	__( 'Enable Cache' ),
 	'placeholder'=>	__( 'Enable Cache' ),
 	'options'	=>	array(
-		'false'	=>	__( 'No' ),
-		'true'	=>	__( 'Yes' )
+		0	=>	__( 'No' ),
+		1	=>	__( 'Yes' )
 	)
 ) , 'advanced-settings' , 2 );
 

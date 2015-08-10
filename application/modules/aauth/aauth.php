@@ -52,22 +52,6 @@ class auth_module_class extends CI_model
 	{
 		if( Modules::is_active( 'dashboard' ) )
 		{
-			// Load created roles add push it to their respective type
-			$admin_groups	=	force_array( $this->options->get( 'admin_groups' ) );
-			$public_groups	=	force_array( $this->options->get( 'public_groups' ) );
-			
-			// For public groups
-			if( $public_groups )
-			{
-				$this->config->set_item( 'public_group_label' , $public_groups );
-			}
-			
-			// for admin groups
-			if( $admin_groups )
-			{
-				$this->config->set_item( 'master_group_label' , $admin_groups );
-			}
-	
 			// load user model
 			$this->load->model( 'users_model' , 'users' );
 			// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
@@ -93,7 +77,7 @@ new auth_module_class;
 
 require( LIBPATH . '/User.php' );
 require( dirname( __FILE__ ) . '/inc/dashboard.php' );
-require( dirname( __FILE__ ) . '/inc/setup.php' );
-require( dirname( __FILE__ ) . '/inc/fields.php' );
-require( dirname( __FILE__ ) . '/inc/actions.php' );
-require( dirname( __FILE__ ) . '/inc/rules.php' );
+//require( dirname( __FILE__ ) . '/inc/setup.php' );
+//require( dirname( __FILE__ ) . '/inc/fields.php' );
+//require( dirname( __FILE__ ) . '/inc/actions.php' );
+// require( dirname( __FILE__ ) . '/inc/rules.php' );

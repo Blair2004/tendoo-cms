@@ -27,6 +27,9 @@ class Tendoo_Controller extends CI_Controller
 			$this->load->library( 'session' );
 			$this->load->database();
 			$this->load->model( 'options' );			
+
+			// internal config
+			$this->events->add_action( 'after_app_init' , array( $this , 'loader' ) );
 			
 			// Get Active Modules and load it
 			Modules::init( 'actives' );
@@ -80,6 +83,14 @@ class Tendoo_Controller extends CI_Controller
 			Enqueue::enqueue_js( 'bootstrap.min' );
 			Enqueue::enqueue_js( '../plugins/iCheck/icheck.min' );		
 			Enqueue::enqueue_js( 'app.min' );
+		}
+	}
+	function loader()
+	{
+		global $Options;
+		// If cache is enabled
+		if( riake( 'enable_cache' , $Options ) === true ){
+			$this->db->cache_on();
 		}
 	}
 }

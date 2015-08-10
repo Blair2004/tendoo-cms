@@ -1,7 +1,8 @@
 <?php
 $saver_enabled		=	riake( 'action' , riake( 'custom' , $meta ) ) !== '' ? true : false;
 
-if( $saver_enabled )
+// If Using namespace is enabled
+if( $saver_enabled && riake( 'use_namespace' , $meta ) )
 {
 	$form_option		=	$this->options->get( riake( 'namespace' , $meta ) );
 }
@@ -46,8 +47,10 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
             
             <input <?php echo $disabled === true ? 'readonly="readonly"' : '';?> type="<?php echo $type;?>" name="<?php echo riake( 'name' , $_item );?>" class="form-control" placeholder="<?php echo riake( 'placeholder' , $_item );?>" value="<?php echo $value;?>">
         </div>
+        <p><?php echo xss_clean( $description );?>
         	<?php else:?>
          <input <?php echo $disabled === true ? 'readonly="readonly"' : '';?> type="<?php echo $type;?>" name="<?php echo riake( 'name' , $_item );?>" class="form-control" placeholder="<?php echo riake( 'placeholder' , $_item );?>" value="<?php echo $value;?>">
+         <p><?php echo xss_clean( $description );?>
 			<?php endif;?>
         <?php
 	}
@@ -57,6 +60,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
         <div class="form-group">
           <label><?php echo $label;?></label>
           <textarea <?php echo $disabled === true ? 'disabled="disabled"' : '';?> class="form-control" rows="3" placeholder="<?php echo $placeholder;?>" name="<?php echo $name;?>"><?php echo $value;?></textarea>
+          <p><?php echo xss_clean( $description );?>
         </div>
         <?php
 	}
@@ -67,6 +71,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
           <label><?php echo $label;?></label>
           <textarea id="wysihtml5" <?php echo $disabled === true ? 'disabled="disabled"' : '';?> class="form-control" rows="3" placeholder="<?php echo $placeholder;?>" name="<?php echo $name;?>"><?php echo $value;?></textarea>
         </div>
+        <p><?php echo xss_clean( $description );?>
         <?php
 	}
 	else if( $type == 'file-input' )
@@ -96,6 +101,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
           <label>
             <input <?php echo $disabled === true ? 'disabled="disabled"' : '';?> type="checkbox" value="<?php echo $value;?>" name="<?php echo $name;?>" <?php echo $checked;?>/> <?php echo $label;?>
           </label>
+          <p class="help-block"><?php echo $description;?></p>
         </div>
         <?php
 	}
@@ -108,12 +114,6 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 		{
 			if( $saver_enabled )
 			{
-				$db_value		=	
-				// if namespace is used and option exists
-				is_array( $form_option ) ? riake( riake( 'name' , $radio_item ) , $form_option ) : 			
-				// if namespace is not used
-				$_option	=	( $_option = $this->options->get( riake( 'name' , $radio_item ) ) ) ? $_option : false;
-				
 				// control check
 				$checked	=	$db_value == riake( 'value' , $radio_item ) ? 'checked="checked"' : '';
 			}
@@ -129,6 +129,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
               <input <?php echo $disabled === true ? 'disabled="disabled"' : '';?> type="radio" name="<?php echo riake( 'name' , $radio_item );?>" id="optionsRadios1" value="<?php echo riake( 'value' , $radio_item );?>" <?php echo $checked;?>/>
               <?php echo riake( 'description' , $radio_item );?>
             </label>
+            <p class="help-block"><?php echo $description;?></p>
           </div>
 		<?php
 		}
@@ -161,15 +162,8 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 			foreach( force_array( riake( 'options' , $_item ) ) as $value	=>	$text )
 			{
 				// Only when action is not changed (which send request to dashboard/options/set), Gui_saver is supported.
-				if( $saver_enabled && riake( 'action' , riake( 'custom' , $meta ) ) )
+				if( $saver_enabled && ! riake( 'action' , riake( 'custom' , $meta ) ) )
 				{
-					// reset value
-					$db_value		=	
-					// if namespace is used and option exists
-					is_array( $form_option ) ? riake( riake( 'name' , $_item ) , $form_option ) : 			
-					// if namespace is not used
-					$_option	=	( $_option = $this->options->get( riake( 'name' , $_item ) ) ) ? $_option : false;
-					
 					// control check
 					$selected	=	$db_value == $value ? 'selected="selected"' : '';
 				}
@@ -191,6 +185,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 			}
 			?>
           </select>
+          <p class="help-block"><?php echo $description;?></p>
         </div>
         <?php
 	}
@@ -322,11 +317,11 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 
 	else if( $type == 'buttons' )
 	{
- 			$value		 	= force_array( riake( 'value' , $_item ) );
-			$buttons_types	= force_array( riake( 'buttons_types' , $_item , 'submit' ) );
-			$name				= force_array( riake( 'name' , $_item ) );
-			$classes			= force_array( riake( 'classes' , $_item , 'btn-primary' ) );
-			$attrs_string	= force_array( riake( 'attrs_string' , $_item , '' ) );
+		$value		 	= force_array( riake( 'value' , $_item ) );
+		$buttons_types	= force_array( riake( 'buttons_types' , $_item , 'submit' ) );
+		$name				= force_array( riake( 'name' , $_item ) );
+		$classes			= force_array( riake( 'classes' , $_item , 'btn-primary' ) );
+		$attrs_string	= force_array( riake( 'attrs_string' , $_item , '' ) );
 		?>
 <div class="form-group">
 	<div class="input-group">
@@ -338,7 +333,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 		}
 	  ?>
 	</div>
-    <?php echo $description;?>
+    <p class="help-block"><?php echo $description;?></p>
 </div>
 		<?php
 	}
