@@ -3,6 +3,7 @@ sitemap.xml
 tendoo-assets/img/avatars
 tendoo-modules/
 tendoo-core/
+vendor/
 application/cache/
 application/temp/
 application/config/database.php
