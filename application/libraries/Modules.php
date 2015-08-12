@@ -174,6 +174,8 @@ class Modules
 				$data = array( 'upload_data' => get_instance()->upload->data() );
 				
 				$extraction_temp_path		=	self::__unzip( $data );
+				
+				die;
 				// Look for config.xml file to read config
 				if( file_exists( $extraction_temp_path . '/config.xml' ) )
 				{
@@ -262,14 +264,20 @@ class Modules
 	static function __unzip( $upload_details )
 	{
 		$extraction_path		=	$upload_details[ 'upload_data' ][ 'file_path' ] . $upload_details[ 'upload_data' ][ 'raw_name' ];
+		var_dump( $extraction_path );
+		
 		get_instance()->load->library( 'unzip' );	
+		
 		get_instance()->unzip->extract( 
 			$upload_details[ 'upload_data' ][ 'full_path' ] , 
 			$extraction_path
 		);
+		
 		get_instance()->unzip->close();
+		
 		// delete zip file
 		if( is_file( $upload_details[ 'upload_data' ][ 'full_path' ] ) ): unlink( $upload_details[ 'upload_data' ][ 'full_path' ] );endif;
+		
 		return $extraction_path;
 	}
 	static function __parse_path( $path )
@@ -309,8 +317,8 @@ class Modules
 	
 	static function __move_to_module_dir( $module_array , $global_manifest , $manifest , $extraction_data , $conflict_checker = false )
 	{
-		if( $conflict_checker === true )
-		{
+		$module_namespace	=	$module_array[ 'application' ][ 'details' ][ 'namespace' ]; // module namespace
+		if( $conflict_checker === true ){
 			// Check first
 			foreach( $manifest as $_manifest_file )
 			{
@@ -325,13 +333,16 @@ class Modules
 			}
 		}
 		// 
+		
 		get_instance()->load->helper( 'file' );
-		$folder_to_lower		=	strtolower( $module_array[ 'application' ][ 'details' ][ 'namespace' ] );
+		$folder_to_lower		=	strtolower( $module_namespace );
 		$module_dir_path		=	APPPATH . 'modules/' . $folder_to_lower;
-		if( ! is_dir( APPPATH . 'modules/' . $folder_to_lower ) )
-		{
+		
+		
+		if( ! is_dir( APPPATH . 'modules/' . $folder_to_lower ) ){
 			mkdir( APPPATH . 'modules/' . $folder_to_lower , 0777 , true );
 		}
+		
 		// moving global manifest
 		foreach( $global_manifest as $_manifest )
 		{
@@ -369,6 +380,23 @@ class Modules
 		}
 		// Creating Manifest
 		file_put_contents( $module_dir_path . '/manifest.json' , json_encode( $relative_json_manifest ) );
+		
+		/**
+		 * New Feature Assets management
+		 * Description : move module assets to public directory within a folder with namespace as name
+		**/
+		
+		if( is_dir( $module_dir_path . DIRECTORY_SEPARATOR . 'assets' ) ){
+
+			if( is_dir( PUBLICPATH . $module_namespace ) ){ // checks if module folder exists on public folder
+				SimpleFileManager::drop( PUBLICPATH . $module_namespace );
+			}
+
+			mkdir( PUBLICPATH . $module_namespace ); // creating module folder within
+			SimpleFileManager::move( $module_dir_path . DIRECTORY_SEPARATOR . 'assets' , PUBLICPATH . $module_namespace );			
+			
+		}
+		
 		return true;
 	}
 	
@@ -386,13 +414,16 @@ class Modules
 		$module 			=	self::get( $module_namespace );
 		$modulepath		=	dirname( $module[ 'application' ][ 'details' ][ 'main' ] );
 		$manifest_file	=	$modulepath . '/manifest.json';
-		
-		$manifest_array	=	json_decode( file_get_contents( $manifest_file ) , true );
-		// removing file
-		foreach( $manifest_array as $file )
-		{
-			if( is_file( $file ) ): unlink( $file );endif;
+
+		if( is_file( $manifest_file ) ){
+			$manifest_array	=	json_decode( file_get_contents( $manifest_file ) , true );
+			// removing file
+			foreach( $manifest_array as $file )
+			{
+				if( is_file( $file ) ): unlink( $file );endif;
+			}
 		}
+		
 		// Drop Module Folder
 		SimpleFileManager::drop( $modulepath );
 		

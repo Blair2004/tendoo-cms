@@ -77,7 +77,7 @@ new auth_module_class;
 
 require( LIBPATH . '/User.php' );
 require( dirname( __FILE__ ) . '/inc/dashboard.php' );
-//require( dirname( __FILE__ ) . '/inc/setup.php' );
-//require( dirname( __FILE__ ) . '/inc/fields.php' );
-//require( dirname( __FILE__ ) . '/inc/actions.php' );
-// require( dirname( __FILE__ ) . '/inc/rules.php' );
+require( dirname( __FILE__ ) . '/inc/setup.php' );
+require( dirname( __FILE__ ) . '/inc/fields.php' );
+require( dirname( __FILE__ ) . '/inc/actions.php' );
+require( dirname( __FILE__ ) . '/inc/rules.php' );

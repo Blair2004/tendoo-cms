@@ -33,6 +33,7 @@ $lang[ 'module-extracted' ]					=	tendoo_success( __( 'The module has been extra
 $lang[ 'module-updated' ]					=	tendoo_success( __( 'The module has been updated.' ) );
 $lang[ 'old-version-cannot-be-installed' ]	=	tendoo_error( __( 'The version installed is already up to date.' ) );
 $lang[ 'unable-to-update' ]				=	tendoo_error( __( 'An error occured during update.' ) );
+$lang[ 'config-file-not-found' ]			=	tendoo_error( __( 'Config file hasn\'t been found. This file is not a valid module. Installation aborded !!!' ) );
 
 // Extension
 $lang[ 'fetch-from-upload' ]			=	function(){

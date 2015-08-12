@@ -67,8 +67,7 @@ class Dashboard extends Tendoo_Controller {
 			});
 			if( isset( $_FILES[ 'extension_zip' ] ) )
 			{
-				$notice	=	Modules::install( 'extension_zip' );
-								
+				$notice	=	Modules::install( 'extension_zip' );				
 				// it means that module has been installed
 				if( is_array( $notice ) )
 				{
