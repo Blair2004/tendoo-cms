@@ -34,14 +34,14 @@ do_login					: trigger actions registered to execute during tendoo login
 
 is_connected					: triggers actions registered to execute while tendoo checks if user is connected
 
-displays_dashboard_errors	:	t-a-r to display admin errors
+displays_dashboard_errors	:	t-a-r (Triggers action registered) to display admin errors
 
 registration_rules			: define registration rules
 
 register_user				: 	triggers actions while registering user
 do_reset_user				:	do reset user for recovery
-do_enable_module				:	trigger action while enabling a module
-do_disable_module				:	trigger actions while disabling a module
-do_remove_module				:	remove module action
-load_frontend					:	triggers action during frontend loading provide URI segments as array
+do_enable_module				:	triggers actions while enabling a module
+do_disable_module				:	triggers actions while disabling a module
+do_remove_module				:	removes module action
+load_frontend					:	triggers actions during frontend loading provide URI segments as array
 do_extract_module				: triggers actions during module extraction pass module namespace (as string) as unique parameter

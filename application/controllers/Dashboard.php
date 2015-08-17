@@ -113,7 +113,6 @@ class Dashboard extends Tendoo_Controller {
 			});
 			
 			$this->events->do_action( 'do_remove_module' , $arg2 );
-			// redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_disabling_status' , 'module-removed' ) ) );
 		}
 		else if( $page === 'extract' )
 		{
