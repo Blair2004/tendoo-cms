@@ -12,3 +12,4 @@ application/modules/*
 !application/modules/dashboard/
 !application/modules/post_type/
 !application/modules/blog/
+public/modules/*

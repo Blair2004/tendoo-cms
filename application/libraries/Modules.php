@@ -175,10 +175,10 @@ class Modules
 				
 				$extraction_temp_path		=	self::__unzip( $data );
 				
-				die;
 				// Look for config.xml file to read config
 				if( file_exists( $extraction_temp_path . '/config.xml' ) )
 				{
+					// If config xml file has at least a namespace parameter
 					$module_array	=	get_instance()->xml2array->createArray( file_get_contents( $extraction_temp_path . '/config.xml' ) );					
 					if( isset( $module_array[ 'application' ][ 'details' ][ 'namespace' ] ) )
 					{
@@ -264,7 +264,9 @@ class Modules
 	static function __unzip( $upload_details )
 	{
 		$extraction_path		=	$upload_details[ 'upload_data' ][ 'file_path' ] . $upload_details[ 'upload_data' ][ 'raw_name' ];
-		var_dump( $extraction_path );
+		
+		// If temp path does'nt exists
+		if( ! is_dir( $extraction_path ) ): mkdir( $extraction_path ); endif;
 		
 		get_instance()->load->library( 'unzip' );	
 		
@@ -274,7 +276,6 @@ class Modules
 		);
 		
 		get_instance()->unzip->close();
-		
 		// delete zip file
 		if( is_file( $upload_details[ 'upload_data' ][ 'full_path' ] ) ): unlink( $upload_details[ 'upload_data' ][ 'full_path' ] );endif;
 		
@@ -336,11 +337,11 @@ class Modules
 		
 		get_instance()->load->helper( 'file' );
 		$folder_to_lower		=	strtolower( $module_namespace );
-		$module_dir_path		=	APPPATH . 'modules/' . $folder_to_lower;
+		$module_dir_path		=	MODULESPATH . $folder_to_lower;
 		
-		
-		if( ! is_dir( APPPATH . 'modules/' . $folder_to_lower ) ){
-			mkdir( APPPATH . 'modules/' . $folder_to_lower , 0777 , true );
+		// Creating module folder within 
+		if( ! is_dir( MODULESPATH . $folder_to_lower ) ){
+			mkdir( MODULESPATH . $folder_to_lower , 0777 , true );
 		}
 		
 		// moving global manifest
@@ -389,11 +390,11 @@ class Modules
 		if( is_dir( $module_dir_path . DIRECTORY_SEPARATOR . 'assets' ) ){
 
 			if( is_dir( PUBLICPATH . $module_namespace ) ){ // checks if module folder exists on public folder
-				SimpleFileManager::drop( PUBLICPATH . $module_namespace );
+				SimpleFileManager::drop( PUBLICPATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module_namespace );
 			}
 
-			mkdir( PUBLICPATH . $module_namespace ); // creating module folder within
-			SimpleFileManager::move( $module_dir_path . DIRECTORY_SEPARATOR . 'assets' , PUBLICPATH . $module_namespace );			
+			mkdir( PUBLICPATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module_namespace ); // creating module folder within
+			SimpleFileManager::extractor( $module_dir_path . DIRECTORY_SEPARATOR . 'assets' , PUBLICPATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module_namespace );			
 			
 		}
 		
@@ -426,6 +427,11 @@ class Modules
 		
 		// Drop Module Folder
 		SimpleFileManager::drop( $modulepath );
+		
+		// Drop Assets Folder
+		if( is_dir( $module_assets_folder	=	PUBLICPATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module_namespace ) ){
+			SimpleFileManager::drop( $module_assets_folder );
+		}
 		
 		// Check whether cache is enabled
 		if( get_instance()->options->get( 'enable_cache' ) )
@@ -508,8 +514,15 @@ class Modules
 							}
 						}
 					}
-					// delete temp folder
-					// SimpleFileManager::drop( $temp_folder );
+				}
+				$assets_path = PUBLICPATH . 'modules' . DIRECTORY_SEPARATOR . $module_namespace;
+				// Copy Assets to 
+				if( is_dir( $assets_path ) ){
+					// create assets folder
+					if( !is_dir( $temp_folder . DIRECTORY_SEPARATOR . 'assets' ) ){
+						mkdir( $temp_folder . DIRECTORY_SEPARATOR . 'assets' );
+					}
+					SimpleFileManager::copy( $assets_path , $temp_folder . DIRECTORY_SEPARATOR . 'assets' );
 				}
 			}
 			

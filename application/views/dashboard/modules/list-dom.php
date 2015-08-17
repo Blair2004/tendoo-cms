@@ -27,7 +27,9 @@
 				}
 				?>
               <a href="<?php echo site_url( array( 'dashboard' , 'modules' , 'remove' , $module_namespace ) );?>" class="btn btn-default btn-box-tool" data-action="uninstall"><i style="font-size:20px;" class="fa fa-trash"></i> <?php _e( 'Remove' );?></a>
+              
               <a href="<?php echo site_url( array( 'dashboard' , 'modules' , 'extract' , $module_namespace ) );?>" class="btn btn-default btn-box-tool" data-action="uninstall"><i style="font-size:20px;" class="fa fa-file-zip-o"></i> <?php _e( 'Extract' );?></a>
+              
               <button class="btn btn-default btn-box-tool" data-action="update"><i style="font-size:20px;" class="fa fa-refresh"></i></button>
             </div>
          </div>
@@ -42,3 +44,11 @@
 	}
 	?>
 </div>
+<script>
+$('[data-action="uninstall"]').bind('click', function(){
+	if( confirm( '<?php _e( 'Do you really want to delete this module ?' );?>' ) ){
+		return true;
+	}
+	return false;
+});
+</script>

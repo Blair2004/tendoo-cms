@@ -99,4 +99,4 @@ define( 'LANG_RECORDER_ENABLED' , FALSE ); // enable auto recorder for unregiste
 define( 'GUI_EXPIRE' , 60*60*6 ); // GUI expiration time
 define( 'LIBPATH' , APPPATH . 'libraries' . DIRECTORY_SEPARATOR ); // Libraries path
 define( 'MODULESPATH' , APPPATH . 'modules' . DIRECTORY_SEPARATOR ); // Modules Paths
-define( 'PUBLICPATH' , 'public' . DIRECTORY_SEPARATOR ); // Public path
+define( 'PUBLICPATH' , FCPATH . 'public' . DIRECTORY_SEPARATOR ); // Public path

@@ -52,12 +52,19 @@
  */
 if ( ! function_exists('asset_url'))
 {
-    function asset_url()
+    function asset_url( $module_namespace = NULL )
     {
-        //get an instance of CI so we can access our configuration
-        $CI =& get_instance();
+		 $CI =& get_instance();
+		 if( $module_namespace === NULL ){ // if module namespace is not specified
+        
         //return the full asset path
         return base_url() . $CI->config->item('asset_path');
+		  
+		 } else {
+			 
+			 return base_url(). $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/';
+			 
+		 }
     }
 }
 
@@ -69,10 +76,18 @@ if ( ! function_exists('asset_url'))
  */
 if ( ! function_exists('css_url'))
 {
-    function css_url()
+    function css_url( $module_namespace = NULL )
     {
-        $CI =& get_instance();
+		 $CI =& get_instance();
+		 if( $module_namespace === NULL ){
+        
         return base_url() . $CI->config->item('css_path');
+		 
+		 } else {
+			 
+			 return base_url(). $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/' . 'css/';
+			 
+		 }
     }
 }
 
@@ -84,10 +99,14 @@ if ( ! function_exists('css_url'))
  */
 if ( ! function_exists('less_url'))
 {
-    function less_url()
+    function less_url( $module_namespace = NULL )
     {
-        $CI =& get_instance();
+		 $CI =& get_instance();
+		 if( $module_namespace === NULL ){
         return base_url() . $CI->config->item('less_path');
+		 } else {
+			 return base_url(). $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/' . 'less/';
+		 }
     }
 }
 
@@ -99,10 +118,14 @@ if ( ! function_exists('less_url'))
  */
 if ( ! function_exists('js_url'))
 {
-    function js_url()
+    function js_url( $module_namespace = NULL )
     {
-        $CI =& get_instance();
+		 $CI =& get_instance();
+		 if( $module_namespace === NULL ){
         return base_url() . $CI->config->item('js_path');
+		 } else {
+			 return base_url(). $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/' . 'js/';
+		 }
     }
 }
 
@@ -114,10 +137,14 @@ if ( ! function_exists('js_url'))
  */
 if ( ! function_exists('img_url'))
 {
-    function img_url()
+    function img_url( $module_namespace = NULL )
     {
-        $CI =& get_instance();
-        return base_url() . $CI->config->item('img_path');
+		 $CI =& get_instance();
+		 if( $module_namespace === NULL ){        
+        return base_url() . $CI->config->item('img_path');		  
+		 } else {
+			 return base_url(). $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/' . 'images/';
+		 }
     }
 }
 
@@ -129,10 +156,14 @@ if ( ! function_exists('img_url'))
  */
 if ( ! function_exists('swf_url'))
 {
-    function swf_url()
+    function swf_url( $module_namespaec = NULL )
     {
-        $CI =& get_instance();
+		 $CI =& get_instance();
+		 if( $module_namespaec === NULL ){
         return base_url() . $CI->config->item('swf_path');
+		 } else {
+			 return base_url(). $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/' . 'swf/';
+		 }
     }
 }
 
