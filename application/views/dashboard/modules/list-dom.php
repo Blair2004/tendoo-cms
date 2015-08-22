@@ -1,5 +1,6 @@
 <div class="row">
 	<?php
+	global $Options;
 	$modules	=	Modules::get();
 	foreach( $modules as $_module )
 	{
@@ -28,14 +29,16 @@
 				?>
               <a href="<?php echo site_url( array( 'dashboard' , 'modules' , 'remove' , $module_namespace ) );?>" class="btn btn-default btn-box-tool" data-action="uninstall"><i style="font-size:20px;" class="fa fa-trash"></i> <?php _e( 'Remove' );?></a>
               
+              <?php if( intval( riake( 'webdev_mode' , $Options ) ) == true ):?>
               <a href="<?php echo site_url( array( 'dashboard' , 'modules' , 'extract' , $module_namespace ) );?>" class="btn btn-default btn-box-tool" data-action="extract"><i style="font-size:20px;" class="fa fa-file-zip-o"></i> <?php _e( 'Extract' );?></a>
+              <?php endif;?>
               
               <button class="btn btn-default btn-box-tool" data-action="update"><i style="font-size:20px;" class="fa fa-refresh"></i></button>
             </div>
          </div>
          <div class="box-body" style="height:100px;"><?php echo isset( $_module[ 'application' ][ 'details' ][ 'description' ] ) ? $_module[ 'application' ][ 'details' ][ 'description' ] : '';?> </div>
          <div class="box-footer">
-           	<?php echo 'v.' . ( isset( $_module[ 'application' ][ 'details' ][ 'version' ] ) ? $_module[ 'application' ][ 'details' ][ 'version' ] : 0.1 );?>
+           	<?php echo 'v' . ( isset( $_module[ 'application' ][ 'details' ][ 'version' ] ) ? $_module[ 'application' ][ 'details' ][ 'version' ] : 0.1 );?>
          </div>
       </div>
    </div>

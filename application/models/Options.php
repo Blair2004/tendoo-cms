@@ -23,7 +23,7 @@ class Options extends CI_Model
 		// Only when aauth is enabled
 		if( Modules::is_active( 'aauth' ) )
 		{
-			$User_Options = $this->user_options = $this->get( NULL , User::get( 'id' ) );
+			$User_Options = $this->user_options = $this->get( NULL , $this->events->apply_filters( 'user_id' , 0 ) );
 		}
 	}
 	

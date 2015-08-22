@@ -124,7 +124,7 @@ class Aauth {
 	 * @return bool Indicates successful login.
 	 */
 	public function login($email, $pass, $remember = FALSE) {
-
+		
 		// Remove cookies first
 		$cookie = array(
 			'name'	 => 'user',
@@ -334,7 +334,7 @@ class Aauth {
 	 * @param bool $perm_par If not given just control user logged in or not
 	 */
 	public function control( $perm_par = FALSE ){
-
+		
 		$perm_id = $this->get_perm_id($perm_par);
 		$this->update_activity();
 
@@ -689,8 +689,7 @@ class Aauth {
 	 * @param bool $include_banneds Include banned users
 	 * @return array Array of users
 	 */
-	public function list_users($group_par = FALSE, $limit = FALSE, $offset = FALSE, $include_banneds = FALSE) {
-
+	public function list_users($group_par = FALSE, $limit = FALSE, $offset = FALSE, $include_banneds = FALSE) { // Called
 		// if group_par is given
 		if ($group_par != FALSE) {
 
@@ -733,10 +732,17 @@ class Aauth {
 	 * @param int|bool $user_id User id to get or FALSE for current user
 	 * @return object User information
 	 */
-	public function get_user($user_id = FALSE) {
+	public function get_user($user_id = FALSE , $force_refresh = FALSE) {
 
 		if ($user_id == FALSE)
 			$user_id = $this->CI->session->userdata('id');
+			
+		// Get what has been saved on cache
+		if( $force_refresh === FALSE ){
+			if( isset( $this->data[ 'users' ][ $user_id ] ) ){
+				return $this->data[ 'users' ][ $user_id ];
+			}
+		}
 
 		$query = $this->CI->db->where('id', $user_id);
 		$query = $this->CI->db->get($this->config_vars['users']);
@@ -745,8 +751,11 @@ class Aauth {
 			// $this->error($this->CI->lang->line('aauth_error_no_user'));
 			return FALSE;
 		}
-		return $query->row();
-	}
+		
+		// Saving to internal cache
+		$this->data[ 'users' ][ $user_id ] = $query->row();
+		return $this->data[ 'users' ][ $user_id ];
+	} // Optimised
 
 	/**
 	 * Verify user
@@ -896,6 +905,7 @@ class Aauth {
 	 * @return bool
 	 */
 	public function user_exsist_by_id( $user_id ) {
+
 		$query = $this->CI->db->where('id', $user_id);
 
 		$query = $this->CI->db->get($this->config_vars['users']);
@@ -914,6 +924,7 @@ class Aauth {
 	 * @return bool
 	 */
 	public function user_exsist_by_name( $name ) {
+
 		$query = $this->CI->db->where('name', $name);
 
 		$query = $this->CI->db->get($this->config_vars['users']);

@@ -21,7 +21,7 @@ class User
 		return $Instance->users->is_connected();
 	}
 	
-	static function get( $user_par )
+	static function get( $user_par = FALSE )
 	{
 		return get_instance()->auth->get_user( $user_par );
 	}
@@ -35,16 +35,9 @@ class User
 	 * @return string
 	**/
 	
-	static function pseudo( $id = null )
+	static function pseudo( $id = FALSE )
 	{
-		if( $id === null )
-		{
-			$user		=	get_instance()->auth->get_user();
-		}
-		else
-		{
-			$user		=	get_instance()->auth->get_user( $id );
-		}		
+		$user		=	get_instance()->auth->get_user( $id );	
 		return $user ? $user->name : __( 'N/A' );
 	}
 	

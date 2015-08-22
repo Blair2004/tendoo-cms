@@ -153,7 +153,6 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 	else if( in_array( $type , array( 'select' , 'multiple' ) ) )
 	{
 		$multiple = $type == 'multiple' ? $type : '';
-		
 		?>
         <div class="form-group">
           <label><?php echo $label;?></label>
@@ -162,7 +161,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 			foreach( force_array( riake( 'options' , $_item ) ) as $value	=>	$text )
 			{
 				// Only when action is not changed (which send request to dashboard/options/set), Gui_saver is supported.
-				if( $saver_enabled && ! riake( 'action' , riake( 'custom' , $meta ) ) )
+				if( $saver_enabled === TRUE && riake( 'action' , riake( 'custom' , $meta ) ) != null )
 				{
 					// control check
 					$selected	=	$db_value == $value ? 'selected="selected"' : '';

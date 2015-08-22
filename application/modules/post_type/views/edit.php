@@ -16,14 +16,22 @@ $this->events->add_filter( 'gui_after_cols' , function(){
 $this->gui->add_meta( array(
 	'type'		=>		'unwrapped',
 	'namespace'	=>		$post_namespace . '-edit-new',
-	'col_id'		=>		1
+	'col_id'		=>		1,
+	'gui_saver'	=>	false,
+	'custom'	=>	array(
+		'action'	=>	null
+	)
 ) );
 
 $this->gui->add_meta( array(
 	'type'		=>		'box',
 	'title'		=>		__( 'Details' ),
 	'namespace'	=>		$post_namespace . '-edit-new-sidebar',
-	'col_id'		=>		2
+	'col_id'		=>		2,
+	'gui_saver'	=>	false,
+	'custom'	=>	array(
+		'action'	=>	null
+	)
 ) );
 
 $this->events->do_action( 'before_post_title' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' , $post ) ); // Trigger each event bound
@@ -96,11 +104,13 @@ if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) 
 		$legacy_statement	=	array();
 		foreach( force_array( $post_legacy ) as $_legacy )
 		{
-			$legacy_statement[ 'where' ][]	=	array( 'ID !=' => $_legacy );
+			$legacy_statement[][ 'where' ]	=	array( 'ID !=' => $_legacy );
 		}
+
 		// var_dump( $legacy_statement );die;
 		
 		$postlist		=	$current_posttype->get( $legacy_statement );
+
 		$postarray		=	array( -1 => __( 'No parent' ) );
 		
 		foreach( force_array( $postlist ) as $_post )
@@ -111,12 +121,15 @@ if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) 
 				$postarray[ riake( 'QUERY_ID' , $_post ) ]	=	riake( 'TITLE' , $_post );
 			}
 		}
+		/*var_dump( $postarray );
+		var_dump( $post );
+		die;*/
 
 		$this->gui->add_item( array(
 			'type'			=>		'select',
 			'name'			=>		'post_parent',
 			'options'		=>		$postarray,
-			'active'			=>		riake( 'PARENT_REF_ID' , $post ),
+			'active'			=>		riake( 'PARENT_REF_ID' , $post ), 
 			'placeholder'	=>		__( 'Choose a parent' ),
 			'label'			=>		__( 'Select Parent' )
 		) , $post_namespace . '-edit-new-sidebar' , 2 );

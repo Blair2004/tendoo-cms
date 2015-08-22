@@ -79,9 +79,11 @@ class post_type extends CI_model
 				$this->config->set_item( 'pagination_data' , $pagination );
 				
 				$post			=	$this->current_posttype->get( array(
-					'limit'		=>	array( 
-						'start' 	=> riake( 'start' , $pagination ),
-						'end' 		=> riake( 'end' , $pagination ) 
+					array(
+						'limit'		=>	array( 
+							'start' 	=> riake( 'start' , $pagination ),
+							'end' 		=> riake( 'end' , $pagination ) 
+						)
 					)
 				) );
 				
@@ -159,8 +161,8 @@ class post_type extends CI_model
 					'post_namespace'		=>		$namespace,
 					'new_post_label'		=>		$this->current_posttype->new_post_label,
 					'current_posttype'	=>		$this->current_posttype,
-					'post'					=>		farray( $this->current_posttype->get( array( 
-						'where' =>	array( 'id'	=>	$id )
+					'post'					=>		farray( $this->current_posttype->get( array(
+						array( 'where' =>	array( 'id'	=>	$id ) )
 					) ) )
 				) , false );
 			}

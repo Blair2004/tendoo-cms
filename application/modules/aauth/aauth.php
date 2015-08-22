@@ -14,8 +14,17 @@ class auth_module_class extends CI_model
 		$this->events->add_action( 'after_app_init' , array( $this , 'after_session_starts' ) );		
 		$this->events->add_action( 'is_connected' , array( $this , 'is_connected' ) );		
 		$this->events->add_action( 'log_user_out' , array( $this , 'log_user_out' ) );
+		$this->events->add_filter( 'user_id' , array( $this , 'user_id' ) );
 		// Tendoo Setup	
 	}	
+	function user_id()
+	{
+		if( $this->users->is_connected() )
+		{
+			return User::get()->id;
+		}
+		return 0;
+	}
 	function log_user_out()
 	{
 		if( $this->users->logout() == NULL )
@@ -33,7 +42,7 @@ class auth_module_class extends CI_model
 		// While accessing this controller twice, a redirection will be made to login page from "tendoo_controller".
 	}
 	
-	function is_connected()
+	function is_connected() // deprecated
 	{
 		if( $this->users->is_connected() )
 		{

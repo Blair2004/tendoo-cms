@@ -229,12 +229,14 @@ class Modules
 						else
 						{
 							$module_global_manifest	=	self::__parse_path( $extraction_temp_path );	
-
+							
 							if( is_array( $module_global_manifest ) )
 							{
 								$response	=	self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data , true );
+								
 								// Delete temp file
 								SimpleFileManager::drop( $extraction_temp_path );
+								
 								if( $response !== true )
 								{
 									return $response;
@@ -279,8 +281,12 @@ class Modules
 		// delete zip file
 		if( is_file( $upload_details[ 'upload_data' ][ 'full_path' ] ) ): unlink( $upload_details[ 'upload_data' ][ 'full_path' ] );endif;
 		
+		die;
 		return $extraction_path;
 	}
+	
+	private static $allowed_app_folders	=	array( 'libraries' , 'models' , 'config' , 'helpers' , 'language' , 'core' , 'third_party' );
+	
 	static function __parse_path( $path )
 	{
 		$manifest	=	array();
@@ -294,9 +300,10 @@ class Modules
 					// Set sub dir path
 					$sub_dir_path	=	$path;
 					// If a correct folder is found
-					if( in_array( $file , array( 'libraries' , 'models' , 'config' , 'helpers' , 'language' ) ) && is_dir( $path . '/' . $file ) )
+					if( in_array( $file , self::$allowed_app_folders ) && is_dir( $path . '/' . $file . '/' ) )
 					{
-						$manifest	=	array_merge( $manifest , self::scan( $sub_dir_path . '/' . $file ) );	
+						// var_dump( $sub_dir_path . '/' . $file . '/' );
+						$manifest	=	array_merge( $manifest , self::scan( $sub_dir_path . '/' . $file . '/' ) );	
 					}
 					// for other file and folder, they are included in module dir
 					else
@@ -361,6 +368,7 @@ class Modules
 		}
 		$relative_json_manifest			=	array();
 		// moving manifest to system folder
+		// var_dump( $manifest );
 		foreach( $manifest as $_manifest )
 		{
 			// removing raw_name from old manifest to ease copy
@@ -387,14 +395,14 @@ class Modules
 		 * Description : move module assets to public directory within a folder with namespace as name
 		**/
 		
-		if( is_dir( $module_dir_path . DIRECTORY_SEPARATOR . 'assets' ) ){
+		if( is_dir( $module_dir_path . '/' . 'assets' ) ){
 
 			if( is_dir( PUBLICPATH . $module_namespace ) ){ // checks if module folder exists on public folder
-				SimpleFileManager::drop( PUBLICPATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module_namespace );
+				SimpleFileManager::drop( PUBLICPATH . '/' . 'modules' . '/' . $module_namespace );
 			}
 
-			mkdir( PUBLICPATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module_namespace ); // creating module folder within
-			SimpleFileManager::extractor( $module_dir_path . DIRECTORY_SEPARATOR . 'assets' , PUBLICPATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module_namespace );			
+			mkdir( PUBLICPATH . '/' . 'modules' . '/' . $module_namespace ); // creating module folder within
+			SimpleFileManager::extractor( $module_dir_path . '/' . 'assets' , PUBLICPATH . '/' . 'modules' . '/' . $module_namespace );			
 			
 		}
 		
@@ -429,7 +437,7 @@ class Modules
 		SimpleFileManager::drop( $modulepath );
 		
 		// Drop Assets Folder
-		if( is_dir( $module_assets_folder	=	PUBLICPATH . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $module_namespace ) ){
+		if( is_dir( $module_assets_folder	=	PUBLICPATH . '/' . 'modules' . '/' . $module_namespace ) ){
 			SimpleFileManager::drop( $module_assets_folder );
 		}
 		
@@ -451,13 +459,13 @@ class Modules
 			{
 				if( ! in_array( $file , array( '.' , '..' ) ) )
 				{
-					if( is_dir( $folder . '/' . $file ) )
+					if( is_dir( $folder . $file ) )
 					{
-						$files_array	 =	array_merge( $files_array , self::scan( $folder . '/' . $file ) );
+						$files_array	 =	array_merge( $files_array , self::scan( $folder . $file ) );
 					}
 					else
 					{
-						$files_array[]		=	$folder . '/' . $file;
+						$files_array[]		=	$folder . $file;
 					}
 				}
 			}
@@ -483,9 +491,9 @@ class Modules
 			get_instance()->load->library( 'zip' );
 			get_instance()->load->helper( 'security' );
 			$module_temp_folder_name	=	do_hash( $module_namespace );
-			$module_installed_dir		=	MODULESPATH  . $module_namespace . DIRECTORY_SEPARATOR;
+			$module_installed_dir		=	MODULESPATH  . $module_namespace . '/';
 			// creating temp folder
-			$temp_folder	=	APPPATH . 'temp' . DIRECTORY_SEPARATOR . $module_temp_folder_name;
+			$temp_folder	=	APPPATH . 'temp' . '/' . $module_temp_folder_name;
 			if( !is_dir( $temp_folder ) ){
 				mkdir( $temp_folder );
 			}
@@ -509,20 +517,20 @@ class Modules
 								//var_dump( $path_splited );
 								SimpleFileManager::file_copy( 
 									APPPATH . $reserved_folder . $path_splited[1] , 
-									$temp_folder . DIRECTORY_SEPARATOR . $reserved_folder . $path_splited[1]
+									$temp_folder . '/' . $reserved_folder . $path_splited[1]
 								);
 							}
 						}
 					}
 				}
-				$assets_path = PUBLICPATH . 'modules' . DIRECTORY_SEPARATOR . $module_namespace;
+				$assets_path = PUBLICPATH . 'modules' . '/' . $module_namespace;
 				// Copy Assets to 
 				if( is_dir( $assets_path ) ){
 					// create assets folder
-					if( !is_dir( $temp_folder . DIRECTORY_SEPARATOR . 'assets' ) ){
-						mkdir( $temp_folder . DIRECTORY_SEPARATOR . 'assets' );
+					if( !is_dir( $temp_folder . '/' . 'assets' ) ){
+						mkdir( $temp_folder . '/' . 'assets' );
 					}
-					SimpleFileManager::copy( $assets_path , $temp_folder . DIRECTORY_SEPARATOR . 'assets' );
+					SimpleFileManager::copy( $assets_path , $temp_folder . '/' . 'assets' );
 				}
 			}
 			
@@ -530,7 +538,7 @@ class Modules
 			SimpleFileManager::copy( $module_installed_dir , $temp_folder );			
 
 			// read temp folder and download it
-			get_instance()->zip->read_dir( APPPATH . 'temp' . DIRECTORY_SEPARATOR . $module_temp_folder_name , false , APPPATH . 'temp' . DIRECTORY_SEPARATOR . $module_temp_folder_name . DIRECTORY_SEPARATOR );
+			get_instance()->zip->read_dir( APPPATH . 'temp' . '/' . $module_temp_folder_name , false , APPPATH . 'temp' . '/' . $module_temp_folder_name . '/' );
 			// delete temp folder
 			SimpleFileManager::drop( $temp_folder );
 			
