@@ -33,7 +33,7 @@ class blog_module extends CI_Model
 			'namespace'				=>		'blog',
 			'label'					=>		__( 'Blog Post' ),
 			'menu-icon'				=>		'fa fa-newspaper-o',
-			'is-hierarchical'		=>	false
+			'is-hierarchical'		=>	   false
 		) , 'blog' );
 		
 		$this->blog->define_taxonomy(	'category' , __( 'Category' ) , array(

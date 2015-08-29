@@ -8,7 +8,7 @@ class PostType
 	{
 		$this->events					=	get_instance()->events;
 		$this->namespace				=	$this->config[ 'namespace' ]				=	riake( 'namespace' , $config );
-		// $this->meta					=	$this->config[ 'meta' ]						=	riake( 'meta' , $config ); Meta are no more white listed. They should be created using a proper form to be saved as meta data.
+		$this->meta					  =	$this->config[ 'meta' ]						   =	riake( 'meta' , $config ); 
 		$this->label					=	$this->config[ 'label' ]					=	riake( 'label' , $config , $this->namespace );
 		$this->new_post_label		=	$this->config[ 'new-post-label' ]		=	riake( 'new-post-label' , $config , sprintf( __( 'Create a new %s' ) , $this->namespace ) );
 		$this->edit_post_label		=	$this->config[ 'edit-post-label' ]		=	riake( 'edit-post-label' , $config , sprintf( __( 'Edit %s' ) , $this->namespace ) );
@@ -29,8 +29,8 @@ class PostType
 		
 		$this->query					=	new CustomQuery( array(
 			'namespace'					=>	$this->namespace,
-			'is_hierarchical'			=>	$this->is_hierarchical
-			// 'meta'						=>	$this->meta  // No more supported
+			'is_hierarchical'			=>	$this->is_hierarchical,
+			'meta'						=>	$this->meta
 		) );
 		
 		$posttypes						=	force_array( get_instance()->config->item( 'posttypes' ) );

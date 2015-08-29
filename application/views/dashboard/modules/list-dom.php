@@ -2,7 +2,7 @@
 	<?php
 	global $Options;
 	$modules	=	Modules::get();
-	foreach( $modules as $_module )
+	foreach( force_array( $modules ) as $_module )
 	{
 		if( isset( $_module[ 'application' ][ 'details' ][ 'namespace' ] ) )
 		{

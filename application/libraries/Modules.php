@@ -3,34 +3,67 @@ class Modules
 {
 	private static	$modules;
 	private static $actives  = array();
-	static function load( $module_path )
+	static function load( $module_path , $deepness = 0 )
 	{
-		$dir	=	opendir( $module_path );
-		$config	=	array();
-		
-		// Looping currend folder
-		while( FALSE !== ( $file = readdir( $dir ) ) )
-		{
-			if( substr( $file , -10 ) === 'config.xml' )
+		if( $deepness < 2 ){ // avoid multi-folder parsing
+			$dir	=	opendir( $module_path );
+			$config	=	array();
+			
+			// Looping currend folder
+			while( FALSE !== ( $file = readdir( $dir ) ) )
 			{
-				$config		=	get_instance()->xml2array->createArray( file_get_contents( $module_path . '/' . $file ) );
+				if( substr( $file , -10 ) === 'config.xml' )
+				{
+					$config		=	get_instance()->xml2array->createArray( file_get_contents( $module_path . '/' . $file ) );
+				}
+				else if( is_dir( $module_path . '/' . $file ) && ! in_array( $file , array( '.' , '..' ) ) )
+				{
+					self::load( $module_path . '/' .$file , $deepness + 1 ); // Only top folder are parsed
+				}
 			}
-			else if( is_dir( $module_path . '/' . $file ) && ! in_array( $file , array( '.' , '..' ) ) )
+			// Adding Valid init file to module array
+			if( isset( $config[ 'application' ][ 'details' ][ 'namespace' ] , $config[ 'application' ][ 'details' ][ 'main' ] ) )
 			{
-				self::load( $module_path . '/' .$file );
+				$namespace = strtolower( $config[ 'application' ][ 'details' ][ 'namespace' ] );
+				// Saving details
+				self::$modules[ $namespace ]					=	$config;
+				// Edit main file path
+				self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ]	=	$module_path . '/' .  self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ];
+				self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ]	=	strtolower( self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ] );
 			}
-		}
-		// Adding Valid init file to module array
-		if( isset( $config[ 'application' ][ 'details' ][ 'namespace' ] , $config[ 'application' ][ 'details' ][ 'main' ] ) )
-		{
-			$namespace = strtolower( $config[ 'application' ][ 'details' ][ 'namespace' ] );
-			// Saving details
-			self::$modules[ $namespace ]					=	$config;
-			// Edit main file path
-			self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ]	=	$module_path . '/' .  self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ];
-			self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ]	=	strtolower( self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ] );
 		}
 	}
+	
+	static function hashDirectory($directory)
+	{
+		 if (! is_dir($directory))
+		 {
+			  return false;
+		 }
+	 
+		 $files = array();
+		 $dir = dir($directory);
+	 
+		 while (false !== ($file = $dir->read()))
+		 {
+			  if ($file != '.' and $file != '..')
+			  {
+					if (is_dir($directory . '/' . $file))
+					{
+						 $files[] = self::hashDirectory($directory . '/' . $file);
+					}
+					else
+					{
+						 $files[] = md5_file($directory . '/' . $file);
+					}
+			  }
+		 }
+	 
+		 $dir->close();
+	 
+		 return md5(implode('', $files));
+	}
+	
 	static function get( $namespace = null )
 	{
 		if( $namespace == NULL )
@@ -47,8 +80,7 @@ class Modules
 	static function init( $filter )
 	{
 		$modules		=	self::get();
-		$modules_array	=	array();
-		$actives_modules	=	force_array( get_instance()->options->get( 'actives_modules' ) );
+		$modules_array	=	array();	
 		
 		foreach( force_array( $modules ) as $module )
 		{
@@ -60,6 +92,9 @@ class Modules
 			}
 			else if( is_file( $init_file = $module[ 'application' ][ 'details' ][ 'main' ] ) && $filter === 'actives' )
 			{
+				if( !isset( $actives_modules ) ){
+					$actives_modules	=	force_array( get_instance()->options->get( 'actives_modules' ) );
+				}
 				if( in_array( strtolower( $module[ 'application' ][ 'details' ][ 'namespace' ] ) , $actives_modules ) )
 				{
 					self::$actives[]	=	$module[ 'application' ][ 'details' ][ 'namespace' ];

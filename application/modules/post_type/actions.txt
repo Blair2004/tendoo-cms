@@ -7,3 +7,6 @@ after_post_publish
 
 
 load_post_types : 
+
+// Filters
+load_meta   :   extends custom post meta

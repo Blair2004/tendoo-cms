@@ -4,7 +4,7 @@ class Tendoo_Controller extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		// Include default library class
 		include_once( LIBPATH .'/Html.php' );
 		include_once( LIBPATH .'/Enqueue.php' );
@@ -14,7 +14,6 @@ class Tendoo_Controller extends CI_Controller
 		
 		// get system lang
 		$this->lang->load( 'system' );	
-		
 		// Load Modules
 		Modules::load( MODULESPATH );
 		
@@ -24,6 +23,7 @@ class Tendoo_Controller extends CI_Controller
 			/**
 			 * Load Session, Database and Options
 			**/
+			
 			$this->load->library( 'session' );
 			$this->load->database();
 			$this->load->model( 'options' );			

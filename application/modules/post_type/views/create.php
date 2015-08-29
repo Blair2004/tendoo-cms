@@ -28,7 +28,7 @@ $this->gui->add_meta( array(
 	'gui_saver'	=>		false
 ) );
 
-$this->events->do_action( 'before_post_title' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
+$this->events->do_action_ref_array( 'before_post_title' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
 
 if( in_array( 'title' , riake( 'displays' , $current_posttype->get_config() ) ) )
 {
@@ -39,9 +39,9 @@ if( in_array( 'title' , riake( 'displays' , $current_posttype->get_config() ) ) 
 	) , $post_namespace . '-create-new' , 1 );
 }
 
-$this->events->do_action( 'after_post_title' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
+$this->events->do_action_ref_array( 'after_post_title' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
 
-$this->events->do_action( 'before_post_editor' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
+$this->events->do_action_ref_array( 'before_post_editor' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
 
 if( in_array( 'editor' , riake( 'displays' , $current_posttype->get_config() ) ) )
 {
@@ -51,11 +51,11 @@ if( in_array( 'editor' , riake( 'displays' , $current_posttype->get_config() ) )
 	) , $post_namespace . '-create-new' , 1 );
 }
 
-$this->events->do_action( 'after_post_editor' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
+$this->events->do_action_ref_array( 'after_post_editor' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
 
 
 
-$this->events->do_action( 'before_post_publish' , array( $current_posttype , $this->gui , $post_namespace . '-create-new-sidebar' ) ); // Trigger each event bound
+$this->events->do_action_ref_array( 'before_post_publish' , array( $current_posttype , $this->gui , $post_namespace . '-create-new-sidebar' ) ); // Trigger each event bound
 
 if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) ) )
 {

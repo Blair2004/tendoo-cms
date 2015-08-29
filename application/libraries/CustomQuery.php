@@ -82,13 +82,12 @@ class CustomQuery
 		// To avoid multiple post with the same title
 		$i = 0;
 		$query_data				=	array();
-		
 		while( $matching_post	=	$this->get( array(
 			array( 'where'		=>	array( 'title'		=>		$title , 'id !='		=>		$exclude_post ) )
 		) ) ){
 
 			$i++;
-			if($matching_post)
+			if($matching_post )
 			{
 				if(preg_match('#^(.+)\((\d{1,})\)+$#', $title))
 				{
@@ -110,7 +109,6 @@ class CustomQuery
 				break;
 			}
 		}
-
 		return $title;
 	}
 
@@ -184,10 +182,9 @@ class CustomQuery
 				$safe_taxonomies[] = $tax_id;
 			}
 		}
-
 		// BeWare : This only accepts that identifier is an int.
 		$title = $this->title_checker($title, $identifier);
-
+        
 		if(!$title)
 		{
 			return array('msg' => 'error-occured-while-checking-query-title');
@@ -347,122 +344,123 @@ class CustomQuery
 		$this->db->where($this->db->dbprefix('query') . '.NAMESPACE', $this->query_namespace);
 		$this->db->group_by($this->db->dbprefix('query') . '.ID'); // For unique Lignes
 		//
-
-		foreach(force_array($arg) as $filter => $value)
-		{
-			if(in_array($filter, array('limit',
-									   'LIMIT'
-			), TRUE))
+		foreach( $arg as $_arg ){
+			foreach(force_array($_arg) as $filter => $value)
 			{
-				$this->db->limit(riake('end', $value), riake('start', $value));
-			}
-			else
-			{
-				foreach(array_keys($value) as $array_key)
-				{
-					$array_key_complete = $array_key;
-					$array_key          = explode(' ', $array_key);
-					// Avoid tu use comparison sign for meta comparison
-					if(count($array_key) > 0)
-					{
-						$array_key = $array_key[0];
-					}
-					if(!in_array(strtolower($array_key), $this->saved_meta) && !in_array(strtoupper($array_key), $this->reserved_meta) && !in_array($array_key, $this->custom_filter))
-					{
-						$return = 'unknown-key-for-custom-query';
-					}
-				}
-
-				if(in_array($filter, array('where',
-										   'WHERE'
+				if(in_array($filter, array('limit',
+											'LIMIT'
 				), TRUE))
 				{
-
-					// Value must be an array of key value
-					/**
-					 * CUSTOMQUERY::get( array(
-					 * 'where'    =>    array( 'id'    =>    10 ),
-					 * 'where'    =>    array( 'id'    =>    20 ),
-					 * 'where'    =>    array( 'id >'    =>    20 )
-					 * ) );
-					 **/
-					foreach($value as $__key => $__value)
+					$this->db->limit(riake('end', $value), riake('start', $value));
+				}
+				else
+				{
+					foreach(array_keys($value) as $array_key)
 					{
-						$key            = explode(' ', $__key);
-						$__key_complete = $__key;
-						// Avoid to use comparison sign on key for meta comparison
-						if(count($key) > 0)
+						$array_key_complete = $array_key;
+						$array_key          = explode(' ', $array_key);
+						// Avoid tu use comparison sign for meta comparison
+						if(count($array_key) > 0)
 						{
-							$__key = $key[0];
+							$array_key = $array_key[0];
 						}
-						// For reserved Meta
-						if(in_array(strtoupper($__key), $this->reserved_meta))
+						if(!in_array(strtolower($array_key), $this->saved_meta) && !in_array(strtoupper($array_key), self::$reserved_meta) && !in_array($array_key, $this->custom_filter))
 						{
-							if(is_array($__value))
+							$return = 'unknown-key-for-custom-query';
+						}
+					}
+	
+					if(in_array($filter, array('where',
+												'WHERE'
+					), TRUE))
+					{
+	
+						// Value must be an array of key value
+						/**
+						 * CUSTOMQUERY::get( array(
+						 * 'where'    =>    array( 'id'    =>    10 ),
+						 * 'where'    =>    array( 'id'    =>    20 ),
+						 * 'where'    =>    array( 'id >'    =>    20 )
+						 * ) );
+						 **/
+						foreach($value as $__key => $__value)
+						{
+							$key            = explode(' ', $__key);
+							$__key_complete = $__key;
+							// Avoid to use comparison sign on key for meta comparison
+							if(count($key) > 0)
 							{
-								/**
-								 * array_walk( function( $array ){
-								 * var_dump( $array );
-								 * die;
-								 * } , $__value );
-								 **/
+								$__key = $key[0];
 							}
 							// For reserved Meta
-							if( in_array( strtoupper( $__key ) , $this->reserved_meta ) )
+							if(in_array(strtoupper($__key), self::$reserved_meta))
 							{
-								$this->db->where('tendoo_query.' . strtoupper($__key_complete), $__value);
+								if(is_array($__value))
+								{
+									/**
+									 * array_walk( function( $array ){
+									 * var_dump( $array );
+									 * die;
+									 * } , $__value );
+									 **/
+								}
+								// For reserved Meta
+								if( in_array( strtoupper( $__key ) , self::$reserved_meta ) )
+								{
+									$this->db->where('tendoo_query.' . strtoupper($__key_complete), $__value);
+								}
 							}
-						}
-						else if(in_array(strtolower($__key), $this->custom_filter))
-						{
-							if($__key === 'taxonomy_id')
+							else if(in_array(strtolower($__key), $this->custom_filter))
 							{
-								$this->db->where('tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID', $__value);
+								if($__key === 'taxonomy_id')
+								{
+									$this->db->where('tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID', $__value);
+								}
+								else if($__key === 'parent_id')
+								{
+									$this->db->where('tendoo_query.PARENT_REF_ID', $__value);
+								}
 							}
-							else if($__key === 'parent_id')
+							else
 							{
-								$this->db->where('tendoo_query.PARENT_REF_ID', $__value);
+								$this->db->where('tendoo_query_meta.KEY', $__key_complete)->where('tendoo_query_meta.VALUE', $__value);
 							}
-						}
-						else
-						{
-							$this->db->where('tendoo_query_meta.KEY', $__key_complete)->where('tendoo_query_meta.VALUE', $__value);
 						}
 					}
-				}
-				else if(in_array($filter, array('or_where',
-												'OR_WHERE'
-				), TRUE))
-				{
-					// Value must be an array of key value
-					foreach($value as $__key => $__value)
+					else if(in_array($filter, array('or_where',
+													'OR_WHERE'
+					), TRUE))
 					{
-						$key            = explode(' ', $__key);
-						$__key_complete = $__key;
-						// Avoid tu use comparison sign for meta comparison
-						if(count($key) > 0)
+						// Value must be an array of key value
+						foreach($value as $__key => $__value)
 						{
-							$__key = $key[0];
-						}
-						// For reserved Meta
-						if(in_array(strtoupper($__key), $this->reserved_meta))
-						{
-							$this->db->or_where('tendoo_query.' . strtoupper($__key_complete), $__value);
-						}
-						else if(in_array(strtolower($__key), $this->custom_filter))
-						{
-							if($__key === 'taxonomy_id')
+							$key            = explode(' ', $__key);
+							$__key_complete = $__key;
+							// Avoid tu use comparison sign for meta comparison
+							if(count($key) > 0)
 							{
-								$this->db->where('tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID', $__value);
+								$__key = $key[0];
 							}
-							else if($__key === 'parent_id')
+							// For reserved Meta
+							if(in_array(strtoupper($__key), self::$reserved_meta ))
 							{
-								$this->db->where('tendoo_query.PARENT_REF_ID', $__value);
+								$this->db->or_where('tendoo_query.' . strtoupper($__key_complete), $__value);
 							}
-						}
-						if(is_array($__value) && count($__value) == 2)
-						{
-							$this->db->or_where('tendoo_query_meta.KEY', $__key_complete)->where('tendoo_query_meta.VALUE', $__value);
+							else if(in_array(strtolower($__key), $this->custom_filter))
+							{
+								if($__key === 'taxonomy_id')
+								{
+									$this->db->where('tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID', $__value);
+								}
+								else if($__key === 'parent_id')
+								{
+									$this->db->where('tendoo_query.PARENT_REF_ID', $__value);
+								}
+							}
+							if(is_array($__value) && count($__value) == 2)
+							{
+								$this->db->or_where('tendoo_query_meta.KEY', $__key_complete)->where('tendoo_query_meta.VALUE', $__value);
+							}
 						}
 					}
 				}
