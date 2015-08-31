@@ -15,10 +15,11 @@ $this->gui->add_meta( array(
 
 $this->load->library( 'update' );
 $update			=	get_instance()->update->check();
+var_dump( $update );die;
 
 $this->gui->add_item( array(
 	'type'	=>	'dom',
-	'content'	=>	$update
+	'content'	=>	print_r( $update )
 ) , 'dashboard' , 1 );
 
 $this->gui->output();
