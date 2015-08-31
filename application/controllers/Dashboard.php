@@ -65,6 +65,7 @@ class Dashboard extends Tendoo_Controller {
 			$this->events->add_filter( 'gui_page_title' , function( $title ){
 				return '<section class="content-header"><h1>' . strip_tags( $title ) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url( array( 'dashboard' , 'modules' ) ) . '">' . __( 'Back to modules list' ) . '</a></h1></section>'; 
 			});
+			// var_dump( $_FILES );die;
 			if( isset( $_FILES[ 'extension_zip' ] ) )
 			{
 				$notice	=	Modules::install( 'extension_zip' );				
@@ -90,6 +91,9 @@ class Dashboard extends Tendoo_Controller {
 			**/
 			
 			Modules::enable( $arg2 );
+			
+			// Enabling recently active module
+			Modules::init( 'unique' , $arg2 );
 			
 			// Run the action
 			$this->events->do_action( 'do_enable_module' , $arg2 );

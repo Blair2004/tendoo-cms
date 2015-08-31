@@ -5,4 +5,20 @@
  *	Since		:	1.4
 **/
 
+$this->gui->col_width( 1 , 4 );
+
+$this->gui->add_meta( array(
+	'col_id'	=>	1,
+	'namespace'	=>	'dashboard',
+	'type'		=>	'unwrapped'
+) );
+
+$this->load->library( 'update' );
+$update			=	get_instance()->update->check();
+
+$this->gui->add_item( array(
+	'type'	=>	'dom',
+	'content'	=>	$update
+) , 'dashboard' , 1 );
+
 $this->gui->output();

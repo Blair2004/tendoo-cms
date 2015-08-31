@@ -40,6 +40,7 @@ registration_rules			: define registration rules
 
 register_user				: 	triggers actions while registering user
 do_reset_user				:	do reset user for recovery
+
 do_enable_module				:	triggers actions while enabling a module
 do_disable_module				:	triggers actions while disabling a module
 do_remove_module				:	removes module action

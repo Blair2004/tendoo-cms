@@ -7,7 +7,7 @@ class Tendoo_Controller extends CI_Controller
 
 		// Include default library class
 		include_once( LIBPATH .'/Html.php' );
-		include_once( LIBPATH .'/Enqueue.php' );
+		include_once( LIBPATH .'/Enqueue.php' ); 
 		include_once( LIBPATH .'/Modules.php' );
 		include_once( LIBPATH .'/UI.php' );
 		include_once( LIBPATH .'/SimpleFileManager.php' );

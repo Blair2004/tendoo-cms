@@ -22,13 +22,16 @@ class Modules
 				}
 			}
 			// Adding Valid init file to module array
-			if( isset( $config[ 'application' ][ 'details' ][ 'namespace' ] , $config[ 'application' ][ 'details' ][ 'main' ] ) )
+			// only namespace is required for a module to be valid
+			if( isset( $config[ 'application' ][ 'details' ][ 'namespace' ] ) )
 			{
 				$namespace = strtolower( $config[ 'application' ][ 'details' ][ 'namespace' ] );
 				// Saving details
 				self::$modules[ $namespace ]					=	$config;
 				// Edit main file path
-				self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ]	=	$module_path . '/' .  self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ];
+				if( isset( $config[ 'application' ][ 'details' ][ 'main' ] ) ){
+					self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ]	=	$module_path . '/' .  self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ];
+				}
 				self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ]	=	strtolower( self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ] );
 			}
 		}
@@ -77,30 +80,43 @@ class Modules
 	 * Include modules init main file defined on config.ini
 	**/
 	
-	static function init( $filter )
+	static function init( $filter , $module_namespace = null )
 	{
-		$modules		=	self::get();
+		if( $module_namespace != null ){
+			$modules		=	self::get( $module_namespace );
+			if( isset( $modules[ 'application' ][ 'details' ][ 'main' ] ) ){
+				if( is_file( $init_file = $modules[ 'application' ][ 'details' ][ 'main' ] ) && $filter === 'unique' )
+				{
+					include_once( $init_file );
+					return; // after special init return;
+				}
+			}
+		} else {
+			$modules		=	self::get();
+		}
 		$modules_array	=	array();	
 		
 		foreach( force_array( $modules ) as $module )
 		{
 			// print_array( $modules );
 			// Load every module when on install mode
-			if( is_file( $init_file = $module[ 'application' ][ 'details' ][ 'main' ] ) && $filter === 'all' )
-			{
-				include_once( $init_file );
-			}
-			else if( is_file( $init_file = $module[ 'application' ][ 'details' ][ 'main' ] ) && $filter === 'actives' )
-			{
-				if( !isset( $actives_modules ) ){
-					$actives_modules	=	force_array( get_instance()->options->get( 'actives_modules' ) );
-				}
-				if( in_array( strtolower( $module[ 'application' ][ 'details' ][ 'namespace' ] ) , $actives_modules ) )
+			if( isset( $module[ 'application' ][ 'details' ][ 'main' ] ) ){ // if a main file isset
+				if( is_file( $init_file = $module[ 'application' ][ 'details' ][ 'main' ] ) && $filter === 'all' )
 				{
-					self::$actives[]	=	$module[ 'application' ][ 'details' ][ 'namespace' ];
-					// Check compatibility and other stuffs
 					include_once( $init_file );
 				}
+				else if( is_file( $init_file = $module[ 'application' ][ 'details' ][ 'main' ] ) && $filter === 'actives' )
+				{
+					if( !isset( $actives_modules ) ){
+						$actives_modules	=	force_array( get_instance()->options->get( 'actives_modules' ) );
+					}
+					if( in_array( strtolower( $module[ 'application' ][ 'details' ][ 'namespace' ] ) , $actives_modules ) )
+					{
+						self::$actives[]	=	$module[ 'application' ][ 'details' ][ 'namespace' ];
+						// Check compatibility and other stuffs
+						include_once( $init_file );
+					}
+				} 
 			}
 		}
 		// get_instance()->options->set( 'active_modules' , $modules_array );	
@@ -197,11 +213,12 @@ class Modules
 	{
 		 $config[ 'upload_path' ]        =  APPPATH . '/temp/';
 		 $config[ 'allowed_types' ]		=	'zip';
+		 $config[ 'max_size' ]				=	50000;
 		 
 		 get_instance()->load->library( 'upload' , $config );
 		 
 		 if ( ! get_instance()->upload->do_upload( $file_name ) )
-		 { 
+		 {
 				get_instance()->notice->push_notice( get_instance()->lang->line( 'fetch-from-upload' ) );
 		 }
 		 else
@@ -250,6 +267,8 @@ class Modules
 									// If it's not an array, return the error code.
 									return $module_global_manifest;
 								}
+								// Delete temp file
+								SimpleFileManager::drop( $extraction_temp_path );
 								return 'old-version-cannot-be-installed';								
 							}
 							
@@ -257,7 +276,8 @@ class Modules
 							 * Update is done only when module has valid version number
 							 * Update is done only when new module version is higher than the old version
 							**/
-							
+							// Delete temp file
+							SimpleFileManager::drop( $extraction_temp_path );
 							return 'unable-to-update';
 						}
 						// if module does'nt exists
@@ -316,11 +336,10 @@ class Modules
 		// delete zip file
 		if( is_file( $upload_details[ 'upload_data' ][ 'full_path' ] ) ): unlink( $upload_details[ 'upload_data' ][ 'full_path' ] );endif;
 		
-		die;
 		return $extraction_path;
 	}
 	
-	private static $allowed_app_folders	=	array( 'libraries' , 'models' , 'config' , 'helpers' , 'language' , 'core' , 'third_party' );
+	private static $allowed_app_folders	=	array( 'libraries' , 'models' , 'config' , 'helpers' , 'language' , 'third_party' ); // 'core' ,
 	
 	static function __parse_path( $path )
 	{
@@ -335,10 +354,10 @@ class Modules
 					// Set sub dir path
 					$sub_dir_path	=	$path;
 					// If a correct folder is found
-					if( in_array( $file , self::$allowed_app_folders ) && is_dir( $path . '/' . $file . '/' ) )
+					if( in_array( $file , self::$allowed_app_folders ) && is_dir( $path . '/' . $file ) )
 					{
 						// var_dump( $sub_dir_path . '/' . $file . '/' );
-						$manifest	=	array_merge( $manifest , self::scan( $sub_dir_path . '/' . $file . '/' ) );	
+						$manifest	=	array_merge( $manifest , self::scan( $sub_dir_path . '/' . $file ) );	
 					}
 					// for other file and folder, they are included in module dir
 					else
@@ -403,7 +422,6 @@ class Modules
 		}
 		$relative_json_manifest			=	array();
 		// moving manifest to system folder
-		// var_dump( $manifest );
 		foreach( $manifest as $_manifest )
 		{
 			// removing raw_name from old manifest to ease copy
@@ -416,8 +434,9 @@ class Modules
 			}
 			else
 			{
+				$relative_path_to_file[1]	=	str_replace( '/' , '\\' , $relative_path_to_file[1] );
 				// write file on the new folder
-				write_file( APPPATH . $relative_path_to_file[1] , file_get_contents( $_manifest ) );
+				SimpleFileManager::file_copy( $_manifest ,  APPPATH . $relative_path_to_file[1] );
 				// relative json manifest
 				$relative_json_manifest[]	=	str_replace( '/', '\\' , APPPATH . $relative_path_to_file[1] );
 			}
@@ -456,7 +475,8 @@ class Modules
 		
 		// 
 		$module 			=	self::get( $module_namespace );
-		$modulepath		=	dirname( $module[ 'application' ][ 'details' ][ 'main' ] );
+
+		$modulepath		=	MODULESPATH . '/' . $module_namespace;
 		$manifest_file	=	$modulepath . '/manifest.json';
 
 		if( is_file( $manifest_file ) ){
@@ -494,13 +514,13 @@ class Modules
 			{
 				if( ! in_array( $file , array( '.' , '..' ) ) )
 				{
-					if( is_dir( $folder . $file ) )
+					if( is_dir( $folder . '/' . $file ) )
 					{
-						$files_array	 =	array_merge( $files_array , self::scan( $folder . $file ) );
+						$files_array	 =	array_merge( $files_array , self::scan( $folder . '/' . $file ) );
 					}
 					else
 					{
-						$files_array[]		=	$folder . $file;
+						$files_array[]		=	$folder . '/' . $file;
 					}
 				}
 			}
@@ -570,10 +590,14 @@ class Modules
 			}
 			
 			// move module file to temp folder
-			SimpleFileManager::copy( $module_installed_dir , $temp_folder );			
-
+			SimpleFileManager::copy( $module_installed_dir , $temp_folder );
+			$FCPATH	=	str_replace( '/' , '\\' , FCPATH );			
 			// read temp folder and download it
-			get_instance()->zip->read_dir( APPPATH . 'temp' . '/' . $module_temp_folder_name , false , APPPATH . 'temp' . '/' . $module_temp_folder_name . '/' );
+			get_instance()->zip->read_dir( 
+				$FCPATH . 'application\temp\\' . $module_temp_folder_name . '\\' , 
+				FALSE,
+				$FCPATH . 'application\temp\\' . $module_temp_folder_name . '\\'
+			);
 			// delete temp folder
 			SimpleFileManager::drop( $temp_folder );
 			
