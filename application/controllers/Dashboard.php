@@ -27,6 +27,7 @@ class Dashboard extends Tendoo_Controller {
 		include_once( LIBPATH .'/Notice.php' );
 		
 		$this->load->model( 'gui' );		
+		$this->load->model( 'update_model' ); // load update model @since 3.0
 		// Loading Admin Menu
 		// this action was move to Dashboard controler instead of aside.php output file. 
 		// which was called every time "create_dashboard_pages" was triggered
@@ -185,15 +186,25 @@ class Dashboard extends Tendoo_Controller {
 			}
 		}
 	}
-	function update()
+	function update( $page = 'home' ,  $version = null )
 	{
+		if( $page === 'core' ){
+			$this->gui->set_title( sprintf( __( 'Updating... &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/update/core' , array(
+				'release'	=>	$version
+			) );
+		} else {
+			$this->gui->set_title( sprintf( __( 'Update Center &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/update/home' , array() );
+		}
+		
+		return;
+		
 		if( $module	=	Modules::get( 'restserver' ) )
 		{
 			
-			
-			return;
 		}
-		redirect( array( 'dashboard?notice=restserver-is-required' ) );
+		// redirect( array( 'dashboard' , 'modules' , 'search' , 'reset_server?notice=restserver-is-required' ) );
 	}
 }
 

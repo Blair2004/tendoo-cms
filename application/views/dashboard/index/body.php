@@ -13,13 +13,9 @@ $this->gui->add_meta( array(
 	'type'		=>	'unwrapped'
 ) );
 
-$this->load->library( 'update' );
-$update			=	get_instance()->update->check();
-var_dump( $update );die;
-
 $this->gui->add_item( array(
 	'type'	=>	'dom',
-	'content'	=>	print_r( $update )
+	'content'	=> ''
 ) , 'dashboard' , 1 );
 
 $this->gui->output();

@@ -40,13 +40,10 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 		?>
       	<?php if( riake( 'label' , $_item ) ):?>
         <div class="input-group" style="margin-bottom:5px;">
-        		
-				
             <span class="input-group-addon"><?php echo riake( 'label' , $_item );?></span>
-
-            
             <input <?php echo $disabled === true ? 'readonly="readonly"' : '';?> type="<?php echo $type;?>" name="<?php echo riake( 'name' , $_item );?>" class="form-control" placeholder="<?php echo riake( 'placeholder' , $_item );?>" value="<?php echo $value;?>">
         </div>
+        
         <p><?php echo xss_clean( $description );?>
         	<?php else:?>
          <input <?php echo $disabled === true ? 'readonly="readonly"' : '';?> type="<?php echo $type;?>" name="<?php echo riake( 'name' , $_item );?>" class="form-control" placeholder="<?php echo riake( 'placeholder' , $_item );?>" value="<?php echo $value;?>">
@@ -57,22 +54,22 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 	else if( $type == 'textarea' )
 	{
 		?>
-        <div class="form-group">
-          <label><?php echo $label;?></label>
-          <textarea <?php echo $disabled === true ? 'disabled="disabled"' : '';?> class="form-control" rows="3" placeholder="<?php echo $placeholder;?>" name="<?php echo $name;?>"><?php echo $value;?></textarea>
-          <p><?php echo xss_clean( $description );?>
-        </div>
-        <?php
+     <div class="form-group">
+       <label><?php echo $label;?></label>
+       <textarea <?php echo $disabled === true ? 'disabled="disabled"' : '';?> class="form-control" rows="3" placeholder="<?php echo $placeholder;?>" name="<?php echo $name;?>"><?php echo $value;?></textarea>
+       <p><?php echo xss_clean( $description );?>
+     </div>
+     <?php
 	}
 	else if( $type == 'editor' )
 	{
 		?>
-        <div class="form-group">
-          <label><?php echo $label;?></label>
-          <textarea id="wysihtml5" <?php echo $disabled === true ? 'disabled="disabled"' : '';?> class="form-control" rows="3" placeholder="<?php echo $placeholder;?>" name="<?php echo $name;?>"><?php echo $value;?></textarea>
-        </div>
-        <p><?php echo xss_clean( $description );?>
-        <?php
+     <div class="form-group">
+       <label><?php echo $label;?></label>
+       <textarea id="wysihtml5" <?php echo $disabled === true ? 'disabled="disabled"' : '';?> class="form-control" rows="3" placeholder="<?php echo $placeholder;?>" name="<?php echo $name;?>"><?php echo $value;?></textarea>
+     </div>
+     <p><?php echo xss_clean( $description );?>
+     <?php
 	}
 	else if( $type == 'file-input' )
 	{
@@ -134,8 +131,8 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 		<?php
 		}
 		?>
-        </div>
-        <?php
+     </div>
+     <?php
 	}
 	/**
 	 * Form
@@ -161,7 +158,7 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 			foreach( force_array( riake( 'options' , $_item ) ) as $value	=>	$text )
 			{
 				// Only when action is not changed (which send request to dashboard/options/set), Gui_saver is supported.
-				if( $saver_enabled === TRUE && riake( 'action' , riake( 'custom' , $meta ) ) != null )
+				if( $saver_enabled === TRUE  && in_array( riake( 'action' , riake( 'custom' , $meta ) ) , array( null , FALSE ) ) )
 				{
 					// control check
 					$selected	=	$db_value == $value ? 'selected="selected"' : '';
