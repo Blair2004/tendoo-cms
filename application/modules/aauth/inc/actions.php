@@ -67,13 +67,13 @@ class aauth_action extends CI_model
 	}
 	function recovery_email()
 	{
-			// Send Recovery
-			if( $this->user->auth->user_exsist_by_email( $this->input->post( 'user_email' ) ) )
-			{
-				$this->user->auth->remind_password( $this->input->post( 'user_email' ) );
-				redirect( array( 'sign-in?notice=recovery-email-send' ) );
-			}
-			$this->notice->push_notice( $this->lang->line( 'unknow-user' ) );
+		// Send Recovery
+		if( $this->users->auth->user_exsist_by_email( $this->input->post( 'user_email' ) ) )
+		{
+			$this->users->auth->remind_password( $this->input->post( 'user_email' ) );
+			redirect( array( 'sign-in?notice=recovery-email-send' ) );
+		}
+		$this->notice->push_notice( $this->lang->line( 'unknow-user' ) );
 	}
 	
 	/**

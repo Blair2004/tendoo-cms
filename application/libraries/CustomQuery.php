@@ -202,16 +202,16 @@ class CustomQuery
 		{
 			$CQ_data['DATE']      = $this->datetime;
 			$CQ_data['NAMESPACE'] = $this->query_namespace;
-			$this->db->insert('tendoo_query', $CQ_data);
+			$this->db->insert('query', $CQ_data);
 
-			$query  = $this->db->order_by('ID', 'desc')->get('tendoo_query');
+			$query  = $this->db->order_by('ID', 'desc')->get('query');
 			$result = farray($query->result_array());
 		}
 		else
 		{
 			if($filter === 'as_id')
 			{
-				$this->db->where('tendoo_query.ID', $identifier);
+				$this->db->where('query.ID', $identifier);
 			}
 			elseif($filter === 'as_taxonomy')
 			{
@@ -222,7 +222,7 @@ class CustomQuery
 			elseif($filter === 'as_date_after')
 			{
 			}
-			$query  = $this->db->get('tendoo_query');
+			$query  = $this->db->get('query');
 			$result = farray($query->result_array());
 
 			if(!$query)
@@ -335,7 +335,7 @@ class CustomQuery
 		// Filter Namespace
 		$this->db->select('
 		*,
-		tendoo_query.ID as QUERY_ID
+		' .$this->db->dbprefix . 'query.ID as QUERY_ID
 		');
 		$this->db->from($this->db->dbprefix('query'));
 		$this->db->join($this->db->dbprefix('query_meta'), $this->db->dbprefix('query') . '.ID = ' . $this->db->dbprefix('query_meta') . '.QUERY_REF_ID', 'left');
@@ -407,23 +407,23 @@ class CustomQuery
 								// For reserved Meta
 								if( in_array( strtoupper( $__key ) , self::$reserved_meta ) )
 								{
-									$this->db->where('tendoo_query.' . strtoupper($__key_complete), $__value);
+									$this->db->where('query.' . strtoupper($__key_complete), $__value);
 								}
 							}
 							else if(in_array(strtolower($__key), $this->custom_filter))
 							{
 								if($__key === 'taxonomy_id')
 								{
-									$this->db->where('tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID', $__value);
+									$this->db->where('query_taxonomies_relationships.TAXONOMY_REF_ID', $__value);
 								}
 								else if($__key === 'parent_id')
 								{
-									$this->db->where('tendoo_query.PARENT_REF_ID', $__value);
+									$this->db->where('query.PARENT_REF_ID', $__value);
 								}
 							}
 							else
 							{
-								$this->db->where('tendoo_query_meta.KEY', $__key_complete)->where('tendoo_query_meta.VALUE', $__value);
+								$this->db->where('query_meta.KEY', $__key_complete)->where('query_meta.VALUE', $__value);
 							}
 						}
 					}
@@ -444,22 +444,22 @@ class CustomQuery
 							// For reserved Meta
 							if(in_array(strtoupper($__key), self::$reserved_meta ))
 							{
-								$this->db->or_where('tendoo_query.' . strtoupper($__key_complete), $__value);
+								$this->db->or_where('query.' . strtoupper($__key_complete), $__value);
 							}
 							else if(in_array(strtolower($__key), $this->custom_filter))
 							{
 								if($__key === 'taxonomy_id')
 								{
-									$this->db->where('tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID', $__value);
+									$this->db->where('query_taxonomies_relationships.TAXONOMY_REF_ID', $__value);
 								}
 								else if($__key === 'parent_id')
 								{
-									$this->db->where('tendoo_query.PARENT_REF_ID', $__value);
+									$this->db->where('query.PARENT_REF_ID', $__value);
 								}
 							}
 							if(is_array($__value) && count($__value) == 2)
 							{
-								$this->db->or_where('tendoo_query_meta.KEY', $__key_complete)->where('tendoo_query_meta.VALUE', $__value);
+								$this->db->or_where('query_meta.KEY', $__key_complete)->where('query_meta.VALUE', $__value);
 							}
 						}
 					}
@@ -477,7 +477,7 @@ class CustomQuery
 		// Fetching All Meta
 		foreach($CQ_result as $CQ_key => &$__CQ_result)
 		{
-			$CQ_meta_query  = $this->db->where('QUERY_REF_ID', riake('QUERY_ID', $__CQ_result))->get('tendoo_query_meta');
+			$CQ_meta_query  = $this->db->where('QUERY_REF_ID', riake('QUERY_ID', $__CQ_result))->get('query_meta');
 			$CQ_meta_result = $CQ_meta_query->result_array();
 
 			foreach($CQ_meta_result as $__CQ_meta_result)
@@ -487,10 +487,10 @@ class CustomQuery
 			unset($CQ_result[$CQ_key]['KEY'], $CQ_result[$CQ_key]['VALUE']); // No more necessary
 
 			// Getting Taxonomy
-			$this->db->select('tendoo_query_taxonomies.ID as TAXONOMY_ID');
-			$this->db->from('tendoo_query_taxonomies');
-			$this->db->join('tendoo_query_taxonomies_relationships', 'tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID = tendoo_query_taxonomies.ID', 'left');
-			$CQ_taxonomy_query  = $this->db->where('tendoo_query_taxonomies_relationships.QUERY_REF_ID', riake('QUERY_REF_ID', $__CQ_result))->get();
+			$this->db->select('query_taxonomies.ID as TAXONOMY_ID');
+			$this->db->from('query_taxonomies');
+			$this->db->join('query_taxonomies_relationships', 'query_taxonomies_relationships.TAXONOMY_REF_ID = ' . $this->db->dbprefix . 'query_taxonomies.ID', 'left');
+			$CQ_taxonomy_query  = $this->db->where('query_taxonomies_relationships.QUERY_REF_ID', riake('QUERY_REF_ID', $__CQ_result))->get();
 			$CQ_taxonomy_result = $CQ_taxonomy_query->result_array();
 
 			foreach($CQ_taxonomy_result as $__CQ_taxonomy_result)
@@ -518,12 +518,12 @@ class CustomQuery
 		{
 			$query_id = $custom[0]['ID'];
 			// Removing Query
-			$this->db->where('tendoo_query.ID', $query_id);
-			$this->db->delete('tendoo_query');
+			$this->db->where('query.ID', $query_id);
+			$this->db->delete('query');
 
 			// Removing Taxonomies
-			$this->db->where('tendoo_query_taxonomy_relationship.QUERY_REF_ID', $query_id);
-			$this->db->delete('tendoo_query_taxonomy_relationship');
+			$this->db->where('query_taxonomy_relationship.QUERY_REF_ID', $query_id);
+			$this->db->delete('query_taxonomy_relationship');
 
 			return 'custom-query-deleted';
 		}
@@ -621,7 +621,7 @@ class CustomQuery
 
 		if(!$this->has_taxonomy($namespace, $title))
 		{
-			$this->db->insert('tendoo_query_taxonomies', $taxonomy_data);
+			$this->db->insert('query_taxonomies', $taxonomy_data);
 
 			return 'taxonomy-set';
 		}
@@ -651,7 +651,7 @@ class CustomQuery
 
 	function has_taxonomy($namespace, $title)
 	{
-		$query = $this->db->where('TITLE', $title)->where('NAMESPACE', $namespace)->where('QUERY_NAMESPACE', $this->query_namespace)->get('tendoo_query_taxonomies');
+		$query = $this->db->where('TITLE', $title)->where('NAMESPACE', $namespace)->where('QUERY_NAMESPACE', $this->query_namespace)->get('query_taxonomies');
 
 		return $query->result_array();
 	}
@@ -669,7 +669,7 @@ class CustomQuery
 	function taxonomy_exists($id)
 	{
 		$query = $this->db->where('ID', $id)// ->where( 'NAMESPACE' , $namespace )
-						  ->where('QUERY_NAMESPACE', $this->query_namespace)->get('tendoo_query_taxonomies');
+						  ->where('QUERY_NAMESPACE', $this->query_namespace)->get('query_taxonomies');
 
 		return $query->result_array();
 	}
@@ -736,7 +736,7 @@ class CustomQuery
 			$this->db->where('ID', $identifier);
 		}
 
-		return $query = $this->db->where('NAMESPACE', $namespace)->where('QUERY_NAMESPACE', $this->query_namespace)->update('tendoo_query_taxonomies', $taxonomy_data);
+		return $query = $this->db->where('NAMESPACE', $namespace)->where('QUERY_NAMESPACE', $this->query_namespace)->update('query_taxonomies', $taxonomy_data);
 	}
 
 	/**
@@ -767,11 +767,11 @@ class CustomQuery
 		}
 		else if($end === 'as_query_id')
 		{
-			$this->db->join('tendoo_query_taxonomies_relationships', 'tendoo_query_taxonomies.ID = tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID', 'left');
-			$this->db->where('tendoo_query_taxonomies_relationships.QUERY_REF_ID', $start);
+			$this->db->join('query_taxonomies_relationships', $this->db->dbprefix . 'query_taxonomies.ID = ' . $this->db->dbprefix . 'query_taxonomies_relationships.TAXONOMY_REF_ID', 'left');
+			$this->db->where('query_taxonomies_relationships.QUERY_REF_ID', $start);
 		}
 
-		$query = $this->db->where('NAMESPACE', $namespace)->where('QUERY_NAMESPACE', $this->query_namespace)->get('tendoo_query_taxonomies');
+		$query = $this->db->where('NAMESPACE', $namespace)->where('QUERY_NAMESPACE', $this->query_namespace)->get('query_taxonomies');
 
 		return $query->result_array();
 	}
@@ -783,7 +783,7 @@ class CustomQuery
 	 */
 	private function __get_taxonomies($id)
 	{
-		$query = $this->db->where('ID', $id)->where('QUERY_NAMESPACE', $this->query_namespace)->get('tendoo_query_taxonomies');
+		$query = $this->db->where('ID', $id)->where('QUERY_NAMESPACE', $this->query_namespace)->get('query_taxonomies');
 
 		return $query->result_array();
 	}
@@ -817,7 +817,7 @@ class CustomQuery
 				if(count($this->get_taxonomies(riake('NAMESPACE', $taxonomy))) > 1)
 				{
 					$this->db->where('ID', $id)// ->where( 'NAMESPACE' , $namespace ) Not necessary
-							 ->where('QUERY_NAMESPACE', $this->query_namespace)->delete('tendoo_query_taxonomies');
+							 ->where('QUERY_NAMESPACE', $this->query_namespace)->delete('query_taxonomies');
 
 					return 'taxonomy-deleted';
 				}
@@ -859,11 +859,11 @@ class CustomQuery
 
 	function count_queries_bound($namespace)
 	{
-		$this->db->where('tendoo_query_taxonomies', $namespace);
-		$this->db->join('tendoo_query', 'tendoo_query_taxonomies_relationships.QUERY_REF_ID = tendoo_query.ID', 'inner');
-		$this->db->join('tendoo_taxonomies', 'tendoo_query_taxonomies_relationships.TAXONOMY_REF_ID = tendoo_taxonomies.ID', 'inner');
-		$this->db->group_by('tendoo_query_taxonomies.ID');
-		$query = $this->db->get('tendoo_taxonomies_relationships');
+		$this->db->where('query_taxonomies', $namespace);
+		$this->db->join('query', $this->db->dbprefix . 'query_taxonomies_relationships.QUERY_REF_ID = ' . $this->db->dbprefix . 'query.ID', 'inner');
+		$this->db->join('taxonomies', $this->db->dbprefix . 'query_taxonomies_relationships.TAXONOMY_REF_ID = ' . $this->db->dbprefix . 'taxonomies.ID', 'inner');
+		$this->db->group_by('query_taxonomies.ID');
+		$query = $this->db->get('taxonomies_relationships');
 
 		return $query->resulat_array();
 	}
@@ -908,7 +908,7 @@ class CustomQuery
 				$this->db->limit(riake('end', $config['limit']), riake('start', $config['limit']));
 			}
 		}
-		$query = $this->db->get('tendoo_query_comments');
+		$query = $this->db->get('query_comments');
 
 		return $query->result_array();
 	}
@@ -977,11 +977,11 @@ class CustomQuery
 
 			if($mode == 'create')
 			{
-				$this->db->insert('tendoo_query_comments', $comment_array);
+				$this->db->insert('query_comments', $comment_array);
 			}
 			else if($mode == 'edit')
 			{
-				$this->db->where('ID', $comment_id)->update('tendoo_query_comments', $comment_array);
+				$this->db->where('ID', $comment_id)->update('query_comments', $comment_array);
 			}
 
 			return 'comment-submitted';
@@ -1008,7 +1008,7 @@ class CustomQuery
 										   ));
 			if($comment)
 			{
-				$this->db->where('ID', $id)->delete('tendoo_query_comments');
+				$this->db->where('ID', $id)->delete('query_comments');
 			}
 
 			return 'comment-deleted';
@@ -1036,7 +1036,7 @@ class CustomQuery
 
 		if($comments)
 		{
-			$this->db->where('ID', $id)->update('tendoo_query_comments', array('STATUS' => $status));
+			$this->db->where('ID', $id)->update('query_comments', array('STATUS' => $status));
 
 			return 'comment-edited';
 		}

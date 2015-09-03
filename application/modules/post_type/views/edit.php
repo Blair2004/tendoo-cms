@@ -18,9 +18,6 @@ $this->gui->add_meta( array(
 	'namespace'	=>		$post_namespace . '-edit-new',
 	'col_id'		=>		1,
 	'gui_saver'	=>	false,
-	'custom'	=>	array(
-		'action'	=>	null
-	)
 ) );
 
 $this->gui->add_meta( array(
@@ -29,9 +26,6 @@ $this->gui->add_meta( array(
 	'namespace'	=>		$post_namespace . '-edit-new-sidebar',
 	'col_id'		=>		2,
 	'gui_saver'	=>	false,
-	'custom'	=>	array(
-		'action'	=>	null
-	)
 ) );
 
 $this->events->do_action_ref_array( 'before_post_title' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' , $post ) ); // Trigger each event bound

@@ -1,5 +1,5 @@
 <?php
-$saver_enabled		=	riake( 'action' , riake( 'custom' , $meta ) ) !== '' ? true : false;
+$saver_enabled		=	riake( 'gui_saver' , $meta );
 
 // If Using namespace is enabled
 if( $saver_enabled && riake( 'use_namespace' , $meta ) )

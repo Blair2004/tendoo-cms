@@ -24,7 +24,7 @@ class Update_model extends CI_model
 			if( $json_api != '' ){
 				$array_api			=	json_decode( $json_api , true );
 				$latest_release	=	array();
-
+				
 				// Fetching the latest stable release;
 				// Current Branch Release
 				
@@ -35,7 +35,7 @@ class Update_model extends CI_model
 					}
 				}
 				
-				if( $latest_release ){
+				if( is_array( $latest_release ) && ! empty( $latest_release ) ){
 					// retreiving informations
 					$release_tag_name	=	riake( 'tag_name' , $latest_release );
 					$release_id			=	$release_tag_name;
@@ -54,25 +54,24 @@ class Update_model extends CI_model
 	
 			$core_id			=	$this->config->item( 'version' );
 			
-			if( intval( get_instance()->options->get( 'auto_update' ) ) == TRUE )
-			{
-				$array	=	array();
-				// Setting Core Warning
-				if( $release		=	riake( 'core' , $tendoo_update ) ){
-					$release_int	=	str_replace( '.' , '', $release[ 'id' ] );
-					$current_int	=	str_replace( '.' , '', $core_id );
-					if( $release_int > $current_int ){ // 
-						$array[]	=	array(
-							'link'		=>	$release[ 'link' ],
-							'content'	=>	$release[ 'description' ],
-							'title'		=>	$release[ 'name' ],
-							'date'		=>	$release[ 'published' ],
-							'id'			=>	$release[ 'id' ]
-						);
-					}
+			$array	=	array();
+			// Setting Core Warning
+			if( $release		=	riake( 'core' , $tendoo_update ) ){
+				$release_int	=	str_replace( '.' , '', $release[ 'id' ] );
+				$current_int	=	str_replace( '.' , '', $core_id );
+				if( $release_int > $current_int ){ // 
+					$array[]	=	array(
+						'link'		=>	$release[ 'link' ],
+						'content'	=>	$release[ 'description' ],
+						'title'		=>	$release[ 'name' ],
+						'date'		=>	$release[ 'published' ],
+						'id'			=>	$release[ 'id' ]
+					);
 				}
-				return $array;
-			}		
+			}
+
+			return $array;
+			
 		}
 		return false;
 	}

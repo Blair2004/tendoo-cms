@@ -25,14 +25,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </form>
         
 		<?php
-		// May checks whether recovery is enabled
+		global $Options;
+		if( intval( riake( 'site_registration' , $Options ) ) == true ){
 		?>
         <a href="<?php echo site_url( array( 'sign-in' , 'recovery' ) ) ;?>"><?php _e( 'I Lost My Password' );?></a><br>
 		<?php
         // Should checks whether a registration is enabled
         ?>
         <a href="<?php echo site_url( array( 'sign-up' ) );?>" class="text-center"><?php _e( 'Sign Up' );?></a>
-
+		<?php } ;?>
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
 

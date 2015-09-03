@@ -2,7 +2,7 @@
 $result	= 	$this->update_model->check();
 
 if( $result ){
-	var_dump( $result );
+	// var_dump( $result );
 	?>
    <h4><?php echo sprintf( __( 'Tendoo CMS : %s is available' ) , riake( 'title' , $result[0] ) );?></h4>
    <p><?php echo riake( 'content' , $result[0] );?></p>
