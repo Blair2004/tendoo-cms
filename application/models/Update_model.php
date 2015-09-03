@@ -102,6 +102,53 @@ class Update_model extends CI_model
 		}
 		return 'unknow-release';		
 	}
+	function install( $stage , $zipball = null )
+	{
+		$tendoo_zip		=	'tendoo-cms.zip';
+		if( $stage === 1 ){ // for downloading
+			$tendoo_cms_zip	=	$this->curl->security(false)->get( $zipball );
+			if( $tendoo_cms_zip ){
+				file_put_contents( $tendoo_zip , $tendoo_cms_zip );
+				return array(
+					'code'	=>	'archive-downloaded'
+				);
+			}
+		} elseif( $stage === 2 ){ // for uncompressing
+			if( is_file( $tendoo_zip ) ){// if zip exists
+				$zip			=	new ZipArchive;
+				$tendoo		=	$zip->open( $tendoo_zip );
+				if( $tendoo ){
+					if( is_dir( APPPATH . 'temp/core' ) ){
+						SimpleFileManager::drop( APPPATH . 'temp/core' ); // if any update failed, we drop temp/core before
+					}
+					mkdir( APPPATH . 'temp/core' );
+					$zip->extractTo( APPPATH . 'temp/core' );
+					$zip->close();
+					unlink( $tendoo_zip ); // removing zip file
+				}
+				return array(
+					'code'	=>	'archive-uncompressed'
+				); 
+			}
+		} elseif( $stage === 3 ){ // updating itself
+			if( is_dir( APPPATH . 'temp/core' ) ){ // looping internal dir
+				$dir	=	opendir( APPPATH . 'temp/core' );
+				while( false !== ( $file = readdir( $dir ) ) ){
+					if( !in_array( $file , array( '.' , '..' ) ) ){ // skiping up directory
+						SimpleFileManager::extractor( APPPATH . 'temp/core/' . $file , FCPATH );
+						break; // first folder is tendoo main folder (we think, since branch name can change)
+					}
+				}
+				SimpleFileManager::drop( APPPATH . 'temp/core' ); // dropping core update folder
+				return array( 
+					'code'	=>	'update-done'
+				);
+			}
+		}
+		return array(
+			'code'	=>	'error-occured'
+		);		
+	}
 	function store_connect(){
 		if( ! riake( 'HAS_LOGGED_TO_STORE' , $_SESSION ) ){
 			$_SESSION['HAS_LOGGED_TO_STORE']	=	true; // To prevent multi-login to store (Per Session).

@@ -66,7 +66,7 @@ class Dashboard extends Tendoo_Controller {
 			$this->events->add_filter( 'gui_page_title' , function( $title ){
 				return '<section class="content-header"><h1>' . strip_tags( $title ) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url( array( 'dashboard' , 'modules' ) ) . '">' . __( 'Back to modules list' ) . '</a></h1></section>'; 
 			});
-			// var_dump( $_FILES );die;
+
 			if( isset( $_FILES[ 'extension_zip' ] ) )
 			{
 				$notice	=	Modules::install( 'extension_zip' );				
@@ -193,18 +193,16 @@ class Dashboard extends Tendoo_Controller {
 			$this->load->view( 'dashboard/update/core' , array(
 				'release'	=>	$version
 			) );
+		} elseif( $page === 'download' ){
+			json_encode( $this->update_model->install( 1 , $version ) );
+		} elseif( $page === 'extract' ){
+			 json_encode( $this->update_model->install( 2 ) );
+		} elseif( $page === 'install' ){
+			 json_encode( $this->update_model->install( 3 ) );
 		} else {
 			$this->gui->set_title( sprintf( __( 'Update Center &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/update/home' , array() );
 		}
-		
-		return;
-		
-		if( $module	=	Modules::get( 'restserver' ) )
-		{
-			
-		}
-		// redirect( array( 'dashboard' , 'modules' , 'search' , 'reset_server?notice=restserver-is-required' ) );
 	}
 }
 
