@@ -8,14 +8,4 @@
 		<main>aauth.php</main>
 		<name>Auth Library</name>
 	</details>
-	<permission>
-		<namespace>call_foreign</namespace>
-		<title>Call Foreign</title>
-		<description>Call Foreign</description>
-	</permission>
-	<permission>
-		<namespace>call_foreign</namespace>
-		<title>Call Foreign</title>
-		<description>Call Foreign</description>
-	</permission>
 </application>

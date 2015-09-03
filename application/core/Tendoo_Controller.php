@@ -29,7 +29,7 @@ class Tendoo_Controller extends CI_Controller
 			$this->load->model( 'options' );			
 
 			// internal config
-			$this->events->add_action( 'after_app_init' , array( $this , 'loader' ) );
+			$this->events->add_action( 'after_app_init' , array( $this , 'loader' ) , 2 );
 			
 			// Get Active Modules and load it
 			Modules::init( 'actives' );

@@ -8,7 +8,7 @@ class Options extends CI_Model
 	{
 		if( $this->setup->is_installed() )
 		{
-			$this->events->add_action( 'after_app_init' , array( $this , 'init' ) );
+			$this->events->add_action( 'after_app_init' , array( $this , 'init' ) , 1 );
 		}
 	}
 	

@@ -127,10 +127,19 @@ class Modules
 	 *		is most used by tendoo core
 	**/
 	
+	private static $enable_call_time = 0;
+	
 	static function enable( $module_namespace )
 	{
-		global $Options;
-		// var_dump( $Options[ 'actives_modules' ] , get_instance()->options->get( 'actives_modules' ) );
+		// If self::enable(...) is called twice, cache is disabled.
+		if( self::$enable_call_time !== 0 ){
+			get_instance()->options->init(); // reseting Options	
+		}
+		self::$enable_call_time++;
+		
+		global $Options; // get Global Options
+		
+		// Get Module
 		$module		=	self::get( $module_namespace );
 		if( $module )
 		{
