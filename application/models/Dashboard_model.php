@@ -41,7 +41,12 @@ class Dashboard_model extends CI_Model
 					'href'			=>		site_url('dashboard'),
 					'icon'			=>		'fa fa-dashboard',
 					'title'			=>		__( 'Dashboard' )
-				)
+				),
+				array(	
+					'href'			=>		site_url( array( 'dashboard', 'update' ) ),
+					'icon'			=>		'fa fa-dashboard',
+					'title'			=>		__( 'Update Center' )
+				),
 			),
 			/** 'media'			=>	array(
 				array(
