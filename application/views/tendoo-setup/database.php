@@ -33,7 +33,7 @@
             <select class="form-control" placeholder="<?php _e( 'Database Driver' );?>" name="database_driver">
             	<option value=""><?php _e( 'Select database driver' );?></option>
             	<option <?php echo set_select( 'database_driver' , 'mysqli' , true );?> value="mysqli"><?php _e( 'Mysqli' );?></option>
-               <option value="postgre"><?php _e( 'Postgre SQL' );?></option>
+               <option value="postgres"><?php _e( 'Postgre SQL' );?></option>
             </select>
           </div>
           <div class="row">
