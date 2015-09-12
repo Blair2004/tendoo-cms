@@ -7,7 +7,6 @@ vendor/
 application/cache/
 !application/cache/index.html
 !application/cache/.htaccess
-application/temp/*
 application/config/database.php
 application/modules/*
 !application/modules/aauth/
