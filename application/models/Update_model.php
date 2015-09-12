@@ -116,7 +116,6 @@ class Update_model extends CI_model
 				'code'		=>	'error-occured'
 			);
 		} elseif( $stage === 2 ){ // for uncompressing
-			return array( 'code' => 'error-occured' );
 			if( is_file( $tendoo_zip ) ){// if zip exists
 				$zip			=	new ZipArchive;
 				$tendoo		=	$zip->open( $tendoo_zip );
