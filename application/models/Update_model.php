@@ -103,7 +103,7 @@ class Update_model extends CI_model
 	}
 	function install( $stage , $zipball = null )
 	{
-		$tendoo_zip		=	APPPATH . '/temp/tendoo-cms.zip';
+		$tendoo_zip		=	APPPATH . 'temp/tendoo-cms.zip';
 		if( $stage === 1 && $zipball != null ){ // for downloading
 			$tendoo_cms_zip	=	$this->curl->security(false)->get( 'https://codeload.github.com/Blair2004/tendoo-cms/legacy.zip/' . $zipball );
 			if( ! empty( $tendoo_cms_zip ) ) {

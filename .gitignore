@@ -5,7 +5,7 @@ tendoo-modules/
 tendoo-core/
 vendor/
 application/cache/
-application/temp/
+application/temp/*
 application/config/database.php
 application/modules/*
 !application/modules/aauth/
