@@ -194,11 +194,11 @@ class Dashboard extends Tendoo_Controller {
 				'release'	=>	$version
 			) );
 		} elseif( $page === 'download' ){
-			json_encode( $this->update_model->install( 1 , $version ) );
+			echo json_encode( $this->update_model->install( 1 , $version ) );
 		} elseif( $page === 'extract' ){
-			 json_encode( $this->update_model->install( 2 ) );
+			echo json_encode( $this->update_model->install( 2 ) );
 		} elseif( $page === 'install' ){
-			 json_encode( $this->update_model->install( 3 ) );
+			echo json_encode( $this->update_model->install( 3 ) );
 		} else {
 			$this->gui->set_title( sprintf( __( 'Update Center &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/update/home' , array() );

@@ -94,7 +94,7 @@ class Update_model extends CI_model
 				$current_int		=	intval( str_replace( '.' , '' , $this->core_id ) );
 
 				if( $release_int > $current_int ){
-					return riake( 'zipball_url' , $release );
+					return riake( 'tag_name', $_rel ); // get release tag_name
 				}
 				return 'old-release';
 			}
@@ -103,16 +103,20 @@ class Update_model extends CI_model
 	}
 	function install( $stage , $zipball = null )
 	{
-		$tendoo_zip		=	'tendoo-cms.zip';
-		if( $stage === 1 ){ // for downloading
-			$tendoo_cms_zip	=	$this->curl->security(false)->get( $zipball );
-			if( $tendoo_cms_zip ){
+		$tendoo_zip		=	APPPATH . '/temp/tendoo-cms.zip';
+		if( $stage === 1 && $zipball != null ){ // for downloading
+			$tendoo_cms_zip	=	$this->curl->security(false)->get( 'https://codeload.github.com/Blair2004/tendoo-cms/legacy.zip/' . $zipball );
+			if( ! empty( $tendoo_cms_zip ) ) {
 				file_put_contents( $tendoo_zip , $tendoo_cms_zip );
 				return array(
 					'code'	=>	'archive-downloaded'
 				);
 			}
+			return array(
+				'code'		=>	'error-occured'
+			);
 		} elseif( $stage === 2 ){ // for uncompressing
+			return array( 'code' => 'error-occured' );
 			if( is_file( $tendoo_zip ) ){// if zip exists
 				$zip			=	new ZipArchive;
 				$tendoo		=	$zip->open( $tendoo_zip );
