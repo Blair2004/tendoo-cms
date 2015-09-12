@@ -204,5 +204,15 @@ class Dashboard extends Tendoo_Controller {
 			$this->load->view( 'dashboard/update/home' , array() );
 		}
 	}
+	
+	public function about()
+	{
+		$this->events-> add_filter( 'gui_page_title' , function(){ // disabling header
+			return;
+		});
+		
+		$this->gui->set_title( sprintf( __( 'About &mdash; %s' ) , get( 'core_signature' ) ) );
+		$this->load->view( 'dashboard/about/body' );
+	}
 }
 

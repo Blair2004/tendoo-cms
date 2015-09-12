@@ -15,7 +15,7 @@ $this->gui->add_meta( array(
 
 $this->gui->add_item( array(
 	'type'	=>	'dom',
-	'content'	=> ''
+	'content'	=> $this->events->apply_filters( 'dashboard_output', '' )
 ) , 'dashboard' , 1 );
 
 $this->gui->output();

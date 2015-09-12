@@ -26,3 +26,4 @@ module_activation_status	:	contain module activation status
 module_disabling_status		:	containt module disabling status
 dashboard_footer 
 user_id						:	return user id
+dashboard_output			:	output for dashboard

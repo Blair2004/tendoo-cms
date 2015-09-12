@@ -16,7 +16,6 @@ class Sign_in extends Tendoo_Controller {
 		parent::__construct();
 		$this->load->library( 'form_validation' );
 		$this->load->model( 'login_model' );
-		// $this->load->model( 'users_model' , 'user' );
 	}
 	
 	/**
@@ -40,7 +39,7 @@ class Sign_in extends Tendoo_Controller {
 			{
 				if( riake( 'redirect' , $_GET ) )
 				{
-					redirect( riake( 'redirect' , $_GET ) );
+					redirect( urldecode( riake( 'redirect' , $_GET ) ) );
 				}
 				else
 				{

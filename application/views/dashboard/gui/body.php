@@ -39,8 +39,8 @@ Tendoo Version Required : 1.5
 	
 	// Aauth Errors
 	$this->events->do_action( 'displays_dashboard_errors' );
-	?></p>    
-    <p><?php echo fetch_notice_from_url();?></p>
+	echo fetch_notice_from_url();
+	?>
     
     
     <div class="row">

@@ -14,8 +14,21 @@ class Dashboard_model extends CI_Model
 		$this->events->do_action( 'load_dashboard' );	
 		$this->events->add_action( 'before_dashboard_menu' , array( $this , '__set_admin_menu' ) );
 		$this->events->add_action( 'create_dashboard_pages' , array( $this , '__dashboard_config' ) );			
+		$this->events->add_action( 'dashboard_header', array( $this, '__dashboard_header' ) );
 	}
 	
+	function __dashboard_header()
+	{
+		// Including Highlight.js
+		?>
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+      <script>
+		jQuery(document).ready(function(){
+			hljs.initHighlightingOnLoad();
+		})</script>
+      <?php
+	}
 	function __dashboard_config()
 	{
 		$this->gui->register_page( 'index' , array( $this , 'index' ) );

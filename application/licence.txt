@@ -5,3 +5,4 @@ https://github.com/bainternet/PHP-Hooks
 https://github.com/haseydesign/flexi-auth --- https://github.com/emreakay/CodeIgniter-Aauth
 https://github.com/tamaspap/timezones
 http://alcwynparker.co.uk/2013/04/11/codeigniter-shortcodes-library-yet-another/
+https://github.com/jonlabelle/ci-markdown

@@ -9,7 +9,6 @@
 <html>
 <head>
 <meta charset="utf-8">
-
 <script>
 var tendoo				=	new Object;
 tendoo.base_url		=	'<?php echo base_url();?>';
@@ -24,6 +23,7 @@ tendoo.user				=	{
 
 <?php Enqueue::loadcss();?>
 <?php Enqueue::loadjs();?>
+<?php $this->events->do_action( 'dashboard_header' );?>
 
 <title><?php echo Html::get_title();?></title>
 </head>
