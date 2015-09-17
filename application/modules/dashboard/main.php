@@ -8,7 +8,7 @@ class dashboard_manager extends CI_model
 		$this->events->add_action( 'after_app_init' , array( $this , 'before_session_starts' ) );
 		$this->events->add_action( 'tendoo_settings_tables' , array( $this , 'set_tables' ) );
 		$this->events->add_action( 'before_dashboard_menus' , array( $this , 'before_dashboard_menus' ) , 1 );
-		$this->events->add_filter( 'dashboard_footer' , function( $output ){
+		$this->events->add_action( 'dashboard_footer' , function( $output ){
 			ob_start();
 			?>
          <script>

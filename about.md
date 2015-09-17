@@ -17,6 +17,7 @@ Thank's for having choosed Tendoo CMS to build your web application.
 Here are new actions added to this release :
 
 **dashboard_header** : triggers action within dashboard header
+**dashboard_footer** : triggers action within dashboard footer
 
 ---
 ### Filters
@@ -24,4 +25,6 @@ Here are new actions added to this release :
 Here are new filters added to this release :
 
 **dashboard_output** : is dashboard index output.
+
+
 

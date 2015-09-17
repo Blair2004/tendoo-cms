@@ -52,17 +52,17 @@
  */
 if ( ! function_exists('asset_url'))
 {
-    function asset_url( $module_namespace = NULL )
+    function asset_url( $uri = NULL )
     {
 		 $CI =& get_instance();
-		 if( $module_namespace === NULL ){ // if module namespace is not specified
+		 if( $uri === NULL ){ // if module namespace is not specified
         
         //return the full asset path
         return base_url() . $CI->config->item('asset_path');
 		  
 		 } else {
 			 
-			 return base_url(). $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/';
+			 return base_url(). $CI->config->item('asset_path') . $uri ;
 			 
 		 }
     }

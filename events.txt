@@ -47,3 +47,4 @@ do_remove_module				:	removes module action
 load_frontend					:	triggers actions during frontend loading provide URI segments as array
 do_extract_module				: triggers actions during module extraction pass module namespace (as string) as unique parameter
 dashboard_header	:	triggers actions within dashboard header
+dashboard_footer	:	triigers action within dashboard footer

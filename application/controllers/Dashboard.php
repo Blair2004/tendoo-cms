@@ -132,7 +132,7 @@ class Dashboard extends Tendoo_Controller {
 	{
 		if( $mode == 'save' )
 		{
-			if( ! $this->input->post( 'gui_saver_ref' ) )
+			if( ! $this->input->post( 'gui_saver_ref' ) && ! $this->input->post( 'gui_json' ) ) // if JSON mode is enabled redirect is disabled
 			{
 				redirect( array( 'dashboard' , 'options' ) );
 			}
@@ -147,14 +147,17 @@ class Dashboard extends Tendoo_Controller {
 						// save only when it's not an array
 						if( ! is_array( $_POST[ $key ] ) )
 						{
-							if( $this->input->post( 'gui_saver_use_namespace' ) == 'true' )
-							{
+							if( $this->input->post( 'gui_saver_use_namespace' ) === 'true' ) {
 								$content[ $key ]	=	$this->input->post( $key );	
-							}
-							else
-							{
+							}	else	{
 								$this->options->set( $key , $this->input->post( $key ) , true );
 							}							
+						} 	else {
+							if( $this->input->post( 'gui_saver_use_namespace' ) === 'true' )	{
+								$content[ $key ]	=	$_POST[ $key ];	
+							}	else	{
+								$this->options->set( $key, $_POST[ $key ], true );
+							}	
 						}
 					}
 				}
@@ -163,8 +166,13 @@ class Dashboard extends Tendoo_Controller {
 				{
 					$this->options->set( $this->input->post( 'gui_saver_option_namespace' ) , $content , true );
 				}
-				redirect( urldecode( $this->input->post( 'gui_saver_ref' ) ) . '?notice=option-saved' );
+				if( ! $this->input->post( 'gui_json' ) ) { // if JSON mode is enabled redirect is disabled
+					redirect( urldecode( $this->input->post( 'gui_saver_ref' ) ) . '?notice=option-saved' );
+				}
 			}
+		}
+		else if( $mode == 'get' ) {
+			echo json_decode( $this->options->get( $_POST[ 'option_key' ] ) );
 		}
 		else if( $mode == 'save_user_meta' )
 		{

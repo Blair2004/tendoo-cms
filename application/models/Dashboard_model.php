@@ -22,6 +22,7 @@ class Dashboard_model extends CI_Model
 		// Including Highlight.js
 		?>
       <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+      <script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
       <script>
 		jQuery(document).ready(function(){
