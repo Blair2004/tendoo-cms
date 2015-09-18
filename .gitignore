@@ -1,6 +1,7 @@
 tendoo-installer
 sitemap.xml
 tendoo-assets/img/avatars
+tendoo-assets/
 tendoo-modules/
 tendoo-core/
 vendor/
