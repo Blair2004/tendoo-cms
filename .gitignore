@@ -15,3 +15,5 @@ application/modules/*
 !application/modules/post_type/
 !application/modules/blog/
 public/modules/*
+vendor/
+composer.lock

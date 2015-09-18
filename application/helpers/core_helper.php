@@ -20,6 +20,7 @@ function force_array( $array )
  *
  * @param String (error code)
  * @return String (Html result)
+ * @package 3.0
 **/
 
 if(!function_exists('tendoo_error'))
@@ -469,6 +470,18 @@ function print_array( $array , $return = FALSE )
 	return $return ? ob_get_clean() : null;
 }
 
+/**
+ * Pagination Helper
+ *
+ * @access public
+ * @param int
+ * @param int
+ * @param int
+ * @param string
+ * @param string url
+ * @param string url
+ * @return array
+**/
 function pagination_helper($ContentPerPage,$TotalContent,$CurrentPage,$BaseUrl,$RedirectUrl = array('error','code','page-404'))
 {
 	$instance	=	get_instance();
@@ -476,6 +489,7 @@ function pagination_helper($ContentPerPage,$TotalContent,$CurrentPage,$BaseUrl,$
 	if($result[0] == 'page-404'): redirect($RedirectUrl);endif;
 	return $result;
 }
+
 function doPaginate($elpp,$ttel,$current_page,$baselink)
 {
 		/*// Gloabl ressources Control*/

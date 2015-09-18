@@ -33,6 +33,17 @@ class Dashboard extends Tendoo_Controller {
 		// which was called every time "create_dashboard_pages" was triggered
 		$this->events->do_action( 'before_dashboard_menus' );
 	}
+	/**
+	 * Remap controller methods
+	 *
+	 *
+	 * @access       public
+	 * @author       Blair Jersyer
+	 * @copyright    2015
+	 * @param        string $page part of segment
+	 * @param 		  array $params the siblings segments
+	 * @since        3.0.1
+	 */
 	function _remap( $page , $params = array() )
 	{
 		if( method_exists( $this , $page ) )
@@ -44,6 +55,17 @@ class Dashboard extends Tendoo_Controller {
 			$this->gui->load_page( $page , $params );
 		}
 	} 
+	/**
+	 * Module List and management controller
+	 *
+	 *
+	 * @access       public
+	 * @author       Blair Jersyer
+	 * @copyright    name date
+	 * @param        string $page
+	 * @param		  string $arg2
+	 * @since        3.0.1
+	 */
 	function modules( $page = 'list' , $arg2 = null )
 	{
 		if( $page === 'list' )
@@ -128,6 +150,17 @@ class Dashboard extends Tendoo_Controller {
 			$this->events->do_action( 'do_extract_module' , $arg2 );
 		}
 	}
+	/**
+	 * Options Management ocntroller
+	 *
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    name date
+	 * @param        string $page
+	 * @param		  string $arg2
+	 * @since        3.0.1
+	 */
 	function options( $mode = 'list' )
 	{
 		if( $mode == 'save' )
@@ -194,6 +227,17 @@ class Dashboard extends Tendoo_Controller {
 			}
 		}
 	}
+		/**
+	 * Options Management ocntroller
+	 *
+	 *
+	 * @access       public
+	 * @author       Blair Jersyer
+	 * @copyright    name date
+	 * @param        string $page
+	 * @param		  string $arg2
+	 * @since        3.0.1
+	 */
 	function update( $page = 'home' ,  $version = null )
 	{
 		if( $page === 'core' ){
@@ -213,6 +257,15 @@ class Dashboard extends Tendoo_Controller {
 		}
 	}
 	
+	/**
+	 * About controller
+	 *
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    name date
+	 * @since        3.0.1
+	 */
 	public function about()
 	{
 		$this->events-> add_filter( 'gui_page_title' , function(){ // disabling header

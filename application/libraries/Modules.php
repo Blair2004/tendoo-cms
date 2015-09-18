@@ -3,6 +3,16 @@ class Modules
 {
 	private static	$modules;
 	private static $actives  = array();
+	/**
+	 * Load Modules
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    name date
+	 * @param        string $module_path
+	 * @param		  int $deepness
+	 * @since        3.0.1
+	 */
 	static function load( $module_path , $deepness = 0 )
 	{
 		if( $deepness < 2 ){ // avoid multi-folder parsing
@@ -37,6 +47,18 @@ class Modules
 		}
 	}
 	
+	/**
+	 * HashDirectory
+	 * 
+	 * Provide a hashed name for a defined path
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        string $directory
+	 * @since        3.0.1
+	 * @return 		  var
+	 */
 	static function hashDirectory($directory)
 	{
 		 if (! is_dir($directory))
@@ -67,6 +89,18 @@ class Modules
 		 return md5(implode('', $files));
 	}
 	
+	/**
+	 * Get
+	 * 
+	 * Get a module using namespace provided as unique parameter
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        string $namespace module namespace string
+	 * @since        3.0.1
+	 * @return 		  bool|array
+	 */
 	static function get( $namespace = null )
 	{
 		if( $namespace == NULL )
@@ -77,9 +111,18 @@ class Modules
 	}
 	
 	/**
-	 * Include modules init main file defined on config.ini
-	**/
-	
+	 * Init
+	 * 
+	 * Init module or modules using defined filters and parameter
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        string filter
+	 * @param 		  string module namespace
+	 * @since        3.0.1
+	 * @return 		  void
+	 */
 	static function init( $filter , $module_namespace = null )
 	{
 		if( $module_namespace != null ){
@@ -122,13 +165,20 @@ class Modules
 		// get_instance()->options->set( 'active_modules' , $modules_array );	
 	}
 	
-	/**
-	 * 	enable module using namespace
-	 *		is most used by tendoo core
-	**/
-	
 	private static $enable_call_time = 0;
 	
+	/**
+	 * Enable
+	 * 
+	 * Enable a module using namespace provided
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        string $module_namespace
+	 * @since        3.0.1
+	 * @return 		  void|bool
+	 */
 	static function enable( $module_namespace )
 	{
 		// If self::enable(...) is called twice, cache is disabled.
@@ -162,12 +212,18 @@ class Modules
 	}
 	
 	/**
-	 * checks if a module is active
+	 * Is Active
+	 * 
+	 * Checks whether a module is active
 	 *
-	 *	@access public
-	 * @param string module namespace
-	 * @returns bool
-	**/
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        string $module_namespace
+	 * @param 			bool $fresh 
+	 * @since        3.0.1
+	 * @return 		  bool
+	 */
 	
 	static function is_active( $module_namespace , $fresh = false )
 	{
@@ -187,12 +243,17 @@ class Modules
 	}
 	
 	/**
-	 * Disable module
+	 * Disable
+	 * 
+	 * Disable module using namespace provided as unique parameter
 	 *
-	 * @access public
-	 * @param string module namespace
-	 * @return void
-	**/
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        string $namespace module namespace string
+	 * @since        3.0.1
+	 * @return 		  void
+	 */
 	
 	static function disable( $module_namespace )
 	{
@@ -215,8 +276,17 @@ class Modules
 	}
 	
 	/**
-	 * Install module
-	**/
+	 * Install
+	 * 
+	 * Install a module from a $_FILE provided
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        string $file_name
+	 * @since        3.0.1
+	 * @return 		  var
+	 */
 	
 	static function install( $file_name )
 	{
@@ -327,6 +397,14 @@ class Modules
 		 }
 	}
 	
+	/**
+	 * Unzip
+	 * 
+	 * Unzip an Uploaded Module
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 */
 	static function __unzip( $upload_details )
 	{
 		$extraction_path		=	$upload_details[ 'upload_data' ][ 'file_path' ] . $upload_details[ 'upload_data' ][ 'raw_name' ];
@@ -350,6 +428,18 @@ class Modules
 	
 	private static $allowed_app_folders	=	array( 'libraries' , 'models' , 'config' , 'helpers' , 'language' , 'third_party' ); // 'core' ,
 	
+	/**
+	 * Parse Path
+	 * 
+	 * Parse Path to register manifest files [for intenal use]
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        string $path
+	 * @since        3.0.1
+	 */
+	 
 	static function __parse_path( $path )
 	{
 		$manifest	=	array();
@@ -383,8 +473,21 @@ class Modules
 	}
 
 	/**
-	 * Move module temp fil to valid module folder
-	**/
+	 * Mode To Module Dir
+	 * 
+	 * Move module temp fil to valid module folder [for internal use only]
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        array $module_array
+	 * @param			array $global_manifest
+	 * @param			array $manifest
+	 * @param  			array $extraction_data
+	 * @param			bool $conflict_checker
+	 * @since        3.0.1
+	 * @return 		  void
+	 */
 	
 	static function __move_to_module_dir( $module_array , $global_manifest , $manifest , $extraction_data , $conflict_checker = false )
 	{
@@ -473,9 +576,17 @@ class Modules
 	}
 	
 	/**
-	 * Uninstall a module
+	 * Uninstall
+	 * 
+	 * Uninstall a module using namespace provided
 	 *
-	**/
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        array $module_namespace
+	 * @since        3.0.1
+	 * @return 		  void
+	 */
 	
 	static function uninstall( $module_namespace )
 	{
@@ -513,6 +624,19 @@ class Modules
 		}
 	}
 	
+	/**
+	 * Scan
+	 * 
+	 * Scan folder and returns content as array
+	 *
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        string $folder
+	 * @since        3.0.1
+	 * @return 		  array|bool
+	 */
+	 
 	static function scan( $folder )
 	{
 		$files_array		=	array();
@@ -540,13 +664,18 @@ class Modules
 	}
 	
 	/**
+	 * Scan
+	 * 
 	 * Extract an module with all his dependency
 	 *
-	 * @access public
-	 * @param string module namespace
-	 * @return void
-	**/
-	
+	 * @access       public
+	 * @author       blair Jersyer
+	 * @copyright    2015
+	 * @param        string $module_namespace
+	 * @since        3.0.1
+	 * @return 		  void
+	 */
+	 
 	static function extract( $module_namespace )
 	{
 		$module = self::get( $module_namespace );
