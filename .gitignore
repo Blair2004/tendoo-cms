@@ -17,3 +17,6 @@ application/modules/*
 public/modules/*
 vendor/
 composer.lock
+app.yaml
+main.php
+favicon.icon

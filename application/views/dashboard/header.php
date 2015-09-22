@@ -53,10 +53,10 @@ var 	tendoo					=	new Object;
 					data			:	tendoo.options_data,
 					type			:	'POST',
 					beforeSend 	:	function(){
-						// $this.beforeSend();
+						$this.beforeSend();
 					},
 					success		: function( data ) {
-						// $this.success( data );
+						$this.success( data );
 					}
 				});
 			};
@@ -77,11 +77,11 @@ var 	tendoo					=	new Object;
 				});
 			}
 			this.beforeSend		=	function( callback ) {
-				// this.beforeSend	=	callback;
+				this.beforeSend	=	callback;
 				return this;
 			};
 			this.success			=	function( callback ) {
-				// this.success		=	callback
+				this.success		=	callback
 				return this;
 			}
 		}
