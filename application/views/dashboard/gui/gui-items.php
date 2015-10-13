@@ -72,6 +72,12 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
        <textarea id="wysihtml5-<?php echo $editor_time_called;?>" <?php echo $disabled === true ? 'disabled="disabled"' : '';?> class="form-control" rows="3" placeholder="<?php echo $placeholder;?>" name="<?php echo $name;?>"><?php echo $value;?></textarea>
      </div>
      <p><?php echo xss_clean( $description );?>
+     <script>
+		$(document).ready(function(e) {
+			$("#wysihtml5-<?php echo $editor_time_called;?>").wysihtml5();
+			$("#wysihtml5-<?php echo $editor_time_called;?>").height( screen.height - 440 );
+		});
+	</script>
      <?php
 	}
 	else if( $type == 'file-input' )
