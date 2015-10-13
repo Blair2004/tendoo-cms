@@ -1,0 +1,28 @@
+// Sign in
+signin_fields 				: 	apply filter to login fields
+signin_fields_namespace		:	apply field to signin field namespace
+signin_notice_message		:	add message to user sign in form
+
+// User creation
+custom_user_meta			:	add custom user meta fields
+dashboard_body_class		:	apply filter to skin color class
+recovery_notice_message		:	Let you change the message display at the top of the box on recovery password page.
+
+// UI filter
+dashboard_logo_small		:	apply filter to dashboard min logo name
+dashboard_logo_long			:	apply filter to dashboard long logo name
+user_menu_card_header		:	apply filter to user menu header
+user_menu_name				:	apply filter to user 
+validating_tendoo_setup	:	apply filter to tendoo validation notice code during tendoo installation.
+tendoo_login_notice		:	apply filter to tendoo login notice code during tendoo login
+ui_notices					:	return ui notices array
+after_user_card			:	let user add field after user card on user header menu (views/dashboard/horizontal-menu.php)
+user_header_profile_link	:	contain profile link displayed on user header menu (views/dashboard/horizontal-menu.php)
+user_header_sign_out_link	:	contain sign out link displayed on user header menu (views/dashboard/horizontal-menu.php)
+tendoo_object_user_id		:	contain user id for tendoo object  saved on header.php
+recovery_fields			:	 contain user account recovery fields (views/sign-in/recovery.php)
+gui_page_title				:	let you change gui page title	
+module_activation_status	:	contain module activation status
+module_disabling_status		:	containt module disabling status 
+user_id						:	return user id
+dashboard_output			:	output for dashboard

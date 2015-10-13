@@ -1,0 +1,12 @@
+after_post_title
+before_post_title
+before_post_editor
+after_post_editor
+before_post_publish
+after_post_publish
+
+
+load_post_types : 
+
+// Filters
+load_meta   :   extends custom post meta

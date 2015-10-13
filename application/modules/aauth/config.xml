@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<application>
+	<details>
+		<namespace>aauth</namespace>
+		<version>1.1</version>
+		<author>Tendoo Dev Team</author>
+		<description>Sample Description</description>
+		<main>aauth.php</main>
+		<name>Auth Library</name>
+	</details>
+</application>

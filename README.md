@@ -1,36 +1,54 @@
-Tendoo-cms
+Tendoo-ci3
 =========
-v1.4 
+v0.1
 ---------
-An easiest way to create web apps and blogs. Tendon has been improved, and for this release, you offer you the best tool, lightweight, customizable than ever.
-We are proud of this and thank all community members. Just help us make it more powerful than ever, by submitting issues or joining developers team.
+Another CMS using CodeIgniter. 
 
-Whats new ?
---------------
-- New Dashboard (AdminLTE v2.0)
-- Dashboard UI has changed. System menu doesn't exists no more, and all his sub-menu has been separated.
-- Events and Filters hooks introduced.
-- A fully customizable admin menu.
-- App Mode : which can fully turn Tendoo into a WebApp without Frontend.
-- Translated to english : This has been decided by Core team. English is now set as default language for future releases.
-- Blogster Update.
-- Tendoo Media Manager Update.
-- New UI.
-- New API, Library, Helpers.
-- Translation to english 80%.
-- Unique dashboard for account and admin.
-- New docs (being prepared)
-- Gui Bugs fixes
-- Messenger disabled temporarily
-- Tools disabled temporarily
+Why ?
+------
+This repository is a web projet collection. We use popular Classes and Libraries (both JS and PHP) to create a more powerful CMS based on CodeIgniter.
+We are also inspired by existing CMS (for not wasting time reinventing the wheel) and use popular API such as Plugin API from WordPress.
+This projet is a best collection of several solutions, brings out by contributors around the world, which love CI.
+As you may see, this new generation of Tendoo-cms is using latest generation of CodeIgniter (V3).
+
+Just let us know what you think about
+-------------------------------------
+
+You can log in to test the new branch in action. Module Installation is in progress, 
+app settings are done, user creation is also done (few bug being fixed).
+
+credientials : 
+email : admin@tendoo.org
+password : tendoo
+
+[Get to app settings now](http://ci3.tendoo.org/index.php/dashboard/settings)
+
+[Get to user profile](http://ci3.tendoo.org/index.php/dashboard/profile)
+
+[Get to module installation screen](http://ci3.tendoo.org/index.php/dashboard/modules/install_zip)
+
+[Get to user management screen](http://ci3.tendoo.org/index.php/dashboard/users)
+
+[Login page](http://ci3.tendoo.org/index.php/sign-in)
+
+More a coming...
 
 
-System Requirement
-------------------
 
-Apache 	: 2.22.2
-PHP 	: 5.4
-Mysql 	: 5.5.24
+Do you want to get Involved ?
+-----------------------------
+Fork it a pull your new ideas
 
-** It may work with PHP 5.3, but we're haven't yet tried all feature on it. **
+Sub-projects added till now (See application/license.txt for more details)
+---------------------------------------------------------------------------
+[AdminLTE 2.1.1](https://github.com/almasaeed2010/AdminLTE)
 
+[Assets Helper](https://github.com/sekati/codeigniter-asset-helper)
+
+[CodeIgiter Enqueue](https://github.com/zajohnson/CodeIgniter-enqueue)
+
+[PHP-Hooks](https://github.com/bainternet/PHP-Hooks)
+
+[Unzip](https://github.com/philsturgeon/codeigniter-unzip/blob/master/libraries/Unzip.php)
+
+[CI MarkDown](https://github.com/jonlabelle/ci-markdown)

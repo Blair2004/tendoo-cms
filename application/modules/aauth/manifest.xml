@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding="UTF-8" standalone="yes" ?>
+<application>
+	<config>
+		<file>config.php</file>
+		<file>dot.php</file>
+	</config>
+	<models>
+		<file>Users_model.php</file>
+	</models>
+	<library>
+		<file>Aauth.php</file>
+	</library>
+	<language>
+		<english>
+			<file>aauth_lang.php</file>
+		</english>
+	</language>
+</application>
