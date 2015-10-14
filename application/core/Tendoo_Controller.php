@@ -80,6 +80,7 @@ class Tendoo_Controller extends CI_Controller
 			**/
 			
 			Enqueue::enqueue_js( '../plugins/jQuery/jQuery-2.1.4.min' );
+			Enqueue::enqueue_js( '../plugins/jQueryUI/jquery-ui-1.10.3.min' );
 			Enqueue::enqueue_js( 'bootstrap.min' );
 			Enqueue::enqueue_js( '../plugins/iCheck/icheck.min' );		
 			Enqueue::enqueue_js( 'app.min' );

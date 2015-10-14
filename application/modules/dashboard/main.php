@@ -36,7 +36,7 @@ class dashboard_manager extends CI_model
 	function before_session_starts()
 	{
 		$this->config->set_item( 'tendoo_logo_long' , '<b>Tend</b>oo' );
-		$this->config->set_item( 'tendoo_logo_min' , '<img style="height:40px;" src="' . img_url() . 'logo_minim.png' . '" alt=logo>' );		
+		$this->config->set_item( 'tendoo_logo_min' , '<img style="height:35px;" src="' . img_url() . 'logo_minim.png' . '" alt=logo>' );		
 	}
 }
 new dashboard_manager;
