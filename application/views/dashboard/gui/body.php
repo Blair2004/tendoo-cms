@@ -40,12 +40,13 @@ Tendoo Version Required : 1.5
 	// Aauth Errors
 	$this->events->do_action( 'displays_dashboard_errors' );
 	echo fetch_notice_from_url();
+	$col_range	=	( count( $this->gui->cols ) > 3 ) ? 3 : 4;
 	?>
     
     
     <div class="row">
         <?php foreach( force_array( $this->gui->get_cols() ) as $col_id =>	$col_data ):?>
-        <div class="col-lg-<?php echo riake( 'width' , $col_data , 1 ) * 3 ;?>">
+        <div class="meta-row col-lg-<?php echo riake( 'width' , $col_data , 1 ) * $col_range ;?>">
             <?php 
 			$config = riake( 'configs' , $col_data );
 			// Inner Opening Wrapper
@@ -54,6 +55,16 @@ Tendoo Version Required : 1.5
 			// looping $col_data[ 'metas' ];
 			foreach( force_array( riake( 'metas' , $col_data ) ) as $meta )
 			{
+				$meta_class		=	riake( 'meta_class', $meta );
+				$attrs			=	riake( 'attrs', $meta );
+				/**
+				 * Attrs String
+				**/
+				$attrs_string	=	'';
+				
+				foreach( force_array( $attrs ) as $key => $attr ) {
+					$attrs_string	.=	$key . '="' . $attr . '" ';
+				}
 				// get meta type
 				if( in_array( $meta_type = riake( 'type' , $meta ) , array( 'box-default' , 'box-primary' , 'box-success' , 'box-info' , 'box-warning' , 'box' ) ) )
 				{
@@ -80,9 +91,13 @@ Tendoo Version Required : 1.5
 							<input type="hidden" name="gui_saver_use_namespace" value="<?php echo $use_namespace ? 'true' : 'false';?>" />
 						<?php
 					}
+					
+					// Meta status
+					$meta_status	=	$this->options->get( 'meta_status' );
+					
 					?>
                     
-                    <div class="box <?php echo $meta_type;?>">
+                    <div class="box <?php echo $meta_type;?> <?php echo riake( $namespace, $meta_status );?> meta-<?php echo $namespace;?>" data-meta-namespace="<?php echo $namespace;?>" <?php echo $attrs_string;?>>
                         <div class="box-header with-border">
                           <?php if( $icon ):?>
                           <i class="fa <?php echo $icon;?>"></i>

@@ -5,7 +5,7 @@ class Dashboard_Widgets_Model extends CI_Model
 	{
 		global $AdminWidgetsCols;
 		if( $AdminWidgetsCols === NULL ) {
-			$AdminWidgetsCols	=	array();
+			$AdminWidgetsCols	=	force_array( $this->options->get( 'dashboard_widget_position' ) );
 		}
 	}
 	/**
@@ -76,7 +76,28 @@ class Dashboard_Widgets_Model extends CI_Model
 	function save_position( $widget_namespace, $col_id ) 
 	{
 		global $AdminWidgetsCols;
-		$AdminWidgetsCols[ $col_id ][]	=	$widget_namespace;		
+		// is widget already exists within a cols, this save is ignored
+		if( is_array( $AdminWidgetsCols ) ) {
+			foreach( $AdminWidgetsCols as $cols ) {
+				if( in_array( $widget_namespace, $cols ) ) {
+					return;
+				}
+			}
+		}
+		if( ! isset( $AdminWidgetsCols[ $col_id ] ) ) {
+			$AdminWidgetsCols[ $col_id ]	=	array();
+		}
+		if( ! in_array( $widget_namespace, $AdminWidgetsCols[ $col_id ] ) ) {
+			$AdminWidgetsCols[ $col_id ][]	=	$widget_namespace;		
+			$this->options->set( 'dashboard_widget_position', $AdminWidgetsCols );
+		}
+	}
+	
+	function save_positions( $widgets_namespaces, $col_id )
+	{
+		global $AdminWidgetsCols;
+		$AdminWidgetsCols[ $col_id ]	=	$widgets_namespaces;
+		$this->options->set( 'dashboard_widget_position', $AdminWidgetsCols );
 	}
 	
 	/**

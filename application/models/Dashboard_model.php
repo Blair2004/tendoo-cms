@@ -28,15 +28,20 @@ class Dashboard_model extends CI_Model
 		// get global widget and cols
 		global $AdminWidgets;
 		global $AdminWidgetsCols;
+
+		$SavedAdminWidgetsCols		=	$this->options->get( 'admin_widgets' );
+		$FinalAdminWidgetsPosition	=	array_merge( $AdminWidgetsCols, force_array( $SavedAdminWidgetsCols ) );
 		
 		// looping cols
-		for( $i = 1; $i <= 4; $i++ ) {
+		unset( $this->gui->cols[ 4 ] );
+		// var_dump( $this->gui->cols );die;
+		
+		for( $i = 1; $i <= count( $this->gui->cols ); $i++ ) {
 			$widgets_namespace	=	$this->dashboard_widgets->col_widgets( $i );
 			
 			$this->gui->col_width( 1, 1 );
 			$this->gui->col_width( 2, 1 );
 			$this->gui->col_width( 3, 1 );
-			$this->gui->col_width( 4, 1 );
 			
 			foreach( $widgets_namespace as $widget_namespace ) {
 				// get widget
@@ -51,7 +56,7 @@ class Dashboard_model extends CI_Model
 				// create dom
 				$this->gui->add_item( array(
 					'type'		=>	'dom',
-					'value'		=>	'<h3>Hello World</h3>'
+					'content'		=>	'<h3>Hello Wolrd</h3>' // $this->load->view( riake( 'content', $widget_options, '[empty_widget]' ), array(), true )
 				), $widget_namespace, $i );
 			}
 		}
@@ -63,23 +68,59 @@ class Dashboard_model extends CI_Model
 		if( riake( 2, $segments, 'index' ) == 'index' ) {
 		?>
         <script>
-		$( '.row .box' ).draggable({
-			connectToSortable : '.row .col-lg-3',
-			scope	:	'widget',
-			// containment 	:	'.row .col-lg-3'
+		$(document).ready(function(){
+			function __doSort(event,ui){
+				ui.item.closest(".row .box").parent().find('.draggable_widgets').each(function(){
+					$(this).children(function(){
+						alert($(this).attr('widget_id'));
+					})
+				});
+				var tab		=	new Array;
+				var section	=	1;
+				var newSet	=	{};
+				$('.row .meta-row').each(function(){
+					if(typeof tab[section] == 'undefined')
+					{
+						tab[section] = new Array;
+					}
+					$(this).find('div[data-meta-namespace]').each(function(){
+						tab[section].push($(this).data( 'meta-namespace' ) );
+					});
+					// Saving Each Fields	
+					_.extend(newSet,_.object([ section ],[ tab [ section ] ]));
+					section++;
+				});
+				console.log( tab );
+				tendoo.options.set( 'dashboard_widget_position', newSet );
+			}
+			var actionAllower	=	{};
+			$('.row .meta-row').sortable({
+				grid			:	[ 10 , 10 ],
+				connectWith		: 	".row .meta-row",
+				items			:	"div[data-meta-namespace]",
+				placeholder		:	"widget-placeholder",
+				forceHelperSize	:	false,
+				// zIndex			:	tendoo.zIndex.draggable,
+				forcePlaceholderSize	:	true,
+				stop			:	function(event, ui){
+					__doSort(event, ui);
+				},
+				delay			: 	150 
+			});
 		});
-		$( '.row .col-lg-3').droppable({
-			accept	: 	'.row .box',
-			addClass : 'bg-primary',
-			scope 	:	'widget'
-		});
-		$( '.row .col-lg-3').sortable({
-			connectWith	: 	'.row .box',
-			forceHelperSize : true
-		});
-        </script>
+		</script>	
         <?php
 		}
+		?>
+        <script>
+		$('[data-meta-namespace]').find( '[data-widget]' ).bind( 'click', function(){
+			tendoo.options.merge( 
+				'meta_status['+ $(this).closest( '[data-meta-namespace]' ).data( 'meta-namespace' )+']', 
+				$(this).closest( '[data-meta-namespace]' ).hasClass( 'collapsed-box' ) ? 'uncollapsed-box' : 'collapsed-box'
+			);
+		});
+		</script>
+        <?php
 	}
 	function __dashboard_header()
 	{

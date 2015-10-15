@@ -423,7 +423,7 @@ class aauth_dashboard extends CI_model
 				$this->notice->push_notice( $this->lang->line( $exec ) );
 			}
 			// Fetch role or redirect
-			$group	=	$this->users->get_group( $index );
+			$group	=	$this->users->auth->get_group_id( $index );
 			
 			if( is_object( $group ) === FALSE ): redirect( array( 'dashboard' , 'group-not-found' ) ); endif;
 			$usergroup			=	$this->users->auth->get_user_groups( $index );

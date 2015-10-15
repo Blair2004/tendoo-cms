@@ -71,6 +71,7 @@ class Tendoo_Controller extends CI_Controller
 			// loading assets for reserved controller
 			Enqueue::enqueue_css( 'bootstrap.min' );
 			Enqueue::enqueue_css( 'AdminLTE.min' );
+			Enqueue::enqueue_css( 'tendoo.min' );
 			Enqueue::enqueue_css( 'skins/_all-skins.min' );			
 			Enqueue::enqueue_css( 'font-awesome-4.3.0' );
 			Enqueue::enqueue_css( '../plugins/iCheck/square/blue' );

@@ -163,7 +163,7 @@ class Dashboard extends Tendoo_Controller {
 	 */
 	function options( $mode = 'list' )
 	{
-		if( $mode == 'save' )
+		if( in_array( $mode, array( 'save', 'merge' ) ) )
 		{
 			if( ! $this->input->post( 'gui_saver_ref' ) && ! $this->input->post( 'gui_json' ) ) // if JSON mode is enabled redirect is disabled
 			{
@@ -177,19 +177,35 @@ class Dashboard extends Tendoo_Controller {
 				{
 					if( ! in_array( $key , array( 'gui_saver_option_namespace' , 'gui_saver_ref' , 'gui_saver_expiration_time' , 'gui_saver_use_namespace' ) ) )
 					{
+						/**
+						 * Merge options which a supposed to be wrapped within the same array
+						**/
+						
+						if( $mode == 'merge' && is_array( $value ) ) {
+							$options	=	$this->options->get( $key ); 
+							$options	=	array_merge( force_array( $options ), $value );
+						}
 						// save only when it's not an array
 						if( ! is_array( $_POST[ $key ] ) )
 						{
 							if( $this->input->post( 'gui_saver_use_namespace' ) === 'true' ) {
-								$content[ $key ]	=	$this->input->post( $key );	
+								$content[ $key ]	=	( $mode == 'merge' ) ? $options : $this->input->post( $key );	
 							}	else	{
-								$this->options->set( $key , $this->input->post( $key ) , true );
+								if( $mode == 'merge' && is_array( $value ) ) {
+									$this->options->set( $key , $options , true );
+								} else {
+									$this->options->set( $key , $this->input->post( $key ) , true );
+								}
 							}							
-						} 	else {
+						} else {
 							if( $this->input->post( 'gui_saver_use_namespace' ) === 'true' )	{
-								$content[ $key ]	=	$_POST[ $key ];	
+								$content[ $key ]	=	( $mode == 'merge' ) ? $options : $_POST[ $key ];	
 							}	else	{
-								$this->options->set( $key, $_POST[ $key ], true );
+								if( $mode == 'merge' && is_array( $value ) ) {
+									$this->options->set( $key , $options , true );
+								} else {
+									$this->options->set( $key, $_POST[ $key ], true );
+								}
 							}	
 						}
 					}

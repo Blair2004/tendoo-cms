@@ -53,10 +53,32 @@ var 	tendoo					=	new Object;
 					data			:	tendoo.options_data,
 					type			:	'POST',
 					beforeSend 	:	function(){
-						$this.beforeSend();
+						if( _.isFunction( $this.beforeSend ) ) {
+							$this.beforeSend();
+						}
 					},
 					success		: function( data ) {
-						$this.success( data );
+						if( _.isFunction( $this.success ) ) {
+							$this.success( data );
+						}
+					}
+				});
+			};
+			this.merge				=	function( key, value ) {
+				var post_data			=	_.object( [ key ], [ value ] );
+				tendoo.options_data	=	_.extend( tendoo.options_data, post_data );
+				$.ajax( '<?php echo site_url( array( 'dashboard', 'options', 'merge' ) );?>', {
+					data			:	tendoo.options_data,
+					type			:	'POST',
+					beforeSend 	:	function(){
+						if( _.isFunction( $this.beforeSend ) ) {
+							$this.beforeSend();
+						}
+					},
+					success		: function( data ) {
+						if( _.isFunction( $this.success ) ) {
+							$this.success( data );
+						}
 					}
 				});
 			};
