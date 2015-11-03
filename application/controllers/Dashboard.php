@@ -28,10 +28,12 @@ class Dashboard extends Tendoo_Controller {
 		
 		$this->load->model( 'gui' );		
 		$this->load->model( 'update_model' ); // load update model @since 3.0
+		$this->load->model( 'dashboard_model' , 'dashboard' );
+		
 		// Loading Admin Menu
 		// this action was move to Dashboard controler instead of aside.php output file. 
 		// which was called every time "create_dashboard_pages" was triggered
-		$this->events->do_action( 'before_dashboard_menus' );
+		$this->events->do_action( 'load_dashboard' );
 	}
 	/**
 	 * Remap controller methods
@@ -223,7 +225,7 @@ class Dashboard extends Tendoo_Controller {
 		else if( $mode == 'get' ) {
 			echo json_decode( $this->options->get( $_POST[ 'option_key' ] ) );
 		}
-		else if( $mode == 'save_user_meta' )
+		else if( in_array( $mode, array( 'save_user_meta', 'merge_user_meta' ) ) )
 		{
 			if( $this->input->post( 'gui_saver_expiration_time' ) >  gmt_to_local( time() , 'UTC' ) )
 			{
@@ -233,10 +235,32 @@ class Dashboard extends Tendoo_Controller {
 				{
 					if( ! in_array( $key , array( 'gui_saver_option_namespace' , 'gui_saver_ref' , 'gui_saver_expiration_time' , 'gui_saver_use_namespace' , 'user_id' ) ) )
 					{
+						if( $mode == 'merge_user_meta' && is_array( $value ) ) {
+							$options	=	$this->options->get( $key ); 
+							$options	=	array_merge( force_array( $options ), $value );
+						}
 						// save only when it's not an array
 						if( ! is_array( $_POST[ $key ] ) )
 						{
-							$this->options->set( $key , $this->input->post( $key ) , true , $this->input->post( 'user_id' ) );
+							if( $this->input->post( 'gui_saver_use_namespace' ) === 'true' ) {
+								$content[ $key ]	=	( $mode == 'merge' ) ? $options : $this->input->post( $key );	
+							}	else	{
+								if( $mode == 'merge' && is_array( $value ) ) {
+									$this->options->set( $key , $options , true, $this->input->post( 'user_id' ) );
+								} else {
+									$this->options->set( $key , $this->input->post( $key ), true, $this->input->post( 'user_id' ) );
+								}
+							}
+						} else {
+							if( $this->input->post( 'gui_saver_use_namespace' ) === 'true' )	{
+								$content[ $key ]	=	( $mode == 'merge' ) ? $options : $_POST[ $key ];	
+							} else {
+								if( $mode == 'merge' && is_array( $value ) ) {
+									$this->options->set( $key , $options , true, $this->input->post( 'user_id' ) );
+								} else {
+									$this->options->set( $key, $_POST[ $key ], true, $this->input->post( 'user_id' ) );
+								}
+							}
 						}
 					}
 				}

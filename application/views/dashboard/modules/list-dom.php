@@ -1,7 +1,8 @@
 <div class="row">
 	<?php
 	global $Options;
-	$modules	=	Modules::get();
+	$modules			=	Modules::get();
+	$modules_status		=	$this->options->get( 'modules_status' );// get whether an update is available
 	foreach( force_array( $modules ) as $_module )
 	{
 		if( isset( $_module[ 'application' ][ 'details' ][ 'namespace' ] ) )
@@ -38,7 +39,8 @@
               <?php if( intval( riake( 'webdev_mode' , $Options ) ) == true ):?>
               <a href="<?php echo site_url( array( 'dashboard' , 'modules' , 'extract' , $module_namespace ) );?>" class="btn btn-sm btn-default btn-box-tool" data-action="extract"><i style="font-size:20px;" class="fa fa-file-zip-o"></i> <?php _e( 'Extract' );?></a>
               <?php endif;?>
-              
+              <?php
+			  ?>
               <button class="btn btn-default btn-box-tool" data-action="update"><i style="font-size:20px;" class="fa fa-refresh"></i></button>
             </div>
          </div>

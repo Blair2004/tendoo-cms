@@ -160,7 +160,7 @@ if ( ! function_exists('swf_url'))
     {
 		 $CI =& get_instance();
 		 if( $module_namespaec === NULL ){
-        return base_url() . $CI->config->item('swf_path');
+        	return base_url() . $CI->config->item('swf_path');
 		 } else {
 			 return base_url(). $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/' . 'swf/';
 		 }
@@ -224,11 +224,15 @@ if ( ! function_exists('xml_url'))
  */
 if ( ! function_exists('asset_path'))
 {
-    function asset_path()
+    function asset_path( $module_namespace = NULL )
     {
+		$CI =& get_instance();
+		if( $module_namespace === null ) {
         //get an instance of CI so we can access our configuration
-        $CI =& get_instance();
         return FCPATH . $CI->config->item('asset_path');
+		} else {
+			return $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/';
+		}
     }
 }
 
@@ -240,11 +244,15 @@ if ( ! function_exists('asset_path'))
  */
 if ( ! function_exists('css_path'))
 {
-    function css_path()
+    function css_path( $module_namespace = NULL )
     {
-        //get an instance of CI so we can access our configuration
-        $CI =& get_instance();
-        return FCPATH . $CI->config->item('css_path');
+		$CI =& get_instance();
+		if( $module_namespace == NULL ){
+			//get an instance of CI so we can access our configuration
+			return FCPATH . $CI->config->item('css_path');
+		} else {
+			return $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/css/';
+		}
     }
 }
 
@@ -272,11 +280,15 @@ if ( ! function_exists('less_path'))
  */
 if ( ! function_exists('js_path'))
 {
-    function js_path()
+    function js_path( $module_namespace = NULL )
     {
-        //get an instance of CI so we can access our configuration
-        $CI =& get_instance();
-        return FCPATH . $CI->config->item('js_path');
+		$CI =& get_instance();
+		if( $module_namespace == NULL ) {
+			//get an instance of CI so we can access our configuration
+			return FCPATH . $CI->config->item('js_path');
+		} else {
+			return $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/js/';
+		}
     }
 }
 
@@ -336,8 +348,8 @@ if ( ! function_exists('upload_path'))
 {
     function upload_path()
     {
-        $CI =& get_instance();
-        return FCPATH . $CI->config->item('upload_path');
+        $CI =& get_instance();	
+return FCPATH . $CI->config->item('upload_path');
     }
 }
 

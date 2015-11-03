@@ -98,10 +98,10 @@ class Options extends CI_Model
 	function get( $key = null, $user_id = NULL , $autoload = false )
 	{
 		// option general otpions can be saved on global options array for autoload parameters. User Parameters must be loaded from db.
-		if( riake( $key , $this->options ) ){
+		if( riake( $key , $this->options ) && $user_id == NULL ){
 			return $this->options[ $key ];
-		} else if( riake( $key , $this->options ) && $user_id != NULL ){
-			return $this->user_options[ $user_id ][ $key ];
+		} else if( riake( $key, $this->user_options ) && $user_id === 'current_user' ){
+			return $this->user_options[ $key ];
 		}
 		// get only data from user
 		if( $user_id !== NULL ): $this->db->where( 'user' , $user_id ); endif;
@@ -131,7 +131,7 @@ class Options extends CI_Model
 				if( $user_id == NULL ){
 					$this->options[ $key ] = $value;
 				} else {
-					$this->user_options[ $user_id ][ $key ] = $value;
+					$this->user_options[ $key ] = $value;
 				}
 				return $value;
 			}
@@ -149,7 +149,7 @@ class Options extends CI_Model
 				// Internal Cache
 				if( $user_id == NULL ){
 					$this->options[ riake( 'key' , $_option ) ]	= $value;
-				} else {
+				} else if( $user_id === 'current_user' ) {
 					$this->user_options[ $user_id ] = $value;
 				}
 			}		

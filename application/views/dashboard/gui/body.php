@@ -93,12 +93,18 @@ Tendoo Version Required : 1.5
 					}
 					
 					// Meta status
-					$meta_status	=	$this->options->get( 'meta_status' );
-					
-					?>
-                    
-                    <div class="box <?php echo $meta_type;?> <?php echo riake( $namespace, $meta_status );?> meta-<?php echo $namespace;?>" data-meta-namespace="<?php echo $namespace;?>" <?php echo $attrs_string;?>>
-                        <div class="box-header with-border">
+					$meta_status	=	$this->options->get( 'meta_status', User::id() );
+					/**
+					 * Background-Color will help you set a default background for the meta
+					**/
+					?>                    
+                    <div class="box <?php echo $meta_type;?> <?php echo riake( $namespace, $meta_status );?> <?php echo riake( 'background-color', $meta );?> meta-<?php echo $namespace;?>" data-meta-namespace="<?php echo $namespace;?>" <?php echo $attrs_string;?>>
+                   		<?php
+						/**
+						 *	Whether you want to display border, use "display-border" and set it to true
+						**/
+						?>
+                        <div class="box-header <?php echo riake( 'display-border', $meta ) ? 'with-border' : '';?>">
                           <?php if( $icon ):?>
                           <i class="fa <?php echo $icon;?>"></i>
                           <?php endif;?>
@@ -109,13 +115,19 @@ Tendoo Version Required : 1.5
                           <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                           </div>
-                        </div><!-- /.box-header -->
+                        </div>
+                        <!-- /.box-header -->
+                        <?php if( ! riake( 'hide_body_wrapper', $meta ) ):?>
                         <div class="box-body">
+                        <?php endif;?>
                           	<?php echo $this->load->view( 'dashboard/gui/gui-items' , array(
-										'namespace'	=>	$namespace,
-										'meta' 	=>	$meta
-									) , true );;?>
-                        </div><!-- /.box-body -->
+								'namespace'	=>	$namespace,
+								'meta' 	=>	$meta
+							) , true );;?>
+						<?php if( ! riake( 'hide_body_wrapper', $meta ) ):?>
+                        </div>
+                        <?php endif;?>
+                        <!-- /.box-body -->
                         <?php 
 						if( $footer	=	riake( 'footer' , $meta ) )
 						{

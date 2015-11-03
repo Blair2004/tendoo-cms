@@ -5,7 +5,7 @@ class Dashboard_Widgets_Model extends CI_Model
 	{
 		global $AdminWidgetsCols;
 		if( $AdminWidgetsCols === NULL ) {
-			$AdminWidgetsCols	=	force_array( $this->options->get( 'dashboard_widget_position' ) );
+			$AdminWidgetsCols	=	force_array( $this->options->get( 'dashboard_widget_position', User::id() ) );
 		}
 	}
 	/**
@@ -89,7 +89,7 @@ class Dashboard_Widgets_Model extends CI_Model
 		}
 		if( ! in_array( $widget_namespace, $AdminWidgetsCols[ $col_id ] ) ) {
 			$AdminWidgetsCols[ $col_id ][]	=	$widget_namespace;		
-			$this->options->set( 'dashboard_widget_position', $AdminWidgetsCols );
+			$this->options->set( 'dashboard_widget_position', $AdminWidgetsCols, true, User::id() );
 		}
 	}
 	
@@ -97,7 +97,7 @@ class Dashboard_Widgets_Model extends CI_Model
 	{
 		global $AdminWidgetsCols;
 		$AdminWidgetsCols[ $col_id ]	=	$widgets_namespaces;
-		$this->options->set( 'dashboard_widget_position', $AdminWidgetsCols );
+		$this->options->set( 'dashboard_widget_position', $AdminWidgetsCols, true, User::id() );
 	}
 	
 	/**
