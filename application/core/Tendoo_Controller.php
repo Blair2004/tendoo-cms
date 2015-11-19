@@ -13,6 +13,7 @@ class Tendoo_Controller extends CI_Controller
 		
 		// get system lang
 		$this->lang->load( 'system' );	
+		$this->load->library( 'enqueue' );
 		// Load Modules
 		Modules::load( MODULESPATH );
 		
@@ -23,8 +24,7 @@ class Tendoo_Controller extends CI_Controller
 			 * Load Session, Database and Options
 			**/
 			
-			$this->load->library( 'session' );
-			$this->load->library( 'enqueue' );
+			$this->load->library( 'session' );			
 			$this->load->database();
 			$this->load->model( 'options' );			
 

@@ -29,7 +29,12 @@ class Dashboard_model extends CI_Model
 		$this->enqueue->js( 'advanced' );
 		$this->enqueue->js( '../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min' ); // WYSIHTML5 @since 1.5
 		$this->enqueue->css( '../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min' ); // CSS for WYSIHTML5
+		
+		// Bootsrap Notify
+		$this->enqueue->js( '../plugins/bootstrap-notify-master/bootstrap-notify.min' );
+		
 		$this->enqueue->js( 'tendoo.core' );	
+		
 	}
 
 	/**
@@ -191,6 +196,60 @@ tendoo.options_data	=	{
     user_id							:	tendoo.user.id,
     gui_json							:	true
 }
+// Tendoo notify
+tendoo.notify			=	new function(){
+	this.error			=	function( title, msg, url, dismiss ){
+		$.notify({
+			icon			:	'fa fa-ban',
+			title			:	title,
+			message			:	msg,
+			url				:	url,
+		},{
+			type			:	'danger',
+			allow_dismiss	:	dismiss
+		})
+	};
+	
+	// Info
+	this.info			=	function( title, msg, url, dismiss ){
+		$.notify({
+			icon			:	'fa fa-exclamation-circle',
+			title			:	title,
+			message			:	msg,
+			url				:	url,
+		},{
+			type			:	'info',
+			allow_dismiss	:	dismiss
+		})
+	};
+	
+	// Warning
+	this.warning			=	function( title, msg, url, dismiss ){
+		$.notify({
+			icon			:	'fa fa-times',
+			title			:	title,
+			message			:	msg,
+			url				:	url,
+		},{
+			type			:	'warning',
+			allow_dismiss	:	dismiss
+		})
+	};
+	
+	// Success
+	this.success			=	function( title, msg, url, dismiss ){
+		$.notify({
+			icon			:	'fa fa-check',
+			title			:	title,
+			message			:	msg,
+			url				:	url,
+		},{
+			type			:	'success',
+			allow_dismiss	:	dismiss
+		})
+	};
+}
+// Tendoo options
 tendoo.options			=	new function(){
     var $this			=	this;
     this.set				=	function( key, value, user_meta ) {
@@ -304,6 +363,11 @@ tendoo.options			=	new function(){
 					'href'			=>		site_url( array( 'dashboard', 'update' ) ),
 					'icon'			=>		'fa fa-dashboard',
 					'title'			=>		__( 'Update Center' )
+				),
+				array(	
+					'href'			=>		site_url( array( 'dashboard', 'about' ) ),
+					'icon'			=>		'fa fa-dashboard',
+					'title'			=>		__( 'About' )
 				),
 			),
 			/** 'media'			=>	array(
