@@ -27,7 +27,7 @@ Here are new filters added to this release :
 **dashboard_output** : is dashboard index output.
 
 
-### JS API improved
+## JS API improved
 ---
 
 Tendoo 3.0.1 adds new methods to the JS API. Here is how you can use it.
