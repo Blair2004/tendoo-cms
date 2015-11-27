@@ -98,7 +98,7 @@ class Dashboard extends Tendoo_Controller {
 				if( is_array( $notice ) )
 				{
 					// redirecting
-					redirect( array( 'dashboard' , 'modules' , 'list?highlight=' . $notice[ 'namespace' ] . '&notice=' . $notice[ 'msg' ] . ( isset( $notice[ 'extra' ] ) ? '&extra=' . $notice[ 'extra' ] : '' ) ) );
+					redirect( array( 'dashboard' , 'modules' , 'list?highlight=' . $notice[ 'namespace' ] . '&notice=' . $notice[ 'msg' ] . ( isset( $notice[ 'extra' ] ) ? '&extra=' . $notice[ 'extra' ] : '' ) . '#module-' . $notice[ 'namespace' ] ) );
 				}
 				else
 				{
