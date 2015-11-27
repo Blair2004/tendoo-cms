@@ -10,7 +10,7 @@
 			$module_namespace		=	$_module[ 'application' ][ 'details' ][ 'namespace' ];
 	?>
 	<div class="col-lg-3">
-   	<div class="box <?php echo ( riake( 'highlight', $_GET ) == $_module[ 'namespace' ] ) ? 'box-primary' : '' ;?> " id="#module-<?php echo $_module[ 'application' ][ 'details' ][ 'namespace' ];?>">
+   	<div class="box <?php echo ( riake( 'highlight', $_GET ) == $_module[ 'application' ][ 'details' ][ 'namespace' ] ) ? 'box-primary' : '' ;?> " id="#module-<?php echo $_module[ 'application' ][ 'details' ][ 'namespace' ];?>">
       	<div class="box-header">
          	<h3 class="box-title"><?php echo isset( $_module[ 'application' ][ 'details' ][ 'name' ] ) ? $_module[ 'application' ][ 'details' ][ 'name' ] : __( 'Tendoo Extension' );?></h3>
          </div>
