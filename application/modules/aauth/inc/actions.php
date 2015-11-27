@@ -8,8 +8,8 @@ class aauth_action extends CI_model
 		$this->events->add_action( 'do_send_recovery' , array( $this , 'change_auth_settings' ) );
 		$this->events->add_action( 'do_send_recovery' , array( $this , 'recovery_email' ) );
 		$this->events->add_action( 'do_login' , array ( $this , 'tendoo_login' ) );
-		$this->events->add_action( 'do_reset_user' , array( $this , 'do_reset_user' ) );
-		$this->events->add_action( 'do_verify_user' , array( $this , 'do_verify_user' ) );
+		$this->events->add_action( 'do_reset_user' , array( $this , 'do_reset_user' ), 10, 2 );
+		$this->events->add_action( 'do_verify_user' , array( $this , 'do_verify_user' ), 10, 2 );
 		$this->events->add_action( 'do_remove_module' , array( $this , 'module_access' ) , 1 , 1);
 		$this->events->add_action( 'do_disable_module' , array( $this , 'module_access' ) , 1 , 1);
 		$this->events->add_action( 'do_enable_module' , array( $this , 'module_access' ) , 1 , 1);
