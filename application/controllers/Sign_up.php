@@ -16,18 +16,18 @@ class Sign_up extends Tendoo_Controller {
 		parent::__construct();
 		$this->load->library( 'form_validation' );
 		
-		Enqueue::enqueue_css( 'bootstrap.min' );
-		Enqueue::enqueue_css( 'AdminLTE.min' );
-		Enqueue::enqueue_css( 'skins/_all-skins.min' );
+		$this->enqueue->css( 'bootstrap.min' );
+		$this->enqueue->css( 'AdminLTE.min' );
+		$this->enqueue->css( 'skins/_all-skins.min' );
 		
 		/**
 		 * 	Enqueueing Js
 		**/
 		
-		Enqueue::enqueue_js( 'plugins/jQuery/jQuery-2.1.4.min' );
-		Enqueue::enqueue_js( 'bootstrap.min' );
-		Enqueue::enqueue_js( 'plugins/iCheck/icheck.min' );		
-		Enqueue::enqueue_js( 'app.min' );
+		$this->enqueue->js( 'plugins/jQuery/jQuery-2.1.4.min' );
+		$this->enqueue->js( 'bootstrap.min' );
+		$this->enqueue->js( 'plugins/iCheck/icheck.min' );		
+		$this->enqueue->js( 'app.min' );
 	}
 	public function index()
 	{	

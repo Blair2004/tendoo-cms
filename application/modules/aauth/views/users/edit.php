@@ -27,7 +27,6 @@ $this->gui->add_item( array(
 	'type'			=>	'text',
 	'label'			=>	__( 'User Name' ),
 	'name'			=>	'username',
-	'description'	=>	__( 'Descrption' ),
 	'disabled'		=>	true,
 	'value'			=>	$user->name
 ) , 'edit_user' , 1 );
@@ -38,7 +37,6 @@ $this->gui->add_item( array(
 	'type'			=>	'text',
 	'label'			=>	__( 'User Email' ),
 	'name'			=>	'user_email',
-	'description'	=>	__( 'Descrption' ),
 	'value'			=>	$user->email
 ) , 'edit_user' , 1 );
 
@@ -48,7 +46,6 @@ $this->gui->add_item( array(
 	'type'			=>	'password',
 	'label'			=>	__( 'New Password' ),
 	'name'			=>	'password',
-	'description'	=>	__( 'Descrption' )
 ) , 'edit_user' , 1 );
 
 // user password config
@@ -57,7 +54,6 @@ $this->gui->add_item( array(
 	'type'			=>	'password',
 	'label'			=>	__( 'Confirm New' ),
 	'name'			=>	'confirm',
-	'description'	=>	__( 'Descrption' )
 ) , 'edit_user' , 1 );
 
 // add to a group

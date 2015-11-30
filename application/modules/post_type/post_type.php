@@ -25,19 +25,7 @@ class post_type extends CI_model
 				return $notices;
 			});
 		}
-		if( ! Modules::is_active( 'dashboard' ) )
-		{
-			$this->events->add_filter( 'ui_notices' , function( $notices ){
-				$notices[]		=	array(
-					'msg'		=>		__( 'Dashboard Module is required, please install or enable it' ),
-					'type'	=>		'warning',
-					'icon'	=>		'users',
-					'href'	=>		site_url( array( 'dashboard' , 'modules' ) )
-				);
-				return $notices;
-			});
-		}
-		if( Modules::is_active( 'aauth' ) && Modules::is_active( 'dashboard' ) )
+		if( Modules::is_active( 'aauth' ) )
 		{
 			$this->load->language( 'blog_lang' );
 			// including CustomQuery.php library file

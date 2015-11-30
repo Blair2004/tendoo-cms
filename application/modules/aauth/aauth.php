@@ -59,23 +59,20 @@ class auth_module_class extends CI_model
 	
 	function after_session_starts()
 	{
-		if( Modules::is_active( 'dashboard' ) )
+		// load user model
+		$this->load->model( 'users_model' , 'users' );
+		// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
+		if( ! $this->users->master_exists() && $this->uri->segment(1) !== 'tendoo-setup' )
 		{
-			// load user model
-			$this->load->model( 'users_model' , 'users' );
-			// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
-			if( ! $this->users->master_exists() && $this->uri->segment(1) !== 'tendoo-setup' )
+			redirect( array( 'tendoo-setup' , 'site' ) );
+		}
+		
+		// force user to be connected for certain controller
+		if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_login' ) ) && $this->setup->is_installed() )
+		{
+			if( ! $this->users->is_connected() )
 			{
-				redirect( array( 'tendoo-setup' , 'site' ) );
-			}
-			
-			// force user to be connected for certain controller
-			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_login' ) ) && $this->setup->is_installed() )
-			{
-				if( ! $this->users->is_connected() )
-				{
-					redirect( array( $this->config->item( 'default_login_route' ) ) );
-				}
+				redirect( array( $this->config->item( 'default_login_route' ) ) );
 			}
 		}
 	}	

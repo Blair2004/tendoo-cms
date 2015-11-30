@@ -7,13 +7,13 @@ class Tendoo_Controller extends CI_Controller
 
 		// Include default library class
 		include_once( LIBPATH .'/Html.php' );
-		include_once( LIBPATH .'/Enqueue.php' ); 
 		include_once( LIBPATH .'/Modules.php' );
 		include_once( LIBPATH .'/UI.php' );
 		include_once( LIBPATH .'/SimpleFileManager.php' );
 		
 		// get system lang
 		$this->lang->load( 'system' );	
+		$this->load->library( 'enqueue' );
 		// Load Modules
 		Modules::load( MODULESPATH );
 		
@@ -24,7 +24,7 @@ class Tendoo_Controller extends CI_Controller
 			 * Load Session, Database and Options
 			**/
 			
-			$this->load->library( 'session' );
+			$this->load->library( 'session' );			
 			$this->load->database();
 			$this->load->model( 'options' );			
 
@@ -61,28 +61,30 @@ class Tendoo_Controller extends CI_Controller
 			{
 				redirect( array( 'tendoo-setup' ) );
 			}
-
+			
 			// force user to be connected for certain controller
 			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_logout' ) ) && $this->setup->is_installed() )
 			{
-				$this->events->do_action( 'is_connected' );
+				// $this->events->do_action( 'is_connected' );
 			}
 			
 			// loading assets for reserved controller
-			Enqueue::enqueue_css( 'bootstrap.min' );
-			Enqueue::enqueue_css( 'AdminLTE.min' );
-			Enqueue::enqueue_css( 'skins/_all-skins.min' );			
-			Enqueue::enqueue_css( 'font-awesome-4.3.0' );
-			Enqueue::enqueue_css( '../plugins/iCheck/square/blue' );
+			$this->enqueue->css( 'bootstrap.min' );
+			$this->enqueue->css( 'AdminLTE.min' );
+			$this->enqueue->css( 'tendoo.min' );
+			$this->enqueue->css( 'skins/_all-skins.min' );			
+			$this->enqueue->css( 'font-awesome-4.3.0' );
+			$this->enqueue->css( '../plugins/iCheck/square/blue' );
 			
 			/**
 			 * 	Enqueueing Js
 			**/
 			
-			Enqueue::enqueue_js( '../plugins/jQuery/jQuery-2.1.4.min' );
-			Enqueue::enqueue_js( 'bootstrap.min' );
-			Enqueue::enqueue_js( '../plugins/iCheck/icheck.min' );		
-			Enqueue::enqueue_js( 'app.min' );
+			$this->enqueue->js( '../plugins/jQuery/jQuery-2.1.4.min' );
+			$this->enqueue->js( '../plugins/jQueryUI/jquery-ui-1.10.3.min' );
+			$this->enqueue->js( 'bootstrap.min' );
+			$this->enqueue->js( '../plugins/iCheck/icheck.min' );		
+			$this->enqueue->js( 'app.min' );
 		}
 	}
 	function loader()

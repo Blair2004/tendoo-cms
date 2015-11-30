@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<action namespace="after_app_init">
+	<action namespace="is_connected">
+		<action namespace="load_dashboard">
+			<action namespace="do_enable_module"></action>
+			<action namespace="do_disable_module"></action>
+			<action namespace="do_extract_module"></action>
+			<action namespace="do_remove_module"></action>	
+			<action namespace="load_dashboard_home"></action>	
+			<action namespace="create_dashboard_pages"></action>
+			<action namespace="user_creation_rules"></action>
+			<action namespace="user_profile_rules"></action>
+			<action namespace="load_users_custom_fields"></action>
+			<action namespace="dashboard_footer"></action>
+			<action namespace="dashboard_header"></action>
+			<action namespace="display_admin_header_menu"></action>
+			<action namespace="displays_dashboard_errors"></action>
+			<action namespace="register_general_settings_fields"></action>
+		</action>
+		<action namespace="load_frontend">
+		</action>
+		<action namespace="set_login_rules">
+			<action namespace="do_login">
+			</action>	
+		</action>
+		<action namespace="do_send_recovery">
+		</action>
+		<action namespace="do_reset_user">
+		</action>
+		<action namespace="do_verify_user">
+		</action>
+		<action namespace="log_user_out">
+		</action>
+		<action namespace="registration_rules">
+			<action namespace="do_register_user"></action>
+		</action>
+		<action namespace="displays_public_errors"></action>
+		<action namespace="display_login_fields"</action>
+	</action>
+</action>
+<action namespace="before_creating_tables">	
+	<action namespace="tendoo_setup">
+		<action namespace="before_setting_tables"></action>
+		<action namespace="tendoo_settings_tables"></action>
+		<action namespace="tendoo_settings_final_config"></action>
+	</action>
+</action>

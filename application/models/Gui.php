@@ -112,6 +112,17 @@ class GUI extends CI_Model
 		return riake( $col_id , $this->cols );
 	}
 	
+	/**
+	 * Add Meta to gui
+	 *
+	 * @access public
+	 * @param string/array namespace, config array
+	 * @param string meta title
+	 * @param string meta type
+	 * @param int col id
+	 * @return void
+	**/
+	
 	function add_meta( $namespace , $title = 'Unamed' , $type = 'box-default' , $col_id = 1 )
 	{
 		if( in_array( $col_id , array( 1 , 2 , 3 , 4 ) ) )

@@ -185,4 +185,29 @@ class Update_model extends CI_model
 	function updateinstance(){
 		
 	}
+	
+	/**
+	 * Modules Update Features
+	**/ 
+	
+	function check_modules()
+	{
+		$modules		=	json_decode( file_get_content( 'https://raw.githubusercontent.com/Blair2004/tendoo-cms/3.0/modules.json' ) );
+		$modules_status	=	force_array( $this->options->get( 'modules_status' ) );
+		foreach( Modules::get() as $namespace	=> $module ) {
+			// if current module is genuine
+			if( in_array( $namespace, array_keys( $modules ) ) ) {
+				// If a new version is available
+				if( intval( $module[ 'version' ] ) < $modules[ $namespace ][ 'version' ] ) {
+					$modules_status[ $namespace ]	=	array(
+						'version'		=>	$modules[ $namespace ][ 'version' ],
+						'zip_url'		=>	$modules[ $namespace ][ 'zip_url' ]
+					);
+				} else {
+					unset( $modules_status[ $namespace ] ); // make sure already updated module is removed from "updatable modules"
+				}
+			}
+		}	
+		$this->options->set( 'modules_status', $modules_status );	
+	}
 }

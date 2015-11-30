@@ -27,7 +27,6 @@ $this->gui->add_item( array(
 	'type'			=>	'text',
 	'label'			=>	__( 'User Name' ),
 	'name'			=>	'username',
-	'description'	=>	__( 'Descrption' ),
 	'disabled'		=>	true,
 	'value'			=>	$this->users->current->name
 ) , 'user_profile' , 1 );
@@ -38,7 +37,6 @@ $this->gui->add_item( array(
 	'type'			=>	'text',
 	'label'			=>	__( 'User Email' ),
 	'name'			=>	'user_email',
-	'description'	=>	__( 'Descrption' ),
 	'value'			=>	$this->users->current->email
 ) , 'user_profile' , 1 );
 
@@ -48,14 +46,12 @@ $this->gui->add_item( array(
 	'type'			=>	'password',
 	'label'			=>	__( 'Old Password' ),
 	'name'			=>	'old_pass',
-	'description'	=>	__( 'Descrption' )
 ) , 'user_profile' , 1 );
 
 $this->gui->add_item( array(
 	'type'			=>	'password',
 	'label'			=>	__( 'New Password' ),
 	'name'			=>	'password',
-	'description'	=>	__( 'Descrption' )
 ) , 'user_profile' , 1 );
 
 // user password config
@@ -64,7 +60,6 @@ $this->gui->add_item( array(
 	'type'			=>	'password',
 	'label'			=>	__( 'Confirm New' ),
 	'name'			=>	'confirm',
-	'description'	=>	__( 'Descrption' )
 ) , 'user_profile' , 1 );
 
 // add to a group

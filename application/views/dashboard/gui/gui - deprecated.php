@@ -34,10 +34,14 @@ Tendoo Version Required : 1.5
                 <?php echo riake( 'before_cols' , $output , '' );?>
                 <div class="row">
                     <?php $total_width = 12;?>
+                    <?php
+					$col_range	=	( count( $this->cols ) > 3 ) ? 3 : 4;
+					var_dump( $col_range );
+					?>
                     <?php foreach( force_array( $this->cols ) as $key	=>	$c):?>
-                    <?php if( ( $total_width - ( riake( 'width' , $c , 4 ) * 3 ) ) >= 0):?>
-                    <?php $total_width -= ( riake( 'width' , $c , 4 ) * 3 );?>
-                    <div class="col-lg-<?php echo riake( 'width' , $c , 4 ) * 3 ;?>">
+                    <?php if( ( $total_width - ( riake( 'width' , $c , 4 ) * $col_range ) ) >= 0):?>
+                    <?php $total_width -= ( riake( 'width' , $c , 4 ) * $col_range );?>
+                    <div class="col-lg-<?php echo riake( 'width' , $c , 4 ) * $col_range ;?>">
                         <?php $config = return_if_array_key_exists( 'configs' , $this->cols[ $key ] );?>
                         <?php 
 								// Inner Opening Wrapper

@@ -7,10 +7,10 @@
  */
 
 class Enqueue {
-	public static $scripts = array();
-	public static $styles = array();
-	public static $path_js = 'public/js/';
-	public static $path_css = 'public/css/';
+	public $scripts = array();
+	public $styles = array();
+	public $path_js = 'public/js/';
+	public $path_css = 'public/css/';
 	
 	/**
 	 * Enqueue JS
@@ -23,8 +23,8 @@ class Enqueue {
 	 * @param        string $script
 	 * @since        3.0.1
 	 */
-	public static function enqueue_js( $script ) {
-		self::$scripts[] = (string)$script;
+	public function js( $script, $path = null ) {
+		$this->scripts[] = ( $path === null ) ? $this->path_js . $script : $path . $script;
 	}
 	
 	/**
@@ -38,8 +38,8 @@ class Enqueue {
 	 * @param        string $style
 	 * @since        3.0.1
 	 */
-	public static function enqueue_css( $style ) {
-		self::$styles[] = (string)$style;
+	public function css( $style, $path	= null ) {
+		$this->styles[] = ( $path === null ) ? $this->path_css . $style : $path . $style;
 	}
 	
 	/**
@@ -52,9 +52,9 @@ class Enqueue {
 	 * @copyright    name date
 	 * @since        3.0.1
 	 */
-	public static function loadjs() {
-		foreach( self::$scripts as $script ) {
-			echo '<script src="' . base_url() . self::$path_js . $script . '.js"></script>'."\n";
+	public  function load_js() {
+		foreach( $this->scripts as $script ) {
+			echo '<script src="' . base_url() . $script . '.js"></script>'."\n";
 		}
 	}
 	
@@ -68,9 +68,9 @@ class Enqueue {
 	 * @copyright    name date
 	 * @since        3.0.1
 	 */
-	public static function loadcss() {
-		foreach( self::$styles as $style ) {
-			echo '<link rel="stylesheet" href="' . base_url() . self::$path_css . $style . '.css" />'."\n";
+	public  function load_css() {
+		foreach( $this->styles as $style ) {
+			echo '<link rel="stylesheet" href="' . base_url() . $style . '.css" />'."\n";
 		}
 	}
 }

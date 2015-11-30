@@ -71,15 +71,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php endif;?>
                         <!-- Notifications: style can be found in dropdown.less -->
                         <?php
-								// Fetch notices from filter "ui_notices".
-								$ui_notices	=	$this->events->apply_filters( 'ui_notices' , array() );
-								UI::push_notice( $ui_notices );						
-								
-								// Fetch declared notices
-								$notices		=	UI::get_notices();
-								$notices_nbr=	count( $notices );
-								
-								?>
+						// Fetch notices from filter "ui_notices".
+						$ui_notices	=	$this->events->apply_filters( 'ui_notices' , array() );
+						UI::push_notice( $ui_notices );						
+						
+						// Fetch declared notices
+						$notices		=	UI::get_notices();
+						$notices_nbr=	count( $notices );
+						
+						?>
                         <li class="dropdown notifications-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell-o"></i> 
                         <?php if( $notices_nbr > 0 ):?>
                         <span class="label label-warning"><?php echo $notices_nbr;?></span> 
@@ -91,21 +91,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu">
                                     <?php 
-													foreach( $notices as $notice ):
-														if( ! isset( $notice[ 'icon' ] ) )
-														{
-															$notice_icon	=	$notice[ 'icon' ];
-														}
-														else
-														{
-															switch( $notice[ 'type' ] )
-															{
-																case 'success' : $notice_icon = 'thumbs-up'; break;
-																case 'warning' : $notice_icon = 'warning'; break;
-																default : $notice_icon = 'info-circle'; break;
-															}
-														}
-												?>
+										foreach( $notices as $notice ):
+											if( ! isset( $notice[ 'icon' ] ) )
+											{
+												$notice_icon	=	$notice[ 'icon' ];
+											}
+											else
+											{
+												switch( $notice[ 'type' ] )
+												{
+													case 'success' : $notice_icon = 'thumbs-up'; break;
+													case 'warning' : $notice_icon = 'warning'; break;
+													default : $notice_icon = 'info-circle'; break;
+												}
+											}
+									?>
                                         <li> <a href="<?php echo xss_clean( $notice[ 'href' ] );?>"> <i class="fa fa-<?php echo xss_clean( $notice_icon );?> text-aqua"></i> <?php echo xss_clean( $notice[ 'msg' ] );?></a> </li>
 												<?php endforeach;?>
                                     </ul>

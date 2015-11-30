@@ -298,102 +298,103 @@ class Modules
 		 
 		 if ( ! get_instance()->upload->do_upload( $file_name ) )
 		 {
-				get_instance()->notice->push_notice( get_instance()->lang->line( 'fetch-from-upload' ) );
+			get_instance()->notice->push_notice( get_instance()->lang->line( 'fetch-from-upload' ) );
 		 }
 		 else
 		 {
-				$data = array( 'upload_data' => get_instance()->upload->data() );
-				
-				$extraction_temp_path		=	self::__unzip( $data );
-				
-				// Look for config.xml file to read config
-				if( file_exists( $extraction_temp_path . '/config.xml' ) )
+			$data = array( 'upload_data' => get_instance()->upload->data() );
+			
+			$extraction_temp_path		=	self::__unzip( $data );
+			
+			// Look for config.xml file to read config
+			if( file_exists( $extraction_temp_path . '/config.xml' ) )
+			{
+				// If config xml file has at least a namespace parameter
+				$module_array	=	get_instance()->xml2array->createArray( file_get_contents( $extraction_temp_path . '/config.xml' ) );					
+				if( isset( $module_array[ 'application' ][ 'details' ][ 'namespace' ] ) )
 				{
-					// If config xml file has at least a namespace parameter
-					$module_array	=	get_instance()->xml2array->createArray( file_get_contents( $extraction_temp_path . '/config.xml' ) );					
-					if( isset( $module_array[ 'application' ][ 'details' ][ 'namespace' ] ) )
+					$module_namespace	= $module_array[ 'application' ][ 'details' ][ 'namespace' ];
+					$old_module = self::get( $module_namespace );
+					// if module with a same namespace already exists
+					if( $old_module )
 					{
-						$module_namespace	= $module_array[ 'application' ][ 'details' ][ 'namespace' ];
-						$old_module = self::get( $module_namespace );
-						// if module with a same namespace already exists
-						if( $old_module )
+						if( isset( $old_module[ 'application' ][ 'details' ][ 'version' ] ) )
 						{
-							if( isset( $old_module[ 'application' ][ 'details' ][ 'version' ] ) )
+							$old_version		=	str_replace( '.' , '' , $old_module[ 'application' ][ 'details' ][ 'version' ] );
+							$new_version		=	str_replace( '.' , '' , $module_array[ 'application' ][ 'details' ][ 'version' ] );
+							if( $new_version > $old_version )
 							{
-								$old_version		=	str_replace( '.' , '' , $old_module[ 'application' ][ 'details' ][ 'version' ] );
-								$new_version		=	str_replace( '.' , '' , $module_array[ 'application' ][ 'details' ][ 'version' ] );
-								if( $new_version > $old_version )
-								{
-									$module_global_manifest	=	self::__parse_path( $extraction_temp_path );	
+								$module_global_manifest	=	self::__parse_path( $extraction_temp_path );	
 
-									if( is_array( $module_global_manifest ) )
+								if( is_array( $module_global_manifest ) )
+								{
+									$response	=	self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data );
+									// Delete temp file
+									SimpleFileManager::drop( $extraction_temp_path );
+									if( $response !== true )
 									{
-										$response	=	self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data );
-										// Delete temp file
-										SimpleFileManager::drop( $extraction_temp_path );
-										if( $response !== true )
-										{
-											return $response;
-										}
-										else
-										{
-											return array( 
-												'namespace'		=>	$module_array[ 'application' ][ 'details' ][ 'namespace' ],
-												'msg'				=>	'module-updated'
-											);
-										}
+										return $response;
 									}
-									// If it's not an array, return the error code.
-									return $module_global_manifest;
+									else
+									{
+										return array( 
+											'namespace'		=>	$module_array[ 'application' ][ 'details' ][ 'namespace' ],
+											'msg'				=>	'module-updated'
+										);
+									}
 								}
-								// Delete temp file
-								SimpleFileManager::drop( $extraction_temp_path );
-								return 'old-version-cannot-be-installed';								
+								// If it's not an array, return the error code.
+								return $module_global_manifest;
 							}
-							
-							/**
-							 * Update is done only when module has valid version number
-							 * Update is done only when new module version is higher than the old version
-							**/
 							// Delete temp file
 							SimpleFileManager::drop( $extraction_temp_path );
-							return 'unable-to-update';
+							return 'old-version-cannot-be-installed';								
 						}
-						// if module does'nt exists
-						else
-						{
-							$module_global_manifest	=	self::__parse_path( $extraction_temp_path );	
-							
-							if( is_array( $module_global_manifest ) )
-							{
-								$response	=	self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data , true );
-								
-								// Delete temp file
-								SimpleFileManager::drop( $extraction_temp_path );
-								
-								if( $response !== true )
-								{
-									return $response;
-								}
-								else
-								{
-									return array( 
-										'namespace'		=>	$module_array[ 'application' ][ 'details' ][ 'namespace' ],
-										'msg'				=>	'module-installed'
-									);
-								}
-							}
-							// If it's not an array, return the error code.
-							return $module_global_manifest;
-						}
+						
+						/**
+						 * Update is done only when module has valid version number
+						 * Update is done only when new module version is higher than the old version
+						**/
+						// Delete temp file
+						SimpleFileManager::drop( $extraction_temp_path );
+						return 'unable-to-update';
 					}
-					// Delete temp file
-					SimpleFileManager::drop( $extraction_temp_path );
-					return 'incorrect-config-file';
+					// if module does'nt exists
+					else
+					{
+						$module_global_manifest	=	self::__parse_path( $extraction_temp_path );	
+						
+						if( is_array( $module_global_manifest ) )
+						{
+							$response	=	self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data , true );
+							
+							// Delete temp file
+							SimpleFileManager::drop( $extraction_temp_path );
+							
+							if( $response !== true )
+							{
+								return $response;
+							}
+							else
+							{
+								return array( 
+									'namespace'		=>	$module_array[ 'application' ][ 'details' ][ 'namespace' ],
+									'msg'				=>	'module-installed'
+								);
+							}
+						}
+						// If it's not an array, return the error code.
+						return $module_global_manifest;
+					}
 				}
 				// Delete temp file
 				SimpleFileManager::drop( $extraction_temp_path );
-				return 'config-file-not-found';
+				return 'incorrect-config-file';
+			}
+
+			// Delete temp file
+			SimpleFileManager::drop( $extraction_temp_path );
+			return 'config-file-not-found';
 		 }
 	}
 	
@@ -407,7 +408,7 @@ class Modules
 	 */
 	static function __unzip( $upload_details )
 	{
-		$extraction_path		=	$upload_details[ 'upload_data' ][ 'file_path' ] . $upload_details[ 'upload_data' ][ 'raw_name' ];
+		$extraction_path		=	$upload_details[ 'upload_data' ][ 'file_path' ] . $upload_details[ 'upload_data' ][ 'raw_name' ];		
 		
 		// If temp path does'nt exists
 		if( ! is_dir( $extraction_path ) ): mkdir( $extraction_path ); endif;
@@ -421,7 +422,25 @@ class Modules
 		
 		get_instance()->unzip->close();
 		// delete zip file
+		
 		if( is_file( $upload_details[ 'upload_data' ][ 'full_path' ] ) ): unlink( $upload_details[ 'upload_data' ][ 'full_path' ] );endif;
+		
+		// Fix module installed from Github
+		if( ! file_exists( $extraction_path . '/config.xml' ) ) {
+			$temp_dir	=	opendir( $extraction_path );
+			while( false !== ( $file = readdir( $temp_dir ) ) ){
+				var_dump( $upload_details );
+				if( ! in_array( $file, array( '.', '..' ) ) ) {
+					if( $file == $upload_details[ 'upload_data' ][ 'raw_name' ] ){ // if internal folder name is the same as the raw name
+						// if within this folder a config file exists
+						if( file_exists( $extraction_path . '/' . $file . '/config.xml' ) ) {
+							SimpleFileManager::copy( $extraction_path . '/' . $file, $extraction_path ); // moving folder to the top parent folder
+							SimpleFileManager::drop( $extraction_path . '/' . $file );
+						}
+					}
+				}
+			}
+		}
 		
 		return $extraction_path;
 	}

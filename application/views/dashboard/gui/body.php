@@ -40,12 +40,13 @@ Tendoo Version Required : 1.5
 	// Aauth Errors
 	$this->events->do_action( 'displays_dashboard_errors' );
 	echo fetch_notice_from_url();
+	$col_range	=	( count( $this->gui->cols ) > 3 ) ? 3 : 4;
 	?>
     
     
     <div class="row">
         <?php foreach( force_array( $this->gui->get_cols() ) as $col_id =>	$col_data ):?>
-        <div class="col-lg-<?php echo riake( 'width' , $col_data , 1 ) * 3 ;?>">
+        <div class="meta-row col-lg-<?php echo riake( 'width' , $col_data , 1 ) * $col_range ;?>">
             <?php 
 			$config = riake( 'configs' , $col_data );
 			// Inner Opening Wrapper
@@ -54,6 +55,16 @@ Tendoo Version Required : 1.5
 			// looping $col_data[ 'metas' ];
 			foreach( force_array( riake( 'metas' , $col_data ) ) as $meta )
 			{
+				$meta_class		=	riake( 'meta_class', $meta );
+				$attrs			=	riake( 'attrs', $meta );
+				/**
+				 * Attrs String
+				**/
+				$attrs_string	=	'';
+				
+				foreach( force_array( $attrs ) as $key => $attr ) {
+					$attrs_string	.=	$key . '="' . $attr . '" ';
+				}
 				// get meta type
 				if( in_array( $meta_type = riake( 'type' , $meta ) , array( 'box-default' , 'box-primary' , 'box-success' , 'box-info' , 'box-warning' , 'box' ) ) )
 				{
@@ -79,11 +90,26 @@ Tendoo Version Required : 1.5
 							<input type="hidden" name="gui_saver_expiration_time" value="<?php echo $form_expire;?>" />
 							<input type="hidden" name="gui_saver_use_namespace" value="<?php echo $use_namespace ? 'true' : 'false';?>" />
 						<?php
+					} elseif( $action === null ) {
+						?>
+                        <form class="form <?php echo $class;?>" id="<?php echo $id;?>" enctype="<?php echo $enctype;?>" method="<?php echo $method;?>">
+                        <?php
 					}
-					?>
-                    
-                    <div class="box <?php echo $meta_type;?>">
-                        <div class="box-header with-border">
+					
+					
+					// Meta status
+					$meta_status	=	$this->options->get( 'meta_status', User::id() );
+					/**
+					 * Background-Color will help you set a default background for the meta
+					**/
+					?>                    
+                    <div class="box <?php echo $meta_type;?> <?php echo riake( $namespace, $meta_status );?> <?php echo riake( 'background-color', $meta );?> meta-<?php echo $namespace;?>" data-meta-namespace="<?php echo $namespace;?>" <?php echo $attrs_string;?>>
+                   		<?php
+						/**
+						 *	Whether you want to display border, use "display-border" and set it to true
+						**/
+						?>
+                        <div class="box-header <?php echo riake( 'display-border', $meta ) ? 'with-border' : '';?>">
                           <?php if( $icon ):?>
                           <i class="fa <?php echo $icon;?>"></i>
                           <?php endif;?>
@@ -94,13 +120,19 @@ Tendoo Version Required : 1.5
                           <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                           </div>
-                        </div><!-- /.box-header -->
+                        </div>
+                        <!-- /.box-header -->
+                        <?php if( ! riake( 'hide_body_wrapper', $meta ) ):?>
                         <div class="box-body">
+                        <?php endif;?>
                           	<?php echo $this->load->view( 'dashboard/gui/gui-items' , array(
-										'namespace'	=>	$namespace,
-										'meta' 	=>	$meta
-									) , true );;?>
-                        </div><!-- /.box-body -->
+								'namespace'	=>	$namespace,
+								'meta' 	=>	$meta
+							) , true );;?>
+						<?php if( ! riake( 'hide_body_wrapper', $meta ) ):?>
+                        </div>
+                        <?php endif;?>
+                        <!-- /.box-body -->
                         <?php 
 						if( $footer	=	riake( 'footer' , $meta ) )
 						{
@@ -135,7 +167,7 @@ Tendoo Version Required : 1.5
 
                     <?php
 					// enable gui form saver
-					if( riake( 'gui_saver' , $meta ) )
+					if( riake( 'gui_saver' , $meta ) || $action === null )
 					{
 						?>
 						</form>

@@ -1,0 +1,6 @@
+{
+	aauth : {
+		version : '2.0',
+		zip_url : 'https://codeload.github.com/Blair2004/aauth/legacy.zip/master'
+	}
+}
