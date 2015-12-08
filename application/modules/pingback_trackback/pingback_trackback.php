@@ -15,7 +15,7 @@ class PingBack_TrackBack extends CI_Model
 	
 	function setup()
 	{
-		Module::enable( 'pingback_trackback' );
+		Modules::enable( 'pingback_trackback' );
 		$this->enable( 'pingback_trackback' );
 	}
 	
