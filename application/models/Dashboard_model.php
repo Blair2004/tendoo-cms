@@ -31,8 +31,7 @@ class Dashboard_model extends CI_Model
 		$this->enqueue->css( '../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min' ); // CSS for WYSIHTML5
 		
 		// Bootsrap Notify
-		$this->enqueue->js( '../plugins/bootstrap-notify-master/bootstrap-notify.min' );
-		
+		$this->enqueue->js( '../plugins/bootstrap-notify-master/bootstrap-notify.min' );		
 		$this->enqueue->js( 'tendoo.core' );	
 		
 	}

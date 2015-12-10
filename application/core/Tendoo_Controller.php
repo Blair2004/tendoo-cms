@@ -69,22 +69,23 @@ class Tendoo_Controller extends CI_Controller
 			}
 			
 			// loading assets for reserved controller
-			$this->enqueue->css( 'bootstrap.min' );
-			$this->enqueue->css( 'AdminLTE.min' );
-			$this->enqueue->css( 'tendoo.min' );
-			$this->enqueue->css( 'skins/_all-skins.min' );			
-			$this->enqueue->css( 'font-awesome-4.3.0' );
-			$this->enqueue->css( '../plugins/iCheck/square/blue' );
+			$css_libraries		=	$this->events->apply_filters( 'default_css_libraries', array( 'bootstrap.min', 'AdminLTE.min', 'tendoo.min', 'skins/_all-skins.min', 'font-awesome-4.3.0', '../plugins/iCheck/square/blue' ) );
+			if( $css_libraries ) {
+				foreach( $css_libraries as $lib ) {
+					$this->enqueue->css( $lib );
+				}
+			}
 			
 			/**
 			 * 	Enqueueing Js
 			**/
 			
-			$this->enqueue->js( '../plugins/jQuery/jQuery-2.1.4.min' );
-			$this->enqueue->js( '../plugins/jQueryUI/jquery-ui-1.10.3.min' );
-			$this->enqueue->js( 'bootstrap.min' );
-			$this->enqueue->js( '../plugins/iCheck/icheck.min' );		
-			$this->enqueue->js( 'app.min' );
+			$js_libraries		=	$this->events->apply_filters( 'default_js_libraries', array( '../plugins/jQuery/jQuery-2.1.4.min', '../plugins/jQueryUI/jquery-ui-1.10.3.min', 'bootstrap.min', '../plugins/iCheck/icheck.min',  'app.min' ) );
+			if( is_array( $js_libraries ) ) {
+				foreach( $js_libraries as $lib ) {
+					$this->enqueue->js( $lib );
+				}
+			}
 		}
 	}
 	function loader()
