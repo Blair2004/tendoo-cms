@@ -28,10 +28,10 @@ Here are new filters added to this release :
 
 
 ## JS API improved
----
 
 Tendoo 3.0.1 adds new methods to the JS API. Here is how you can use it.
 
+<pre>
 tendoo.notify.success( [title], [message], [url], [keepvisible]); // will print a success notice.
 
 tendoo.notify.error( [title], [message], [url], [keepvisible]); // will print a error notice.
@@ -39,3 +39,9 @@ tendoo.notify.error( [title], [message], [url], [keepvisible]); // will print a 
 tendoo.notify.warning( [title], [message], [url], [keepvisible]); // will print a warning notice.
 
 tendoo.notify.info( [title], [message], [url], [keepvisible]); // will print an info notice.
+</pre>
+
+## Redirect Feature
+Now everytime a use is login out or try to access dashboard without being logged in,<br>
+he's automatically redirected to the login page and will 
+be redirected to the dashboard when login is complete.
