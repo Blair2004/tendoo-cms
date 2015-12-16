@@ -14,7 +14,6 @@ class aauth_action extends CI_model
 		$this->events->add_action( 'do_disable_module' , array( $this , 'module_access' ) , 1 , 1);
 		$this->events->add_action( 'do_enable_module' , array( $this , 'module_access' ) , 1 , 1);
 	}
-	
 	/**
 	 * Checks whether user is granted to access modules
 	**/
@@ -99,6 +98,7 @@ class aauth_action extends CI_model
 		// Apply filter before login
 		$fields_namespace	=	$this->login_model->get_fields_namespace();
 		$exec 				=	$this->users->login( $fields_namespace );
+		
 		$this->events->add_filter( 'tendoo_login_notice' , function() use ( $exec ) {
 			return $exec;
 		});

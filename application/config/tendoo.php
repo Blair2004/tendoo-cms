@@ -14,9 +14,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config[ 'reserved_controllers' ]					= 	array( 'dashboard' , 'sign-in', 'sign-out' , 'sign-up' , 'tendoo-setup' );
 $config[ 'controllers_requiring_installation' ]		=	array( 'dashboard' , 'sign-in' , 'sign-out' , 'sign-up' );
 $config[ 'controllers_requiring_login' ]			=	array( 'dashboard' , 'sign-out' );
-$config[ 'default_login_route' ]					=	'/sign-in/?notice=login-required';
+$config[ 'default_login_route' ]					=	'/sign-in/';
 $config[ 'controllers_requiring_logout' ]			=	array( 'sign-in' , 'sign-up' );
-$config[ 'default_logout_route' ]					=	'/dashboard/?notice=logout-required';
+$config[ 'default_logout_route' ]					=	'/dashboard/';
 
 // Core ID	
 $config[ 'version' ]								=	$config[ 'core_version' ]	=	'3.0.1'; // core id

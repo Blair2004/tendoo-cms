@@ -175,7 +175,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left"> <a href="<?php echo xss_clean( $this->events->apply_filters( 'user_header_profile_link' , '#' ) );?>" class="btn btn-default btn-flat"><?php _e( 'Profile' );?></a> </div>
-                                    <div class="pull-right"> <a href="<?php echo xss_clean( $this->events->apply_filters( 'user_header_sign_out_link' , site_url( array( 'sign-out' ) ) ) );?>" class="btn btn-default btn-flat"><?php _e( 'Sign Out' );?></a> </div>
+                                    <div class="pull-right"> <a href="<?php echo xss_clean( $this->events->apply_filters( 'user_header_sign_out_link' , site_url( array( 'sign-out' ) ) . '?redirect=' . urlencode( current_url() ) ) );?>" class="btn btn-default btn-flat"><?php _e( 'Sign Out' );?></a> </div>
                                 </li>
                             </ul>
                         </li>

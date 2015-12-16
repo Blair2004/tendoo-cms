@@ -62,7 +62,7 @@ class Tendoo_Controller extends CI_Controller
 				redirect( array( 'tendoo-setup' ) );
 			}
 			
-			// force user to be connected for certain controller
+			// force user to be connected for some controller
 			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_logout' ) ) && $this->setup->is_installed() )
 			{
 				// $this->events->do_action( 'is_connected' );
