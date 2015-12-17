@@ -27,6 +27,7 @@ class Dashboard_model extends CI_Model
 		// Enqueuing slimscroll
 		$this->enqueue->js( '../plugins/SlimScroll/jquery.slimscroll.min' );
 		$this->enqueue->js( 'advanced' );
+		$this->enqueue->js( '../plugins/heartcode/heartcode-canvasloader-min' );
 		$this->enqueue->js( '../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min' ); // WYSIHTML5 @since 1.5
 		$this->enqueue->css( '../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min' ); // CSS for WYSIHTML5
 		
@@ -34,6 +35,8 @@ class Dashboard_model extends CI_Model
 		$this->enqueue->js( '../plugins/bootstrap-notify-master/bootstrap-notify.min' );		
 		$this->enqueue->js( 'tendoo.core' );	
 		
+		// Bootbox
+		$this->enqueue->js( '../plugins/bootbox/bootbox.min' );
 	}
 
 	/**
@@ -322,6 +325,34 @@ tendoo.options			=	new function(){
         return this;
     }
 }
+tendoo.loader			=	new function(){
+	this.show			=	function(){
+		$('#tendoo-spinner').hide();
+		var cl = new CanvasLoader('tendoo-spinner');
+		cl.setColor('#ffffff'); // default is '#000000'
+		cl.setDiameter(35); // default is 40
+		cl.setDensity(56); // default is 40
+		cl.setSpeed(3); // default is 2
+		cl.show(); // Hidden by default
+		$('#tendoo-spinner').fadeIn(500);
+	}
+	this.hide			=	function(){
+		$('#tendoo-spinner').fadeOut(500, function(){
+			$(this).html('').show();
+		})
+	}
+}
+$(document).ready(function(){
+	$( document ).ajaxComplete(function() {
+	  tendoo.loader.hide();
+	});
+	$( document ).ajaxError(function() {
+	  tendoo.loader.hide();
+	});
+	$( document ).ajaxStart(function() {
+	  tendoo.loader.show();
+	});
+});
 </script>
 		<?php
 	}

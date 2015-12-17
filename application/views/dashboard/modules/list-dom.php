@@ -12,11 +12,10 @@
 	<div class="col-lg-3">
    	<div class="box <?php echo ( riake( 'highlight', $_GET ) == $_module[ 'application' ][ 'details' ][ 'namespace' ] ) ? 'box-primary' : '' ;?> " id="#module-<?php echo $_module[ 'application' ][ 'details' ][ 'namespace' ];?>">
       	<div class="box-header">
-         	<h3 class="box-title"><?php echo isset( $_module[ 'application' ][ 'details' ][ 'name' ] ) ? $_module[ 'application' ][ 'details' ][ 'name' ] : __( 'Tendoo Extension' );?></h3>
+         	<h3 class="box-title"><?php echo isset( $_module[ 'application' ][ 'details' ][ 'name' ] ) ? $_module[ 'application' ][ 'details' ][ 'name' ] : __( 'Tendoo Extension' );?> &mdash; <?php echo 'v' . ( isset( $_module[ 'application' ][ 'details' ][ 'version' ] ) ? $_module[ 'application' ][ 'details' ][ 'version' ] : 0.1 );?></h3>
          </div>
          <div class="box-body" style="height:100px;"><?php echo isset( $_module[ 'application' ][ 'details' ][ 'description' ] ) ? $_module[ 'application' ][ 'details' ][ 'description' ] : '';?> </div>
          <div class="box-footer">
-           	<?php echo 'v' . ( isset( $_module[ 'application' ][ 'details' ][ 'version' ] ) ? $_module[ 'application' ][ 'details' ][ 'version' ] : 0.1 );?>
              <div class="box-tools pull-right">
             <?php
 				if( isset( $_module[ 'application' ][ 'details' ][ 'main' ] ) ){ // if the module has a main file, it can be activated
@@ -41,7 +40,7 @@
               <?php endif;?>
               <?php
 			  ?>
-              <button class="btn btn-default btn-box-tool" data-action="update"><i style="font-size:20px;" class="fa fa-refresh"></i></button>
+              <!-- <button class="btn btn-default btn-box-tool" data-action="update"><i style="font-size:20px;" class="fa fa-refresh"></i></button>-->
             </div>
          </div>
       </div>

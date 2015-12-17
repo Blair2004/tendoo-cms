@@ -80,7 +80,14 @@ class Tendoo_Controller extends CI_Controller
 			 * 	Enqueueing Js
 			**/
 			
-			$js_libraries		=	$this->events->apply_filters( 'default_js_libraries', array( '../plugins/jQuery/jQuery-2.1.4.min', '../plugins/jQueryUI/jquery-ui-1.10.3.min', 'bootstrap.min', '../plugins/iCheck/icheck.min',  'app.min' ) );
+			$js_libraries		=	$this->events->apply_filters( 'default_js_libraries', array( 
+				'../plugins/jQuery/jQuery-2.1.4.min', 
+				'../plugins/jQuery/jquery-migrate-1.2.1',
+				'../plugins/jQueryUI/jquery-ui-1.10.3.min', 
+				'bootstrap.min', 
+				'../plugins/iCheck/icheck.min',  
+				'app.min' 
+			) );
 			if( is_array( $js_libraries ) ) {
 				foreach( $js_libraries as $lib ) {
 					$this->enqueue->js( $lib );

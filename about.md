@@ -12,7 +12,7 @@ Thank's for having choosed Tendoo CMS to build your web application.
 ## Actions and Filters
 
 ---------------------
-### Actions
+### &mdash; Actions
 
 Here are new actions added to this release :
 
@@ -20,14 +20,20 @@ Here are new actions added to this release :
 **dashboard_footer** : triggers action within dashboard footer
 
 ---
-### Filters
+### &mdash; Filters
 
 Here are new filters added to this release :
 
 **dashboard_output** : is dashboard index output.
 
+## Internal Features
 
-## JS API improved
+### &mdash; Auto Redirect
+Each page are now added as fallback when trying to access dashboard without login.
+
+## JS API
+
+### &mdash; Notify
 
 Tendoo 3.0.1 adds new methods to the JS API. Here is how you can use it.
 
@@ -41,7 +47,24 @@ tendoo.notify.warning( [title], [message], [url], [keepvisible]); // will print 
 tendoo.notify.info( [title], [message], [url], [keepvisible]); // will print an info notice.
 </pre>
 
-## Redirect Feature
-Now everytime a use is login out or try to access dashboard without being logged in,<br>
-he's automatically redirected to the login page and will 
-be redirected to the dashboard when login is complete.
+### &mdash; BootBox
+Bootbox.js is a small JavaScript library which allows you to create programmatic dialog boxes using Bootstrap modals, without having to worry about creating, managing or removing any of the required DOM elements or JS event handlers. 
+
+<a href="http://bootboxjs.com/#download">BooBox Official Web site</a>
+<pre>
+bootbox.alert(message, callback)
+
+bootbox.prompt(message, callback)
+
+bootbox.confirm(message, callback)
+</pre>
+
+### &mdash;  Loader
+Automatic loader is now added on dashboard header each time XHR request are send and stopped.
+
+**How to trigger loader**
+
+<pre>
+tendoo.loader.show(); // to show loader
+tendoo.loader.hide(); // to hide loader 
+</pre>

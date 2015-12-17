@@ -21,7 +21,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation"> 
                 <!-- Sidebar toggle button--> 
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a> 
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas"> <span class="sr-only">Toggle navigation</span> </a> 
+                <div class="pull-left" id="tendoo-spinner" style="margin-top:7px;margin-left:7px"></div>
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
