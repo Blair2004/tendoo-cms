@@ -368,8 +368,6 @@ class Modules
 						{
 							$response	=	self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data , true );
 							
-							var_dump( $response );die;
-							
 							// Delete temp file
 							SimpleFileManager::drop( $extraction_temp_path );
 							
@@ -410,8 +408,7 @@ class Modules
 	 */
 	static function __unzip( $upload_details )
 	{
-		$extraction_path		=	$upload_details[ 'upload_data' ][ 'file_path' ] . $upload_details[ 'upload_data' ][ 'raw_name' ];		
-		
+		$extraction_path		=	str_replace( '/', DIRECTORY_SEPARATOR, $upload_details[ 'upload_data' ][ 'file_path' ] . $upload_details[ 'upload_data' ][ 'raw_name' ] ) ;		
 		// If temp path does'nt exists
 		if( ! is_dir( $extraction_path ) ): mkdir( $extraction_path ); endif;
 		
@@ -487,6 +484,7 @@ class Modules
 				}
 			}
 			closedir( $dir );
+			
 			// When everything seems to be alright
 			return array( $module_manifest , $manifest );
 		}
