@@ -408,7 +408,7 @@ class Modules
 	 */
 	static function __unzip( $upload_details )
 	{
-		$extraction_path		=	str_replace( '/', '/', $upload_details[ 'upload_data' ][ 'file_path' ] . $upload_details[ 'upload_data' ][ 'raw_name' ] ) ;		
+		$extraction_path		=	$upload_details[ 'upload_data' ][ 'file_path' ] . $upload_details[ 'upload_data' ][ 'raw_name' ] ;		
 		// If temp path does'nt exists
 		if( ! is_dir( $extraction_path ) ): mkdir( $extraction_path ); endif;
 		
@@ -565,11 +565,11 @@ class Modules
 			}
 			else
 			{
-				$relative_path_to_file[1]	=	str_replace( '/' , '\\' , $relative_path_to_file[1] );
+				$relative_path_to_file[1]	=	$relative_path_to_file[1];
 				// write file on the new folder
 				SimpleFileManager::file_copy( $_manifest ,  APPPATH . $relative_path_to_file[1] );
 				// relative json manifest
-				$relative_json_manifest[]	=	str_replace( '/', '\\' , APPPATH . $relative_path_to_file[1] );
+				$relative_json_manifest[]	=	APPPATH . $relative_path_to_file[1];
 			}
 		}
 		// Creating Manifest
@@ -749,7 +749,6 @@ class Modules
 			// move module file to temp folder
 			SimpleFileManager::copy( $module_installed_dir , $temp_folder );
 			
-			// $FCPATH	=	str_replace( '/' , '\\' , FCPATH );			
 			// read temp folder and download it
 			get_instance()->zip->read_dir( 
 				FCPATH . 'application' . '/' . 'temp' . '/' . $module_temp_folder_name . '/' , 
