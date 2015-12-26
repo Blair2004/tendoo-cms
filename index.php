@@ -197,12 +197,12 @@ switch (ENVIRONMENT)
 
 	if (($_temp = realpath($system_path)) !== FALSE)
 	{
-		$system_path = $_temp . DIRECTORY_SEPARATOR;
+		$system_path = $_temp . '/';
 	}
 	else
 	{
 		// Ensure there's a trailing slash
-		$system_path = rtrim($system_path, '/' ). DIRECTORY_SEPARATOR;
+		$system_path = rtrim($system_path, '/' ). '/';
 	}
 
 	// Is the system path correct?
@@ -225,7 +225,7 @@ switch (ENVIRONMENT)
 	define('BASEPATH', $system_path );
 	
 	// Path to the front controller (this file)
-	define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR );
+	define('FCPATH', dirname(__FILE__) . '/' );
 
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
@@ -238,28 +238,28 @@ switch (ENVIRONMENT)
 			$application_folder = $_temp;
 		}
 
-		define('APPPATH', $application_folder.DIRECTORY_SEPARATOR);
+		define('APPPATH', $application_folder.'/');
 	}
 	else
 	{
-		if ( ! is_dir(BASEPATH.$application_folder.DIRECTORY_SEPARATOR))
+		if ( ! is_dir(BASEPATH.$application_folder.'/'))
 		{
 			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 			echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
 			exit(3); // EXIT_CONFIG
 		}
 
-		define('APPPATH', BASEPATH.$application_folder.DIRECTORY_SEPARATOR);
+		define('APPPATH', BASEPATH.$application_folder.'/');
 	}
 
 	// The path to the "views" folder
 	if ( ! is_dir($view_folder))
 	{
-		if ( ! empty($view_folder) && is_dir(APPPATH.$view_folder.DIRECTORY_SEPARATOR))
+		if ( ! empty($view_folder) && is_dir(APPPATH.$view_folder.'/'))
 		{
 			$view_folder = APPPATH.$view_folder;
 		}
-		elseif ( ! is_dir(APPPATH.'views'.DIRECTORY_SEPARATOR))
+		elseif ( ! is_dir(APPPATH.'views'.'/'))
 		{
 			header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 			echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
@@ -273,11 +273,11 @@ switch (ENVIRONMENT)
 
 	if (($_temp = realpath($view_folder)) !== FALSE)
 	{
-		$view_folder = $_temp.DIRECTORY_SEPARATOR;
+		$view_folder = $_temp.'/';
 	}
 	else
 	{
-		$view_folder = rtrim($view_folder, '/\\').DIRECTORY_SEPARATOR;
+		$view_folder = rtrim($view_folder, '/\\').'/';
 	}
 
 	define('VIEWPATH', $view_folder);
@@ -289,4 +289,4 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
-require_once BASEPATH . 'core' . DIRECTORY_SEPARATOR . 'CodeIgniter.php';
+require_once BASEPATH . 'core' . '/' . 'CodeIgniter.php';
