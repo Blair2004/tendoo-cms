@@ -28,3 +28,4 @@ user_id						:	return user id
 dashboard_home_output	(deprecated)		:	output for dashboard
 default_css_libraries		:	array of tendoo dahsboard css files
 default_js_libraries		:	array of tendoo dahsboard js files
+dashboard_footer_text		:	default footer text

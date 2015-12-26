@@ -46,6 +46,7 @@ class PingBack_TrackBack extends CI_Model
 			 KEY `entry_id` (`entry_id`)
 			);' );
 			 $this->options->set( 'pingback_trackback_is_installed', true, true );
+			 $this->options->set( 'store_pingback', true );
 		}		
 	}
 	
@@ -53,6 +54,8 @@ class PingBack_TrackBack extends CI_Model
 	{
 		if( $namespace == 'pingback_trackback' ) {
 			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'trackbacks`;' );
+			$this->options->delete( 'pingback_trackback_is_installed' );
+			$this->options->delete( 'store_pingback' );			
 		}
 	}
 	

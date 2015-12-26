@@ -13,13 +13,11 @@ class Dashboard_model extends CI_Model
 		parent::__construct();		
 		$this->events->add_action( 'dashboard_header', array( $this, '__dashboard_header' ) );
 		$this->events->add_action( 'dashboard_footer', array( $this, '__dashboard_footer' ) );
-		$this->events->add_filter( 'dashboard_home_output', array( $this, '__home_output' ) );
-	
 		$this->events->add_action( 'load_dashboard' , array( $this , '__set_admin_menu' ) );
-		$this->events->add_action( 'load_dashboard' , array( $this , 'load_dashboard' ) , 1 );		
-		
+		$this->events->add_action( 'load_dashboard' , array( $this , 'load_dashboard' ) , 1 );				
 		$this->events->add_action( 'create_dashboard_pages' , array( $this , '__dashboard_config' ) );			
 		$this->events->add_action( 'load_dashboard' , array( $this , 'before_session_starts' ) );
+		$this->events->add_filter( 'dashboard_home_output', array( $this, '__home_output' ) );
 	}
 	
 	function load_dashboard()
@@ -31,12 +29,18 @@ class Dashboard_model extends CI_Model
 		$this->enqueue->js( '../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min' ); // WYSIHTML5 @since 1.5
 		$this->enqueue->css( '../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min' ); // CSS for WYSIHTML5
 		
+		// Highlight
+		$this->enqueue->css( 'highlight-min' );
+		
 		// Bootsrap Notify
 		$this->enqueue->js( '../plugins/bootstrap-notify-master/bootstrap-notify.min' );		
 		$this->enqueue->js( 'tendoo.core' );	
 		
 		// Bootbox
 		$this->enqueue->js( '../plugins/bootbox/bootbox.min' );
+		
+		// Underscore
+		$this->enqueue->js( '../plugins/underscore/underscore-min' );
 	}
 
 	/**
@@ -160,10 +164,7 @@ class Dashboard_model extends CI_Model
 	}
 	function __dashboard_header()
 	{
-		// Including Highlight.js
 		?>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
-<script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
 <script>
 tendoo.base_url			=	'<?php echo base_url();?>';
 tendoo.dashboard_url	=	'<?php echo site_url( array( 'dashboard' ) );?>';

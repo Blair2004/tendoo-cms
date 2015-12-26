@@ -17,6 +17,17 @@ class Tendoo_Controller extends CI_Controller
 		// Load Modules
 		Modules::load( MODULESPATH );
 		
+		/**
+		 * Global Vars
+		**/
+		
+		global $CurrentMethod, $CurrentScreen, $CurrentParams;
+		
+		$CurrentMethod		=	$this->uri->segment(2);
+		$CurrentScreen		=	$this->uri->segment(1);
+		$CurrentParams		=	$this->uri->segment_array();
+		$CurrentParams		=	count( $CurrentParams ) > 2 ? array_slice( $CurrentParams, 2 ) : array();
+		
 		// if is installed, setup is always loaded
 		if( $this->setup->is_installed() )
 		{
