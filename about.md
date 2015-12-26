@@ -1,10 +1,13 @@
-# You're using Tendoo CMS 3.0.3
+# You're using Tendoo CMS 3.0.4
 
 
-Congratulation, Tendoo CMS 3.0.3 has been successfully installed. This page is a summary of what you can expect for it : (improvements, new features, bug fixes, and so on).
+Congratulation, Tendoo CMS 3.0.4 has been successfully installed. This page is a summary of what you can expect for it : (improvements, new features, bug fixes, and so on).
 Thank's for having choosed Tendoo CMS to build your web application.
 
 ---
+
+# Bug Fix
+Tendoo CMS users has faced some issue, while trying to install Tendoo CMS on production server. This bug has been discovered within core files, and this bug is due to back slash and forward slash usage on file path. Hope you'll enjoy this new release.
 
 # What's new
 
