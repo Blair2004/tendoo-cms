@@ -748,12 +748,13 @@ class Modules
 			
 			// move module file to temp folder
 			SimpleFileManager::copy( $module_installed_dir , $temp_folder );
-			$FCPATH	=	str_replace( '/' , '\\' , FCPATH );			
+			
+			// $FCPATH	=	str_replace( '/' , '\\' , FCPATH );			
 			// read temp folder and download it
 			get_instance()->zip->read_dir( 
-				$FCPATH . 'application' . '/' . 'temp' . '/' . $module_temp_folder_name . '/' , 
+				FCPATH . 'application' . '/' . 'temp' . '/' . $module_temp_folder_name . '/' , 
 				FALSE,
-				$FCPATH . 'application' . '/' . 'temp' . '/' . $module_temp_folder_name . '/'
+				FCPATH . 'application' . '/' . 'temp' . '/' . $module_temp_folder_name . '/'
 			);
 			// delete temp folder
 			SimpleFileManager::drop( $temp_folder );
