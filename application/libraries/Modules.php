@@ -585,7 +585,7 @@ class Modules
 			if( is_dir( PUBLICPATH . $module_namespace ) ){ // checks if module folder exists on public folder
 				SimpleFileManager::drop( PUBLICPATH . 'modules' . DIRECTORY_SEPARATOR . $module_namespace );
 			}
-
+			
 			mkdir( PUBLICPATH  . 'modules' . DIRECTORY_SEPARATOR . $module_namespace ); // creating module folder within
 			SimpleFileManager::extractor( $module_dir_path . DIRECTORY_SEPARATOR . 'assets' , PUBLICPATH . 'modules' . DIRECTORY_SEPARATOR . $module_namespace );			
 			

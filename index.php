@@ -192,17 +192,17 @@ switch (ENVIRONMENT)
 	// Set the current directory correctly for CLI requests
 	if (defined('STDIN'))
 	{
-		chdir(dirname(__FILE__));
+		chdir( dirname(__FILE__) );
 	}
 
 	if (($_temp = realpath($system_path)) !== FALSE)
 	{
-		$system_path = $_temp.'/';
+		$system_path = $_temp . DIRECTORY_SEPARATOR;
 	}
 	else
 	{
 		// Ensure there's a trailing slash
-		$system_path = rtrim($system_path, '/').'/';
+		$system_path = rtrim($system_path, '/' ). DIRECTORY_SEPARATOR;
 	}
 
 	// Is the system path correct?
@@ -222,14 +222,14 @@ switch (ENVIRONMENT)
 	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
 	// Path to the system folder
-	define('BASEPATH', str_replace('\\', '/', $system_path));
+	define('BASEPATH', $system_path );
 	
 	// Path to the front controller (this file)
-	define('FCPATH', dirname(__FILE__).'/');
+	define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR );
 
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
-
+	
 	// The path to the "application" folder
 	if (is_dir($application_folder))
 	{
@@ -289,4 +289,4 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
-require_once BASEPATH.'core/CodeIgniter.php';
+require_once BASEPATH . 'core' . DIRECTORY_SEPARATOR . 'CodeIgniter.php';
