@@ -46,8 +46,8 @@ class SimpleFileManager
 				{
 					if(is_file($source.'/'.$content))
 					{
-						copy($source.'/'.$content,$destination.'/'.$content);
-						unlink($source.'/'.$content);
+						copy( str_replace( '//', '/', $source.'/'.$content ), str_replace( '//', '/', $destination.'/'.$content ) );
+						unlink( str_replace( '//', '/', $source.'/'.$content ) );
 					}
 					if(is_dir($source.'/'.$content) && !in_array($content,array('..','.')))
 					{
@@ -55,7 +55,7 @@ class SimpleFileManager
 						{
 							if(!is_dir($destination.'/'.$content))
 							{
-								mkdir($destination.'/'.$content);
+								mkdir( str_replace( '//', '/', $destination.'/'.$content ) );
 							}
 							self::extractor($source.'/'.$content,$destination.'/'.$content,$dir_limit-1);
 						}
@@ -89,7 +89,7 @@ class SimpleFileManager
 					$path_progressive	.= $file . DIRECTORY_SEPARATOR;
 					if( ! is_dir( $path_progressive ) )
 					{
-						mkdir( $path_progressive );
+						mkdir( str_replace( '//', '/', $path_progressive ) );
 					}
 				}
 			}
