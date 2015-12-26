@@ -1,22 +1,25 @@
-# You're using Tendoo CMS 3.0.1
+# You're using Tendoo CMS 3.0.3
 
 
-Congratulation, Tendoo CMS 3.0.1 has been successfully installed. This page is a summary of what you can expect for it : (improvements, new features, bug fixes, and so on).
+Congratulation, Tendoo CMS 3.0.3 has been successfully installed. This page is a summary of what you can expect for it : (improvements, new features, bug fixes, and so on).
 Thank's for having choosed Tendoo CMS to build your web application.
 
 ---
 
-# What's New ?
+# What's new
 
----
-## Actions and Filters
+## 1. News
+GroceryCRUD library will be merge into core to provide better CRUD feature for tendoo CMS. Users screen, won't be supported by this feature, default feature still used .
 
----------------------
+
+
+## 2. Actions and Filters
+
 ### &mdash; Actions
 
 Here are new actions added to this release :
 
-**dashboard_header** : triggers action within dashboard header
+**dashboard_header** : triggers action within dashboard header<br>
 **dashboard_footer** : triggers action within dashboard footer
 
 ---
@@ -24,14 +27,15 @@ Here are new actions added to this release :
 
 Here are new filters added to this release :
 
-**dashboard_output** : is dashboard index output.
+**dashboard_output** : is dashboard index output.<br>
+**dashboard_footer_text** : hold dashboard footer text.
 
-## Internal Features
+## 3. Internal Features
 
 ### &mdash; Auto Redirect
 Each page are now added as fallback when trying to access dashboard without login.
 
-## JS API
+## 4. JS API
 
 ### &mdash; Notify
 
