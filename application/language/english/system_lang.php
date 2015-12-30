@@ -20,17 +20,17 @@ $lang[ 'username-already-taken' ]		=	tendoo_error( __( 'This username seems to b
 $lang[ 'user-created' ]					=	tendoo_success( __( 'The user has been successfully created.' ) );
 $lang[ 'account-activated' ]			=	tendoo_success( __( 'Your Account has been activated. Please Sign-up' ) );
 // Recovery
-$lang[ 'unknow-email' ]						=	tendoo_error( __( 'Unknow email address' ) );
+$lang[ 'unknow-email' ]					=	tendoo_error( __( 'Unknow email address' ) );
 $lang[ 'recovery-email-send' ]			=	tendoo_success( __( 'The recovery email has been send. Please check your email, open the recovery email and follow the instructions.' ) );
 // Logout
-$lang[ 'logout-required' ]					=		tendoo_info( __( 'You must logout first to access that page.' ) );
+$lang[ 'logout-required' ]				=	tendoo_info( __( 'You must logout first to access that page.' ) );
 // General
 $lang[ 'new-password-created' ]			=	tendoo_success( __( 'A new password has been created for your account. Check your email to get it.' ) );
-$lang[ 'module-enabled' ]					=	tendoo_success( __( 'The module has been enabled.' ) );
-$lang[ 'module-disabled' ]					=	tendoo_success( __( 'The module has been disabled.' ) );
-$lang[ 'module-removed' ]					=	tendoo_success( __( 'The module has been removed.' ) );
-$lang[ 'module-extracted' ]					=	tendoo_success( __( 'The module has been extracted.' ) );
-$lang[ 'module-updated' ]					=	tendoo_success( __( 'The module has been updated.' ) );
+$lang[ 'module-enabled' ]				=	tendoo_success( __( 'The module has been enabled.' ) );
+$lang[ 'module-disabled' ]				=	tendoo_success( __( 'The module has been disabled.' ) );
+$lang[ 'module-removed' ]				=	tendoo_success( __( 'The module has been removed.' ) );
+$lang[ 'module-extracted' ]				=	tendoo_success( __( 'The module has been extracted.' ) );
+$lang[ 'module-updated' ]				=	tendoo_success( __( 'The module has been updated.' ) );
 $lang[ 'old-version-cannot-be-installed' ]	=	tendoo_error( __( 'The version installed is already up to date.' ) );
 $lang[ 'unable-to-update' ]				=	tendoo_error( __( 'An error occured during update.' ) );
 $lang[ 'config-file-not-found' ]			=	tendoo_error( __( 'Config file hasn\'t been found. This file is not a valid module. Installation aborded !!!' ) );

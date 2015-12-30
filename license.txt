@@ -19,3 +19,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+https://github.com/almasaeed2010/AdminLTE
+https://github.com/sekati/codeigniter-asset-helper
+https://github.com/zajohnson/CodeIgniter-enqueue
+https://github.com/bainternet/PHP-Hooks
+https://github.com/haseydesign/flexi-auth --- https://github.com/emreakay/CodeIgniter-Aauth
+https://github.com/tamaspap/timezones
+http://alcwynparker.co.uk/2013/04/11/codeigniter-shortcodes-library-yet-another/
+https://github.com/jonlabelle/ci-markdown
+https://github.com/mouse0270/bootstrap-notify
+https://github.com/raulferras/PHP-po-parser

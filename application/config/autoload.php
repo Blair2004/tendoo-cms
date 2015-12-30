@@ -120,7 +120,7 @@ $autoload['config'] = array( 'tendoo' , 'asset' );
 |
 */
 
-$autoload['language'] = array( 'system' );
+// $autoload['language'] = array( 'system' );
 
 
 /*

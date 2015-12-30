@@ -44,6 +44,18 @@ class Modules
 				}
 				self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ]	=	strtolower( self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ] );
 			}
+			
+			// Check for language directory
+			/** 
+			 * Module namespace is used as text domain
+			**/
+			// @since 3.0.5
+			if( isset( $config[ 'application' ][ 'details' ][ 'language' ] ) ) {
+				if( is_dir( APPPATH . 'modules/' . $namespace . '/' . $config[ 'application' ][ 'details' ][ 'language' ] ) ) {
+					$text_domain 	=	get_instance()->config->item( 'text-domain' );
+					get_instance()->config->set_item( 'text-domain', $text_domain[ $namespace ]	 =	APPPATH . 'modules/' . $namespace . '/' . $config[ 'application' ][ 'details' ][ 'language' ] );
+				}
+			}
 		}
 	}
 	

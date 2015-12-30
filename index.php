@@ -235,7 +235,7 @@ switch (ENVIRONMENT)
 	{
 		if (($_temp = realpath($application_folder)) !== FALSE)
 		{
-			$application_folder = $_temp;
+			$application_folder = str_replace( '\\', '/', $_temp );
 		}
 
 		define('APPPATH', $application_folder.'/');

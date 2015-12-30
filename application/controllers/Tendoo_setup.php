@@ -31,6 +31,16 @@ class Tendoo_setup extends Tendoo_Controller {
 		$this->enqueue->js( 'plugins/iCheck/icheck.min' );		
 		$this->enqueue->js( 'app.min' );
 		
+		/**
+		 * Load Language
+		**/
+		
+		if( isset( $_GET[ 'lang' ] ) ){
+			if( in_array( $_GET[ 'lang' ], array_keys( get_instance()->config->item( 'supported_languages' ) ) ) ){
+				get_instance()->config->set_item( 'site_language', $_GET[ 'lang' ] );
+			}
+		}
+		
 		Modules::load( MODULESPATH );
 	}
 	public function index()
@@ -67,7 +77,7 @@ class Tendoo_setup extends Tendoo_Controller {
 			);
 			if( $exec == 'database-installed' )
 			{
-				redirect( array( 'tendoo-setup' , 'site?notice=' . $exec ) );
+				redirect( array( 'tendoo-setup' , 'site?notice=' . $exec . ( riake( 'lang', $_GET ) ? '&lang=' . $_GET[ 'lang' ] : '' ) ) );
 			}
 			$this->notice->push_notice( $this->lang->line( $exec ) );
 		}
@@ -80,7 +90,7 @@ class Tendoo_setup extends Tendoo_Controller {
 	public function site()
 	{
 		// checks if tendoo is not installed
-		if( ! $this->setup->is_installed() ): redirect( array( 'tendoo-setup' ) ); endif;
+		if( ! $this->setup->is_installed() ): redirect( array( 'tendoo-setup' ) . ( riake( 'lang', $_GET ) ? '?lang=' . $_GET[ 'lang' ] : '' ) ); endif;
 		
 		// load database
 		$this->load->database();
@@ -99,7 +109,7 @@ class Tendoo_setup extends Tendoo_Controller {
 			);
 			if( $exec == 'tendoo-installed' )
 			{
-				redirect( array( 'sign-in?redirect=dashboard/index&notice=' . $exec  ) );
+				redirect( array( 'sign-in?redirect=dashboard/index&notice=' . $exec . ( riake( 'lang', $_GET ) ? '&lang=' . $_GET[ 'lang' ] : '' ) ) );
 			}
 			$this->notice->push_notice( $this->lang->line( $exec ) );
 		}		

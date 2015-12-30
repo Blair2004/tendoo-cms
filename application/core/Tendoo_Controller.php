@@ -10,9 +10,12 @@ class Tendoo_Controller extends CI_Controller
 		include_once( LIBPATH .'/Modules.php' );
 		include_once( LIBPATH .'/UI.php' );
 		include_once( LIBPATH .'/SimpleFileManager.php' );
+		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/InterfaceHandler.php' );
+		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/FileHandler.php' );
+		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/PoParser.php' );
+		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/StringHandler.php' );
 		
 		// get system lang
-		$this->lang->load( 'system' );	
 		$this->load->library( 'enqueue' );
 		// Load Modules
 		Modules::load( MODULESPATH );
@@ -50,6 +53,9 @@ class Tendoo_Controller extends CI_Controller
 		// Only for controller requiring installation
 		else if( $this->uri->segment(1) === 'tendoo-setup' && $this->uri->segment(2) === 'database' )
 		{
+			// @since 3.0.5
+			$this->lang->load( 'system' );	// Load default system Language
+			
 			$this->events->add_action( 'before_setting_tables' , function(){
 				// this hook let modules being called during tendoo installation
 				// Only when site name is being defined

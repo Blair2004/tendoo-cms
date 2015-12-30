@@ -25,6 +25,21 @@ class Options extends CI_Model
 		{
 			$User_Options = $this->user_options = $this->get( NULL , $this->events->apply_filters( 'user_id' , 0 ) );
 		}
+		
+		
+		/**
+		 * If language is set on dashboard
+		 * @since 3.0.5
+		**/
+		if( riake( 'site_language', $Options ) ) {
+			get_instance()->config->set_item( 'site_language', $Options[ 'site_language' ] );
+		}
+
+		/** 
+	 	 * Load Language
+		**/
+		
+		$this->lang->load( 'system' );	
 	}
 	
 	/**

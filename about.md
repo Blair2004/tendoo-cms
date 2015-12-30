@@ -1,24 +1,21 @@
-# You're using Tendoo CMS 3.0.4
+# You're using Tendoo CMS 3.0.5
 
 
-Congratulation, Tendoo CMS 3.0.4 has been successfully installed. This page is a summary of what you can expect for it : (improvements, new features, bug fixes, and so on).
+Congratulation, Tendoo CMS 3.0.5 has been successfully installed. This page is a summary of what you can expect for it : (improvements, new features, bug fixes, and so on).
 Thank's for having choosed Tendoo CMS to build your web application.
 
 ---
+#What's new ?
+**Internationalization:** New library has been included into core. Internationalization support has been improved. Now Tendoo CMS support 2 languages (French and English)
+Developer must provide a language path within config.xml. E.g: &lt;language>/language&lt;/language> or &lt;language>/inc/lang&lt;/language>
 
-# Bug Fix
-Tendoo CMS users has faced some issue, while trying to install Tendoo CMS on production server. This bug has been discovered within core files, and this bug is due to back slash and forward slash usage on file path. Hope you'll enjoy this new release.
+# History
+### 1. News
+GroceryCRUD library will be merged into core to provide better CRUD feature for tendoo CMS. Users screen, won't be supported by this feature, default feature still used .
 
-# What's new
+### 2. Actions and Filters
 
-## 1. News
-GroceryCRUD library will be merge into core to provide better CRUD feature for tendoo CMS. Users screen, won't be supported by this feature, default feature still used .
-
-
-
-## 2. Actions and Filters
-
-### &mdash; Actions
+#### &mdash; Actions
 
 Here are new actions added to this release :
 
@@ -26,21 +23,21 @@ Here are new actions added to this release :
 **dashboard_footer** : triggers action within dashboard footer
 
 ---
-### &mdash; Filters
+#### &mdash; Filters
 
 Here are new filters added to this release :
 
 **dashboard_output** : is dashboard index output.<br>
 **dashboard_footer_text** : hold dashboard footer text.
 
-## 3. Internal Features
+### 3. Internal Features
 
-### &mdash; Auto Redirect
+#### &mdash; Auto Redirect
 Each page are now added as fallback when trying to access dashboard without login.
 
-## 4. JS API
+### 4. JS API
 
-### &mdash; Notify
+#### &mdash; Notify
 
 Tendoo 3.0.1 adds new methods to the JS API. Here is how you can use it.
 
@@ -54,7 +51,7 @@ tendoo.notify.warning( [title], [message], [url], [keepvisible]); // will print 
 tendoo.notify.info( [title], [message], [url], [keepvisible]); // will print an info notice.
 </pre>
 
-### &mdash; BootBox
+#### &mdash; BootBox
 Bootbox.js is a small JavaScript library which allows you to create programmatic dialog boxes using Bootstrap modals, without having to worry about creating, managing or removing any of the required DOM elements or JS event handlers. 
 
 <a href="http://bootboxjs.com/#download">BooBox Official Web site</a>
@@ -66,7 +63,7 @@ bootbox.prompt(message, callback)
 bootbox.confirm(message, callback)
 </pre>
 
-### &mdash;  Loader
+#### &mdash;  Loader
 Automatic loader is now added on dashboard header each time XHR request are send and stopped.
 
 **How to trigger loader**
