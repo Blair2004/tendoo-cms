@@ -42,10 +42,11 @@ More a coming...
 
 Do you want to get Involved ?
 -----------------------------
-Fork it a pull your new ideas
+Fork it a pull your new 
 
-Sub-projects added till now (See application/license.txt for more details)
----------------------------------------------------------------------------
+Sub projects merged within
+-------------------------
+
 [AdminLTE 2.1.1](https://github.com/almasaeed2010/AdminLTE)
 
 [Assets Helper](https://github.com/sekati/codeigniter-asset-helper)
