@@ -196,62 +196,10 @@ tendoo.options_data	=	{
     gui_saver_expiration_time	:	tendoo.form_expire,
     gui_saver_option_namespace	:	null,
     gui_saver_use_namespace		:	false,
-    user_id							:	tendoo.user.id,
-    gui_json							:	true
+    user_id						:	tendoo.user.id,
+    gui_json					:	true
 }
-// Tendoo notify
-tendoo.notify			=	new function(){
-	this.error			=	function( title, msg, url, dismiss ){
-		$.notify({
-			icon			:	'fa fa-ban',
-			title			:	title,
-			message			:	msg,
-			url				:	url,
-		},{
-			type			:	'danger',
-			allow_dismiss	:	dismiss
-		})
-	};
-	
-	// Info
-	this.info			=	function( title, msg, url, dismiss ){
-		$.notify({
-			icon			:	'fa fa-exclamation-circle',
-			title			:	title,
-			message			:	msg,
-			url				:	url,
-		},{
-			type			:	'info',
-			allow_dismiss	:	dismiss
-		})
-	};
-	
-	// Warning
-	this.warning			=	function( title, msg, url, dismiss ){
-		$.notify({
-			icon			:	'fa fa-times',
-			title			:	title,
-			message			:	msg,
-			url				:	url,
-		},{
-			type			:	'warning',
-			allow_dismiss	:	dismiss
-		})
-	};
-	
-	// Success
-	this.success			=	function( title, msg, url, dismiss ){
-		$.notify({
-			icon			:	'fa fa-check',
-			title			:	title,
-			message			:	msg,
-			url				:	url,
-		},{
-			type			:	'success',
-			allow_dismiss	:	dismiss
-		})
-	};
-}
+
 // Tendoo options
 tendoo.options			=	new function(){
     var $this			=	this;
@@ -261,8 +209,17 @@ tendoo.options			=	new function(){
         } else {
             save_slug	=	'save';
         }
+		
+		console.log( value );
+		
+		value			=	( typeof value == 'object' ) ? JSON.stringify( value ) : value
+		
+		console.log( value );
+		
         var post_data			=	_.object( [ key ], [ value ] );
-        tendoo.options_data	=	_.extend( tendoo.options_data, post_data );
+		
+		// console.log( post_data );
+        tendoo.options_data		=	_.extend( tendoo.options_data, post_data );
         $.ajax( '<?php echo site_url( array( 'dashboard', 'options' ) );?>/'+save_slug, {
             data			:	tendoo.options_data,
             type			:	'POST',
@@ -311,7 +268,7 @@ tendoo.options			=	new function(){
                 // $this.beforeSend();
             },
             success 		: function( data ){
-                if( _.isFunction( data ) ) {
+                if( _.isFunction( callback ) ) {
                     callback( data );
                 }
             }
@@ -343,6 +300,15 @@ tendoo.loader			=	new function(){
 		})
 	}
 }
+/**
+ * Tendoo Tools
+ * @since 3.0.5
+**/
+
+tendoo.tools				=	new Object();
+tendoo.tools.remove_tags	=	function( string ){
+	return string.replace(/(<([^>]+)>)/ig,"");
+};
 $(document).ready(function(){
 	$( document ).ajaxComplete(function() {
 	  tendoo.loader.hide();

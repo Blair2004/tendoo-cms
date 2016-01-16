@@ -223,7 +223,11 @@ class Dashboard extends Tendoo_Controller {
 			}
 		}
 		else if( $mode == 'get' ) {
-			echo json_decode( $this->options->get( $_POST[ 'option_key' ] ) );
+			// Since Option Module already decode JSON
+			// Fix bug 
+			// @since 3.0.5
+			echo json_encode( $this->options->get( $_POST[ 'option_key' ] ) );
+			// echo json_decode( $this->options->get( $_POST[ 'option_key' ] ) );
 		}
 		else if( in_array( $mode, array( 'save_user_meta', 'merge_user_meta' ) ) )
 		{

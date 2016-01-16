@@ -503,8 +503,23 @@ function doPaginate($elpp,$ttel,$current_page,$baselink)
 
 function date_now( $format = 'DATE_W3C' )
 {
+	return standard_date( $format, date_timestamp() );;
+}
+
+/**
+ * Date Timestamp
+ * Returns a UNIX Timestamp based on Current site settings
+ *
+ * @access public
+ * @since 3.0.5
+ * @author Blair Jersyer
+ * @returns int Unix Timestamp
+**/
+
+function date_timestamp()
+{
 	global $Options;
-	return standard_date( $format, gmt_to_local( now(), riake( 'site_timezone', $Options, 'Etc/Greenwich' ), TRUE ) );;
+	gmt_to_local( now(), riake( 'site_timezone', $Options, 'Etc/Greenwich' ), TRUE );
 }
 /* End of file core_helper.php */
 

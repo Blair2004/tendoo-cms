@@ -59,6 +59,60 @@ tendoo.app		=	function(){
 		}
 	}
 };
+
+// Tendoo notify
+tendoo.notify			=	new function(){
+	this.error			=	function( title, msg, url, dismiss ){
+		$.notify({
+			icon			:	'fa fa-ban',
+			title			:	title,
+			message			:	msg,
+			url				:	url,
+		},{
+			type			:	'danger',
+			allow_dismiss	:	dismiss
+		})
+	};
+	
+	// Info
+	this.info			=	function( title, msg, url, dismiss ){
+		$.notify({
+			icon			:	'fa fa-exclamation-circle',
+			title			:	title,
+			message			:	msg,
+			url				:	url,
+		},{
+			type			:	'info',
+			allow_dismiss	:	dismiss
+		})
+	};
+	
+	// Warning
+	this.warning			=	function( title, msg, url, dismiss ){
+		$.notify({
+			icon			:	'fa fa-times',
+			title			:	title,
+			message			:	msg,
+			url				:	url,
+		},{
+			type			:	'warning',
+			allow_dismiss	:	dismiss
+		})
+	};
+	
+	// Success
+	this.success			=	function( title, msg, url, dismiss ){
+		$.notify({
+			icon			:	'fa fa-check',
+			title			:	title,
+			message			:	msg,
+			url				:	url,
+		},{
+			type			:	'success',
+			allow_dismiss	:	dismiss
+		})
+	};
+}
 $(document).ready(function(){
 	new tendoo.app();
 });

@@ -52,8 +52,9 @@ class Modules
 			// @since 3.0.5
 			if( isset( $config[ 'application' ][ 'details' ][ 'language' ] ) ) {
 				if( is_dir( APPPATH . 'modules/' . $namespace . '/' . $config[ 'application' ][ 'details' ][ 'language' ] ) ) {
-					$text_domain 	=	get_instance()->config->item( 'text-domain' );
-					get_instance()->config->set_item( 'text-domain', $text_domain[ $namespace ]	 =	APPPATH . 'modules/' . $namespace . '/' . $config[ 'application' ][ 'details' ][ 'language' ] );
+					$text_domain 	=	get_instance()->config->item( 'text_domain' );
+					$text_domain[ $namespace ]	 =	APPPATH . 'modules/' . $namespace . '/' . $config[ 'application' ][ 'details' ][ 'language' ];
+					get_instance()->config->set_item( 'text_domain', $text_domain );
 				}
 			}
 		}
@@ -456,7 +457,7 @@ class Modules
 		return $extraction_path;
 	}
 	
-	private static $allowed_app_folders	=	array( 'libraries' , 'models' , 'config' , 'helpers' , 'language' , 'third_party' ); // 'core' ,
+	private static $allowed_app_folders	=	array( 'libraries' , 'models' , 'config' , 'helpers' , 'third_party' ); // 'core' ,
 	
 	/**
 	 * Parse Path
@@ -770,7 +771,7 @@ class Modules
 			// delete temp folder
 			SimpleFileManager::drop( $temp_folder );
 			
-			get_instance()->zip->download( $module_namespace );
+			get_instance()->zip->download( $module_namespace . '-' . $module[ 'application' ][ 'details' ][ 'version' ] );
 			
 			
 		}
