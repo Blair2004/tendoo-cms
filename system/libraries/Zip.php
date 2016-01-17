@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Encryption
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/libraries/zip.html
+ * @link		https://codeigniter.com/user_guide/libraries/zip.html
  */
 class CI_Zip {
 
@@ -343,7 +343,7 @@ class CI_Zip {
 	 */
 	public function read_dir($path, $preserve_filepath = TRUE, $root_path = NULL)
 	{
-		$path = rtrim($path, '/\\').'/';
+		$path = rtrim($path, '/\\').DIRECTORY_SEPARATOR;
 		if ( ! $fp = @opendir($path))
 		{
 			return FALSE;
@@ -352,7 +352,7 @@ class CI_Zip {
 		// Set the original directory root for child dir's to use as relative
 		if ($root_path === NULL)
 		{
-			$root_path = dirname($path).'/';
+			$root_path = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, dirname($path)).DIRECTORY_SEPARATOR;
 		}
 
 		while (FALSE !== ($file = readdir($fp)))
@@ -364,11 +364,11 @@ class CI_Zip {
 
 			if (is_dir($path.$file))
 			{
-				$this->read_dir($path.$file.'/', $preserve_filepath, $root_path);
+				$this->read_dir($path.$file.DIRECTORY_SEPARATOR, $preserve_filepath, $root_path);
 			}
 			elseif (FALSE !== ($data = file_get_contents($path.$file)))
 			{
-				$name = str_replace(array('\\', '/'), '/', $path);
+				$name = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $path);
 				if ($preserve_filepath === FALSE)
 				{
 					$name = str_replace($root_path, '', $name);
