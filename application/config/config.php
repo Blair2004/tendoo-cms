@@ -18,7 +18,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$config['base_url'] = '';
+if( ! is_file( dirname( __FILE__ ) . '/base_url.php' ) ){
+	file_put_contents( dirname( __FILE__ ) . '/base_url.php', '' ); // Create Empty File
+}
+include_once( dirname( __FILE__ ) . '/base_url.php' );
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +33,7 @@ $config['base_url'] = '';
 | variable so that it is blank.
 |
 */
+
 $config['index_page'] = 'index.php';
 
 /*

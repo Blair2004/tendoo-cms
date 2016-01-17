@@ -6,6 +6,7 @@ tendoo-modules/
 tendoo-core/
 vendor/
 application/cache/
+application/config/base_url.php
 !application/cache/index.html
 !application/cache/.htaccess
 application/config/database.php
