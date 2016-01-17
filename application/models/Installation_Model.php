@@ -1,45 +1,6 @@
 <?php
 class Installation_Model extends CI_Model
 {
-	public function __construct()
-	{
-		// Auto Set Base Url
-		$this->set_base_url();
-	}
-	
-	/**
-	 * Fill base_url config
-	 * Fill application/config.php "base_url" configuration
-	**/
-	
-	function set_base_url()
-	{
-		// To avoid this execute several time, we do save a file with "base_url.config", in order to let Tendoo know that
-		// It has already been configured
-		$tendoo_base_url_cache	=	APPPATH . 'cache/tendoo/base_url.config';
-		if( ! is_file( $tendoo_base_url_cache ) ) {
-			$config_file_path	=	APPPATH . '/config/base_url.php';
-			$base_url 			=  
-'<?php
-defined(\'BASEPATH\') OR exit(\'No direct script access allowed\');
-/*
-|--------------------------------------------------------------------------
-| Index File
-|--------------------------------------------------------------------------
-|
-| Typically this will be your index.php file, unless you\'ve renamed it to
-| something else. If you are using mod_rewrite to remove the page set this
-| variable so that it is blank.
-|
-*/
-$config[ "base_url" ] = "' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ?  "https" : "http");
-			$base_url 			.=  "://".$_SERVER['HTTP_HOST'];
-			$base_url	 		.=  str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']) . '";';
-			// replace [!base_url!] by current base url			
-			file_put_contents( $config_file_path, $base_url );
-			// file_put_contents( $tendoo_base_url_cache, base_url() );
-		}
-	}
 	function installation( $host_name, $user_name, $user_password, $database_name, $database_driver, $database_prefix )
 	{
 		$config['hostname'] = $host_name;
