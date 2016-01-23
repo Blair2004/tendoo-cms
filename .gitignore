@@ -16,6 +16,7 @@ application/modules/*
 !application/modules/post_type/
 !application/modules/blog/
 !application/modules/pingback_trackback/
+!application/modules/theme_mod/
 vendor/
 composer.lock
 app.yaml
