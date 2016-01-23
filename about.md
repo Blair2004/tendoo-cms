@@ -1,8 +1,18 @@
-# You're using Tendoo CMS 3.0.5
+# You're using Tendoo CMS 3.0.6
 
 
-Congratulation, Tendoo CMS 3.0.5 has been successfully installed. This page is a summary of what you can expect for it : (improvements, new features, bug fixes, and so on).
-Thank's for having choosed Tendoo CMS to build your web application.
+Introducing Hello - First Tendoo CMS Theme
+================================
+
+We've been working on how to add theme support on Tendoo and for a little while, we were thinking about how this will work. We finaly decided to create a system similar to WordPress. There is however a slight difference. Any way this release introduce "Hello", which has a basic blog system with home page, blog, single and 404 error page.
+
+# Core updated to Codeigniter v3.0.4
+
+Tendoo's Codeigniter version has been updated to 3.0.4 but "System/Zip.php" has been restore since codeIgniter zip.php version cause bug during module extraction.
+
+# Introducing Theme Module
+
+This theme brings Theme support on Tendoo with several other features such as Menu Builder.
 
 ---
 #What's new ?
@@ -10,10 +20,10 @@ Thank's for having choosed Tendoo CMS to build your web application.
 Developer must provide a language path within config.xml. E.g: &lt;language>/language&lt;/language> or &lt;language>/inc/lang&lt;/language>
 
 # History
-### 1. News
+### News
 GroceryCRUD library will be merged into core to provide better CRUD feature for tendoo CMS. Users screen, won't be supported by this feature, default feature still used .
 
-### 2. Actions and Filters
+### Actions and Filters
 
 #### &mdash; Actions
 
@@ -30,12 +40,12 @@ Here are new filters added to this release :
 **dashboard_output** : is dashboard index output.<br>
 **dashboard_footer_text** : hold dashboard footer text.
 
-### 3. Internal Features
+### Internal Features
 
 #### &mdash; Auto Redirect
 Each page are now added as fallback when trying to access dashboard without login.
 
-### 4. JS API
+### JS API
 
 #### &mdash; Notify
 
