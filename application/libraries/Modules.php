@@ -771,9 +771,7 @@ class Modules
 			// delete temp folder
 			SimpleFileManager::drop( $temp_folder );
 			
-			get_instance()->zip->download( $module_namespace . '-' . $module[ 'application' ][ 'details' ][ 'version' ] );
-			
-			
+			get_instance()->zip->download( $module_namespace . '-' . $module[ 'application' ][ 'details' ][ 'version' ] );		
 		}
 	}
 }
