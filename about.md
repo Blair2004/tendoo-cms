@@ -1,27 +1,19 @@
 # You're using Tendoo CMS 3.0.6
 
+### Bug Fix 
 
-Introducing Hello - First Tendoo CMS Theme
-================================
+- "Duplicate Entry" for Post_Type database version migrate 1.0 to 1.1
+- Fix Post_Type database update for v1.0 to v1.1
+- Fix Sql Syntax for Post_Type
+
+
+---
+# History
+### News
 
 We've been working on how to add theme support on Tendoo and for a little while, we were thinking about how this will work. We finaly decided to create a system similar to WordPress. There is however a slight difference. Any way this release introduce "Hello", which has a basic blog system with home page, blog, single and 404 error page.
 
-# Core updated to Codeigniter v3.0.4
-
 Tendoo's Codeigniter version has been updated to 3.0.4 but "System/Zip.php" has been restore since codeIgniter zip.php version cause bug during module extraction.
-
-# Introducing Theme Module
-
-This theme brings Theme support on Tendoo with several other features such as Menu Builder.
-
----
-#What's new ?
-**Internationalization:** New library has been included into core. Internationalization support has been improved. Now Tendoo CMS support 2 languages (French and English)
-Developer must provide a language path within config.xml. E.g: &lt;language>/language&lt;/language> or &lt;language>/inc/lang&lt;/language>
-
-# History
-### News
-GroceryCRUD library will be merged into core to provide better CRUD feature for tendoo CMS. Users screen, won't be supported by this feature, default feature still used .
 
 ### Actions and Filters
 
