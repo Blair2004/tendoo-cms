@@ -26,6 +26,7 @@ class post_type_setup extends CI_model
 			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 			`NAMESPACE` varchar(255) NOT NULL,
 			`TITLE` varchar(255),
+			`POST_SLUG` varchat(255),
 			`CONTENT` text NOT NULL,
 			`DATE` datetime NOT NULL,
 			`EDITED` datetime NOT NULL,

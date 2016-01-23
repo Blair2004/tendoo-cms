@@ -362,5 +362,77 @@ function date_timestamp()
 	global $Options;
 	return gmt_to_local( now(), riake( 'site_timezone', $Options, 'Etc/Greenwich' ), TRUE );
 }
+
+/**
+ * Pagination Helper
+ *
+ * @access public
+ * @param int
+ * @param int
+ * @param int
+ * @param string
+ * @param string url
+ * @param string url
+ * @return array
+**/
+function pagination_helper($ContentPerPage,$TotalContent,$CurrentPage,$BaseUrl,$RedirectUrl = array('error','code','page-404'))
+{
+	$instance	=	get_instance();
+	$result		=	doPaginate($ContentPerPage,$TotalContent,$CurrentPage,$BaseUrl);
+	if($result[0] == 'page-404'): redirect($RedirectUrl);endif;
+	return $result;
+}
+function doPaginate($elpp,$ttel,$current_page,$baselink)
+{
+		/*// Gloabl ressources Control*/
+		if(!is_finite($elpp))				: echo '<strong>$elpp</strong> is not finite'; return;
+		elseif(!is_finite($current_page))	: echo '<strong>$current_page</strong> is not finite'; return;
+		endif;
+		
+		$more	=	array();
+		$ttpage = ceil($ttel / $elpp);
+		if(($current_page > $ttpage || $current_page < 1) && $ttel > 0): return array(
+			'start'				=>	0,
+			'end'				=>	0,
+			'page-404', 			// 	Deprécié
+			array(),			// 	Déprécié
+			'status'			=>	'page-404',
+			'pagination'		=>	array(),
+			'available_pages'	=>	0,
+			'current_page'		=>	0
+		);
+		endif;
+		$firstoshow = ($current_page - 1) * $elpp;
+		/*// FTS*/
+		if($current_page < 5):$fts = 1;
+		elseif($current_page >= 5):$fts = $current_page - 4;
+		endif;
+		/*// LTS*/
+		if(($current_page + 4) <= $ttpage):$lts = $current_page + 4;
+		/*elseif($ttpage > 5):$lts = $ttpage - $current_page;*/
+		else:$lts = $ttpage;
+		endif;
+		
+		$content = null;
+		for($i = $fts;$i<=$lts;$i++)
+		{
+			$more[]	=	array(
+				'link'	=>	$baselink.'/'.$i,
+				'text'	=>	$i,
+				'state'	=>	((int)$i === (int)$current_page) ? "active" : "" // Fixing int type 03.11.2013
+			);
+		}		
+		return array(
+			'start'				=>	$firstoshow,
+			'end'				=>	$elpp,
+			'pageExists', 		// 	Deprécié
+			$more,				// 	Déprécié
+			'status'			=>	'pageExists',
+			'pagination'		=>	$more,
+			'available_pages'	=>	$ttpage,
+			'current_page'		=>	$current_page
+		);
+		
+	}
 /* End of file core_helper.php */
 

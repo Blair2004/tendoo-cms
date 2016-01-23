@@ -49,3 +49,9 @@ do_extract_module				: triggers actions during module extraction pass module nam
 dashboard_header	:	triggers actions within dashboard header
 dashboard_footer	:	triigers action within dashboard footer
 load_dashboard_home : triggers action withing dashboard controller at index method.
+
+/**
+ Since 3.0.5
+**/
+
+setup_theme			:	after theme manager features has been loaded.

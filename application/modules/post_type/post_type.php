@@ -28,6 +28,7 @@ class post_type extends CI_model
 		if( Modules::is_active( 'aauth' ) )
 		{
 			$this->load->language( 'blog_lang' );
+			$this->load->helper( 'url_slug' );
 			// including CustomQuery.php library file
 			include_once( LIBPATH . '/CustomQuery.php' );
 			include_once( dirname( __FILE__ ) . '/inc/setup.php' );
@@ -46,7 +47,7 @@ class post_type extends CI_model
 	{
 		if( $this->current_posttype	= riake( $namespace , $this->config->item( 'posttypes' ) ) )
 		{
-			$data[ 'current_posttype' ]	= $this->current_posttype;
+			$data[ 'current_posttype' ]		= $this->current_posttype;
 			$data[ 'post_namespace' ]		= $namespace;
 						
 			if( $page === 'list' )
@@ -87,10 +88,11 @@ class post_type extends CI_model
 				$data[ 'new_post_label' ] 	=	$this->current_posttype->new_post_label;
 				
 				$this->load->library( 'form_validation' );
-				$this->form_validation->set_rules( 'post_title' , __( 'Post title' ) );
+				$this->form_validation->set_rules( 'submit_content' , __( 'Post title' ), 'required' );
 				
 				if( $this->form_validation->run() )
 				{
+					
 					$return		=	$this->current_posttype->set( 
 						$this->input->post( 'post_title' ) , 
 						$this->input->post( 'post_content' ) , 
@@ -109,7 +111,7 @@ class post_type extends CI_model
 					}
 					
 					get_instance()->notice->push_notice( $this->lang->line( riake( 'msg' , $return ) ) );
-				}			
+				}	
 				
 				$this->gui->set_title( $this->current_posttype->new_post_label );
 				$this->load->view( '../modules/post_type/views/create' , $data , false );
@@ -117,8 +119,7 @@ class post_type extends CI_model
 			else if( $page === 'edit' )
 			{				
 				$this->load->library( 'form_validation' );
-				$this->form_validation->set_rules( 'post_title' , __( 'Post title' ) );
-				
+				$this->form_validation->set_rules( 'submit_content' , __( 'Post title' ), 'required' );
 				if( $this->form_validation->run() )
 				{
 					$return		=	$this->current_posttype->update( 

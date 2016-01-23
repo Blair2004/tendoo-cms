@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<application>
+	<details>
+		<name>Hello</name>
+		<namespace>hello</namespace>
+		<version>1.0</version>
+		<author>Blair Jersyer</author>
+	</details>
+</application>
