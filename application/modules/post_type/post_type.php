@@ -331,6 +331,7 @@ class post_type extends CI_model
 	}	
 	function database_update()
 	{
+		// Migration
 		global $Options;
 		if( riake( 'post_type_database', $Options, '1.0' ) == '1.0' ) {
 			$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'query` ADD `POST_SLUG` VARCHAR(255) NOT NULL AFTER `TITLE`;' );

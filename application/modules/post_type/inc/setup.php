@@ -3,7 +3,7 @@ class post_type_setup extends CI_model
 {
 	function __construct()
 	{
-		$this->version			=	'1.0';
+		$this->version			=	'1.1';
 		parent::__construct();
 		if( ! $this->__is_installed() )
 		{
@@ -20,6 +20,7 @@ class post_type_setup extends CI_model
 	}
 	private function __install_tables()
 	{
+		$this->options->set( 'post_type_database', '1.1', true );
 		$this->options->set( 'post_type' , $this->version );
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `' . $this->db->dbprefix( 'query' ) . '` (
