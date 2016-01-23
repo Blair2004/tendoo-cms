@@ -3,7 +3,7 @@ class post_type_setup extends CI_model
 {
 	function __construct()
 	{
-		$this->version			=	'1.1';
+		$this->version			=	'1.0';
 		parent::__construct();
 		if( ! $this->__is_installed() )
 		{
@@ -27,7 +27,7 @@ class post_type_setup extends CI_model
 			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 			`NAMESPACE` varchar(255) NOT NULL,
 			`TITLE` varchar(255),
-			`POST_SLUG` varchat(255),
+			`POST_SLUG` varchar(255),
 			`CONTENT` text NOT NULL,
 			`DATE` datetime NOT NULL,
 			`EDITED` datetime NOT NULL,
