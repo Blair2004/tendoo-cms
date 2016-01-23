@@ -13,6 +13,7 @@ class post_type extends CI_model
 	
 	function loader()
 	{
+		$this->database_update();
 		if( ! Modules::is_active( 'aauth' ) )
 		{
 			$this->events->add_filter( 'ui_notices' , function( $notices ){
@@ -328,5 +329,13 @@ class post_type extends CI_model
 			redirect( array( 'dashboard' , 'error' , 'unknow-post-type' ) );
 		}
 	}	
+	function database_update()
+	{
+		global $Options;
+		if( riake( 'post_type_database', $Options, '1.0' ) == '1.0' ) {
+			$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'query` ADD `POST_SLUG` VARCHAR(255) NOT NULL AFTER `TITLE`;' );
+			$this->options->set( 'post_type_database', '1.1', true );
+		}
+	}
 }
 new post_type;

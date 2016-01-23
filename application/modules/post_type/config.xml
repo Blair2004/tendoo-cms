@@ -2,7 +2,7 @@
 <application>
 	<details>
 		<namespace>post_type</namespace>
-		<version>1.1</version>
+		<version>1.2</version>
 		<author>Blair Jersyer</author>
 		<description>A feature from 1.4 branch</description>
 		<name>Post Type</name>
