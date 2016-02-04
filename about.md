@@ -6,4 +6,5 @@ This is a brand new release of Tendoo CMS.
 - ViewPort meta, to scale interface to mobile device
 
 ### Bug Fix
-- Gui Checkbox bug fix
+- Gui Checkbox bug fix.
+- Post Type error during Tendoo installation with internal migrate feature.
