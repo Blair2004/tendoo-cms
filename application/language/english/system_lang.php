@@ -50,3 +50,6 @@ $lang[ 'fetch-from-upload' ]			=	function(){
 			}
 		}
 };
+
+// Migration @since 3.0.6
+$lang[ 'migration-not-required' ]	=	tendoo_info( __( 'A migration is not required or has already been done.' ) );

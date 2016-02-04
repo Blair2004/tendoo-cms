@@ -292,6 +292,7 @@ class Modules
 	 * Install
 	 * 
 	 * Install a module from a $_FILE provided
+	 * introducing Migration Feature @since 3.0.7
 	 *
 	 * @access       public
 	 * @author       blair Jersyer
@@ -342,6 +343,8 @@ class Modules
 								if( is_array( $module_global_manifest ) )
 								{
 									$response	=	self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data );
+									// if is file
+									$migrate_file	=	MODULESPATH . $module_array[ 'application' ][ 'details' ][ 'namespace' ] . '/migrate.php';
 									// Delete temp file
 									SimpleFileManager::drop( $extraction_temp_path );
 									if( $response !== true )
@@ -350,9 +353,15 @@ class Modules
 									}
 									else
 									{
+										if( is_file( $migrate_file ) ) {
+											return array( 
+												'namespace'		=>	$module_array[ 'application' ][ 'details' ][ 'namespace' ],
+												'msg'			=>	'module-updated-migrate-required'
+											);
+										}
 										return array( 
 											'namespace'		=>	$module_array[ 'application' ][ 'details' ][ 'namespace' ],
-											'msg'				=>	'module-updated'
+											'msg'			=>	'module-updated'
 										);
 									}
 								}
@@ -368,6 +377,7 @@ class Modules
 						 * Update is done only when module has valid version number
 						 * Update is done only when new module version is higher than the old version
 						**/
+						
 						// Delete temp file
 						SimpleFileManager::drop( $extraction_temp_path );
 						return 'unable-to-update';

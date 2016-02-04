@@ -68,7 +68,7 @@ class Dashboard extends Tendoo_Controller {
 	 * @param		  string $arg2
 	 * @since        3.0.1
 	 */
-	function modules( $page = 'list' , $arg2 = null )
+	function modules( $page = 'list' , $arg2 = null, $arg3 = null, $arg4 = null )
 	{
 		if( $page === 'list' )
 		{
@@ -97,8 +97,13 @@ class Dashboard extends Tendoo_Controller {
 				// it means that module has been installed
 				if( is_array( $notice ) )
 				{
+					// Introducing Migrate
+					if( @$notice[ 'msg' ]	==	'module-updated-migrate-required' ) {
+						redirect( array( 'dashboard', 'modules', 'migrate', $notice[ 'namespace' ] ) );
+					} else {
 					// redirecting
 					redirect( array( 'dashboard' , 'modules' , 'list?highlight=' . $notice[ 'namespace' ] . '&notice=' . $notice[ 'msg' ] . ( isset( $notice[ 'extra' ] ) ? '&extra=' . $notice[ 'extra' ] : '' ) . '#module-' . $notice[ 'namespace' ] ) );
+					}
 				}
 				else
 				{
@@ -150,6 +155,75 @@ class Dashboard extends Tendoo_Controller {
 			});
 
 			$this->events->do_action( 'do_extract_module' , $arg2 );
+		}
+		/**
+		 * Migrate
+		**/
+		else if( $page == 'migrate' && $arg2 != null && $arg3 == null )
+		{
+			$module		=	Modules::get( $arg2 );
+			if( ! $module ) {
+				redirect( array( 'dashboard', 'module-not-found' ) );
+			}
+			$this->gui->set_title( sprintf( __( 'Migration &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->load->view( 'dashboard/modules/migrate', array(
+				'module'	=>	$module
+			) );
+		} 
+		// Run Specific Migration
+		else if( $page == 'migrate' && $arg3 == 'run' && $arg2 != null )
+		{
+			$module		=	Modules::get( $arg2 );
+			if( ! $module ) {
+				echo json_encode( array(
+					'code'		=>	'error',
+					'msg'		=>	__( 'Unknow module' )
+				) );
+			} else {	// If module exists
+				$migrate_file		=	MODULESPATH . $module[ 'application' ][ 'details' ][ 'namespace' ] . '/migrate.php';
+				if( is_file( $migrate_file ) ) {
+					ob_start();
+					$migration_array	=	include_once( $migrate_file );
+					// If currrent migration version exists
+					if( @ $migration_array[ $arg4 ] ) {
+						// if is file path, it's included
+						if( is_string( $migration_array[ $arg4 ] ) ) {
+							// we asume this file exists
+							@include_once( $migration_array[ $arg4 ] );
+						// if it's callable, it's called
+						} else if( is_callable( $migration_array[ $arg4 ] ) ) {
+							$function	=	$migration_array[ $arg4 ];
+							$function( $module );
+						}
+						// When migrate is done the last version key is saved as previous migration version
+						// Next migration will start from here
+						$this->options->set( 'migration_' . $module[ 'application' ][ 'details' ][ 'namespace' ], $arg4, true );
+					}
+					// Handling error
+					$content	=	ob_get_clean();
+					// If not error occured
+					if( empty( $content ) ) {
+						
+						echo json_encode( array(
+							'code'		=>	'success',
+							'msg'		=>	__( 'Migration done.' )
+						) );
+						
+					} else { // else
+					
+						echo json_encode( array(
+							'code'		=>	'error',
+							'msg'		=>	sprintf( __( 'An error occured : %s' ), $error )
+						) );
+					
+					}
+				} else {
+					echo json_encode( array(
+						'code'		=>	'error',
+						'msg'		=>	__( 'Migration File not found.' )
+					) );
+				}
+			}
 		}
 	}
 	/**

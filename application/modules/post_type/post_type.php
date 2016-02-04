@@ -6,14 +6,19 @@ class post_type extends CI_model
 		$this->version			=	'1.0';
 		parent::__construct();
 		$this->events->add_action( 'after_app_init' , array( $this , 'loader' ) );
+		$this->events->add_action( 'load_dashboard', array( $this, 'dashboard' ) );
 		$this->events->add_action( 'tendoo_settings_tables' , function(){
 			Modules::enable( 'post_type' );
 		});
 	}
 	
-	function loader()
+	function dashboard()
 	{
 		$this->database_update();
+	}
+	
+	function loader()
+	{
 		if( ! Modules::is_active( 'aauth' ) )
 		{
 			$this->events->add_filter( 'ui_notices' , function( $notices ){

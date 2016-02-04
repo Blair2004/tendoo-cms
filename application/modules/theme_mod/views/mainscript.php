@@ -1,5 +1,8 @@
 <script>
 tendoo.menu		=	new function(){
+	this.special_char_escape	=	function( string ) {
+		return string.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");;
+	}
 	this.store	=	function( menu ){
 		this.menus	=	menu;
 	}
@@ -8,7 +11,7 @@ tendoo.menu		=	new function(){
 	}
 	
 	this.create	=	function( items ){
-		name	=	$(items).val();
+		name	=	this.special_char_escape( $(items).val() );
 		if( name == '' ) {
 			bootbox.alert( '<?php _e( 'You must provide a name for this menu.' );?>' );
 			return;
@@ -82,7 +85,7 @@ tendoo.menu		=	new function(){
 				current_item.menu_items.push({
 					id			:	isNaN( current_item.menu_items.length ) ? 0 : current_item.menu_items.length + 1,
 					url			:	url,
-					label		:	tendoo.tools.remove_tags( label )
+					label		:	this.special_char_escape(  label )
 				});
 				this.output_menu();
 				this.update_menu_items( $( '#nestable' ) );
@@ -138,7 +141,7 @@ tendoo.menu		=	new function(){
 		var list   = e.length ? e : $(e.target);
 		var current_item			=	_.propertyOf( tendoo.menu.get() )( $( '#nestable' ).data( 'menu' ) );
 		// console.log( tendoo.menu.get() );
-			current_item.menu_items	=	list.nestable('serialize');
+		current_item.menu_items		=	list.nestable('serialize');
 		tendoo.options.set( 'tendoo_menus', JSON.stringify( tendoo.menu.get() ) );			
 	}
 }
