@@ -6,9 +6,15 @@ class post_type extends CI_model
 		$this->version			=	'1.0';
 		parent::__construct();
 		$this->events->add_action( 'after_app_init' , array( $this , 'loader' ) );
+		$this->events->add_action( 'load_dashboard', array( $this, 'dashboard' ) );
 		$this->events->add_action( 'tendoo_settings_tables' , function(){
 			Modules::enable( 'post_type' );
 		});
+	}
+	
+	function dashboard()
+	{
+		$this->database_update();
 	}
 	
 	function loader()
@@ -28,6 +34,7 @@ class post_type extends CI_model
 		if( Modules::is_active( 'aauth' ) )
 		{
 			$this->load->language( 'blog_lang' );
+			$this->load->helper( 'url_slug' );
 			// including CustomQuery.php library file
 			include_once( LIBPATH . '/CustomQuery.php' );
 			include_once( dirname( __FILE__ ) . '/inc/setup.php' );
@@ -46,7 +53,7 @@ class post_type extends CI_model
 	{
 		if( $this->current_posttype	= riake( $namespace , $this->config->item( 'posttypes' ) ) )
 		{
-			$data[ 'current_posttype' ]	= $this->current_posttype;
+			$data[ 'current_posttype' ]		= $this->current_posttype;
 			$data[ 'post_namespace' ]		= $namespace;
 						
 			if( $page === 'list' )
@@ -87,10 +94,11 @@ class post_type extends CI_model
 				$data[ 'new_post_label' ] 	=	$this->current_posttype->new_post_label;
 				
 				$this->load->library( 'form_validation' );
-				$this->form_validation->set_rules( 'post_title' , __( 'Post title' ) );
+				$this->form_validation->set_rules( 'submit_content' , __( 'Post title' ), 'required' );
 				
 				if( $this->form_validation->run() )
 				{
+					
 					$return		=	$this->current_posttype->set( 
 						$this->input->post( 'post_title' ) , 
 						$this->input->post( 'post_content' ) , 
@@ -109,7 +117,7 @@ class post_type extends CI_model
 					}
 					
 					get_instance()->notice->push_notice( $this->lang->line( riake( 'msg' , $return ) ) );
-				}			
+				}	
 				
 				$this->gui->set_title( $this->current_posttype->new_post_label );
 				$this->load->view( '../modules/post_type/views/create' , $data , false );
@@ -117,8 +125,7 @@ class post_type extends CI_model
 			else if( $page === 'edit' )
 			{				
 				$this->load->library( 'form_validation' );
-				$this->form_validation->set_rules( 'post_title' , __( 'Post title' ) );
-				
+				$this->form_validation->set_rules( 'submit_content' , __( 'Post title' ), 'required' );
 				if( $this->form_validation->run() )
 				{
 					$return		=	$this->current_posttype->update( 
@@ -327,5 +334,14 @@ class post_type extends CI_model
 			redirect( array( 'dashboard' , 'error' , 'unknow-post-type' ) );
 		}
 	}	
+	function database_update()
+	{
+		// Migration
+		global $Options;
+		if( riake( 'post_type_database', $Options, '1.0' ) == '1.0' ) {
+			$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'query` ADD `POST_SLUG` VARCHAR(255) NOT NULL AFTER `TITLE`;' );
+			$this->options->set( 'post_type_database', '1.1', true );
+		}
+	}
 }
 new post_type;

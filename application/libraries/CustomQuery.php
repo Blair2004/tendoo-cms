@@ -24,7 +24,8 @@ class CustomQuery
 										  'AUTHOR',
 										  'NAMESPAACE',
 										  'ID',
-										  'PARENT_REF_ID'
+										  'PARENT_REF_ID',
+										  'POST_SLUG'
 	);
 
 	/**
@@ -192,6 +193,7 @@ class CustomQuery
 		// Saving Custom Query Only
 
 		$CQ_data = array('TITLE'         => $title,
+					     'POST_SLUG'	=>	url_slug( $title ),
 						 'CONTENT'       => $content,
 						 'AUTHOR'        => $this->user_id,
 						 'PARENT_REF_ID' => $parent,

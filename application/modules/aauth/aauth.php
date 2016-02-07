@@ -31,7 +31,7 @@ class auth_module_class extends CI_model
 		{
 			if( ( $redir	=	riake( 'redirect' , $_GET ) ) != false )
 			{
-				// if redirect parameter is set
+				redirect( array( 'sign-in?redirect=' . $redir ) );
 			}
 			else
 			{
@@ -46,7 +46,7 @@ class auth_module_class extends CI_model
 	{
 		if( $this->users->is_connected() )
 		{
-			redirect( array( $this->config->item( 'default_logout_route' ) ) );
+			redirect( array( $this->config->item( 'default_logout_route' ) . '?notice=logout-required&redirect='  . urlencode( current_url() ) ) );
 		}
 	}
 	
@@ -72,7 +72,7 @@ class auth_module_class extends CI_model
 		{
 			if( ! $this->users->is_connected() )
 			{
-				redirect( array( $this->config->item( 'default_login_route' ) ) );
+				redirect( array( $this->config->item( 'default_login_route' ) . '?notice=login-required&redirect=' . urlencode( current_url() ) ) );
 			}
 		}
 	}	

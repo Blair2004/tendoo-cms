@@ -47,6 +47,15 @@ $this->gui->add_item( array(
 	'options'		=>	$this->config->item( 'site_timezone' )
 ) , 'general-settings' , 1 );
 
+// @since 4.0.5
+$this->gui->add_item( array(
+	'type'		=>	'select',
+	'name'		=>	'site_language',
+	'label'		=>	__( 'Language' ),
+	'placeholder'=>	__( 'Choose a language' ),
+	'options'	=>	get_instance()->config->item( 'supported_languages' )
+) , 'general-settings' , 1 );
+
 $this->events->do_action( 'register_general_settings_fields' );
 
 /************************************************************************

@@ -13,7 +13,7 @@ class aauth_rules extends CI_model
 	}
 	function registration_rules()
 	{
-		$this->form_validation->set_rules( 'username' , __( 'User Name' ) , 'required' );
+		$this->form_validation->set_rules( 'username' , __( 'User Name' ) , 'required|min_length[5]' );
 		$this->form_validation->set_rules( 'email' , __( 'Email' ) , 'valid_email|required' );
 		$this->form_validation->set_rules( 'password' , __( 'Password' ) , 'required|min_length[6]' );
 		$this->form_validation->set_rules( 'confirm' , __( 'Confirm' ) , 'matches[password]' );

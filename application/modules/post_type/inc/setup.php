@@ -20,12 +20,14 @@ class post_type_setup extends CI_model
 	}
 	private function __install_tables()
 	{
+		$this->options->set( 'post_type_database', '1.1', true );
 		$this->options->set( 'post_type' , $this->version );
 		$sql = 
 		'CREATE TABLE IF NOT EXISTS `' . $this->db->dbprefix( 'query' ) . '` (
 			`ID` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 			`NAMESPACE` varchar(255) NOT NULL,
 			`TITLE` varchar(255),
+			`POST_SLUG` varchar(255),
 			`CONTENT` text NOT NULL,
 			`DATE` datetime NOT NULL,
 			`EDITED` datetime NOT NULL,

@@ -97,6 +97,6 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 define( 'LANG_RECORDER_ENABLED' , FALSE ); // enable auto recorder for unregistered lang code.
 define( 'GUI_EXPIRE' , 60*60*6 ); // GUI expiration time
-define( 'LIBPATH' , APPPATH . 'libraries' . DIRECTORY_SEPARATOR ); // Libraries path
-define( 'MODULESPATH' , APPPATH . 'modules' . DIRECTORY_SEPARATOR ); // Modules Paths
-define( 'PUBLICPATH' , FCPATH . 'public' . DIRECTORY_SEPARATOR ); // Public path
+define( 'LIBPATH' , APPPATH . 'libraries' . '/' ); // Libraries path
+define( 'MODULESPATH' , APPPATH . 'modules' . '/' ); // Modules Paths
+define( 'PUBLICPATH' , FCPATH . 'public' . '/' ); // Public path

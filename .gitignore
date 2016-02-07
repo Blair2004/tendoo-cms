@@ -6,6 +6,7 @@ tendoo-modules/
 tendoo-core/
 vendor/
 application/cache/
+application/config/base_url.php
 !application/cache/index.html
 !application/cache/.htaccess
 application/config/database.php
@@ -14,9 +15,27 @@ application/modules/*
 !application/modules/dashboard/
 !application/modules/post_type/
 !application/modules/blog/
-public/modules/*
+!application/modules/pingback_trackback/
+!application/modules/theme_mod/
 vendor/
 composer.lock
 app.yaml
 main.php
 favicon.icon
+
+#ignoring unmerged files
+application/config/grocery_crud.php
+application/libraries/Grocery_CRUD.php
+application/libraries/image_moo.php
+application/libraries/License_key.php
+application/models/Grocery_crud_model.php
+application/models/Nexo_Categories.php
+application/models/Nexo_Checkout.php
+application/models/Nexo_Misc.php
+application/models/Nexo_Products.php
+application/models/Nexo_Reports.php
+application/models/Nexo_Shelves.php
+application/models/Nexo_Shipping.php
+application/models/Nexo_Vendor.php
+public/modules/grocerycrud/*
+public/modules/nexo/*

@@ -21,7 +21,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation"> 
                 <!-- Sidebar toggle button--> 
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> </a> 
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas"> <span class="sr-only">Toggle navigation</span> </a> 
+                <div class="pull-left" id="tendoo-spinner" style="margin-top:7px;margin-left:7px"></div>
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
@@ -91,23 +92,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu">
                                     <?php 
-										foreach( $notices as $notice ):
-											if( ! isset( $notice[ 'icon' ] ) )
+									foreach( $notices as $notice ):
+										if( ! isset( $notice[ 'icon' ] ) )
+										{
+											$notice_icon	=	$notice[ 'icon' ];
+										}
+										else
+										{
+											switch( $notice[ 'type' ] )
 											{
-												$notice_icon	=	$notice[ 'icon' ];
+												case 'success' : $notice_icon = 'thumbs-up'; break;
+												case 'warning' : $notice_icon = 'warning'; break;
+												default : $notice_icon = 'info-circle'; break;
 											}
-											else
-											{
-												switch( $notice[ 'type' ] )
-												{
-													case 'success' : $notice_icon = 'thumbs-up'; break;
-													case 'warning' : $notice_icon = 'warning'; break;
-													default : $notice_icon = 'info-circle'; break;
-												}
-											}
+										}
 									?>
                                         <li> <a href="<?php echo xss_clean( $notice[ 'href' ] );?>"> <i class="fa fa-<?php echo xss_clean( $notice_icon );?> text-aqua"></i> <?php echo xss_clean( $notice[ 'msg' ] );?></a> </li>
-												<?php endforeach;?>
+									<?php endforeach;?>
                                     </ul>
                                 </li>
                                 <li class="footer"><a href="#">View all</a></li>
@@ -175,7 +176,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left"> <a href="<?php echo xss_clean( $this->events->apply_filters( 'user_header_profile_link' , '#' ) );?>" class="btn btn-default btn-flat"><?php _e( 'Profile' );?></a> </div>
-                                    <div class="pull-right"> <a href="<?php echo xss_clean( $this->events->apply_filters( 'user_header_sign_out_link' , site_url( array( 'sign-out' ) ) ) );?>" class="btn btn-default btn-flat"><?php _e( 'Sign Out' );?></a> </div>
+                                    <div class="pull-right"> <a href="<?php echo xss_clean( $this->events->apply_filters( 'user_header_sign_out_link' , site_url( array( 'sign-out' ) ) . '?redirect=' . urlencode( current_url() ) ) );?>" class="btn btn-default btn-flat"><?php _e( 'Sign Out' );?></a> </div>
                                 </li>
                             </ul>
                         </li>

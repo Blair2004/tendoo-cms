@@ -10,12 +10,26 @@ class Tendoo_Controller extends CI_Controller
 		include_once( LIBPATH .'/Modules.php' );
 		include_once( LIBPATH .'/UI.php' );
 		include_once( LIBPATH .'/SimpleFileManager.php' );
+		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/InterfaceHandler.php' );
+		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/FileHandler.php' );
+		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/PoParser.php' );
+		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/StringHandler.php' );
 		
 		// get system lang
-		$this->lang->load( 'system' );	
 		$this->load->library( 'enqueue' );
 		// Load Modules
 		Modules::load( MODULESPATH );
+		
+		/**
+		 * Global Vars
+		**/
+		
+		global $CurrentMethod, $CurrentScreen, $CurrentParams;
+		
+		$CurrentMethod		=	$this->uri->segment(2);
+		$CurrentScreen		=	$this->uri->segment(1);
+		$CurrentParams		=	$this->uri->segment_array();
+		$CurrentParams		=	count( $CurrentParams ) > 2 ? array_slice( $CurrentParams, 2 ) : array();
 		
 		// if is installed, setup is always loaded
 		if( $this->setup->is_installed() )
@@ -39,6 +53,9 @@ class Tendoo_Controller extends CI_Controller
 		// Only for controller requiring installation
 		else if( $this->uri->segment(1) === 'tendoo-setup' && $this->uri->segment(2) === 'database' )
 		{
+			// @since 3.0.5
+			$this->lang->load( 'system' );	// Load default system Language
+			
 			$this->events->add_action( 'before_setting_tables' , function(){
 				// this hook let modules being called during tendoo installation
 				// Only when site name is being defined
@@ -62,29 +79,37 @@ class Tendoo_Controller extends CI_Controller
 				redirect( array( 'tendoo-setup' ) );
 			}
 			
-			// force user to be connected for certain controller
+			// force user to be connected for some controller
 			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_logout' ) ) && $this->setup->is_installed() )
 			{
 				// $this->events->do_action( 'is_connected' );
 			}
 			
 			// loading assets for reserved controller
-			$this->enqueue->css( 'bootstrap.min' );
-			$this->enqueue->css( 'AdminLTE.min' );
-			$this->enqueue->css( 'tendoo.min' );
-			$this->enqueue->css( 'skins/_all-skins.min' );			
-			$this->enqueue->css( 'font-awesome-4.3.0' );
-			$this->enqueue->css( '../plugins/iCheck/square/blue' );
+			$css_libraries		=	$this->events->apply_filters( 'default_css_libraries', array( 'bootstrap.min', 'AdminLTE.min', 'tendoo.min', 'skins/_all-skins.min', 'font-awesome-4.3.0', '../plugins/iCheck/square/blue' ) );
+			if( $css_libraries ) {
+				foreach( $css_libraries as $lib ) {
+					$this->enqueue->css( $lib );
+				}
+			}
 			
 			/**
 			 * 	Enqueueing Js
 			**/
 			
-			$this->enqueue->js( '../plugins/jQuery/jQuery-2.1.4.min' );
-			$this->enqueue->js( '../plugins/jQueryUI/jquery-ui-1.10.3.min' );
-			$this->enqueue->js( 'bootstrap.min' );
-			$this->enqueue->js( '../plugins/iCheck/icheck.min' );		
-			$this->enqueue->js( 'app.min' );
+			$js_libraries		=	$this->events->apply_filters( 'default_js_libraries', array( 
+				'../plugins/jQuery/jQuery-2.1.4.min', 
+				'../plugins/jQuery/jquery-migrate-1.2.1',
+				'../plugins/jQueryUI/jquery-ui-1.10.3.min', 
+				'bootstrap.min', 
+				'../plugins/iCheck/icheck.min',  
+				'app.min' 
+			) );
+			if( is_array( $js_libraries ) ) {
+				foreach( $js_libraries as $lib ) {
+					$this->enqueue->js( $lib );
+				}
+			}
 		}
 	}
 	function loader()

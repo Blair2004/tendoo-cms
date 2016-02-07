@@ -24,7 +24,7 @@ class Enqueue {
 	 * @since        3.0.1
 	 */
 	public function js( $script, $path = null ) {
-		$this->scripts[] = ( $path === null ) ? $this->path_js . $script : $path . $script;
+		$this->scripts[] = ( $path === null ) ? base_url() . $this->path_js . $script : $path . $script;
 	}
 	
 	/**
@@ -39,7 +39,7 @@ class Enqueue {
 	 * @since        3.0.1
 	 */
 	public function css( $style, $path	= null ) {
-		$this->styles[] = ( $path === null ) ? $this->path_css . $style : $path . $style;
+		$this->styles[] = ( $path === null ) ? base_url() . $this->path_css . $style : $path . $style;
 	}
 	
 	/**
@@ -54,7 +54,7 @@ class Enqueue {
 	 */
 	public  function load_js() {
 		foreach( $this->scripts as $script ) {
-			echo '<script src="' . base_url() . $script . '.js"></script>'."\n";
+			echo '<script src="' . $script . '.js"></script>'."\n";
 		}
 	}
 	
@@ -70,7 +70,7 @@ class Enqueue {
 	 */
 	public  function load_css() {
 		foreach( $this->styles as $style ) {
-			echo '<link rel="stylesheet" href="' . base_url() . $style . '.css" />'."\n";
+			echo '<link rel="stylesheet" href="' . $style . '.css" />'."\n";
 		}
 	}
 }
