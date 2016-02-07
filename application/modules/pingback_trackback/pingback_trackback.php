@@ -98,7 +98,8 @@ class PingBack_TrackBack extends CI_Model
 				'title'			=>	'First installation pingback',
 				'excerpt'		=>	'This trackback is send for first install Tendoo CMS',
 				'blog_name'		=>	$site_name == null ? 'Tendoo CMS Unamed Website' : $site_name,
-				'charset'   	=> 'utf-8'
+				'charset'   	=> 'utf-8',
+				'release'		=>	$this->config->item( 'version' )
 			);
 			
 			if ( ! $this->trackback->send( $data ) )
