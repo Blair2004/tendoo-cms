@@ -3,7 +3,7 @@
 	<details>
 		<name>PingBack &amp; Trackback</name>
 		<namespace>pingback_trackback</namespace>
-		<version>1.1</version>
+		<version>1.3</version>
 		<author>Blair Jersyer</author>
 		<description>Add PingBack feature to Tendoo CMS</description>
 		<main>pingback_trackback.php</main>
