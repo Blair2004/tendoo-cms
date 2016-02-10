@@ -23,7 +23,7 @@ class Dashboard_model extends CI_Model
 	function load_dashboard()
 	{
 		// Enqueuing slimscroll
-		$this->enqueue->js( '../plugins/SlimScroll/jquery.slimscroll.min' );
+		$this->enqueue->js( '../plugins/slimScroll/jquery.slimscroll.min' );
 		$this->enqueue->js( 'advanced' );
 		$this->enqueue->js( '../plugins/heartcode/heartcode-canvasloader-min' );
 		$this->enqueue->js( '../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min' ); // WYSIHTML5 @since 1.5
