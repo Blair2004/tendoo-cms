@@ -359,9 +359,11 @@ if (!class_exists('Events')){
       reset( $this->filters[ $tag ] );
 
       do {
-        foreach ( (array) current($this->filters[$tag]) as $the_ )
-          if ( !is_null($the_['function']) )
+        foreach ( (array) current($this->filters[$tag]) as $the_ ) {
+          if ( !is_null($the_['function']) ) {
             call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
+		  }
+		}
 
       } while ( next($this->filters[$tag]) !== false );
 
@@ -427,9 +429,9 @@ if (!class_exists('Events')){
      */
     public function did_action($tag) {
 
-      if ( ! isset( $this->actions ) || ! isset( $this->actions[$tag] ) )
+      if ( ! isset( $this->actions ) || ! isset( $this->actions[$tag] ) ) {
         return 0;
-
+	  }
       return $this->actions[$tag];
     }
 

@@ -1040,14 +1040,15 @@ class Aauth {
 	 * @param string $group_name New group name
 	 * @return int|bool Group id or FALSE on fail
 	 */
-	public function create_group($group_name) {
+	public function create_group($group_name, $definition = null ) {
 
 		$query = $this->CI->db->get_where($this->config_vars['groups'], array('name' => $group_name));
 
 		if ($query->num_rows() < 1) {
 
 			$data = array(
-				'name' => $group_name
+				'name' 			=> $group_name,
+				'definition'	=>	$definition
 			);
 			$this->CI->db->insert($this->config_vars['groups'], $data);
 			return $this->CI->db->insert_id();
@@ -1487,13 +1488,22 @@ class Aauth {
 	 */
 	public function deny_group($group_par, $perm_par) {
 
-		$perm_id = $this->get_perm_id($perm_par);
-		$group_id = $this->get_group_id($group_par);
-
-		$this->CI->db->where('group_id', $group_id);
-		$this->CI->db->where('perm_id', $perm_id);
-
-		return $this->CI->db->delete($this->config_vars['perm_to_group']);
+		if( is_array( $perm_par ) ) {
+			
+			foreach( $perm_par as $par ) {
+				$this->deny_group( $group_par, $par );
+			}
+			return null;
+			
+		} else {
+			$perm_id = $this->get_perm_id($perm_par);
+			$group_id = $this->get_group_id($group_par);
+	
+			$this->CI->db->where('group_id', $group_id);
+			$this->CI->db->where('perm_id', $perm_id);
+	
+			return $this->CI->db->delete($this->config_vars['perm_to_group']);
+		}
 	}
 
 	//tested
