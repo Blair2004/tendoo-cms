@@ -290,7 +290,7 @@ class Users_model extends CI_Model
 		{
 			if( $group === FALSE )
 			{
-				$this->users->auth->create_group( $name );
+				$this->users->auth->create_group( $name, $definition );
 				$admin_groups		=	force_array( $this->options->get( 'admin_groups' ) );
 				$public_groups		=	force_array( $this->options->get( 'public_groups' ) );  
 				// make sure to delete groups saved on option table
@@ -367,9 +367,9 @@ class Users_model extends CI_Model
 	function create_permissions()
 	{
 		// Creating default permissions
-		$this->auth->create_perm( 'manage_options' , 'Let user access settings page and to manage it.' ); // index 1
-		$this->auth->create_perm( 'manage_modules' , 'Let user access to modules list and to manage it.' ); // 2
-		$this->auth->create_perm( 'manage_users' , 'Let user access user list and manage them.' ); // index 3		
+		$this->auth->create_perm( 'manage_options' , __( 'Let user access settings page and to manage it.' ) ); // index 1
+		$this->auth->create_perm( 'manage_modules' , __( 'Let user access to modules list and to manage it.' ) ); // 2
+		$this->auth->create_perm( 'manage_users' , __( 'Let user access user list and manage them.' ) ); // index 3		
 
 		// Master		
 		$this->users->auth->allow_group( 'master' , 'manage_options' );

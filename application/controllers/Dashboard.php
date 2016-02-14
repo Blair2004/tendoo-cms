@@ -127,7 +127,10 @@ class Dashboard extends Tendoo_Controller {
 
 			// Run the action
 			$this->events->do_action( 'do_enable_module' , $arg2 );
-			redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_activation_status' , 'module-enabled' ) ) );
+						
+			if( $this->events->did_action( 'do_enable_module' ) ) {
+				redirect( array( 'dashboard' , 'modules?notice=' . $this->events->apply_filters( 'module_activation_status' , 'module-enabled' ) ) );
+			}	
 		}
 		else if( $page === 'disable' )
 		{
