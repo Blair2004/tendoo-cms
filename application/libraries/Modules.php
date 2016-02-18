@@ -334,19 +334,28 @@ class Modules
 					{
 						if( isset( $old_module[ 'application' ][ 'details' ][ 'version' ] ) )
 						{
-							$old_version		=	str_replace( '.' , '' , $old_module[ 'application' ][ 'details' ][ 'version' ] );
-							$new_version		=	str_replace( '.' , '' , $module_array[ 'application' ][ 'details' ][ 'version' ] );
-							if( $new_version > $old_version )
+							$old_version		=	$old_module[ 'application' ][ 'details' ][ 'version' ];
+							$new_version		=	$module_array[ 'application' ][ 'details' ][ 'version' ];
+							
+							if( version_compare( $new_version, $old_version, '>' ) )
 							{
 								$module_global_manifest	=	self::__parse_path( $extraction_temp_path );	
 
 								if( is_array( $module_global_manifest ) )
 								{
+									// Remove the old module. No SQL uninstall queries will be triggered.
+									self::uninstall( $module_array[ 'application' ][ 'details' ][ 'namespace' ] );
+									
+									// Install the new version
 									$response	=	self::__move_to_module_dir( $module_array , $module_global_manifest[0] , $module_global_manifest[1] , $data );
 									// if is file
 									$migrate_file	=	MODULESPATH . $module_array[ 'application' ][ 'details' ][ 'namespace' ] . '/migrate.php';
 									// Delete temp file
 									SimpleFileManager::drop( $extraction_temp_path );
+									
+									// Enable back the module
+									self::enable( $module_array[ 'application' ][ 'details' ][ 'namespace' ] );
+									
 									if( $response !== true )
 									{
 										return $response;
