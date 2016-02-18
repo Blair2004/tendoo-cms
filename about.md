@@ -8,3 +8,5 @@ This is a brand new release of Tendoo CMS.
 ### Bug Fix
 - Gui Checkbox bug fix.
 - Post Type error during Tendoo installation with internal migrate feature.
+- Release comparison
+- Update module
