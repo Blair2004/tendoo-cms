@@ -19,9 +19,9 @@ foreach( $users as $user )
 	);
 }
 
-$this->gui->col_width( 1 , 4 );
+$this->Gui->col_width( 1 , 4 );
 
-$this->gui->add_meta( array(
+$this->Gui->add_meta( array(
 	'namespace'	=>	'user-list',
 	'title'		=>	__( 'List' ),
 	'pagination'=>	array( true ),
@@ -29,7 +29,7 @@ $this->gui->add_meta( array(
 	'type'		=>	'box-primary'	
 ) );
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'		=>	'table',
 	'cols'		=>	array( __( 'User Id' ) , __( 'Username' ) , __( 'Email' ) , __( 'Status' ) , __( 'Activity' ) , __( 'Actions' ) ),
 	'rows'		=>	$complete_users
@@ -39,4 +39,4 @@ $this->gui->add_item( array(
 
 
 
-$this->gui->output();
+$this->Gui->output();

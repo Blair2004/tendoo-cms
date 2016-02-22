@@ -51,7 +51,7 @@ class Theme_Mod extends CI_Model
 		// Save Menu
 		$this->events->add_filter( 'admin_menus', array( $this, 'create_menus' ) );
 		// Register Page
-		$this->gui->register_page( 'menu_builder', 	array( $this, 'menu_builder_controller' ) );
+		$this->Gui->register_page( 'menu_builder', 	array( $this, 'menu_builder_controller' ) );
 	}
 	
 	/**
@@ -65,7 +65,7 @@ class Theme_Mod extends CI_Model
 		$this->enqueue->js( js_url( 'theme_mod' ) . 'jquery.nestable', '' );
 		$this->enqueue->js( js_url( 'theme_mod' ) . 'sha1', '' );
 		
-		$this->gui->set_title( sprintf( __( 'Menu Builder &mdash; %s' ) , get( 'core_signature' ) ) );
+		$this->Gui->set_title( sprintf( __( 'Menu Builder &mdash; %s' ) , get( 'core_signature' ) ) );
 		
 		$this->load->view( '../modules/theme_mod/views/menu_builder' );
 	}

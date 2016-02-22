@@ -5,9 +5,9 @@
  *	Since		:	1.4
 **/
 
-$this->gui->col_width( 1 , 4 );
+$this->Gui->col_width( 1 , 4 );
 
-$this->gui->add_meta( array(
+$this->Gui->add_meta( array(
 	'col_id'	=>	1,
 	'type'	=>	'unwrapped',
 	'namespace'	=>	'about'
@@ -20,9 +20,9 @@ if( file_exists( 'about.md' ) ) {
 	$about 	=	'###About file is unavailable.';
 }
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'	=>	'dom',
 	'content'	=>	get_instance()->markdown->parse( $about )
 ), 'about', 1 );
 
-$this->gui->output();
+$this->Gui->output();

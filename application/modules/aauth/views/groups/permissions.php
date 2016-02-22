@@ -7,10 +7,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *	Since		:	1.5
 **/
 
-$this->gui->col_width( 1 , 3 );
+$this->Gui->col_width( 1 , 3 );
 
 // Creating Meta
-$this->gui->add_meta( array(
+$this->Gui->add_meta( array(
 	'type'		=>	'box',
 	'title'		=>	__( 'Groups permissions' ),
 	'namespace'	=>	'permissions',
@@ -26,4 +26,4 @@ $this->gui->add_meta( array(
 	)
 ) );
 
-$this->gui->output();
+$this->Gui->output();

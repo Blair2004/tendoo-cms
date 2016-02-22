@@ -1,7 +1,7 @@
 <?php
-$this->gui->col_width( 1 , 4 );
+$this->Gui->col_width( 1 , 4 );
 
-$this->gui->add_meta( array(
+$this->Gui->add_meta( array(
 	'type'			=>		'box',
 	'namespace'		=>		$post_namespace . '-table-list',
 	'title'			=>		$post_list_label,
@@ -24,11 +24,11 @@ foreach( force_array( $post ) as $_post )
 	);
 }
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>		'table',
 	'cols'			=>		$default_cols,
 	'rows'			=>		$table_row,
 	'cols_width'	=>		array( 5 , 200 , 100 , 100 , 100 , 100 )
 ) , $post_namespace . '-table-list' , 1 );
 
-$this->gui->output();
+$this->Gui->output();

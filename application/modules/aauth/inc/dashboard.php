@@ -40,8 +40,8 @@ class aauth_dashboard extends CI_model
 	}
 	function dashboard()
 	{
-		$this->gui->register_page( 'users' , array( $this , 'users' ) );
-		$this->gui->register_page( 'groups' , array( $this , 'groups' ) );
+		$this->Gui->register_page( 'users' , array( $this , 'users' ) );
+		$this->Gui->register_page( 'groups' , array( $this , 'groups' ) );
 	}
 	function menu( $menus )
 	{		
@@ -171,7 +171,7 @@ class aauth_dashboard extends CI_model
 		{
 			// $this->users() it's the current method, $this->users is the main user object
 			$users			=		$this->users->auth->list_users($group_par = FALSE, $limit = FALSE, $offset = FALSE, $include_banneds = FALSE);
-			$this->gui->set_title( sprintf( __( 'Users &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Users &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( '../modules/aauth/views/users/body' , array( 
 				'users'	=>	$users
 			) );
@@ -237,7 +237,7 @@ class aauth_dashboard extends CI_model
 			// selecting groups
 			$groups				=	$this->users->auth->list_groups();		
 			
-			$this->gui->set_title( sprintf( __( 'Edit user &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Edit user &mdash; %s' ) , get( 'core_signature' ) ) );
 			
 			$this->load->view( '../modules/aauth/views/users/edit' , array( 
 				'groups'		=>	$groups,
@@ -284,7 +284,7 @@ class aauth_dashboard extends CI_model
 			// selecting groups
 			$groups				=	$this->users->auth->list_groups();
 			
-			$this->gui->set_title( sprintf( __( 'Create a new user &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Create a new user &mdash; %s' ) , get( 'core_signature' ) ) );
 			
 			$this->load->view( '../modules/aauth/views/users/create' , array( 
 				'groups'	=>	$groups
@@ -334,7 +334,7 @@ class aauth_dashboard extends CI_model
 				$this->notice->push_notice_array( $exec );
 			}
 			
-			$this->gui->set_title( sprintf( __( 'My Profile &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'My Profile &mdash; %s' ) , get( 'core_signature' ) ) );
 			
 			$this->load->view( '../modules/aauth/views/users/profile' );
 		}
@@ -354,7 +354,7 @@ class aauth_dashboard extends CI_model
 		{
 			$groups		=	$this->users->auth->list_groups();
 			
-			$this->gui->set_title( sprintf( __( 'Roles &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Roles &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( '../modules/aauth/views/groups/body' , array(
 				'groups'	=>	$groups
 			) );
@@ -390,7 +390,7 @@ class aauth_dashboard extends CI_model
 			}
 			
 			
-			$this->gui->set_title( sprintf( __( 'Create new role &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Create new role &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( '../modules/aauth/views/groups/create' );
 		}
 		
@@ -428,7 +428,7 @@ class aauth_dashboard extends CI_model
 			if( is_object( $group ) === FALSE ): redirect( array( 'dashboard' , 'group-not-found' ) ); endif;
 			$usergroup			=	$this->users->auth->get_user_groups( $index );
 			
-			$this->gui->set_title( sprintf( __( 'Edit Roles &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Edit Roles &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( '../modules/aauth/views/groups/edit' , array(
 				'group'		=>		$group
 			) );

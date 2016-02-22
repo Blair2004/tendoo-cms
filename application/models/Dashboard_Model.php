@@ -70,15 +70,15 @@ class Dashboard_Model extends CI_Model
 		$FinalAdminWidgetsPosition	=	array_merge( $AdminWidgetsCols, force_array( $SavedAdminWidgetsCols ) );
 		
 		// looping cols
-		unset( $this->gui->cols[ 4 ] );
-		// var_dump( $this->gui->cols );die;
+		unset( $this->Gui->cols[ 4 ] );
+		// var_dump( $this->Gui->cols );die;
 		
-		for( $i = 1; $i <= count( $this->gui->cols ); $i++ ) {
+		for( $i = 1; $i <= count( $this->Gui->cols ); $i++ ) {
 			$widgets_namespace	=	$this->dashboard_widgets->col_widgets( $i );
 			
-			$this->gui->col_width( 1, 1 );
-			$this->gui->col_width( 2, 1 );
-			$this->gui->col_width( 3, 1 );
+			$this->Gui->col_width( 1, 1 );
+			$this->Gui->col_width( 2, 1 );
+			$this->Gui->col_width( 3, 1 );
 			
 			foreach( $widgets_namespace as $widget_namespace ) {
 				// get widget
@@ -92,9 +92,9 @@ class Dashboard_Model extends CI_Model
 				);
 				
 				$meta_array		=	array_merge( $widget_options, $meta_array );
-				$this->gui->add_meta( $meta_array );
+				$this->Gui->add_meta( $meta_array );
 				// create dom
-				$this->gui->add_item( array(
+				$this->Gui->add_item( array(
 					'type'		=>	'dom',
 					'content'	=>	riake( 'content', $widget_options ) // $this->load->view( riake( 'content', $widget_options, '[empty_widget]' ), array(), true )
 				), $widget_namespace, $i );
@@ -326,8 +326,8 @@ $(document).ready(function(){
 	}
 	function __dashboard_config()
 	{
-		$this->gui->register_page( 'index' , array( $this , 'index' ) );
-		$this->gui->register_page( 'settings' , array( $this , 'settings' ) );
+		$this->Gui->register_page( 'index' , array( $this , 'index' ) );
+		$this->Gui->register_page( 'settings' , array( $this , 'settings' ) );
 	}
 	function index()
 	{
@@ -338,7 +338,7 @@ $(document).ready(function(){
 		$this->events->do_action( 'load_dashboard_home' );
 		$this->load_widgets();
 		
-		$this->gui->set_title( sprintf( __( 'Dashboard &mdash; %s' ) , get( 'core_signature' ) ) );
+		$this->Gui->set_title( sprintf( __( 'Dashboard &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'dashboard/index/body' );
 	}
 	
@@ -346,7 +346,7 @@ $(document).ready(function(){
 	{
 		// ! User::can( 'manage_options' ) ? redirect( array( 'dashboard', 'access-denied' ) ): null ;
 		
-		$this->gui->set_title( sprintf( __( 'Settings &mdash; %s' ) , get( 'core_signature' ) ) );
+		$this->Gui->set_title( sprintf( __( 'Settings &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'dashboard/settings/body' );
 	}
 	

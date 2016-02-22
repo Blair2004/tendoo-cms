@@ -40,12 +40,12 @@ Tendoo Version Required : 1.5
 	// Aauth Errors
 	$this->events->do_action( 'displays_dashboard_errors' );
 	echo fetch_notice_from_url();
-	$col_range	=	( count( $this->gui->cols ) > 3 ) ? 3 : 4;
+	$col_range	=	( count( $this->Gui->cols ) > 3 ) ? 3 : 4;
 	?>
     
     
     <div class="row">
-        <?php foreach( force_array( $this->gui->get_cols() ) as $col_id =>	$col_data ):?>
+        <?php foreach( force_array( $this->Gui->get_cols() ) as $col_id =>	$col_data ):?>
         <div class="meta-row col-lg-<?php echo riake( 'width' , $col_data , 1 ) * $col_range ;?>">
             <?php 
 			$config = riake( 'configs' , $col_data );

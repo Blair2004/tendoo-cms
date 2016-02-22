@@ -26,7 +26,7 @@ class Dashboard extends Tendoo_Controller {
 		include_once( LIBPATH .'/Menu.php' );
 		include_once( LIBPATH .'/Notice.php' );
 
-		$this->load->model( 'Gui' );
+		$this->load->model( 'Gui', null, 'gui' );
 		$this->load->model( 'Update_Model' ); // load update model @since 3.0
 		$this->load->model( 'Dashboard_Model' , 'dashboard' );
 
@@ -54,7 +54,7 @@ class Dashboard extends Tendoo_Controller {
 		}
 		else
 		{
-			$this->gui->load_page( $page , $params );
+			$this->Gui->load_page( $page , $params );
 		}
 	}
 	/**
@@ -86,7 +86,7 @@ class Dashboard extends Tendoo_Controller {
 					echo tendoo_error( __( 'An error occured during module installation. There was a file conflict during module installation process.<br>This file seems to be already installed : ' . $_GET[ 'extra' ] ) );
 				}
 			});
-			$this->gui->set_title( sprintf( __( 'Module List &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Module List &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/modules/list' );
 		}
 		else if( $page === 'install_zip' )
@@ -115,7 +115,7 @@ class Dashboard extends Tendoo_Controller {
 				}
 
 			}
-			$this->gui->set_title( sprintf( __( 'Add a new extension &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Add a new extension &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/modules/install' );
 		}
 		else if( $page === 'enable' )
@@ -172,7 +172,7 @@ class Dashboard extends Tendoo_Controller {
 			if( ! $module ) {
 				redirect( array( 'dashboard', 'module-not-found' ) );
 			}
-			$this->gui->set_title( sprintf( __( 'Migration &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Migration &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/modules/migrate', array(
 				'module'	=>	$module
 			) );
@@ -384,18 +384,18 @@ class Dashboard extends Tendoo_Controller {
 		( ! User::can( 'manage_options' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
 		
 		if( $page === 'core' ){
-			$this->gui->set_title( sprintf( __( 'Updating... &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Updating... &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/update/core' , array(
 				'release'	=>	$version
 			) );
 		} elseif( $page === 'download' ){
-			echo json_encode( $this->update_model->install( 1 , $version ) );
+			echo json_encode( $this->Update_Model->install( 1 , $version ) );
 		} elseif( $page === 'extract' ){
-			echo json_encode( $this->update_model->install( 2 ) );
+			echo json_encode( $this->Update_Model->install( 2 ) );
 		} elseif( $page === 'install' ){
-			echo json_encode( $this->update_model->install( 3 ) );
+			echo json_encode( $this->Update_Model->install( 3 ) );
 		} else {
-			$this->gui->set_title( sprintf( __( 'Update Center &mdash; %s' ) , get( 'core_signature' ) ) );
+			$this->Gui->set_title( sprintf( __( 'Update Center &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/update/home' , array() );
 		}
 	}
@@ -415,7 +415,7 @@ class Dashboard extends Tendoo_Controller {
 			return;
 		});
 
-		$this->gui->set_title( sprintf( __( 'About &mdash; %s' ) , get( 'core_signature' ) ) );
+		$this->Gui->set_title( sprintf( __( 'About &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'dashboard/about/body' );
 	}
 }
