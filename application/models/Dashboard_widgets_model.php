@@ -3,9 +3,11 @@ class Dashboard_Widgets_Model extends CI_Model
 {
 	public function __construct()
 	{
-		global $AdminWidgetsCols;
-		if( $AdminWidgetsCols === NULL ) {
-			$AdminWidgetsCols	=	force_array( $this->options->get( 'dashboard_widget_position', User::id() ) );
+		if( Modules::is_active( 'aauth' ) ) {
+			global $AdminWidgetsCols;
+			if( $AdminWidgetsCols === NULL ) {
+				$AdminWidgetsCols	=	force_array( $this->options->get( 'dashboard_widget_position', User::id() ) );
+			}
 		}
 	}
 	/**

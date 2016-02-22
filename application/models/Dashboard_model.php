@@ -61,6 +61,7 @@ class Dashboard_model extends CI_Model
 	
 	function load_widgets()
 	{
+		if( ! Modules::is_active( 'aauth' ) ) : return false; endif;
 		// get global widget and cols
 		global $AdminWidgets;
 		global $AdminWidgetsCols;

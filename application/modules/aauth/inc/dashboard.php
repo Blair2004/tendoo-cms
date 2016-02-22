@@ -30,7 +30,7 @@ class aauth_dashboard extends CI_model
 		ob_start();
 		?>
       <div class="user-panel">
-         <div class="pull-left image"><img class="img-circle" alt="user image" src=""/></div>
+         <!-- <div class="pull-left image"><img class="img-circle" alt="user image" src=""/></div>-->
          <div class="pull-left info">
            <p><?php echo $this->events->apply_filters( 'user_menu_name' , $this->config->item( 'default_user_names' ) );?></p>
            <a href="#"><i class="fa fa-circle text-success"></i> Online</a> </div>

@@ -70,6 +70,7 @@ class Dashboard extends Tendoo_Controller {
 	 */
 	function modules( $page = 'list' , $arg2 = null, $arg3 = null, $arg4 = null )
 	{
+		( ! Modules::is_active( 'aauth' ) ) ? redirect( array( 'dashboard', 'error-occurred?notice="required_module_missing"' ) ) : null;
 		( ! User::can( 'manage_modules' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
 		
 		if( $page === 'list' )
@@ -244,6 +245,7 @@ class Dashboard extends Tendoo_Controller {
 	 */
 	function options( $mode = 'list' )
 	{
+		( ! Modules::is_active( 'aauth' ) ) ? redirect( array( 'dashboard', 'error-occurred?notice="required_module_missing"' ) ) : null;
 		( ! User::can( 'manage_options' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
 		
 		if( in_array( $mode, array( 'save', 'merge' ) ) )
@@ -377,6 +379,7 @@ class Dashboard extends Tendoo_Controller {
 	 */
 	function update( $page = 'home' ,  $version = null )
 	{
+		( ! Modules::is_active( 'aauth' ) ) ? redirect( array( 'dashboard', 'error-occurred?notice="required_module_missing"' ) ) : null;
 		( ! User::can( 'manage_options' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
 		
 		if( $page === 'core' ){

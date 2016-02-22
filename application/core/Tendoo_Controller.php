@@ -79,12 +79,6 @@ class Tendoo_Controller extends CI_Controller
 				redirect( array( 'tendoo-setup' ) );
 			}
 			
-			// force user to be connected for some controller
-			if( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_logout' ) ) && $this->setup->is_installed() )
-			{
-				// $this->events->do_action( 'is_connected' );
-			}
-			
 			// loading assets for reserved controller
 			$css_libraries		=	$this->events->apply_filters( 'default_css_libraries', array( 'bootstrap.min', 'AdminLTE.min', 'tendoo.min', 'skins/_all-skins.min', 'font-awesome-4.3.0', '../plugins/iCheck/square/blue' ) );
 			if( $css_libraries ) {
