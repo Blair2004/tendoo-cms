@@ -343,6 +343,8 @@ $(document).ready(function(){
 	
 	function settings()
 	{
+		! User::can( 'manage_options' ) ? redirect( array( 'dashboard', 'access-denied' ) ): null ;
+		
 		$this->gui->set_title( sprintf( __( 'Settings &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'dashboard/settings/body' );
 	}
