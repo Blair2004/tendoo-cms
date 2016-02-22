@@ -70,6 +70,8 @@ class Dashboard extends Tendoo_Controller {
 	 */
 	function modules( $page = 'list' , $arg2 = null, $arg3 = null, $arg4 = null )
 	{
+		( ! Users::can( 'manage_modules' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
+		
 		if( $page === 'list' )
 		{
 			$this->events->add_filter( 'gui_page_title' , function( $title ){
@@ -242,6 +244,8 @@ class Dashboard extends Tendoo_Controller {
 	 */
 	function options( $mode = 'list' )
 	{
+		( ! Users::can( 'manage_options' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
+		
 		if( in_array( $mode, array( 'save', 'merge' ) ) )
 		{
 			if( ! $this->input->post( 'gui_saver_ref' ) && ! $this->input->post( 'gui_json' ) ) // if JSON mode is enabled redirect is disabled
@@ -373,6 +377,8 @@ class Dashboard extends Tendoo_Controller {
 	 */
 	function update( $page = 'home' ,  $version = null )
 	{
+		( ! Users::can( 'manage_options' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
+		
 		if( $page === 'core' ){
 			$this->gui->set_title( sprintf( __( 'Updating... &mdash; %s' ) , get( 'core_signature' ) ) );
 			$this->load->view( 'dashboard/update/core' , array(
