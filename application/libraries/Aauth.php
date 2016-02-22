@@ -275,6 +275,22 @@ class Aauth {
 			return FALSE;
 		}
 	}
+	
+	/**
+	 * Test user credentials
+	 *
+	 * @return bool
+	 */
+	public function test_credentials( $user_id, $password ) {
+		$this->CI->db
+			->where( 'id', $user_id )
+			->where( 'pass', $this->hash_password( $password, $user_id ) );
+		$query = $this->CI->db->get($this->config_vars['users']);
+		if( $query->num_rows() > 0 ){
+			return true;
+		} 
+		return false;
+	}
 
 	//tested
 	/**
