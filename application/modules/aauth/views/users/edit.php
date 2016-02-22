@@ -10,9 +10,9 @@ $this->gui->col_width( 1 , 2 );
 $this->gui->add_meta( array(
 	'col_id'	=>	1,
 	'namespace'	=>	'edit_user',
-	'gui_saver'	=>	true,
+	'gui_saver'	=>	false,
 	'custom'	=>	array(
-		'action'	=>	false
+		'action'	=>	null
 	),
 	'footer'	=>	array(
 		'submit'	=>	array(

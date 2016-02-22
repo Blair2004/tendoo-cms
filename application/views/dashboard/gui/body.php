@@ -90,8 +90,7 @@ Tendoo Version Required : 1.5
 							<input type="hidden" name="gui_saver_expiration_time" value="<?php echo $form_expire;?>" />
 							<input type="hidden" name="gui_saver_use_namespace" value="<?php echo $use_namespace ? 'true' : 'false';?>" />
 						<?php
-					} elseif( $action === null ) {
-						?>
+					} elseif( in_array( $action, array( null, FALSE ), true ) ) {						?>
                         <form class="form <?php echo $class;?>" id="<?php echo $id;?>" enctype="<?php echo $enctype;?>" method="<?php echo $method;?>">
                         <?php
 					}
@@ -198,6 +197,10 @@ Tendoo Version Required : 1.5
 							<input type="hidden" name="gui_saver_expiration_time" value="<?php echo $form_expire;?>" />
 							<input type="hidden" name="gui_saver_use_namespace" value="<?php echo $use_namespace ? 'true' : 'false';?>" />
 						<?php
+					} elseif( in_array( $action, array( null, FALSE ), true ) ) {
+						?>
+                        <form class="form <?php echo $class;?>" id="<?php echo $id;?>" enctype="<?php echo $enctype;?>" method="<?php echo $method;?>">
+                        <?php
 					}
 					
 					echo $this->load->view( 'dashboard/gui/gui-items' , array(
