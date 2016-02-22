@@ -77,21 +77,23 @@ class Dashboard_Widgets_Model extends CI_Model
 	
 	function save_position( $widget_namespace, $col_id ) 
 	{
-		global $AdminWidgetsCols;
-		// is widget already exists within a cols, this save is ignored
-		if( is_array( $AdminWidgetsCols ) ) {
-			foreach( $AdminWidgetsCols as $cols ) {
-				if( in_array( $widget_namespace, $cols ) ) {
-					return;
+		if( Modules::is_active( 'aauth' ) ) {
+			global $AdminWidgetsCols;
+			// is widget already exists within a cols, this save is ignored
+			if( is_array( $AdminWidgetsCols ) ) {
+				foreach( $AdminWidgetsCols as $cols ) {
+					if( in_array( $widget_namespace, $cols ) ) {
+						return;
+					}
 				}
 			}
-		}
-		if( ! isset( $AdminWidgetsCols[ $col_id ] ) ) {
-			$AdminWidgetsCols[ $col_id ]	=	array();
-		}
-		if( ! in_array( $widget_namespace, $AdminWidgetsCols[ $col_id ] ) ) {
-			$AdminWidgetsCols[ $col_id ][]	=	$widget_namespace;		
-			$this->options->set( 'dashboard_widget_position', $AdminWidgetsCols, true, User::id() );
+			if( ! isset( $AdminWidgetsCols[ $col_id ] ) ) {
+				$AdminWidgetsCols[ $col_id ]	=	array();
+			}
+			if( ! in_array( $widget_namespace, $AdminWidgetsCols[ $col_id ] ) ) {
+				$AdminWidgetsCols[ $col_id ][]	=	$widget_namespace;		
+				$this->options->set( 'dashboard_widget_position', $AdminWidgetsCols, true, User::id() );
+			}
 		}
 	}
 	
