@@ -99,9 +99,11 @@ class Dashboard_Widgets_Model extends CI_Model
 	
 	function save_positions( $widgets_namespaces, $col_id )
 	{
-		global $AdminWidgetsCols;
-		$AdminWidgetsCols[ $col_id ]	=	$widgets_namespaces;
-		$this->options->set( 'dashboard_widget_position', $AdminWidgetsCols, true, User::id() );
+		if( Modules::is_active( 'aauth' ) ) {
+			global $AdminWidgetsCols;
+			$AdminWidgetsCols[ $col_id ]	=	$widgets_namespaces;
+			$this->options->set( 'dashboard_widget_position', $AdminWidgetsCols, true, User::id() );
+		}
 	}
 	
 	/**
