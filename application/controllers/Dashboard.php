@@ -26,9 +26,9 @@ class Dashboard extends Tendoo_Controller {
 		include_once( LIBPATH .'/Menu.php' );
 		include_once( LIBPATH .'/Notice.php' );
 
-		$this->load->model( 'gui' );
-		$this->load->model( 'update_model' ); // load update model @since 3.0
-		$this->load->model( 'dashboard_model' , 'dashboard' );
+		$this->load->model( 'Gui' );
+		$this->load->model( 'Update_Model' ); // load update model @since 3.0
+		$this->load->model( 'Dashboard_Model' , 'dashboard' );
 
 		// Loading Admin Menu
 		// this action was move to Dashboard controler instead of aside.php output file.
