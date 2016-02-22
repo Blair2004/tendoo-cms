@@ -70,7 +70,7 @@ class Dashboard extends Tendoo_Controller {
 	 */
 	function modules( $page = 'list' , $arg2 = null, $arg3 = null, $arg4 = null )
 	{
-		( ! Users::can( 'manage_modules' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
+		( ! User::can( 'manage_modules' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
 		
 		if( $page === 'list' )
 		{
@@ -244,7 +244,7 @@ class Dashboard extends Tendoo_Controller {
 	 */
 	function options( $mode = 'list' )
 	{
-		( ! Users::can( 'manage_options' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
+		( ! User::can( 'manage_options' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
 		
 		if( in_array( $mode, array( 'save', 'merge' ) ) )
 		{
@@ -377,7 +377,7 @@ class Dashboard extends Tendoo_Controller {
 	 */
 	function update( $page = 'home' ,  $version = null )
 	{
-		( ! Users::can( 'manage_options' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
+		( ! User::can( 'manage_options' ) ) ? redirect( array( 'dashboard', 'access-denied' ) ): null;
 		
 		if( $page === 'core' ){
 			$this->gui->set_title( sprintf( __( 'Updating... &mdash; %s' ) , get( 'core_signature' ) ) );
