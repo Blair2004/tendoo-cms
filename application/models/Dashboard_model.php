@@ -6,7 +6,7 @@
  *
 **/
 
-class Dashboard_model extends CI_Model
+class Dashboard_Model extends CI_Model
 {
 	function __construct()
 	{
@@ -332,7 +332,7 @@ $(document).ready(function(){
 	function index()
 	{
 		// load widget model here only
-		$this->load->model( 'dashboard_widgets_model', 'dashboard_widgets' );
+		$this->load->model( 'Dashboard_Widgets_Model', 'dashboard_widgets' );
 		
 		// trigger action while loading home (for registering widgets)
 		$this->events->do_action( 'load_dashboard_home' );

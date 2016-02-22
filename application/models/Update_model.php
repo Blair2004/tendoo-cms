@@ -1,5 +1,5 @@
 <?php 
-class Update_model extends CI_model
+class Update_Model extends CI_model
 {
 	// Expect tendoo_code
 	function __construct(){
