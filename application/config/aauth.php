@@ -40,7 +40,7 @@ $config['aauth'] = array(
     'user_variables' => 'aauth_user_variables',
 
     // remember time
-    'remember' => '+3 days',
+    'remember' => '+7 days',
 
     // pasword maximum char long (min is 4)
     'max' => 13,

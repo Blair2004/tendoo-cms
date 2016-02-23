@@ -240,13 +240,14 @@ class Aauth {
 				$expire = $this->config_vars['remember'];
 				$today = date("Y-m-d");
 				$remember_date = date("Y-m-d", strtotime($today . $expire) );
+
 				$random_string = random_string('alnum', 16);
 				$this->update_remember($row->id, $random_string, $remember_date );
 
 				$cookie = array(
 					'name'	 => 'user',
 					'value'	 => $row->id . "-" . $random_string,
-					'expire' => time() + 99*999*999,
+					'expire' => time() + 7200,
 					'path'	 => '/',
 				);
 
@@ -1907,7 +1908,7 @@ class Aauth {
 	 */
 	public function clear_infos()
 	{
-		$this->infos = [];
+		$this->infos = array();
 		$this->CI->session->set_flashdata('infos', $this->infos);
 	}
 
