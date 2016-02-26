@@ -15,6 +15,11 @@ class Users_model extends CI_Model
 		if( $this->auth->is_loggedin() )
 		{
 			$this->refresh_user_meta();
+		} else {
+			// Autologin user
+			if( $user_id	=	$this->input->cookie( 'user', true ) ) {
+				$this->auth->login_fast( $user_id );
+			}
 		}
 	}
 	
@@ -233,8 +238,7 @@ class Users_model extends CI_Model
 		$exec		=		$this->auth->login( 
 			$this->input->post( riake( 'username_or_email' , $login_fields_namespace ) ) , 
 			$this->input->post( riake( 'password' , $login_fields_namespace ) ) , 
-			$this->input->post( riake( 'keep_connected' , $login_fields_namespace ) ) ? true : false,
-			$this->config->item( 'username_login' )
+			$this->input->post( riake( 'keep_connected' , $login_fields_namespace ) ) ? true : false
 		); 
 		
 		if( $this->auth->is_loggedin() )

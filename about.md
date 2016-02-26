@@ -10,3 +10,4 @@ This is a brand new release of Tendoo CMS.
 - Post Type error during Tendoo installation with internal migrate feature.
 - Release comparison
 - Update module
+- Login using user name is not possible

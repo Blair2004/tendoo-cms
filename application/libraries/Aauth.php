@@ -125,6 +125,8 @@ class Aauth {
 	 */
 	public function login($email, $pass, $remember = FALSE) {
 		
+		$check_email	=	valid_email( $email ) ? true : false;
+		
 		// Remove cookies first
 		$cookie = array(
 			'name'	 => 'user',
@@ -144,7 +146,8 @@ class Aauth {
 		* It was causing issues with special characters in passwords
 		* and returning FALSE even if the password matches.
 		*/
-		if( !valid_email($email) OR strlen($pass) < 5 OR strlen($pass) > $this->config_vars['max'] )
+		// !valid_email($email) OR user Name is used as login credential
+		if( strlen($pass) < 5 OR strlen($pass) > $this->config_vars['max'] )
 		{
 			$this->error($this->CI->lang->line('aauth_error_login_failed'));
 			return FALSE;
@@ -152,7 +155,11 @@ class Aauth {
 
 
 		$query = null;
-		$query = $this->CI->db->where('email', $email);
+		if( $check_email ) {
+			$query = $this->CI->db->where('email', $email);
+		} else {
+			$query = $this->CI->db->where('name', $email);
+		}
 		$query = $this->CI->db->get($this->config_vars['users']);
 		$row = $query->row();
 		
@@ -165,7 +172,11 @@ class Aauth {
 		
 		//recaptcha login_attempts check
 		$query = null;
-		$query = $this->CI->db->where('email', $email);
+		if( $check_email ) {
+			$query = $this->CI->db->where('email', $email);
+		} else {
+			$query = $this->CI->db->where('name', $email);
+		}
 		$query = $this->CI->db->get($this->config_vars['users']);
 		$row = $query->row();
 		
@@ -181,7 +192,11 @@ class Aauth {
 		
 		// if user is not verified
 		$query = null;
-		$query = $this->CI->db->where('email', $email);
+		if( $check_email ) {
+			$query = $this->CI->db->where('email', $email);
+		} else {
+			$query = $this->CI->db->where('name', $email);
+		}
 		$query = $this->CI->db->where('banned', 1);
 		$query = $this->CI->db->where('verification_code !=', '');
 		$query = $this->CI->db->get($this->config_vars['users']);
@@ -192,7 +207,11 @@ class Aauth {
 		}
 		
 		// to find user id, create sessions and cookies
-		$query = $this->CI->db->where('email', $email);
+		if( $check_email ) {
+			$query = $this->CI->db->where('email', $email);
+		} else {
+			$query = $this->CI->db->where('name', $email);
+		}
 		$query = $this->CI->db->get($this->config_vars['users']);
 		
 		if($query->num_rows() == 0){
@@ -203,7 +222,11 @@ class Aauth {
 		$user_id = $query->row()->id;
 		
 		$query = null;
-		$query = $this->CI->db->where('email', $email);
+		if( $check_email ) {
+			$query = $this->CI->db->where('email', $email);
+		} else {
+			$query = $this->CI->db->where('name', $email);
+		}
 
 		// Database stores pasword hashed password0
 		$query = $this->CI->db->where('pass', $this->hash_password($pass, $user_id));
@@ -247,7 +270,7 @@ class Aauth {
 				$cookie = array(
 					'name'	 => 'user',
 					'value'	 => $row->id . "-" . $random_string,
-					'expire' => time() + 7200,
+					'expire' => 99*999*999,
 					'path'	 => '/',
 				);
 

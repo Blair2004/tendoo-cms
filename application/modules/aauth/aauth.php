@@ -3,8 +3,8 @@ class auth_module_class extends CI_model
 {
 	function __construct()
 	{
-		parent::__construct();
-		// Load Model if tendoo is installed
+		parent::__construct();		
+		// Load Model if tendoo is installed		
 		if( $this->setup->is_installed() )
 		{
 			$this->load->model( 'users_model' , 'users' );
@@ -12,7 +12,7 @@ class auth_module_class extends CI_model
 		// Events	
 		// change send administrator emails		
 		$this->events->add_action( 'after_app_init' , array( $this , 'after_session_starts' ) );		
-		$this->events->add_action( 'is_connected' , array( $this , 'is_connected' ) );		
+		// $this->events->add_action( 'is_connected' , array( $this , 'is_connected' ) );	deprecated
 		$this->events->add_action( 'log_user_out' , array( $this , 'log_user_out' ) );
 		$this->events->add_filter( 'user_id' , array( $this , 'user_id' ) );
 		// Tendoo Setup	
