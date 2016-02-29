@@ -130,7 +130,6 @@ class Dashboard_Model extends CI_Model
 					_.extend(newSet,_.object([ section ],[ tab [ section ] ]));
 					section++;
 				});
-				console.log( tab );
 				tendoo.options.set( 'dashboard_widget_position', newSet, true );
 			}
 			var actionAllower	=	{};
@@ -206,18 +205,12 @@ tendoo.options			=	new function(){
     var $this			=	this;
     this.set				=	function( key, value, user_meta ) {
         if( typeof user_meta != 'undefined' ) {
-            save_slug	=	'save_user_meta';
+            save_slug			=	'save_user_meta';
         } else {
-            save_slug	=	'save';
-        }
-		
-		console.log( value );
-		
-		value			=	( typeof value == 'object' ) ? JSON.stringify( value ) : value
-		
-		console.log( value );
-		
-        var post_data			=	_.object( [ key ], [ value ] );
+            save_slug			=	'save';
+        }		
+		value					=	( typeof value == 'object' ) ? JSON.stringify( value ) : value
+		var post_data			=	_.object( [ key ], [ value ] );
 		
 		// console.log( post_data );
         tendoo.options_data		=	_.extend( tendoo.options_data, post_data );

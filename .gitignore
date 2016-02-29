@@ -9,6 +9,7 @@ application/cache/
 application/config/base_url.php
 !application/cache/index.html
 !application/cache/.htaccess
+!application/cache/app/index.html
 application/config/database.php
 application/modules/*
 !application/modules/aauth/
