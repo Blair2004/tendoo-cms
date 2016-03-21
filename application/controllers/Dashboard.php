@@ -262,12 +262,12 @@ class Dashboard extends Tendoo_Controller {
 				global $Options;
 				foreach( $_POST as $key => $value )
 				{
-					if( ! in_array( $key , array( 'gui_saver_option_namespace' , 'gui_saver_ref' , 'gui_saver_expiration_time' , 'gui_saver_use_namespace', 'gui_delete_option_field' ) ) )
+					if( ! in_array( $key , array( 'gui_saver_option_namespace' , 'gui_saver_ref' , 'gui_saver_expiration_time' , 'gui_saver_use_namespace', 'gui_delete_option_field', 'gui_json' ) ) )
 					{
 						/**
 						 * Merge options which a supposed to be wrapped within the same array
 						**/
-
+						
 						if( $mode == 'merge' && is_array( $value ) ) {
 							$options	=	$this->options->get( $key ); 
 							$options	=	array_merge( force_array( $options ), $value );
@@ -291,6 +291,7 @@ class Dashboard extends Tendoo_Controller {
 								if( $mode == 'merge' && is_array( $value ) ) {
 									$this->options->set( $key , $options , true );
 								} else {
+									
 									$this->options->set( $key, $_POST[ $key ], true );
 								}
 							}

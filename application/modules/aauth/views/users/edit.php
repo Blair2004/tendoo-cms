@@ -62,7 +62,7 @@ $groups_array	=	array();
 
 foreach( $groups as $group )
 {
-	$groups_array[ $group->id ] = $group->name;
+	$groups_array[ $group->id ] = $group->definition != NULL ? $group->definition : $group->name;
 }
 
 $this->Gui->add_item( array(

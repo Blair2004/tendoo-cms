@@ -29,17 +29,16 @@ Tendoo Version Required : 1.5
     ?>
     <div class="content">
     <?php 
-	// display notice
-	echo $this->notice->output_notice();	
 	if( function_exists( 'validation_errors' ) )
 	{
 		// validation errors
 		echo ( validation_errors() ) != '' ? tendoo_error( strip_tags( validation_errors() ) ) : '';
 	}
-	
-	// Aauth Errors
+	$this->notice->push_notice( fetch_notice_from_url() );
 	$this->events->do_action( 'displays_dashboard_errors' );
-	echo fetch_notice_from_url();
+	// display notice
+	echo $this->notice->output_notice();	
+	
 	$col_range	=	( count( $this->Gui->cols ) > 3 ) ? 3 : 4;
 	?>
     
@@ -103,7 +102,7 @@ Tendoo Version Required : 1.5
 					 * Background-Color will help you set a default background for the meta
 					**/
 					?>                    
-                    <div class="box <?php echo $meta_type;?> <?php echo riake( $namespace, $meta_status );?> <?php echo riake( 'background-color', $meta );?> meta-<?php echo $namespace;?>" data-meta-namespace="<?php echo $namespace;?>" <?php echo $attrs_string;?>>
+                    <div class="box <?php echo $meta_type;?> <?php echo riake( $namespace, $meta_status );?> <?php echo riake( 'background-color', $meta );?> meta-<?php echo $namespace;?>" id="meta-<?php echo $namespace;?>" data-meta-namespace="<?php echo $namespace;?>" <?php echo $attrs_string;?>>
                    		<?php
 						/**
 						 *	Whether you want to display border, use "display-border" and set it to true

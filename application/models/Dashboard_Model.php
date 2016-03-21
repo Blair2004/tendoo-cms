@@ -17,7 +17,7 @@ class Dashboard_Model extends CI_Model
 		$this->events->add_action( 'load_dashboard' , array( $this , 'load_dashboard' ) , 1 );				
 		$this->events->add_action( 'create_dashboard_pages' , array( $this , '__dashboard_config' ) );			
 		$this->events->add_action( 'load_dashboard' , array( $this , 'before_session_starts' ) );
-		$this->events->add_filter( 'dashboard_home_output', array( $this, '__home_output' ) );
+		// $this->events->add_filter( 'dashboard_home_output', array( $this, '__home_output' ) );
 	}
 	
 	function load_dashboard()

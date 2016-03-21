@@ -6,6 +6,7 @@ $lang[ 'unable-to-connect' ]			=	tendoo_error( __( 'Tendoo cannot connect to you
 $lang[ 'error-occured' ]				=	tendoo_error( __( 'An error occured.' ) );
 $lang[ 'unexpected-error' ]				=	tendoo_error( __( 'An unexpected error occured.' ) );
 $lang[ 'access-denied' ]				=	tendoo_error( __( 'Access Denied.' ) );
+$lang[ 'option-saved' ]					=	tendoo_success( __( 'Option was successfully saved.' ) );
 // Login page
 $lang[ 'signin-notice-message' ]		=	__( 'Sign in to start your session' );
 $lang[ 'recovery-notice-message' ]		=	__( 'Please enter your email addresse. A recovery email will be send to you.' );

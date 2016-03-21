@@ -15,8 +15,29 @@ class auth_module_class extends CI_model
 		// $this->events->add_action( 'is_connected' , array( $this , 'is_connected' ) );	deprecated
 		$this->events->add_action( 'log_user_out' , array( $this , 'log_user_out' ) );
 		$this->events->add_filter( 'user_id' , array( $this , 'user_id' ) );
+		$this->events->add_filter( 'user_menu_card_avatar_alt', function(){
+			return User::pseudo();
+		});
+		$this->events->add_filter( 'user_menu_card_avatar_src', array( $this, 'user_avatar_src' ) );
 		// Tendoo Setup	
 	}	
+	function user_avatar_src()
+	{
+		$current_user	=	User::get();
+		return $this->get_gravatar( $current_user->email, 90 );
+	}
+	function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+		$url = 'http://www.gravatar.com/avatar/';
+		$url .= md5( strtolower( trim( $email ) ) );
+		$url .= "?s=$s&d=$d&r=$r";
+		if ( $img ) {
+			$url = '<img src="' . $url . '"';
+			foreach ( $atts as $key => $val )
+				$url .= ' ' . $key . '="' . $val . '"';
+			$url .= ' />';
+		}
+		return $url;
+	}
 	function user_id()
 	{
 		if( $this->users->is_connected() )
