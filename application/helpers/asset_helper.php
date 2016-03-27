@@ -75,7 +75,7 @@ if ( ! function_exists('asset_url'))
  * @access  public
  * @return  string
  */
-if ( ! function_exists('css_url'))
+if ( ! function_exists('module_url'))
 {
     function module_url( $module_namespace = NULL )
     {
