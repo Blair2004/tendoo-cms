@@ -21,6 +21,7 @@ class PingBack_TrackBack extends CI_Model
 	
 	function widgets()
 	{
+		return;// Deprecated
 		$this->dashboard_widgets->add( 'pingback_trackback', array(
 			'title'	=> __( 'Pingback Report' ),
 			'type'	=> 'box-primary',
