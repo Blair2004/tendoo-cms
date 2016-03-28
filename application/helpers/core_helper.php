@@ -434,5 +434,26 @@ function doPaginate($elpp,$ttel,$current_page,$baselink)
 	);
 	
 }
+/**
+ * __return_true
+ *
+ * @return bool true
+**/
+
+function __return_true()
+{
+	return true;
+}
+
+/**
+ * __return_false
+ *
+ * @return bool false
+**/
+
+function __return_false()
+{
+	return false;
+}
 /* End of file core_helper.php */
 
