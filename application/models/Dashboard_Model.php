@@ -344,7 +344,7 @@ $(document).ready(function(){
 	}
 	
 	public function __set_admin_menu()
-	{	
+	{
 		$admin_menus		=	array(
 			'dashboard'		=>	array(
 				array(	
@@ -355,29 +355,15 @@ $(document).ready(function(){
 				array(	
 					'href'			=>		site_url( array( 'dashboard', 'update' ) ),
 					'icon'			=>		'fa fa-dashboard',
-					'title'			=>		__( 'Update Center' )
+					'title'			=>		__( 'Update Center' ),
+					'notices_nbr'	=>		$this->events->apply_filters( 'update_center_notice_nbr', 0 )
 				),
 				array(	
 					'href'			=>		site_url( array( 'dashboard', 'about' ) ),
 					'icon'			=>		'fa fa-dashboard',
-					'title'			=>		__( 'About' )
+					'title'			=>		__( 'About' ),
 				),
 			),
-			/** 'media'			=>	array(
-				array(
-					'title'			=>		__( 'Media Library' ),
-					'icon'			=>		'fa fa-image',
-					'href'			=>		site_url('dashboard/media')
-				)
-			),
-			'installer'			=>	array(
-				array(
-					'title'			=>		__( 'Install Apps' ),
-					'icon'			=>		'fa fa-flask',
-					'href'			=>		site_url('dashboard/installer')
-				)
-			),
-			**/
 			'modules'			=>	array(
 				array(
 					'title'			=>		__( 'Modules' ),
@@ -385,19 +371,6 @@ $(document).ready(function(){
 					'href'			=>		site_url('dashboard/modules')
 				)
 			),
-			/** 'themes'			=>	array(
-				array(
-					'title'			=>		__( 'Themes' ),
-					'icon'			=>		'fa fa-columns',
-					'href'			=>		site_url('dashboard/themes')
-				),
-				array(
-					'href'			=>		site_url('dashboard/controllers'),
-					'icon'			=>		'fa fa-bookmark',
-					'title'			=>		__( 'Menus' )
-				)
-			),
-			**/
 			'settings'			=>	array(
 				array(
 					'title'			=>		__( 'Settings' ),

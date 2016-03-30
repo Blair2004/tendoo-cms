@@ -29,10 +29,10 @@ class Update_Model extends CI_model
 				) 
 				{
 					// La valeur change lorsqu'il y a une mise à jour supérieure
-					if( version_compare( $regular_release, $_ref[ 'tag_name' ], '<' ) ) {
+					if( version_compare( $regular_release, $_rel[ 'tag_name' ], '<' ) ) {
 						$regular_release	=	$_rel[ 'tag_name' ];
 					}
-					if( version_compare( $major_release, $_ref[ 'tag_name' ], '<' ) && preg_match("/\#auto_update\#/", $_ref[ 'body' ] ) ) {
+					if( version_compare( $major_release, $_rel[ 'tag_name' ], '<' ) && preg_match("/\#auto_update\#/", $_rel[ 'body' ] ) ) {
 						$major_release	=	$_rel[ 'tag_name' ];
 					}
 				}
@@ -52,6 +52,7 @@ class Update_Model extends CI_model
 				if( $this->session->userdata( 'auto_update_step' ) <= 3 ) {
 					$this->install( $this->session->userdata( 'auto_update_step' ) , $major_release );
 				}
+			
 			}
 			
 			// Save cache
@@ -66,7 +67,7 @@ class Update_Model extends CI_model
 				version_compare( $this->cache->get( 'major_release' ), $this->config->item( 'version' ), '>' )
 			) {
 				$this->events->add_filter( 'update_center_notice_nbr', function( $nbr ) {
-					return $nbr++;
+					return $nbr + 1; 
 				});
 			}
 		}
