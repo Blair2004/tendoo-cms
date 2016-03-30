@@ -33,6 +33,9 @@ $config[ 'text_domain' ]							=	array(
 	'tendoo-core'	=>	APPPATH . 'language'
 );
 
+// Update
+$config[ 'force_major_updates' ]					=	TRUE;
+
 
 // For Auth Class (Email Purpose)
 // Uses Username to login
