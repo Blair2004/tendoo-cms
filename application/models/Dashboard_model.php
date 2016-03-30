@@ -356,7 +356,7 @@ $(document).ready(function(){
 					'href'			=>		site_url( array( 'dashboard', 'update' ) ),
 					'icon'			=>		'fa fa-dashboard',
 					'title'			=>		__( 'Update Center' ),
-					'notice_nbr'	=>		$this->events->apply_filters( 'update_center_notice_nbr', 0 )
+					'notices_nbr'	=>		$this->events->apply_filters( 'update_center_notice_nbr', 0 )
 				),
 				array(	
 					'href'			=>		site_url( array( 'dashboard', 'about' ) ),

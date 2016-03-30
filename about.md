@@ -4,6 +4,7 @@ This is a brand new release of Tendoo CMS.
 ### What's new ?
 
 - ViewPort meta, to scale interface to mobile device
+- Introducing Auto Update for Core.
 
 ### Bug Fix
 - Gui Checkbox bug fix.

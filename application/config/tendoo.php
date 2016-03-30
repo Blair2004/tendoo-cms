@@ -34,7 +34,7 @@ $config[ 'text_domain' ]							=	array(
 );
 
 // Update
-$config[ 'force_major_updates' ]					=	TRUE;
+$config[ 'force_major_updates' ]					=	FALSE;
 
 
 // For Auth Class (Email Purpose)
