@@ -78,6 +78,8 @@ class Update_Model extends CI_model
 				
 				$this->session->set_userdata( 'auto_update_step', 1 );
 				
+				redirect( array( 'dashboard', 'about' ) );
+				
 			} 
 			
 			if( $this->session->userdata( 'auto_update_step' ) == 4 || is_dir( APPPATH . '/temp/core' ) ) {
