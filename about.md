@@ -1,5 +1,5 @@
-# You're using Tendoo CMS 3.0.7
-This is a brand new release of Tendoo CMS.
+# You're using Tendoo CMS 3.0.8
+This is a brand new release of Tendoo CMS, with auto update feature.
 
 ### What's new ?
 
@@ -8,8 +8,4 @@ This is a brand new release of Tendoo CMS.
 - Not yet compatible with PHP 7
 
 ### Bug Fix
-- Gui Checkbox bug fix.
-- Post Type error during Tendoo installation with internal migrate feature.
-- Release comparison
-- Update module
-- Login using user name is now possible
+- Auto update
