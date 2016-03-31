@@ -11,6 +11,8 @@ class Update_Model extends CI_model
 	
 	function auto_update()
 	{
+		if( ! User::can( 'manage_settings' ) ) : return; endif;
+		
 		$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'tendoo_update_' ) );
 		
 		if( ! $this->cache->get( 'regular_release' ) || ! $this->cache->get( 'major_release' ) ) {
@@ -46,13 +48,19 @@ class Update_Model extends CI_model
 		// Auto Update
 		if( version_compare( $this->cache->get( 'major_release' ), $this->config->item( 'version' ), '>' ) && $this->config->item( 'force_major_updates' ) === TRUE ) {
 			
-			if( ! $this->session->userdata( 'auto_update_step' ) ) {
-				$this->session->set_userdata( 'auto_update_step', 1 );
-			} else if( $this->session->userdata( 'auto_update_step' ) == 1 ) {
-				$this->session->set_userdata( 'auto_update_step', $this->session->userdata( 'auto_update_step' ) + 1 );
-			} else if( $this->session->userdata( 'auto_update_step' ) == 2 ) {
-				$this->session->set_userdata( 'auto_update_step', $this->session->userdata( 'auto_update_step' ) + 2 );
-			} else if( $this->session->userdata( 'auto_update_step' ) == 4 ) {
+			if( isset( $_GET[ 'install_update' ] ) && is_dir( APPPATH . '/temp/core' ) ) {								
+				$this->install( 3, $this->cache->get( 'major_release' ) );
+			} 
+			
+			if( is_file( APPPATH . '/temp/tendoo-cms.zip' ) ) {								
+				$this->install( 2, $this->cache->get( 'major_release' ) );
+			} 
+			
+			if( ! is_file( APPPATH . '/temp/tendoo-cms.zip' ) && ! is_dir( APPPATH . '/temp/core' ) ) {
+				$this->install( 1, $this->cache->get( 'major_release' ) );
+			}
+			
+			if( is_dir( APPPATH . '/temp/core' ) || ! isset( $_GET[ 'install_update' ] ) ) {
 				$this->notice->push_notice( 
 					tendoo_info( 
 						sprintf( 
@@ -61,19 +69,7 @@ class Update_Model extends CI_model
 						) 	 
 					)
 				); 
-				if( isset( $_GET[ 'install_update' ] ) ) {
-					$this->session->set_userdata( 'auto_update_step', 3 );
-				}
 			}
-			
-			if( $this->session->userdata( 'auto_update_step' ) <= 3 ) {
-				$this->install( $this->session->userdata( 'auto_update_step' ) , $this->cache->get( 'major_release' ) );
-			}
-			
-			if( $this->session->userdata( 'auto_update_step' ) == 3 ) {
-				$this->session->set_userdata( 'auto_update_step', 1 );
-			}
-					
 		}
 		
 		// If any regular release exist or major update we show a notice
