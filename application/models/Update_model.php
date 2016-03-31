@@ -50,6 +50,7 @@ class Update_Model extends CI_model
 			
 			if( isset( $_GET[ 'install_update' ] ) && is_dir( APPPATH . '/temp/core' ) ) {								
 				$this->install( 3, $this->cache->get( 'major_release' ) );
+				redirect( array( 'dashboard', 'about' ) );
 			} 
 			
 			if( is_file( APPPATH . '/temp/tendoo-cms.zip' ) ) {								
