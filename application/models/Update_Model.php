@@ -48,11 +48,29 @@ class Update_Model extends CI_model
 			
 			if( ! $this->session->userdata( 'auto_update_step' ) ) {
 				$this->session->set_userdata( 'auto_update_step', 1 );
+				
 			} else if( $this->session->userdata( 'auto_update_step' ) == 1 ) {
-				$this->session->set_userdata( 'auto_update_step', $this->session->userdata( 'auto_update_step' ) + 1 );
+				
+				$this->install( $this->session->userdata( 'auto_update_step' ) , $this->cache->get( 'major_release' ) );
+				$this->session->set_userdata( 'auto_update_step', 2 );
+				
 			} else if( $this->session->userdata( 'auto_update_step' ) == 2 ) {
-				$this->session->set_userdata( 'auto_update_step', $this->session->userdata( 'auto_update_step' ) + 2 );
-			} else if( $this->session->userdata( 'auto_update_step' ) == 4 ) {
+				
+				$this->install( $this->session->userdata( 'auto_update_step' ) , $this->cache->get( 'major_release' ) );
+				$this->session->set_userdata( 'auto_update_step', 4 );
+				
+			} else if( isset( $_GET[ 'install_update' ] ) && $this->session->userdata( 'auto_update_step' ) == 4 ) {
+				
+				$this->session->set_userdata( 'auto_update_step', 3 );
+				$this->install( $this->session->userdata( 'auto_update_step' ) , $this->cache->get( 'major_release' ) );
+				
+			} else if( $this->session->userdata( 'auto_update_step' ) == 3 ) {
+				
+				$this->session->set_userdata( 'auto_update_step', 1 );
+				
+			}
+
+			if( $this->session->userdata( 'auto_update_step' ) == 4 && is_dir( APPPATH . '/temp/core' ) ) {
 				$this->notice->push_notice( 
 					tendoo_info( 
 						sprintf( 
@@ -61,19 +79,7 @@ class Update_Model extends CI_model
 						) 	 
 					)
 				); 
-				if( isset( $_GET[ 'install_update' ] ) ) {
-					$this->session->set_userdata( 'auto_update_step', 3 );
-				}
-			}
-			
-			if( $this->session->userdata( 'auto_update_step' ) <= 3 ) {
-				$this->install( $this->session->userdata( 'auto_update_step' ) , $this->cache->get( 'major_release' ) );
-			}
-			
-			if( $this->session->userdata( 'auto_update_step' ) == 3 ) {
-				$this->session->set_userdata( 'auto_update_step', 1 );
-			}
-					
+			}					
 		}
 		
 		// If any regular release exist or major update we show a notice
