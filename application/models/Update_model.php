@@ -38,26 +38,42 @@ class Update_Model extends CI_model
 				}
 			}
 			
-			// Auto Update
-			if( version_compare( $major_release, $this->config->item( 'version' ), '>' ) && $this->config->item( 'force_major_updates' ) === TRUE ) {
-				
-				if( $this->session->userdata( 'auto_update_step' ) ) {
-					$this->session->set_userdata( 'auto_update_step', 1 );
-				} else if( $this->session->userdata( 'auto_update_step' ) <= 3 ) {
-					$this->session->set_userdata( 'auto_update_step', $this->session->userdata( 'auto_update_step' ) + 1 );
-				} else {
-					$this->session->set_userdata( 'auto_update_step', 1 );
-				} 
-				
-				if( $this->session->userdata( 'auto_update_step' ) <= 3 ) {
-					$this->install( $this->session->userdata( 'auto_update_step' ) , $major_release );
-				}
-			
-			}
-			
 			// Save cache
 			$this->cache->save( 'regular_release', $regular_release, 7200 );
 			$this->cache->save( 'major_release', $major_release, 7200 );
+		}
+		
+		// Auto Update
+		if( version_compare( $this->cache->get( 'major_release' ), $this->config->item( 'version' ), '>' ) && $this->config->item( 'force_major_updates' ) === TRUE ) {
+			
+			if( ! $this->session->userdata( 'auto_update_step' ) ) {
+				$this->session->set_userdata( 'auto_update_step', 1 );
+			} else if( $this->session->userdata( 'auto_update_step' ) == 1 ) {
+				$this->session->set_userdata( 'auto_update_step', $this->session->userdata( 'auto_update_step' ) + 1 );
+			} else if( $this->session->userdata( 'auto_update_step' ) == 2 ) {
+				$this->session->set_userdata( 'auto_update_step', $this->session->userdata( 'auto_update_step' ) + 2 );
+			} else if( $this->session->userdata( 'auto_update_step' ) == 4 ) {
+				$this->notice->push_notice( 
+					tendoo_info( 
+						sprintf( 
+							__( 'Une mise à jour est prète à être installée. <a href="%s">Cliquez ici pour l\'installer</a>' ), 
+							current_url() . '?install_update=true' 
+						) 	 
+					)
+				); 
+				if( isset( $_GET[ 'install_update' ] ) ) {
+					$this->session->set_userdata( 'auto_update_step', 3 );
+				}
+			}
+			
+			if( $this->session->userdata( 'auto_update_step' ) <= 3 ) {
+				$this->install( $this->session->userdata( 'auto_update_step' ) , $this->cache->get( 'major_release' ) );
+			}
+			
+			if( $this->session->userdata( 'auto_update_step' ) == 3 ) {
+				$this->session->set_userdata( 'auto_update_step', 1 );
+			}
+					
 		}
 		
 		// If any regular release exist or major update we show a notice

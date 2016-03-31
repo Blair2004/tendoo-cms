@@ -352,7 +352,7 @@ $(document).ready(function(){
 					'icon'			=>		'fa fa-dashboard',
 					'title'			=>		__( 'Dashboard' )
 				),
-				array(	
+				array(	 
 					'href'			=>		site_url( array( 'dashboard', 'update' ) ),
 					'icon'			=>		'fa fa-dashboard',
 					'title'			=>		__( 'Update Center' ),
