@@ -36,6 +36,7 @@ application/models/Nexo_Misc.php
 application/models/Nexo_Products.php
 application/models/Nexo_Reports.php
 application/models/Nexo_Shelves.php
+application/temp/*
 application/models/Nexo_Shipping.php
 application/models/Nexo_Vendor.php
 public/modules/grocerycrud/*
