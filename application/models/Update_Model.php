@@ -19,11 +19,12 @@ class Update_Model extends CI_model
 
 			$json_api			=	$this->curl->security(false)->get( 'https://api.github.com/repos/Blair2004/tendoo-cms/releases' );
 			$array_api			=	json_decode( $json_api , true );
-			$regular_release		=	$this->config->item( 'version' );
-			$major_release			=	$this->config->item( 'version' );
+			$regular_release	=	$this->config->item( 'version' );
+			$major_release		=	$this->config->item( 'version' );
 	
 			// Fetch Auto update
 			foreach( $array_api as $_rel ){
+				var_dump( $_rel );
 				if( 
 					version_compare( $this->config->item( 'version' ), $_rel[ 'tag_name' ], '<' ) && 
 					riake( 'prerelease' , $_rel ) === FALSE && 
