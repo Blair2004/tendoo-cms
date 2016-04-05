@@ -24,19 +24,20 @@ class Update_Model extends CI_model
 	
 			// Fetch Auto update
 			foreach( $array_api as $_rel ){
-				var_dump( $_rel );
-				if( 
-					version_compare( $this->config->item( 'version' ), $_rel[ 'tag_name' ], '<' ) && 
-					riake( 'prerelease' , $_rel ) === FALSE && 
-					riake( 'draft' , $_rel ) === FALSE 
-				) 
-				{
-					// La valeur change lorsqu'il y a une mise à jour supérieure
-					if( version_compare( $regular_release, $_rel[ 'tag_name' ], '<' ) ) {
-						$regular_release	=	$_rel[ 'tag_name' ];
-					}
-					if( version_compare( $major_release, $_rel[ 'tag_name' ], '<' ) && preg_match("/\#auto_update\#/", $_rel[ 'body' ] ) ) {
-						$major_release	=	$_rel[ 'tag_name' ];
+				if( is_array( $_rel ) ) {
+					if( 
+						version_compare( $this->config->item( 'version' ), $_rel[ 'tag_name' ], '<' ) && 
+						riake( 'prerelease' , $_rel ) === FALSE && 
+						riake( 'draft' , $_rel ) === FALSE 
+					) 
+					{
+						// La valeur change lorsqu'il y a une mise à jour supérieure
+						if( version_compare( $regular_release, $_rel[ 'tag_name' ], '<' ) ) {
+							$regular_release	=	$_rel[ 'tag_name' ];
+						}
+						if( version_compare( $major_release, $_rel[ 'tag_name' ], '<' ) && preg_match("/\#auto_update\#/", $_rel[ 'body' ] ) ) {
+							$major_release	=	$_rel[ 'tag_name' ];
+						}
 					}
 				}
 			}
