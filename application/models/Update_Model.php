@@ -13,7 +13,7 @@ class Update_Model extends CI_model
 	{
 		if( ! User::can( 'manage_settings' ) ) : return; endif;
 		
-		$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'tendoo_update_' ) );
+		$this->cache				=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'tendoo_update_' ) );		
 		
 		if( ! $this->cache->get( 'regular_release' ) || ! $this->cache->get( 'major_release' ) ) {
 
