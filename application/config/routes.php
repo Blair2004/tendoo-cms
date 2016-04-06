@@ -57,5 +57,5 @@ $route['translate_uri_dashes'] = TRUE;
 // must match reserved controllers and controllers requiring installation
 $route[ 'sign-in' ]						=	'sign_in';
 $route[ 'sign-up' ]						=	'sign_up';
-$route[ 'sign-out' ]						=	'sign_out';
+$route[ 'sign-out' ]					=	'sign_out';
 $route[ 'tendoo-setup' ]				=	'tendoo-setup';
