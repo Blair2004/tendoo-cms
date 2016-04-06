@@ -40,7 +40,9 @@ class auth_module_class extends CI_model
 	}
 	function user_id()
 	{
-		if( $this->users->is_connected() )
+		global $CurrentScreen;
+		
+		if( $this->users->is_connected() && $this->setup->is_installed() && $CurrentScreen != 'tendoo-setup' )
 		{
 			return User::get()->id;
 		}
