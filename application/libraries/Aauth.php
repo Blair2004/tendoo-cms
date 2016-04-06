@@ -877,6 +877,8 @@ class Aauth {
 		// delete user vars
 		$this->CI->db->where('user_id', $user_id);
 		$this->CI->db->delete($this->config_vars['user_variables']);
+		
+		return true;
 	}
 
 	//tested

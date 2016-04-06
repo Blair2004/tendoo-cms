@@ -49,16 +49,16 @@ class aauth_setup extends CI_model
 		// Creating Permission to Group
 		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_perm_to_group`;" );
 		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_perm_to_group` (
-		  `perm_id` int(11) unsigned DEFAULT NULL,
-		  `group_id` int(11) unsigned DEFAULT NULL,
+		  `perm_id` int(11) unsigned NOT NULL,
+		  `group_id` int(11) unsigned NOT NULL,
 		  PRIMARY KEY (`perm_id`,`group_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
 		
 		// Auth Permission to User
 		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}aauth_perm_to_user`;" );
 		$this->db->query( "CREATE TABLE `{$database_prefix}aauth_perm_to_user` (
-		  `perm_id` int(11) unsigned DEFAULT NULL,
-		  `user_id` int(11) unsigned DEFAULT NULL,
+		  `perm_id` int(11) unsigned NOT NULL,
+		  `user_id` int(11) unsigned NOT NULL,
 		  PRIMARY KEY (`perm_id`,`user_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
 		

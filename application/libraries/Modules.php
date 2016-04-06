@@ -476,7 +476,7 @@ class Modules
 		return $extraction_path;
 	}
 	
-	private static $allowed_app_folders	=	array( 'libraries' , 'models' , 'config' , 'helpers' , 'third_party' ); // 'core' ,
+	private static $allowed_app_folders	=	array( 'libraries' , 'models' , 'config' , 'helpers' , 'third_party', 'controllers', 'language' ); // 'core' ,
 	
 	/**
 	 * Parse Path
@@ -752,7 +752,7 @@ class Modules
 				{
 					//var_dump( $manifest_array );
 					// moving manifest file to temp folder
-					foreach( array( 'models' , 'libraries' , 'language' , 'config' ) as $reserved_folder ){
+					foreach( self::$allowed_app_folders as $reserved_folder ){
 						foreach( $manifest_array as $file ){
 							//var_dump( $path_id_separator = APPPATH . $reserved_folder );
 							if( strstr( $file , $path_id_separator = APPPATH . $reserved_folder ) ){

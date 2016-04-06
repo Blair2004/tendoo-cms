@@ -21,7 +21,7 @@ $config[ 'default_logout_route' ]					=	'/dashboard/';
 // Core ID	
 $config[ 'version' ]								=	$config[ 'core_version' ]	=	'3.0.8'; // core id
 $config[ 'core_signature' ]							=	'Tendoo ' . $config[ 'version' ]; // core id
-$config[ 'supported_languages' ]							=	array( 
+$config[ 'supported_languages' ]					=	array( 
 	'en_US' => 'English',
 	'fr_FR'	=> 'Français'
 );

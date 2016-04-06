@@ -167,6 +167,7 @@ class Dashboard_Model extends CI_Model
 		?>
 <script>
 tendoo.base_url			=	'<?php echo base_url();?>';
+tendoo.site_url			=	'<?php echo site_url();?>/';
 tendoo.dashboard_url	=	'<?php echo site_url( array( 'dashboard' ) );?>';
 tendoo.current_url		=	'<?php echo current_url();?>';
 tendoo.index_url		=	'<?php echo index_page();?>';
