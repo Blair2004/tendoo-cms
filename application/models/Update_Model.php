@@ -1,11 +1,91 @@
 <?php 
-class Update_model extends CI_model
+class Update_Model extends CI_model
 {
 	// Expect tendoo_code
 	function __construct(){
 		parent::__construct();
 		$this->load->library('curl');
 		$this->core_id		=	$this->config->item( 'version' );
+		$this->auto_update();
+	}
+	
+	function auto_update()
+	{
+		if( ! User::can( 'manage_settings' ) ) : return; endif;
+		
+		$this->cache				=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'tendoo_update_' ) );		
+		
+		if( ! $this->cache->get( 'regular_release' ) || ! $this->cache->get( 'major_release' ) ) {
+
+			$json_api			=	$this->curl->security(false)->get( 'https://api.github.com/repos/Blair2004/tendoo-cms/releases' );
+			$array_api			=	json_decode( $json_api , true );
+			$regular_release	=	$this->config->item( 'version' );
+			$major_release		=	$this->config->item( 'version' );
+	
+			// Fetch Auto update
+			foreach( $array_api as $_rel ){
+				if( is_array( $_rel ) ) {
+					if( 
+						version_compare( $this->config->item( 'version' ), $_rel[ 'tag_name' ], '<' ) && 
+						riake( 'prerelease' , $_rel ) === FALSE && 
+						riake( 'draft' , $_rel ) === FALSE 
+					) 
+					{
+						// La valeur change lorsqu'il y a une mise à jour supérieure
+						if( version_compare( $regular_release, $_rel[ 'tag_name' ], '<' ) ) {
+							$regular_release	=	$_rel[ 'tag_name' ];
+						}
+						if( version_compare( $major_release, $_rel[ 'tag_name' ], '<' ) && preg_match("/\#auto_update\#/", $_rel[ 'body' ] ) ) {
+							$major_release	=	$_rel[ 'tag_name' ];
+						}
+					}
+				}
+			}
+			
+			// Save cache
+			$this->cache->save( 'regular_release', $regular_release, 7200 );
+			$this->cache->save( 'major_release', $major_release, 7200 );
+		}
+		
+		// Auto Update
+		if( version_compare( $this->cache->get( 'major_release' ), $this->config->item( 'version' ), '>' ) && $this->config->item( 'force_major_updates' ) === TRUE ) {
+			
+			if( isset( $_GET[ 'install_update' ] ) && is_dir( APPPATH . '/temp/core' ) ) {								
+				$this->install( 3, $this->cache->get( 'major_release' ) );
+				redirect( array( 'dashboard', 'about' ) );
+			} 
+			
+			if( is_file( APPPATH . '/temp/tendoo-cms.zip' ) ) {								
+				$this->install( 2, $this->cache->get( 'major_release' ) );
+			} 
+			
+			if( ! is_file( APPPATH . '/temp/tendoo-cms.zip' ) && ! is_dir( APPPATH . '/temp/core' ) ) {
+				$this->install( 1, $this->cache->get( 'major_release' ) );
+			}
+			
+			if( is_dir( APPPATH . '/temp/core' ) || ! isset( $_GET[ 'install_update' ] ) ) {
+				$this->notice->push_notice( 
+					tendoo_info( 
+						sprintf( 
+							__( 'Une mise à jour est prète à être installée. <a href="%s">Cliquez ici pour l\'installer</a>' ), 
+							current_url() . '?install_update=true' 
+						) 	 
+					)
+				); 
+			}
+		}
+		
+		// If any regular release exist or major update we show a notice
+		if( $this->cache->get( 'regular_release' ) || $this->cache->get( 'major_release' ) ) {
+			if( 
+				version_compare( $this->cache->get( 'regular_release' ), $this->config->item( 'version' ), '>' ) ||
+				version_compare( $this->cache->get( 'major_release' ), $this->config->item( 'version' ), '>' )
+			) {
+				$this->events->add_filter( 'update_center_notice_nbr', function( $nbr ) {
+					return $nbr + 1; 
+				});
+			}
+		}
 	}
 	
 	function check()
@@ -34,6 +114,7 @@ class Update_model extends CI_model
 						break;
 					}
 				}
+				
 				
 				if( is_array( $latest_release ) && ! empty( $latest_release ) ){
 					// retreiving informations

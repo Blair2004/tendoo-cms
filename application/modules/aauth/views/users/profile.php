@@ -5,14 +5,14 @@
  *	Since		:	1.4
 **/
 
-$this->gui->col_width( 1 , 2 );
+$this->Gui->col_width( 1 , 2 );
 
-$this->gui->add_meta( array(
+$this->Gui->add_meta( array(
 	'col_id'	=>	1,
 	'namespace'	=>	'user_profile',
 	'gui_saver'	=>	true,
 	'custom'	=>	array(
-		'action'	=>	''
+		'action'	=>	null
 	),
 	'footer'	=>	array(
 		'submit'	=>	array(
@@ -23,7 +23,7 @@ $this->gui->add_meta( array(
 
 // User name
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'text',
 	'label'			=>	__( 'User Name' ),
 	'name'			=>	'username',
@@ -33,7 +33,7 @@ $this->gui->add_item( array(
 
 // User email
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'text',
 	'label'			=>	__( 'User Email' ),
 	'name'			=>	'user_email',
@@ -42,13 +42,13 @@ $this->gui->add_item( array(
 
 // user password
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'password',
 	'label'			=>	__( 'Old Password' ),
 	'name'			=>	'old_pass',
 ) , 'user_profile' , 1 );
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'password',
 	'label'			=>	__( 'New Password' ),
 	'name'			=>	'password',
@@ -56,7 +56,7 @@ $this->gui->add_item( array(
 
 // user password config
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'password',
 	'label'			=>	__( 'Confirm New' ),
 	'name'			=>	'confirm',
@@ -71,8 +71,8 @@ $this->events->do_action( 'load_users_custom_fields' , array(
 	'groups'		=>	array(),
 	'meta_namespace'=>	'user_profile',
 	'col_id'		=>	1,
-	'gui'			=>	$this->gui,
+	'gui'			=>	$this->Gui,
 	'user_id'		=>	$this->users->current->id
 ) );
 
-$this->gui->output();
+$this->Gui->output();

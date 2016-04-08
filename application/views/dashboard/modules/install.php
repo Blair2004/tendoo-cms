@@ -5,9 +5,9 @@
  *	Since		:	1.4
 **/
 
-$this->gui->col_width( 1 , 4 );
+$this->Gui->col_width( 1 , 4 );
 
-$this->gui->add_meta( array(
+$this->Gui->add_meta( array(
 	'col_id'		=>	1,
 	'title'		=>	__( 'Add new extension using ZIP file' ),
 	'type'		=>	'box',
@@ -23,7 +23,7 @@ $this->gui->add_meta( array(
 	'gui_saver'	=>	true
 ) );
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'		=>	'file-input',
 	'label'		=>	__( 'Choose the extension zip file' ),
 	'name'		=>	'extension_zip'
@@ -31,4 +31,4 @@ $this->gui->add_item( array(
 
 
 
-$this->gui->output();
+$this->Gui->output();

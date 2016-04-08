@@ -2,10 +2,11 @@
 <application>
 	<details>
 		<namespace>aauth</namespace>
-		<version>1.2</version>
+		<version>1.4</version>
 		<author>Tendoo Dev Team</author>
 		<description>Sample Description</description>
 		<main>aauth.php</main>
 		<name>Auth Library</name>
+		<language>/language</language>
 	</details>
 </application>

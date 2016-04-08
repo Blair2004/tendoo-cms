@@ -68,6 +68,30 @@ if ( ! function_exists('asset_url'))
     }
 }
 
+
+/**
+ * Get base URL
+ *
+ * @access  public
+ * @return  string
+ */
+if ( ! function_exists('module_url'))
+{
+    function module_url( $module_namespace = NULL )
+    {
+		 $CI =& get_instance();
+		 if( $module_namespace === NULL ){
+        
+        return base_url() . $CI->config->item('css_path');
+		 
+		 } else {
+			 
+			 return base_url(). $CI->config->item('asset_path') . 'modules' . '/' . $module_namespace . '/';
+			 
+		 }
+    }
+}
+
 /**
  * Get css URL
  *
@@ -349,7 +373,7 @@ if ( ! function_exists('upload_path'))
     function upload_path()
     {
         $CI =& get_instance();	
-return FCPATH . $CI->config->item('upload_path');
+		return FCPATH . $CI->config->item('upload_path');
     }
 }
 

@@ -320,22 +320,22 @@
 				$class				=	riake( 'type' , $item  ) == 'table-panel' ? 'table table-striped m-b-none panel-body' : $class;
 				$class				.=  ' ' . get_user_meta( 'gui_'. riake( 'namespace' , $panel ) );
 				
-				get_instance()->gui->set_table( $namespace );
-				get_instance()->gui->empty_message( $empty_message );
+				get_instance()->Gui->set_table( $namespace );
+				get_instance()->Gui->empty_message( $empty_message );
 				// Creating Cols
 				foreach( force_array( riake( 'cols' , $item ) ) as $key	=>	$title )
 				{
-					get_instance()->gui->add_col( $key	, $title );
+					get_instance()->Gui->add_col( $key	, $title );
 				}
 				// Adding Row
 				foreach( force_array( riake( 'rows' , $item ) ) as $key 	=>	$row )
 				{
-					get_instance()->gui->add_row( $row );
+					get_instance()->Gui->add_row( $row );
 				}
 				// Introducing col width
-				get_instance()->gui->add_cols_width( riake( 'cols_width' , $item ) );
+				get_instance()->Gui->add_cols_width( riake( 'cols_width' , $item ) );
 				// Get table
-				get_instance()->gui->get_table( $namespace, $class , $attrs_string );
+				get_instance()->Gui->get_table( $namespace, $class , $attrs_string );
 			}
 			else if( in_array( riake( 'type' , $item  ) , array( 'dynamic-table' ) ) )
 			{
@@ -346,20 +346,20 @@
 				$class				=	riake( 'type' , $item  ) == 'table-panel' ? 'table table-striped m-b-none panel-body' : $class;
 				$class				.=  ' ' . get_user_meta( 'gui_'. riake( 'namespace' , $panel ) );
 				
-				get_instance()->gui->set_table( $namespace );
-				get_instance()->gui->empty_message( $empty_message );
+				get_instance()->Gui->set_table( $namespace );
+				get_instance()->Gui->empty_message( $empty_message );
 				// Creating Cols
 				foreach( force_array( riake( 'cols' , $item ) ) as $key	=>	$title )
 				{
-					get_instance()->gui->add_col( $key	, $title );
+					get_instance()->Gui->add_col( $key	, $title );
 				}
 				// Adding Row
 				foreach( force_array( riake( 'rows' , $item ) ) as $key 	=>	$row )
 				{
-					get_instance()->gui->add_row( $row );
+					get_instance()->Gui->add_row( $row );
 				}
 				// Get table
-				get_instance()->gui->get_dynamic_table( $namespace, $class , $attrs_string );
+				get_instance()->Gui->get_dynamic_table( $namespace, $class , $attrs_string );
 			}
 			else if( riake( 'type' , $item  ) == 'dom' )
 			{

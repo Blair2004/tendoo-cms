@@ -1,5 +1,5 @@
 <?php
-$result	= 	$this->update_model->check();
+$result	= 	$this->Update_Model->check();
 
 if( $result ){
 	// var_dump( $result );

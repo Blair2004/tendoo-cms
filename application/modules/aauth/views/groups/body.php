@@ -7,9 +7,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *	Since		:	1.4
 **/
 
-$this->gui->col_width( 1 , 4 );
+$this->Gui->col_width( 1 , 4 );
 
-$this->gui->add_meta( array(
+$this->Gui->add_meta( array(
 	'namespace'		=>	'role_list',
 	'title'			=>	__( 'Role List' ),
 	'col_id'		=>	1,
@@ -40,10 +40,10 @@ foreach( force_array( $groups ) as $group )
 	);
 }
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'table',
 	'cols'			=>	array( __( 'Role name' ) , __( 'Description' ) , __( 'Admin' ) , __( 'Permissions' ) ),
 	'rows'			=>	$group_array
 ) , 'role_list' , 1 );
 
-$this->gui->output();
+$this->Gui->output();

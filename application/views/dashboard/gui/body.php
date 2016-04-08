@@ -29,23 +29,22 @@ Tendoo Version Required : 1.5
     ?>
     <div class="content">
     <?php 
-	// display notice
-	echo $this->notice->output_notice();	
 	if( function_exists( 'validation_errors' ) )
 	{
 		// validation errors
 		echo ( validation_errors() ) != '' ? tendoo_error( strip_tags( validation_errors() ) ) : '';
 	}
-	
-	// Aauth Errors
+	$this->notice->push_notice( fetch_notice_from_url() );
 	$this->events->do_action( 'displays_dashboard_errors' );
-	echo fetch_notice_from_url();
-	$col_range	=	( count( $this->gui->cols ) > 3 ) ? 3 : 4;
+	// display notice
+	echo $this->notice->output_notice();	
+	
+	$col_range	=	( count( $this->Gui->cols ) > 3 ) ? 3 : 4;
 	?>
     
     
     <div class="row">
-        <?php foreach( force_array( $this->gui->get_cols() ) as $col_id =>	$col_data ):?>
+        <?php foreach( force_array( $this->Gui->get_cols() ) as $col_id =>	$col_data ):?>
         <div class="meta-row col-lg-<?php echo riake( 'width' , $col_data , 1 ) * $col_range ;?>">
             <?php 
 			$config = riake( 'configs' , $col_data );
@@ -90,7 +89,7 @@ Tendoo Version Required : 1.5
 							<input type="hidden" name="gui_saver_expiration_time" value="<?php echo $form_expire;?>" />
 							<input type="hidden" name="gui_saver_use_namespace" value="<?php echo $use_namespace ? 'true' : 'false';?>" />
 						<?php
-					} elseif( $action === null ) {
+					} elseif( in_array( $action, array( null, FALSE ), true ) ) {
 						?>
                         <form class="form <?php echo $class;?>" id="<?php echo $id;?>" enctype="<?php echo $enctype;?>" method="<?php echo $method;?>">
                         <?php
@@ -103,7 +102,7 @@ Tendoo Version Required : 1.5
 					 * Background-Color will help you set a default background for the meta
 					**/
 					?>                    
-                    <div class="box <?php echo $meta_type;?> <?php echo riake( $namespace, $meta_status );?> <?php echo riake( 'background-color', $meta );?> meta-<?php echo $namespace;?>" data-meta-namespace="<?php echo $namespace;?>" <?php echo $attrs_string;?>>
+                    <div class="box <?php echo $meta_type;?> <?php echo riake( $namespace, $meta_status );?> <?php echo riake( 'background-color', $meta );?> meta-<?php echo $namespace;?>" id="meta-<?php echo $namespace;?>" data-meta-namespace="<?php echo $namespace;?>" <?php echo $attrs_string;?>>
                    		<?php
 						/**
 						 *	Whether you want to display border, use "display-border" and set it to true
@@ -198,6 +197,10 @@ Tendoo Version Required : 1.5
 							<input type="hidden" name="gui_saver_expiration_time" value="<?php echo $form_expire;?>" />
 							<input type="hidden" name="gui_saver_use_namespace" value="<?php echo $use_namespace ? 'true' : 'false';?>" />
 						<?php
+					} elseif( in_array( $action, array( null, FALSE ), true ) ) {
+						?>
+                        <form class="form <?php echo $class;?>" id="<?php echo $id;?>" enctype="<?php echo $enctype;?>" method="<?php echo $method;?>">
+                        <?php
 					}
 					
 					echo $this->load->view( 'dashboard/gui/gui-items' , array(

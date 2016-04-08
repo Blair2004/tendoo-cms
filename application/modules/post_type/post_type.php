@@ -47,7 +47,7 @@ class post_type extends CI_model
 	}
 	function __register_page()
 	{
-		$this->gui->register_page( 'posttype' , array( $this , '__posttype_controller' ) );
+		$this->Gui->register_page( 'posttype' , array( $this , '__posttype_controller' ) );
 	}
 	public function __posttype_controller( $namespace , $page = 'list' , $id = 0 , $taxonomy_arg1 = 'list' , $taxonomy_arg2 = 0 )
 	{
@@ -85,7 +85,7 @@ class post_type extends CI_model
 				$data[ 'post' ]				= $post;				
 				$data[ 'post_list_label' ]	= $this->current_posttype->posts_list_label;
 				
-				$this->gui->set_title( $this->current_posttype->posts_list_label );
+				$this->Gui->set_title( $this->current_posttype->posts_list_label );
 				$this->load->view( '../modules/post_type/views/list' , $data , false );
 			}
 			else if( $page === 'new' )
@@ -119,7 +119,7 @@ class post_type extends CI_model
 					get_instance()->notice->push_notice( $this->lang->line( riake( 'msg' , $return ) ) );
 				}	
 				
-				$this->gui->set_title( $this->current_posttype->new_post_label );
+				$this->Gui->set_title( $this->current_posttype->new_post_label );
 				$this->load->view( '../modules/post_type/views/create' , $data , false );
 			}
 			else if( $page === 'edit' )
@@ -151,7 +151,7 @@ class post_type extends CI_model
 				
 				// print_array( get_core_vars( 'post' ) );die;
 							
-				$this->gui->set_title( $this->current_posttype->edit_post_label );
+				$this->Gui->set_title( $this->current_posttype->edit_post_label );
 				$this->load->view( '../modules/post_type/views/edit' , array(
 					'post_namespace'		=>		$namespace,
 					'new_post_label'		=>		$this->current_posttype->new_post_label,
@@ -193,7 +193,7 @@ class post_type extends CI_model
 						$data[ 'pagination' ]				=	$pagination;
 						$data[ 'current_taxonomy' ]		=	$current_taxonomy;
 						
-						$this->gui->set_title( riake( 'new-taxonomy-label' , $current_taxonomy ) );
+						$this->Gui->set_title( riake( 'new-taxonomy-label' , $current_taxonomy ) );
 						$this->load->view( '../modules/post_type/views/taxonomy-list' , $data );
 					}
 					else if( $taxonomy_arg1 === 'new' )
@@ -212,7 +212,7 @@ class post_type extends CI_model
 							get_instance()->notice->push_notice( $this->lang->line( $result ) );
 						}
 						
-						$this->gui->set_title( riake( 'new-taxonomy-label' , $current_taxonomy , __( 'New taxonomy' ) ) );
+						$this->Gui->set_title( riake( 'new-taxonomy-label' , $current_taxonomy , __( 'New taxonomy' ) ) );
 						$this->load->view( '../modules/post_type/views/taxonomy-create' , $data , false );
 					}
 					else if( $taxonomy_arg1 === 'edit' )
@@ -236,7 +236,7 @@ class post_type extends CI_model
 						$data[ 'taxonomy_id' ]	=	 $taxonomy_arg2;
 						$data[ 'get_taxonomy' ]	=	 farray( $this->current_posttype->query->get_taxonomies( $taxonomy_namespace , $taxonomy_arg2 , 'as_id' ) );						
 						
-						$this->gui->set_title(  riake( 'edit-taxonomy-label' , $current_taxonomy , __( 'Edit taxonomy' ) ) );
+						$this->Gui->set_title(  riake( 'edit-taxonomy-label' , $current_taxonomy , __( 'Edit taxonomy' ) ) );
 						$this->load->view( '../modules/post_type/views/taxonomy-edit' , $data );
 					}
 				}
@@ -317,7 +317,7 @@ class post_type extends CI_model
 				$this->config->set_item( 'comments' , $comments );				
 				$this->config->set_item( 'comments_list_label' , $this->current_posttype->comments_list_label );
 				
-				$this->gui->set_title( $this->current_posttype->comments_list_label );
+				$this->Gui->set_title( $this->current_posttype->comments_list_label );
 				$this->load->view( '../modules/post_type/views/comments-list' , array(
 					'pagination_data'		=>		$pagination,
 					'post_namespace' 		=>		$namespace,

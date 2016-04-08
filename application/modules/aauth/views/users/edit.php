@@ -5,14 +5,14 @@
  *	Since		:	1.4
 **/
 
-$this->gui->col_width( 1 , 2 );
+$this->Gui->col_width( 1 , 2 );
 
-$this->gui->add_meta( array(
+$this->Gui->add_meta( array(
 	'col_id'	=>	1,
 	'namespace'	=>	'edit_user',
-	'gui_saver'	=>	true,
+	'gui_saver'	=>	false,
 	'custom'	=>	array(
-		'action'	=>	false
+		'action'	=>	null
 	),
 	'footer'	=>	array(
 		'submit'	=>	array(
@@ -23,7 +23,7 @@ $this->gui->add_meta( array(
 
 // User name
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'text',
 	'label'			=>	__( 'User Name' ),
 	'name'			=>	'username',
@@ -33,7 +33,7 @@ $this->gui->add_item( array(
 
 // User email
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'text',
 	'label'			=>	__( 'User Email' ),
 	'name'			=>	'user_email',
@@ -42,7 +42,7 @@ $this->gui->add_item( array(
 
 // user password
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'password',
 	'label'			=>	__( 'New Password' ),
 	'name'			=>	'password',
@@ -50,7 +50,7 @@ $this->gui->add_item( array(
 
 // user password config
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'password',
 	'label'			=>	__( 'Confirm New' ),
 	'name'			=>	'confirm',
@@ -62,10 +62,10 @@ $groups_array	=	array();
 
 foreach( $groups as $group )
 {
-	$groups_array[ $group->id ] = $group->name;
+	$groups_array[ $group->id ] = $group->definition != NULL ? $group->definition : $group->name;
 }
 
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'select',
 	'label'			=>	__( 'Add to a group' ),
 	'name'			=>	'userprivilege',
@@ -80,8 +80,8 @@ $this->events->do_action( 'load_users_custom_fields' , array(
 	'groups'		=>	$groups_array,
 	'meta_namespace'=>	'edit_user',
 	'col_id'		=>	1,
-	'gui'			=>	$this->gui,
+	'gui'			=>	$this->Gui,
 	'user_id'		=>	$user->id
 ) );
 
-$this->gui->output();
+$this->Gui->output();

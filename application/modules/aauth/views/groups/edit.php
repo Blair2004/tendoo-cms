@@ -7,10 +7,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *	Since		:	1.5
 **/
 
-$this->gui->col_width( 1 , 3 );
+$this->Gui->col_width( 1 , 3 );
 
 // Creating Meta
-$this->gui->add_meta( array(
+$this->Gui->add_meta( array(
 	'type'		=>	'box',
 	'title'		=>	__( 'Edit a new role' ),
 	'namespace'	=>	'create_role',
@@ -27,7 +27,7 @@ $this->gui->add_meta( array(
 ) );
 
 // Adding Fields
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'			=>	'text',
 	'name'			=>	'role_name',
 	'description'	=>	__( 'Edit role name' ),
@@ -37,7 +37,7 @@ $this->gui->add_item( array(
 ) , 'create_role' , 1 );
 
 // Is it an admin group ?
-$this->gui->add_item( array(
+$this->Gui->add_item( array(
 	'type'		=>	'select',
 	'name'		=>	'role_type',
 	'options'	=>	array(
@@ -51,4 +51,4 @@ $this->gui->add_item( array(
 
 // var_dump( $this->users->is_public_group( $group->name ) ? 'public' : 'admin' );die;
 
-$this->gui->output();
+$this->Gui->output();
