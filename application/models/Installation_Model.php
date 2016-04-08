@@ -6,63 +6,68 @@ class Installation_Model extends CI_Model
 		$config['hostname'] = $host_name;
 		$config['username'] = $user_name;
 		$config['password'] = $user_password;
-		$config['database'] = $database_name;
 		$config['dbdriver'] = $database_driver;
 		$config['dbprefix'] = ( $database_prefix == '' ) ? 'tendoo_' : $database_prefix;
 		$config['pconnect'] = FALSE;
-		$config['db_debug'] = TRUE;
+		$config['db_debug'] = FALSE;
 		$config['cache_on'] = FALSE;
 		$config['cachedir'] = '';
 		$config['char_set'] = 'utf8';
 		$config['dbcollat'] = 'utf8_general_ci';
 		
-		$this->load->database( $config );
-		$this->load->library( 'session' );
-		$this->load->dbutil();
-		$this->load->dbforge();
-		$this->load->model( 'options' );
-		
-		if( ! $this->dbutil->database_exists( 'database' ) )
-		{
-			if( $this->dbutil->database_exists( $database_name ) )
-			{
-				// Before tendoo settings tables
-				// Used internaly to load module only when database connection is established.
-				
-				$this->events->do_action( 'before_setting_tables' , array(
-					'database_prefix'		=>		$database_prefix,
-					'install_model'		=>		$this
-				) );
-				
-				// Creating option table
-				$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}options`;" );				
-				$this->db->query( "CREATE TABLE `{$database_prefix}options` (
-				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-				  `key` varchar(200) NOT NULL,
-				  `value` text,
-				  `autoload` int(11) NOT NULL,
-				  `user` int(11) NOT NULL,
-				  `app` varchar(100) NOT NULL,
-				  PRIMARY KEY (`id`)
-				) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-				" );
-				
-				$this->events->do_action( 'tendoo_settings_tables' , array(
-					'database_prefix'		=>		$database_prefix,
-					'install_model'		=>		$this
-				) );
-				
-				// Creating Database File
-				$this->create_config_file( $config );
-				
-				// Saving First Option
-				$this->options->set( 'database_version', $this->config->item( 'database_version' ), true );
-				
-				return 'database-installed';				
+		if( $database_driver == 'mysqli' ) {
+			if( ! $link		=	@mysqli_connect( $host_name, $user_name, $user_password ) ) {
+				return 'unable-to-connect';
 			}
+			mysqli_close( $link ); // Closing connexion
+		}
+		
+		$db_connect	=	$this->load->database( $config );		
+		$this->load->dbutil();
+		$db_exists	=	$this->dbutil->database_exists( $database_name );
+		
+		if( ! $db_exists ) {
 			return 'database-not-found';
 		}
-		return 'unable-to-connect';
+				
+		$this->load->library( 'session' );
+		$this->load->model( 'options' );
+		
+		// Before tendoo settings tables
+		// Used internaly to load module only when database connection is established.
+		
+		$this->events->do_action( 'before_setting_tables' , array(
+			'database_prefix'	=>		$database_prefix,
+			'install_model'		=>		$this
+		) );
+		
+		// Creating option table
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}options`;" );				
+		$this->db->query( "CREATE TABLE `{$database_prefix}options` (
+		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		  `key` varchar(200) NOT NULL,
+		  `value` text,
+		  `autoload` int(11) NOT NULL,
+		  `user` int(11) NOT NULL,
+		  `app` varchar(100) NOT NULL,
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+		" );
+		
+		$this->events->do_action( 'tendoo_settings_tables' , array(
+			'database_prefix'		=>		$database_prefix,
+			'install_model'			=>		$this
+		) );
+
+		// Setting database
+		$config['database'] 		= 		$database_name;
+		// Creating Database File
+		$this->create_config_file( $config );
+		
+		// Saving First Option
+		$this->options->set( 'database_version', $this->config->item( 'database_version' ), true );
+				
+		return 'database-installed';				
 	}
 	public function create_config_file( $config )
 	{

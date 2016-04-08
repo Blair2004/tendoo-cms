@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Tendoo_setup extends Tendoo_Controller {
+class Do_setup extends Tendoo_Controller {
 
 	/**
 	 * Registration Controller for Auth purpose
@@ -52,7 +52,7 @@ class Tendoo_setup extends Tendoo_Controller {
 		Html::set_title( sprintf( __( 'Welcome Page &mdash; %s' ) , get( 'core_signature' ) ) );
 		// $this->load->model( 'tendoo_setup' );
 		$this->load->view( 'shared/header' );
-		$this->load->view( 'tendoo-setup/index' );
+		$this->load->view( 'do-setup/index' );
 	}
 	public function database()
 	{
@@ -77,7 +77,7 @@ class Tendoo_setup extends Tendoo_Controller {
 			);
 			if( $exec == 'database-installed' )
 			{
-				redirect( array( 'tendoo-setup' , 'site?notice=' . $exec . ( riake( 'lang', $_GET ) ? '&lang=' . $_GET[ 'lang' ] : '' ) ) );
+				redirect( array( 'do-setup' , 'site?notice=' . $exec . ( riake( 'lang', $_GET ) ? '&lang=' . $_GET[ 'lang' ] : '' ) ) );
 			}
 			$this->notice->push_notice( $this->lang->line( $exec ) );
 		}
@@ -85,12 +85,12 @@ class Tendoo_setup extends Tendoo_Controller {
 		Html::set_title( sprintf( __( 'Database config &mdash; %s' ) , get( 'core_signature' ) ) );
 		// $this->load->model( 'tendoo_setup' );
 		$this->load->view( 'shared/header' );
-		$this->load->view( 'tendoo-setup/database' );
+		$this->load->view( 'do-setup/database' );
 	}
 	public function site()
 	{
 		// checks if tendoo is not installed
-		if( ! $this->setup->is_installed() ): redirect( array( 'tendoo-setup' . ( riake( 'lang', $_GET ) ? '?lang=' . $_GET[ 'lang' ] : '' ) ) ); endif;
+		if( ! $this->setup->is_installed() ): redirect( array( 'do-setup' . ( riake( 'lang', $_GET ) ? '?lang=' . $_GET[ 'lang' ] : '' ) ) ); endif;
 		
 		// load database
 		$this->load->database();
@@ -117,6 +117,6 @@ class Tendoo_setup extends Tendoo_Controller {
 		// Outputing
 		Html::set_title( sprintf( __( 'Site & Master account &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'shared/header' );
-		$this->load->view( 'tendoo-setup/site' );
+		$this->load->view( 'do-setup/site' );
 	}
 }

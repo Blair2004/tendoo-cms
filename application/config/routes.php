@@ -58,4 +58,4 @@ $route['translate_uri_dashes'] 	= TRUE;
 $route[ 'sign-in' ]						=	'sign_in';
 $route[ 'sign-up' ]						=	'sign_up';
 $route[ 'sign-out' ]					=	'sign_out';
-$route[ 'tendoo-setup' ]				=	'tendoo-setup';
+$route[ 'do-setup' ]					=	'do-setup';
