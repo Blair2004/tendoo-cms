@@ -76,7 +76,7 @@ class Tendoo_Controller extends CI_Controller
 			// installation is required
 			if( ( in_array( $this->uri->segment(1) , $this->config->item( 'controllers_requiring_installation' ) ) || $this->uri->segment(1) === null ) && ! $this->setup->is_installed() )
 			{
-				redirect( array( 'tendoo-setup' ) );
+				redirect( array( 'do-setup' ) );
 			}
 			
 			// loading assets for reserved controller
@@ -99,6 +99,7 @@ class Tendoo_Controller extends CI_Controller
 				'../plugins/iCheck/icheck.min',  
 				'app.min' 
 			) );
+			
 			if( is_array( $js_libraries ) ) {
 				foreach( $js_libraries as $lib ) {
 					$this->enqueue->js( $lib );
