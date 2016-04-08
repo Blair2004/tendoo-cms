@@ -127,7 +127,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if (empty($this->_db->conn_id) && ! $this->_db->db_connect())
 		{
-			return $this->_fail();
+			return $this->_failure;
 		}
 
 		return $this->_success;
@@ -163,7 +163,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 				$this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
 			}
 
-			if ( ! ($result = $this->_db->get()) OR ($result = $result->row()) === NULL)
+			if (($result = $this->_db->get()->row()) === NULL)
 			{
 				// PHP7 will reuse the same SessionHandler object after
 				// ID regeneration, so we need to explicitly set this to
@@ -210,7 +210,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		{
 			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
 			{
-				return $this->_fail();
+				return $this->_failure;
 			}
 
 			$this->_row_exists = FALSE;
@@ -218,7 +218,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		}
 		elseif ($this->_lock === FALSE)
 		{
-			return $this->_fail();
+			return $this->_failure;
 		}
 
 		if ($this->_row_exists === FALSE)
@@ -237,7 +237,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 				return $this->_success;
 			}
 
-			return $this->_fail();
+			return $this->_failure;
 		}
 
 		$this->_db->where('id', $session_id);
@@ -260,7 +260,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			return $this->_success;
 		}
 
-		return $this->_fail();
+		return $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------
@@ -275,7 +275,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	public function close()
 	{
 		return ($this->_lock && ! $this->_release_lock())
-			? $this->_fail()
+			? $this->_failure
 			: $this->_success;
 	}
 
@@ -304,7 +304,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 			if ( ! $this->_db->delete($this->_config['save_path']))
 			{
-				return $this->_fail();
+				return $this->_failure;
 			}
 		}
 
@@ -314,7 +314,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			return $this->_success;
 		}
 
-		return $this->_fail();
+		return $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------
@@ -334,7 +334,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 		return ($this->_db->delete($this->_config['save_path'], 'timestamp < '.(time() - $maxlifetime)))
 			? $this->_success
-			: $this->_fail();
+			: $this->_failure;
 	}
 
 	// ------------------------------------------------------------------------
@@ -414,4 +414,5 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 		return parent::_release_lock();
 	}
+
 }

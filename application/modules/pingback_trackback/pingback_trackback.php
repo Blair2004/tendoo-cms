@@ -21,7 +21,6 @@ class PingBack_TrackBack extends CI_Model
 	
 	function widgets()
 	{
-		return;// Deprecated
 		$this->dashboard_widgets->add( 'pingback_trackback', array(
 			'title'	=> __( 'Pingback Report' ),
 			'type'	=> 'box-primary',
@@ -136,7 +135,7 @@ class PingBack_TrackBack extends CI_Model
 	
 	function settings_fields()
 	{
-		$this->Gui->add_meta( array(
+		$this->gui->add_meta( array(
 			'type'		=>	'box-primary',
 			'title'		=>	__( 'PingBack and Trackback Settings' ),
 			'namespace'	=>	'pinback_trackback',
@@ -150,7 +149,7 @@ class PingBack_TrackBack extends CI_Model
 			'use_namespace'	=>	false
 		) );
 		
-		$this->Gui->add_item( array(
+		$this->gui->add_item( array(
 			'type'		=>	'select',
 			'name'		=>	'store_pingback',
 			'label'		=>	__( 'Enable Store Pingback ?' ),

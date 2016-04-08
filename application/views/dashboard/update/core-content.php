@@ -1,5 +1,5 @@
 <?php
-$result	= 	$this->Update_Model->get( $release );
+$result	= 	$this->update_model->get( $release );
 
 if( $result === 'unknow-release' ){
 	?>

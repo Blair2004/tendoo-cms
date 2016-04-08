@@ -497,7 +497,7 @@ class CI_Pagination {
 		{
 			$this->cur_page = $this->CI->input->get($this->query_string_segment);
 		}
-		elseif (empty($this->cur_page))
+		else
 		{
 			// Default to the last segment number if one hasn't been defined.
 			if ($this->uri_segment === 0)
@@ -512,10 +512,6 @@ class CI_Pagination {
 			{
 				$this->cur_page = str_replace(array($this->prefix, $this->suffix), '', $this->cur_page);
 			}
-		}
-		else
-		{
-			$this->cur_page = (string) $this->cur_page;
 		}
 
 		// If something isn't quite right, back to the default base page.

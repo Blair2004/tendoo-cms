@@ -5,19 +5,19 @@
  *	Since		:	1.4
 **/
 
-/** $this->Gui->col_width( 1 , 2 );
+/** $this->gui->col_width( 1 , 2 );
 
-$this->Gui->add_meta( array(
+$this->gui->add_meta( array(
 	'col_id'	=>	1,
 	'namespace'	=>	'dashboard',
 	'type'		=>	'box-primary'
 ) );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'	=>	'dom',
 	'content'	=> $this->events->apply_filters( 'dashboard_home_output', '' )
 ) , 'dashboard' , 1 );
 
 **/
 
-$this->Gui->output();
+$this->gui->output();

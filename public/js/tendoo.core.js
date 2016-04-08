@@ -24,10 +24,9 @@ tendoo.app		=	function(){
 		/**
 		 * Save Custom meta 
 		**/
-		this.save		=	function( key , value , user_id, callback ){
+		this.save		=	function( key , value , user_id ){
 			if( typeof user_id === 'undefined' ){
-				// Objdata								=	_.object( [ key ], [ value ] ); Not tested
-				eval( 'Objdata		= { '+ key + ' 	: 	value }' ); 
+				eval( 'Objdata		= { '+ key + ' 	: 	value }' );
 				Objdata.gui_saver_expiration_time	=	tendoo.form_expire; // Saving Gui Expire Form
 				
 				$.ajax({ 
@@ -36,15 +35,9 @@ tendoo.app		=	function(){
 					type : 'POST',
 					beforeSend: function(){
 						tendoo.ui.loader.start();
-					},
-					success	:	function(){
-						if( typeof callback !== 'undefined' ) {
-							callback();
-						}
 					}
 				});
 			} else {
-				// Objdata								=	_.object( [ key, 'user_id' ], [ value, user_id ] ); Not tested
 				eval( 'Objdata		= { "' + key + '" 	: 	value, "user_id" : user_id }' );
 				Objdata.gui_saver_expiration_time	=	tendoo.form_expire; // Saving Gui Expire Form
 				
@@ -54,11 +47,6 @@ tendoo.app		=	function(){
 					type : 'POST',
 					beforeSend: function(){
 						$this.ui.loader.start();
-					},
-					success	:	function(){
-						if( typeof callback !== 'undefined' ) {
-							callback();
-						}
 					}
 				});
 			}

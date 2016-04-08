@@ -91,23 +91,15 @@ class CI_Cache_redis extends CI_Driver
 	 */
 	public function __construct()
 	{
-		if ( ! $this->is_supported())
-		{
-			log_message('error', 'Cache: Failed to create Redis object; extension not loaded?');
-			return;
-		}
-
+		$config = array();
 		$CI =& get_instance();
 
 		if ($CI->config->load('redis', TRUE, TRUE))
 		{
-			$config = array_merge(self::$_default_config, $CI->config->item('redis'));
-		}
-		else
-		{
-			$config = self::$_default_config;
+			$config = $CI->config->item('redis');
 		}
 
+		$config = array_merge(self::$_default_config, $config);
 		$this->_redis = new Redis();
 
 		try
@@ -146,7 +138,7 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache
 	 *
-	 * @param	string	$key	Cache ID
+	 * @param	string	Cache ID
 	 * @return	mixed
 	 */
 	public function get($key)
@@ -198,7 +190,7 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Delete from cache
 	 *
-	 * @param	string	$key	Cache key
+	 * @param	string	Cache key
 	 * @return	bool
 	 */
 	public function delete($key)
@@ -263,9 +255,9 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache driver info
 	 *
-	 * @param	string	$type	Not supported in Redis.
-	 *				Only included in order to offer a
-	 *				consistent cache API.
+	 * @param	string	Not supported in Redis.
+	 *			Only included in order to offer a
+	 *			consistent cache API.
 	 * @return	array
 	 * @see		Redis::info()
 	 */
@@ -279,7 +271,7 @@ class CI_Cache_redis extends CI_Driver
 	/**
 	 * Get cache metadata
 	 *
-	 * @param	string	$key	Cache key
+	 * @param	string	Cache key
 	 * @return	array
 	 */
 	public function get_metadata($key)

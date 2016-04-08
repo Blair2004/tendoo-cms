@@ -90,11 +90,11 @@ class Tendoo_setup extends Tendoo_Controller {
 	public function site()
 	{
 		// checks if tendoo is not installed
-		if( ! $this->setup->is_installed() ): redirect( array( 'tendoo-setup' . ( riake( 'lang', $_GET ) ? '?lang=' . $_GET[ 'lang' ] : '' ) ) ); endif;
+		if( ! $this->setup->is_installed() ): redirect( array( 'tendoo-setup' ) . ( riake( 'lang', $_GET ) ? '?lang=' . $_GET[ 'lang' ] : '' ) ); endif;
 		
 		// load database
 		$this->load->database();
-
+		
 		$this->events->do_action( 'tendoo_setup' );
 		
 		// checks if master doesn't exists

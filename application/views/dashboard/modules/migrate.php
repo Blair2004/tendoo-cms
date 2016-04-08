@@ -5,9 +5,9 @@
  *	Since		:	1.4
 **/
 
-$this->Gui->col_width( 1 , 4 );
+$this->gui->col_width( 1 , 4 );
 
-$this->Gui->add_meta( array(
+$this->gui->add_meta( array(
 	'col_id'		=>	1,
 	'title'		=>	__( 'Add new extension using ZIP file' ),
 	'type'		=>	'unwrapped',
@@ -85,11 +85,11 @@ else
 
 <?php
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'		=>	'dom',
 	'content'	=>	ob_get_clean(),
 ) , 'installer_box' , 1 );
 
 
 
-$this->Gui->output();
+$this->gui->output();

@@ -1,8 +1,8 @@
 <?php
 // var_dump( get_core_vars( 'posttypes' ) );
-$this->Gui->cols_width( 1 , 4 );
+$this->gui->cols_width( 1 , 4 );
 
-$this->Gui->set_meta( array(
+$this->gui->set_meta( array(
 	'type'			=>		'panel-ho',
 	'namespace'		=>		$post_namespace . '-table-list',
 	'title'			=>		$post_list_label
@@ -24,11 +24,11 @@ foreach( force_array( $post ) as $_post )
 	);
 }
 
-$this->Gui->set_item( array(
+$this->gui->set_item( array(
 	'type'			=>		'table',
 	'cols'			=>		$default_cols,
 	'rows'			=>		$table_row,
 	'cols_width'	=>		array( 5 , 200 , 100 , 100 , 100 , 100 )
 ) )->push_to( $post_namespace . '-table-list' );
 
-$this->Gui->get();
+$this->gui->get();
