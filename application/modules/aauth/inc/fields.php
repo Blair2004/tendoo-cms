@@ -137,14 +137,14 @@ class aauth_fields extends CI_model
 		// refresh user meta
 		$this->users->refresh_user_meta();
 		
-		$this->Gui->add_item( array(
+		$this->gui->add_item( array(
 			'type'		=>		'text',
 			'name'		=>		'first-name',
 			'label'		=>		__( 'First Name' ),
 			'value'		=>		$this->options->get( 'first-name' , riake( 'user_id' , $config ) )
 		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
 		
-		$this->Gui->add_item( array(
+		$this->gui->add_item( array(
 			'type'		=>		'text',
 			'name'		=>		'last-name',
 			'label'		=>		__( 'Last Name' ),

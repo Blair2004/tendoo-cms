@@ -1,9 +1,9 @@
 <?php
 // var_dump( get_core_vars( 'posttypes' ) );
 
-$this->Gui->col_width( 1 , 3 );
+$this->gui->col_width( 1 , 3 );
 
-$this->Gui->col_width( 2 , 1 );
+$this->gui->col_width( 2 , 1 );
 
 $this->events->add_filter( 'gui_before_cols' , function(){
 	return '<form method="post">';
@@ -13,14 +13,14 @@ $this->events->add_filter( 'gui_after_cols' , function(){
 	return '</form>';
 });
 
-$this->Gui->add_meta( array(
+$this->gui->add_meta( array(
 	'type'		=>		'unwrapped',
 	'namespace'	=>		$post_namespace . '-create-new',
 	'col_id'		=>		1,
 	'gui_saver'	=>		false
 ) );
 
-$this->Gui->add_meta( array(
+$this->gui->add_meta( array(
 	'type'		=>		'box',
 	'title'		=>		__( 'Details' ),
 	'namespace'	=>		$post_namespace . '-create-new-sidebar',
@@ -28,34 +28,34 @@ $this->Gui->add_meta( array(
 	'gui_saver'	=>		false
 ) );
 
-$this->events->do_action_ref_array( 'before_post_title' , array( $current_posttype , $this->Gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
+$this->events->do_action_ref_array( 'before_post_title' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
 
 if( in_array( 'title' , riake( 'displays' , $current_posttype->get_config() ) ) )
 {
-	$this->Gui->add_item( array(
+	$this->gui->add_item( array(
 		'type'			=>		'text',
 		'name'			=>		'post_title',
 		'placeholder'	=>		__( 'Enter a title' )
 	) , $post_namespace . '-create-new' , 1 );
 }
 
-$this->events->do_action_ref_array( 'after_post_title' , array( $current_posttype , $this->Gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
+$this->events->do_action_ref_array( 'after_post_title' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
 
-$this->events->do_action_ref_array( 'before_post_editor' , array( $current_posttype , $this->Gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
+$this->events->do_action_ref_array( 'before_post_editor' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
 
 if( in_array( 'editor' , riake( 'displays' , $current_posttype->get_config() ) ) )
 {
-	$this->Gui->add_item( array(
+	$this->gui->add_item( array(
 		'type'			=>		'editor',
 		'name'			=>		'post_content'
 	) , $post_namespace . '-create-new' , 1 );
 }
 
-$this->events->do_action_ref_array( 'after_post_editor' , array( $current_posttype , $this->Gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
+$this->events->do_action_ref_array( 'after_post_editor' , array( $current_posttype , $this->gui , $post_namespace . '-create-new' ) ); // Trigger each event bound
 
 
 
-$this->events->do_action_ref_array( 'before_post_publish' , array( $current_posttype , $this->Gui , $post_namespace . '-create-new-sidebar' ) ); // Trigger each event bound
+$this->events->do_action_ref_array( 'before_post_publish' , array( $current_posttype , $this->gui , $post_namespace . '-create-new-sidebar' ) ); // Trigger each event bound
 
 if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) ) )
 {
@@ -72,7 +72,7 @@ if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) 
 				$taxonomy_array[ riake( 'ID' , $_taxonomy ) ]	=	riake( 'TITLE' , $_taxonomy );
 			}
 			
-			$this->Gui->add_item( array( 
+			$this->gui->add_item( array( 
 				'type'			=>		'multiple',
 				'name'			=>		'post_taxonomy['. $tax_namespace.'][]',
 				'options'		=>		$taxonomy_array,
@@ -81,7 +81,7 @@ if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) 
 		}	
 	}
 	
-	$this->Gui->add_item( array(
+	$this->gui->add_item( array(
 		'type'			=>		'select',
 		'name'			=>		'post_status',
 		'options'		=>		array( __( 'Draft' ) , __( 'Publish' ) ),
@@ -101,7 +101,7 @@ if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) 
 			$postarray[ riake( 'QUERY_ID' , $_post ) ]	=	riake( 'TITLE' , $_post );
 		}
 
-		$this->Gui->add_item( array(
+		$this->gui->add_item( array(
 			'type'			=>		'select',
 			'name'			=>		'post_parent',
 			'options'		=>		$postarray,
@@ -111,15 +111,15 @@ if( in_array( 'publish' , riake( 'displays' , $current_posttype->get_config() ) 
 	}
 }
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'			=>		'buttons',
 	'name'			=>		array( 'submit_content' ),
 	'value'			=>		array( __( 'Submit' ) ),
 	'buttons_types'	=>		array( 'submit' )
 ) , $post_namespace . '-create-new-sidebar' , 2 );
 
-// $this->events->do_action( 'after_post_publish' , array( $current_posttype , $this->Gui , $post_namespace . '-create-new-sidebar' ) ); // Trigger each event bound
+// $this->events->do_action( 'after_post_publish' , array( $current_posttype , $this->gui , $post_namespace . '-create-new-sidebar' ) ); // Trigger each event bound
 
 
 
-$this->Gui->output();
+$this->gui->output();

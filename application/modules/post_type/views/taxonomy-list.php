@@ -1,7 +1,7 @@
 <?php
-$this->Gui->col_width( 1 , 4 );
+$this->gui->col_width( 1 , 4 );
 
-$this->Gui->add_meta( array(
+$this->gui->add_meta( array(
 	'type'			=>		'box',
 	'namespace'		=>		$taxonomy_namespace . '-table-list',
 	'title'			=>		$taxonomy_list_label,
@@ -24,11 +24,11 @@ foreach( force_array( $taxonomies ) as $_taxonomy )
 
 unset( $taxonomies , $user );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'			=>		'table',
 	'cols'			=>		$default_cols,
 	'rows'			=>		$table_row,
 	'cols_width'	=>		array( 5 , 200 , 100 , 100 )
 ) , $taxonomy_namespace . '-table-list' , 1 );
 
-$this->Gui->output();
+$this->gui->output();

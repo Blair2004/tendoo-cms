@@ -76,7 +76,7 @@ $autoload['libraries'] = array( 'events' , 'XML2Array' );
 |	$autoload['drivers'] = array('cache');
 */
 
-$autoload['drivers'] = array('cache');
+$autoload['drivers'] = array();
 
 
 /*

@@ -9,9 +9,9 @@
  ********************** 	GENERAL SETTINGS   **************************
 *************************************************************************/
 
-$this->Gui->col_width( 1 , 2 );
+$this->gui->col_width( 1 , 2 );
 
-$this->Gui->add_meta( array(
+$this->gui->add_meta( array(
 	'type'		=>	'box-primary',
 	'title'		=>	__( 'General Settings' ),
 	'namespace'	=>	'general-settings',
@@ -25,21 +25,21 @@ $this->Gui->add_meta( array(
 	'use_namespace'	=>	false
 ) );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'		=>	'text',
 	'name'		=>	'site_name',
 	'label'		=>	__( 'Site Name' ),
 	'placeholder'	=>	__( 'Enter your site name' )
 ) , 'general-settings' , 1 );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'		=>	'textarea',
 	'name'		=>	'site_description',
 	'label'		=>	__( 'Site Description' ),
 	'placeholder'	=>	__( 'Enter your site description' )
 ) , 'general-settings' , 1 );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'			=>	'select',
 	'name'			=>	'site_timezone',
 	'label'			=>	__( 'Timezone' ),
@@ -48,7 +48,7 @@ $this->Gui->add_item( array(
 ) , 'general-settings' , 1 );
 
 // @since 4.0.5
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'		=>	'select',
 	'name'		=>	'site_language',
 	'label'		=>	__( 'Language' ),
@@ -62,9 +62,9 @@ $this->events->do_action( 'register_general_settings_fields' );
  ********************** 	Advanced Settings   **************************
 *************************************************************************/
 
-$this->Gui->col_width( 2 , 2 );
+$this->gui->col_width( 2 , 2 );
 
-$this->Gui->add_meta( array(
+$this->gui->add_meta( array(
 	'type'		=>	'box-primary',
 	'title'		=>	__( 'Advanced Settings' ),
 	'namespace'	=>	'advanced-settings',
@@ -78,7 +78,7 @@ $this->Gui->add_meta( array(
 	'use_namespace'	=>	false
 ) );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'		=>	'select',
 	'name'		=>	'site_registration',
 	'label'		=>	__( 'Open registration' ),
@@ -89,7 +89,7 @@ $this->Gui->add_item( array(
 	)
 ) , 'advanced-settings' , 2 );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'		=>	'select',
 	'name'		=>	'webdev_mode',
 	'label'		=>	__( 'Enable Developer mode ?' ),
@@ -101,7 +101,7 @@ $this->Gui->add_item( array(
 	)
 ) , 'advanced-settings' , 2 );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'		=>	'select',
 	'name'		=>	'allow-role-selection',
 	'label'		=>	__( 'Allow Role Selection' ),
@@ -112,7 +112,7 @@ $this->Gui->add_item( array(
 	)
 ) , 'advanced-settings' , 2 );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'		=>	'select',
 	'name'		=>	'auto_update',
 	'label'		=>	__( 'Auto update tendoo' ),
@@ -123,7 +123,7 @@ $this->Gui->add_item( array(
 	)
 ) , 'advanced-settings' , 2 );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'		=>	'select',
 	'name'		=>	'remote_install',
 	'label'		=>	__( 'Enable Remote Themes and Module Installation' ),
@@ -134,7 +134,7 @@ $this->Gui->add_item( array(
 	)
 ) , 'advanced-settings' , 2 );
 
-$this->Gui->add_item( array(
+$this->gui->add_item( array(
 	'type'		=>	'select',
 	'name'		=>	'enable_cache',
 	'label'		=>	__( 'Enable Cache' ),
@@ -145,4 +145,4 @@ $this->Gui->add_item( array(
 	)
 ) , 'advanced-settings' , 2 );
 
-$this->Gui->output();
+$this->gui->output();

@@ -125,8 +125,6 @@ class Aauth {
 	 */
 	public function login($email, $pass, $remember = FALSE) {
 		
-		$check_email	=	valid_email( $email ) ? true : false;
-		
 		// Remove cookies first
 		$cookie = array(
 			'name'	 => 'user',
@@ -146,8 +144,7 @@ class Aauth {
 		* It was causing issues with special characters in passwords
 		* and returning FALSE even if the password matches.
 		*/
-		// !valid_email($email) OR user Name is used as login credential
-		if( strlen($pass) < 5 OR strlen($pass) > $this->config_vars['max'] )
+		if( !valid_email($email) OR strlen($pass) < 5 OR strlen($pass) > $this->config_vars['max'] )
 		{
 			$this->error($this->CI->lang->line('aauth_error_login_failed'));
 			return FALSE;
@@ -155,11 +152,7 @@ class Aauth {
 
 
 		$query = null;
-		if( $check_email ) {
-			$query = $this->CI->db->where('email', $email);
-		} else {
-			$query = $this->CI->db->where('name', $email);
-		}
+		$query = $this->CI->db->where('email', $email);
 		$query = $this->CI->db->get($this->config_vars['users']);
 		$row = $query->row();
 		
@@ -172,11 +165,7 @@ class Aauth {
 		
 		//recaptcha login_attempts check
 		$query = null;
-		if( $check_email ) {
-			$query = $this->CI->db->where('email', $email);
-		} else {
-			$query = $this->CI->db->where('name', $email);
-		}
+		$query = $this->CI->db->where('email', $email);
 		$query = $this->CI->db->get($this->config_vars['users']);
 		$row = $query->row();
 		
@@ -192,11 +181,7 @@ class Aauth {
 		
 		// if user is not verified
 		$query = null;
-		if( $check_email ) {
-			$query = $this->CI->db->where('email', $email);
-		} else {
-			$query = $this->CI->db->where('name', $email);
-		}
+		$query = $this->CI->db->where('email', $email);
 		$query = $this->CI->db->where('banned', 1);
 		$query = $this->CI->db->where('verification_code !=', '');
 		$query = $this->CI->db->get($this->config_vars['users']);
@@ -207,11 +192,7 @@ class Aauth {
 		}
 		
 		// to find user id, create sessions and cookies
-		if( $check_email ) {
-			$query = $this->CI->db->where('email', $email);
-		} else {
-			$query = $this->CI->db->where('name', $email);
-		}
+		$query = $this->CI->db->where('email', $email);
 		$query = $this->CI->db->get($this->config_vars['users']);
 		
 		if($query->num_rows() == 0){
@@ -222,11 +203,7 @@ class Aauth {
 		$user_id = $query->row()->id;
 		
 		$query = null;
-		if( $check_email ) {
-			$query = $this->CI->db->where('email', $email);
-		} else {
-			$query = $this->CI->db->where('name', $email);
-		}
+		$query = $this->CI->db->where('email', $email);
 
 		// Database stores pasword hashed password0
 		$query = $this->CI->db->where('pass', $this->hash_password($pass, $user_id));
@@ -263,14 +240,13 @@ class Aauth {
 				$expire = $this->config_vars['remember'];
 				$today = date("Y-m-d");
 				$remember_date = date("Y-m-d", strtotime($today . $expire) );
-
 				$random_string = random_string('alnum', 16);
 				$this->update_remember($row->id, $random_string, $remember_date );
 
 				$cookie = array(
 					'name'	 => 'user',
 					'value'	 => $row->id . "-" . $random_string,
-					'expire' => 99*999*999,
+					'expire' => time() + 99*999*999,
 					'path'	 => '/',
 				);
 
@@ -298,22 +274,6 @@ class Aauth {
 			$this->error($this->CI->lang->line('aauth_error_login_failed'));
 			return FALSE;
 		}
-	}
-	
-	/**
-	 * Test user credentials
-	 *
-	 * @return bool
-	 */
-	public function test_credentials( $user_id, $password ) {
-		$this->CI->db
-			->where( 'id', $user_id )
-			->where( 'pass', $this->hash_password( $password, $user_id ) );
-		$query = $this->CI->db->get($this->config_vars['users']);
-		if( $query->num_rows() > 0 ){
-			return true;
-		} 
-		return false;
 	}
 
 	//tested
@@ -877,8 +837,6 @@ class Aauth {
 		// delete user vars
 		$this->CI->db->where('user_id', $user_id);
 		$this->CI->db->delete($this->config_vars['user_variables']);
-		
-		return true;
 	}
 
 	//tested
@@ -1933,7 +1891,7 @@ class Aauth {
 	 */
 	public function clear_infos()
 	{
-		$this->infos = array();
+		$this->infos = [];
 		$this->CI->session->set_flashdata('infos', $this->infos);
 	}
 

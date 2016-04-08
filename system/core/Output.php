@@ -377,7 +377,7 @@ class CI_Output {
 	/**
 	 * Set Cache
 	 *
-	 * @param	int	$time	Cache expiration time in minutes
+	 * @param	int	$time	Cache expiration time in seconds
 	 * @return	CI_Output
 	 */
 	public function cache($time)
