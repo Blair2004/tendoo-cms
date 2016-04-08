@@ -10,29 +10,30 @@
         <?php echo validation_errors();?>
         <form method="post">
           <div class="form-group has-feedback">
-            <input type="text" name="_ht_name" class="form-control" placeholder="<?php _e( 'Host Name' );?>" value="<?php echo set_value( 'host_name' , 'localhost' ); ?>">
+            <input type="text" name="host_name" class="form-control" placeholder="<?php _e( 'Host Name' );?>" value="<?php echo set_value( 'host_name' , 'localhost' ); ?>">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="text" name="_uz_name" class="form-control" placeholder="<?php _e( 'User Name' );?>" value="<?php echo set_value( 'user_name' , 'root' ); ?>">
+            <input type="text" name="user_name" class="form-control" placeholder="<?php _e( 'User Name' );?>" value="<?php echo set_value( 'user_name' , 'root' ); ?>">
             <span class="fa fa-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" name="_uz_pwd" class="form-control" placeholder="<?php _e( 'User Password' );?>" value="<?php echo set_value('user_password'); ?>">
+            <input type="password" name="user_password" class="form-control" placeholder="<?php _e( 'User Password' );?>" value="<?php echo set_value('user_password'); ?>">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="text" name="_db_name" class="form-control" placeholder="<?php _e( 'Database Name' );?>" value="<?php echo set_value('database_name'); ?>">
+            <input type="text" name="database_name" class="form-control" placeholder="<?php _e( 'Database Name' );?>" value="<?php echo set_value('database_name'); ?>">
             <span class="fa fa-database form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="text" name="_db_pref" class="form-control" placeholder="<?php _e( 'Database Prefix' );?>" value="<?php echo set_value('database_prefix', 'tendoo_' ); ?>">
+            <input type="text" name="database_prefix" class="form-control" placeholder="<?php _e( 'Database Prefix' );?>" value="<?php echo set_value('database_prefix', 'tendoo_' ); ?>">
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <select class="form-control" placeholder="<?php _e( 'Database Driver' );?>" name="_db_driv">
+            <select class="form-control" placeholder="<?php _e( 'Database Driver' );?>" name="database_driver">
             	<option value=""><?php _e( 'Select database driver' );?></option>
-            	<option <?php echo set_select( 'database_driver' , 'mysqli' , true );?> value="mysqli"><?php _e( 'MySQLi' );?></option>
+            	<option <?php echo set_select( 'database_driver' , 'mysqli' , true );?> value="mysqli"><?php _e( 'Mysqli' );?></option>
+               <!-- <option value="postgres"><?php _e( 'Postgre SQL' );?></option> -->
             </select>
           </div>
           <div class="row">

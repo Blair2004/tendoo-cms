@@ -8,5 +8,5 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 #This last condition enables access to the images and css folders, and the robots.txt file
 RewriteCond $1 !^(index\.php|application\/modules|public|robots\.txt)
-RewriteRule ^(.*)$ index.php/$1 [L]
+RewriteRule ^(.*)$ index.php?/$1 [L]
 </IfModule>

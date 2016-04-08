@@ -26,9 +26,9 @@ class Tendoo_setup extends Tendoo_Controller {
 		 * 	Enqueueing Js
 		**/
 		
-		$this->enqueue->js( '../plugins/jQuery/jQuery-2.1.4.min' );
-		$this->enqueue->js( '../plugins/iCheck/icheck.min' );
+		$this->enqueue->js( 'plugins/jQuery/jQuery-2.1.4.min' );
 		$this->enqueue->js( 'bootstrap.min' );
+		$this->enqueue->js( 'plugins/iCheck/icheck.min' );		
 		$this->enqueue->js( 'app.min' );
 		
 		/**
@@ -59,21 +59,21 @@ class Tendoo_setup extends Tendoo_Controller {
 		// checks if tendoo is not installed
 		if( $this->setup->is_installed() ): redirect( array( 'init' ) ); endif;
 				
-		$this->form_validation->set_rules( '_ht_name' , __( 'Host Name' ), 'required' );
-		$this->form_validation->set_rules( '_uz_name' , __( 'User Name' ), 'required' );
-		$this->form_validation->set_rules( '_db_name' , __( 'Database Name' ), 'required' );
-		$this->form_validation->set_rules( '_db_driv' , __( 'Database Driver' ), 'required' );
-		$this->form_validation->set_rules( '_db_pref' , __( 'Database Prefix' ), 'required' );
+		$this->form_validation->set_rules( 'host_name' , __( 'Host Name' ), 'required' );
+		$this->form_validation->set_rules( 'user_name' , __( 'User Name' ), 'required' );
+		$this->form_validation->set_rules( 'database_name' , __( 'Database Name' ), 'required' );
+		$this->form_validation->set_rules( 'database_driver' , __( 'Database Driver' ), 'required' );
+		$this->form_validation->set_rules( 'database_prefix' , __( 'Database Prefix' ), 'required' );
 
 		if( $this->form_validation->run() )
 		{
 			$exec	=	$this->setup->installation( 
-				$this->input->post( '_ht_name' ) , 
-				$this->input->post( '_uz_name' ) , 
-				$this->input->post( '_uz_pwd' ) , 
-				$this->input->post( '_db_name' ) , 
-				$this->input->post( '_db_driv' ) ,
-				$this->input->post( '_db_pref' )
+				$this->input->post( 'host_name' ) , 
+				$this->input->post( 'user_name' ) , 
+				$this->input->post( 'user_password' ) , 
+				$this->input->post( 'database_name' ) , 
+				$this->input->post( 'database_driver' ) ,
+				$this->input->post( 'database_prefix' )
 			);
 			if( $exec == 'database-installed' )
 			{
