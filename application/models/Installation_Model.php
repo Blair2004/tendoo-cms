@@ -116,7 +116,7 @@ if(!defined('DB_PREFIX'))
 	function final_configuration( $site_name )
 	{	
 		// Saving Site name
-		$this->options->set( 'site_name' , $site_name, TRUE );
+		$this->options->set( 'site_name' , $this->input->post( 'site_name' ), TRUE );
 		
 		// Do actions 
 		$this->events->do_action( 'tendoo_settings_final_config' );

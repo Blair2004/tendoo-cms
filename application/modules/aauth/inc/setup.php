@@ -49,9 +49,6 @@ class aauth_setup extends CI_model
 		if( $this->users->auth->user_exsist_by_name( $this->input->post( 'username' ) ) ) 		: return 'username-used'; endif; 
 		if( $this->users->auth->user_exsist_by_email( $this->input->post( 'email' ) ) ) 		: return 'email-used'; endif;
 		
-		// set site_name
-		$this->options->set( 'site_name' , $this->input->post( 'site_name' ) );
-		
 		// Creating Master & Groups
 		$this->users->create_master( $this->input->post( 'email' ) , $this->input->post( 'password' ) , $this->input->post( 'username' ) );
 		

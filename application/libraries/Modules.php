@@ -476,7 +476,7 @@ class Modules
 		return $extraction_path;
 	}
 	
-	private static $allowed_app_folders	=	array( 'libraries' , 'models' , 'config' , 'helpers' , 'third_party', 'controllers', 'language' ); // 'core' ,
+	private static $allowed_app_folders	=	array( 'libraries' , 'models' , 'config' , 'helpers' , 'third_party', 'controllers' ); // 'core' ,
 	
 	/**
 	 * Parse Path

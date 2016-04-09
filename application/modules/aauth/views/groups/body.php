@@ -14,7 +14,7 @@ $this->Gui->add_meta( array(
 	'title'			=>	__( 'Role List' ),
 	'col_id'		=>	1,
 	'footer'		=>	array(
-		'pagination'	=>	array( true )
+		//'pagination'	=>	array( true )
 	),
 	'type'			=>	'box'
 ) );
@@ -33,7 +33,8 @@ foreach( force_array( $groups ) as $group )
 	}
 	$label_permissions	=	ob_get_clean();
 	$group_array[]	=	array(
-		'<a href="' . site_url( array( 'dashboard' , 'groups' , 'edit' , $group->id ) ) . '">' . $group->name . '</a>',
+		// '<a href="' . site_url( array( 'dashboard' , 'groups' , 'edit' , $group->id ) ) . '">' . $group->name . '</a>',
+		$group->name,
 		$group->definition,
 		in_array( $group->name , $this->config->item( 'master_group_label' ) ) ? __( 'Yes' ) : __( 'No' ),
 		$label_permissions

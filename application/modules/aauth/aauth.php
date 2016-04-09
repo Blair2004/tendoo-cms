@@ -3,7 +3,8 @@ class auth_module_class extends CI_model
 {
 	function __construct()
 	{
-		parent::__construct();		
+		parent::__construct();
+		$this->lang->load_lines( dirname( __FILE__ ) . '/inc/aauth_lang.php' );		
 		// Load Model if tendoo is installed		
 		if( $this->setup->is_installed() )
 		{
@@ -42,7 +43,7 @@ class auth_module_class extends CI_model
 	{
 		global $CurrentScreen;
 		
-		if( $this->users->is_connected() && $this->setup->is_installed() && in_array( $CurrentScreen, array( 'do-setup', 'sign-in', 'sign-up' ) ) )
+		if( $this->users->is_connected() && $this->setup->is_installed() && ! in_array( $CurrentScreen, array( 'do-setup', 'sign-in', 'sign-up' ) ) )
 		{
 			return User::get()->id;
 		}

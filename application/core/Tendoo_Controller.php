@@ -19,7 +19,7 @@ class Tendoo_Controller extends CI_Controller
 		$this->load->library( 'enqueue' );
 		
 		// Load Global Lang lines
-		$this->lang->load_globals(); // @since 3.0.9
+		$this->lang->load_lines( APPPATH . '/language/system_lang.php' ); // @since 3.0.9
 		
 		// Load Modules
 		Modules::load( MODULESPATH );

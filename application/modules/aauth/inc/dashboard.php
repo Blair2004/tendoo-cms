@@ -85,11 +85,11 @@ class aauth_dashboard extends CI_model
 				'icon'			=>		'fa fa-shield',
 				'href'			=>		site_url('dashboard/groups')
 			),
-			array(
+			/*array(
 				'title'			=>		__( 'Create a new group' ),
 				'icon'			=>		'fa fa-shield',
 				'href'			=>		site_url('dashboard/groups/new')
-			),
+			),*/
 			/**
 			array(
 				'title'			=>		__( 'Groups permissions' ),
