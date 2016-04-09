@@ -17,6 +17,10 @@ class Tendoo_Controller extends CI_Controller
 		
 		// get system lang
 		$this->load->library( 'enqueue' );
+		
+		// Load Global Lang lines
+		$this->lang->load_globals(); // @since 3.0.9
+		
 		// Load Modules
 		Modules::load( MODULESPATH );
 		
@@ -51,10 +55,11 @@ class Tendoo_Controller extends CI_Controller
 			$this->events->do_action( 'after_app_init' );
 		}
 		// Only for controller requiring installation
-		else if( $this->uri->segment(1) === 'tendoo-setup' && $this->uri->segment(2) === 'database' )
+		else if( $this->uri->segment(1) === 'do-setup' && $this->uri->segment(2) === 'database' )
 		{
 			// @since 3.0.5
-			$this->lang->load( 'system' );	// Load default system Language
+			// $this->lang->load( 'system' );	// Load default system Language
+			// Deprecated since all languages are included within /language folder and loaded by default.
 			
 			$this->events->add_action( 'before_setting_tables' , function(){
 				// this hook let modules being called during tendoo installation

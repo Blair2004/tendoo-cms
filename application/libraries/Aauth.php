@@ -97,7 +97,7 @@ class Aauth {
 		$this->CI->load->helper('email');
 		$this->CI->load->helper('language');
 		$this->CI->load->helper('recaptchalib');
-		$this->CI->lang->load('aauth');
+		// $this->CI->lang->load('aauth');
 
 
 		// config/aauth.php
@@ -1222,6 +1222,22 @@ class Aauth {
 		} else {
 			return FALSE;
 		}
+	}
+	
+	/**
+	 * Group has member
+	 *
+	 * @param string/int group par
+	 * @return bool
+	**/
+	
+	public function has_member( $group_par )
+	{
+		$users		=	$this->list_users( $group_par );
+		if( $users ) {
+			return TRUE;
+		}
+		return FALSE;
 	}
 	
 	//tested

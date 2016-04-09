@@ -42,7 +42,7 @@ class auth_module_class extends CI_model
 	{
 		global $CurrentScreen;
 		
-		if( $this->users->is_connected() && $this->setup->is_installed() && $CurrentScreen != 'tendoo-setup' )
+		if( $this->users->is_connected() && $this->setup->is_installed() && in_array( $CurrentScreen, array( 'do-setup', 'sign-in', 'sign-up' ) ) )
 		{
 			return User::get()->id;
 		}
@@ -84,10 +84,10 @@ class auth_module_class extends CI_model
 	{
 		// load user model
 		$this->load->model( 'users_model' , 'users' );
-		// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
-		if( ! $this->users->master_exists() && $this->uri->segment(1) !== 'tendoo-setup' )
+		// If there is no master user , redirect to master user creation if current controller isn't do-setup
+		if( ! $this->users->master_exists() && $this->uri->segment(1) !== 'do-setup' )
 		{
-			redirect( array( 'tendoo-setup' , 'site' ) );
+			redirect( array( 'do-setup' , 'site' ) );
 		}
 		
 		// force user to be connected for certain controller

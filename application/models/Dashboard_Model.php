@@ -345,41 +345,49 @@ $(document).ready(function(){
 	}
 	
 	public function __set_admin_menu()
-	{
-		$admin_menus		=	array(
-			'dashboard'		=>	array(
-				array(	
-					'href'			=>		site_url('dashboard'),
-					'icon'			=>		'fa fa-dashboard',
-					'title'			=>		__( 'Dashboard' )
-				),
-				array(	
-					'href'			=>		site_url( array( 'dashboard', 'update' ) ),
-					'icon'			=>		'fa fa-dashboard',
-					'title'			=>		__( 'Update Center' ),
-					'notices_nbr'	=>		$this->events->apply_filters( 'update_center_notice_nbr', 0 )
-				),
-				array(	
-					'href'			=>		site_url( array( 'dashboard', 'about' ) ),
-					'icon'			=>		'fa fa-dashboard',
-					'title'			=>		__( 'About' ),
-				),
-			),
-			'modules'			=>	array(
-				array(
-					'title'			=>		__( 'Modules' ),
-					'icon'			=>		'fa fa-puzzle-piece',
-					'href'			=>		site_url('dashboard/modules')
-				)
-			),
-			'settings'			=>	array(
-				array(
-					'title'			=>		__( 'Settings' ),
-					'icon'			=>		'fa fa-cogs',
-					'href'			=>		site_url('dashboard/settings')
-				)
-			),
+	{		
+		$admin_menus[ 'dashboard' ][] 	=	array(	
+			'href'			=>		site_url('dashboard'),
+			'icon'			=>		'fa fa-dashboard',
+			'title'			=>		__( 'Dashboard' )
 		);
+		
+		if( User::can( 'manage_options' ) ):
+		
+		$admin_menus[ 'dashboard' ][] 	=	array(	
+			'href'			=>		site_url( array( 'dashboard', 'update' ) ),
+			'icon'			=>		'fa fa-dashboard',
+			'title'			=>		__( 'Update Center' ),
+			'notices_nbr'	=>		$this->events->apply_filters( 'update_center_notice_nbr', 0 )
+		);
+		
+		$admin_menus[ 'dashboard' ][] 	= 	array(	
+			'href'			=>		site_url( array( 'dashboard', 'about' ) ),
+			'icon'			=>		'fa fa-dashboard',
+			'title'			=>		__( 'About' ),
+		);
+		
+		endif;
+		
+		if( User::can( 'manage_modules' ) ):
+		
+		$admin_menus[ 'modules' ][]		=	array(
+			'title'			=>		__( 'Modules' ),
+			'icon'			=>		'fa fa-puzzle-piece',
+			'href'			=>		site_url('dashboard/modules')
+		);
+		
+		endif;
+		
+		if( User::can( 'manage_options' ) ):
+		
+		$admin_menus[ 'settings' ][]	=	array(
+			'title'			=>		__( 'Settings' ),
+			'icon'			=>		'fa fa-cogs',
+			'href'			=>		site_url('dashboard/settings')
+		);
+		
+		endif;
 		
 		foreach( force_array( $this->events->apply_filters( 'admin_menus' , $admin_menus ) ) as $namespace => $menus )
 		{

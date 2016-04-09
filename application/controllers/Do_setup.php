@@ -75,10 +75,12 @@ class Do_setup extends Tendoo_Controller {
 				$this->input->post( '_db_driv' ) ,
 				$this->input->post( '_db_pref' )
 			);
+			
 			if( $exec == 'database-installed' )
 			{
 				redirect( array( 'do-setup' , 'site?notice=' . $exec . ( riake( 'lang', $_GET ) ? '&lang=' . $_GET[ 'lang' ] : '' ) ) );
 			}
+			
 			$this->notice->push_notice( $this->lang->line( $exec ) );
 		}
 		
@@ -96,10 +98,7 @@ class Do_setup extends Tendoo_Controller {
 		$this->load->database();
 
 		$this->events->do_action( 'tendoo_setup' );
-		
-		// checks if master doesn't exists
-		// if( $this->users->master_exists() ): redirect( array( 'login?notice=access-denied' ) ); endif;		
-				
+						
 		$this->form_validation->set_rules( 'site_name' , __( 'Site Name' ), 'required' );
 
 		if( $this->form_validation->run() )

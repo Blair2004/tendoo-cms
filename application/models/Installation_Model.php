@@ -29,6 +29,12 @@ class Installation_Model extends CI_Model
 		if( ! $db_exists ) {
 			return 'database-not-found';
 		}
+		
+		$this->db->close();
+		// Setting database name
+		$config['database'] 	= 	$database_name;
+		// Reconnect
+		$db_connect				=	$this->load->database( $config );		
 				
 		$this->load->library( 'session' );
 		$this->load->model( 'options' );
@@ -59,8 +65,6 @@ class Installation_Model extends CI_Model
 			'install_model'			=>		$this
 		) );
 
-		// Setting database
-		$config['database'] 		= 		$database_name;
 		// Creating Database File
 		$this->create_config_file( $config );
 		
