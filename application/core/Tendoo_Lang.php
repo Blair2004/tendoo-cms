@@ -51,8 +51,6 @@ class Tendoo_Lang {
 	 */
 	public function load($langfile, $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
 	{
-		return TRUE;
-		
 		if (is_array($langfile))
 		{
 			foreach ($langfile as $value)
@@ -167,19 +165,31 @@ class Tendoo_Lang {
 	}
 	
 	/**
-	 * Load Global lang line
+	 * Load Language Line
 	 * 
 	 * @return void
 	 * @since 3.0.9
 	 * @author Blair Jersyer
 	**/
 	
-	public function load_globals()
+	public function load_lines( $path = NULL, $is_file = FALSE )
 	{
 		$lang			=	array();
-		foreach ( glob( APPPATH . "language/*_lang.php") as $filename )
-		{
-			include $filename;
+		if( $is_file ) {
+			if( is_file( $path ) ) {
+				include $path;
+			} else {
+				show_error( __( 'Unable to load the requested lang file' ) );
+			}
+		} else {
+			foreach ( glob( $path ) as $filename )
+			{
+				if( is_file( $filename ) ) {
+					include $filename;
+				} else {
+					show_error( __( 'Unable to load the requested lang file' ) );
+				}
+			}
 		}
 		$this->language = array_merge($this->language, $lang);
 	}
