@@ -96,7 +96,7 @@ class aauth_action extends CI_model
 	function tendoo_login()
 	{
 		// Apply filter before login
-		$fields_namespace	=	$this->login_model->get_fields_namespace();
+		$fields_namespace		=	$this->Login_Model->get_fields_namespace();
 		$exec 				=	$this->users->login( $fields_namespace );
 		
 		$this->events->add_filter( 'tendoo_login_notice' , function() use ( $exec ) {
