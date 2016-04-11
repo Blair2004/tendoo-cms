@@ -15,7 +15,7 @@ class Sign_in extends Tendoo_Controller {
 	{
 		parent::__construct();
 		$this->load->library( 'form_validation' );
-		$this->load->model( 'login_model' );
+		$this->load->model( 'Login_Model' );
 	}
 	
 	/**
