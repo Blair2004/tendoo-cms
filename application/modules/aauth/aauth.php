@@ -8,7 +8,7 @@ class auth_module_class extends CI_model
 		// Load Model if tendoo is installed		
 		if( $this->setup->is_installed() )
 		{
-			$this->load->model( 'users_model' , 'users' );
+			$this->load->model( 'Users_model' , 'users' );
 		}			
 		// Events	
 		// change send administrator emails		

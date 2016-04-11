@@ -11,6 +11,7 @@ application/config/base_url.php
 !application/cache/.htaccess
 !application/cache/app/index.html
 application/config/database.php
+application/config/nexo_premium.php
 application/modules/*
 !application/modules/aauth/
 !application/modules/dashboard/
