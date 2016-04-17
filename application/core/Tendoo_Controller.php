@@ -49,7 +49,7 @@ class Tendoo_Controller extends CI_Controller
 			// If cannot connect to the database
 			$link		=	@mysqli_connect( $db[ 'hostname'], $db[ 'username' ], $db[ 'password' ] );
 			if( ! $link ) {
-				show_error( __( 'Unable to connect to the database host using provided settings. Please check this file : "application/config/database.php"' ) );
+				show_error( __( 'Unable to connect to the database host using provided settings. Please check this file : "application/config/database.php".<br>' . mysqli_connect_errno() ) );
 				return;
 			}
 			mysqli_close( $link ); // Closing connexion
