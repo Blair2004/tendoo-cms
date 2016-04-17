@@ -126,14 +126,14 @@ if(!defined('DB_PREFIX'))
 	}
 	function is_installed()
 	{
-			if( file_exists( APPPATH . 'config/database.php' ) )
-			{
-					$this->load->database();
-					if( $this->db->table_exists( 'options') ) {
-						return true;
-					}
-					$this->db->close();
-			}
-			return false;
+		if( file_exists( APPPATH . 'config/database.php' ) )
+		{
+				$this->load->database();
+				if( $this->db->table_exists( 'options') ) {
+					return true;
+				}
+				$this->db->close();
+		}
+		return false;
 	}
 }

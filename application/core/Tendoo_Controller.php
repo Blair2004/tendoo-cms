@@ -43,6 +43,36 @@ class Tendoo_Controller extends CI_Controller
 			**/
 
 			$this->load->library( 'session' );
+
+			include( APPPATH . '/config/database.php' );
+
+			// If cannot connect to the database
+			$link		=	@mysqli_connect( $db[ 'hostname'], $db[ 'username' ], $db[ 'password' ] );
+			if( ! $link ) {
+				show_error( __( 'Unable to connect to the database host using provided settings. Please check this file : "application/config/database.php".<br>' . mysqli_connect_errno() ) );
+				return;
+			}
+			mysqli_close( $link ); // Closing connexion
+
+			// Save database
+			$database_name	=	$db[ 'default' ][ 'database'];
+			unset( $db[ 'default' ][ 'database']	);
+			unset( $db[ 'default' ][ 'autoinit']	);
+			unset( $db[ 'default' ][ 'stricton']	);
+			unset( $db[ 'default' ][ 'swap_pre']	);
+
+			// If table ! exists
+			$db_connect	=	$this->load->database( $db[ 'default'] );
+			$this->load->dbutil();
+			$db_exists	=	$this->dbutil->database_exists( $database_name );
+
+			if( ! $db_exists ) {
+				show_error( __( 'Unable to use defined database using provided settings. Please check this file : "application/config/database.php"' ) );
+				return;
+			}
+
+			$this->db->close();// Close database
+
 			$this->load->database(); // load new connection
 			$this->load->model( 'options' );
 
