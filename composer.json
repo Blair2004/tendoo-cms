@@ -1,0 +1,14 @@
+{
+    "scripts": {
+        "post-install-cmd": [
+            "chmod -R 777 application",
+            "chmod -R 777 public"
+        ]
+    },
+    "extra": {
+        "heroku": {
+            "newrelic": "true",
+            "nginx-includes": ["nginx.conf"]
+        }
+    }
+}
