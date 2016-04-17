@@ -88,4 +88,3 @@
 
         </div>
     </div>
-<?php include_once( dirname( __FILE__ ) . '/mainscript.php' );?>

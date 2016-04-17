@@ -166,7 +166,7 @@ class GUI extends CI_Model
 		$this->load->view( 'dashboard/aside' );		
 		$this->load->view( 'dashboard/gui/body' , array(
 			'page_header'	=>	$this->load->view( 'dashboard/gui/page-header' , array() , true ),
-			'cols'			=>		$this->cols
+			'cols'			=>	$this->cols
 		) );
 		$this->load->view( 'dashboard/footer' );	
 		$this->load->view( 'dashboard/aside-right' );

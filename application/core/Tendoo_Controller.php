@@ -14,44 +14,73 @@ class Tendoo_Controller extends CI_Controller
 		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/FileHandler.php' );
 		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/PoParser.php' );
 		include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/StringHandler.php' );
-		
+
 		// get system lang
 		$this->load->library( 'enqueue' );
-		
+
 		// Load Global Lang lines
 		$this->lang->load_lines( APPPATH . '/language/system_lang.php' ); // @since 3.0.9
-		
+
 		// Load Modules
 		Modules::load( MODULESPATH );
-		
+
 		/**
 		 * Global Vars
 		**/
-		
+
 		global $CurrentMethod, $CurrentScreen, $CurrentParams;
-		
+
 		$CurrentMethod		=	$this->uri->segment(2);
 		$CurrentScreen		=	$this->uri->segment(1);
 		$CurrentParams		=	$this->uri->segment_array();
 		$CurrentParams		=	count( $CurrentParams ) > 2 ? array_slice( $CurrentParams, 2 ) : array();
-		
+
 		// if is installed, setup is always loaded
 		if( $this->setup->is_installed() )
 		{
 			/**
 			 * Load Session, Database and Options
 			**/
-			
-			$this->load->library( 'session' );			
-			$this->load->database();
-			$this->load->model( 'options' );			
+
+			$this->load->library( 'session' );
+
+			include( APPPATH . '/config/database.php' );
+
+			// If cannot connect to the database
+			if( ! $link		=	@mysqli_connect( $db[ 'hostname'], $db[ 'username' ], $db[ 'password' ] ) ) {
+				show_error( __( 'Unable to connect to the database host using provided settings. Please check this file : "application/config/database.php"' ) );
+				return;
+			}
+			mysqli_close( $link ); // Closing connexion
+
+			// Save database
+			$database_name	=	$db[ 'default' ][ 'database'];
+			unset( $db[ 'default' ][ 'database']	);
+			unset( $db[ 'default' ][ 'autoinit']	);
+			unset( $db[ 'default' ][ 'stricton']	);
+			unset( $db[ 'default' ][ 'swap_pre']	);
+
+			// If table ! exists
+			$db_connect	=	$this->load->database( $db[ 'default'] );
+			$this->load->dbutil();
+			$db_exists	=	$this->dbutil->database_exists( $database_name );
+
+			if( ! $db_exists ) {
+				show_error( __( 'Unable to use defined database using provided settings. Please check this file : "application/config/database.php"' ) );
+				return;
+			}
+
+			$this->db->close();// Close database
+
+			$this->load->database(); // load new connection
+			$this->load->model( 'options' );
 
 			// internal config
 			$this->events->add_action( 'after_app_init' , array( $this , 'loader' ) , 2 );
-			
+
 			// Get Active Modules and load it
 			Modules::init( 'actives' );
-			
+
 			$this->events->do_action( 'after_app_init' );
 		}
 		// Only for controller requiring installation
@@ -60,7 +89,7 @@ class Tendoo_Controller extends CI_Controller
 			// @since 3.0.5
 			// $this->lang->load( 'system' );	// Load default system Language
 			// Deprecated since all languages are included within /language folder and loaded by default.
-			
+
 			$this->events->add_action( 'before_setting_tables' , function(){
 				// this hook let modules being called during tendoo installation
 				// Only when site name is being defined
@@ -72,10 +101,10 @@ class Tendoo_Controller extends CI_Controller
 		{
 			$this->load->library( 'notice' );
 		}
-				
+
 		// Checks system status
 		if( in_array( $this->uri->segment(1) , $this->config->item( 'reserved_controllers' ) ) || $this->uri->segment(1) === null ) // null for index page
-		{			
+		{
 			// there are some section which need tendoo to be installed. Before getting there, tendoo controller checks if for those
 			// section tendoo is installed. If segment(1) returns null, it means the current section is index. Even for index,
 			// installation is required
@@ -83,7 +112,7 @@ class Tendoo_Controller extends CI_Controller
 			{
 				redirect( array( 'do-setup' ) );
 			}
-			
+
 			// loading assets for reserved controller
 			$css_libraries		=	$this->events->apply_filters( 'default_css_libraries', array( 'bootstrap.min', 'AdminLTE.min', 'tendoo.min', 'skins/_all-skins.min', 'font-awesome-4.3.0', '../plugins/iCheck/square/blue' ) );
 			if( $css_libraries ) {
@@ -91,20 +120,20 @@ class Tendoo_Controller extends CI_Controller
 					$this->enqueue->css( $lib );
 				}
 			}
-			
+
 			/**
 			 * 	Enqueueing Js
 			**/
-			
-			$js_libraries		=	$this->events->apply_filters( 'default_js_libraries', array( 
-				'../plugins/jQuery/jQuery-2.1.4.min', 
+
+			$js_libraries		=	$this->events->apply_filters( 'default_js_libraries', array(
+				'../plugins/jQuery/jQuery-2.1.4.min',
 				'../plugins/jQuery/jquery-migrate-1.2.1',
-				'../plugins/jQueryUI/jquery-ui-1.10.3.min', 
-				'bootstrap.min', 
-				'../plugins/iCheck/icheck.min',  
-				'app.min' 
+				'../plugins/jQueryUI/jquery-ui-1.10.3.min',
+				'bootstrap.min',
+				'../plugins/iCheck/icheck.min',
+				'app.min'
 			) );
-			
+
 			if( is_array( $js_libraries ) ) {
 				foreach( $js_libraries as $lib ) {
 					$this->enqueue->js( $lib );

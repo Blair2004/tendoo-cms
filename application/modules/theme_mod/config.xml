@@ -5,7 +5,7 @@
 		<namespace>theme_mod</namespace>
 		<description>This module add theme support for Tendoo CMS</description>
 		<author>Blair Jersyer</author>
-		<version>8.1</version>
+		<version>8.2</version>
 		<language>/language</language>
 		<main>theme_mod.php</main>
 	</details>

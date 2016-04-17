@@ -21,6 +21,8 @@ class Page_404 extends Tendoo_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		
+		$this->events->do_action( 'load_404' );
 	}
 	function index()
 	{

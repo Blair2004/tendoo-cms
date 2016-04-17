@@ -25,11 +25,13 @@ if( is_file( $migrate_file ) ){
 	$available_migration	=	array();
 	
 	$start_migration	=	false;
+	
 	foreach( array_reverse( $migrate_array, true ) as $version => $closure_file_to_include ) {
-		if( $version == $latestversion || $latestversion === NULL && $start_migration == false ) {
+		if( $version == $latestversion || ( $latestversion === NULL && $start_migration == false ) ) {
 			$start_migration 	=	true;
 		//Start migrate at the right moment.
-		} else if( $start_migration == true ) {
+		} 
+		if( $start_migration == true ) {
 			$available_migration[]	=	$version;
 		}
 	}

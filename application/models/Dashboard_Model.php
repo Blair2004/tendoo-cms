@@ -213,6 +213,7 @@ tendoo.options_data	=	{
 // Tendoo options
 tendoo.options			=	new function(){
     var $this			=	this;
+	var save_slug;
     this.set				=	function( key, value, user_meta ) {
         if( typeof user_meta != 'undefined' ) {
             save_slug			=	'save_user_meta';

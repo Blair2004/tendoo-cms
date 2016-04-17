@@ -14,41 +14,41 @@ class Installation_Model extends CI_Model
 		$config['cachedir'] = '';
 		$config['char_set'] = 'utf8';
 		$config['dbcollat'] = 'utf8_general_ci';
-		
+
 		if( $database_driver == 'mysqli' ) {
 			if( ! $link		=	@mysqli_connect( $host_name, $user_name, $user_password ) ) {
 				return 'unable-to-connect';
 			}
 			mysqli_close( $link ); // Closing connexion
 		}
-		
-		$db_connect	=	$this->load->database( $config );		
+
+		$db_connect	=	$this->load->database( $config );
 		$this->load->dbutil();
 		$db_exists	=	$this->dbutil->database_exists( $database_name );
-		
+
 		if( ! $db_exists ) {
 			return 'database-not-found';
 		}
-		
+
 		$this->db->close();
 		// Setting database name
 		$config['database'] 	= 	$database_name;
 		// Reconnect
-		$db_connect				=	$this->load->database( $config );		
-				
+		$db_connect				=	$this->load->database( $config );
+
 		$this->load->library( 'session' );
 		$this->load->model( 'options' );
-		
+
 		// Before tendoo settings tables
 		// Used internaly to load module only when database connection is established.
-		
+
 		$this->events->do_action( 'before_setting_tables' , array(
 			'database_prefix'	=>		$database_prefix,
 			'install_model'		=>		$this
 		) );
-		
+
 		// Creating option table
-		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}options`;" );				
+		$this->db->query( "DROP TABLE IF EXISTS `{$database_prefix}options`;" );
 		$this->db->query( "CREATE TABLE `{$database_prefix}options` (
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `key` varchar(200) NOT NULL,
@@ -59,7 +59,7 @@ class Installation_Model extends CI_Model
 		  PRIMARY KEY (`id`)
 		) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 		" );
-		
+
 		$this->events->do_action( 'tendoo_settings_tables' , array(
 			'database_prefix'		=>		$database_prefix,
 			'install_model'			=>		$this
@@ -67,16 +67,16 @@ class Installation_Model extends CI_Model
 
 		// Creating Database File
 		$this->create_config_file( $config );
-		
+
 		// Saving First Option
 		$this->options->set( 'database_version', $this->config->item( 'database_version' ), true );
-				
-		return 'database-installed';				
+
+		return 'database-installed';
 	}
 	public function create_config_file( $config )
 	{
 		/* CREATE CONFIG FILE */
-		$string_config = 
+		$string_config =
 		"<?php
 /**
  * Database configuration for Tendoo CMS
@@ -114,13 +114,13 @@ if(!defined('DB_PREFIX'))
 		fclose( $file );
 	}
 	function final_configuration( $site_name )
-	{	
+	{
 		// Saving Site name
 		$this->options->set( 'site_name' , $this->input->post( 'site_name' ), TRUE );
-		
-		// Do actions 
+
+		// Do actions
 		$this->events->do_action( 'tendoo_settings_final_config' );
-		
+
 		// user can change this behaviors
 		return $this->events->apply_filters( 'validating_tendoo_setup' , 'tendoo-installed' );
 	}
@@ -128,7 +128,11 @@ if(!defined('DB_PREFIX'))
 	{
 		if( file_exists( APPPATH . 'config/database.php' ) )
 		{
-			return true;
+				$this->load->database();
+				if( $this->db->table_exists( 'options') ) {
+					return true;
+				}
+				$this->db->close();
 		}
 		return false;
 	}

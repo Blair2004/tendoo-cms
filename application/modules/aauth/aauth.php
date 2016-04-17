@@ -6,8 +6,7 @@ class auth_module_class extends CI_model
 		parent::__construct();
 		$this->lang->load_lines( dirname( __FILE__ ) . '/inc/aauth_lang.php' );		
 		// Load Model if tendoo is installed		
-		if( $this->setup->is_installed() )
-		{
+		if( $this->setup->is_installed() ) 		{
 			$this->load->model( 'Users_Model' , 'users' );
 		}			
 		// Events	
@@ -20,6 +19,14 @@ class auth_module_class extends CI_model
 			return User::pseudo();
 		});
 		$this->events->add_filter( 'user_menu_card_avatar_src', array( $this, 'user_avatar_src' ) );
+		
+		// Allow only admin user to access the dashboard
+		$this->events->add_action( 'load_dashboard', function(){
+			$groups	=	User::groups();
+			if( ! ( bool )$groups[0]->is_admin ) {
+				redirect( array( 'page_403' ) );
+			}
+		});
 		// Tendoo Setup	
 	}	
 	function user_avatar_src()

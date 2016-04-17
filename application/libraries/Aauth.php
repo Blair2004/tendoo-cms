@@ -1082,15 +1082,16 @@ class Aauth {
 	 * @param string $group_name New group name
 	 * @return int|bool Group id or FALSE on fail
 	 */
-	public function create_group($group_name, $definition = null ) {
+	public function create_group($group_name, $definition = null, $is_admin = FALSE ) {
 
 		$query = $this->CI->db->get_where($this->config_vars['groups'], array('name' => $group_name));
 
 		if ($query->num_rows() < 1) {
 
 			$data = array(
-				'name' 			=> $group_name,
-				'definition'	=>	$definition
+				'name' 			=> 	$group_name,
+				'definition'	=>	$definition,
+				'is_admin'		=>	$is_admin
 			);
 			$this->CI->db->insert($this->config_vars['groups'], $data);
 			return $this->CI->db->insert_id();
@@ -1108,11 +1109,12 @@ class Aauth {
 	 * @param string $group_name New group name
 	 * @return bool Update success/failure
 	 */
-	public function update_group($group_par, $group_name) {
+	public function update_group($group_par, $group_name, $is_admin = FALSE) {
 
 		$group_id = $this->get_group_id($group_par);
 
-		$data['name'] = $group_name;
+		$data[ 'name' ] 	= 	$group_name;
+		$data[ 'is_admin' ]	=	$is_admin;
 
 		$this->CI->db->where('id', $group_id);
 		return $this->CI->db->update($this->config_vars['groups'], $data);
@@ -1129,11 +1131,11 @@ class Aauth {
 
 		$group_id = $this->get_group_id($group_par);
 		
-	$this->CI->db->where('id',$group_id);
-	$query = $this->CI->db->get($this->config_vars['groups']);
-	if ($query->num_rows() == 0){
-		return FALSE;
-	}
+		$this->CI->db->where('id',$group_id);
+		$query = $this->CI->db->get($this->config_vars['groups']);
+		if ($query->num_rows() == 0){
+			return FALSE;
+		}
 
 		// bug fixed
 		// now users are deleted from user_to_group table
