@@ -43,41 +43,8 @@ class Tendoo_Controller extends CI_Controller
 			**/
 
 			$this->load->library( 'session' );
-
-			include( APPPATH . '/config/database.php' );
-
-			// If cannot connect to the database
-			$link		=	@mysqli_connect( $db[ 'default' ][ 'hostname'], $db[ 'default' ][ 'username' ], $db[ 'default' ][ 'password' ] );
-			if( ! $link ) {
-				show_error( __( 'Unable to connect to the database host using provided settings. Please check this file : "application/config/database.php".<br>' . mysqli_connect_errno() ) );
-				return;
-			}
-			mysqli_close( $link ); // Closing connexion
-
-			// Save database
-			$database_name	=	$db[ 'default' ][ 'database'];
-			unset( $db[ 'default' ][ 'database']	);
-			unset( $db[ 'default' ][ 'autoinit']	);
-			unset( $db[ 'default' ][ 'stricton']	);
-			unset( $db[ 'default' ][ 'swap_pre']	);
-
-			// If table ! exists
-			$db_connect	=	$this->load->database( $db[ 'default'] );
-			$this->load->dbutil();
-			$db_exists	=	$this->dbutil->database_exists( $database_name );
-
-			if( ! $db_exists ) {
-				show_error( __( 'Unable to use defined database using provided settings. Please check this file : "application/config/database.php"' ) );
-				return;
-			}
-
-			$this->db->close();// Close database
-
-			$this->load->database(); // load new connection
+			@$this->load->database(); // load new connection
 			$this->load->model( 'options' );
-
-			// internal config
-			$this->events->add_action( 'after_app_init' , array( $this , 'loader' ) , 2 );
 
 			// Get Active Modules and load it
 			Modules::init( 'actives' );
@@ -87,11 +54,11 @@ class Tendoo_Controller extends CI_Controller
 		// Only for controller requiring installation
 		else if( $this->uri->segment(1) === 'do-setup' && $this->uri->segment(2) === 'database' )
 		{
-			// @since 3.0.5
-			// $this->lang->load( 'system' );	// Load default system Language
-			// Deprecated since all languages are included within /language folder and loaded by default.
+				// @since 3.0.5
+				// $this->lang->load( 'system' );	// Load default system Language
+				// Deprecated since all languages are included within /language folder and loaded by default.
 
-			$this->events->add_action( 'before_setting_tables' , function(){
+				$this->events->add_action( 'before_setting_tables' , function(){
 				// this hook let modules being called during tendoo installation
 				// Only when site name is being defined
 				Modules::init( 'all' );
@@ -140,14 +107,6 @@ class Tendoo_Controller extends CI_Controller
 					$this->enqueue->js( $lib );
 				}
 			}
-		}
-	}
-	function loader()
-	{
-		global $Options;
-		// If cache is enabled
-		if( riake( 'enable_cache' , $Options ) === true ){
-			$this->db->cache_on();
 		}
 	}
 }
