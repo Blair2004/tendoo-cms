@@ -1,0 +1,18 @@
+v2.4.2
+======
+- Fix automatic discount feature while changing customer
+- Fix translation
+- Fix search bug with set_relation which cause ambiguous field.
+- Fix cache conflict with TendooCMS
+
+v2.2
+====
+- Introduce demo content
+- Search box
+- New settings option
+- Bug fix !
+
+v2.1
+====
+- Creating Bon_davoir table
+- Removing unused table

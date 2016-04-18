@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<application>
+	<details>
+		<namespace>nexo</namespace>
+		<name>Nexo</name>
+		<description>Nexo by Tendoo team</description>
+		<version>2.5.2</version>
+		<main>main.php</main>
+		<language>language/</language>
+	</details>
+</application>

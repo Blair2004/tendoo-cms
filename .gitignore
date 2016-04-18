@@ -19,6 +19,9 @@ application/modules/*
 !application/modules/blog/
 !application/modules/pingback_trackback/
 !application/modules/theme_mod/
+!application/modules/nexo/
+!application/modules/nexo_ads/
+!application/modules/grocerycrud/
 
 application/controllers/*
 !application/controllers/Page_404.php
@@ -52,5 +55,5 @@ application/temp/*
 !application/models/Nexo_Vendor.php
 !public/modules/grocerycrud/*
 !public/modules/nexo/*
-public/modules/nexo_ads/*
+!public/modules/nexo_ads/*
 public/upload/*
