@@ -36,21 +36,21 @@ main.php
 favicon.icon
 
 #ignoring unmerged files
-application/config/grocery_crud.php
-application/libraries/Grocery_CRUD.php
+!application/config/grocery_crud.php
+!application/libraries/Grocery_CRUD.php
 application/libraries/image_moo.php
 application/libraries/License_key.php
-application/models/Grocery_CRUD_Model.php
-application/models/Nexo_Categories.php
-application/models/Nexo_Checkout.php
-application/models/Nexo_Misc.php
-application/models/Nexo_Products.php
-application/models/Nexo_Reports.php
-application/models/Nexo_Shelves.php
+!application/models/Grocery_CRUD_Model.php
+!application/models/Nexo_Categories.php
+!application/models/Nexo_Checkout.php
+!application/models/Nexo_Misc.php
+!application/models/Nexo_Products.php
+!application/models/Nexo_Reports.php
+!application/models/Nexo_Shelves.php
 application/temp/*
-application/models/Nexo_Shipping.php
-application/models/Nexo_Vendor.php
-public/modules/grocerycrud/*
-public/modules/nexo/*
+!application/models/Nexo_Shipping.php
+!application/models/Nexo_Vendor.php
+!public/modules/grocerycrud/*
+!public/modules/nexo/*
 public/modules/nexo_ads/*
 public/upload/*
