@@ -194,13 +194,15 @@ class Dashboard extends Tendoo_Controller {
 					// If currrent migration version exists
 					if( @ $migration_array[ $arg4 ] ) {
 						// if is file path, it's included
-						if( is_string( $migration_array[ $arg4 ] ) ) {
+						if( is_string( $migration_array[ $arg4 ] ) && is_file( $migration_array[ $arg4 ] ) ) {
 							// we asume this file exists
 							@include_once( $migration_array[ $arg4 ] );
 						// if it's callable, it's called
 						} else if( is_callable( $migration_array[ $arg4 ] ) ) {
 							$function	=	$migration_array[ $arg4 ];
 							$function( $module );
+						} else {
+							$content	=	FALSE;
 						}
 						// When migrate is done the last version key is saved as previous migration version
 						// Next migration will start from here
@@ -218,17 +220,30 @@ class Dashboard extends Tendoo_Controller {
 						
 					} else { // else
 					
-						echo json_encode( array(
-							'code'		=>	'error',
-							'msg'		=>	sprintf( __( 'An error occured : %s' ), $error )
-						) );
+						if( $content === FALSE ) {
+							
+							echo json_encode( array(
+								'code'		=>	'error',
+								'msg'		=>	sprintf( __( 'File not found or incorrect executable provided.' ) )
+							) );
+							
+						} else {
+							
+							echo json_encode( array(
+								'code'		=>	'error',
+								'msg'		=>	sprintf( __( 'An error occured' ) )
+							) );
+							
+						}
 					
 					}
 				} else {
+					
 					echo json_encode( array(
 						'code'		=>	'error',
 						'msg'		=>	__( 'Migration File not found.' )
 					) );
+					
 				}
 			}
 		}
