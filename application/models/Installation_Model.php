@@ -124,16 +124,29 @@ if(!defined('DB_PREFIX'))
 		// user can change this behaviors
 		return $this->events->apply_filters( 'validating_tendoo_setup' , 'tendoo-installed' );
 	}
+
+	/**
+	 * Is installed
+	 * @return bool
+	**/
+
 	function is_installed()
 	{
+		global $IsInstalled;
+		if( $IsInstalled != NULL ) {
+			return $IsInstalled;
+		}
 		if( file_exists( APPPATH . 'config/database.php' ) )
 		{
 				$this->load->database();
 				if( $this->db->table_exists( 'options') ) {
-					return true;
+					$this->db->close();
+					$IsInstalled	=	true;
+					return $IsInstalled;
 				}
 				$this->db->close();
 		}
-		return false;
+		$IsInstalled	=	false;
+		return $IsInstalled;
 	}
 }
