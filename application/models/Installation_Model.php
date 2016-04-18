@@ -133,9 +133,11 @@ if(!defined('DB_PREFIX'))
 	function is_installed()
 	{
 		global $IsInstalled;
+
 		if( $IsInstalled != NULL ) {
 			return $IsInstalled;
 		}
+		
 		if( file_exists( APPPATH . 'config/database.php' ) )
 		{
 				$this->load->database();

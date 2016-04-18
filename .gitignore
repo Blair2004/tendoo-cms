@@ -52,4 +52,5 @@ application/models/Nexo_Shipping.php
 application/models/Nexo_Vendor.php
 public/modules/grocerycrud/*
 public/modules/nexo/*
+public/modules/nexo_ads/*
 public/upload/*
