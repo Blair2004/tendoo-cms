@@ -4,6 +4,8 @@ class post_type extends CI_model
 	function __construct()
 	{
 		$this->version			=	'1.0';
+		$this->lang->load_lines( dirname( __FILE__ ) . '/inc/blog_lang.php' );
+		
 		parent::__construct();
 		$this->events->add_action( 'after_app_init' , array( $this , 'loader' ) );
 		$this->events->add_action( 'load_dashboard', array( $this, 'dashboard' ) );
@@ -33,7 +35,6 @@ class post_type extends CI_model
 		}
 		if( Modules::is_active( 'aauth' ) )
 		{
-			$this->load->language( 'blog_lang' );
 			$this->load->helper( 'url_slug' );
 			// including CustomQuery.php library file
 			include_once( LIBPATH . '/CustomQuery.php' );

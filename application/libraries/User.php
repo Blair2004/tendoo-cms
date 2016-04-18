@@ -139,5 +139,17 @@ class User
 		return get_instance()->auth->delete_group( $group_id );
 	}
 	
+	/**
+	 * User Group
+	 *
+	 * @param int user id
+	 * @return object
+	**/
+	
+	static function groups( $user_id = NULL ) 
+	{
+		return get_instance()->auth->get_user_groups();
+	}
+	
 	
 }

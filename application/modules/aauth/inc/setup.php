@@ -5,20 +5,53 @@ class aauth_setup extends CI_model
 	{
 		$this->events->add_action( 'tendoo_settings_tables' , array( $this , 'sql' ) );
 		$this->events->add_action( 'tendoo_settings_final_config' , array( $this , 'final_config' ) );
+		$this->events->add_action( 'tendoo_settings_tables', array( $this, 'settings_tables' ) );
+		$this->events->add_action( 'tendoo_setup', array( $this, 'tendoo_setup' ) );
 	}
+	
+	/**
+	 * Set groupes
+	 *
+	 * @return void
+	**/
+	
+	function settings_tables()
+	{
+		$this->load->model( 'Users_Model', 'users' );
+		$this->users->create_default_groups();
+		$this->users->create_permissions();
+	}
+	
+	/**
+	 * Tendoo Setup
+	 * Checks if there is a master user
+	 *
+	 * @return void
+	**/
+	
+	function tendoo_setup()
+	{
+		// If a master already exists, 
+		if( $this->users->auth->has_member( 'master' ) ) {
+			redirect( array( 'sign-in?notice=access-denied' ) );
+		}
+	}
+	
+	/**
+	 * Final config
+	 *
+	 * @return void
+	**/
+	
 	function final_config()
 	{
 		// checks user and email availability
 		if( $this->users->auth->user_exsist_by_name( $this->input->post( 'username' ) ) ) 		: return 'username-used'; endif; 
 		if( $this->users->auth->user_exsist_by_email( $this->input->post( 'email' ) ) ) 		: return 'email-used'; endif;
 		
-		// set site_name
-		$this->options->set( 'site_name' , $this->input->post( 'site_name' ) );
-		
 		// Creating Master & Groups
-		$this->users->create_default_groups();
 		$this->users->create_master( $this->input->post( 'email' ) , $this->input->post( 'password' ) , $this->input->post( 'username' ) );
-		$this->users->create_permissions();
+		
 	}
 	function sql( $config )
 	{
@@ -32,6 +65,7 @@ class aauth_setup extends CI_model
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `name` varchar(100),
 		  `definition` text,
+		  `is_admin` int(11) NOT NULL,
 		  PRIMARY KEY (`id`)
 		) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;" );
 		

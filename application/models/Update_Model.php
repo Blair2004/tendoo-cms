@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Update_Model extends CI_model
 {
 	// Expect tendoo_code
@@ -8,86 +8,89 @@ class Update_Model extends CI_model
 		$this->core_id		=	$this->config->item( 'version' );
 		$this->auto_update();
 	}
-	
+
 	function auto_update()
 	{
 		if( ! User::can( 'manage_settings' ) ) : return; endif;
-		
-		$this->cache				=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'tendoo_update_' ) );		
-		
+
+		$this->cache				=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'tendoo_update_' ) );
+
 		if( ! $this->cache->get( 'regular_release' ) || ! $this->cache->get( 'major_release' ) ) {
 
 			$json_api			=	$this->curl->security(false)->get( 'https://api.github.com/repos/Blair2004/tendoo-cms/releases' );
 			$array_api			=	json_decode( $json_api , true );
 			$regular_release	=	$this->config->item( 'version' );
 			$major_release		=	$this->config->item( 'version' );
-	
-			// Fetch Auto update
-			foreach( $array_api as $_rel ){
-				if( is_array( $_rel ) ) {
-					if( 
-						version_compare( $this->config->item( 'version' ), $_rel[ 'tag_name' ], '<' ) && 
-						riake( 'prerelease' , $_rel ) === FALSE && 
-						riake( 'draft' , $_rel ) === FALSE 
-					) 
-					{
-						// La valeur change lorsqu'il y a une mise à jour supérieure
-						if( version_compare( $regular_release, $_rel[ 'tag_name' ], '<' ) ) {
-							$regular_release	=	$_rel[ 'tag_name' ];
-						}
-						if( version_compare( $major_release, $_rel[ 'tag_name' ], '<' ) && preg_match("/\#auto_update\#/", $_rel[ 'body' ] ) ) {
-							$major_release	=	$_rel[ 'tag_name' ];
+
+			if( is_array( $array_api ) && $array_api ) {
+				// Fetch Auto update
+				foreach( $array_api as $_rel ){
+					if( is_array( $_rel ) ) {
+						if(
+							version_compare( $this->config->item( 'version' ), $_rel[ 'tag_name' ], '<' ) &&
+							riake( 'prerelease' , $_rel ) === FALSE &&
+							riake( 'draft' , $_rel ) === FALSE
+						)
+						{
+							// La valeur change lorsqu'il y a une mise à jour supérieure
+							if( version_compare( $regular_release, $_rel[ 'tag_name' ], '<' ) ) {
+								$regular_release	=	$_rel[ 'tag_name' ];
+							}
+							if( version_compare( $major_release, $_rel[ 'tag_name' ], '<' ) && preg_match("/\#auto_update\#/", $_rel[ 'body' ] ) ) {
+								$major_release	=	$_rel[ 'tag_name' ];
+							}
 						}
 					}
 				}
 			}
-			
+
+
 			// Save cache
 			$this->cache->save( 'regular_release', $regular_release, 7200 );
 			$this->cache->save( 'major_release', $major_release, 7200 );
 		}
-		
+
 		// Auto Update
 		if( version_compare( $this->cache->get( 'major_release' ), $this->config->item( 'version' ), '>' ) && $this->config->item( 'force_major_updates' ) === TRUE ) {
-			
-			if( isset( $_GET[ 'install_update' ] ) && is_dir( APPPATH . '/temp/core' ) ) {								
+
+			if( isset( $_GET[ 'install_update' ] ) && is_dir( APPPATH . '/temp/core' ) ) {
 				$this->install( 3, $this->cache->get( 'major_release' ) );
 				redirect( array( 'dashboard', 'about' ) );
-			} 
-			
-			if( is_file( APPPATH . '/temp/tendoo-cms.zip' ) ) {								
+			}
+
+			if( is_file( APPPATH . '/temp/tendoo-cms.zip' ) ) {
 				$this->install( 2, $this->cache->get( 'major_release' ) );
-			} 
-			
+			}
+
 			if( ! is_file( APPPATH . '/temp/tendoo-cms.zip' ) && ! is_dir( APPPATH . '/temp/core' ) ) {
 				$this->install( 1, $this->cache->get( 'major_release' ) );
 			}
-			
+
 			if( is_dir( APPPATH . '/temp/core' ) || ! isset( $_GET[ 'install_update' ] ) ) {
-				$this->notice->push_notice( 
-					tendoo_info( 
-						sprintf( 
-							__( 'Une mise à jour est prète à être installée. <a href="%s">Cliquez ici pour l\'installer</a>' ), 
-							current_url() . '?install_update=true' 
-						) 	 
+				$this->notice->push_notice(
+					tendoo_info(
+						sprintf(
+							__( 'Une mise à jour est prète à être installée. <a href="%s">Cliquez ici pour l\'installer</a>' ),
+							current_url() . '?install_update=true'
+						)
 					)
-				); 
+				);
 			}
 		}
-		
+
 		// If any regular release exist or major update we show a notice
 		if( $this->cache->get( 'regular_release' ) || $this->cache->get( 'major_release' ) ) {
-			if( 
+			if(
 				version_compare( $this->cache->get( 'regular_release' ), $this->config->item( 'version' ), '>' ) ||
 				version_compare( $this->cache->get( 'major_release' ), $this->config->item( 'version' ), '>' )
 			) {
 				$this->events->add_filter( 'update_center_notice_nbr', function( $nbr ) {
-					return $nbr + 1; 
+					return $nbr + 1;
 				});
 			}
 		}
 	}
-	
+
 	function check()
 	{
 		if( true ){ // ! riake( 'has_logged_store' , $_SESSION )
@@ -98,24 +101,24 @@ class Update_Model extends CI_model
 			// http://api.github.com/repos/Blair2004/tendoo-cms/releases
 			$json_api	=	$this->curl->security(false)->get( 'https://api.github.com/repos/Blair2004/tendoo-cms/releases' );
 			$tendoo_update			=	array();
-			
+
 			// print_r( $json_api );
-			
+
 			if( $json_api != '' ){
 				$array_api			=	json_decode( $json_api , true );
 				$latest_release	=	array();
-				
+
 				// Fetching the latest stable release;
 				// Current Branch Release
-				
+
 				foreach( $array_api as $_rel ){
 					if( riake( 'prerelease' , $_rel ) === FALSE && riake( 'draft' , $_rel ) === FALSE ){
 						$latest_release	=	$_rel;
 						break;
 					}
 				}
-				
-				
+
+
 				if( is_array( $latest_release ) && ! empty( $latest_release ) ){
 					// retreiving informations
 					$release_tag_name	=	riake( 'tag_name' , $latest_release );
@@ -132,15 +135,15 @@ class Update_Model extends CI_model
 					$this->options->set( 'latest_release' , $tendoo_update );
 				}
 			}
-	
+
 			$core_id			=	$this->config->item( 'version' );
-			
+
 			$array	=	array();
 			// Setting Core Warning
 			if( $release		=	riake( 'core' , $tendoo_update ) ){
 				$release_int	=	str_replace( '.' , '', $release[ 'id' ] );
 				$current_int	=	str_replace( '.' , '', $core_id );
-				if( $release_int > $current_int ){ // 
+				if( $release_int > $current_int ){ //
 					$array[]	=	array(
 						'link'		=>	$release[ 'link' ],
 						'content'	=>	$release[ 'description' ],
@@ -152,17 +155,17 @@ class Update_Model extends CI_model
 			}
 
 			return $array;
-			
+
 		}
 		return false;
 	}
 	function get( $release_id ){
 		$json_api	=	$this->curl->security(false)->get( 'https://api.github.com/repos/Blair2004/tendoo-cms/releases' );
 		if( $json_api != '' ){
-			
+
 			$array_api			=	json_decode( $json_api , true );
 			$release				=	array();
-			
+
 			foreach( $array_api as $_rel ){
 				if( riake( 'tag_name' , $_rel ) == $release_id ){
 					$release	=	$_rel;
@@ -170,7 +173,7 @@ class Update_Model extends CI_model
 				}
 			}
 			if( $release ){
-				
+
 				$release_int		=	intval( str_replace( '.' , '' , riake( 'tag_name' , $release ) ) );
 				$current_int		=	intval( str_replace( '.' , '' , $this->core_id ) );
 
@@ -180,7 +183,7 @@ class Update_Model extends CI_model
 				return 'old-release';
 			}
 		}
-		return 'unknow-release';		
+		return 'unknow-release';
 	}
 	function install( $stage , $zipball = null )
 	{
@@ -211,7 +214,7 @@ class Update_Model extends CI_model
 				}
 				return array(
 					'code'	=>	'archive-uncompressed'
-				); 
+				);
 			}
 		} elseif( $stage === 3 ){ // updating itself
 			if( is_dir( APPPATH . 'temp/core' ) ){ // looping internal dir
@@ -223,14 +226,14 @@ class Update_Model extends CI_model
 					}
 				}
 				SimpleFileManager::drop( APPPATH . 'temp/core' ); // dropping core update folder
-				return array( 
+				return array(
 					'code'	=>	'update-done'
 				);
 			}
 		}
 		return array(
 			'code'	=>	'error-occured'
-		);		
+		);
 	}
 	function store_connect(){
 		if( ! riake( 'HAS_LOGGED_TO_STORE' , $_SESSION ) ){
@@ -241,8 +244,8 @@ class Update_Model extends CI_model
 			$this->curl->stylish(FALSE);
 			$this->curl->showImg(FALSE);
 			$this->curl->security(FALSE);
-			
-			$platform	=	'http://tendoo.org';			
+
+			$platform	=	'http://tendoo.org';
 			$option		=	$this->instance->db->get('tendoo_options');
 			$result		=	$option->result_array();
 			if($result[0]['CONNECT_TO_STORE'] == '1')
@@ -264,13 +267,13 @@ class Update_Model extends CI_model
 		Opère suppression des dossiers "tendoo-assets" et "tendoo-core" et "index.php" remplacé par la version téléchargée.
 	**/
 	function updateinstance(){
-		
+
 	}
-	
+
 	/**
 	 * Modules Update Features
-	**/ 
-	
+	**/
+
 	function check_modules()
 	{
 		$modules		=	json_decode( file_get_content( 'https://raw.githubusercontent.com/Blair2004/tendoo-cms/3.0/modules.json' ) );
@@ -288,7 +291,7 @@ class Update_Model extends CI_model
 					unset( $modules_status[ $namespace ] ); // make sure already updated module is removed from "updatable modules"
 				}
 			}
-		}	
-		$this->options->set( 'modules_status', $modules_status );	
+		}
+		$this->options->set( 'modules_status', $modules_status );
 	}
 }

@@ -49,13 +49,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'Frontend';
-$route['404_override'] = 'Frontend';
-$route['translate_uri_dashes'] = TRUE;
+$route['default_controller'] 	= 'Frontend';
+$route['404_override'] 			= 'Page_404';
+$route['translate_uri_dashes'] 	= TRUE;
 
 // Slugs.
 // must match reserved controllers and controllers requiring installation
 $route[ 'sign-in' ]						=	'sign_in';
 $route[ 'sign-up' ]						=	'sign_up';
 $route[ 'sign-out' ]					=	'sign_out';
-$route[ 'tendoo-setup' ]				=	'tendoo-setup';
+$route[ 'do-setup' ]					=	'do-setup';

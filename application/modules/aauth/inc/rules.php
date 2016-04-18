@@ -5,6 +5,7 @@ class aauth_rules extends CI_model
 	{
 		$this->events->add_action( 'set_login_rules' , array( $this , 'set_login_rules' ) );
 		$this->events->add_action( 'registration_rules' , array( $this , 'registration_rules' ) );
+		$this->events->add_action( 'tendoo_setup', array( $this, 'registration_rules' ) );
 	}
 	function set_login_rules()
 	{

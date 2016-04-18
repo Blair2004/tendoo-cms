@@ -45,3 +45,7 @@
 		<action namespace="tendoo_settings_final_config"></action>
 	</action>
 </action>
+<action namespace="load_404">
+</action>
+<action namespace="load_403">
+</action>

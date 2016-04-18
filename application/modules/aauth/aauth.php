@@ -3,11 +3,11 @@ class auth_module_class extends CI_model
 {
 	function __construct()
 	{
-		parent::__construct();		
+		parent::__construct();
+		$this->lang->load_lines( dirname( __FILE__ ) . '/inc/aauth_lang.php' );		
 		// Load Model if tendoo is installed		
-		if( $this->setup->is_installed() )
-		{
-			$this->load->model( 'users_model' , 'users' );
+		if( $this->setup->is_installed() ) 		{
+			$this->load->model( 'Users_Model' , 'users' );
 		}			
 		// Events	
 		// change send administrator emails		
@@ -19,6 +19,14 @@ class auth_module_class extends CI_model
 			return User::pseudo();
 		});
 		$this->events->add_filter( 'user_menu_card_avatar_src', array( $this, 'user_avatar_src' ) );
+		
+		// Allow only admin user to access the dashboard
+		$this->events->add_action( 'load_dashboard', function(){
+			$groups	=	User::groups();
+			if( ! ( bool )$groups[0]->is_admin ) {
+				redirect( array( 'page_403' ) );
+			}
+		});
 		// Tendoo Setup	
 	}	
 	function user_avatar_src()
@@ -42,7 +50,7 @@ class auth_module_class extends CI_model
 	{
 		global $CurrentScreen;
 		
-		if( $this->users->is_connected() && $this->setup->is_installed() && $CurrentScreen != 'tendoo-setup' )
+		if( $this->users->is_connected() && $this->setup->is_installed() && ! in_array( $CurrentScreen, array( 'do-setup', 'sign-in', 'sign-up' ) ) )
 		{
 			return User::get()->id;
 		}
@@ -84,10 +92,10 @@ class auth_module_class extends CI_model
 	{
 		// load user model
 		$this->load->model( 'users_model' , 'users' );
-		// If there is no master user , redirect to master user creation if current controller isn't tendoo-setup
-		if( ! $this->users->master_exists() && $this->uri->segment(1) !== 'tendoo-setup' )
+		// If there is no master user , redirect to master user creation if current controller isn't do-setup
+		if( ! $this->users->master_exists() && $this->uri->segment(1) !== 'do-setup' )
 		{
-			redirect( array( 'tendoo-setup' , 'site' ) );
+			redirect( array( 'do-setup' , 'site' ) );
 		}
 		
 		// force user to be connected for certain controller

@@ -107,65 +107,74 @@ class Dashboard_Model extends CI_Model
 		$segments	= $this->uri->segment_array();
 		if( riake( 2, $segments, 'index' ) == 'index' ) {
 		?>
-        <script>
-		$(document).ready(function(){
-			function __doSort(event,ui){
-				ui.item.closest(".row .box").parent().find('.draggable_widgets').each(function(){
-					$(this).children(function(){
-						alert($(this).attr('widget_id'));
-					})
-				});
-				var tab		=	new Array;
-				var section	=	1;
-				var newSet	=	{};
-				$('.row .meta-row').each(function(){
-					if(typeof tab[section] == 'undefined')
-					{
-						tab[section] = new Array;
-					}
-					$(this).find('div[data-meta-namespace]').each(function(){
-						tab[section].push($(this).data( 'meta-namespace' ) );
-					});
-					// Saving Each Fields	
-					_.extend(newSet,_.object([ section ],[ tab [ section ] ]));
-					section++;
-				});
-				tendoo.options.set( 'dashboard_widget_position', newSet, true );
-			}
-			var actionAllower	=	{};
-			$('.row .meta-row').sortable({
-				grid			:	[ 10 , 10 ],
-				connectWith		: 	".row .meta-row",
-				items			:	"div[data-meta-namespace]",
-				placeholder		:	"widget-placeholder",
-				forceHelperSize	:	false,
-				// zIndex			:	tendoo.zIndex.draggable,
-				forcePlaceholderSize	:	true,
-				stop			:	function(event, ui){
-					__doSort(event, ui);
-				},
-				delay			: 	150 
-			});
+<script type="text/javascript">
+
+"use strict";
+
+$(document).ready(function(){
+	function __doSort(event,ui){
+		ui.item.closest(".row .box").parent().find('.draggable_widgets').each(function(){
+			$(this).children(function(){
+				alert($(this).attr('widget_id'));
+			})
 		});
-		</script>	
+		var tab		=	new Array;
+		var section	=	1;
+		var newSet	=	{};
+		$('.row .meta-row').each(function(){
+			if(typeof tab[section] == 'undefined')
+			{
+				tab[section] = new Array;
+			}
+			$(this).find('div[data-meta-namespace]').each(function(){
+				tab[section].push($(this).data( 'meta-namespace' ) );
+			});
+			// Saving Each Fields	
+			_.extend(newSet,_.object([ section ],[ tab [ section ] ]));
+			section++;
+		});
+		tendoo.options.set( 'dashboard_widget_position', newSet, true );
+	}
+	var actionAllower	=	{};
+	$('.row .meta-row').sortable({
+		grid			:	[ 10 , 10 ],
+		connectWith		: 	".row .meta-row",
+		items			:	"div[data-meta-namespace]",
+		placeholder		:	"widget-placeholder",
+		forceHelperSize	:	false,
+		// zIndex			:	tendoo.zIndex.draggable,
+		forcePlaceholderSize	:	true,
+		stop			:	function(event, ui){
+			__doSort(event, ui);
+		},
+		delay			: 	150 
+	});
+});
+</script>	
         <?php
 		}
 		?>
-        <script>
-		$('[data-meta-namespace]').find( '[data-widget]' ).bind( 'click', function(){
-			tendoo.options.merge( 
-				'meta_status['+ $(this).closest( '[data-meta-namespace]' ).data( 'meta-namespace' )+']', 
-				$(this).closest( '[data-meta-namespace]' ).hasClass( 'collapsed-box' ) ? 'uncollapsed-box' : 'collapsed-box',
-				true
-			);
-		});
-		</script>
+<script type="text/javascript">
+
+"use strict";
+
+$('[data-meta-namespace]').find( '[data-widget]' ).bind( 'click', function(){
+	tendoo.options.merge( 
+		'meta_status['+ $(this).closest( '[data-meta-namespace]' ).data( 'meta-namespace' )+']', 
+		$(this).closest( '[data-meta-namespace]' ).hasClass( 'collapsed-box' ) ? 'uncollapsed-box' : 'collapsed-box',
+		true
+	);
+});
+</script>
         <?php
 	}
 	function __dashboard_header()
 	{
 		?>
-<script>
+<script type="text/javascript">
+
+"use strict";
+
 tendoo.base_url			=	'<?php echo base_url();?>';
 tendoo.site_url			=	'<?php echo site_url();?>/';
 tendoo.dashboard_url	=	'<?php echo site_url( array( 'dashboard' ) );?>';
@@ -204,6 +213,7 @@ tendoo.options_data	=	{
 // Tendoo options
 tendoo.options			=	new function(){
     var $this			=	this;
+	var save_slug;
     this.set				=	function( key, value, user_meta ) {
         if( typeof user_meta != 'undefined' ) {
             save_slug			=	'save_user_meta';
@@ -345,41 +355,49 @@ $(document).ready(function(){
 	}
 	
 	public function __set_admin_menu()
-	{
-		$admin_menus		=	array(
-			'dashboard'		=>	array(
-				array(	
-					'href'			=>		site_url('dashboard'),
-					'icon'			=>		'fa fa-dashboard',
-					'title'			=>		__( 'Dashboard' )
-				),
-				array(	
-					'href'			=>		site_url( array( 'dashboard', 'update' ) ),
-					'icon'			=>		'fa fa-dashboard',
-					'title'			=>		__( 'Update Center' ),
-					'notices_nbr'	=>		$this->events->apply_filters( 'update_center_notice_nbr', 0 )
-				),
-				array(	
-					'href'			=>		site_url( array( 'dashboard', 'about' ) ),
-					'icon'			=>		'fa fa-dashboard',
-					'title'			=>		__( 'About' ),
-				),
-			),
-			'modules'			=>	array(
-				array(
-					'title'			=>		__( 'Modules' ),
-					'icon'			=>		'fa fa-puzzle-piece',
-					'href'			=>		site_url('dashboard/modules')
-				)
-			),
-			'settings'			=>	array(
-				array(
-					'title'			=>		__( 'Settings' ),
-					'icon'			=>		'fa fa-cogs',
-					'href'			=>		site_url('dashboard/settings')
-				)
-			),
+	{		
+		$admin_menus[ 'dashboard' ][] 	=	array(	
+			'href'			=>		site_url('dashboard'),
+			'icon'			=>		'fa fa-dashboard',
+			'title'			=>		__( 'Dashboard' )
 		);
+		
+		if( User::can( 'manage_options' ) ):
+		
+		$admin_menus[ 'dashboard' ][] 	=	array(	
+			'href'			=>		site_url( array( 'dashboard', 'update' ) ),
+			'icon'			=>		'fa fa-dashboard',
+			'title'			=>		__( 'Update Center' ),
+			'notices_nbr'	=>		$this->events->apply_filters( 'update_center_notice_nbr', 0 )
+		);
+		
+		$admin_menus[ 'dashboard' ][] 	= 	array(	
+			'href'			=>		site_url( array( 'dashboard', 'about' ) ),
+			'icon'			=>		'fa fa-dashboard',
+			'title'			=>		__( 'About' ),
+		);
+		
+		endif;
+		
+		if( User::can( 'manage_modules' ) ):
+		
+		$admin_menus[ 'modules' ][]		=	array(
+			'title'			=>		__( 'Modules' ),
+			'icon'			=>		'fa fa-puzzle-piece',
+			'href'			=>		site_url('dashboard/modules')
+		);
+		
+		endif;
+		
+		if( User::can( 'manage_options' ) ):
+		
+		$admin_menus[ 'settings' ][]	=	array(
+			'title'			=>		__( 'Settings' ),
+			'icon'			=>		'fa fa-cogs',
+			'href'			=>		site_url('dashboard/settings')
+		);
+		
+		endif;
 		
 		foreach( force_array( $this->events->apply_filters( 'admin_menus' , $admin_menus ) ) as $namespace => $menus )
 		{

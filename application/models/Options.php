@@ -39,7 +39,7 @@ class Options extends CI_Model
 	 	 * Load Language
 		**/
 		
-		$this->lang->load( 'system' );	
+		// $this->lang->load( 'system' );	deprecated
 	}
 	
 	/**

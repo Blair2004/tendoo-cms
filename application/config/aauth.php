@@ -71,7 +71,8 @@ $config['aauth'] = array(
 );
 
 // Default Group
-$config[ 'master_group_label' ]	=	array( 'master' , 'administrators' );
+$config[ 'master_group_label' ]	=	array( 'master' );
+$config[ 'admin_group_label' ]	=	array( 'administrators' );
 $config[ 'public_group_label' ]	=	array( 'users' );
 
 /* End of file aauth.php */

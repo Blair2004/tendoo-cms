@@ -12,12 +12,50 @@ class Theme_Mod extends CI_Model
 		
 		$this->events->add_action( 'setup_theme', array( $this, 'test' ), 10 );
 		$this->events->add_action( 'after_app_init', array( $this, 'init' ), 1 );
-		
+		$this->events->add_action( 'do_remove_module', array( $this, 'remove_module' ) );
+		$this->events->add_action( 'do_enable_module', array( $this, 'enable_module' ) );
 		$this->events->add_action( 'load_dashboard', array( $this, 'dashboard' ) );
 		$this->events->add_action( 'load_frontend', array( $this, 'frontend' ) );
-		$this->events->add_action( 'tendoo_settings_table', function(){
+		$this->events->add_action( 'tendoo_settings_tables', function(){
 			Modules::enable( 'theme_mod' );
 		});
+		
+		$this->events->add_action( 'tendoo_settings_tables', array( $this, 'install_tables' ) );
+	}
+	
+	function install_tables()
+	{
+		$this->db->query( "CREATE TABLE `{$this->db->dbprefix}navigation_menus` (
+		  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		  `NAMESPACE` varchar(100),
+		  `CONTENT` text,
+		  `AUTHOR` int(11) NOT NULL,
+		  `DATE_CREATION` datetime NOT NULL,
+		  `DATE_MODIFICATION` datetime NOT NULL,
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;" );
+	}
+	
+	/**
+	 * Enable module
+	 *
+	**/
+	
+	function enable_module( $module ) 
+	{
+		global $Options;
+		if( $module == 'theme_mod' && @$Options[ 'theme_mod_installed' ] == NULL ) {
+			$this->install_tables();
+			$this->options->set( 'theme_mod_installed', TRUE, TRUE );
+		}
+	}
+	
+	function remove_module( $module )
+	{
+		if( $module == 'theme_mod' ) {
+			$this->db->query( "DROP TABLE IF EXISTS `{$this->db->dbprefix}navigation_menus`;" );
+			$this->options->delete( 'theme_mod_installed' );
+		}
 	}
 	
 	function test()
@@ -59,12 +97,7 @@ class Theme_Mod extends CI_Model
 	**/
 	
 	function menu_builder_controller()
-	{
-		$this->enqueue->css( css_url( 'theme_mod' ) . 'style', '' );
-		
-		$this->enqueue->js( js_url( 'theme_mod' ) . 'jquery.nestable', '' );
-		$this->enqueue->js( js_url( 'theme_mod' ) . 'sha1', '' );
-		
+	{		
 		$this->Gui->set_title( sprintf( __( 'Menu Builder &mdash; %s' ) , get( 'core_signature' ) ) );
 		
 		$this->load->view( '../modules/theme_mod/views/menu_builder' );

@@ -25,7 +25,7 @@
         </form>
         <br>
 		<p class="text-center">
-        <a href="<?php echo site_url( array( 'tendoo-setup' , 'database' ) ) . ( riake( 'lang', $_GET ) ? '?lang=' . $_GET[ 'lang' ] : '' );?>" class="text-center btn btn-primary"><?php _e( 'Define Database configuration' );?></a>
+        <a href="<?php echo site_url( array( 'do-setup' , 'database' ) ) . ( riake( 'lang', $_GET ) ? '?lang=' . $_GET[ 'lang' ] : '' );?>" class="text-center btn btn-primary"><?php _e( 'Define Database configuration' );?></a>
         </p>
       </div><!-- /.form-box -->
     </div><!-- /.register-box -->

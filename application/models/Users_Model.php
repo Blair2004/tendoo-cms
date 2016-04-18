@@ -12,8 +12,7 @@ class Users_model extends CI_Model
 		// @branch 1.5-auth-class
 		$this->load->library( 'aauth' ,  array() ,  'auth' );		
 		
-		if( $this->auth->is_loggedin() )
-		{
+		if( $this->auth->is_loggedin() ) {
 			$this->refresh_user_meta();
 		} else {
 			// Autologin user
@@ -68,18 +67,24 @@ class Users_model extends CI_Model
 		// Creating admin Group
 		foreach( $this->config->item( 'master_group_label' ) as $group_name )
 		{
-			if( ! $group = $this->auth->get_group_id( $group_name ) )
-			{
-				$this->auth->create_group( $group_name );
+			if( ! $group = $this->auth->get_group_id( $group_name ) ) {
+				$this->auth->create_group( $group_name, __( 'Master Group' ), true );
+			}
+		}
+		
+		// Creating admin Group
+		foreach( $this->config->item( 'admin_group_label' ) as $group_name )
+		{
+			if( ! $group = $this->auth->get_group_id( $group_name ) ) {
+				$this->auth->create_group( $group_name, __( 'Admin Group' ), true );
 			}
 		}
 		
 		// Creating Public Group
 		foreach( $this->config->item( 'public_group_label' ) as $group_name )
 		{
-			if( ! $group = $this->auth->get_group_id( $group_name ) )
-			{
-				$this->auth->create_group( $group_name );
+			if( ! $group = $this->auth->get_group_id( $group_name ) ) {
+				$this->auth->create_group( $group_name, __( 'User Group' ), false );
 			}
 		}
 	}
@@ -99,10 +104,13 @@ class Users_model extends CI_Model
 			
 			// Fetch Master Group Name
 			$master_group_array		=	$this->config->item( 'master_group_label' );
+			
 			$this->auth->add_member( $master_id , $master_group_array[0] ); // assign user to one of the admin group
 			// Send Verification
+			
 			$this->auth->send_verification( $master_id );
 			// Activate Master
+			
 			$users			=	$this->auth->get_user( $master_id );
 			$this->auth->verify_user( $master_id , $users->verification_code );
 			return 'user-created';
@@ -282,6 +290,7 @@ class Users_model extends CI_Model
 	 * @params string role definition
 	 * @params string role type
 	 * @return string error code
+	 * Deprecated
 	**/
 	
 	function set_group( $name , $definition , $type , $mode = 'create' , $group_id = 0 )
