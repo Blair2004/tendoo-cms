@@ -47,7 +47,7 @@ class Tendoo_Controller extends CI_Controller
 			include( APPPATH . '/config/database.php' );
 
 			// If cannot connect to the database
-			$link		=	@mysqli_connect( $db[ 'hostname'], $db[ 'username' ], $db[ 'password' ] );
+			$link		=	@mysqli_connect( $db[ 'default' ][ 'hostname'], $db[ 'default' ][ 'username' ], $db[ 'default' ][ 'password' ] );
 			if( ! $link ) {
 				show_error( __( 'Unable to connect to the database host using provided settings. Please check this file : "application/config/database.php".<br>' . mysqli_connect_errno() ) );
 				return;
