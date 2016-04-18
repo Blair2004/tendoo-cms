@@ -1,0 +1,48 @@
+Actions: 
+========
+Regroupe toutes les actions de la boutique
+
+/**
+ *	nexo_checkout_footer
+ *  Exécute une action au pied de page de la boutique
+**/
+	
+/**
+ * nexo_daily_report_footer 
+ * Execute une action au peid de page du rapport journalier
+**/	
+
+/**
+ * nexo_escape_nexoadds
+ * Permet de désactiver les annonces
+**/
+
+/**
+ * nexo_before_customers
+ * execute une actions avant le menu customers
+**/
+
+/**
+ * nexo_before_shipping
+ * execute une actions avant le menu shippnig
+**/
+
+/**
+ * nexo_before_checkout
+ * execute une actions avant le menu checkout
+**/
+
+/**
+ * nexo_before_accounting
+ * execute une actions avant le menu Accounting
+**/
+
+/**
+ * nexo_before_settings
+ * execute une actions avant le menu nexo settings
+**/
+
+/**
+ * nexo_before_history
+ * execute une actions avant le menu history
+**/

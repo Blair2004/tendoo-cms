@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+	<details>
+		<name>Nexo Ads</name>
+		<namespace>nexo_ads</namespace>
+		<main>nexo_ads.php</main>
+		<description>Nexo Ads</description>
+		<author>Blair Jersyer</author>
+		<version>1.5</version>
+	</details>
+</application>

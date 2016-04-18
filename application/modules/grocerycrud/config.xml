@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<application>
+	<details>
+		<name>Grocery Crud</name>
+		<description>grocery CRUD is an open source library that makes a developer's life easier. Just few lines of code and you can create a full stable CRUD with nice views.</description>
+		<version>1.5.9</version>
+		<namespace>grocerycrud</namespace>
+		<main>grocerycrud.php</main>
+	</details>
+</application>

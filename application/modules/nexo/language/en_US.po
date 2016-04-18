@@ -1,0 +1,2934 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: nexo\n"
+"POT-Creation-Date: 2016-04-01 19:50+0300\n"
+"PO-Revision-Date: 2016-04-01 19:51+0300\n"
+"Last-Translator: \n"
+"Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: controllers/arrivages.php:31
+msgid "Nom de la livraison"
+msgstr "Delivery name"
+
+#: controllers/arrivages.php:32 controllers/paiements.php:30
+#: controllers/produits.php:51 controllers/types_de_commandes.php:27
+#, fuzzy
+msgid "Description"
+msgstr "Description"
+
+#: controllers/arrivages.php:33
+msgid "Fournisseur"
+msgstr "﻿Supplier"
+
+#: controllers/arrivages.php:36
+#, fuzzy
+msgid "Etiquettes des articles"
+msgstr "Labels of the items"
+
+#: controllers/arrivages.php:58
+msgid "Liste des livraisons &mdash; Nexo"
+msgstr "List of deliveries &mdash; Nexo"
+
+#: controllers/arrivages.php:60
+msgid "Ajouter une nouvelle livraison &mdash; Nexo"
+msgstr "Add a new delivery &mdash; Nexo"
+
+#: controllers/arrivages.php:69
+#, php-format
+msgid "Ajouter une nouvelle livraison : &mdash; %s"
+msgstr "Add a new delivery: &mdash; %s"
+
+#: controllers/bon_davoir.php:31
+msgid "Justification du bon d'avoir"
+msgstr "Justification Good To Have:"
+
+#: controllers/bon_davoir.php:32
+msgid "Client concerné"
+msgstr "Customer concerned"
+
+#: controllers/bon_davoir.php:33
+msgid "Détails du bon d'avoir"
+msgstr "Good To Have details"
+
+#: controllers/bon_davoir.php:34
+#, fuzzy
+msgid "Article concerné (Code Barre)"
+msgstr "Relevant article (Bar Code)"
+
+#: controllers/bon_davoir.php:35
+#, fuzzy
+msgid "Choisir la commande concernée"
+msgstr "Select the relevant order"
+
+#: controllers/bon_davoir.php:36
+msgid "Montant du bon d'avoir"
+msgstr "Good To Have"
+
+#: controllers/bon_davoir.php:62
+#, fuzzy
+msgid "Liste des bons d'avoir &mdash; Nexo"
+msgstr "List of vouchers have &mdash; Nexo"
+
+#: controllers/bon_davoir.php:70
+#, fuzzy
+msgid "Créer un nouveau bon d'avoir &mdash; Nexo"
+msgstr "Create a new good to have &mdash; Nexo"
+
+#: controllers/categories.php:25
+msgid "Catégorie"
+msgstr "Category"
+
+#: controllers/categories.php:34
+msgid "Nom"
+msgstr "Name"
+
+#: controllers/categories.php:37
+msgid "Nom de la catégorie"
+msgstr "Category Name"
+
+#: controllers/categories.php:38
+msgid "Description de la catégorie"
+msgstr "Category Description"
+
+#: controllers/categories.php:39
+msgid "Catégorie parente"
+msgstr "Parent Category"
+
+#: controllers/categories.php:60
+#, fuzzy
+msgid "Liste des catégories &mdash; Nexo"
+msgstr "List of categories &mdash; Nexo"
+
+#: controllers/categories.php:68
+#, fuzzy
+msgid "Créer une nouvelle catégorie &mdash; Nexo"
+msgstr "Create a new category &mdash; Nexo"
+
+#: controllers/clients.php:29 views/commandes-script.php:644
+#, fuzzy
+msgid "Nom du client"
+msgstr "Client Name"
+
+#: controllers/clients.php:30 views/commandes-script.php:650
+#, fuzzy
+msgid "Email du client"
+msgstr "Customer email"
+
+#: controllers/clients.php:31
+msgid "Nombre de commandes"
+msgstr "Number of Orders"
+
+#: controllers/clients.php:32
+msgid "Nbr Commandes (sess courante)"
+msgstr "Nbr Orders (current sess)"
+
+#: controllers/clients.php:33
+msgid "Téléphone du client"
+msgstr "Customer Phone"
+
+#: controllers/clients.php:34
+#, fuzzy
+msgid "Prénom du client"
+msgstr "Customer First Name"
+
+#: controllers/clients.php:35
+#, fuzzy
+msgid "Préférence du client"
+msgstr "Customer Preference"
+
+#: controllers/clients.php:36
+#, fuzzy
+msgid "Date de naissance"
+msgstr "Date of birth"
+
+#: controllers/clients.php:37
+#, fuzzy
+msgid "Adresse"
+msgstr "Address"
+
+#: controllers/clients.php:38
+#, fuzzy
+msgid "Taille"
+msgstr "Size"
+
+#: controllers/clients.php:42 views/commandes-script.php:651
+#, fuzzy
+msgid "Email"
+msgstr "E-mail"
+
+#: controllers/clients.php:61
+#, fuzzy
+msgid "Liste des clients &mdash; Nexo"
+msgstr "List of customers &mdash; Nexo"
+
+#: controllers/clients.php:69
+#, fuzzy
+msgid "Ajouter un nouveau client &mdash; Nexo"
+msgstr "Add a new customer &mdash; Nexo"
+
+#: controllers/commandes.php:24
+#, fuzzy
+msgid "Commandes"
+msgstr "Commands"
+
+#: controllers/commandes.php:31
+msgid "Imprimer le ticket de caisse"
+msgstr "Print receipt"
+
+#: controllers/commandes.php:55
+#, fuzzy
+msgid "Code"
+msgstr "Code"
+
+#: controllers/commandes.php:56
+#, fuzzy
+msgid "Client"
+msgstr "Customer Phone"
+
+#: controllers/commandes.php:57
+msgid "Remise Expresse"
+msgstr "Express Release"
+
+#: controllers/commandes.php:58 views/receipts/default.php:129
+#: views/shop-checkout-settings.php:37
+msgid "Somme perçu"
+msgstr "Perceived sum"
+
+#: controllers/commandes.php:59
+#, fuzzy
+msgid "Opérateur"
+msgstr "Operator"
+
+#: controllers/commandes.php:60
+#, fuzzy
+msgid "Mode de paiment"
+msgstr "Payment method :"
+
+#: controllers/commandes.php:61
+#, fuzzy
+msgid "Type de la commande"
+msgstr "Type the command: %s"
+
+#: controllers/commandes.php:62
+#, fuzzy
+msgid "Tva"
+msgstr "Vat"
+
+#: controllers/commandes.php:63
+#, fuzzy
+msgid "Date de création"
+msgstr "Creation date"
+
+#: controllers/commandes.php:64
+#, fuzzy
+msgid "Date de modification"
+msgstr "Date modified"
+
+#: controllers/commandes.php:65 views/receipts/default.php:52
+#: views/receipts/default.php:83
+#, fuzzy
+msgid "Total"
+msgstr "Total"
+
+#: controllers/commandes.php:108
+msgid "Créer une nouvelle commande &mdash; Nexo"
+msgstr "Create a new order"
+
+#: controllers/commandes.php:119
+msgid "Modifier une commande existante &mdash; Nexo"
+msgstr "Edit order"
+
+#: controllers/commandes.php:137 controllers/commandes.php:147
+#, fuzzy
+msgid "Liste des commandes &mdash; Nexo"
+msgstr "Order list &mdash; Nexo"
+
+#: controllers/fournisseurs.php:23
+msgid "Fournisseurs"
+msgstr "Suppliers"
+
+#: controllers/fournisseurs.php:30
+#, fuzzy
+msgid "Nom du fournisseur"
+msgstr "Supplier name"
+
+#: controllers/fournisseurs.php:31
+msgid "Email du fournisseur"
+msgstr "Supplier Email"
+
+#: controllers/fournisseurs.php:32
+msgid "BP du fournisseur"
+msgstr "Supplier PO Box"
+
+#: controllers/fournisseurs.php:33
+msgid "Tel du fournisseur"
+msgstr "Supplier Phone"
+
+#: controllers/fournisseurs.php:34
+msgid "Description du fournisseur"
+msgstr "Supplier Description"
+
+#: controllers/fournisseurs.php:60
+#, fuzzy
+msgid "Liste des fournisseurs &mdash; Nexo"
+msgstr "List of providers &mdash; Nexo"
+
+#: controllers/fournisseurs.php:62 controllers/fournisseurs.php:72
+msgid "Ajouter un nouveau fournisseur &mdash; Nexo"
+msgstr "Add new supplier"
+
+#: controllers/paiements.php:24
+#, fuzzy
+msgid "Moyen de paiement"
+msgstr "Means of payment"
+
+#: controllers/paiements.php:29
+msgid "Intitulé du moyen"
+msgstr "Means Title"
+
+#: controllers/paiements.php:51
+#, fuzzy
+msgid "Liste des types de paiements &mdash; Nexo"
+msgstr "List of types of payments &mdash; Nexo"
+
+#: controllers/paiements.php:59
+#, fuzzy
+msgid "Ajouter un nouveau type de paiement &mdash; Nexo"
+msgstr "Add a new type of payment &mdash; Nexo"
+
+#: controllers/print.php:38
+#, php-format
+msgid ""
+"Impossible d'afficher le ticket de caisse. Cette commande ne possède aucun "
+"article &mdash; <a href=\"%s\">Retour en arrière</a>"
+msgstr ""
+"Unable to show the receipt. This command has no items - <a href=\"%s\">Go "
+"back</a>"
+
+#: controllers/print.php:44
+#, fuzzy
+msgid "Cette commande est introuvable."
+msgstr "This order was not found."
+
+#: controllers/print.php:55
+msgid "Arrivage non définie"
+msgstr "Shipping not defined"
+
+#: controllers/produits.php:22
+#, fuzzy
+msgid "Articles"
+msgstr "Category for mens items"
+
+#: controllers/produits.php:37 views/commandes-dom.php:21
+#, fuzzy
+msgid "Désignation"
+msgstr "Designation"
+
+#: controllers/produits.php:38
+#, fuzzy
+msgid "UGS (Unité de gestion de stock)"
+msgstr "Stock Keeping Unit"
+
+#: controllers/produits.php:39
+#, fuzzy
+msgid "Assigner à un rayon"
+msgstr "Assign a radius"
+
+#: controllers/produits.php:40
+#, fuzzy
+msgid "Assign à une catégorie"
+msgstr "Assign a category"
+
+#: controllers/produits.php:41
+#, fuzzy
+msgid "Assign à un arrivage"
+msgstr "Assign to a shipment"
+
+#: controllers/produits.php:42 controllers/produits.php:66
+msgid "Quantité Totale"
+msgstr "Total Quantity"
+
+#: controllers/produits.php:43
+#, fuzzy
+msgid "Quantité défectueuse"
+msgstr "Defective Quantity"
+
+#: controllers/produits.php:44
+msgid "Frais Accéssoires"
+msgstr "Incidental costs or charges"
+
+#: controllers/produits.php:45 controllers/produits.php:69
+#, fuzzy
+msgid "Taux de marge"
+msgstr "Margin (finance)"
+
+#: controllers/produits.php:46 controllers/produits.php:68
+#, fuzzy
+msgid "Prix de vente"
+msgstr "Sale price"
+
+#: controllers/produits.php:47
+#, fuzzy
+msgid "Cout d'achat"
+msgstr "Cost of purchase"
+
+#: controllers/produits.php:48
+#, fuzzy
+msgid "Hauteur"
+msgstr "Height"
+
+#: controllers/produits.php:49
+#, fuzzy
+msgid "Largeur"
+msgstr "Width"
+
+#: controllers/produits.php:50
+#, fuzzy
+msgid "Poids"
+msgstr "Weight"
+
+#: controllers/produits.php:52
+#, fuzzy
+msgid "Couleur"
+msgstr "Colour"
+
+#: controllers/produits.php:53
+#, fuzzy
+msgid "Aperçu de l'article"
+msgstr "Preview for Article"
+
+#: controllers/produits.php:54
+#, fuzzy
+msgid "Codebarre"
+msgstr "Barcode"
+
+#: controllers/produits.php:55
+#, fuzzy
+msgid "Prix d'achat"
+msgstr "Purchase price"
+
+#: controllers/produits.php:56
+#, fuzzy
+msgid "Crée le"
+msgstr "Date created"
+
+#: controllers/produits.php:57
+#, fuzzy
+msgid "Modifié le"
+msgstr "Modified on"
+
+#: controllers/produits.php:58
+#, fuzzy
+msgid "Auteur"
+msgstr "Author"
+
+#: controllers/produits.php:59
+msgid "Qte Rest."
+msgstr "Remaining Qty"
+
+#: controllers/produits.php:60
+#, fuzzy
+msgid "Qte Vendue."
+msgstr "Sold Qty."
+
+#: controllers/produits.php:67
+msgid "Quantité Defectueuse"
+msgstr "Defective Quantity"
+
+#: controllers/produits.php:70
+msgid "Frais Accessoires"
+msgstr "Incidental costs or charges"
+
+#: controllers/produits.php:105
+#, fuzzy
+msgid "Liste des articles &mdash; Nexo"
+msgstr "List of articles &mdash; Nexo"
+
+#: controllers/produits.php:107 controllers/produits.php:124
+#, fuzzy
+msgid "Ajouter un nouvel article &mdash; Nexo"
+msgstr "Add a new article &mdash; Nexo"
+
+#: controllers/rapports.php:70
+#, fuzzy
+msgid "Le rapport ne peut être affiché, la date spécifiée est incorrecte"
+msgstr "The report can not be displayed, the specified date is incorrect"
+
+#: controllers/rapports.php:74
+#, fuzzy
+msgid ""
+"Le rapport ne peut être affiché, l'intervale de date ne peut excéder 3 mois."
+msgstr ""
+"The report can not be displayed, the Date interval can not exceed 3 months."
+
+#: controllers/rayons.php:25
+msgid "Rayons"
+msgstr "Ray"
+
+#: controllers/rayons.php:30
+msgid "Nom du rayon"
+msgstr "Radius Name"
+
+#: controllers/rayons.php:31
+#, fuzzy
+msgid "Description du rayon"
+msgstr "Description of the radius"
+
+#: controllers/rayons.php:54
+#, fuzzy
+msgid "Créer un nouveau rayon &mdash; Nexo"
+msgstr "Create a new RADIUS &mdash; Nexo"
+
+#: controllers/rayons.php:56
+#, fuzzy
+msgid "Liste des rayons &mdash; Nexo"
+msgstr "List rays &mdash; Nexo"
+
+#: controllers/rayons.php:66
+#, fuzzy
+msgid "Créer une nouveau rayon &mdash; Nexo"
+msgstr "Create a new RADIUS &mdash; Nexo"
+
+#: controllers/reset_shop.php:33
+#, fuzzy
+msgid "La boutique a correctement été vidée."
+msgstr "The shop has been properly emptied."
+
+#: controllers/reset_shop.php:43
+msgid ""
+"La boutique a correctement été vidée, et les données \"démo\" ont été "
+"ajoutées."
+msgstr "The shop has been properly emptied and \"demo\" content were added."
+
+#: controllers/reset_shop.php:50
+msgid "Impossible de déterminer l'action à effectuer pour la restauration."
+msgstr "Unable to determine the action to take for reset."
+
+#: controllers/reset_shop.php:58
+msgid ""
+"Le mot de passe spécifié est incorrect. Veuillez fournir votre mot de passe "
+"\"Super administrateur\" ou \"gérant de la boutique\"."
+msgstr ""
+"The specified password is incorrect. Please provide your \"Super Admin\" or "
+"\"store manager\" password ."
+
+#: controllers/reset_shop.php:66
+#, fuzzy
+msgid "Vous n'avez pas les permissions requises pour effectuer cette action"
+msgstr "You do not have the required permissions to perform this action"
+
+#: controllers/settings.php:19
+#, fuzzy
+msgid "Réglages de la boutique &mdash; Nexo"
+msgstr "Shop settings &mdash; Nexo"
+
+#: controllers/types_de_commandes.php:21
+#, fuzzy
+msgid "Liste des types des commandes"
+msgstr "List the types of orders"
+
+#: controllers/types_de_commandes.php:26
+#, fuzzy
+msgid "Intitulé du type"
+msgstr "Title type"
+
+#: controllers/types_de_commandes.php:48
+#, fuzzy
+msgid "Liste des types de commandes &mdash; Nexo"
+msgstr "List of commands &mdash; Nexo"
+
+#: controllers/types_de_commandes.php:56
+#, fuzzy
+msgid "Créer un nouveau type de commande &mdash; Nexo"
+msgstr "Create a new command type &mdash; Nexo"
+
+#: inc/controller.php:26 views/commandes-dom.php:50
+msgid "Caisse"
+msgstr "Checkout"
+
+#: inc/controller.php:32
+msgid "Liste des commandes"
+msgstr "List Orders"
+
+#: inc/controller.php:37 views/commandes-new.php:9
+#, fuzzy
+msgid "Nouvelle commande"
+msgstr "New Order"
+
+#: inc/controller.php:54
+#, fuzzy
+msgid "Liste des moyens de paiment"
+msgstr "List of payment means"
+
+#: inc/controller.php:59
+#, fuzzy
+msgid "Ajouter un moyen de paiment"
+msgstr "Add a payment means"
+
+#: inc/controller.php:64
+#, fuzzy
+msgid "Liste des types de commandes"
+msgstr "List of order types"
+
+#: inc/controller.php:69
+#, fuzzy
+msgid "Ajouter un type de commande"
+msgstr "Add a command type"
+
+#: inc/controller.php:77
+#, fuzzy
+msgid "Clients"
+msgstr "Customers"
+
+#: inc/controller.php:83
+msgid "Liste des clients"
+msgstr "Customers List"
+
+#: inc/controller.php:87
+#, fuzzy
+msgid "Ajouter un client"
+msgstr "Add client"
+
+#: inc/controller.php:91
+#, fuzzy
+msgid "Campagne publicitaires"
+msgstr "Advertising campaign"
+
+#: inc/controller.php:95
+#, fuzzy
+msgid "Nouvelle campagne"
+msgstr "New Campaign"
+
+#: inc/controller.php:102
+msgid "Arrivages"
+msgstr "Shippings"
+
+#: inc/controller.php:108
+msgid "Liste des livraisons"
+msgstr "Deliveries List"
+
+#: inc/controller.php:112
+msgid "Nouvelle livraison"
+msgstr "New delivery"
+
+#: inc/controller.php:116 views/commandes-dom.php:16
+msgid "Liste des articles"
+msgstr "Items List"
+
+#: inc/controller.php:120
+msgid "Ajouter un article"
+msgstr "Add Item"
+
+#: inc/controller.php:124
+msgid "Liste des fournisseurs"
+msgstr "Suppliers List"
+
+#: inc/controller.php:128
+#, fuzzy
+msgid "Ajouter un fournisseur"
+msgstr "Add a supplier"
+
+#: inc/controller.php:132
+msgid "Liste des rayons"
+msgstr "List of radius"
+
+#: inc/controller.php:136
+#, fuzzy
+msgid "Ajouter un rayon"
+msgstr "Add Radius"
+
+#: inc/controller.php:140
+msgid "Liste des catégories"
+msgstr "Categories List"
+
+#: inc/controller.php:144
+#, fuzzy
+msgid "Ajouter une catégorie"
+msgstr "Add a category"
+
+#: inc/controller.php:151
+#, fuzzy
+msgid "Rapports & Statistiques"
+msgstr "Statistical reports"
+
+#: inc/controller.php:157
+#, fuzzy
+msgid "Rapport Journalier"
+msgstr "Daily report"
+
+#: inc/controller.php:161
+#, fuzzy
+msgid "Rendement Mensuel"
+msgstr "Monthly Performance"
+
+#: inc/controller.php:165
+msgid "Statistiques des ventes"
+msgstr "Sales Analysis"
+
+#: inc/controller.php:169
+#, fuzzy
+msgid "Fiche de suivi de stocks général"
+msgstr "General inventory tracking sheet"
+
+#: inc/controller.php:176
+#, fuzzy
+msgid "Comptabilité"
+msgstr "Accounting"
+
+#: inc/controller.php:182
+#, fuzzy
+msgid "Livre journal des ventes"
+msgstr "Book Sales Journal"
+
+#: inc/controller.php:186
+#, fuzzy
+msgid "Livre journal du patrimoine"
+msgstr "Log book heritage"
+
+#: inc/controller.php:190
+#, fuzzy
+msgid "Livre journal de l'exploitation"
+msgstr "Book operation log"
+
+#: inc/controller.php:197
+#, fuzzy
+msgid "Maintenance & Historique"
+msgstr "Maintenance & History"
+
+#: inc/controller.php:202
+#, fuzzy
+msgid "Historique des activités"
+msgstr "Activity History"
+
+#: inc/controller.php:206
+#, fuzzy
+msgid "Exportation"
+msgstr "Export"
+
+#: inc/controller.php:210
+#, fuzzy
+msgid "Importation"
+msgstr "Import"
+
+#: inc/controller.php:217
+msgid "Réglages Nexo"
+msgstr "Nexo Settings"
+
+#: inc/demo.php:5
+msgid "Collection 1"
+msgstr "Collection 1"
+
+#: inc/demo.php:6
+msgid "Collection spéciale pour vêtements d'hiver"
+msgstr "Special collection for winter clothing"
+
+#: inc/demo.php:13
+msgid "Collection 2"
+msgstr "Collection 2"
+
+#: inc/demo.php:14
+msgid "Collection spéciale pour vêtements d'été"
+msgstr "Special collection for summer clothes"
+
+#: inc/demo.php:23
+msgid "Fournisseurs 1"
+msgstr "Suppliers 1"
+
+#: inc/demo.php:30
+msgid "Fournisseurs 2"
+msgstr "Suppliers 2"
+
+#: inc/demo.php:37
+msgid "Fournisseurs 3"
+msgstr "Suppliers 3"
+
+#: inc/demo.php:44
+msgid "Fournisseurs 4"
+msgstr "Suppliers 4"
+
+#: inc/demo.php:53 inc/demo.php:83
+#, fuzzy
+msgid "Hommes"
+msgstr "Men"
+
+#: inc/demo.php:54
+msgid "Rayon des hommes"
+msgstr "Men Radius"
+
+#: inc/demo.php:60 inc/demo.php:90
+#, fuzzy
+msgid "Femmes"
+msgstr "Women"
+
+#: inc/demo.php:61
+#, fuzzy
+msgid "Rayon des Femmes"
+msgstr "Women radius"
+
+#: inc/demo.php:67 inc/demo.php:97
+#, fuzzy
+msgid "Enfants"
+msgstr "Children"
+
+#: inc/demo.php:68
+#, fuzzy
+msgid "Rayon des enfants"
+msgstr "Child radius"
+
+#: inc/demo.php:74 inc/demo.php:104
+#, fuzzy
+msgid "Cadeaux"
+msgstr "Gifts"
+
+#: inc/demo.php:75
+msgid "Rayon des cadeaux"
+msgstr "Gifts rays"
+
+#: inc/demo.php:84
+msgid "Catégorie pour articles d'hommes."
+msgstr "Category for mens items"
+
+#: inc/demo.php:91
+msgid "Catégorie pour articles de femmes."
+msgstr "Category for women items."
+
+#: inc/demo.php:98
+#, fuzzy
+msgid "Catégorie pour articles pour enfants."
+msgstr "Category for articles for children."
+
+#: inc/demo.php:105
+#, fuzzy
+msgid "Catégorie pour articles en cadeaux."
+msgstr "Category for gift items."
+
+#: inc/demo.php:113
+#, fuzzy
+msgid "Article 1"
+msgstr "Article 1"
+
+#: inc/demo.php:129
+#, fuzzy
+msgid "Rouge"
+msgstr "Red"
+
+#: inc/demo.php:141
+#, fuzzy
+msgid "Article 2"
+msgstr "Article 2"
+
+#: inc/demo.php:156 inc/demo.php:309 inc/demo.php:334 inc/demo.php:359
+#, fuzzy
+msgid "Jaune"
+msgstr "Yellow"
+
+#: inc/demo.php:168
+#, fuzzy
+msgid "Article 3"
+msgstr "Article 3"
+
+#: inc/demo.php:182
+#, fuzzy
+msgid "Bleu"
+msgstr "Blue"
+
+#: inc/demo.php:194
+#, fuzzy
+msgid "Article 4"
+msgstr "Article 4"
+
+#: inc/demo.php:209
+#, fuzzy
+msgid "Rose"
+msgstr "Pink"
+
+#: inc/demo.php:219
+#, fuzzy
+msgid "Article 5"
+msgstr "Article 5"
+
+#: inc/demo.php:234 inc/demo.php:259
+#, fuzzy
+msgid "Noir"
+msgstr "Black"
+
+#: inc/demo.php:244
+#, fuzzy
+msgid "Article 6"
+msgstr "Article 6"
+
+#: inc/demo.php:269
+#, fuzzy
+msgid "Article 7"
+msgstr "Article 7"
+
+#: inc/demo.php:284
+#, fuzzy
+msgid "Cyan"
+msgstr "Cyan"
+
+#: inc/demo.php:294
+#, fuzzy
+msgid "Article 8"
+msgstr "Article 8"
+
+#: inc/demo.php:319
+#, fuzzy
+msgid "Article 9"
+msgstr "Article 9"
+
+#: inc/demo.php:344
+#, fuzzy
+msgid "Article 10"
+msgstr "Article 10"
+
+#: inc/demo.php:371
+#, fuzzy
+msgid "Espèces"
+msgstr "Species"
+
+#: inc/demo.php:372
+#, fuzzy
+msgid "Chèque"
+msgstr "Cheque"
+
+#: inc/demo.php:373
+#, fuzzy
+msgid "MTN Mobile Money"
+msgstr "MTN Mobile Money"
+
+#: inc/demo.php:374
+#, fuzzy
+msgid "Orange Money"
+msgstr "Orange Money:"
+
+#: inc/demo.php:375
+#, fuzzy
+msgid "Carte Bancaire"
+msgstr "Bank card"
+
+#: inc/demo.php:380
+#, fuzzy
+msgid "Compte Client"
+msgstr "Client account"
+
+#: inc/demo.php:381
+#, fuzzy
+msgid "John Doe"
+msgstr "John Doe"
+
+#: inc/demo.php:382
+#, fuzzy
+msgid "Jane Doe"
+msgstr "Jane Doe"
+
+#: inc/demo.php:383
+#, fuzzy
+msgid "Blair Jersyer"
+msgstr "Blair Jersyer"
+
+#: inc/demo.php:388
+msgid "Comptant"
+msgstr "Cash"
+
+#: inc/demo.php:389
+msgid ""
+"Pour les commandes dont le montant perçu est supérieure ou également à la "
+"valeur réelle de la commande"
+msgstr ""
+"For orders that the amount collected is greater than the actual value of the "
+"order"
+
+#: inc/demo.php:393
+#, fuzzy
+msgid "Avance"
+msgstr "Retainer"
+
+#: inc/demo.php:394
+#, fuzzy
+msgid ""
+"Pour les commandes dont le montant perçu est supérieure à 0 et inférieure à "
+"la valeur réelle de la commande"
+msgstr ""
+"For orders that the amount collected is greater than 0 and less than the "
+"actual value of the order"
+
+#: inc/demo.php:398
+#, fuzzy
+msgid "Devis"
+msgstr "Quote"
+
+#: inc/demo.php:399
+#, fuzzy
+msgid "Pour les commandes dont le montant perçu est égal à 0"
+msgstr "For orders the levy is equal to 0"
+
+#: inc/tours.php:25
+#, fuzzy
+msgid ""
+"C'est la première fois que Nexo est exécuté. Souhaitez-vous créer un exemple "
+"de boutique en activité, pour tester toutes les fonctionnalités ?"
+"<br><br><em>En appuyant sur \"Annuler\", Vous pourrez toujours activer cette "
+"option depuis les réglages.</em>"
+msgstr ""
+"It is the first time that Nexo is executed. Do you want to create an example "
+"of shop activity, to test all the features?<br><br><em>By pressing \"Cancel"
+"\", you can enable this option from the settings.</em>"
+
+#: inc/tours.php:48
+#, fuzzy
+msgid "Choisissez une option de reinitialisation"
+msgstr "Choose an option of reset"
+
+#: inc/tours.php:49
+#, fuzzy
+msgid "Veuillez choisir une option dans la liste de réinitialisation"
+msgstr "Please choose an option from the list of reset"
+
+#: language/nexo_lang.php:3 nexo_lang.php:3
+#, fuzzy
+msgid ""
+"Votre licence a expiré. Veuillez contacter l'administrateur pour renouveller "
+"votre license."
+msgstr ""
+"Your license has expired. Please contact the administrator to renew your "
+"license."
+
+#: language/nexo_lang.php:4 nexo_lang.php:4
+#, fuzzy
+msgid ""
+"La licence que vous avez spécifiée est invalide. La précédente licence a été "
+"restaurée. Veuillez contacter l'administrateur pour corriger le problème."
+msgstr ""
+"The license you specified is invalid. The previous license was restored. "
+"Please contact the administrator to correct the problem."
+
+#: language/nexo_lang.php:5 nexo_lang.php:5
+msgid ""
+"Impossible d'établir une connexion fiable vers le serveur. Verifiez votre "
+"connexion internet. <br>Vous devez vous connecter pour valider "
+"l'authenticité de cette licence."
+msgstr ""
+"Unable to establish a reliable connection to the server. Check your internet "
+"connection. <br> You must login to validate the authenticity of the license."
+
+#: language/nexo_lang.php:6 nexo_lang.php:6
+#, fuzzy
+msgid "Votre licence à été activée. Merci d'avoir renouvellé votre abonnement."
+msgstr ""
+"Your license has been activated. Thank you for having renewed your "
+"subscription."
+
+#: language/nexo_lang.php:7 nexo_lang.php:7
+#, fuzzy
+msgid "Cette licence n'est plus valide. Veuillez fournir une licence valide."
+msgstr "This license is no longer valid. Please provide a valid license."
+
+#: main.php:154
+#, fuzzy
+msgid "Nombres de commandes journalières"
+msgstr "Numbers of daily orders"
+
+#: main.php:162
+#, fuzzy
+msgid "Chiffre d'affaire journalier"
+msgstr "Daily turnover"
+
+#: models/nexo_Checkout.php:433
+msgid "Gérant de la caisse"
+msgstr "Checkout Manager"
+
+#: models/nexo_Checkout.php:434
+msgid "Gérant de la boutique"
+msgstr "Shop Manager"
+
+#: models/nexo_Checkout.php:435
+msgid "Privilège pour testeur"
+msgstr "Tester Privilege"
+
+#: models/nexo_Checkout.php:439
+msgid "Peut créer des commandes"
+msgstr "Can create orders"
+
+#: models/nexo_Checkout.php:440
+msgid "Peut modifier des commandes"
+msgstr "Can change orders"
+
+#: models/nexo_Checkout.php:441
+msgid "Peut supprimer les commandes"
+msgstr "Can delete orders"
+
+#: models/nexo_Checkout.php:445
+msgid "Peut créer des produits"
+msgstr "Create products"
+
+#: models/nexo_Checkout.php:446
+msgid "Peut modifier des produits"
+msgstr "Can modify products"
+
+#: models/nexo_Checkout.php:447
+msgid "Peut supprimer des produits"
+msgstr "Can remove products"
+
+#: models/nexo_Checkout.php:448
+msgid "Gère les catégories"
+msgstr "Manage categories"
+
+#: models/nexo_Checkout.php:449
+msgid "Gère les rayons"
+msgstr "Manage rays"
+
+#: models/nexo_Checkout.php:450
+msgid "Gère les collections"
+msgstr "Manage collections"
+
+#: models/nexo_Checkout.php:451
+msgid "Gère les fournisseurs (Livreurs)"
+msgstr "Manage suppliers"
+
+#: models/nexo_Checkout.php:455
+msgid "Autorise la gestion complète de la boutique"
+msgstr "Allows the complete management of the shop"
+
+#: models/nexo_Misc.php:81 models/nexo_Misc.php:85
+msgid "Votre licence expire le %d-%m-%Y à %h:%i"
+msgstr "Your license expires o %d-%m-%Y - %h:%i "
+
+#: models/nexo_Misc.php:346
+#, fuzzy
+msgid "Le client a été correctement crée."
+msgstr "The customer has been properly created."
+
+#: models/nexo_Misc.php:351 views/shop-product-settings-script.php:39
+#, fuzzy
+msgid "Une erreur s'est produite."
+msgstr "An error has occurred."
+
+#: views/arrivages-list.php:8
+msgid "Gestion & Création des livraisons"
+msgstr "Delivery Management"
+
+#: views/articles-list.php:8
+msgid "Gestion & Création des produits"
+msgstr "Creation & Management items"
+
+#: views/bon_davoir-list.php:8 views/rayons-list.php:8
+#, fuzzy
+msgid "Gestion & Création des rayons"
+msgstr "Creation & Management rays"
+
+#: views/categories-list.php:8
+#, fuzzy
+msgid "Gestion & Création des categories"
+msgstr "Creation & Management Categories"
+
+#: views/clients-list.php:8
+#, fuzzy
+msgid "Gestion & Création des clients"
+msgstr "Creating & Managing Customer"
+
+#: views/commandes-dom.php:8
+msgid "Articles disponibles"
+msgstr "Available Items"
+
+#: views/commandes-dom.php:22
+#, fuzzy
+msgid "Prix Unitaire"
+msgstr "Unit Price"
+
+#: views/commandes-dom.php:23
+#, fuzzy
+msgid "Quantité"
+msgstr "Quantity"
+
+#: views/commandes-dom.php:24
+#, fuzzy
+msgid "Prix Total"
+msgstr "Total Price"
+
+#: views/commandes-dom.php:25
+msgid "Opération"
+msgstr "Action"
+
+#: views/commandes-dom.php:30
+msgid "Panier vide."
+msgstr "Cart empty"
+
+#: views/commandes-dom.php:39
+#, fuzzy, php-format
+msgid "Total : %s <span class=\"Nexo-cart-total-price \">0</span> %s"
+msgstr "Total: <span class=\"Nexo-cart-total-price \">0%</span> s%s"
+
+#: views/commandes-dom.php:58
+#, fuzzy
+msgid "Total :"
+msgstr "Total:"
+
+#: views/commandes-dom.php:68
+msgid "Perçu :"
+msgstr "Perceived Sum :"
+
+#: views/commandes-dom.php:78
+msgid "Charge :"
+msgstr "Load (Finance):"
+
+#: views/commandes-dom.php:88
+msgid "Reste :"
+msgstr "Remain:"
+
+#: views/commandes-dom.php:102
+#, fuzzy
+msgid "Valider la commande"
+msgstr "Proceed to Checkout"
+
+#: views/commandes-dom.php:111
+#, fuzzy
+msgid "Imprimer"
+msgstr "Print"
+
+#: views/commandes-dom.php:113
+#, fuzzy
+msgid "Retour"
+msgstr "Back"
+
+#: views/commandes-edit.php:9
+#, fuzzy
+msgid "Modification d'une commande"
+msgstr "Order Modification"
+
+#: views/commandes-list.php:8
+#, fuzzy
+msgid "Gestion & Création des commandes"
+msgstr "Creation & Management of orders"
+
+#: views/commandes-script.php:64
+msgid "Impossible d'ajouter cet article, car le stock vient de s'épuiser."
+msgstr "Cannot add this item because the stock has run out."
+
+#: views/commandes-script.php:75
+msgid "Impossible d'ajouter cet article, car le stock est épuisé."
+msgstr "Cannot add this item because the stock is exhausted."
+
+#: views/commandes-script.php:79
+#, fuzzy
+msgid "Cet article est introuvable ou le code est incorrect."
+msgstr "This article is not found or the code is incorrect."
+
+#: views/commandes-script.php:115
+#, fuzzy
+msgid "Retirer"
+msgstr "Remove"
+
+#: views/commandes-script.php:115 views/commandes-script.php:559
+#: views/commandes-script.php:675
+#, fuzzy
+msgid "Ajouter"
+msgstr "Add"
+
+#: views/commandes-script.php:131
+#, fuzzy
+msgid "Aucun article n'a été ajouté au panier"
+msgstr "No item added to cart"
+
+#: views/commandes-script.php:195
+msgid ""
+"Une erreur fatale s'est produite durant la suppression de l'article. Nous "
+"vous recommandons de recommencer le processus de commande. <br><strong>Si le "
+"problème persiste, veuillez contacter l'administrateur ou soumettre un bug "
+"via le formulaire d'assistance.</strong>"
+msgstr ""
+"A fatal error occurred during the deletion of the item. It is recommended "
+"that you start the order process.<br><strong>If the problem persists, please "
+"contact the administrator or submit a bug via the support form.</strong>"
+
+#: views/commandes-script.php:286
+msgid "Une commande sans article ne peut être soumise."
+msgstr "A command without item cannot be submitted."
+
+#: views/commandes-script.php:330 views/commandes-script.php:343
+msgid "Commande valide !"
+msgstr "Valid Order!"
+
+#: views/commandes-script.php:330
+msgid "La facture est en cours d\\'impression."
+msgstr "The bill is being printed"
+
+#: views/commandes-script.php:343
+msgid "La facture a été enregistrée."
+msgstr "The invoice was saved."
+
+#: views/commandes-script.php:355
+#, fuzzy
+msgid "Veuillez patienter SVP."
+msgstr "Please be patient."
+
+#: views/commandes-script.php:356
+msgid "La commande est en cours de rafraichissement."
+msgstr "The command is being refreshed."
+
+#: views/commandes-script.php:389
+#, fuzzy
+msgid "Eligible pour une réduction automatique<br>"
+msgstr "Eligible for an automatic reduction <br>"
+
+#: views/commandes-script.php:389
+#, php-format
+msgid ""
+"Ce client bénéficiera d\\'une réduction automatique. Le nombre d\\'achats "
+"requis a été atteint : %s"
+msgstr ""
+"The customer will benefit an automatic reduction. The number of required "
+"purchases had been attained :%s"
+
+#: views/commandes-script.php:436 views/commandes-script.php:442
+#, php-format
+msgid "Remise à %s %%"
+msgstr "Discount to %s %% off"
+
+#: views/commandes-script.php:437 views/commandes-script.php:443
+msgid "Remise à taux fixe"
+msgstr "Flat Discount"
+
+#: views/commandes-script.php:452
+#, fuzzy
+msgid "Cancel discount"
+msgstr "Cancel discount"
+
+#: views/commandes-script.php:525
+msgid "Fermer La Liste"
+msgstr "Hide the list"
+
+#: views/commandes-script.php:530 views/commandes-script.php:668
+msgid "Afficher La Liste"
+msgstr "Display the list"
+
+#: views/commandes-script.php:541
+msgid "Chargement..."
+msgstr "Loading..."
+
+#: views/commandes-script.php:564
+msgid "Détails"
+msgstr "Details"
+
+#: views/commandes-script.php:615
+#, fuzzy
+msgid "Le client a été correctement crée"
+msgstr "The customer has been properly created"
+
+#: views/commandes-script.php:616
+#, fuzzy
+msgid "Un nouveau client a été ajouté à la base de données"
+msgstr "A new customer has been added to the database"
+
+#: views/commandes-script.php:630
+msgid "Une erreur s'est produite durant la création du client"
+msgstr "An error occurred during the creation of the customer"
+
+#: views/commandes-script.php:641
+#, fuzzy
+msgid ""
+"Toutes les autres informations comme la \"date de naissance\" pourront être "
+"remplis ultérieurement."
+msgstr "All other information like \"date of birth\" may be filled later."
+
+#: views/commandes-script.php:645
+#, fuzzy
+msgid "Name"
+msgstr "Name"
+
+#: views/commandes-script.php:671
+#, fuzzy
+msgid "Code de l\\article"
+msgstr "Item Code"
+
+#: views/commandes-script.php:672
+#, fuzzy
+msgid "Code de l'article"
+msgstr "Item Code"
+
+#: views/commandes-script.php:681
+#, fuzzy
+msgid "Enregistrer un nouveau client"
+msgstr "Register a new customer"
+
+#: views/commandes-script.php:719
+#, fuzzy
+msgid "Souhaitez-vous confirmer cette commande ?"
+msgstr "Would you confirm this order?"
+
+#: views/commandes-script.php:803
+msgid ""
+"Le processus de commande à commencé. Si vous continuez, vous perdrez toutes "
+"les informations non enregistrées"
+msgstr ""
+"The ordering process to started. If you continue, you will lose all unsaved "
+"informations"
+
+#: views/fournisseurs-list.php:8
+#, fuzzy
+msgid "Gestion & Création des fournisseurs"
+msgstr "Creation & Management of suppliers"
+
+#: views/paiements-list.php:8
+#, fuzzy
+msgid "Gestion & Création des moyens de paiements"
+msgstr "Creation & Management of means of payments"
+
+#: views/product-script.php:49
+#, fuzzy
+msgid ""
+"Un produit avec cette désignation existe déjà, souhaitez-vous pré-remplir ce "
+"formulaire ?"
+msgstr ""
+"A product with this name already exists, do you want to pre-fill this form?"
+
+#: views/product-script.php:60 views/receipts/default.php:51
+#, fuzzy
+msgid "Prix"
+msgstr "Price"
+
+#: views/products-labels/default.php:20
+#, fuzzy, php-format
+msgid "Etiquettes des produits : %s &mdash; Nexo POS"
+msgstr "Product Tags:%s - Nexo POS"
+
+#: views/products-labels/default.php:31
+msgid "Circonscrire les articles"
+msgstr "Circumscribe Items"
+
+#: views/products-labels/default.php:33
+msgid "Spécifier les identifiants des produits"
+msgstr "Specify item identifiers"
+
+#: views/products-labels/default.php:40
+#, fuzzy
+msgid "Revenir à la liste des collections"
+msgstr "Back to the list of collections"
+
+#: views/products-labels/default.php:43
+#, fuzzy
+msgid "Désactiver le cache"
+msgstr "Disable Cache"
+
+#: views/products-labels/default.php:51
+msgid "Etiquettes des produits"
+msgstr "Item labels"
+
+#: views/products-labels/default.php:72
+#, fuzzy, php-format
+msgid "Nom : %s"
+msgstr "Username: %s"
+
+#: views/products-labels/default.php:73
+#, php-format
+msgid "<strong>Prix de vente</strong> : %s"
+msgstr "<strong>Sales Price</strong> : %s"
+
+#: views/products-labels/default.php:78
+#, php-format
+msgid "<strong>Collection</strong> : %s"
+msgstr "<strong>Collection </strong>: %s"
+
+#: views/products-labels/default.php:79
+#, php-format
+msgid "<strong>Code Barre</strong> : %s"
+msgstr "<strong>Barcode</strong> : %s"
+
+#: views/products-labels/default.php:98
+msgid "Aucun produit disponible"
+msgstr "No item available"
+
+#: views/receipts/default.php:16
+#, php-format
+msgid "Order ID : %s &mdash; Nexo Shop Receipt"
+msgstr "Order ID : %s - Nexo Shop Receipt"
+
+#: views/receipts/default.php:31
+#, fuzzy
+msgid "Téléphone"
+msgstr "Phone"
+
+#: views/receipts/default.php:31
+#, fuzzy
+msgid "P:"
+msgstr "P:"
+
+#: views/receipts/default.php:35
+msgid "Date: %d/%m/%Y"
+msgstr "Date: %d /%m /%Y"
+
+#: views/receipts/default.php:36
+#, php-format
+msgid "Ticket : #%s"
+msgstr "Ticket : #%s"
+
+#: views/receipts/default.php:38
+#, php-format
+msgid "Type de la commande: %s"
+msgstr "Type the command: %s"
+
+#: views/receipts/default.php:43
+#, fuzzy
+msgid "Ticket de caisse"
+msgstr "Sales receipt"
+
+#: views/receipts/default.php:49
+msgid "Produits"
+msgstr "Items"
+
+#: views/receipts/default.php:87 views/receipts/default.php:95
+#: views/receipts/default.php:108 views/receipts/default.php:121
+#: views/receipts/default.php:134
+#, php-format
+msgid "%s %s %s"
+msgstr "%s %s %s"
+
+#: views/receipts/default.php:103
+msgid "Ristourne"
+msgstr "Refund"
+
+#: views/receipts/default.php:116
+#, fuzzy
+msgid "Remise expresse"
+msgstr "Express Release"
+
+#: views/receipts/default.php:142
+#, fuzzy
+msgid "&Agrave; rembourser :"
+msgstr "To repay :"
+
+#: views/receipts/default.php:142
+msgid "Somme due :"
+msgstr "Amounts owed :"
+
+#: views/receipts/default.php:166
+#, fuzzy
+msgid "Modifier la commande"
+msgstr "Edit Order"
+
+#: views/receipts/default.php:169
+msgid "Revenir à la liste des produits"
+msgstr "Back to the item list"
+
+#: views/reports/daily.php:20
+#, php-format
+msgid "Rapport des ventes journalières du %s au %s &mdash; Nexo"
+msgstr "Report daily sales from %s to %s - Nexo"
+
+#: views/reports/daily.php:39
+#, fuzzy
+msgid "Tableau de bord"
+msgstr "Your dashboard"
+
+#: views/reports/daily.php:44
+#, fuzzy
+msgid "Ignorer le cache"
+msgstr "Ignore the cache"
+
+#: views/reports/daily.php:53
+msgid "Nom indisponible"
+msgstr "Name Not Available"
+
+#: views/reports/daily.php:56
+#, php-format
+msgid "Rapport des ventes journalières <br> du %s au %s"
+msgstr "Daily sales report <br> from %s to%s"
+
+#: views/reports/daily.php:85
+msgid "Circonscrire les résultats"
+msgstr "Circumscribe results"
+
+#: views/reports/daily.php:113
+#, fuzzy
+msgid "Les dates ne sont pas spécifiée"
+msgstr "The dates are not specified"
+
+#: views/reports/daily.php:164
+msgid "Détails des expressions utilisées"
+msgstr "Details of the terms used"
+
+#: views/reports/daily.php:166
+msgid "Ca: Chiffre d'affaire"
+msgstr "Sal : Sales"
+
+#: views/reports/daily.php:167
+msgid "Cc: Charges commerciales"
+msgstr "Se : Selling Expenses"
+
+#: views/reports/daily.php:168
+msgid "CaN: Chiffre d'Affaire Net (sans remise, ristourne et rabais)"
+msgstr "Nr : Net Revenues (Without discount, rebate and discount)"
+
+#: views/reports/daily.php:169
+msgid "Cr: Créances"
+msgstr "Rs : Receivables"
+
+#: views/reports/daily.php:170
+msgid "Nc: Nombre de commandes"
+msgstr "No: Number of Orders"
+
+#: views/reports/daily.php:172
+#, php-format
+msgid "%s : Voir plus de détails"
+msgstr "%s: View more details"
+
+#: views/reports/daily.php:173
+#, php-format
+msgid "%s : Rafraichir les données pour une date"
+msgstr "%s: Refresh the data for that date"
+
+#: views/reports/daily.php:192
+#, php-format
+msgid "Détails du mois : %s"
+msgstr "Details month:%s"
+
+#: views/reports/daily.php:195
+#, fuzzy
+msgid "Lundi"
+msgstr "Monday"
+
+#: views/reports/daily.php:196
+#, fuzzy
+msgid "Mardi"
+msgstr "Tuesday"
+
+#: views/reports/daily.php:197
+#, fuzzy
+msgid "Mercredi"
+msgstr "Wednesday"
+
+#: views/reports/daily.php:198
+#, fuzzy
+msgid "Jeudi"
+msgstr "Thursday"
+
+#: views/reports/daily.php:199
+#, fuzzy
+msgid "Vendredi"
+msgstr "Friday"
+
+#: views/reports/daily.php:200
+#, fuzzy
+msgid "Samedi"
+msgstr "Saturday"
+
+#: views/reports/daily.php:201
+#, fuzzy
+msgid "Dimanche"
+msgstr "Sunday"
+
+#: views/reports/daily.php:229 views/reports/daily.php:251
+msgid "Ca :"
+msgstr "Sal :"
+
+#: views/reports/daily.php:232 views/reports/daily.php:254
+msgid "Cc :"
+msgstr "Se :"
+
+#: views/reports/daily.php:234 views/reports/daily.php:252
+msgid "CaN :"
+msgstr "Nr :"
+
+#: views/reports/daily.php:236 views/reports/daily.php:253
+msgid "Cr :"
+msgstr "Rs :"
+
+#: views/reports/daily.php:238 views/reports/daily.php:255
+msgid "Nc :"
+msgstr "No :"
+
+#: views/reports/daily.php:302
+#, fuzzy
+msgid "Chargement en cours..."
+msgstr "Loading in progress..."
+
+#: views/reset-script.php:2
+msgid "Réinitialisation"
+msgstr "Reset"
+
+#: views/reset-script.php:4
+#, fuzzy
+msgid "Sélectionner une valeur"
+msgstr "Select a value"
+
+#: views/reset-script.php:5
+#, fuzzy
+msgid "Vider complètement la boutique"
+msgstr "Completely empty shop"
+
+#: views/reset-script.php:6
+msgid "Vide la boutique et restaure les données démos"
+msgstr "Empty the store and restore demos data"
+
+#: views/reset-script.php:9
+#, fuzzy
+msgid "Reinitialiser"
+msgstr "Reset"
+
+#: views/reset-script.php:14
+#, fuzzy
+msgid ""
+"Ce privilège n'est accordé qu'aux utilisateurs ayant le rôle de gestionnaire "
+"de la boutique ou d'administrateur du site. Utilisez cette option pour "
+"reinitialiser la boutique. Un rapport d'activité sera enregistré."
+msgstr ""
+"This privilege is granted only to users with the role of store manager or "
+"site administrator. Use this option to reset the shop. A progress report "
+"will be saved."
+
+#: views/reset-script.php:16
+#, fuzzy
+msgid ""
+"La réinitialisation de la boutique entrainera suppréssion de toutes les "
+"données actives: produits, catégories, rayons, fournisseurs, arrivage, "
+"commandes, clients et les réglages"
+msgstr ""
+"Resetting the shop will cause suppression of all active data: products, "
+"categories, rays, suppliers, arrival, orders, customers and settings"
+
+#: views/reset-script.php:32
+msgid "Attention !"
+msgstr "Attention !"
+
+#: views/reset-script.php:33
+#, fuzzy
+msgid "Une option de réinitialisation doit être choisie."
+msgstr "A reset option must be chosen."
+
+#: views/reset-script.php:38
+msgid "Veuillez entrer votre mot de passe"
+msgstr "Please enter a password."
+
+#: views/reset-script.php:42
+#, fuzzy
+msgid "Mot de passe réquis"
+msgstr "Password Required"
+
+#: views/reset-script.php:43
+#, fuzzy
+msgid "Vous devez spécifier un mot de passe."
+msgstr "You must specify a Password"
+
+#: views/reset-script.php:51
+#, fuzzy
+msgid "Restaurer"
+msgstr "Restore"
+
+#: views/reset-script.php:74
+msgid "Attention"
+msgstr "Attention !"
+
+#: views/shop-checkout-settings.php:5
+#: views/shop-discount-customers-settings.php:5
+msgid "Réglages de la caisse"
+msgstr "Checkout Settings"
+
+#: views/shop-checkout-settings.php:10 views/shop-details-settings.php:10
+#: views/shop-discount-customers-settings.php:10
+#: views/shop-licence-settings.php:12 views/shop-product-settings.php:13
+#: views/shop-reset-settings.php:10 views/shop-soundeffect-settings.php:10
+#, fuzzy
+msgid "Sauvegarder les réglages"
+msgstr "Save Settings"
+
+#: views/shop-checkout-settings.php:18
+#, fuzzy
+msgid "Visibilité des champs"
+msgstr "Visibility fields"
+
+#: views/shop-checkout-settings.php:23
+#, fuzzy
+msgid "Selection du client"
+msgstr "Customer Selection"
+
+#: views/shop-checkout-settings.php:30
+msgid "Mode de paiement"
+msgstr "Payment Method:"
+
+#: views/shop-checkout-settings.php:44
+msgid "Remise express"
+msgstr "Express discount"
+
+#: views/shop-checkout-settings.php:51
+msgid "Type des commandes"
+msgstr "Orders Type"
+
+#: views/shop-checkout-settings.php:65
+msgid "Commande Comptant"
+msgstr "Cash Order"
+
+#: views/shop-checkout-settings.php:66
+msgid ""
+"Affecter ce type de commande aux commandes dont la somme perçu est "
+"supérieure ou également à la valeur réelle de la commande"
+msgstr ""
+"Assign this type of order to orders whose sum is greater perceived also to "
+"the actual value of the order"
+
+#: views/shop-checkout-settings.php:73
+#, fuzzy
+msgid "Commande Avance"
+msgstr "Advance order"
+
+#: views/shop-checkout-settings.php:74
+msgid ""
+"Affecter ce type de commande aux commandes dont la somme perçu est "
+"inférieure à la valeur réelle de la commande, mais supérieure à 0"
+msgstr ""
+"Assign this type of order to orders whose perceived sum is less than the "
+"actual value of the order, but above 0"
+
+#: views/shop-checkout-settings.php:81
+msgid "Commande Devis"
+msgstr "Quote Order"
+
+#: views/shop-checkout-settings.php:82
+msgid ""
+"Affecter ce type de commande aux commandes dont la somme perçu total est "
+"égale à 0"
+msgstr ""
+"Assign this type of order to order whose total amount received is equal to 0"
+
+#: views/shop-checkout-settings.php:88
+#, fuzzy
+msgid "Configuration de la devise"
+msgstr "Configuration of the currency"
+
+#: views/shop-checkout-settings.php:94
+#, fuzzy
+msgid "Symbole de la devise"
+msgstr "Currency Symbol"
+
+#: views/shop-checkout-settings.php:100
+#, fuzzy
+msgid "Position de la devise"
+msgstr "Currency Position"
+
+#: views/shop-checkout-settings.php:102
+#, fuzzy
+msgid "Avant le montant"
+msgstr "Before cost"
+
+#: views/shop-checkout-settings.php:103
+#, fuzzy
+msgid "Après le montant"
+msgstr "After cost"
+
+#: views/shop-checkout-settings.php:110
+#, fuzzy
+msgid "Thème des tickets de caisse"
+msgstr "receipts theme"
+
+#: views/shop-checkout-settings.php:112
+#, fuzzy
+msgid "Par défaut"
+msgstr "Default"
+
+#: views/shop-checkout-settings.php:123
+#, fuzzy
+msgid "Activer l'impression automatique des tickets de caisse ?"
+msgstr "Enable automatic printing of receipts?"
+
+#: views/shop-checkout-settings.php:124
+#, fuzzy
+msgid "Par défaut vaut : \"Non\""
+msgstr "The default is \"No.\""
+
+#: views/shop-checkout-settings.php:126
+#, fuzzy
+msgid "Veuillez choisir une option"
+msgstr "Please choose a option"
+
+#: views/shop-checkout-settings.php:127
+#, fuzzy
+msgid "Oui"
+msgstr "Yes"
+
+#: views/shop-checkout-settings.php:128
+#, fuzzy
+msgid "Non"
+msgstr "No"
+
+#: views/shop-checkout-settings.php:136
+#, fuzzy
+msgid "Validité des commandes devis (en jours)"
+msgstr "Validity quotations orders (days)"
+
+#: views/shop-checkout-settings.php:138
+#, fuzzy
+msgid "Par défaut: Illimité"
+msgstr "Default: Unlimited"
+
+#: views/shop-details-settings.php:5 views/shop-soundeffect-settings.php:5
+#, fuzzy
+msgid "Détails de la boutique"
+msgstr "Shop Details"
+
+#: views/shop-details-settings.php:19
+#, fuzzy
+msgid "Nom de la boutique"
+msgstr "Shop name"
+
+#: views/shop-details-settings.php:20
+#, fuzzy
+msgid "Vous pouvez utiliser le nom du site"
+msgstr "You can use the site name"
+
+#: views/shop-details-settings.php:26
+#, fuzzy
+msgid "Téléphone pour la boutique"
+msgstr "Phone shop"
+
+#: views/shop-details-settings.php:32
+#, fuzzy
+msgid "Rue de la boutique"
+msgstr "Street shop"
+
+#: views/shop-details-settings.php:38
+#, fuzzy
+msgid "Boite postale"
+msgstr "P.O Box"
+
+#: views/shop-details-settings.php:44
+msgid "Email pour la boutique"
+msgstr "Store Email"
+
+#: views/shop-details-settings.php:50
+msgid "Fax pour la boutique"
+msgstr "Shop Fax"
+
+#: views/shop-details-settings.php:56
+#, fuzzy
+msgid "Notes pour factures"
+msgstr "Notes bills"
+
+#: views/shop-details-settings.php:62
+#, fuzzy
+msgid "Détails supplémentaires"
+msgstr "Additional Details"
+
+#: views/shop-details-settings.php:63
+#, fuzzy
+msgid "Ce champ est susceptible d'être utilisé au pied de page des rapports"
+msgstr "This field is likely to be used at the foot of page reports"
+
+#: views/shop-discount-customers-settings.php:19
+#, fuzzy
+msgid "Type de la remise"
+msgstr "Discount Type"
+
+#: views/shop-discount-customers-settings.php:21
+#: views/shop-soundeffect-settings.php:21
+#, fuzzy
+msgid "Désactiver"
+msgstr "Disable"
+
+#: views/shop-discount-customers-settings.php:22
+#, fuzzy
+msgid "Au pourcentage"
+msgstr "the percentage"
+
+#: views/shop-discount-customers-settings.php:23
+#: views/shop-discount-customers-settings.php:43
+#, fuzzy
+msgid "Montant fixe"
+msgstr "Fixed Amount"
+
+#: views/shop-discount-customers-settings.php:30
+#, fuzzy
+msgid "Reduction Automatique"
+msgstr "Automatic reduction"
+
+#: views/shop-discount-customers-settings.php:31
+#, fuzzy
+msgid ""
+"Après combien de commandes un client peut-il profiter d'une remise "
+"automatique. Veuillez définir une valeur numérique. \"0\" désactive la "
+"fonctionnalité."
+msgstr ""
+"After how many orders can a customer benefit of an automatic discount. "
+"Please set a numeric value. \"0\" disables the feature."
+
+#: views/shop-discount-customers-settings.php:37
+#, fuzzy
+msgid "Pourcentage de la remise"
+msgstr "Percentage off"
+
+#: views/shop-discount-customers-settings.php:61
+#, fuzzy
+msgid "Compte Client par défaut"
+msgstr "Default Client Account"
+
+#: views/shop-discount-customers-settings.php:62
+#, fuzzy
+msgid "Ce client ne profitera pas des réductions automatique."
+msgstr "This client does not benefit from the automatic reductions."
+
+#: views/shop-discount-customers-settings.php:77
+#, fuzzy
+msgid "Moyen de paiement par défaut"
+msgstr "default payment method"
+
+#: views/shop-licence-settings.php:7
+msgid "Licence"
+msgstr "License"
+
+#: views/shop-licence-settings.php:22
+#, fuzzy
+msgid "Licence d'utilisation"
+msgstr "usage Licence"
+
+#: views/shop-licence-settings.php:23
+#, fuzzy
+msgid "Veuillez préciser votre licence."
+msgstr "Please specify your license."
+
+#: views/shop-licence-settings.php:29
+#, fuzzy
+msgid "License attribuée à"
+msgstr "License assigned to"
+
+#: views/shop-licence-settings.php:30
+#, fuzzy
+msgid "Veuillez préciser un nom"
+msgstr "Please specify a name"
+
+#: views/shop-licence-settings.php:42
+msgid "Impossible de se connecter. La licence n'a pas pu être validée"
+msgstr "Impossible to connect. The license could not be validated"
+
+#: views/shop-licence-settings.php:44
+#, fuzzy
+msgid "Cette license à expiré."
+msgstr "This license expired in."
+
+#: views/shop-licence-settings.php:46
+#, fuzzy
+msgid "La license a été renouvellée."
+msgstr "The license was renewed."
+
+#: views/shop-licence-settings.php:48
+msgid ""
+"Une erreur s'est produite durant la validation de la licence. La license est "
+"incorrecte ou le code renvoyé par le serveur est inattendu."
+msgstr ""
+"An error occurred while validating the license. The license is incorrect or "
+"the code returned by the server is unexpected."
+
+#: views/shop-product-settings-script.php:2
+#, fuzzy
+msgid "Recréer les codes barres"
+msgstr "Recreate barcodes"
+
+#: views/shop-product-settings-script.php:4
+#, fuzzy
+msgid "Après avoir lancé le processus, veuillez patienter qu'il s'acheve."
+msgstr "After starting the process, please wait it is ending."
+
+#: views/shop-product-settings-script.php:10
+#, fuzzy
+msgid "Complete"
+msgstr "Complete"
+
+#: views/shop-product-settings-script.php:32
+#, fuzzy
+msgid "Récupération des produits en cours..."
+msgstr "Retrieving current products ..."
+
+#: views/shop-product-settings-script.php:52
+msgid "Produits trouvés: "
+msgstr "Items Found :"
+
+#: views/shop-product-settings-script.php:59
+#, fuzzy
+msgid "Suppression du cache..."
+msgstr "Clearing cache ..."
+
+#: views/shop-product-settings-script.php:62
+#, fuzzy
+msgid "Rafraichissement en cours..."
+msgstr "Refresh current ..."
+
+#: views/shop-product-settings-script.php:83
+msgid "Les codes barres des produits ont été correctement mis à jour"
+msgstr "Items bar codes have been successfully updated"
+
+#: views/shop-product-settings.php:8
+#, fuzzy
+msgid "Réglages des produits"
+msgstr "Products Settings"
+
+#: views/shop-product-settings.php:28
+#, fuzzy
+msgid "Choisir le type de Code Barre"
+msgstr "Choosing the type of Barcode"
+
+#: views/shop-product-settings.php:35
+msgid "Hauteur du codebar"
+msgstr "Barcode height"
+
+#: views/shop-product-settings.php:41
+#, fuzzy
+msgid "Largeur des barres"
+msgstr "Width of the bars"
+
+#: views/shop-product-settings.php:47
+#, fuzzy
+msgid "Limite en chiffre sur le code barre"
+msgstr "Limit number on the barcode"
+
+#: views/shop-product-settings.php:48
+#, fuzzy
+msgid "S'applique à tout type de code sauf aux suivants : EAN8, EAN13"
+msgstr "Applies to any type of code except the following: EAN8, EAN13"
+
+#: views/shop-product-settings.php:59
+#, fuzzy
+msgid "Thème des étiquettes des produits"
+msgstr "Theme product labels"
+
+#: views/shop-product-settings.php:60
+#, fuzzy
+msgid "Choisir un template pour les étiquettes des produits."
+msgstr "Choose a template for product labels."
+
+#: views/shop-product-settings.php:62
+#, fuzzy
+msgid "Produits 1/5 sur A4"
+msgstr "Products 1/5 A4"
+
+#: views/shop-product-settings.php:63
+#, fuzzy
+msgid "Produits 1/4 sur A4"
+msgstr "Products 1/4 A4"
+
+#: views/shop-product-settings.php:64
+#, fuzzy
+msgid "Produits 1/3 sur A4"
+msgstr "Products 1/3 A4"
+
+#: views/shop-product-settings.php:65
+#, fuzzy
+msgid "Produits 1/2 sur A4"
+msgstr "Products 1/2 A4"
+
+#: views/shop-product-settings.php:66
+#, fuzzy
+msgid "Produits 1/1 sur A4"
+msgstr "Products 1/1 A4"
+
+#: views/shop-reset-settings.php:5
+#, fuzzy
+msgid "Réinitialiser"
+msgstr "Reset"
+
+#: views/shop-soundeffect-settings.php:19
+#, fuzzy
+msgid "Activer les effets sonores"
+msgstr "Enable sound effects"
+
+#: views/shop-soundeffect-settings.php:22
+#, fuzzy
+msgid "Activer"
+msgstr "Enable"
+
+#~ msgid "Nom de la collection"
+#~ msgstr "Collection Name"
+
+#, fuzzy
+#~ msgid "Liste des arrivages &mdash; Nexo"
+#~ msgstr "List of arrivals &mdash; Nexo"
+
+#, fuzzy
+#~ msgid "Ajouter un nouvel arrivage &mdash; Nexo"
+#~ msgstr "Add a new arrival &mdash; Nexo"
+
+#, fuzzy
+#~ msgid "Ajouter un nouvel arrivage : &mdash; %s"
+#~ msgstr "Add a new arrival: &mdash; %s"
+
+#~ msgid "Gestion & Création des arrivages"
+#~ msgstr "Shipping management"
+
+#~ msgid "Historique des commandes"
+#~ msgstr "Orders history"
+
+#, fuzzy
+#~ msgid "Tous les clients"
+#~ msgstr "All clients"
+
+#~ msgid "Historique des arrivages"
+#~ msgstr "Shipping History"
+
+#~ msgid "Nouvel arrivage"
+#~ msgstr "New Shipping"
+
+#~ msgid "Liste des bons d'avoir"
+#~ msgstr "Good to have list"
+
+#~ msgid "Nouveau bon d'avoir"
+#~ msgstr "New good to have"
+
+#, fuzzy
+#~ msgid "'"
+#~ msgstr "'"
+
+#~ msgid "Liste : %s &mdash; %s"
+#~ msgstr "List: %s -%s"
+
+#, fuzzy
+#~ msgid "Ajouter : %s &mdash; %s"
+#~ msgstr "Add:%s -%s"
+
+#, fuzzy
+#~ msgid "Liste : "
+#~ msgstr "List:"
+
+#, fuzzy
+#~ msgid "Ajouter : "
+#~ msgstr "Add:"
+
+#, fuzzy
+#~ msgid "Créer une nouvelle commande &mdash; %s"
+#~ msgstr "Create a new order -%s"
+
+#, fuzzy
+#~ msgid "Réglages de la boutique &mdash; %s"
+#~ msgstr "Settings Shop -%s"
+
+#~ msgid "Circonstrire les produits"
+#~ msgstr "Circumscribe Items"
+
+#, fuzzy
+#~ msgid "Liste des bonds d'avoir"
+#~ msgstr "List of having bonds"
+
+#, fuzzy
+#~ msgid "Produit concerné (Code Barre)"
+#~ msgstr "Product concerned (bar code)"
+
+#~ msgid ""
+#~ "Impossible d'afficher le ticket de caisse. Cette commande ne possède "
+#~ "aucun produit &mdash; <a href=\"%s\">Retour en arrière</a>"
+#~ msgstr ""
+#~ "Unable to show the receipt. This command has no products - <a href=\"%s"
+#~ "\">Go back</a>"
+
+#, fuzzy
+#~ msgid "Aperçu du produit"
+#~ msgstr "Preview Product"
+
+#, fuzzy
+#~ msgid "Liste des produits"
+#~ msgstr "Product List"
+
+#~ msgid "Ajouter un produit"
+#~ msgstr "Add product"
+
+#, fuzzy
+#~ msgid "Catégorie pour produits d'hommes."
+#~ msgstr "men products category."
+
+#, fuzzy
+#~ msgid "Catégorie pour produits de femmes."
+#~ msgstr "Category for women products."
+
+#, fuzzy
+#~ msgid "Catégorie pour produits pour enfants."
+#~ msgstr "Category for children's products."
+
+#, fuzzy
+#~ msgid "Catégorie pour produits en cadeaux."
+#~ msgstr "Category gift products."
+
+#, fuzzy
+#~ msgid "Produit 1"
+#~ msgstr "Product 1"
+
+#, fuzzy
+#~ msgid "Produit 2"
+#~ msgstr "Product 2"
+
+#, fuzzy
+#~ msgid "Produit 3"
+#~ msgstr "Product 3"
+
+#, fuzzy
+#~ msgid "Produit 4"
+#~ msgstr "Product 4"
+
+#, fuzzy
+#~ msgid "Produit 5"
+#~ msgstr "Product 5"
+
+#, fuzzy
+#~ msgid "Produit 6"
+#~ msgstr "Product 6"
+
+#~ msgid "Produit 7"
+#~ msgstr "Product 7"
+
+#, fuzzy
+#~ msgid "Produit 8"
+#~ msgstr "product 8"
+
+#~ msgid "Produit 9"
+#~ msgstr "Product 9"
+
+#, fuzzy
+#~ msgid "Produit 10"
+#~ msgstr "product 10"
+
+#~ msgid "Licence Nexo attribuée à : %s"
+#~ msgstr "Nexo license issued to :  %s"
+
+#, fuzzy
+#~ msgid "Inconnu"
+#~ msgstr "Unknown"
+
+#, fuzzy
+#~ msgid "Ventes Annuelles"
+#~ msgstr "Annual Sales"
+
+#, fuzzy
+#~ msgid "Réalisation par familles"
+#~ msgstr "Realisation by families"
+
+#, fuzzy
+#~ msgid "Evaluation Annuelle"
+#~ msgstr "Annual Evaluation"
+
+#, fuzzy
+#~ msgid "Statistiques"
+#~ msgstr "Statistics"
+
+#, fuzzy
+#~ msgid "Produits disponibles"
+#~ msgstr "Available Products"
+
+#, fuzzy
+#~ msgid "Impossible d'ajouter ce produit, car le stock vient de s'épuiser."
+#~ msgstr "Unable to add this product because the stock has run out."
+
+#, fuzzy
+#~ msgid "Impossible d'ajouter ce produit, car le stock est épuisé."
+#~ msgstr "Unable to add this product because the stock is exhausted."
+
+#, fuzzy
+#~ msgid "Ce produit est introuvable ou le code est incorrect."
+#~ msgstr "This product is not found or the code is incorrect."
+
+#~ msgid "Aucun produit n\\'a été ajouté au panier"
+#~ msgstr "No products was added to cart"
+
+#, fuzzy
+#~ msgid ""
+#~ "Une erreur fatale s'est produite durant la suppression du produit. Nous "
+#~ "vous recommandons de recommencer le processus de commande. <br><strong>Si "
+#~ "le problème persiste, veuillez contacter l'administrateur ou soumettre un "
+#~ "bug via le formulaire d'assistance.</strong>"
+#~ msgstr ""
+#~ "A fatal error occurred during the removal of the product. We recommend "
+#~ "that you start the ordering process. <br> <strong>If the problem "
+#~ "persists, contact the administrator or post a bug via the support form.</"
+#~ "strong>"
+
+#, fuzzy
+#~ msgid "Une commande sans produit ne peut être soumise"
+#~ msgstr "A command without product can not be submitted"
+
+#, fuzzy
+#~ msgid "Code du produit"
+#~ msgstr "Product Code"
+
+#, fuzzy
+#~ msgid "Reset"
+#~ msgstr "Reset"
+
+#, fuzzy
+#~ msgid "Clients & Remises"
+#~ msgstr "Customers & Discounts"
+
+#, fuzzy
+#~ msgid "Configuration de la caisse"
+#~ msgstr "Bodywork configuration"
+
+#, fuzzy
+#~ msgid "TVA"
+#~ msgstr "VAT"
+
+#, fuzzy
+#~ msgid "Effets Visuel et sonores"
+#~ msgstr "Visual and Sound Effects"
+
+#~ msgid "Reinitialisation"
+#~ msgstr "Reset"
+
+#, fuzzy
+#~ msgid "Total : %s <span class=\"nexo-cart-total-price \">0</span> %s"
+#~ msgstr "Total: <span class=\"nexo-cart-total-price \">0%</span> s%s"
+
+#~ msgid "Price"
+#~ msgstr "Prix"
+
+#, fuzzy
+#~ msgid ""
+#~ "Ce privilège n'est accordé qu'aux utilisateurs ayant le rôle de "
+#~ "gestionnaire de la boutique ou d'administrateur du site."
+#~ msgstr ""
+#~ "This privilege is granted only to users with the role of store manager or "
+#~ "site administrator."
+
+#, fuzzy
+#~ msgid "Activer la promotion"
+#~ msgstr "Enable promotion"
+
+#, fuzzy
+#~ msgid "Début de la promotion"
+#~ msgstr "Start of promotion"
+
+#, fuzzy
+#~ msgid "Fin de la promotion"
+#~ msgstr "End Promotion"
+
+#, fuzzy
+#~ msgid "Afficher la liste"
+#~ msgstr "Show list"
+
+#, fuzzy
+#~ msgid "Tel du client"
+#~ msgstr "Such customer"
+
+#, fuzzy
+#~ msgid "Entrées / Sorties Ex."
+#~ msgstr "input/output"
+
+#, fuzzy
+#~ msgid "Les entrées ext."
+#~ msgstr "Entries ext."
+
+#, fuzzy
+#~ msgid "Nouvelle entrée ext."
+#~ msgstr "New entry ext."
+
+#, fuzzy
+#~ msgid "Les sorties ext."
+#~ msgstr "The outputs ext."
+
+#, fuzzy
+#~ msgid "Nouvelle sortie ext."
+#~ msgstr "New output ext."
+
+#~ msgid "Fiche de référence Prix Par Article"
+#~ msgstr "Reference Sheet Price Per Item"
+
+#, fuzzy
+#~ msgid "Recapitulatif Caisse Annuel"
+#~ msgstr "Annual Fund recap"
+
+#, fuzzy
+#~ msgid "Factures"
+#~ msgstr "Invoices"
+
+#, fuzzy
+#~ msgid "Liste des factures"
+#~ msgstr "Invoices List"
+
+#, fuzzy
+#~ msgid "Nouvelle facture"
+#~ msgstr "New Bill"
+
+#, fuzzy
+#~ msgid "Titre de l'arrivage"
+#~ msgstr "Title arrival"
+
+#, fuzzy
+#~ msgid "Spécifiez le titre de l'arrivage"
+#~ msgstr "Specify the title of the consignment"
+
+#, fuzzy
+#~ msgid "Fournisseur de l'arrivage"
+#~ msgstr "Supplier of inward"
+
+#, fuzzy
+#~ msgid "Veuillez choisir le fournisseur"
+#~ msgstr "Choose supplier"
+
+#, fuzzy
+#~ msgid "Description de l'arrivage"
+#~ msgstr "Description of the consignment"
+
+#, fuzzy
+#~ msgid "Spécifiez une description"
+#~ msgstr "Specify a description"
+
+#, fuzzy
+#~ msgid "Enregistrer l'arrivage"
+#~ msgstr "Save arrival"
+
+#, fuzzy
+#~ msgid "Fiche de référence PPA"
+#~ msgstr "Reference Card APP"
+
+#~ msgid "Somme percu"
+#~ msgstr "perceived sum"
+
+#, fuzzy
+#~ msgid "Mode de paiemenet"
+#~ msgstr "Fashion paiemenet"
+
+#~ msgid ""
+#~ "Une erreur s\\'est produite durant la validation de la licence. La "
+#~ "license est incorrecte ou le code renvoyé par le serveur est inattendu."
+#~ msgstr ""
+#~ "An error occurred while validating the license. The license is incorrect "
+#~ "or the code returned by the server is unexpected."
+
+#~ msgid "Impossble de se connecter. La licence n\\'a pas pu être validée"
+#~ msgstr "Impossble to connect. The license cannot be validated"
+
+#, fuzzy
+#~ msgid "Enregistrer le produit"
+#~ msgstr "Register Product"
+
+#, fuzzy
+#~ msgid "Désignation Produit"
+#~ msgstr "Product designation"
+
+#, fuzzy
+#~ msgid "Nom du produit"
+#~ msgstr "Product name"
+
+#, fuzzy
+#~ msgid "Affecter à un arrivage"
+#~ msgstr "Assign to arrival"
+
+#, fuzzy
+#~ msgid "Attribuer une catégorie"
+#~ msgstr "Assign a category"
+
+#, fuzzy
+#~ msgid "Attribuer à une catégorie"
+#~ msgstr "Assign a category"
+
+#, fuzzy
+#~ msgid "Affecter à un rayon"
+#~ msgstr "Assign to a radius"
+
+#, fuzzy
+#~ msgid "Taille du produit "
+#~ msgstr "Product Item Size"
+
+#, fuzzy
+#~ msgid "Taille du produit"
+#~ msgstr "Product Item Size"
+
+#, fuzzy
+#~ msgid "Poids du produit"
+#~ msgstr "Product Weight"
+
+#, fuzzy
+#~ msgid ""
+#~ "Veuillez définir une valeur numérique. La quantité défectueuse ne peux "
+#~ "pas être supérieure à la quantité disponible des produits."
+#~ msgstr ""
+#~ "Please set a numeric value. The defective amount can not exceed the "
+#~ "available quantity of the products."
+
+#, fuzzy
+#~ msgid "Frais Accéssoires d'achat"
+#~ msgstr "Fresh buying Training Accessories"
+
+#, fuzzy
+#~ msgid "Prix de vente souhaité"
+#~ msgstr "Desired sales price"
+
+#, fuzzy
+#~ msgid ""
+#~ "Ce champ vous permet de calculer le taux de marge, en fournissant un prix "
+#~ "de vente souhaité. Vous n'aurez plus besoin d'enregistrer un taux de "
+#~ "marge, le calcul sera automatique."
+#~ msgstr ""
+#~ "This field allows you to calculate the margin rate, providing a desired "
+#~ "selling price. You will not need to record a margin rate, the calculation "
+#~ "will be automatic."
+
+#, fuzzy
+#~ msgid "Prix promotionnel"
+#~ msgstr "Promo Pricing"
+
+#, fuzzy
+#~ msgid ""
+#~ "Laissez vide si vous ne souhaitez pas appliquer un prix promotionnel sur "
+#~ "le produit"
+#~ msgstr "Leave blank if you do not want to apply a promotional price Product"
+
+#, fuzzy
+#~ msgid "Début de la promition"
+#~ msgstr "Start of promition"
+
+#, fuzzy
+#~ msgid ""
+#~ "Activez les promotions automatiques du produit à une période donnée. "
+#~ "Laissez le champ vide si vous ne souhaitez pas planifier les promotions."
+#~ msgstr ""
+#~ "Enable the automatic promotion of the product at a given time. Leave "
+#~ "blank if you do not want to plan promotions."
+
+#, fuzzy
+#~ msgid "Fin de la promition"
+#~ msgstr "End of promition"
+
+#, fuzzy
+#~ msgid "Couleurs du produit"
+#~ msgstr "Product colors"
+
+#, fuzzy
+#~ msgid "Séparez chaque couleur par une virgule"
+#~ msgstr "Separate each color with a comma"
+
+#, fuzzy
+#~ msgid "Longueur"
+#~ msgstr "Length"
+
+#, fuzzy
+#~ msgid "Veuillez spécifier une description au produits"
+#~ msgstr "Please specify a description to products"
+
+#~ msgid "Description (Pas obligatoire)"
+#~ msgstr "Description (Not Required)"
+
+#, fuzzy
+#~ msgid "Qantité Totale"
+#~ msgstr "Total Qantité"
+
+#, fuzzy
+#~ msgid "Qantité défectueuse"
+#~ msgstr "defective Qantité"
+
+#, fuzzy
+#~ msgid "Enregistrer le fournisseur"
+#~ msgstr "Save Supplier"
+
+#, fuzzy
+#~ msgid "Veuillez spécifier un nom au fournisseur"
+#~ msgstr "Please specify a name to the supplier"
+
+#, fuzzy
+#~ msgid "Nom du founrisseur"
+#~ msgstr "Name founrisseur"
+
+#, fuzzy
+#~ msgid "Veuillez spécifier une description au fournisseur"
+#~ msgstr "Please specify a description of the supplier"
+
+#~ msgid "Boite Postale"
+#~ msgstr "P.O Box"
+
+#, fuzzy
+#~ msgid "BP"
+#~ msgstr "Abbreviation"
+
+#, fuzzy
+#~ msgid "Tel"
+#~ msgstr "Phone"
+
+#~ msgid "<strong>licence Nexo attribuée à </strong> : %s"
+#~ msgstr "<strong>Nexo license issued to : </strong> %s"
+
+#, fuzzy
+#~ msgid "Designation"
+#~ msgstr "Description"
+
+#, fuzzy
+#~ msgid "Qantité"
+#~ msgstr "Qantité"
+
+#, fuzzy
+#~ msgid "Total : <span class=\"nexo-cart-total-price \">0</span> %s"
+#~ msgstr "<span class=\"nexo-cart-total-price \">Total:</span> 0%s"
+
+#, fuzzy
+#~ msgid "F CFA"
+#~ msgstr "CFAF;"
+
+#, fuzzy
+#~ msgid "Aucun produit n'a été ajouté au panier"
+#~ msgstr "No product was added to cart"
+
+#, fuzzy
+#~ msgid "Total : <span class=\"nexo-cart-total-price \">0</span> F CFA"
+#~ msgstr "<span class=\"nexo-cart-total-price \">Total:</span> 0 CFA"
+
+#, fuzzy
+#~ msgid "Qte"
+#~ msgstr "QTY"
+
+#~ msgid "CrÃ©er une nouvelle commande &mdash; %s"
+#~ msgstr "Create a new order -%s"
+
+#, fuzzy
+#~ msgid "Liste des catÃ©gories"
+#~ msgstr "List of class to suit © Categories"
+
+#~ msgid "Ajouter une catÃ©gorie"
+#~ msgstr "Add a category"
+
+#~ msgid "EntrÃ©es / Sorties Ex."
+#~ msgstr "Entry / Outputs Ex."
+
+#~ msgid "Les entrÃ©es ext."
+#~ msgstr "The entry ext."
+
+#~ msgid "Nouvelle entrÃ©e ext."
+#~ msgstr "New entry ext."
+
+#~ msgid "Fiche de rÃ©fÃ©rence PPA"
+#~ msgstr "Result Sheet (Price per Item)"
+
+#~ msgid "Fiche de suivi de stocks gÃ©nÃ©ral"
+#~ msgstr "General Inventory tracking sheet"
+
+#~ msgid "ComptabilitÃ©"
+#~ msgstr "© Comptability"
+
+#~ msgid ""
+#~ "Votre licence a expirÃ©. Veuillez contacter l'administrateur pour "
+#~ "renouveller votre license."
+#~ msgstr ""
+#~ "Your license has expired. Please contact the administrator to renew your "
+#~ "license."
+
+#~ msgid ""
+#~ "La licence que vous avez spÃ©cifiÃ©e est invalide. La prÃ©cÃ©dente "
+#~ "licence a Ã©tÃ© restaurÃ©e. Veuillez contacter l'administrateur pour "
+#~ "corriger le problÃ¨me."
+#~ msgstr ""
+#~ "The license you have specified  is invalid. Previous license has been "
+#~ "restored. Please contact the administrator to correct the problem."
+
+#, fuzzy
+#~ msgid ""
+#~ "Impossible d'Ã©tablir une connexion fiable vers le serveur. Verifiez "
+#~ "votre connexion internet. <br>Vous devez vous connecter pour valider "
+#~ "l'authenticitÃ© de cette licence."
+#~ msgstr ""
+#~ "Ã © impossible to establish a reliable connection to the server. Check "
+#~ "your internet connection. <br> You must login to validate the "
+#~ "authenticity of this license ©."
+
+#, fuzzy
+#~ msgid ""
+#~ "Votre licence Ã  Ã©tÃ© activÃ©e. Merci d'avoir renouvellÃ© votre "
+#~ "abonnement."
+#~ msgstr ""
+#~ "Your license Ã © © been activated © e. © renouvellÃ thank you for your "
+#~ "subscription."
+
+#, fuzzy
+#~ msgid "<strong>licence Nexo attribuÃ©e Ã  </strong> : %s"
+#~ msgstr "<strong>Nexo attributed © e license to:%</strong> s"
+
+#, fuzzy
+#~ msgid "RÃ©alisation par familles"
+#~ msgstr "RÃ © realization by families"
+
+#, fuzzy
+#~ msgid "RÃ©glages Nexo"
+#~ msgstr "RÃ © Nexo settings"
+
+#, fuzzy
+#~ msgid "Sauvegarder les rÃ©glages"
+#~ msgstr "Save settings © Result"
+
+#, fuzzy
+#~ msgid "Veuillez prÃ©ciser votre licence."
+#~ msgstr "Please plan © specify your license."
+
+#, fuzzy
+#~ msgid "License attribuÃ©e Ã "
+#~ msgstr "License attributed © e Ã"
+
+#, fuzzy
+#~ msgid "Veuillez prÃ©ciser un nom"
+#~ msgstr "Please plan © specify a name"
+
+#, fuzzy
+#~ msgid "Gestion & CrÃ©ation des arrivages"
+#~ msgstr "Management & Credits © ation arrivals"
+
+#, fuzzy
+#~ msgid "SpÃ©cifiez le titre de l'arrivage"
+#~ msgstr "© Spec cifiez the title of arrival"
+
+#, fuzzy
+#~ msgid "SpÃ©cifiez une description"
+#~ msgstr "© Spec cifiez description"
+
+#, fuzzy
+#~ msgid "Gestion & CrÃ©ation des rayons"
+#~ msgstr "Management & Credits © ation rays"
+
+#, fuzzy
+#~ msgid "Gestion & CrÃ©ation des categories"
+#~ msgstr "Management & Credits © ation Categories"
+
+#, fuzzy
+#~ msgid "Gestion & CrÃ©ation des clients"
+#~ msgstr "Management & Credits © ation client"
+
+#, fuzzy
+#~ msgid "PerÃ§u :"
+#~ msgstr "PerÃ§u:"
+
+#, fuzzy
+#~ msgid "OpÃ©ration"
+#~ msgstr "OpÃ © ration"
+
+#, fuzzy
+#~ msgid "Gestion & CrÃ©ation des commandes"
+#~ msgstr "Management & Credits © ation orders"
+
+#, fuzzy
+#~ msgid "Impossible d'ajouter ce produit, car le stock vient de s'Ã©puiser."
+#~ msgstr "Unable to add this product because the stock was just © tap."
+
+#, fuzzy
+#~ msgid "Impossible d'ajouter ce produit, car le stock est Ã©puisÃ©."
+#~ msgstr "Unable to add this product because the stock is exhausted Ã © ©."
+
+#, fuzzy
+#~ msgid "Aucun produit n\\'a Ã©tÃ© ajoutÃ© au panier"
+#~ msgstr "No products don \\ 'has been Ã © © © added to cart"
+
+#, fuzzy
+#~ msgid ""
+#~ "Une erreur fatale s'est produite durant la suppression du produit. Nous "
+#~ "vous recommandons de recommencer le processus de commande. <br><strong>Si "
+#~ "le problÃ¨me persiste, veuillez contacter l'administrateur ou soumettre "
+#~ "un bug via le formulaire d'assistance.</strong>"
+#~ msgstr ""
+#~ "A fatal error occurred during the removal of the product. We recommend "
+#~ "that you start the ordering process. <br> <strong>If the problem "
+#~ "persists, contact the administrator or post a bug via the support form.</"
+#~ "strong>"
+
+#, fuzzy
+#~ msgid "Une commande sans produit ne peut Ãªtre soumise"
+#~ msgstr "A command without product can not be submitted"
+
+#, fuzzy
+#~ msgid "Gestion & CrÃ©ation des fournisseurs"
+#~ msgstr "Management & Credits © ation suppliers"
+
+#, fuzzy
+#~ msgid "Veuillez spÃ©cifier un nom au fournisseur"
+#~ msgstr "Please specializations © cifier a vendor name"
+
+#, fuzzy
+#~ msgid "Veuillez spÃ©cifier une description au fournisseur"
+#~ msgstr "Please specializations © cifier a description to the supplier"
+
+#, fuzzy
+#~ msgid "TÃ©lÃ©phone"
+#~ msgstr "TÃ © lÃ © phone"
+
+#, fuzzy
+#~ msgid "Gestion & CrÃ©ation des moyens de paiements"
+#~ msgstr "Management & Credits © ation means of payment"
+
+#, fuzzy
+#~ msgid "Gestion & CrÃ©ation des produits"
+#~ msgstr "Management & Credits © ation products"
+
+#, fuzzy
+#~ msgid "DÃ©signation Produit"
+#~ msgstr "© signation Product Detail"
+
+#, fuzzy
+#~ msgid "Affecter Ã  un arrivage"
+#~ msgstr "Assign at a consignment"
+
+#, fuzzy
+#~ msgid "Attribuer une catÃ©gorie"
+#~ msgstr "Assigning a class to suit © gory"
+
+#, fuzzy
+#~ msgid "Attribuer Ã  une catÃ©gorie"
+#~ msgstr "Assigning a class to suit Ã © gory"
+
+#, fuzzy
+#~ msgid "Affecter Ã  un rayon"
+#~ msgstr "Assign at a radius"
+
+#, fuzzy
+#~ msgid "QuantitÃ©"
+#~ msgstr "Quantity ©"
+
+#, fuzzy
+#~ msgid "QuantitÃ© dÃ©fectueuse"
+#~ msgstr "Quantity © dÃ © defective"
+
+#, fuzzy
+#~ msgid ""
+#~ "Veuillez dÃ©finir une valeur numÃ©rique. La quantitÃ© dÃ©fectueuse ne "
+#~ "peux pas Ãªtre supÃ©rieure Ã  la quantitÃ© disponible des produits."
+#~ msgstr ""
+#~ "Please dÃ © finish a value Numa © America. The quantitative © dÃ © "
+#~ "defective can not be higher supa © Ã © Quantità the available products."
+
+#, fuzzy
+#~ msgid "Frais AccÃ©ssoires d'achat"
+#~ msgstr "ACCA purchase costs © ries"
+
+#, fuzzy
+#~ msgid "Frais AccÃ©ssoires"
+#~ msgstr "ACCA fees © ries"
+
+#, fuzzy
+#~ msgid "Prix de vente souhaitÃ©"
+#~ msgstr "Sale price wished ©"
+
+#, fuzzy
+#~ msgid ""
+#~ "Ce champ vous permet de calculer le taux de marge, en fournissant un prix "
+#~ "de vente souhaitÃ©. Vous n'aurez plus besoin d'enregistrer un taux de "
+#~ "marge, le calcul sera automatique."
+#~ msgstr ""
+#~ "This field allows you to calculate the margin rate, providing a sales "
+#~ "price © wished. You will not need to record a margin rate, the "
+#~ "calculation will be automatic."
+
+#, fuzzy
+#~ msgid "DÃ©but de la promition"
+#~ msgstr "DÃ © purpose of promition"
+
+#, fuzzy
+#~ msgid "DÃ©but de la promotion"
+#~ msgstr "DÃ © purpose of promoting"
+
+#, fuzzy
+#~ msgid ""
+#~ "Activez les promotions automatiques du produit Ã  une pÃ©riode donnÃ©e. "
+#~ "Laissez le champ vide si vous ne souhaitez pas planifier les promotions."
+#~ msgstr ""
+#~ "Enable the automatic promotion of the product at a pÃ © riod data © e. "
+#~ "Leave blank if you do not want to plan promotions."
+
+#, fuzzy
+#~ msgid "SÃ©parez chaque couleur par une virgule"
+#~ msgstr "SÃ © adorn each color by commas"
+
+#, fuzzy
+#~ msgid "Veuillez spÃ©cifier une description au produits"
+#~ msgstr "Please specializations © cifier a description to products"

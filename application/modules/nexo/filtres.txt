@@ -1,0 +1,47 @@
+Filtres:
+========
+/**
+ * nexo_daily_details_link 
+ * lien vers le rapport détaillé du jour.
+**/
+
+/** 
+ * nexo_daily_refresh_link // Deprecated 
+ * lien pour rafraichir un rapport spécifique
+**/
+
+/**
+ * nexo_barcode_type
+ * Permet d'étendre ou de réduire le type de codebar pris en charge
+**/
+
+/**
+ * nexo_reports_menu_array
+ * Contient le menu des rapports
+**/
+
+/**
+ * nexo_shipping_menu_array
+ * Contient le menu des arrivages
+**/
+
+/**
+ * nexo_customers_menu_array
+ * Contient le menu des clients
+**/
+
+/**
+ * nexo_accounting_menu_array
+ * Contient le menu des accounting
+**/
+
+
+/**
+ * nexo_history_menu_array
+ * Contient le menu des history
+**/
+
+/**
+ * nexo_settings_menu_array
+ * Contient le menu des settings
+**/
