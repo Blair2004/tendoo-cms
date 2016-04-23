@@ -10,6 +10,7 @@ class Dashboard_Widgets_Model extends CI_Model
 			}
 		}
 	}
+	
 	/**
 	 * Create a new Admin Widget
 	 * 
@@ -19,6 +20,7 @@ class Dashboard_Widgets_Model extends CI_Model
 	 * @param array widget config
 	 * @return void
 	**/
+	
 	function add( $namespace, $config )
 	{
 		// Get Admin Widgets
@@ -96,6 +98,14 @@ class Dashboard_Widgets_Model extends CI_Model
 			}
 		}
 	}
+	
+	/**
+	 * Save Widget posistions
+	 * 
+	 * @params string namespace
+	 * @params int Col Id
+	 * @return void
+	**/
 	
 	function save_positions( $widgets_namespaces, $col_id )
 	{

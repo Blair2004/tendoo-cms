@@ -23,7 +23,7 @@ Tendoo Version Required : 1.5
 *	Details 	: Output content before cols
 *	Usage 		: set 'after_cols' key with GUI::config()
 **/
-    
+
     echo 	$this->events->apply_filters( 'gui_before_cols' , '' );
     
     ?>

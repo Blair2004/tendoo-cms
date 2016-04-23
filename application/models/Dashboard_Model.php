@@ -20,6 +20,13 @@ class Dashboard_Model extends CI_Model
 		// $this->events->add_filter( 'dashboard_home_output', array( $this, '__home_output' ) );
 	}
 	
+	/**
+	 * Load Dashboard
+	 * Enqueue File to assest helper
+	 * 
+	 * @return void
+	**/
+	
 	function load_dashboard()
 	{
 		// Enqueuing slimscroll
@@ -57,6 +64,7 @@ class Dashboard_Model extends CI_Model
 
 	/**
 	 * Load dashboard widgets
+	 * @return void
 	**/
 	
 	function load_widgets()
@@ -102,6 +110,12 @@ class Dashboard_Model extends CI_Model
 		}
 	}
 	
+	/**
+	 * Load Dashboard Footer
+	 * 
+	 * @return void
+	**/
+	
 	function __dashboard_footer()
 	{
 		$segments	= $this->uri->segment_array();
@@ -135,7 +149,9 @@ $(document).ready(function(){
 		});
 		tendoo.options.set( 'dashboard_widget_position', newSet, true );
 	}
+	
 	var actionAllower	=	{};
+	
 	$('.row .meta-row').sortable({
 		grid			:	[ 10 , 10 ],
 		connectWith		: 	".row .meta-row",
@@ -168,6 +184,13 @@ $('[data-meta-namespace]').find( '[data-widget]' ).bind( 'click', function(){
 </script>
         <?php
 	}
+	
+	/**
+	 * Dashboard Header
+	 * 
+	 * @return void
+	**/
+	
 	function __dashboard_header()
 	{
 		?>
@@ -289,20 +312,30 @@ tendoo.options			=	new function(){
     }
 }
 tendoo.loader			=	new function(){
+	this.int			=	0;
 	this.show			=	function(){
-		$('#tendoo-spinner').hide();
-		var cl = new CanvasLoader('tendoo-spinner');
-		cl.setColor('#ffffff'); // default is '#000000'
-		cl.setDiameter(35); // default is 40
-		cl.setDensity(56); // default is 40
-		cl.setSpeed(3); // default is 2
-		cl.show(); // Hidden by default
-		$('#tendoo-spinner').fadeIn(500);
+
+		this.int++;
+
+		if( this.int == 1 ) {
+			var cl = new CanvasLoader('tendoo-spinner');
+			cl.setColor('#ffffff'); // default is '#000000'
+			cl.setDiameter(35); // default is 40
+			cl.setDensity(56); // default is 40
+			cl.setSpeed(3); // default is 2
+			cl.show(); // Hidden by default
+			$('#tendoo-spinner').fadeIn(500);
+		}
 	}
 	this.hide			=	function(){
-		$('#tendoo-spinner').fadeOut(500, function(){
-			$(this).html('').show();
-		})
+
+		this.int--;
+		
+		if( this.int == 0 ){
+			$('#tendoo-spinner').fadeOut(500, function(){
+				$(this).html('').show();
+			})
+		}
 	}
 }
 /**
@@ -321,18 +354,32 @@ $(document).ready(function(){
 	$( document ).ajaxError(function() {
 	  tendoo.loader.hide();
 	});
-	$( document ).ajaxStart(function() {
+	$( document ).ajaxSend(function() {
 	  tendoo.loader.show();
 	});
 });
 </script>
 		<?php
 	}
+	
+	/**
+	 * Dashboard Config
+	 * 
+	 * @return void
+	**/
+	
 	function __dashboard_config()
 	{
 		$this->Gui->register_page( 'index' , array( $this , 'index' ) );
 		$this->Gui->register_page( 'settings' , array( $this , 'settings' ) );
 	}
+	
+	/**
+	 * Dashboard Home Load
+	 * 
+	 * @return void
+	**/
+	
 	function index()
 	{
 		// load widget model here only
@@ -346,6 +393,12 @@ $(document).ready(function(){
 		$this->load->view( 'dashboard/index/body' );
 	}
 	
+	/**
+	 * Load Tendoo Setting Page
+	 * 
+	 * @return void
+	**/
+	
 	function settings()
 	{
 		// ! User::can( 'manage_options' ) ? redirect( array( 'dashboard', 'access-denied' ) ): null ;
@@ -353,6 +406,12 @@ $(document).ready(function(){
 		$this->Gui->set_title( sprintf( __( 'Settings &mdash; %s' ) , get( 'core_signature' ) ) );
 		$this->load->view( 'dashboard/settings/body' );
 	}
+	
+	/**
+	 * Load Dashboard Menu
+	 * 
+	 * @return void
+	**/
 	
 	public function __set_admin_menu()
 	{		

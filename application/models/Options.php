@@ -31,6 +31,7 @@ class Options extends CI_Model
 		 * If language is set on dashboard
 		 * @since 3.0.5
 		**/
+		
 		if( riake( 'site_language', $Options ) ) {
 			get_instance()->config->set_item( 'site_language', $Options[ 'site_language' ] );
 		}

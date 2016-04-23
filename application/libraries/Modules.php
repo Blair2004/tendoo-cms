@@ -3,6 +3,7 @@ class Modules
 {
 	private static	$modules;
 	private static $actives  = array();
+	
 	/**
 	 * Load Modules
 	 *
@@ -13,6 +14,7 @@ class Modules
 	 * @param		  int $deepness
 	 * @since        3.0.1
 	 */
+	 
 	static function load( $module_path , $deepness = 0 )
 	{
 		if( $deepness < 2 ){ // avoid multi-folder parsing
@@ -72,6 +74,7 @@ class Modules
 	 * @since        3.0.1
 	 * @return 		  var
 	 */
+	 
 	static function hashDirectory($directory)
 	{
 		 if (! is_dir($directory))
@@ -136,6 +139,7 @@ class Modules
 	 * @since        3.0.1
 	 * @return 		  void
 	 */
+	 
 	static function init( $filter , $module_namespace = null )
 	{
 		if( $module_namespace != null ){
@@ -192,6 +196,7 @@ class Modules
 	 * @since        3.0.1
 	 * @return 		  void|bool
 	 */
+	 
 	static function enable( $module_namespace )
 	{
 		// If self::enable(...) is called twice, cache is disabled.

@@ -22,10 +22,10 @@ user_header_sign_out_link	:	contain sign out link displayed on user header menu 
 tendoo_object_user_id		:	contain user id for tendoo object  saved on header.php
 recovery_fields			:	 contain user account recovery fields (views/sign-in/recovery.php)
 gui_page_title				:	let you change gui page title	
+gui_before_cols				:	Content before GUI Cols
 module_activation_status	:	contain module activation status
 module_disabling_status		:	containt module disabling status 
 user_id						:	return user id
-dashboard_home_output	(deprecated)		:	output for dashboard
 default_css_libraries		:	array of tendoo dahsboard css files
 default_js_libraries		:	array of tendoo dahsboard js files
 dashboard_footer_text		:	default footer text

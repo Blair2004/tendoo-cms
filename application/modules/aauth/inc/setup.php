@@ -65,6 +65,7 @@ class aauth_setup extends CI_model
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `name` varchar(100),
 		  `definition` text,
+		  `description` text,
 		  `is_admin` int(11) NOT NULL,
 		  PRIMARY KEY (`id`)
 		) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;" );
@@ -76,6 +77,7 @@ class aauth_setup extends CI_model
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `name` varchar(100),
 		  `definition` text,
+		  `description` text,
 		  PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		" );

@@ -5,6 +5,13 @@ class Theme
 	// Hold loaded themes
 	private static $themes	=	array(); 
 	
+	/**
+	 * Load Theme
+	 * 
+	 * @params string Path,
+	 * @return void
+	**/
+	
 	public static function Load( $path )
 	{
 		if( is_dir( $path ) ) {

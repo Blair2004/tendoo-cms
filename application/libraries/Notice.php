@@ -9,10 +9,19 @@ class notice
 	**/
 	
 	private $notice;
+	
 	public function __construct()
 	{
 		$this->notice = '';
 	}
+	
+	/**
+	 * Push notification to Notice Array
+	 * 
+	 * @params Array
+	 * @return void
+	**/
+	
 	public function push_notice($e)
 	{
 		$this->notice[]	=	$e;
@@ -23,6 +32,7 @@ class notice
 	 *
 	 *
 	**/
+	
 	public function push_notice_array( $notice_array )
 	{
 		if( is_array( $notice_array ) )
@@ -37,6 +47,14 @@ class notice
 			$this->push_notice( get_instance()->lang->line( $notice_array ) );
 		}
 	}
+	
+	/**
+	 * Output a notice
+	 * 
+	 * @params bool whether to return or not notices
+	 * @return void/bool
+	**/
+	
 	public function output_notice($return = FALSE)
 	{
 		if(is_array($this->notice))
@@ -76,6 +94,13 @@ class notice
 			return $this->notice;
 		}
 	}
+	
+	/**
+	 * Return notice array
+	 * 
+	 * @return array
+	**/
+	
 	public function get_notice_array()
 	{
 		return $this->notice;

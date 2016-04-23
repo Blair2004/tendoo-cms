@@ -64,6 +64,7 @@ tendoo.app		=	function(){
 			}
 		}
 	}
+	
 	this.ui				=	new function(){
 		this.loader		=	new function(){
 			this.start	=	function(){

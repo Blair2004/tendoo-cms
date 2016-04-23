@@ -37,10 +37,22 @@ class PostType
 		$posttypes[ $this->namespace ]	=	$this;		
 		get_instance()->config->set_item( 'posttypes' , $posttypes );
 	}
+	
+	/**
+	 * Get config
+	 * 
+	**/
+	
 	function get_config()
 	{
 		return $this->config;
 	}
+	
+	/**
+	 * Run Post Type Menus
+	 * 
+	**/
+	
 	function run()
 	{
 		$this->events->add_filter( 'admin_menus' , function( $menus ){

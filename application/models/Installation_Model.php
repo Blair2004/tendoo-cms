@@ -73,6 +73,14 @@ class Installation_Model extends CI_Model
 
 		return 'database-installed';
 	}
+	
+	/**
+	 * Create a config file
+	 * 
+	 * @params Array config data
+	 * @return Void
+	**/
+	
 	public function create_config_file( $config )
 	{
 		/* CREATE CONFIG FILE */
@@ -113,6 +121,14 @@ if(!defined('DB_PREFIX'))
 		fwrite( $file , $string_config );
 		fclose( $file );
 	}
+	
+	/**
+	 * Final Configuration
+	 * 
+	 * @params string Site Name
+	 * @return mixed
+	**/
+	
 	function final_configuration( $site_name )
 	{
 		// Saving Site name

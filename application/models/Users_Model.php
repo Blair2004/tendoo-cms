@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Users_model extends CI_Model
 {
 	private $meta			=	array(); // empty meta
+	
 	function __construct()
 	{
 		parent::__construct();
@@ -22,20 +23,34 @@ class Users_model extends CI_Model
 		}
 	}
 	
+	/**
+	 * Refresh User Meta
+	 * @return void
+	**/
+	
 	function refresh_user_meta()
 	{
 		$this->meta		=	$this->options->get( null , $this->auth->get_user_id() , true );
 		$this->current	=	$this->auth->get_user();	
 	}
+	
+	/**
+	 * Get user Meta
+	 * 
+	 * @return mixed
+	**/
+	
 	public function get_meta( $key )
 	{
 		return riake( $key , $this->meta );
 	}
+	
 	/**
 	 * Checks whether a user is connected 
 	 *
 	 *	@return : bool
 	**/
+	
 	function is_connected()
 	{
 		return $this->auth->is_loggedin();
@@ -61,6 +76,12 @@ class Users_model extends CI_Model
 	}
 	
 	// Should be called by tendoo only
+	/**
+	 * Create default Group
+	 * 
+	 * @return void
+	**/
+	
 	function create_default_groups()
 	{
 		// Only create if group does'nt exists (it's optional)
@@ -91,6 +112,10 @@ class Users_model extends CI_Model
 	
 	/**
 	 * Creae Master User
+	 * @params string Email
+	 * @params string password
+	 * @params string user name
+	 * @return string
 	**/
 	
 	function create_master( $email , $password , $username )
@@ -229,7 +254,8 @@ class Users_model extends CI_Model
 		return $this->auth->delete_user( $user_id );
 	}
 	/**
-	 *
+	 * 	Log User Out
+	 *	@return bool
 	**/
 	
 	function logout()
@@ -239,6 +265,8 @@ class Users_model extends CI_Model
 	
 	/**
 	 * Login
+	 * @params string
+	 * @return string
 	**/
 	
 	function login( $login_fields_namespace )
@@ -258,6 +286,8 @@ class Users_model extends CI_Model
 	
 	/**
 	 * Send recovery email to an registered email
+	 * @params string email
+	 * @return string;
 	**/
 	
 	function do_send_recovery( $email )
@@ -272,9 +302,13 @@ class Users_model extends CI_Model
 			return 'unknow-email';
 		}
 	}
+	
 	/**
 	 * Get user By id
+	 * @params int
+	 * @return array
 	**/
+	
 	function get( $user_id )
 	{
 		$user	=	$this->auth->get_user_by_id( $user_id );
@@ -331,7 +365,7 @@ class Users_model extends CI_Model
 			if( $group_name )
 			{
 				// Update group name
-				$this->auth->update_group($group_id, $name );
+				$this->auth->update_group( $group_id, $name );
 				
 				// get all groups types
 				$admin_groups		=	force_array( $this->options->get( 'admin_groups' ) );
@@ -377,12 +411,18 @@ class Users_model extends CI_Model
 		return 'group-already-exists';
 	}
 	
+	/**
+	 * Create default permission
+	 * 
+	 * @return void
+	**/
+	
 	function create_permissions()
 	{
 		// Creating default permissions
-		$this->auth->create_perm( 'manage_options' , __( 'Let user access settings page and to manage it.' ) ); // index 1
-		$this->auth->create_perm( 'manage_modules' , __( 'Let user access to modules list and to manage it.' ) ); // 2
-		$this->auth->create_perm( 'manage_users' , __( 'Let user access user list and manage them.' ) ); // index 3		
+		$this->auth->create_perm( 'manage_options' , __( 'Manage Options' ), __( 'Let user access settings page and to manage it.' ) ); // index 1
+		$this->auth->create_perm( 'manage_modules' , __( 'Manage Modules' ), __( 'Let user access to modules list and to manage it.' ) ); // 2
+		$this->auth->create_perm( 'manage_users' , __( 'Mange Users' ), __( 'Let user access user list and manage them.' ) ); // index 3		
 
 		// Master		
 		$this->users->auth->allow_group( 'master' , 'manage_options' );

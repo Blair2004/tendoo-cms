@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tendoo CMS\n"
 "POT-Creation-Date: 2016-04-09 02:48+0100\n"
-"PO-Revision-Date: 2016-04-09 03:11+0100\n"
+"PO-Revision-Date: 2016-04-23 04:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: fr\n"
@@ -955,9 +955,8 @@ msgstr "Obtenez récupération Email"
 
 #: modules/aauth/inc/fields.php:40 modules/aauth/inc/fields.php:103
 #: modules/aauth/inc/rules.php:17 modules/aauth/views/users/body.php:34
-#, fuzzy
 msgid "Email"
-msgstr "Adresse PayPal du fournisseur ou les profits seront versés"
+msgstr "Email"
 
 #: modules/aauth/inc/fields.php:48
 #, fuzzy
@@ -1168,9 +1167,8 @@ msgstr "Nom d’utilisateur"
 #: modules/post_type/views/comments-list.php:12
 #: modules/post_type/views/create.php:88 modules/post_type/views/edit.php:89
 #: modules/post_type/views/list.php:11
-#, fuzzy
 msgid "Status"
-msgstr "Statut de Commission n'a pas été mis à jour"
+msgstr "Status"
 
 #: modules/aauth/views/users/body.php:34
 #, fuzzy

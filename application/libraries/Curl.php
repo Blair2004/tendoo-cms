@@ -18,10 +18,26 @@ class Curl
 		}
 		
 	}
+	
+	/**
+	 * Set Option
+	 * 
+	 * @params Array object
+	 * @params string value
+	**/
+	
 	public function _setOpt($opts,$value)
 	{
 		curl_setopt($this->co,$opts,$value);
 	}
+	
+	/**
+	 * Show Image
+	 * 
+	 * @params bool 
+	 * @return void
+	**/
+	
 	public function showImg($e)
 	{
 		if(is_bool($e))
@@ -29,6 +45,13 @@ class Curl
 			$this->loadImage = $e;
 		}
 	}
+	
+	/**
+	 * Exec Curl
+	 * 
+	 * @return void
+	**/
+	
 	public function _exec()
 	{
 		if(!isset($this->userAgent))
@@ -65,10 +88,24 @@ class Curl
 			}
 		}
 	}
+	
+	/**
+	 * Set user Agent
+	 * 
+	 * @params string agent name
+	 * @return void
+	**/
+	
 	public function userAgent($userAgent)
 	{
 		$this->userAgent	=	$userAgent;
 	}
+	
+	/**
+	 * Set follow to CURL
+	 * @return void
+	**/
+	
 	public function follow($e)
 	{
 		if(is_bool($e))
@@ -76,10 +113,26 @@ class Curl
 			$this->_setOpt(CURLOPT_FOLLOWLOCATION,$e);
 		}
 	}
+	
+	/**
+	 * Load Style
+	 * 
+	 * @return void
+	**/
+	
 	public function stylish($e)
 	{
 		is_bool($e)? $this->stylish = $e : $this->stylish = FALSE;
 	}
+	
+	/**
+	 * Post
+	 * 
+	 * @params string Url
+	 * @params Array definition
+	 * @return obj exect object
+	**/
+	
 	public function post($url,$data)
 	{
 		$this->_setOpt(CURLOPT_URL,$url);
@@ -87,16 +140,42 @@ class Curl
 		$this->_setOpt(CURLOPT_POSTFIELDS, $data);
 		return $this->_exec();
 	}
+	
+	/**
+	 * Get CURL content
+	 * 
+	 * @params string Url
+	 * @return bool
+	**/
+	
 	public function get($url)
 	{
 		$this->_setOpt(CURLOPT_URL,$url);
 		return $this->_exec();
 	}
+	
+	/**
+	 * Enable Security
+	 * 
+	 * @params bool
+	 * @return Object
+	**/
+	
 	public function security($option)
 	{
 		if(is_bool($option)):$this->_setOpt(CURLOPT_SSL_VERIFYPEER,$option);endif;
 		return $this;
 	}
+	
+	/**
+	 * Update User Permission
+	 * 
+	 * @params int user id,
+	 * @params string name
+	 * @params string definition
+	 * @return bool
+	**/
+	
 	public function returnContent($e)
 	{
 		if(is_bool($e))

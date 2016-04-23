@@ -70,19 +70,43 @@ class User
 		return $Instance->auth->is_group_allowed( $permission );
 	}
 	
-	static function create_permission( $permission , $definition )
+	/**
+	 * Create User Permission
+	 * 
+	 * @params string permission
+	 * @params string definition
+	 * @return bool
+	**/
+	
+	static function create_permission( $permission , $definition, $description = '' )
 	{
-		return get_instance()->auth->create_perm($permission, $definition='');
+		return get_instance()->auth->create_perm($permission, $definition='', $description = '');
 	}
+	
+	/**
+	 * Delete User Permission
+	 * 
+	 * @params int user id,
+	 * @return bool
+	**/
 	
 	static function delete_permission( $permission )
 	{
 		return get_instance()->auth->delete_perm($perm_par);
 	}
 	
-	static function update_permission( $perm_id , $name , $definition )
+	/**
+	 * Update User Permission
+	 * 
+	 * @params int user id,
+	 * @params string name
+	 * @params string definition
+	 * @return bool
+	**/
+	
+	static function update_permission( $perm_id , $name , $definition, $description = '' )
 	{
-		return get_instance()->auth->update_perm($perm_id, $name, $definition);
+		return get_instance()->auth->update_perm($perm_id, $name, $definition, $description = '' );
 	}
 	
 	// Groups
@@ -96,9 +120,9 @@ class User
 	 * @return string
 	**/
 	
-	static function create_group( $name , $description , $type )
+	static function create_group( $name , $definition , bool $is_admin , $description)
 	{
-		return get_instance()->users->set_group( $name , $description , $type , $mode = 'create' , $group_id = 0 );
+		return get_instance()->auth->create_group( $name , $definition , $is_admin , $description );
 	}
 	
 	/**
@@ -109,9 +133,9 @@ class User
 	 * @params string, string, string, int
 	**/
 	
-	static function update_group( $id , $name , $description , $type )
+	static function update_group( $id , $name , $definition , bool $is_admin, $description )
 	{
-		return get_instance()->users->set_group( $name , $description , $type , $mode = 'edit' , $id = 0 );
+		return get_instance()->auth->update_group( $id, $name , $definition , $is_admin , $description );
 	}
 	
 	/**
@@ -129,10 +153,26 @@ class User
 		return get_instance()->auth->is_member( $group_name );
 	}
 	
+	/**
+	 * Allow Group 
+	 * Add a permission to a group
+	 * 
+	 * @params int Group id
+	 * @params int Permission id
+	 * @return bool
+	**/
+	
 	static function allow_group( $group_id , $permission_id )
 	{
 		return get_instance()->auth->allow_group($group_id, $permission_id );
 	}
+	
+	/**
+	 * Delete User Group
+	 * 
+	 * @params int Group Id
+	 * @return bool
+	**/
 	
 	static function delete_group( $group_id )
 	{

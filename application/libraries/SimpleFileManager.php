@@ -4,6 +4,13 @@
 **/
 class SimpleFileManager 
 {
+	/**
+	 * Drop file from source
+	 * 
+	 * @params string path to file
+	 * @return bool/void
+	**/
+	
 	static function drop($source)
 	{
 		if(is_dir($source))
@@ -27,6 +34,15 @@ class SimpleFileManager
 		}
 		return true;
 	}
+	
+	/**
+	 * Move file to a destination path
+	 * 
+	 * @params string source path
+	 * @params string destination path
+	 * @return void
+	**/
+	
 	static function extractor($source,$destination,$dir_limit = 10)
 	{
 		if(!is_dir($destination))
@@ -73,6 +89,15 @@ class SimpleFileManager
 			self::drop($source);
 		}
 	}
+	
+	/**
+	 * Copy a file from a source to a destination
+	 * 
+	 * @params string Source path
+	 * @params string Destiantion path
+	 * @return bool/void
+	**/
+	
 	static function file_copy( $source , $destination )
 	{
 		if( is_file( $source ) )
@@ -97,6 +122,15 @@ class SimpleFileManager
 		}
 		return false;
 	}
+	
+	/**
+	 * Copy directory from a source to a destination path
+	 * 
+	 * @params string Source path
+	 * @params string Destination Path
+	 * @return void
+	**/
+	
 	static function copy($source,$destination,$dir_limit = 10)
 	{
 		if(!is_dir($destination))

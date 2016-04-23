@@ -19,6 +19,9 @@ class GUI extends CI_Model
 	
 	/**
 	 * Register page for dashboard
+	 * @params string Page Slug
+	 * @params Function
+	 * @return void
 	**/
 	
 	function register_page( $page_slug , $function )
@@ -31,7 +34,8 @@ class GUI extends CI_Model
 		
 	/** 
 	 * Load created page
-	 *
+	 * @params String page slug
+	 * @params Array params
 	**/
 	
 	public function load_page( $page_slug , $params )
@@ -79,6 +83,7 @@ class GUI extends CI_Model
 	
 	/**
 	 * Page title
+	 * @string Page Title
 	**/
 	
 	function set_title( $title )
@@ -106,6 +111,13 @@ class GUI extends CI_Model
 			$this->cols[ $col_id ][ 'width' ]	=	$width;
 		}
 	}
+	
+	/**
+	 * Get Col
+	 * 
+	 * @params int Col Id
+	 * @return bool
+	**/
 	
 	function get_col( $col_id )
 	{
@@ -151,6 +163,16 @@ class GUI extends CI_Model
 		}
 	}
 	
+	/**
+	 * Add Item
+	 * Add item meta box
+	 * 
+	 * @params Array Config
+	 * @params String meta namespace
+	 * @params int Col id
+	 * @return void
+	**/
+	
 	function add_item( $config , $metanamespace , $col_id )
 	{
 		if( in_array( $col_id , array( 1 , 2 , 3 , 4 ) ) && riake( 'type' , $config ) )
@@ -158,6 +180,12 @@ class GUI extends CI_Model
 			$this->cols[ $col_id ][ 'metas' ][ $metanamespace ][ 'items' ][]	=	$config;
 		}
 	}
+	
+	/**
+	 * Output
+	 * Output GUI content
+	 * @return void
+	**/
 	
 	public function output()
 	{
@@ -177,6 +205,7 @@ class GUI extends CI_Model
 	 *	@access		:	Public
 	 *	@returns	:	Array
 	**/
+	
 	function get_cols()
 	{
 		return $this->cols;

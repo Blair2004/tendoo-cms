@@ -1024,6 +1024,7 @@ class Aauth {
 	 * @param int|bool $user_id User id to get or FALSE for current user
 	 * @return array Groups
 	 */
+	 
 	public function get_user_groups($user_id = FALSE){
 
 		if ($user_id==FALSE) { $user_id = $this->CI->session->userdata('id'); }
@@ -1082,7 +1083,7 @@ class Aauth {
 	 * @param string $group_name New group name
 	 * @return int|bool Group id or FALSE on fail
 	 */
-	public function create_group($group_name, $definition = null, $is_admin = FALSE ) {
+	public function create_group($group_name, $definition = null, $is_admin = FALSE, $description = '' ) {
 
 		$query = $this->CI->db->get_where($this->config_vars['groups'], array('name' => $group_name));
 
@@ -1091,7 +1092,8 @@ class Aauth {
 			$data = array(
 				'name' 			=> 	$group_name,
 				'definition'	=>	$definition,
-				'is_admin'		=>	$is_admin
+				'is_admin'		=>	$is_admin,
+				'description'	=>	$description
 			);
 			$this->CI->db->insert($this->config_vars['groups'], $data);
 			return $this->CI->db->insert_id();
@@ -1109,12 +1111,13 @@ class Aauth {
 	 * @param string $group_name New group name
 	 * @return bool Update success/failure
 	 */
-	public function update_group($group_par, $group_name, $is_admin = FALSE) {
+	public function update_group($group_par, $group_name, $is_admin = FALSE, $description = '' ) {
 
 		$group_id = $this->get_group_id($group_par);
 
-		$data[ 'name' ] 	= 	$group_name;
-		$data[ 'is_admin' ]	=	$is_admin;
+		$data[ 'name' ] 			= 	$group_name;
+		$data[ 'is_admin' ]			=	$is_admin;
+		$data[ 'description' ]		= 	$description;
 
 		$this->CI->db->where('id', $group_id);
 		return $this->CI->db->update($this->config_vars['groups'], $data);
@@ -1319,7 +1322,7 @@ class Aauth {
 	 * @param string $definition Permission description
 	 * @return int|bool Permission id or FALSE on fail
 	 */
-	public function create_perm($perm_name, $definition='') {
+	public function create_perm($perm_name, $definition='', $description = '' ) {
 
 		$query = $this->CI->db->get_where($this->config_vars['perms'], array('name' => $perm_name));
 
@@ -1327,7 +1330,8 @@ class Aauth {
 
 			$data = array(
 				'name' => $perm_name,
-				'definition'=> $definition
+				'definition'=> $definition,
+				'description'	=>	$description
 			);
 			$this->CI->db->insert($this->config_vars['perms'], $data);
 			return $this->CI->db->insert_id();
@@ -1345,7 +1349,7 @@ class Aauth {
 	 * @param string $definition Permission description
 	 * @return bool Update success/failure
 	 */
-	public function update_perm($perm_par, $perm_name=FALSE, $definition=FALSE) {
+	public function update_perm($perm_par, $perm_name=FALSE, $definition=FALSE, $description = FALSE) {
 
 		$perm_id = $this->get_perm_id($perm_par);
 
@@ -1354,6 +1358,10 @@ class Aauth {
 
 		if ($definition != FALSE)
 			$data['definition'] = $definition;
+			
+		if( $description != FALSE ) {
+			$data[ 'description' ] 	=	$description;
+		}
 
 		$this->CI->db->where('id', $perm_id);
 		return $this->CI->db->update($this->config_vars['perms'], $data);

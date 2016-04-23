@@ -8,6 +8,12 @@ class Update_Model extends CI_model
 		$this->core_id		=	$this->config->item( 'version' );
 		$this->auto_update();
 	}
+	
+	/**
+	 * Auto Update Feature
+	 * 
+	 * @return int/void
+	**/
 
 	function auto_update()
 	{
@@ -90,6 +96,11 @@ class Update_Model extends CI_model
 			}
 		}
 	}
+	
+	/**
+	 * Check Update
+	 * @return bool/array
+	**/
 
 	function check()
 	{
@@ -159,6 +170,14 @@ class Update_Model extends CI_model
 		}
 		return false;
 	}
+	
+	/**
+	 * Get Release
+	 * 
+	 * @params string release id
+	 * @return string error code
+	**/
+	
 	function get( $release_id ){
 		$json_api	=	$this->curl->security(false)->get( 'https://api.github.com/repos/Blair2004/tendoo-cms/releases' );
 		if( $json_api != '' ){
@@ -185,6 +204,15 @@ class Update_Model extends CI_model
 		}
 		return 'unknow-release';
 	}
+	
+	/**
+	 * Install a release
+	 * 
+	 * @params string version 
+	 * @params string zipball name
+	 * @return array
+	**/
+	
 	function install( $stage , $zipball = null )
 	{
 		$tendoo_zip		=	APPPATH . 'temp/tendoo-cms.zip';
@@ -235,6 +263,13 @@ class Update_Model extends CI_model
 			'code'	=>	'error-occured'
 		);
 	}
+	
+	/**
+	 * Store Conneciton
+	 * 
+	 * @return void
+	**/
+	
 	function store_connect(){
 		if( ! riake( 'HAS_LOGGED_TO_STORE' , $_SESSION ) ){
 			$_SESSION['HAS_LOGGED_TO_STORE']	=	true; // To prevent multi-login to store (Per Session).
@@ -262,16 +297,11 @@ class Update_Model extends CI_model
 			}
 		}
 	}
-	/**
-		Mise à jour du système sans affecter les modules. peut rendre certains modules incompatible.
-		Opère suppression des dossiers "tendoo-assets" et "tendoo-core" et "index.php" remplacé par la version téléchargée.
-	**/
-	function updateinstance(){
-
-	}
 
 	/**
-	 * Modules Update Features
+	 * Module Update feature
+	 * 
+	 * @return void
 	**/
 
 	function check_modules()

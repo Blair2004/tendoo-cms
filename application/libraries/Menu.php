@@ -8,6 +8,13 @@ class Menu
 	{
 		self::$admin_menus_core[ $namespace ][]	=	$config;
 	}
+	
+	/**
+	 * Load Menus
+	 * 
+	 * @return void
+	**/
+	
 	static function load()
 	{
 		$core_menus	=	self::$admin_menus_core;
