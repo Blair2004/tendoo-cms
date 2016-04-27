@@ -29,6 +29,7 @@ class Curl
 	public function _setOpt($opts,$value)
 	{
 		curl_setopt($this->co,$opts,$value);
+		return $this;
 	}
 	
 	/**
@@ -182,5 +183,17 @@ class Curl
 		{
 			$this->returnContent = $e;
 		}
+	}
+	
+	/**
+	 * User Password
+	 * @params string user password
+	 * @return obj current object
+	**/
+	
+	public function set_password( $string ) 
+	{
+		curl_setopt($this->co, CURLOPT_USERPWD, $string );
+		return $this;
 	}
 }

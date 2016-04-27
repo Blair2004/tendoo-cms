@@ -78,9 +78,9 @@ class User
 	 * @return bool
 	**/
 	
-	static function create_permission( $permission , $definition, $description = '' )
+	static function create_permission( $permission , $definition, $is_admin = false, $description = '' )
 	{
-		return get_instance()->auth->create_perm($permission, $definition='', $description = '');
+		return get_instance()->auth->create_perm( $permission, $definition , $is_admin, $description );
 	}
 	
 	/**
@@ -104,9 +104,9 @@ class User
 	 * @return bool
 	**/
 	
-	static function update_permission( $perm_id , $name , $definition, $description = '' )
+	static function update_permission( $perm_id , $name , $definition = '', $is_admin = false, $description = '' )
 	{
-		return get_instance()->auth->update_perm($perm_id, $name, $definition, $description = '' );
+		return get_instance()->auth->update_perm( $perm_id, $name, $definition, $is_admin, $description );
 	}
 	
 	// Groups
@@ -164,7 +164,7 @@ class User
 	
 	static function allow_group( $group_id , $permission_id )
 	{
-		return get_instance()->auth->allow_group($group_id, $permission_id );
+		return get_instance()->auth->allow_group( $group_id, $permission_id );
 	}
 	
 	/**

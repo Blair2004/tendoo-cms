@@ -131,12 +131,11 @@ class Aauth {
 		$cookie = array(
 			'name'	 => 'user',
 			'value'	 => '',
-			'expire' => time()-3600,
+			'expire' => 2.628e+6,
 			'path'	 => '/',
 		);
-
-		$this->CI->input->set_cookie($cookie);
-
+		
+		$this->CI->input->set_cookie( $cookie );
  
 		/*
 		*
@@ -184,7 +183,7 @@ class Aauth {
 			$reCAPTCHA_cookie = array(
 				'name'	 => 'reCAPTCHA',
 				'value'	 => 'true',
-				'expire' => time()+7200,
+				'expire' => 3600,
 				'path'	 => '/',
 			);
 			$this->CI->input->set_cookie($reCAPTCHA_cookie);
@@ -270,7 +269,7 @@ class Aauth {
 				$cookie = array(
 					'name'	 => 'user',
 					'value'	 => $row->id . "-" . $random_string,
-					'expire' => 99*999*999,
+					'expire' => 2.628e+6,
 					'path'	 => '/',
 				);
 
@@ -280,7 +279,7 @@ class Aauth {
 			$reCAPTCHA_cookie = array(
 				'name'	 => 'reCAPTCHA',
 				'value'	 => 'false',
-				'expire' => time()-3600,
+				'expire' => 3600,
 				'path'	 => '/',
 			);
 			$this->CI->input->set_cookie($reCAPTCHA_cookie);
@@ -402,7 +401,7 @@ class Aauth {
 		$cookie = array(
 			'name'	 => 'user',
 			'value'	 => '',
-			'expire' => time()-3600,
+			'expire' => '',
 			'path'	 => '/',
 		);
 
@@ -718,6 +717,21 @@ class Aauth {
 		$this->CI->db->where('id', $user_id);
 		return $this->CI->db->update($this->config_vars['users'], $data);
 	}
+	
+	/** 
+	* Count Users
+	*
+	* @return int
+	**/
+	
+	public function count_users( $include_banneds = FALSE )
+	{
+		// banneds
+		if ( ! $include_banneds ) {
+			$this->CI->db->where( 'banned != ', 1 );
+		}
+		return $this->CI->db->count_all( $this->config_vars[ 'users' ] );
+	}
 
 	//tested
 	/**
@@ -731,19 +745,29 @@ class Aauth {
 	 */
 	public function list_users($group_par = FALSE, $limit = FALSE, $offset = FALSE, $include_banneds = FALSE) { // Called
 		// if group_par is given
+		$select		=	"*,
+						aauth_groups.definition as group_name,
+						aauth_groups.description as group_description,
+						aauth_users.name as user_name,
+						aauth_users.id as user_id
+						";
 		if ($group_par != FALSE) {
 
 			$group_par = $this->get_group_id($group_par);
-			$this->CI->db->select('*')
-				->from($this->config_vars['users'])
-				->join($this->config_vars['user_to_group'], $this->config_vars['users'] . ".id = " . $this->config_vars['user_to_group'] . ".user_id")
-				->where($this->config_vars['user_to_group'] . ".group_id", $group_par);
+			
+			$this->CI->db->select( $select )
+				->from( $this->config_vars['users'] )
+				->join( $this->config_vars['user_to_group'], $this->config_vars['users'] . ".id = " . $this->config_vars['user_to_group'] . ".user_id")
+				->join( $this->config_vars[ 'groups' ], $this->config_vars[ 'groups' ] . '.id = ' . $this->config_vars['user_to_group']. '.group_id' ) 
+				->where( $this->config_vars['user_to_group'] . ".group_id", $group_par );
 
 			// if group_par is not given, lists all users
 		} else {
 
-			$this->CI->db->select('*')
-				->from($this->config_vars['users']);
+			$this->CI->db->select( $select )
+				->from( $this->config_vars['users'] )
+				->join( $this->config_vars['user_to_group'], $this->config_vars['users'] . ".id = " . $this->config_vars['user_to_group'] . ".user_id" )
+				->join( $this->config_vars[ 'groups' ], $this->config_vars[ 'groups' ] . '.id = ' . $this->config_vars['user_to_group']. '.group_id' ) ;
 		}
 
 		// banneds

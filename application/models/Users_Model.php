@@ -89,7 +89,7 @@ class Users_model extends CI_Model
 		foreach( $this->config->item( 'master_group_label' ) as $group_name )
 		{
 			if( ! $group = $this->auth->get_group_id( $group_name ) ) {
-				$this->auth->create_group( $group_name, __( 'Master Group' ), true );
+				$this->auth->create_group( $group_name, __( 'Master Group' ), true, __( 'Can create users, install modules, manage options' ) );
 			}
 		}
 		
@@ -97,7 +97,7 @@ class Users_model extends CI_Model
 		foreach( $this->config->item( 'admin_group_label' ) as $group_name )
 		{
 			if( ! $group = $this->auth->get_group_id( $group_name ) ) {
-				$this->auth->create_group( $group_name, __( 'Admin Group' ), true );
+				$this->auth->create_group( $group_name, __( 'Admin Group' ), true, __( 'Can install modules, manage options' ) );
 			}
 		}
 		
@@ -105,7 +105,7 @@ class Users_model extends CI_Model
 		foreach( $this->config->item( 'public_group_label' ) as $group_name )
 		{
 			if( ! $group = $this->auth->get_group_id( $group_name ) ) {
-				$this->auth->create_group( $group_name, __( 'User Group' ), false );
+				$this->auth->create_group( $group_name, __( 'User Group' ), false, __( 'Just a user' ) );
 			}
 		}
 	}
@@ -158,7 +158,7 @@ class Users_model extends CI_Model
 		$user_creation_status	=	$this->auth->create_user($email, $password, $username);
 		if( ! $user_creation_status )
 		{
-			return 'fetch-error-from-auth';
+			return false;
 		}
 		// bind user to a speciifc group
 		$user_id		=	$this->auth->get_user_id( $email );

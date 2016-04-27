@@ -18,16 +18,16 @@ ob_start();
 $migrate_file		=	MODULESPATH . $module[ 'application' ][ 'details' ][ 'namespace' ] . '/migrate.php';
 
 if( is_file( $migrate_file ) ){
-	$migrate_array	=	include_once( $migrate_file );
+	$migrate_array			=	include_once( $migrate_file );
 	// looping migrate functions
 	// get latest saved migration version.
-	$latestversion	=	$this->options->get( 'migration_' . $module[ 'application' ][ 'details' ][ 'namespace' ] );
+	$latestversion			=	$this->options->get( 'migration_' . $module[ 'application' ][ 'details' ][ 'namespace' ] );
 	$available_migration	=	array();
 	
-	$start_migration	=	false;
+	$start_migration		=	false;
 	
 	foreach( array_reverse( $migrate_array, true ) as $version => $closure_file_to_include ) {
-		if( $version == $latestversion || ( $latestversion === NULL && $start_migration == false ) ) {
+		if( version_compare( $version, $latestversion, '>' ) || ( $latestversion === NULL && $start_migration == false ) ) {
 			$start_migration 	=	true;
 		//Start migrate at the right moment.
 		} 

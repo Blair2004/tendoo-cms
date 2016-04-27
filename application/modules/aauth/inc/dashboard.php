@@ -169,11 +169,28 @@ class aauth_dashboard extends CI_model
 	{		
 		if( $page == 'list' )
 		{
-			// $this->users() it's the current method, $this->users is the main user object
-			$users			=		$this->users->auth->list_users($group_par = FALSE, $limit = FALSE, $offset = FALSE, $include_banneds = FALSE);
+			$this->load->library('pagination');
+
+			$config['base_url'] 		= 	site_url( array( 'dashboard', 'users', 'list' ) ) . '/';
+			$config['total_rows']	 	= 	$this->users->auth->count_users();
+			$config['per_page'] 		= 	1;	
+			$config['full_tag_open']	=	'<ul class="pagination">';
+			$config['full_tag_close']	=	'</ul>';
+			$config['next_tag_open']	=	$config['prev_tag_open'] 	=	$config['num_tag_open']		=	'<li>';
+			$config['next_tag_close']	=	$config['prev_tag_close']	=	$config['num_tag_close']	=	'</li>';
+			$config['cur_tag_open']		=	'<li class="active"><a href="#">';
+			$config['cur_tag_close']	=	'</a></li>';
+			
+			
+			$this->pagination->initialize( $config );
+			
+			$users						=	$this->users->auth->list_users( $group_par = FALSE, $config['per_page'], $index - 1 );
+			
 			$this->Gui->set_title( sprintf( __( 'Users &mdash; %s' ) , get( 'core_signature' ) ) );
+			
 			$this->load->view( '../modules/aauth/views/users/body' , array( 
-				'users'	=>	$users
+				'users'					=>	$users,
+				'pagination'			=>	$this->pagination->create_links()
 			) );
 		}
 		
@@ -274,11 +291,15 @@ class aauth_dashboard extends CI_model
 					$this->input->post( 'username' ),					
 					$this->input->post( 'userprivilege' )
 				);
+				
 				if( $exec == 'user-created' )
 				{
 					redirect( array( 'dashboard' , 'users?notice=' . $exec ) ); exit;
 				}
-				$this->notice->push_notice( $this->lang->line( $exec ) );
+				
+				if( is_string( $exec ) ) {
+					$this->notice->push_notice( $this->lang->line( $exec ) );
+				}
 			}
 			
 			// selecting groups
