@@ -173,7 +173,7 @@ class aauth_dashboard extends CI_model
 
 			$config['base_url'] 		= 	site_url( array( 'dashboard', 'users', 'list' ) ) . '/';
 			$config['total_rows']	 	= 	$this->users->auth->count_users();
-			$config['per_page'] 		= 	1;	
+			$config['per_page'] 		= 	20;	
 			$config['full_tag_open']	=	'<ul class="pagination">';
 			$config['full_tag_close']	=	'</ul>';
 			$config['next_tag_open']	=	$config['prev_tag_open'] 	=	$config['num_tag_open']		=	'<li>';
