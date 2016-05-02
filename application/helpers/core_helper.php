@@ -360,6 +360,15 @@ function date_now( $format = 'DATE_W3C' )
 function date_timestamp()
 {
 	global $Options;
+	
+	// while using options from CI_Controller interface
+	
+	if( $Options == NULL ) {
+		$query	=	get_instance()->db->where( 'key', 'site_timezone' )->get( 'options' );
+		$result	=	$query->result_array();
+		$Options[ 'site_timezone' ]		=	@$result[0][ 'key' ];
+	}
+	
 	return gmt_to_local( now(), riake( 'site_timezone', $Options, 'Etc/Greenwich' ), TRUE );
 }
 
