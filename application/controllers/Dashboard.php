@@ -256,7 +256,7 @@ class Dashboard extends Tendoo_Controller {
 	 * @author       blair Jersyer
 	 * @copyright    name date
 	 * @param        string $page
-	 * @param		  string $arg2
+	 * @param		 string $arg2
 	 * @since        3.0.1
 	 */
 	function options( $mode = 'list' )

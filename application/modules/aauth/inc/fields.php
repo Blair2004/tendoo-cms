@@ -141,18 +141,18 @@ class aauth_fields extends CI_model
 			'type'		=>		'text',
 			'name'		=>		'first-name',
 			'label'		=>		__( 'First Name' ),
-			'value'		=>		$this->options->get( 'first-name' , riake( 'user_id' , $config ) )
+			'value'		=>		riake( 'user_id' , $config ) ? $this->options->get( 'first-name' , riake( 'user_id' , $config ) ) : false
 		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
 		
 		$this->Gui->add_item( array(
 			'type'		=>		'text',
 			'name'		=>		'last-name',
 			'label'		=>		__( 'Last Name' ),
-			'value'		=>		$this->options->get( 'last-name' , riake( 'user_id' , $config ) )
+			'value'		=>		riake( 'user_id' , $config ) ? $this->options->get( 'last-name' , riake( 'user_id' , $config ) ) : false
 		) , riake( 'meta_namespace' , $config ) , riake( 'col_id' , $config ) );
 		
 		ob_start();
-		$skin	=	$this->options->get( 'theme-skin' , riake( 'user_id' , $config ) );
+		$skin	=	riake( 'user_id' , $config ) ? $this->options->get( 'theme-skin' , riake( 'user_id' , $config ) ) : '';
 		?>
         <h3><?php _e( 'Select a theme' );?></h3>
         <ul class="list-unstyled clearfix theme-selector">

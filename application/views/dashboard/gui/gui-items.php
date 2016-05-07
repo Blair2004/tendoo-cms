@@ -11,14 +11,14 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 {
 	$name				=	riake( 'name' , $_item );
 	$type   			= 	riake( 'type' , $_item );
-	$placeholder	=	riake( 'placeholder' , $_item );
-	$value			=	riake( 'value' , $_item );
+	$placeholder		=	riake( 'placeholder' , $_item );
+	$value				=	riake( 'value' , $_item );
 	$icon				=	riake( 'icon' , $_item );
-	$label			=	riake( 'label' , $_item );
+	$label				=	riake( 'label' , $_item );
 	$rows				=	riake( 'rows' , $_item );
-	$disabled		=	riake( 'disabled' , $_item );
-	$description	=	riake( 'description' , $_item );
-	$active			=	riake( 'active' , $_item );
+	$disabled			=	riake( 'disabled' , $_item );
+	$description		=	riake( 'description' , $_item );
+	$active				=	riake( 'active' , $_item );
 	
 	// fetch option from dashboard
 
@@ -32,7 +32,11 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 		// fetch option directly from options table
 		else
 		{
-			$value	=	( $db_value 	=	$this->options->get( $name ) ) ? $db_value : $value;
+			if( @$_item[ 'custom' ][ 'app' ] == 'users' ) {
+				$value	=	( $db_value 	=	$this->options->get( $name ) ) ? $db_value : $value;
+			} else {
+				$value	=	( $db_value 	=	$this->options->get( $name ) ) ? $db_value : $value;
+			}
 		}
 	}
 	if( in_array( $type , array( 'text' , 'password' , 'email' , 'tel' ) ) )

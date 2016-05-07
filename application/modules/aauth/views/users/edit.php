@@ -12,7 +12,8 @@ $this->Gui->add_meta( array(
 	'namespace'	=>	'edit_user',
 	'gui_saver'	=>	false,
 	'custom'	=>	array(
-		'action'	=>	null
+		'action'	=>	null,
+		'app'		=>	'users'
 	),
 	'footer'	=>	array(
 		'submit'	=>	array(

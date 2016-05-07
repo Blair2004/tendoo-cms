@@ -140,5 +140,5 @@ $autoload['config'] = array( 'tendoo' , 'asset' );
 $autoload['model'] = array( 
 	array(
 		'Installation_Model' 	=>	'setup'
-	) 
+	)
 );

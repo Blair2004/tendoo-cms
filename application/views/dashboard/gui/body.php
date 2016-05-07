@@ -45,7 +45,7 @@ Tendoo Version Required : 1.5
     
     <div class="row">
         <?php foreach( force_array( $this->Gui->get_cols() ) as $col_id =>	$col_data ):?>
-        <div class="meta-row col-lg-<?php echo riake( 'width' , $col_data , 1 ) * $col_range ;?>">
+        <div class="meta-row col-lg-<?php echo ceil( riake( 'width' , $col_data , 1 ) * $col_range ) ;?>">
             <?php 
 			$config = riake( 'configs' , $col_data );
 			// Inner Opening Wrapper
@@ -97,7 +97,7 @@ Tendoo Version Required : 1.5
 					
 					
 					// Meta status
-					$meta_status	=	$this->options->get( 'meta_status', User::id() );
+					$meta_status	=	''; //$this->options->get( 'meta_status', User::id() );
 					/**
 					 * Background-Color will help you set a default background for the meta
 					**/
