@@ -1,6 +1,6 @@
 <?php
 $saver_enabled		=	riake( 'gui_saver' , $meta );
-
+$autoload			=	riake( 'autoload', $meta );
 // If Using namespace is enabled
 if( $saver_enabled && riake( 'use_namespace' , $meta ) )
 {
@@ -19,21 +19,20 @@ foreach( force_array( riake( 'items' , $meta ) ) as $_item )
 	$disabled			=	riake( 'disabled' , $_item );
 	$description		=	riake( 'description' , $_item );
 	$active				=	riake( 'active' , $_item );
-	
+
 	// fetch option from dashboard
 
 	if( $saver_enabled && ! in_array( $type , array( 'html-list' , 'dom' , 'file-input' , 'html-error' , 'table' , 'buttons' ) ) )
 	{
 		// if namespace is used
-		if( riake( 'use_namespace' , $meta ) === true )
-		{
+		if( riake( 'use_namespace' , $meta ) === TRUE ) {
 			$value	=	( $db_value	 	=	riake( $name , $form_option ) ) ? $db_value : $value;
-		}
-		// fetch option directly from options table
-		else
-		{
-			if( @$_item[ 'custom' ][ 'app' ] == 'users' ) {
-				$value	=	( $db_value 	=	$this->options->get( $name ) ) ? $db_value : $value;
+		} else if( @$meta[ 'autoload' ] == TRUE ) { // fetch option directly from options table
+			// To avoid fetching from global cols, 
+			$_item[ 'user_id' ] 	=	@$_item[ 'user_id' ] == NULL ? 0 : $_item[ 'user_id' ];
+			
+			if( @$_item[ 'user_id' ] != NULL ) {
+				$value	=	( $db_value 	=	$this->options->get( $name, $_item[ 'user_id' ] ) ) ? $db_value : $value;
 			} else {
 				$value	=	( $db_value 	=	$this->options->get( $name ) ) ? $db_value : $value;
 			}

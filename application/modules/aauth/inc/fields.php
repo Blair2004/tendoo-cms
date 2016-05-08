@@ -135,7 +135,7 @@ class aauth_fields extends CI_model
 	function user_custom_fields( $config )
 	{
 		// refresh user meta
-		$this->users->refresh_user_meta();
+		// $this->users->refresh_user_meta();
 		
 		$this->Gui->add_item( array(
 			'type'		=>		'text',

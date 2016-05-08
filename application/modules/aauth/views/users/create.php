@@ -14,6 +14,7 @@ $this->Gui->add_meta( array(
 	'custom'	=>	array(
 		'action'	=>	''
 	),
+	'autoload'	=>	FALSE,
 	'footer'	=>	array(
 		'submit'	=>	array(
 			'label'	=>	__( 'Create User' )

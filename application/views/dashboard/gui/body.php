@@ -54,8 +54,10 @@ Tendoo Version Required : 1.5
 			// looping $col_data[ 'metas' ];
 			foreach( force_array( riake( 'metas' , $col_data ) ) as $meta )
 			{
-				$meta_class		=	riake( 'meta_class', $meta );
-				$attrs			=	riake( 'attrs', $meta );
+				$meta_class			=	riake( 'meta_class', $meta );
+				$attrs				=	riake( 'attrs', $meta );
+				// Disable loading from DB
+				$meta[ 'autoload' ]	=	riake( 'autoload', $meta, TRUE );
 				/**
 				 * Attrs String
 				**/
@@ -126,7 +128,7 @@ Tendoo Version Required : 1.5
                         <?php endif;?>
                           	<?php echo $this->load->view( 'dashboard/gui/gui-items' , array(
 								'namespace'	=>	$namespace,
-								'meta' 	=>	$meta
+								'meta' 		=>	$meta
 							) , true );;?>
 						<?php if( ! riake( 'hide_body_wrapper', $meta ) ):?>
                         </div>
