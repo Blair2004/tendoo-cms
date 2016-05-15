@@ -100,3 +100,4 @@ define( 'GUI_EXPIRE' , 60*60*6 ); // GUI expiration time
 define( 'LIBPATH' , APPPATH . 'libraries' . '/' ); // Libraries path
 define( 'MODULESPATH' , APPPATH . 'modules' . '/' ); // Modules Paths
 define( 'PUBLICPATH' , FCPATH . 'public' . '/' ); // Public path
+define( 'SYSTEMPATH' , FCPATH . 'system' . '/' ); // Public path

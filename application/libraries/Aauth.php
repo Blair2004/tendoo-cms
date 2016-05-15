@@ -743,13 +743,13 @@ class Aauth {
 	 * @param bool $include_banneds Include banned users
 	 * @return array Array of users
 	 */
-	public function list_users($group_par = FALSE, $limit = FALSE, $offset = FALSE, $include_banneds = FALSE) { // Called
+	public function list_users($group_par = FALSE, $offset = FALSE, $limit = FALSE, $include_banneds = FALSE) { // Called
 		// if group_par is given
 		$select		=	"*,
-						aauth_groups.definition as group_name,
-						aauth_groups.description as group_description,
-						aauth_users.name as user_name,
-						aauth_users.id as user_id
+			aauth_groups.definition as group_name,
+			aauth_groups.description as group_description,
+			aauth_users.name as user_name,
+			aauth_users.id as user_id
 						";
 		if ($group_par != FALSE) {
 
@@ -780,9 +780,9 @@ class Aauth {
 		if ($limit) {
 
 			if ($offset == FALSE)
-				$this->CI->db->limit($limit);
+				$this->CI->db->limit($offset);
 			else
-				$this->CI->db->limit($limit, $offset);
+				$this->CI->db->limit($offset, $limit);
 		}
 
 		$query = $this->CI->db->get();

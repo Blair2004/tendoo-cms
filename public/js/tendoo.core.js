@@ -75,7 +75,7 @@ tendoo.app		=	function(){
 
 // Tendoo notify
 tendoo.notify			=	new function(){
-	this.error			=	function( title, msg, url, dismiss ){
+	this.error			=	function( title, msg, url, dismiss, delay ){
 		$.notify({
 			icon			:	'fa fa-ban',
 			title			:	title,
@@ -83,12 +83,13 @@ tendoo.notify			=	new function(){
 			url				:	url,
 		},{
 			type			:	'danger',
-			allow_dismiss	:	dismiss
+			allow_dismiss	:	dismiss,
+			delay			:	delay
 		})
 	};
 	
 	// Info
-	this.info			=	function( title, msg, url, dismiss ){
+	this.info			=	function( title, msg, url, dismiss, delay ){
 		$.notify({
 			icon			:	'fa fa-exclamation-circle',
 			title			:	title,
@@ -96,12 +97,13 @@ tendoo.notify			=	new function(){
 			url				:	url,
 		},{
 			type			:	'info',
-			allow_dismiss	:	dismiss
+			allow_dismiss	:	dismiss,
+			delay			:	delay
 		})
 	};
 	
 	// Warning
-	this.warning			=	function( title, msg, url, dismiss ){
+	this.warning			=	function( title, msg, url, dismiss, delay ){
 		$.notify({
 			icon			:	'fa fa-times',
 			title			:	title,
@@ -109,12 +111,13 @@ tendoo.notify			=	new function(){
 			url				:	url,
 		},{
 			type			:	'warning',
-			allow_dismiss	:	dismiss
+			allow_dismiss	:	dismiss,
+			delay			:	delay
 		})
 	};
 	
 	// Success
-	this.success			=	function( title, msg, url, dismiss ){
+	this.success			=	function( title, msg, url, dismiss, delay ){
 		$.notify({
 			icon			:	'fa fa-check',
 			title			:	title,
@@ -122,7 +125,8 @@ tendoo.notify			=	new function(){
 			url				:	url,
 		},{
 			type			:	'success',
-			allow_dismiss	:	dismiss
+			allow_dismiss	:	dismiss,
+			delay			:	delay
 		})
 	};
 }

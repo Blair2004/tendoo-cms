@@ -246,7 +246,6 @@ tendoo.options			=	new function(){
 		value					=	( typeof value == 'object' ) ? JSON.stringify( value ) : value
 		var post_data			=	_.object( [ key ], [ value ] );
 		
-		// console.log( post_data );
         tendoo.options_data		=	_.extend( tendoo.options_data, post_data );
         $.ajax( '<?php echo site_url( array( 'dashboard', 'options' ) );?>/'+save_slug, {
             data			:	tendoo.options_data,
@@ -313,18 +312,23 @@ tendoo.options			=	new function(){
 }
 tendoo.loader			=	new function(){
 	this.int			=	0;
+	this.timeOutToClose;
 	this.show			=	function(){
-
+		
 		this.int++;
-
-		if( this.int == 1 ) {
-			var cl = new CanvasLoader('tendoo-spinner');
-			cl.setColor('#ffffff'); // default is '#000000'
-			cl.setDiameter(35); // default is 40
-			cl.setDensity(56); // default is 40
-			cl.setSpeed(3); // default is 2
-			cl.show(); // Hidden by default
-			$('#tendoo-spinner').fadeIn(500);
+		
+		if( $( '#canvasLoader' ).length > 0 ) {
+			clearTimeout( this.timeOutToClose );
+		} else {
+			if( this.int == 1 ) {
+				var cl = new CanvasLoader( 'tendoo-spinner' );
+				cl.setColor('#ffffff'); // default is '#000000'
+				cl.setDiameter(35); // default is 40
+				cl.setDensity(56); // default is 40
+				cl.setSpeed(3); // default is 2
+				cl.show(); // Hidden by default
+				$('#tendoo-spinner').fadeIn(500);
+			}
 		}
 	}
 	this.hide			=	function(){
@@ -332,9 +336,11 @@ tendoo.loader			=	new function(){
 		this.int--;
 		
 		if( this.int == 0 ){
-			$('#tendoo-spinner').fadeOut(500, function(){
-				$(this).html('').show();
-			})
+			this.timeOutToClose	=	setTimeout( function(){
+				$('#tendoo-spinner').fadeOut(500, function(){
+					$(this).html('').show();
+				})
+			}, 500 );
 		}
 	}
 }
@@ -358,8 +364,7 @@ $(document).ready(function(){
 	  tendoo.loader.show();
 	});
 });
-</script>
-		<?php
+</script><?php
 	}
 	
 	/**
