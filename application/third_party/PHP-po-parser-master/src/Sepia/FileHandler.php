@@ -69,6 +69,5 @@ class FileHandler implements InterfaceHandler
 
     public function save($outputFile)
     {
-
     }
 }

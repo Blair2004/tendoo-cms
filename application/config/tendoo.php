@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -11,42 +11,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // Reserved Controllers
-$config[ 'reserved_controllers' ]					= 	array( 'dashboard' , 'sign-in', 'sign-out' , 'sign-up' , 'do-setup' );
-$config[ 'controllers_requiring_installation' ]		=	array( 'dashboard' , 'sign-in' , 'sign-out' , 'sign-up' );
-$config[ 'controllers_requiring_login' ]			=	array( 'dashboard' , 'sign-out' );
-$config[ 'default_login_route' ]					=	'/sign-in/';
-$config[ 'controllers_requiring_logout' ]			=	array( 'sign-in' , 'sign-up' );
-$config[ 'default_logout_route' ]					=	'/dashboard/';
+$config[ 'reserved_controllers' ]                    =    array( 'dashboard' , 'sign-in', 'sign-out' , 'sign-up' , 'do-setup' );
+$config[ 'controllers_requiring_installation' ]        =    array( 'dashboard' , 'sign-in' , 'sign-out' , 'sign-up' );
+$config[ 'controllers_requiring_login' ]            =    array( 'dashboard' , 'sign-out' );
+$config[ 'default_login_route' ]                    =    '/sign-in/';
+$config[ 'controllers_requiring_logout' ]            =    array( 'sign-in' , 'sign-up' );
+$config[ 'default_logout_route' ]                    =    '/dashboard/';
 
 // Core ID	
-$config[ 'version' ]								=	$config[ 'core_version' ]	=	'3.0.9'; // core id
-$config[ 'core_signature' ]							=	'Tendoo ' . $config[ 'version' ]; // core id
-$config[ 'supported_languages' ]					=	array( 
-	'en_US' => 'English',
-	'fr_FR'	=> 'Français'
+$config[ 'version' ]                                =    $config[ 'core_version' ]    =    '3.0.9'; // core id
+$config[ 'core_signature' ]                            =    'Tendoo ' . $config[ 'version' ]; // core id
+$config[ 'supported_languages' ]                    =    array(
+    'en_US' => 'English',
+    'fr_FR'    => 'Français'
 );
-$config[ 'site_language' ]							=	'en_US'; // @since 4.0.5
-$config[ 'database_version' ]						=	'1.0';
+$config[ 'site_language' ]                            =    'en_US'; // @since 4.0.5
+$config[ 'database_version' ]                        =    '1.0';
 
 // Text Domain @since 3.0.5
-$config[ 'text_domain' ]							=	array(
-	'tendoo-core'	=>	APPPATH . 'language'
+$config[ 'text_domain' ]                            =    array(
+    'tendoo-core'    =>    APPPATH . 'language'
 );
 
 // Update
-$config[ 'force_major_updates' ]					=	TRUE;
+$config[ 'force_major_updates' ]                    =    true;
 
 
 // For Auth Class (Email Purpose)
 // Uses Username to login
-$config[ 'username_login' ]							=	TRUE;
+$config[ 'username_login' ]                            =    true;
 // default route to access email verifcaion
-$config[ 'route_for_verification' ]					=	'/sign-in/verify/';
+$config[ 'route_for_verification' ]                    =    '/sign-in/verify/';
 // default route to access password reset
-$config[ 'route_for_reset' ]							=	'/sign-in/reset/';
+$config[ 'route_for_reset' ]                            =    '/sign-in/reset/';
 
 // Site Time Zone
-$config[ 'site_timezone' ]								=	array_flip( array (
+$config[ 'site_timezone' ]                                =    array_flip(array(
     '(UTC-11:00) Midway Island' => 'Pacific/Midway',
     '(UTC-11:00) Samoa' => 'Pacific/Samoa',
     '(UTC-10:00) Hawaii' => 'Pacific/Honolulu',
@@ -190,9 +190,9 @@ $config[ 'site_timezone' ]								=	array_flip( array (
     '(UTC+12:00) Solomon Is.' => 'Asia/Magadan',
     '(UTC+12:00) Wellington' => 'Pacific/Auckland',
     '(UTC+13:00) Nuku\'alofa' => 'Pacific/Tongatapu'
-) );
+));
 // 
-$config[ 'default_user_names' ]							=	'John Doe';
-$config[ 'admin_menus' ]								=	array();
-$config[ 'admin_menu_position' ]						=	array( 'before' , 'after' );
-$config[ 'admin_menu_item' ]							=	array( 'dashboard' , 'menu' , 'about' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'frontend' );
+$config[ 'default_user_names' ]                            =    'John Doe';
+$config[ 'admin_menus' ]                                =    array();
+$config[ 'admin_menu_position' ]                        =    array( 'before' , 'after' );
+$config[ 'admin_menu_item' ]                            =    array( 'dashboard' , 'menu' , 'about' , 'controllers' , 'installer' , 'modules' , 'themes' , 'settings' , 'frontend' );

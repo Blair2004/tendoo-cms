@@ -30,3 +30,13 @@ http://alcwynparker.co.uk/2013/04/11/codeigniter-shortcodes-library-yet-another/
 https://github.com/jonlabelle/ci-markdown
 https://github.com/mouse0270/bootstrap-notify
 https://github.com/raulferras/PHP-po-parser
+
+NexoPOS Licence
+
+- Bootstrap Tour > MIT Licence http://bootstraptour.com/
+- ChartJS > MIT Licence http://www.chartjs.org/
+- Chosen Js > MIT Licence https://harvesthq.github.io/chosen/
+- Bootstrap Datepicker > Mit http://eonasdan.github.io/bootstrap-datetimepicker/
+- Moment JS > MIT Licence http://momentjs.com/
+- Underscore JS > MIT http://underscorejs.org/docs/underscore.html
+- GlyphIcons > Common Creative http://glyphicons.com/license/

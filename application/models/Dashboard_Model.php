@@ -8,119 +8,120 @@
 
 class Dashboard_Model extends CI_Model
 {
-	function __construct()
-	{
-		parent::__construct();		
-		$this->events->add_action( 'dashboard_header', array( $this, '__dashboard_header' ) );
-		$this->events->add_action( 'dashboard_footer', array( $this, '__dashboard_footer' ) );
-		$this->events->add_action( 'load_dashboard' , array( $this , '__set_admin_menu' ) );
-		$this->events->add_action( 'load_dashboard' , array( $this , 'load_dashboard' ) , 1 );				
-		$this->events->add_action( 'create_dashboard_pages' , array( $this , '__dashboard_config' ) );			
-		$this->events->add_action( 'load_dashboard' , array( $this , 'before_session_starts' ) );
-		// $this->events->add_filter( 'dashboard_home_output', array( $this, '__home_output' ) );
-	}
-	
-	/**
-	 * Load Dashboard
-	 * Enqueue File to assest helper
-	 * 
-	 * @return void
-	**/
-	
-	function load_dashboard()
-	{
-		// Enqueuing slimscroll
-		$this->enqueue->js( '../plugins/slimScroll/jquery.slimscroll.min' );
-		$this->enqueue->js( 'advanced' );
-		$this->enqueue->js( '../plugins/heartcode/heartcode-canvasloader-min' );
-		$this->enqueue->js( '../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min' ); // WYSIHTML5 @since 1.5
-		$this->enqueue->css( '../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min' ); // CSS for WYSIHTML5
-		
-		// Highlight
-		$this->enqueue->css( 'highlight-min' );
-		
-		// Bootsrap Notify
-		$this->enqueue->js( '../plugins/bootstrap-notify-master/bootstrap-notify.min' );		
-		$this->enqueue->js( 'tendoo.core' );	
-		
-		// Bootbox
-		$this->enqueue->js( '../plugins/bootbox/bootbox.min' );
-		
-		// Underscore
-		$this->enqueue->js( '../plugins/underscore/underscore-min' );
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->events->add_action('dashboard_header', array( $this, '__dashboard_header' ));
+        $this->events->add_action('dashboard_footer', array( $this, '__dashboard_footer' ));
+        $this->events->add_action('load_dashboard', array( $this, '__set_admin_menu' ));
+        $this->events->add_action('load_dashboard', array( $this, 'load_dashboard' ), 1);
+        $this->events->add_action('create_dashboard_pages', array( $this, '__dashboard_config' ));
+        $this->events->add_action('load_dashboard', array( $this, 'before_session_starts' ));
+        // $this->events->add_filter( 'dashboard_home_output', array( $this, '__home_output' ) );
+    }
+    
+    /**
+     * Load Dashboard
+     * Enqueue File to assest helper
+     * 
+     * @return void
+    **/
+    
+    public function load_dashboard()
+    {
+        // Enqueuing slimscroll
+        $this->enqueue->js('../plugins/slimScroll/jquery.slimscroll.min');
+        $this->enqueue->js('../plugins/heartcode/heartcode-canvasloader-min');
 
-	/**
-	 * 	Edit Tendoo.php config before session starts
-	 *
-	 *	@return	: void
-	**/
-	
-	function before_session_starts()
-	{
-		$this->config->set_item( 'tendoo_logo_long' , '<b>Tend</b>oo' );
-		$this->config->set_item( 'tendoo_logo_min' , '<img id="tendoo-logo" style="height:35px;" src="' . img_url() . 'logo_minim.png' . '" alt=logo>' );		
-	}
+        // Highlight
+        // $this->enqueue->css('highlight-min');
 
-	/**
-	 * Load dashboard widgets
-	 * @return void
-	**/
-	
-	function load_widgets()
-	{
-		if( ! Modules::is_active( 'aauth' ) ) : return false; endif;
-		// get global widget and cols
-		global $AdminWidgets;
-		global $AdminWidgetsCols;
+        // Bootsrap Notify
+        $this->enqueue->js('../plugins/bootstrap-notify-master/bootstrap-notify.min');
+        $this->enqueue->js('tendoo.core');
+        
+        // ParseParams
+        $this->enqueue->js('jquery.parseParams');
+        
+        // Bootbox
+        $this->enqueue->js('../plugins/bootbox/bootbox.min');
+        
+        // Underscore
+        $this->enqueue->js('../plugins/underscore/underscore-min');
+    }
 
-		$SavedAdminWidgetsCols		=	$this->options->get( 'admin_widgets', User::id() );
-		$FinalAdminWidgetsPosition	=	array_merge( $AdminWidgetsCols, force_array( $SavedAdminWidgetsCols ) );
-		
-		// looping cols
-		unset( $this->Gui->cols[ 4 ] );
-		// var_dump( $this->Gui->cols );die;
-		
-		for( $i = 1; $i <= count( $this->Gui->cols ); $i++ ) {
-			$widgets_namespace	=	$this->dashboard_widgets->col_widgets( $i );
-			
-			$this->Gui->col_width( 1, 1 );
-			$this->Gui->col_width( 2, 1 );
-			$this->Gui->col_width( 3, 1 );
-			
-			foreach( $widgets_namespace as $widget_namespace ) {
-				// get widget
-				$widget_options	=	$this->dashboard_widgets->get( $widget_namespace, User::id() );
-				// create meta
-				$meta_array		=	array(
-					'col_id'	=>	$i,
-					'namespace'	=>	$widget_namespace,
-					'type'		=>	riake( 'type', $widget_options ),
-					'title'		=>	riake( 'title', $widget_options )
-				);
-				
-				$meta_array		=	array_merge( $widget_options, $meta_array );
-				$this->Gui->add_meta( $meta_array );
-				// create dom
-				$this->Gui->add_item( array(
-					'type'		=>	'dom',
-					'content'	=>	riake( 'content', $widget_options ) // $this->load->view( riake( 'content', $widget_options, '[empty_widget]' ), array(), true )
-				), $widget_namespace, $i );
-			}
-		}
-	}
-	
-	/**
-	 * Load Dashboard Footer
-	 * 
-	 * @return void
-	**/
-	
-	function __dashboard_footer()
-	{
-		$segments	= $this->uri->segment_array();
-		if( riake( 2, $segments, 'index' ) == 'index' ) {
-		?>
+    /**
+     * 	Edit Tendoo.php config before session starts
+     *
+     *	@return	: void
+    **/
+    
+    public function before_session_starts()
+    {
+        $this->config->set_item('tendoo_logo_long', '<b>Tend</b>oo');
+        $this->config->set_item('tendoo_logo_min', '<img id="tendoo-logo" style="height:35px;" src="' . img_url() . 'logo_minim.png' . '" alt=logo>');
+    }
+
+    /**
+     * Load dashboard widgets
+     * @return void
+    **/
+    
+    public function load_widgets()
+    {
+        if (! Modules::is_active('aauth')) : return false;
+        endif;
+        // get global widget and cols
+        global $AdminWidgets;
+        global $AdminWidgetsCols;
+
+        $SavedAdminWidgetsCols        =    $this->options->get('admin_widgets', User::id());
+        $FinalAdminWidgetsPosition    =    array_merge($AdminWidgetsCols, force_array($SavedAdminWidgetsCols));
+        
+        // looping cols
+        unset($this->Gui->cols[ 4 ]);
+        // var_dump( $this->Gui->cols );die;
+
+        for ($i = 1; $i <= count($this->Gui->cols); $i++) {
+            $widgets_namespace    =    $this->dashboard_widgets->col_widgets($i);
+            
+            $this->Gui->col_width(1, 1);
+            $this->Gui->col_width(2, 1);
+            $this->Gui->col_width(3, 1);
+            
+            foreach ($widgets_namespace as $widget_namespace) {
+                // get widget
+                $widget_options    =    $this->dashboard_widgets->get($widget_namespace, User::id());
+                // create meta
+                $meta_array        =    array(
+                    'col_id'    =>    $i,
+                    'namespace'    =>    $widget_namespace,
+                    'type'        =>    riake('type', $widget_options),
+                    'title'        =>    riake('title', $widget_options)
+                );
+                
+                $meta_array        =    array_merge($widget_options, $meta_array);
+                $this->Gui->add_meta($meta_array);
+                // create dom
+                $this->Gui->add_item(array(
+                    'type'        =>    'dom',
+                    'content'    =>    riake('content', $widget_options) // $this->load->view( riake( 'content', $widget_options, '[empty_widget]' ), array(), true )
+                ), $widget_namespace, $i);
+            }
+        }
+    }
+    
+    /**
+     * Load Dashboard Footer
+     * 
+     * @return void
+    **/
+    
+    public function __dashboard_footer()
+    {
+        $segments    = $this->uri->segment_array();
+        if (riake(2, $segments, 'index') == 'index') {
+            ?>
 <script type="text/javascript">
 
 "use strict";
@@ -168,8 +169,9 @@ $(document).ready(function(){
 });
 </script>	
         <?php
-		}
-		?>
+
+        }
+        ?>
 <script type="text/javascript">
 
 "use strict";
@@ -183,30 +185,49 @@ $('[data-meta-namespace]').find( '[data-widget]' ).bind( 'click', function(){
 });
 </script>
         <?php
-	}
-	
-	/**
-	 * Dashboard Header
-	 * 
-	 * @return void
-	**/
-	
-	function __dashboard_header()
-	{
-		?>
+
+    }
+    
+    /**
+     * Dashboard Header
+     * 
+     * @return void
+    **/
+    
+    public function __dashboard_header()
+    {
+        ?>
 <script type="text/javascript">
 
 "use strict";
 
-tendoo.base_url			=	'<?php echo base_url();?>';
-tendoo.site_url			=	'<?php echo site_url();?>/';
-tendoo.dashboard_url	=	'<?php echo site_url( array( 'dashboard' ) );?>';
-tendoo.current_url		=	'<?php echo current_url();?>';
-tendoo.index_url		=	'<?php echo index_page();?>';
-tendoo.form_expire		=	'<?php echo gmt_to_local( time() , 'UTC' ) + GUI_EXPIRE;?>';
+tendoo.base_url			=	'<?php echo base_url();
+        ?>';
+tendoo.site_url			=	'<?php echo site_url();
+        ?>/';
+tendoo.dashboard_url	=	'<?php echo site_url(array( 'dashboard' ));
+        ?>';
+tendoo.current_url		=	'<?php echo current_url();
+        ?>';
+tendoo.index_url		=	'<?php echo index_page();
+        ?>';
+tendoo.form_expire		=	'<?php echo gmt_to_local(time(), 'UTC') + GUI_EXPIRE;
+        ?>';
 tendoo.user				=	{
-    id			:		<?php echo $this->events->apply_filters( 'tendoo_object_user_id' , 'false' );?>
+    id			:		<?php echo $this->events->apply_filters('tendoo_object_user_id', 'false');
+        ?>
 }
+tendoo.csrf_field_name	=	'<?php echo $this->security->get_csrf_token_name();
+        ?>';
+
+tendoo.csrf_field_value	=	'<?php echo $this->security->get_csrf_hash();
+        ?>';
+
+tendoo.csrf_data		=	{
+	'<?php echo $this->security->get_csrf_token_name();
+        ?>'	:	'<?php echo $this->security->get_csrf_hash();
+        ?>'
+};
 // Date Object
 tendoo.date				=	new Date();
 tendoo.now				=	function(){
@@ -245,9 +266,12 @@ tendoo.options			=	new function(){
         }		
 		value					=	( typeof value == 'object' ) ? JSON.stringify( value ) : value
 		var post_data			=	_.object( [ key ], [ value ] );
-		
+		// Add CSRF Secure for POST Ajax
+		tendoo.options_data		=	_.extend( tendoo.options_data, tendoo.csrf_data );
         tendoo.options_data		=	_.extend( tendoo.options_data, post_data );
-        $.ajax( '<?php echo site_url( array( 'dashboard', 'options' ) );?>/'+save_slug, {
+		
+        $.ajax( '<?php echo site_url(array( 'dashboard', 'options' ));
+        ?>/'+save_slug, {
             data			:	tendoo.options_data,
             type			:	'POST',
             beforeSend 	:	function(){
@@ -269,8 +293,10 @@ tendoo.options			=	new function(){
             save_slug	=	'merge';
         }
         var post_data			=	_.object( [ key ], [ value ] );
+		tendoo.options_data		=	_.extend( tendoo.options_data, tendoo.csrf_data );
         tendoo.options_data	=	_.extend( tendoo.options_data, post_data );
-        $.ajax( '<?php echo site_url( array( 'dashboard', 'options' ) );?>/' + save_slug, {
+        $.ajax( '<?php echo site_url(array( 'dashboard', 'options' ));
+        ?>/' + save_slug, {
             data			:	tendoo.options_data,
             type			:	'POST',
             beforeSend 	:	function(){
@@ -287,8 +313,10 @@ tendoo.options			=	new function(){
     };
     this.get				=	function( key, callback ) {
         var post_data		=	_.object( [ 'option_key' ], [ key ] );
+		tendoo.options_data		=	_.extend( tendoo.options_data, tendoo.csrf_data );
         tendoo.options_data	=	_.extend( tendoo.options_data, post_data );
-        $.ajax( '<?php echo site_url( array( 'dashboard', 'options', 'get' ) );?>', {
+        $.ajax( '<?php echo site_url(array( 'dashboard', 'options', 'get' ));
+        ?>', {
             data			:	tendoo.options_data,
             type			:	'POST',
             beforeSend 	:	function(){
@@ -363,112 +391,118 @@ $(document).ready(function(){
 	$( document ).ajaxSend(function() {
 	  tendoo.loader.show();
 	});
+	
+	// Add CSRF Protection to each request
+	$.ajaxPrefilter(function(options, originalOptions, jqXHR) {		
+		if( typeof originalOptions.type != 'undefined' ) {
+			if ( originalOptions.type.toUpperCase() === 'POST' || options.type.toUpperCase() === 'POST') {
+				if( typeof originalOptions.data == 'string' ) {
+					options.data	=	$.param( _.extend( tendoo.csrf_data, $.parseParams( originalOptions.data ) ) );
+				} else if( typeof originalOptions.data == 'object' ) {
+					options.data	=	$.param( _.extend( tendoo.csrf_data, originalOptions.data ) );	
+				}
+			}
+		}
+	});
 });
 </script><?php
-	}
-	
-	/**
-	 * Dashboard Config
-	 * 
-	 * @return void
-	**/
-	
-	function __dashboard_config()
-	{
-		$this->Gui->register_page( 'index' , array( $this , 'index' ) );
-		$this->Gui->register_page( 'settings' , array( $this , 'settings' ) );
-	}
-	
-	/**
-	 * Dashboard Home Load
-	 * 
-	 * @return void
-	**/
-	
-	function index()
-	{
-		// load widget model here only
-		$this->load->model( 'Dashboard_Widgets_Model', 'dashboard_widgets' );
-		
-		// trigger action while loading home (for registering widgets)
-		$this->events->do_action( 'load_dashboard_home' );
-		$this->load_widgets();
-		
-		$this->Gui->set_title( sprintf( __( 'Dashboard &mdash; %s' ) , get( 'core_signature' ) ) );
-		$this->load->view( 'dashboard/index/body' );
-	}
-	
-	/**
-	 * Load Tendoo Setting Page
-	 * 
-	 * @return void
-	**/
-	
-	function settings()
-	{
-		// ! User::can( 'manage_options' ) ? redirect( array( 'dashboard', 'access-denied' ) ): null ;
-		
-		$this->Gui->set_title( sprintf( __( 'Settings &mdash; %s' ) , get( 'core_signature' ) ) );
-		$this->load->view( 'dashboard/settings/body' );
-	}
-	
-	/**
-	 * Load Dashboard Menu
-	 * 
-	 * @return void
-	**/
-	
-	public function __set_admin_menu()
-	{		
-		$admin_menus[ 'dashboard' ][] 	=	array(	
-			'href'			=>		site_url('dashboard'),
-			'icon'			=>		'fa fa-dashboard',
-			'title'			=>		__( 'Dashboard' )
-		);
-		
-		if( User::can( 'manage_options' ) ):
-		
-		$admin_menus[ 'dashboard' ][] 	=	array(	
-			'href'			=>		site_url( array( 'dashboard', 'update' ) ),
-			'icon'			=>		'fa fa-dashboard',
-			'title'			=>		__( 'Update Center' ),
-			'notices_nbr'	=>		$this->events->apply_filters( 'update_center_notice_nbr', 0 )
-		);
-		
-		$admin_menus[ 'dashboard' ][] 	= 	array(	
-			'href'			=>		site_url( array( 'dashboard', 'about' ) ),
-			'icon'			=>		'fa fa-dashboard',
-			'title'			=>		__( 'About' ),
-		);
-		
-		endif;
-		
-		if( User::can( 'manage_modules' ) ):
-		
-		$admin_menus[ 'modules' ][]		=	array(
-			'title'			=>		__( 'Modules' ),
-			'icon'			=>		'fa fa-puzzle-piece',
-			'href'			=>		site_url('dashboard/modules')
-		);
-		
-		endif;
-		
-		if( User::can( 'manage_options' ) ):
-		
-		$admin_menus[ 'settings' ][]	=	array(
-			'title'			=>		__( 'Settings' ),
-			'icon'			=>		'fa fa-cogs',
-			'href'			=>		site_url('dashboard/settings')
-		);
-		
-		endif;
-		
-		foreach( force_array( $this->events->apply_filters( 'admin_menus' , $admin_menus ) ) as $namespace => $menus )
-		{
-			foreach( $menus as $menu )
-			{
-				Menu::add_admin_menu_core( $namespace , $menu  );
-			}
-		}		
-	}	
+
+    }
+    
+    /**
+     * Dashboard Config
+     * 
+     * @return void
+    **/
+    
+    public function __dashboard_config()
+    {
+        $this->Gui->register_page('index', array( $this, 'index' ));
+        $this->Gui->register_page('settings', array( $this, 'settings' ));
+    }
+    
+    /**
+     * Dashboard Home Load
+     * 
+     * @return void
+    **/
+    
+    public function index()
+    {
+        // load widget model here only
+        $this->load->model('Dashboard_Widgets_Model', 'dashboard_widgets');
+        
+        // trigger action while loading home (for registering widgets)
+        $this->events->do_action('load_dashboard_home');
+        $this->load_widgets();
+        
+        $this->Gui->set_title(sprintf(__('Dashboard &mdash; %s'), get('core_signature')));
+        $this->load->view('dashboard/index/body');
+    }
+    
+    /**
+     * Load Tendoo Setting Page
+     * 
+     * @return void
+    **/
+    
+    public function settings()
+    {
+        // ! User::can( 'manage_options' ) ? redirect( array( 'dashboard', 'access-denied' ) ): null ;
+
+        $this->Gui->set_title(sprintf(__('Settings &mdash; %s'), get('core_signature')));
+        $this->load->view('dashboard/settings/body');
+    }
+    
+    /**
+     * Load Dashboard Menu
+     * 
+     * @return void
+    **/
+    
+    public function __set_admin_menu()
+    {
+        $admin_menus[ 'dashboard' ][]    =    array(
+            'href'            =>        site_url('dashboard'),
+            'icon'            =>        'fa fa-dashboard',
+            'title'            =>        __('Dashboard')
+        );
+        
+        if (User::can('manage_options')) {
+            $admin_menus[ 'dashboard' ][]    =    array(
+            'href'            =>        site_url(array( 'dashboard', 'update' )),
+            'icon'            =>        'fa fa-dashboard',
+            'title'            =>        __('Update Center'),
+            'notices_nbr'    =>        $this->events->apply_filters('update_center_notice_nbr', 0)
+        );
+        
+            $admin_menus[ 'dashboard' ][]    =    array(
+            'href'            =>        site_url(array( 'dashboard', 'about' )),
+            'icon'            =>        'fa fa-dashboard',
+            'title'            =>        __('About'),
+        );
+        }
+        
+        if (User::can('manage_modules')) {
+            $admin_menus[ 'modules' ][]        =    array(
+            'title'            =>        __('Modules'),
+            'icon'            =>        'fa fa-puzzle-piece',
+            'href'            =>        site_url('dashboard/modules')
+        );
+        }
+        
+        if (User::can('manage_options')) {
+            $admin_menus[ 'settings' ][]    =    array(
+            'title'            =>        __('Settings'),
+            'icon'            =>        'fa fa-cogs',
+            'href'            =>        site_url('dashboard/settings')
+        );
+        }
+        
+        foreach (force_array($this->events->apply_filters('admin_menus', $admin_menus)) as $namespace => $menus) {
+            foreach ($menus as $menu) {
+                Menu::add_admin_menu_core($namespace, $menu);
+            }
+        }
+    }
 }

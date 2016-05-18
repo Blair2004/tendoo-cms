@@ -1,0 +1,5 @@
+<?php
+
+/**
+ * Host Nexo Configs
+**/

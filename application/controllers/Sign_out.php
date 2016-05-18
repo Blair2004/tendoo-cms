@@ -1,19 +1,20 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Sign_out extends Tendoo_Controller {
+class Sign_out extends Tendoo_Controller
+{
 
-	/**
-	 * Login out page
-	 *
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
-	public function index()
-	{
-		// doing log_user_out
-		$this->events->do_action( 'log_user_out' );
-	}	
+    /**
+     * Login out page
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    public function index()
+    {
+        // doing log_user_out
+        $this->events->do_action('log_user_out');
+    }
 }

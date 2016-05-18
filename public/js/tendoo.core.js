@@ -9,12 +9,9 @@ tendoo.app		=	function(){
 	**/
 	this.sidebar		=	new function(){
 		$( '.sidebar-toggle' ).bind( 'click' , function(){
-			if( $( 'body' ).hasClass( 'sidebar-collapse' ) )
-			{
+			if( $( 'body' ).hasClass( 'sidebar-collapse' ) ) {
 				$this.options.save( 'dashboard-sidebar' , 'sidebar-collapse' , tendoo.user.id );
-			}
-			else
-			{
+			} else	{
 				$this.options.save( 'dashboard-sidebar' , 'sidebar-expanded' , tendoo.user.id );
 			}
 		});

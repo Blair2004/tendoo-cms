@@ -10,7 +10,7 @@
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar"> 
     <!-- Sidebar user panel -->
-    <?php echo $this->events->apply_filters( 'before_dashboard_menu' , '' );?>
+    <?php echo $this->events->apply_filters('before_dashboard_menu', '');?>
     <!-- search form -->
     <!-- 
     <form action="#" method="get" class="sidebar-form">

@@ -52,7 +52,7 @@ class ReCaptcha
      *
      * @param string $secret shared secret between site and ReCAPTCHA server.
      */
-    function GetReCaptcha($secret)
+    public function GetReCaptcha($secret)
     {
         if ($secret == null || $secret == "") {
             die("To use reCAPTCHA you must get an API key from <a href='"
@@ -116,7 +116,7 @@ class ReCaptcha
 
         $getResponse = $this->_submitHttpGet(
             self::$_siteVerifyUrl,
-            array (
+            array(
                 'secret' => $this->_secret,
                 'remoteip' => $remoteIp,
                 'v' => self::$_version,
@@ -137,5 +137,3 @@ class ReCaptcha
         return $recaptchaResponse;
     }
 }
-
-?>

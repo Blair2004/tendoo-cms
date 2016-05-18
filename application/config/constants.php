@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +47,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
 | of this setting
 |
 */
-define('SHOW_DEBUG_BACKTRACE', TRUE);
+define('SHOW_DEBUG_BACKTRACE', true);
 
 /*
 |--------------------------------------------------------------------------
@@ -95,9 +95,9 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 |
 */
 
-define( 'LANG_RECORDER_ENABLED' , FALSE ); // enable auto recorder for unregistered lang code.
-define( 'GUI_EXPIRE' , 60*60*6 ); // GUI expiration time
-define( 'LIBPATH' , APPPATH . 'libraries' . '/' ); // Libraries path
-define( 'MODULESPATH' , APPPATH . 'modules' . '/' ); // Modules Paths
-define( 'PUBLICPATH' , FCPATH . 'public' . '/' ); // Public path
-define( 'SYSTEMPATH' , FCPATH . 'system' . '/' ); // Public path
+define('LANG_RECORDER_ENABLED', false); // enable auto recorder for unregistered lang code.
+define('GUI_EXPIRE', 60*60*6); // GUI expiration time
+define('LIBPATH', APPPATH . 'libraries' . '/'); // Libraries path
+define('MODULESPATH', APPPATH . 'modules' . '/'); // Modules Paths
+define('PUBLICPATH', FCPATH . 'public' . '/'); // Public path
+define('SYSTEMPATH', FCPATH . 'system' . '/'); // Public path
