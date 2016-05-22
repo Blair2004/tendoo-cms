@@ -64,13 +64,11 @@ class Users_model extends CI_Model
     
     public function master_exists()
     {
-        foreach ($this->config->item('master_group_label') as $group_name) {
-            $masters    =    $this->auth->list_users($group_name);
-            if ($masters) {
-                // if admin main privilège exists
+        $masters    =    $this->auth->list_users('master');
+        if ($masters) {
+            // if admin main privilège exists
 
-                return true;
-            }
+            return true;
         }
         return false;
     }
@@ -86,24 +84,18 @@ class Users_model extends CI_Model
     {
         // Only create if group does'nt exists (it's optional)
         // Creating admin Group
-        foreach ($this->config->item('master_group_label') as $group_name) {
-            if (! $group = $this->auth->get_group_id($group_name)) {
-                $this->auth->create_group($group_name, __('Master Group'), true, __('Can create users, install modules, manage options'));
-            }
+        if (! $group = $this->auth->get_group_id('master')) {
+            $this->auth->create_group('master', __('Master Group'), true, __('Can create users, install modules, manage options'));
         }
-        
+
         // Creating admin Group
-        foreach ($this->config->item('admin_group_label') as $group_name) {
-            if (! $group = $this->auth->get_group_id($group_name)) {
-                $this->auth->create_group($group_name, __('Admin Group'), true, __('Can install modules, manage options'));
-            }
+        if (! $group = $this->auth->get_group_id('administrator')) {
+            $this->auth->create_group('administrator', __('Admin Group'), true, __('Can install modules, manage options'));
         }
         
-        // Creating Public Group
-        foreach ($this->config->item('public_group_label') as $group_name) {
-            if (! $group = $this->auth->get_group_id($group_name)) {
-                $this->auth->create_group($group_name, __('User Group'), false, __('Just a user'));
-            }
+        // Create user	
+        if (! $group = $this->auth->get_group_id('users')) {
+            $this->auth->create_group('user', __('User Group'), true, __('Just a user'));
         }
     }
     
@@ -123,10 +115,7 @@ class Users_model extends CI_Model
             // We assume 1 is the index of the first user
             $master_id                =    $this->auth->get_user_id($email);
             
-            // Fetch Master Group Name
-            $master_group_array        =    $this->config->item('master_group_label');
-            
-            $this->auth->add_member($master_id, $master_group_array[0]); // assign user to one of the admin group
+            $this->auth->add_member($master_id, 'master'); // assign user to one of the admin group
             // Send Verification
 
             $this->auth->send_verification($master_id);
@@ -270,118 +259,7 @@ class Users_model extends CI_Model
         }
         return 'fetch-error-from-auth';
     }
-    
-    /**
-     * Send recovery email to an registered email
-     * @params string email
-     * @return string;
-    **/
-    
-    public function do_send_recovery($email)
-    {
-        if ($this->auth->user_exsist_by_email($email)) {
-            $exec    =    $this->auth->remind_password($email);
-            return 'recovery-email-send';
-        } else {
-            return 'unknow-email';
-        }
-    }
-    
-    /**
-     * Get user By id
-     * @params int
-     * @return array
-    **/
-    
-    public function get($user_id)
-    {
-        $user    =    $this->auth->get_user_by_id($user_id);
         
-        return farray($user);
-    }
-    
-    /**
-     * Create a new role
-     *
-     * @access public
-     * @params string role name
-     * @params string role definition
-     * @params string role type
-     * @return string error code
-     * Deprecated
-    **/
-    
-    public function set_group($name, $definition, $type, $mode = 'create', $group_id = 0)
-    {
-        $name    =    strtolower($name);
-        // Check wether a group using this name exists
-        $group    =    $this->auth->get_group_name($name);
-        
-        if ($mode === 'create') {
-            if ($group === false) {
-                $this->users->auth->create_group($name, $definition);
-                $admin_groups        =    force_array($this->options->get('admin_groups'));
-                $public_groups        =    force_array($this->options->get('public_groups'));
-                // make sure to delete groups saved on option table
-                if (! in_array($name, $admin_groups) &&  ! in_array($name, $public_groups)) {
-                    // Saving as public group
-                    if ($type === 'public') {
-                        $public_groups[]    =    $name;
-                        $this->options->set('public_groups', $public_groups, true);
-                    }
-                    // Saving as admin group
-                    else {
-                        $admin_groups[]    =    $name;
-                        $this->options->set('admin_groups', $admin_groups, true);
-                    }
-                    return 'group-created';
-                }
-            }
-        } else {
-            $group_name            =    $this->auth->get_group_name($group_id);
-            if ($group_name) {
-                // Update group name
-                $this->auth->update_group($group_id, $name);
-                
-                // get all groups types
-                $admin_groups        =    force_array($this->options->get('admin_groups'));
-                $public_groups        =    force_array($this->options->get('public_groups'));
-                
-                // remove from admin_groups
-                array_walk($admin_groups, function (&$item, $key, $group_name) use (&$admin_groups) {
-                    if ($group_name === $item) {
-                        unset($admin_groups[ $key ]);
-                    }
-                }, $group_name);
-                
-                // remove from public group
-                array_walk($public_groups, function (&$item, $key, $group_name) use (&$public_groups) {
-                    if ($group_name === $item) {
-                        unset($public_groups[ $key ]);
-                    }
-                }, $group_name);
-                
-                // make sure to delete groups saved on option table
-                if (! in_array($name, $admin_groups) || ! in_array($name, $public_groups)) {
-                    // Saving as public group
-                    if ($type === 'public') {
-                        $public_groups[]    =    $name;
-                    }
-                    // Saving as admin group
-                    else {
-                        $admin_groups[]    =    $name;
-                    }
-                    $this->options->set('public_groups', $public_groups, true);
-                    $this->options->set('admin_groups', $admin_groups, true);
-
-                    return 'group-updated';
-                }
-            }
-            return 'unknow-group';
-        }
-        return 'group-already-exists';
-    }
-    
     /**
      * Create default permission
      * 
@@ -391,17 +269,85 @@ class Users_model extends CI_Model
     public function create_permissions()
     {
         // Creating default permissions
-        $this->auth->create_perm('manage_options', __('Manage Options'), __('Let user access settings page and to manage it.')); // index 1
-        $this->auth->create_perm('manage_modules', __('Manage Modules'), __('Let user access to modules list and to manage it.')); // 2
-        $this->auth->create_perm('manage_users', __('Mange Users'), __('Let user access user list and manage them.')); // index 3		
 
+        /**
+         * Core Permission
+        **/
+        
+        $this->auth->create_perm('manage_core', __('Manage Core'), __('Allow core management'));
+        
+        /**
+         * Options Permissions
+        **/
+                
+        $this->auth->create_perm('create_options', __('Create Options'), __('Allow option creation'));
+        $this->auth->create_perm('edit_options', __('Edit Options'), __('Allow option edition'));
+        $this->auth->create_perm('read_options', __('Read Options'), __('Allow option read'));
+        $this->auth->create_perm('delete_options', __('Delete Options'), __('Allow option deletion.'));
+        
+        /**
+         * Modules Permissions
+        **/
+        
+        $this->auth->create_perm('install_modules', __('Install Modules'), __('Let user install modules.'));
+        $this->auth->create_perm('update_modules', __('Update Modules'), __('Let user update modules'));
+        $this->auth->create_perm('delete_modules', __('Delete Modules'), __('Let user delete modules'));
+        $this->auth->create_perm('toggle_modules', __('Enable/Disable Modules'), __('Let user enable/disable modules'));
+        $this->auth->create_perm('extract_modules', __('Extract Modules'), __('Let user extract modules'));
+        
+        /**
+         * Users Permissions
+        **/
+        
+        $this->auth->create_perm('create_users', __('Create Users'), __('Allow create users.'));
+        $this->auth->create_perm('edit_users', __('Edit Users'), __('Allow edit users.'));
+        $this->auth->create_perm('delete_users', __('Delete Users'), __('Allow delete users.'));
+        
+        /**
+         * Profile Permission
+        **/
+        
+        $this->auth->create_perm('edit_profile', __('Create Options'), __('Allow option creation'));
+        
+        /**
+         * Assign Permission to Groups
+        **/
+        
         // Master		
-        $this->users->auth->allow_group('master', 'manage_options');
-        $this->users->auth->allow_group('master', 'manage_modules');
-        $this->users->auth->allow_group('master', 'manage_users');
+        $this->users->auth->allow_group('master', 'manage_core');
+        
+        $this->users->auth->allow_group('master', 'create_options');
+        $this->users->auth->allow_group('master', 'edit_options');
+        $this->users->auth->allow_group('master', 'delete_options');
+        $this->users->auth->allow_group('master', 'read_options');
+        
+        $this->users->auth->allow_group('master', 'install_modules');
+        $this->users->auth->allow_group('master', 'update_modules');
+        $this->users->auth->allow_group('master', 'delete_modules');
+        $this->users->auth->allow_group('master', 'toggle_modules');
+        $this->users->auth->allow_group('master', 'extract_modules');
+        
+        $this->users->auth->allow_group('master', 'create_users');
+        $this->users->auth->allow_group('master', 'edit_users');
+        $this->users->auth->allow_group('master', 'delete_users');
+        
+        $this->users->auth->allow_group('master', 'edit_profile');
         
         // Administrators
-        $this->users->auth->allow_group('administrators', 'manage_options');
-        $this->users->auth->allow_group('administrators', 'manage_modules');
+        $this->users->auth->allow_group('administrator', 'create_options');
+        $this->users->auth->allow_group('administrator', 'edit_options');
+        $this->users->auth->allow_group('administrator', 'delete_options');
+        $this->users->auth->allow_group('administrator', 'read_options');
+        
+        $this->users->auth->allow_group('administrator', 'install_modules');
+        $this->users->auth->allow_group('administrator', 'update_modules');
+        $this->users->auth->allow_group('administrator', 'delete_modules');
+        $this->users->auth->allow_group('administrator', 'toggle_modules');
+        $this->users->auth->allow_group('administrator', 'extract_modules');
+        
+        $this->users->auth->allow_group('administrator', 'edit_profile');
+        
+        // Users
+        $this->users->auth->allow_group('user', 'edit_profile');
     }
 }

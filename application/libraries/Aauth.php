@@ -749,13 +749,13 @@ class Aauth
 			aauth_users.id as user_id
 						";
         if ($group_par != false) {
-            $group_par = $this->get_group_id($group_par);
+            $group_id = $this->get_group_id($group_par);
             
             $this->CI->db->select($select)
                 ->from($this->config_vars['users'])
                 ->join($this->config_vars['user_to_group'], $this->config_vars['users'] . ".id = " . $this->config_vars['user_to_group'] . ".user_id")
                 ->join($this->config_vars[ 'groups' ], $this->config_vars[ 'groups' ] . '.id = ' . $this->config_vars['user_to_group']. '.group_id')
-                ->where($this->config_vars['user_to_group'] . ".group_id", $group_par)
+                ->where($this->config_vars['user_to_group'] . ".group_id", $group_id)
                 ->or_where($this->config_vars['groups'] . ".name", $group_par);
 
             // if group_par is not given, lists all users
@@ -1121,7 +1121,7 @@ class Aauth
             $data = array(
                 'name'            =>    $group_name,
                 'definition'    =>    $definition,
-                'is_admin'        =>    $is_admin,
+                'is_admin'        =>    $is_admin ? 1 : 0,
                 'description'    =>    $description
             );
             $this->CI->db->insert($this->config_vars['groups'], $data);

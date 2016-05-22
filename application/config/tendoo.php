@@ -19,7 +19,7 @@ $config[ 'controllers_requiring_logout' ]            =    array( 'sign-in' , 'si
 $config[ 'default_logout_route' ]                    =    '/dashboard/';
 
 // Core ID	
-$config[ 'version' ]                                =    $config[ 'core_version' ]    =    '3.1'; // core id
+$config[ 'version' ]                                =    $config[ 'core_version' ]    =    '3.1.0'; // core id
 $config[ 'core_signature' ]                            =    'Tendoo ' . $config[ 'version' ]; // core id
 $config[ 'supported_languages' ]                    =    array(
     'en_US' => 'English',

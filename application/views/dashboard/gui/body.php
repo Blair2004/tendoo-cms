@@ -107,6 +107,9 @@ Tendoo Version Required : 1.5
                         ?>" enctype="<?php echo $enctype;
                         ?>" method="<?php echo $method;
                         ?>">
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();
+                        ?>" value="<?php echo $this->security->get_csrf_hash();
+                        ?>">
                         <?php
 
                     }
@@ -242,6 +245,9 @@ Tendoo Version Required : 1.5
                         ?>" id="<?php echo $id;
                         ?>" enctype="<?php echo $enctype;
                         ?>" method="<?php echo $method;
+                        ?>">
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();
+                        ?>" value="<?php echo $this->security->get_csrf_hash();
                         ?>">
                         <?php
 

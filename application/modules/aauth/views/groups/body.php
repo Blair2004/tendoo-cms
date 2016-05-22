@@ -36,7 +36,7 @@ foreach (force_array($groups) as $group) {
         // '<a href="' . site_url( array( 'dashboard' , 'groups' , 'edit' , $group->id ) ) . '">' . $group->name . '</a>',
         $group->name,
         $group->definition,
-        in_array($group->name, $this->config->item('master_group_label')) ? __('Yes') : __('No'),
+        $group->is_admin == 1 ? __('Yes') : __('No'),
         $label_permissions
     );
 }

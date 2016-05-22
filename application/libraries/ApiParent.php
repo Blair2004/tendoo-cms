@@ -9,11 +9,11 @@ include_once(APPPATH . '/models/rest/Rest_Modules.php');
 
 class ApiParent extends Rest_Controller
 {
-	use Rest_Tools;
-	use Rest_Users;
-	use Rest_Options;
-	use Rest_Modules;
-	
+    use Rest_Tools;
+    use Rest_Users;
+    use Rest_Options;
+    use Rest_Modules;
+    
     public function __construct()
     {
         parent::__construct();

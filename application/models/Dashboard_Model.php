@@ -69,8 +69,9 @@ class Dashboard_Model extends CI_Model
     
     public function load_widgets()
     {
-        if (! Modules::is_active('aauth')) : return false;
-        endif;
+        if (! Modules::is_active('aauth')) {
+            return false;
+        }
         // get global widget and cols
         global $AdminWidgets;
         global $AdminWidgetsCols;
@@ -442,20 +443,27 @@ $(document).ready(function(){
     
     /**
      * Load Tendoo Setting Page
-     * 
+     * [New Permission Ready]
      * @return void
     **/
     
     public function settings()
     {
-        // ! User::can( 'manage_options' ) ? redirect( array( 'dashboard', 'access-denied' ) ): null ;
-
+        // Can user access modules ?
+        if (! User::can('create_options') &&
+            ! User::can('edit_options') &&
+            ! User::can('delete_options')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $this->Gui->set_title(sprintf(__('Settings &mdash; %s'), get('core_signature')));
         $this->load->view('dashboard/settings/body');
     }
     
     /**
      * Load Dashboard Menu
+     * [New Permission Ready]
      * 
      * @return void
     **/
@@ -468,35 +476,46 @@ $(document).ready(function(){
             'title'            =>        __('Dashboard')
         );
         
-        if (User::can('manage_options')) {
+        if (User::can('manage_core')) {
             $admin_menus[ 'dashboard' ][]    =    array(
-            'href'            =>        site_url(array( 'dashboard', 'update' )),
-            'icon'            =>        'fa fa-dashboard',
-            'title'            =>        __('Update Center'),
-            'notices_nbr'    =>        $this->events->apply_filters('update_center_notice_nbr', 0)
-        );
+                'href'            =>        site_url(array( 'dashboard', 'update' )),
+                'icon'            =>        'fa fa-dashboard',
+                'title'            =>        __('Update Center'),
+                'notices_nbr'    =>        $this->events->apply_filters('update_center_notice_nbr', 0)
+            );
         
             $admin_menus[ 'dashboard' ][]    =    array(
-            'href'            =>        site_url(array( 'dashboard', 'about' )),
-            'icon'            =>        'fa fa-dashboard',
-            'title'            =>        __('About'),
-        );
+                'href'            =>        site_url(array( 'dashboard', 'about' )),
+                'icon'            =>        'fa fa-dashboard',
+                'title'            =>        __('About'),
+            );
         }
         
-        if (User::can('manage_modules')) {
+        if (
+            User::can('install_modules') ||
+            User::can('update_modules') ||
+            User::can('extract_modules') ||
+            User::can('delete_modules') ||
+            User::can('toggle_modules')
+         ) {
             $admin_menus[ 'modules' ][]        =    array(
-            'title'            =>        __('Modules'),
-            'icon'            =>        'fa fa-puzzle-piece',
-            'href'            =>        site_url('dashboard/modules')
-        );
+                'title'            =>        __('Modules'),
+                'icon'            =>        'fa fa-puzzle-piece',
+                'href'            =>        site_url('dashboard/modules')
+            );
         }
         
-        if (User::can('manage_options')) {
+        if (
+            User::can('create_options') ||
+            User::can('read_options') ||
+            User::can('edit_options') ||
+            User::can('delete_options')
+         ) {
             $admin_menus[ 'settings' ][]    =    array(
-            'title'            =>        __('Settings'),
-            'icon'            =>        'fa fa-cogs',
-            'href'            =>        site_url('dashboard/settings')
-        );
+                'title'            =>        __('Settings'),
+                'icon'            =>        'fa fa-cogs',
+                'href'            =>        site_url('dashboard/settings')
+            );
         }
         
         foreach (force_array($this->events->apply_filters('admin_menus', $admin_menus)) as $namespace => $menus) {

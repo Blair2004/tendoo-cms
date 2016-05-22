@@ -10,20 +10,8 @@ class aauth_action extends CI_model
         $this->events->add_action('do_login', array( $this, 'tendoo_login' ));
         $this->events->add_action('do_reset_user', array( $this, 'do_reset_user' ), 10, 2);
         $this->events->add_action('do_verify_user', array( $this, 'do_verify_user' ), 10, 2);
-        $this->events->add_action('do_remove_module', array( $this, 'module_access' ), 1, 1);
-        $this->events->add_action('do_disable_module', array( $this, 'module_access' ), 1, 1);
-        $this->events->add_action('do_enable_module', array( $this, 'module_access' ), 1, 1);
     }
-    /**
-     * Checks whether user is granted to access modules
-    **/
-    
-    public function module_access()
-    {
-        if (! User::can('manage_modules')) {
-            redirect(array( 'dashboard?notice=access-denied' ));
-        }
-    }
+
     public function do_verify_user($user_id, $ver_code)
     {
         $user    =    $this->users->auth->get_user($user_id);
@@ -35,6 +23,7 @@ class aauth_action extends CI_model
         }
         redirect(array( 'sign-in?notice=unknow-user' ));
     }
+    
     public function do_reset_user($user_id, $ver_code)
     {
         $user    =    $this->users->auth->get_user($user_id);
@@ -79,9 +68,9 @@ class aauth_action extends CI_model
     
     public function change_auth_settings()
     {
-        $auth                =    &$this->users->auth->config_vars;
-        $auth[ 'email' ]    =    'cms@tendoo.org';
-        $auth[ 'name' ]        =    get('core_signature');
+        $auth                    =    &$this->users->auth->config_vars;
+        $auth[ 'email' ]        =    'cms@tendoo.org';
+        $auth[ 'name' ]            =    get('core_signature');
     }
     
     /**

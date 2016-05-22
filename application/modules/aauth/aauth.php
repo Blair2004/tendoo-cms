@@ -21,12 +21,7 @@ class auth_module_class extends CI_model
         $this->events->add_filter('user_menu_card_avatar_src', array( $this, 'user_avatar_src' ));
         
         // Allow only admin user to access the dashboard
-        $this->events->add_action('load_dashboard', function () {
-            $groups    =    User::groups();
-            if (! ( bool )$groups[0]->is_admin) {
-                redirect(array( 'page_403' ));
-            }
-        });
+        $this->events->add_action('load_dashboard', array( $this, 'control_dashboard_access' ));
         // Tendoo Setup	
     }
     public function user_avatar_src()
@@ -61,7 +56,7 @@ class auth_module_class extends CI_model
     {
         if ($this->users->logout() == null) {
             if (($redir    =    riake('redirect', $_GET)) != false) {
-                redirect(array( 'sign-in?redirect=' . $redir ));
+                redirect(array( 'sign-in?redirect=' . urlencode($redir) ));
             } else {
                 redirect(array( 'sign-in' ));
             }
@@ -95,15 +90,28 @@ class auth_module_class extends CI_model
         
         // force user to be connected for certain controller
         if (in_array($this->uri->segment(1), $this->config->item('controllers_requiring_login')) && $this->setup->is_installed()) {
-            if (! $this->users->is_connected()) {
+            if (! $this->users->is_connected() || ! User::get()) {
                 redirect(array( $this->config->item('default_login_route') . '?notice=login-required&redirect=' . urlencode(current_url()) ));
             }
+        }
+    }
+    
+    /**
+     * Check current use group access
+    **/
+    
+    public function control_dashboard_access()
+    {
+        $Group    =    Group::get();
+        if (! $Group[0]->is_admin) {
+            redirect(array( 'page_403' ));
         }
     }
 }
 new auth_module_class;
 
 require(LIBPATH . '/User.php');
+require(LIBPATH . '/Group.php');
 require(dirname(__FILE__) . '/inc/dashboard.php');
 require(dirname(__FILE__) . '/inc/setup.php');
 require(dirname(__FILE__) . '/inc/fields.php');
