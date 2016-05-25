@@ -400,7 +400,10 @@ $(document).ready(function(){
 				if( typeof originalOptions.data == 'string' ) {
 					options.data	=	$.param( _.extend( tendoo.csrf_data, $.parseParams( originalOptions.data ) ) );
 				} else if( typeof originalOptions.data == 'object' ) {
-					options.data	=	$.param( _.extend( tendoo.csrf_data, originalOptions.data ) );	
+					// Fix Grocery Crud issue while upload
+					if( typeof options.multipart == 'undefined' ) {
+						options.data	=	$.param( _.extend( tendoo.csrf_data, originalOptions.data ) );	
+					}
 				}
 			}
 		}

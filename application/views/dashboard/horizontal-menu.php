@@ -70,7 +70,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </li>
                         
                         <!-- User Account: style can be found in dropdown.less -->
-                        <li class="dropdown user user-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <!--<img class="img-circle" alt="user image"/>--> <span class="hidden-xs"><?php echo xss_clean($this->events->apply_filters('user_menu_name', $this->config->item('default_user_names')));?></span> </a>
+                        <li class="dropdown user user-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+                        	<img class="img-circle" alt="<?php echo $this->events->apply_filters('user_menu_card_avatar_alt', '');?>" src="<?php echo $this->events->apply_filters('user_menu_card_avatar_src', '');?>" width="20"/>
+                            <span class="hidden-xs"><?php echo xss_clean($this->events->apply_filters('user_menu_name', $this->config->item('default_user_names')));?></span> </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header"> 

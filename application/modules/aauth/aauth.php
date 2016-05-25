@@ -82,7 +82,10 @@ class auth_module_class extends CI_model
     public function after_session_starts()
     {
         // load user model
-        $this->load->model('users_model', 'users');
+        // $this->load->model('users_model', 'users'); // We're migrating to use single class
+
+        new User;
+        
         // If there is no master user , redirect to master user creation if current controller isn't do-setup
         if (! $this->users->master_exists() && $this->uri->segment(1) !== 'do-setup') {
             redirect(array( 'do-setup', 'site' ));

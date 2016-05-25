@@ -73,4 +73,15 @@ class Group
     {
         return get_instance()->auth->get_user_groups();
     }
+    
+    /**
+     * Get All
+	 * @return Array
+     *
+    **/
+    
+    public static function get_all()
+    {
+        return get_instance()->auth->list_groups();
+    }
 }

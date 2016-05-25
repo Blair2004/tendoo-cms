@@ -8,6 +8,21 @@
 class User
 {
     private static $user_par;
+    private static $groups_permissions;
+    
+    public function __construct()
+    {
+        $groups    =    Group::get_all();
+        
+        if ($groups) {
+            foreach ($groups as $group) {
+                $permissions    =    get_instance()->auth->list_perms($group->id);
+                foreach ($permissions as $permission) {
+                    self::$groups_permissions[ $group->name ][]    =    $permission->perm_name;
+                }
+            }
+        }
+    }
     
     /** 
      * Checks whether a user is connected
@@ -68,14 +83,12 @@ class User
     
     public static function can($permission)
     {
-        if (isset(self::$group_permission[ $permission . '-' . $Group[0]->group_id ])) {
-            return self::$group_permission[ $permission . '-' . $Group[0]->group_id ];
-        } else {
-            $Instance    =    get_instance();
-            $Group        =    Group::get();
-            self::$group_permission[ $permission . '-' . $Group[0]->group_id ]    =    $Instance->auth->is_group_allowed($permission, $Group[0]->group_id);
-            return self::$group_permission[ $permission . '-' . $Group[0]->group_id ];
+        $group        =    Group::get();
+        
+        if (in_array($permission, self::$groups_permissions[ $group[0]->name ])) {
+            return true;
         }
+        return false;
     }
     
     /**
