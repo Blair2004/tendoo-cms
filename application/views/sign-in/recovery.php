@@ -18,7 +18,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <p><?php $this->notice->output_notice();?></p>
         
         <form method="post">
-				<?php echo $this->events->apply_filters('recovery_fields', '');    ?>            
+        	<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+			<?php echo $this->events->apply_filters('recovery_fields', '');    ?>            
         </form>
         <br>
 		<?php

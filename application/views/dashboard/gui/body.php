@@ -29,6 +29,9 @@ Tendoo Version Required : 1.5
     ?>
     <div class="content">
     <?php 
+    
+    echo    $this->events->apply_filters('gui_before_rows', '');
+    
     if (function_exists('validation_errors')) {
         // validation errors
         echo(validation_errors()) != '' ? tendoo_error(strip_tags(validation_errors())) : '';
@@ -40,11 +43,9 @@ Tendoo Version Required : 1.5
     
     $col_range    =    (count($this->Gui->cols) > 3) ? 3 : 4;
     ?>
-    
-    
-    <div class="row">
+    <div class="row gui-row-tag">
         <?php foreach (force_array($this->Gui->get_cols()) as $col_id =>    $col_data):?>
-        <div class="meta-row col-lg-<?php echo ceil(riake('width', $col_data, 1) * $col_range) ;?>">
+        <div class="meta-row col-lg-<?php echo ceil(riake('width', $col_data, 1) * $col_range) ;?> col-md-<?php echo ceil(riake('width', $col_data, 1) * $col_range) ;?>">
             <?php 
             $config = riake('configs', $col_data);
             // Inner Opening Wrapper

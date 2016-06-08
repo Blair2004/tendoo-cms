@@ -24,7 +24,7 @@ $config[ 'core_signature' ]                            =    'Tendoo ' . $config[
 $config[ 'supported_languages' ]                    =    array(
     'en_US' => 'English',
     'fr_FR'    => 'Français'
-	// 'es_ES'	=>	'Español' // Coming Soon
+    // 'es_ES'	=>	'Español' // Coming Soon
 );
 $config[ 'site_language' ]                            =    'en_US'; // @since 4.0.5
 $config[ 'database_version' ]                        =    '1.0';

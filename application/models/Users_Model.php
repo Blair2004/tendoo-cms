@@ -19,6 +19,7 @@ class Users_model extends CI_Model
             // Autologin user
             if ($user_id    =    $this->input->cookie('user', true)) {
                 $this->auth->login_fast($user_id);
+                $this->refresh_user_meta();
             }
         }
     }
@@ -212,6 +213,9 @@ class Users_model extends CI_Model
         foreach (force_array($custom_fields) as $key => $value) {
             $this->options->set($key, $value, $autoload = true, $user_id, $app = 'users');
         }
+        // Refresh user meta
+        $this->refresh_user_meta();
+        
         return $return;
     }
     
