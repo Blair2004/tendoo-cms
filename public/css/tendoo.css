@@ -1,0 +1,8 @@
+.widget-placeholder {
+	border:#999 3px dashed;
+	width:100%;
+	margin-bottom:20px;
+}
+.ui-sortable {
+	min-height:100px;
+}

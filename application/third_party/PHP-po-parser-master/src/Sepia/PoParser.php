@@ -110,14 +110,12 @@ class PoParser
      * @throws \Exception, \InvalidArgumentException
      * @return array. List of entries found in .po file.
      */
-    public function parse(InterfaceHandler $handle=null )
+    public function parse(InterfaceHandler $handle=null)
     {
         if ($handle===null) {
-
             if ($this->sourceHandle===null) {
                 throw new \InvalidArgumentException('Must provide a valid InterfaceHandler');
-            }
-            else {
+            } else {
                 $handle = $this->sourceHandle;
             }
         }
@@ -210,7 +208,7 @@ class PoParser
                     $tmpParts = explode(' ', $data);
                     $tmpKey   = $tmpParts[0];
 
-                    if (!in_array($tmpKey, array('msgid','msgid_plural','msgstr','msgctxt'))) {
+                    if (!in_array($tmpKey, array('msgid', 'msgid_plural', 'msgstr', 'msgctxt'))) {
                         $tmpKey = $lastPreviousKey; // If there is a multiline previous string we must remember what key was first line.
                         $str = $data;
                     } else {
@@ -334,7 +332,7 @@ class PoParser
         // - Cleanup header data
         $this->headers = array();
         foreach ($headers as $header) {
-            $header = $this->clean( $header );
+            $header = $this->clean($header);
             $this->headers[] = "\"" . preg_replace("/\\n/", '\n', $header) . "\"";
         }
 
@@ -427,21 +425,18 @@ class PoParser
     {
         // In case of new entry
         if (!isset($this->entries[$msgid])) {
-
             if ($createNew==false) {
                 return;
             }
 
             $this->entries[$msgid] = $entry;
-        }
-        else {
+        } else {
             // Be able to change msgid.
-            if( $msgid!==$entry['msgid'] ) {
+            if ($msgid!==$entry['msgid']) {
                 unset($this->entries[$msgid]);
                 $new_msgid = is_array($entry['msgid'])? implode($this->options['multiline-glue'], $entry['msgid']):$entry['msgid'];
                 $this->entries[$new_msgid] = $entry;
-            }
-            else {
+            } else {
                 $this->entries[$msgid] = $entry;
             }
         }
@@ -535,7 +530,6 @@ class PoParser
 
             if (isset($entry['previous'])) {
                 foreach ($entry['previous'] as $key => $data) {
-
                     if (is_string($data)) {
                         $output.= "#| " . $key . " " . $this->cleanExport($data) . "\n";
                     } elseif (is_array($data) && count($data)>0) {
@@ -543,7 +537,6 @@ class PoParser
                             $output.= "#| " . $key . " " . $this->cleanExport($line) . "\n";
                         }
                     }
-
                 }
             }
 
@@ -621,7 +614,9 @@ class PoParser
                 if ($isPlural) {
                     $noTranslation = true;
                     foreach ($entry as $key => $value) {
-                        if (strpos($key, 'msgstr[') === false) continue;
+                        if (strpos($key, 'msgstr[') === false) {
+                            continue;
+                        }
                         $output.= $key." ";
                         $noTranslation = false;
                         foreach ($value as $i => $t) {
@@ -731,7 +726,6 @@ class PoParser
 
             // Escapes C-style escape sequences (\a,\b,\f,\n,\r,\t,\v) and converts them to their actual meaning
             $x = stripcslashes($x);
-
         }
 
         return $x;

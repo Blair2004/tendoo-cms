@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -137,8 +137,8 @@ $autoload['config'] = array( 'tendoo' , 'asset' );
 |	$autoload['model'] = array('first_model' => 'first');
 */
 
-$autoload['model'] = array( 
-	array(
-		'Installation_Model' 	=>	'setup'
-	) 
+$autoload['model'] = array(
+    array(
+        'Installation_Model'    =>    'setup'
+    )
 );

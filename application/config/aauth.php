@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /*
   | -------------------------------------------------------------------
   |  Aauth Config
@@ -52,10 +54,10 @@ $config['aauth'] = array(
     //if it is true, the user will be banned temporary when he exceed the login 'try'
     'ddos_protection' => false, // temporarily
 
-    'recaptcha_active' => false, 
+    'recaptcha_active' => false,
     'recaptcha_login_attempts' => 4,
-    'recaptcha_siteKey' => '', 
-    'recaptcha_secret' => '', 
+    'recaptcha_siteKey' => '',
+    'recaptcha_secret' => '',
 
     // login attempts time interval
     // default 20 times in one hour
@@ -69,10 +71,6 @@ $config['aauth'] = array(
     'name' => 'Tendoo CMS'
     
 );
-
-// Default Group
-$config[ 'master_group_label' ]	=	array( 'master' , 'administrators' );
-$config[ 'public_group_label' ]	=	array( 'users' );
 
 /* End of file aauth.php */
 /* Location: ./application/config/aauth.php */

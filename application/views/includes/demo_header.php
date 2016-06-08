@@ -4,23 +4,34 @@
 				<li>
 					<a href="<?php echo $base_url;?>auth_lite/demo">About Demo</a>
 				</li>
-			<?php if (! $this->flexi_auth->is_logged_in_via_password()) { ?>
+			<?php if (! $this->flexi_auth->is_logged_in_via_password()) {
+    ?>
 				<li>
-					<a href="<?php echo $base_url;?>auth"><?php echo ($this->flexi_auth->is_logged_in()) ? 'Login via Password' : 'Login';?></a>
+					<a href="<?php echo $base_url;
+    ?>auth"><?php echo ($this->flexi_auth->is_logged_in()) ? 'Login via Password' : 'Login';
+    ?></a>
 				</li>
 				<li>
-					<a href="<?php echo $base_url;?>auth/login_via_ajax">Login via Ajax</a>
+					<a href="<?php echo $base_url;
+    ?>auth/login_via_ajax">Login via Ajax</a>
 				</li>
-			<?php } ?>
-			<?php if (! $this->flexi_auth->is_logged_in()) { ?>
+			<?php 
+} ?>
+			<?php if (! $this->flexi_auth->is_logged_in()) {
+    ?>
 				<li>
-					<a href="<?php echo $base_url;?>auth/register_account">Register</a>
+					<a href="<?php echo $base_url;
+    ?>auth/register_account">Register</a>
 				</li>
-			<?php } else { ?>
+			<?php 
+} else {
+    ?>
 				<li>
-					<a href="<?php echo $base_url;?>auth/logout">Logout</a>
+					<a href="<?php echo $base_url;
+    ?>auth/logout">Logout</a>
 				</li>
-			<?php } ?>
+			<?php 
+} ?>
 			
 				<li>
 					<a href="<?php echo $base_url;?>auth_lite/privilege_examples">Privilege Examples</a>

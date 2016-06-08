@@ -11,6 +11,7 @@ application/config/base_url.php
 !application/cache/.htaccess
 !application/cache/app/index.html
 application/config/database.php
+application/config/nexo_premium.php
 application/modules/*
 !application/modules/aauth/
 !application/modules/dashboard/
@@ -18,6 +19,16 @@ application/modules/*
 !application/modules/blog/
 !application/modules/pingback_trackback/
 !application/modules/theme_mod/
+
+application/controllers/*
+!application/controllers/Page_404.php
+!application/controllers/Dashboard.php
+!application/controllers/Sign_in.php
+!application/controllers/Sign_up.php
+!application/controllers/Sign_out.php
+!application/controllers/Do_Setup.php
+!application/controllers/Frontend.php
+
 vendor/
 composer.lock
 app.yaml
@@ -41,4 +52,5 @@ application/models/Nexo_Shipping.php
 application/models/Nexo_Vendor.php
 public/modules/grocerycrud/*
 public/modules/nexo/*
+public/modules/nexo_ads/*
 public/upload/*

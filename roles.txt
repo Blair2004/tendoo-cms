@@ -1,0 +1,55 @@
+master
+	CRUD users
+	CRUD options
+	CRUD modules
+	CRUD profile
+	CRUD shop_item
+	CRUD shop_categories
+	CRUD shop_radius
+ 	CRUD shop_shipping
+	CRUD shop_providers
+	CRUD shop_customers
+	CRUD shop_customers_group
+	CRUD shop_payments_means
+	CRUD shop_order_type
+	CRUD shop_purchase_invoice
+	CRUD shop_orders
+	R    shop_reports
+admin
+	CRUD options
+	CRUD modules
+	CRUD profile
+user
+	CRUD profile
+shopmanager
+	CRUD profile
+	CRUD shop_item
+	CRUD shop_categories
+	CRUD shop_radius
+ 	CRUD shop_shipping
+	CRUD shop_providers
+	CRUD shop_customers
+	CRUD shop_customers_group
+	CRUD shop_payments_means
+	CRUD shop_order_type
+	CRUD shop_purchase_invoice
+	CRUD shop_orders
+	R    shop_reports
+cashier
+	CRUD profile
+	CRUD shop_orders
+	CRU  shop_customers
+tester
+	CRUD profile
+	CRU  shop_item
+	CRU  shop_categories
+	CRU  shop_radius
+ 	CRU  shop_shipping
+	CRU  shop_providers
+	CRU  shop_customers
+	CRU  shop_customers_group
+	CRU  shop_payments_means
+	CRU  shop_order_type
+	CRU  shop_purchase_invoice
+	CRU  shop_orders
+	R    shop_reports

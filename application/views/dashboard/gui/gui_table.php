@@ -1,3 +1,3 @@
 <?php
-get_instance()->Gui->get_table( );
-?>
+// get_instance()->Gui->get_table( );
+;

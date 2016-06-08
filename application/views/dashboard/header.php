@@ -19,7 +19,7 @@ var tendoo	=	new Object;
 
 <?php $this->enqueue->load_css();?>
 <?php $this->enqueue->load_js();?>
-<?php $this->events->do_action( 'dashboard_header' );?>
+<?php $this->events->do_action('dashboard_header');?>
 
 <title><?php echo Html::get_title();?></title>
 </head>
