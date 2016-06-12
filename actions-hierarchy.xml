@@ -35,7 +35,7 @@
 			<action namespace="do_register_user"></action>
 		</action>
 		<action namespace="displays_public_errors"></action>
-		<action namespace="display_login_fields"</action>
+		<action namespace="display_login_fields"></action>
 	</action>
 </action>
 <action namespace="before_creating_tables">	
