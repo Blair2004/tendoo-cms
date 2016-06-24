@@ -142,6 +142,7 @@ class aauth_dashboard extends CI_model
         //var_dump( $this->users->get_meta( 'theme-skin' ) );die;
         // skin is defined by default
         $class    =    ($db_skin = $this->users->get_meta('theme-skin')) ? $db_skin : $class; // weird ??? lol
+
         unset($db_skin);
         
         // get user sidebar status

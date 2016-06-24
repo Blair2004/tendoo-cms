@@ -41,9 +41,13 @@ class Users_model extends CI_Model
      * @return mixed
     **/
     
-    public function get_meta($key)
+    public function get_meta($key = null)
     {
-        return riake($key, $this->meta);
+        if ($key != null) {
+            return riake($key, $this->meta);
+        } else {
+            return $this->meta;
+        }
     }
     
     /**

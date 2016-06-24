@@ -196,12 +196,6 @@ class Modules
             if (! in_array($module_namespace, force_array($activated_modules))) {
                 $activated_modules[]        =    $module_namespace;
                 get_instance()->options->set('actives_modules', $activated_modules, true);
-                
-                // Check whether cache is enabled
-                if (riake('enable_cache', $Options)) {
-                    // Delete modules list cache
-                    get_instance()->db->cache_delete('dashboard', 'modules', 'list');
-                }
             }
         }
         // if module doesn't exists
@@ -260,12 +254,6 @@ class Modules
             $key    =    array_search($module_namespace, $activated_modules);
             unset($activated_modules[ $key ]);
             get_instance()->options->set('actives_modules', $activated_modules, true);
-
-            // Check whether cache is enabled
-            if (riake('enable_cache', $Options)) {
-                // Delete modules list cache
-                get_instance()->db->cache_delete('dashboard', 'modules', 'list');
-            }
         }
     }
     
@@ -326,7 +314,7 @@ class Modules
                                     SimpleFileManager::drop($extraction_temp_path);
                                     
                                     // Enable back the module
-                                    self::enable($module_array[ 'application' ][ 'details' ][ 'namespace' ]);
+                                    // self::enable($module_array[ 'application' ][ 'details' ][ 'namespace' ]);
                                     
                                     if ($response !== true) {
                                         return $response;
@@ -334,11 +322,13 @@ class Modules
                                         if (is_file($migrate_file)) {
                                             return array(
                                                 'namespace'        =>    $module_array[ 'application' ][ 'details' ][ 'namespace' ],
+												'from'				=>	$old_module[ 'application' ][ 'details' ][ 'version' ],
                                                 'msg'            =>    'module-updated-migrate-required'
                                             );
                                         }
                                         return array(
                                             'namespace'        =>    $module_array[ 'application' ][ 'details' ][ 'namespace' ],
+											'from'				=>	$old_module[ 'application' ][ 'details' ][ 'version' ],
                                             'msg'            =>    'module-updated'
                                         );
                                     }
@@ -615,12 +605,6 @@ class Modules
         // Drop Assets Folder
         if (is_dir($module_assets_folder    =    PUBLICPATH . 'modules' . '/' . $module_namespace)) {
             SimpleFileManager::drop($module_assets_folder);
-        }
-        
-        // Check whether cache is enabled
-        if (get_instance()->options->get('enable_cache')) {
-            // Delete modules list cache
-            get_instance()->db->cache_delete('dashboard', 'modules', 'list');
         }
     }
     

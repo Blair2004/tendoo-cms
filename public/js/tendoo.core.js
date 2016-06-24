@@ -81,7 +81,8 @@ tendoo.notify			=	new function(){
 		},{
 			type			:	'danger',
 			allow_dismiss	:	dismiss,
-			delay			:	delay
+			delay			:	delay,
+			z_index			:	8000
 		})
 	};
 	
@@ -95,7 +96,8 @@ tendoo.notify			=	new function(){
 		},{
 			type			:	'info',
 			allow_dismiss	:	dismiss,
-			delay			:	delay
+			delay			:	delay,
+			z_index			:	8000
 		})
 	};
 	
@@ -109,7 +111,8 @@ tendoo.notify			=	new function(){
 		},{
 			type			:	'warning',
 			allow_dismiss	:	dismiss,
-			delay			:	delay
+			delay			:	delay,
+			z_index			:	8000
 		})
 	};
 	
@@ -123,7 +126,8 @@ tendoo.notify			=	new function(){
 		},{
 			type			:	'success',
 			allow_dismiss	:	dismiss,
-			delay			:	delay
+			delay			:	delay,
+			z_index			:	8000
 		})
 	};
 }

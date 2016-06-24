@@ -233,32 +233,38 @@ if (!function_exists('translate')) {
     
     function translate($code, $textdomain = 'tendoo-core')
     {
-        $final_lines    =    array();
         $instance        =    get_instance();
-        $heavy__        =    array();
         global $Options, $LangFileHandler, $PoParsed;
         
         $text_domains    =    $instance->config->item('text_domain');
         
         if (in_array($textdomain, array_keys($text_domains))) {
             $lang_file    =    $text_domains[ $textdomain ] . '/' . $instance->config->item('site_language') . '.po';
-            
-            if (is_file($lang_file)) {
-                if (! isset($LangFileHandler[ $textdomain ])) {
-                    $LangFileHandler[ $textdomain ]    =    new Sepia\FileHandler($lang_file);
-                    $PoParsed[ $textdomain ]        =    new Sepia\PoParser($LangFileHandler[ $textdomain ]);
-                    $PoParsed[ $textdomain ]->parse();
+			
+			if (is_file($lang_file)) {
+                
+				if (! isset($LangFileHandler[ $textdomain ])) {					
+					
+                    $LangFileHandler[ $textdomain ]    	=    new Sepia\FileHandler($lang_file);
+                    $PoParsed[ $textdomain ]        	=    new Sepia\PoParser($LangFileHandler[ $textdomain ]);					
+                    $PoParsed[ $textdomain ]->parse();							
                     $PoParsed[ $textdomain ]->AllEntries    =    $PoParsed[ $textdomain ]->entries();
-                    foreach ($PoParsed[ $textdomain ]->AllEntries as $key => $entry) {
-                        $newKey                        =    str_replace('<##EOL##>', '', $key);
-                        if ($key !== $newKey) {
-                            // var_dump( $newKey );
-                            $PoParsed[ $textdomain ]->AllEntries[ $newKey ] = $entry;
-                            unset($PoParsed[ $textdomain ]->AllEntries[ $key ]); //unset key
-                        }
-                    }
-                }
-                return implode('', riake('msgstr', riake($code, $PoParsed[ $textdomain ]->AllEntries, array( 'msgstr' => array( $code ) ))));
+					
+					foreach ($PoParsed[ $textdomain ]->AllEntries as $key => $entry) {
+						$newKey                        =    str_replace('<##EOL##>', '', $key);
+						if ($key !== $newKey) {
+							$PoParsed[ $textdomain ]->AllEntries[ $newKey ] = $entry;
+							unset($PoParsed[ $textdomain ]->AllEntries[ $key ]); //unset key
+						}
+					}					
+                }		
+						
+				return $PoParsed[ $textdomain ]->AllEntries[ $code ][ 'msgstr' ] != NULL ? 
+						implode( '', $PoParsed[ $textdomain ]->AllEntries[ $code ][ 'msgstr' ] ) : 
+						array( 'msgstr' => array( $code ) );
+						
+				//return implode('', riake('msgstr', riake($code, $PoParsed[ $textdomain ]->AllEntries, array( 'msgstr' => array( $code ) ))));
+                // return implode('', riake('msgstr', riake($code, $PoParsed[ $textdomain ]->AllEntries, array( 'msgstr' => array( $code ) ))));
             }
         }
         return $code;
