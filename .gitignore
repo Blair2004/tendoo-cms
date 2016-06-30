@@ -19,6 +19,7 @@ application/modules/*
 !application/modules/blog/
 !application/modules/pingback_trackback/
 !application/modules/theme_mod/
+!application/modules/codeigniter_restful/
 
 application/controllers/*
 !application/controllers/Page_404.php

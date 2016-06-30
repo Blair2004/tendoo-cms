@@ -1,0 +1,3 @@
+v1.5
+====
+- Enable module while installing Tendoo CMS.
