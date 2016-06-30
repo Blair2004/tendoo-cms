@@ -1,11 +1,11 @@
 <?php
 trait Rest_Modules
-{	
-	public function module_get($id = null)
+{
+    public function module_get($id = null)
     {
-        $this->load->library( 'modules' );
+        $this->load->library('modules');
 
-		Modules::load( MODULESPATH );
-		$this->response( ( array ) Modules::get( $id ), 200 );
+        Modules::load(MODULESPATH);
+        $this->response(( array ) Modules::get($id), 200);
     }
 }

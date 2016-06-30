@@ -1,7 +1,7 @@
 <?php
 trait Rest_Users
-{	
-	public function user_get($id = null)
+{
+    public function user_get($id = null)
     {
         if ($id != null) {
             $result            =    $this->db->where('id', $id)->get('aauth_users')->result();

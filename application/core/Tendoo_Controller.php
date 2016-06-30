@@ -79,7 +79,15 @@ class Tendoo_Controller extends CI_Controller
             }
 
             // loading assets for reserved controller
-            $css_libraries        =    $this->events->apply_filters('default_css_libraries', array( 'bootstrap.min', 'AdminLTE.min', 'tendoo', 'skins/_all-skins.min', 'font-awesome-4.3.0', '../plugins/iCheck/square/blue' ));
+            $css_libraries        =    $this->events->apply_filters('default_css_libraries', array(
+                'bootstrap.min',
+                'AdminLTE.min',
+                'tendoo',
+                'skins/_all-skins.min',
+                'font-awesome-4.3.0',
+                '../plugins/iCheck/square/blue'
+            ));
+            
             if ($css_libraries) {
                 foreach ($css_libraries as $lib) {
                     $this->enqueue->css($lib);

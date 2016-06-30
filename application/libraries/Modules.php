@@ -315,20 +315,20 @@ class Modules
                                     
                                     // Enable back the module
                                     // self::enable($module_array[ 'application' ][ 'details' ][ 'namespace' ]);
-                                    
+
                                     if ($response !== true) {
                                         return $response;
                                     } else {
                                         if (is_file($migrate_file)) {
                                             return array(
                                                 'namespace'        =>    $module_array[ 'application' ][ 'details' ][ 'namespace' ],
-												'from'				=>	$old_module[ 'application' ][ 'details' ][ 'version' ],
+                                                'from'                =>    $old_module[ 'application' ][ 'details' ][ 'version' ],
                                                 'msg'            =>    'module-updated-migrate-required'
                                             );
                                         }
                                         return array(
                                             'namespace'        =>    $module_array[ 'application' ][ 'details' ][ 'namespace' ],
-											'from'				=>	$old_module[ 'application' ][ 'details' ][ 'version' ],
+                                            'from'                =>    $old_module[ 'application' ][ 'details' ][ 'version' ],
                                             'msg'            =>    'module-updated'
                                         );
                                     }

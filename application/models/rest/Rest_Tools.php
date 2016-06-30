@@ -1,7 +1,7 @@
 <?php
 trait Rest_Tools
-{	
-	private function __success()
+{
+    private function __success()
     {
         $this->response(array(
             'status'        =>    'success'

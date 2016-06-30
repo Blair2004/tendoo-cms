@@ -187,9 +187,8 @@ class Dashboard extends Tendoo_Controller
             });
 
             $this->events->do_action('do_extract_module', $arg2);
-			
         } elseif ($page == 'migrate' && $arg2 != null && $arg3 != null) {
-			
+            
 
             // Can user extract modules ?
             if (! User::can('update_modules')) {
@@ -205,9 +204,8 @@ class Dashboard extends Tendoo_Controller
 
             $this->load->view('dashboard/modules/migrate', array(
                 'module'    =>  $module,
-				'from'		=>	$arg3
+                'from'        =>    $arg3
             ));
-            
         } elseif ($page == 'exec' && $arg2 != null && $arg3 != null) {
 
             // Can user extract modules ?
