@@ -19,24 +19,24 @@ $migrate_file        =    MODULESPATH . $module[ 'application' ][ 'details' ][ '
 
 if (is_file($migrate_file)) {
     $migrate_array            =    include_once($migrate_file);
-	
+    
     // looping migrate functions
     // get latest saved migration version.
     // $latestversion            =    $this->options->get('migration_' . $module[ 'application' ][ 'details' ][ 'namespace' ]);
-	
-	// If latest version is not defined. We assume this is a new installation and the migrate will start from the current module version.
-	// $from has old version id
-	$old_version			=	$from;
+
+    // If latest version is not defined. We assume this is a new installation and the migrate will start from the current module version.
+    // $from has old version id
+    $old_version            =    $from;
 
     $available_migration    =    array();
 
     $start_migration        =    false;
 
-    foreach ( array_keys( $migrate_array ) as $version ) {
-        if ( version_compare( $version, $old_version, '>' ) ) {
+    foreach (array_keys(array_reverse($migrate_array, true)) as $version) {
+        if (version_compare($version, $old_version, '>')) {
             $start_migration    =    true;
-        	//Start migrate at the right moment.
-        }	
+            //Start migrate at the right moment.
+        }
         if ($start_migration == true) {
             $available_migration[]    =    $version;
         }
