@@ -1,13 +1,8 @@
-# You're using Tendoo CMS 3.0.9
+# You're using Tendoo CMS 3.1.1
 This is a brand new release of Tendoo CMS, with auto update feature.
 
 ### What's new ?
 
-- Add db error handling
-- Renaming controller
-- Add new route
-- Update Tendoo_Controller
-- Renaming "POST" name attributes
-
 ### Bug Fix
 
+- Migration
