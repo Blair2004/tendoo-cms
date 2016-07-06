@@ -108,4 +108,19 @@ class OauthLibrary
         }
         return true;
     }
+	
+	/**
+	 * Get User Auth id
+	 * get user who generated api ID
+	**/
+	
+	public function getKeyOwnerId()
+	{
+		$query    =    get_instance()->db
+        ->where('key', @$_SERVER[ 'HTTP_' . get_instance()->config->item('rest_header_key') ])
+        ->get('restapi_keys')
+        ->result();
+		
+		return $query[0]->user;
+	}
 }

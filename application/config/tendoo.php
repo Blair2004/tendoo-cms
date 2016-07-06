@@ -19,7 +19,7 @@ $config[ 'controllers_requiring_logout' ]            =    array( 'sign-in' , 'si
 $config[ 'default_logout_route' ]                    =    '/dashboard/';
 
 // Core ID	
-$config[ 'version' ]                                =    $config[ 'core_version' ]    =    '3.1.1'; // core id
+$config[ 'version' ]                                =    $config[ 'core_version' ]    =    '3.1.2'; // core id
 $config[ 'core_signature' ]                            =    'Tendoo ' . $config[ 'version' ]; // core id
 $config[ 'supported_languages' ]                    =    array(
     'en_US' => 'English',
@@ -27,7 +27,7 @@ $config[ 'supported_languages' ]                    =    array(
     // 'es_ES'	=>	'Español' // Coming Soon
 );
 $config[ 'site_language' ]                            =    'en_US'; // @since 4.0.5
-$config[ 'database_version' ]                        =    '1.0';
+$config[ 'database_version' ]                        =    '1.1';
 
 // Text Domain @since 3.0.5
 $config[ 'text_domain' ]                            =    array(

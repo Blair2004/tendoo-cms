@@ -34,7 +34,7 @@ class Menu
             $class            =    is_array($current_menu) && count($current_menu) > 1 ? 'treeview' : '';
             $loop_index        =    0;
             ?>
-            <li class="<?php echo $class . ' ' . $menu_status;
+            <li class="<?php echo $class . ' ' . $menu_status . ' namespace-' . $menu_namespace ;
             ?>">
             <?php
             foreach ($current_menu as $menu) {
