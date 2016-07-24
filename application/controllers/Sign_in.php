@@ -39,7 +39,7 @@ class Sign_in extends Tendoo_Controller
                 if (riake('redirect', $_GET)) {
                     redirect(urldecode(riake('redirect', $_GET)));
                 } else {
-                    redirect(array( 'dashboard' ));
+                    redirect( $this->events->apply_filters( 'login_redirection', array( 'dashboard' ) ) );
                 }
             }
             $this->notice->push_notice($this->lang->line($exec));

@@ -7,6 +7,7 @@ $lang[ 'error-occured' ]                =    tendoo_error(__('An error occured.'
 $lang[ 'unexpected-error' ]                =    tendoo_error(__('An unexpected error occured.'));
 $lang[ 'access-denied' ]                =    tendoo_error(__('Access Denied.'));
 $lang[ 'option-saved' ]                    =    tendoo_success(__('Option was successfully saved.'));
+$lang[ 'unable-to-find-item' ]			=	tendoo_error( __( 'Unable to find this item. It may have been deleted or moved.' ) );
 // Login page
 $lang[ 'signin-notice-message' ]        =    __('Sign in to start your session');
 $lang[ 'recovery-notice-message' ]        =    __('Please enter your email addresse. A recovery email will be send to you.');

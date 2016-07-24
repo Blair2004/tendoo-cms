@@ -84,7 +84,7 @@ class Tendoo_Controller extends CI_Controller
                 'AdminLTE.min',
                 'tendoo',
                 'skins/_all-skins.min',
-                'font-awesome-4.3.0',
+                'font-awesome.min',
                 '../plugins/iCheck/square/blue'
             ));
             

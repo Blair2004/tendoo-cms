@@ -19,7 +19,7 @@ class Update_Model extends CI_model
     public function auto_update()
     {
         // Protecting
-        if (User::can('manage_core')) {
+        if ( User::can('manage_core') ) {
             $this->cache                =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'tendoo_update_' ));
             if (! $this->cache->get('regular_release') || ! $this->cache->get('major_release')) {
                 $json_api            =    $this->curl->security(false)->get('https://api.github.com/repos/Blair2004/tendoo-cms/releases');

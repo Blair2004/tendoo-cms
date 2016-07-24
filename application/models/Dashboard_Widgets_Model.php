@@ -130,4 +130,18 @@ class Dashboard_Widgets_Model extends CI_Model
         global $AdminWidgetsCols;
         return riake($col_id, $AdminWidgetsCols, array());
     }
+	
+	/**
+	 * Remove Widget
+	 *
+	 * @params string widget namespace
+	**/
+	
+	public function remove( $namespace ) 
+	{
+		global $AdminWidgets;
+		if( isset( $AdminWidgets[ $namespace ] ) ) {
+			unset( $AdminWidgets[ $namespace ] );
+		}
+	}
 }
