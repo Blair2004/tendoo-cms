@@ -482,10 +482,10 @@ if (! function_exists('redirect')) {
      */
     function redirect($uri = '', $method = 'auto', $code = null)
     {
-		// @since 3.0.2 (TendooCMS)
-		if( is_array( $uri ) ) {
-			$uri = site_url($uri);
-		} else if (! preg_match('#^(\w+:)?//#i', $uri)) {
+        // @since 3.0.2 (TendooCMS)
+        if (is_array($uri)) {
+            $uri = site_url($uri);
+        } elseif (! preg_match('#^(\w+:)?//#i', $uri)) {
             $uri = site_url($uri);
         }
 

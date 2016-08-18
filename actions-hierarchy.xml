@@ -21,6 +21,8 @@
 		</action>
 		<action namespace="set_login_rules">
 			<action namespace="do_login">
+				<action namespcae="login_redirection">
+				</action>
 			</action>	
 		</action>
 		<action namespace="do_send_recovery">
