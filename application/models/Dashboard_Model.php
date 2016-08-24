@@ -59,7 +59,7 @@ class Dashboard_Model extends CI_Model
     public function before_session_starts()
     {
         $this->config->set_item('tendoo_logo_long', '<b>Tend</b>oo');
-        $this->config->set_item('tendoo_logo_min', '<img id="tendoo-logo" style="height:35px;" src="' . img_url() . 'logo_minim.png' . '" alt=logo>');
+        $this->config->set_item('tendoo_logo_min', '<img id="tendoo-logo" style="height:30px;" src="' . img_url() . 'logo_minim.png' . '" alt=logo>');
     }
 
     /**
