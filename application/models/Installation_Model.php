@@ -59,6 +59,15 @@ class Installation_Model extends CI_Model
 		  PRIMARY KEY (`id`)
 		) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 		");
+		
+		// Setup DB Session Table
+		$this->db->query("CREATE TABLE IF NOT EXISTS `{$database_prefix}system_sessions` (
+		  `id` varchar(40) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+		  `ip_address` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+		  `timestamp` int(10) unsigned NOT NULL DEFAULT '0',
+		  `data` text COLLATE utf8_unicode_ci NOT NULL
+		) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+		");
 
         $this->events->do_action('tendoo_settings_tables', array(
             'database_prefix'        =>        $database_prefix,

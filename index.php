@@ -88,6 +88,18 @@ switch (ENVIRONMENT) {
 }
 
 /*
+ *----------------------
+ * TIMEZONE
+ *----------------------
+ *
+ * If timezone has not been set, give it a default
+ *
+ */
+	if(ini_get('date.timezone') == '' ) {
+	   date_default_timezone_set('GMT');
+	} 
+
+/*
  *---------------------------------------------------------------
  * SYSTEM FOLDER NAME
  *---------------------------------------------------------------
