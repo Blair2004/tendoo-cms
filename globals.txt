@@ -1,5 +1,0 @@
-$Options; // has site options
-$User_options // has user options
-$CurrentScreen; // Screen http://exemple.com/[screen]/[method]/[params]
-$CurrentMethod; // screen methods http://exemple.com/[screen]/[method]/[params]
-$CurrentParams // screen params http://exemple.com/[screen]/[method]/[params]
