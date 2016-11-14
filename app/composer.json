@@ -1,0 +1,5 @@
+{
+    "require": {
+        "barryvdh/laravel-debugbar": "^2.3"
+    }
+}

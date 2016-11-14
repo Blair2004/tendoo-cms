@@ -1,0 +1,2 @@
+<?php
+return [ 'path' =>  'uploads' ];
