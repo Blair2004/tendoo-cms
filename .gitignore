@@ -4,6 +4,10 @@ application/config/base_url.php
 !application/cache/.htaccess
 !application/cache/app/index.html
 application/config/database.php
+storage/
+vendor/
+.env
+bootstrap/
 
 #ignoring unmerged files
 application/temp/*
