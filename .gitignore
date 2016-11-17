@@ -12,3 +12,4 @@ bootstrap/
 #ignoring unmerged files
 application/temp/*
 public/upload/*
+composer.json
