@@ -17,6 +17,8 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->integer( 'role_id' );
+            $table->string( 'validation_code', 200 );
+            $table->boolean( 'is_active' );
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();

@@ -10,7 +10,8 @@
         "laravelcollective/html": "^5.2.0",
         "roumen/asset": "^2.5",
         "guzzlehttp/guzzle": "~5.3|~6.0",
-        "barryvdh/laravel-debugbar": "^2.3"
+        "barryvdh/laravel-debugbar": "^2.3",
+        "xinax/laravel-gettext": "4.x"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
