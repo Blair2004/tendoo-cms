@@ -12,21 +12,21 @@ class Dashboard_Model extends CI_Model
     {
         parent::__construct();
         $this->events->add_action('dashboard_header', array( $this, '__dashboard_header' ));
-        $this->events->add_action('dashboard_footer', array( $this, '__dashboard_footer' ));
+        $this->events->add_action('dashboard_footer', array( $this, '__dashboard_footer' ), 1);
         $this->events->add_action('load_dashboard', array( $this, '__set_admin_menu' ));
         $this->events->add_action('load_dashboard', array( $this, 'load_dashboard' ), 1);
         $this->events->add_action('create_dashboard_pages', array( $this, '__dashboard_config' ));
         $this->events->add_action('load_dashboard', array( $this, 'before_session_starts' ));
         // $this->events->add_filter( 'dashboard_home_output', array( $this, '__home_output' ) );
     }
-    
+
     /**
      * Load Dashboard
      * Enqueue File to assest helper
-     * 
+     *
      * @return void
     **/
-    
+
     public function load_dashboard()
     {
         // Enqueuing slimscroll
@@ -39,13 +39,13 @@ class Dashboard_Model extends CI_Model
         // Bootsrap Notify
         $this->enqueue->js('../plugins/bootstrap-notify-master/bootstrap-notify.min');
         $this->enqueue->js('tendoo.core');
-        
+
         // ParseParams
         $this->enqueue->js('jquery.parseParams');
-        
+
         // Bootbox
         $this->enqueue->js('../plugins/bootbox/bootbox.min');
-        
+
         // Underscore
         $this->enqueue->js('../plugins/underscore/underscore-min');
     }
@@ -55,7 +55,7 @@ class Dashboard_Model extends CI_Model
      *
      *	@return	: void
     **/
-    
+
     public function before_session_starts()
     {
         $this->config->set_item('tendoo_logo_long', '<b>Tend</b>oo');
@@ -66,30 +66,27 @@ class Dashboard_Model extends CI_Model
      * Load dashboard widgets
      * @return void
     **/
-    
+
     public function load_widgets()
     {
-        if (! Modules::is_active('aauth')) {
-            return false;
-        }
         // get global widget and cols
         global $AdminWidgets;
         global $AdminWidgetsCols;
 
         $SavedAdminWidgetsCols        =    $this->options->get('admin_widgets', User::id());
         $FinalAdminWidgetsPosition    =    array_merge($AdminWidgetsCols, force_array($SavedAdminWidgetsCols));
-        
+
         // looping cols
         unset($this->Gui->cols[ 4 ]);
         // var_dump( $this->Gui->cols );die;
 
         for ($i = 1; $i <= count($this->Gui->cols); $i++) {
             $widgets_namespace    =    $this->dashboard_widgets->col_widgets($i);
-            
+
             $this->Gui->col_width(1, 1);
             $this->Gui->col_width(2, 1);
             $this->Gui->col_width(3, 1);
-            
+
             foreach ($widgets_namespace as $widget_namespace) {
                 // get widget
                 $widget_options    =    $this->dashboard_widgets->get($widget_namespace, User::id());
@@ -100,7 +97,7 @@ class Dashboard_Model extends CI_Model
                     'type'        =>    riake('type', $widget_options),
                     'title'        =>    riake('title', $widget_options)
                 );
-                
+
                 $meta_array        =    array_merge($widget_options, $meta_array);
                 $this->Gui->add_meta($meta_array);
                 // create dom
@@ -111,17 +108,17 @@ class Dashboard_Model extends CI_Model
             }
         }
     }
-    
+
     /**
      * Load Dashboard Footer
-     * 
+     *
      * @return void
     **/
-    
+
     public function __dashboard_footer()
     {
         $segments    = $this->uri->segment_array();
-        if (riake(2, $segments, 'index') == 'index') {
+        if (riake(2, $segments, 'index') == 'index' || ( @$segments[ 2 ] == 'stores' && @$segments[ 4 ] == null ) ) {
             ?>
 <script type="text/javascript">
 
@@ -145,15 +142,15 @@ $(document).ready(function(){
 			$(this).find('div[data-meta-namespace]').each(function(){
 				tab[section].push($(this).data( 'meta-namespace' ) );
 			});
-			// Saving Each Fields	
+			// Saving Each Fields
 			_.extend(newSet,_.object([ section ],[ tab [ section ] ]));
 			section++;
 		});
 		tendoo.options.set( 'dashboard_widget_position', newSet, true );
 	}
-	
+
 	var actionAllower	=	{};
-	
+
 	$('.row .meta-row').sortable({
 		grid			:	[ 10 , 10 ],
 		connectWith		: 	".row .meta-row",
@@ -165,10 +162,10 @@ $(document).ready(function(){
 		stop			:	function(event, ui){
 			__doSort(event, ui);
 		},
-		delay			: 	150 
+		delay			: 	150
 	});
 });
-</script>	
+</script>
         <?php
 
         }
@@ -178,23 +175,25 @@ $(document).ready(function(){
 "use strict";
 
 $('[data-meta-namespace]').find( '[data-widget]' ).bind( 'click', function(){
-	tendoo.options.merge( 
-		'meta_status['+ $(this).closest( '[data-meta-namespace]' ).data( 'meta-namespace' )+']', 
+	tendoo.options.merge(
+		'meta_status['+ $(this).closest( '[data-meta-namespace]' ).data( 'meta-namespace' )+']',
 		$(this).closest( '[data-meta-namespace]' ).hasClass( 'collapsed-box' ) ? 'uncollapsed-box' : 'collapsed-box',
 		true
 	);
 });
+
+
 </script>
         <?php
 
     }
-    
+
     /**
      * Dashboard Header
-     * 
+     *
      * @return void
     **/
-    
+
     public function __dashboard_header()
     {
         global $Options;
@@ -265,13 +264,13 @@ tendoo.options			=	new function(){
             save_slug			=	'save_user_meta';
         } else {
             save_slug			=	'save';
-        }		
+        }
 		value					=	( typeof value == 'object' ) ? JSON.stringify( value ) : value
 		var post_data			=	_.object( [ key ], [ value ] );
 		// Add CSRF Secure for POST Ajax
 		tendoo.options_data		=	_.extend( tendoo.options_data, tendoo.csrf_data );
         tendoo.options_data		=	_.extend( tendoo.options_data, post_data );
-		
+
         $.ajax( '<?php echo site_url(array( 'dashboard', 'options' ));
         ?>/'+save_slug, {
             data			:	tendoo.options_data,
@@ -344,9 +343,9 @@ tendoo.loader			=	new function(){
 	this.int			=	0;
 	this.timeOutToClose;
 	this.show			=	function(){
-		
+
 		this.int++;
-		
+
 		if( $( '#canvasLoader' ).length > 0 ) {
 			clearTimeout( this.timeOutToClose );
 		} else {
@@ -364,7 +363,7 @@ tendoo.loader			=	new function(){
 	this.hide			=	function(){
 
 		this.int--;
-		
+
 		if( this.int == 0 ){
 			this.timeOutToClose	=	setTimeout( function(){
 				$('#tendoo-spinner').fadeOut(500, function(){
@@ -374,6 +373,13 @@ tendoo.loader			=	new function(){
 		}
 	}
 }
+
+/**
+ * Introducing Angular on Tendoo CMS
+**/
+
+var tendooApp		=	angular.module( 'tendooApp', [ ] );
+
 /**
  * Tendoo Tools
  * @since 3.0.5
@@ -393,9 +399,10 @@ $(document).ready(function(){
 	$( document ).ajaxSend(function() {
 	  tendoo.loader.show();
 	});
-	
+
 	// Add CSRF Protection to each request
-	$.ajaxPrefilter(function(options, originalOptions, jqXHR) {		
+	$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+        console.log( originalOptions );
 		if( typeof originalOptions.type != 'undefined' ) {
 			if ( originalOptions.type.toUpperCase() === 'POST' || options.type.toUpperCase() === 'POST') {
 				if( typeof originalOptions.data == 'string' ) {
@@ -403,13 +410,13 @@ $(document).ready(function(){
 				} else if( typeof originalOptions.data == 'object' ) {
 					// Fix Grocery Crud issue while upload
 					if( typeof options.multipart == 'undefined' ) {
-						options.data	=	$.param( _.extend( tendoo.csrf_data, originalOptions.data ) );	
+						options.data	=	$.param( _.extend( tendoo.csrf_data, originalOptions.data ) );
 					}
 				}
 			}
 		}
 		// Add header @since 3.1.1
-		<?php 
+		<?php
         $this->load->config('rest');
         $header_key        =    $this->config->item('rest_key_name');
         $key            =    @$Options[ 'rest_key' ];
@@ -417,8 +424,8 @@ $(document).ready(function(){
 		if ( options.beforeSend ) {
 			var oldBeforeSend	=	options.beforeSend;
 		}
-		
-		options.beforeSend = function (xhr, settings) { 
+
+		options.beforeSend = function (xhr, settings) {
 			if( typeof oldBeforeSend != 'undefined' ) {
 				oldBeforeSend( xhr, settings );
 			}
@@ -431,44 +438,44 @@ $(document).ready(function(){
 </script><?php
 
     }
-    
+
     /**
      * Dashboard Config
-     * 
+     *
      * @return void
     **/
-    
+
     public function __dashboard_config()
     {
         $this->Gui->register_page('index', array( $this, 'index' ));
         $this->Gui->register_page('settings', array( $this, 'settings' ));
     }
-    
+
     /**
      * Dashboard Home Load
-     * 
+     *
      * @return void
     **/
-    
+
     public function index()
     {
         // load widget model here only
         $this->load->model('Dashboard_Widgets_Model', 'dashboard_widgets');
-        
+
         // trigger action while loading home (for registering widgets)
         $this->events->do_action('load_dashboard_home');
         $this->load_widgets();
-        
+
         $this->Gui->set_title(sprintf(__('Dashboard &mdash; %s'), get('core_signature')));
         $this->load->view('dashboard/index/body');
     }
-    
+
     /**
      * Load Tendoo Setting Page
      * [New Permission Ready]
      * @return void
     **/
-    
+
     public function settings()
     {
         // Can user access modules ?
@@ -478,18 +485,18 @@ $(document).ready(function(){
         ) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
-        
+
         $this->Gui->set_title(sprintf(__('Settings &mdash; %s'), get('core_signature')));
         $this->load->view('dashboard/settings/body');
     }
-    
+
     /**
      * Load Dashboard Menu
      * [New Permission Ready]
-     * 
+     *
      * @return void
     **/
-    
+
     public function __set_admin_menu()
     {
         $admin_menus[ 'dashboard' ][]    =    array(
@@ -497,7 +504,7 @@ $(document).ready(function(){
             'icon'            =>        'fa fa-dashboard',
             'title'            =>        __('Dashboard')
         );
-        
+
         if (User::can('manage_core')) {
             $admin_menus[ 'dashboard' ][]    =    array(
                 'href'            =>        site_url(array( 'dashboard', 'update' )),
@@ -505,14 +512,14 @@ $(document).ready(function(){
                 'title'            =>        __('Update Center'),
                 'notices_nbr'    =>        $this->events->apply_filters('update_center_notice_nbr', 0)
             );
-        
+
             $admin_menus[ 'dashboard' ][]    =    array(
                 'href'            =>        site_url(array( 'dashboard', 'about' )),
                 'icon'            =>        'fa fa-dashboard',
                 'title'            =>        __('About'),
             );
         }
-        
+
         if (
             User::can('install_modules') ||
             User::can('update_modules') ||
@@ -526,7 +533,7 @@ $(document).ready(function(){
                 'href'            =>        site_url('dashboard/modules')
             );
         }
-        
+
         if (
             User::can('create_options') ||
             User::can('read_options') ||
@@ -539,7 +546,7 @@ $(document).ready(function(){
                 'href'            =>        site_url('dashboard/settings')
             );
         }
-        
+
         foreach (force_array($this->events->apply_filters('admin_menus', $admin_menus)) as $namespace => $menus) {
             foreach ($menus as $menu) {
                 Menu::add_admin_menu_core($namespace, $menu);

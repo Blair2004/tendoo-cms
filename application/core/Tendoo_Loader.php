@@ -462,6 +462,21 @@ class Tendoo_Loader
     {
         return $this->_ci_load(array( '_ci_view' => '../modules/' . $module_namespace . '/views/' . $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
     }
+	
+	/**
+     * Must Use Module View
+     *
+     * @param string module namespace
+     * @param string path
+     * @param array var
+     * @param bool return of no
+     * @return string/object
+    **/
+    
+    public function mu_module_view($module_namespace, $view, $vars = array(), $return = false)
+    {
+        return $this->_ci_load(array( '_ci_view' => '../mu-modules/' . $module_namespace . '/views/' . $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
+    }
 
     // --------------------------------------------------------------------
 

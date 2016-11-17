@@ -82,7 +82,7 @@ class OauthLibrary
      * Check scope
      * Checks whether a request can access a scope
      *
-     * @params string end point scope (unique scope)
+     * @param string end point scope (unique scope)
      * @return bool
     **/
     
@@ -100,7 +100,7 @@ class OauthLibrary
         ->result();
 
         // Request Scope		
-        $app_scopes            =    ( array ) explode(',', $query[0]->scopes);
+        $app_scopes            =    ( array ) explode(',', @$query[0]->scopes);
 
         // Is request scope is valid
         if (! in_array($endpoint_scope, $app_scopes)) {

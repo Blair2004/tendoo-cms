@@ -7,7 +7,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *  
 **/
 ?>
-<body class="<?php echo xss_clean($this->events->apply_filters('dashboard_body_class', 'skin-blue'));?> fixed sidebar-mini">
+<body class="<?php echo xss_clean($this->events->apply_filters('dashboard_body_class', 'skin-blue'));?> fixed sidebar-mini" <?php echo xss_clean($this->events->apply_filters('dashboard_body_attrs', 'ng-app="tendooApp"'));?>>
     <div class="wrapper">
         <header class="main-header"> 
             

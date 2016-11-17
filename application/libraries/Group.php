@@ -14,7 +14,7 @@ class Group
      * let you create more group for tendoo
      * 
      * @access public
-     * @params string, string, string
+     * @param string, string, string
      * @return string
     **/
     
@@ -28,7 +28,7 @@ class Group
      * let you update existent group
      * 
      * @access group
-     * @params string, string, string, int
+     * @param string, string, string, int
     **/
     
     public static function update($id, $name, $definition, $is_admin, $description)
@@ -40,8 +40,8 @@ class Group
      * Allow Group 
      * Add a permission to a group
      * 
-     * @params int Group id
-     * @params int Permission id
+     * @param int Group id
+     * @param int Permission id
      * @return bool
     **/
     
@@ -53,7 +53,7 @@ class Group
     /**
      * Delete User Group
      * 
-     * @params int Group Id
+     * @param int Group Id
      * @return bool
     **/
     

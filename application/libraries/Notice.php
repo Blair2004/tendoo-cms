@@ -18,7 +18,7 @@ class Notice
     /**
      * Push notification to Notice Array
      * 
-     * @params Array
+     * @param Array
      * @return void
     **/
     
@@ -47,7 +47,7 @@ class Notice
     /**
      * Output a notice
      * 
-     * @params bool whether to return or not notices
+     * @param bool whether to return or not notices
      * @return void/bool
     **/
     

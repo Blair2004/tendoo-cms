@@ -99,5 +99,7 @@ define('LANG_RECORDER_ENABLED', false); // enable auto recorder for unregistered
 define('GUI_EXPIRE', 60*60*6); // GUI expiration time
 define('LIBPATH', APPPATH . 'libraries' . '/'); // Libraries path
 define('MODULESPATH', APPPATH . 'modules' . '/'); // Modules Paths
+define('MU_MODULESPATH', APPPATH . 'mu-modules' . '/'); // Modules Paths
 define('PUBLICPATH', FCPATH . 'public' . '/'); // Public path
-define('SYSTEMPATH', FCPATH . 'system' . '/'); // Public path
+define('SYSTEMPATH', FCPATH . 'system' . '/'); // System path
+define('UPLOADPATH', FCPATH . 'public/upload/'); // Upload path

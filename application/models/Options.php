@@ -171,8 +171,8 @@ class Options extends CI_Model
      * Delete Option
      *
      * @access : public
-     * @params : string
-     * @params : int users id
+     * @param : string
+     * @param : int users id
      * @return : bool
     **/
 

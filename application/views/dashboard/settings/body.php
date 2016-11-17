@@ -91,6 +91,17 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
+    'name'        =>    'require_validation',
+    'label'        =>    __('Require validation'),
+    'options'    =>    array(
+        0    =>    __('No'),
+        1    =>    __('Yes')
+    ),
+    'description'   =>  __( 'Eeach new account will have to check the verification email in order to validate their account.' )
+), 'advanced-settings', 2);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
     'name'        =>    'webdev_mode',
     'label'        =>    __('Enable Developer mode ?'),
     'placeholder'=>    __('Enable developer mode'),

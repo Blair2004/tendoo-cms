@@ -6,10 +6,10 @@ class Tendoo_Controller extends CI_Controller
         parent::__construct();
 
         // Include default library class
-        include_once(LIBPATH .'/Html.php');
-        include_once(LIBPATH .'/Modules.php');
-        include_once(LIBPATH .'/UI.php');
-        include_once(LIBPATH .'/SimpleFileManager.php');
+        include_once(LIBPATH . '/Html.php');
+        include_once(LIBPATH . '/Modules.php');
+        include_once(LIBPATH . '/UI.php');
+        include_once(LIBPATH . '/SimpleFileManager.php');
         include_once(APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/InterfaceHandler.php');
         include_once(APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/FileHandler.php');
         include_once(APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/PoParser.php');
@@ -22,13 +22,14 @@ class Tendoo_Controller extends CI_Controller
         $this->lang->load_lines(APPPATH . '/language/system_lang.php'); // @since 3.0.9
 
         // Load Modules
-        Modules::load(MODULESPATH);
+		Modules::load( MU_MODULESPATH, 0, 'mu-modules' );
+        Modules::load( MODULESPATH );
 
         /**
          * Global Vars
         **/
 
-        global $CurrentMethod, $CurrentScreen, $CurrentParams;
+        global $CurrentMethod, $CurrentScreen, $CurrentParams; 
 
         $CurrentMethod        =    $this->uri->segment(2);
         $CurrentScreen        =    $this->uri->segment(1);
@@ -36,7 +37,7 @@ class Tendoo_Controller extends CI_Controller
         $CurrentParams        =    count($CurrentParams) > 2 ? array_slice($CurrentParams, 2) : array();
 
         // if is installed, setup is always loaded
-        if ($this->setup->is_installed()) {
+        if ( $this->setup->is_installed() ) {
             /**
              * Load Session, Database and Options
             **/
@@ -44,22 +45,24 @@ class Tendoo_Controller extends CI_Controller
             $this->load->library('session');
             @$this->load->database(); // load new connection
             $this->load->model('options');
-
+			
             // Get Active Modules and load it
-            Modules::init('actives');
+			Modules::init( 'all', null, 'mu-modules' );
+            Modules::init( 'actives' );
 
             $this->events->do_action('after_app_init');
         }
         // Only for controller requiring installation
         elseif ($this->uri->segment(1) === 'do-setup' && $this->uri->segment(2) === 'database') {
             // @since 3.0.5
-                // $this->lang->load( 'system' );	// Load default system Language
-                // Deprecated since all languages are included within /language folder and loaded by default.
+			// $this->lang->load( 'system' );	// Load default system Language
+			// Deprecated since all languages are included within /language folder and loaded by default.
 
-                $this->events->add_action('before_setting_tables', function () {
-                // this hook let modules being called during tendoo installation
-                // Only when site name is being defined
-                Modules::init('all');
+			$this->events->add_action('before_db_setup', function () {
+				// this hook let modules being called during tendoo installation
+				// Only when site name is being defined
+				Modules::init('all');
+				Modules::init( 'all', null, 'mu-modules' );
             });
         }
         // if is reserved controllers only

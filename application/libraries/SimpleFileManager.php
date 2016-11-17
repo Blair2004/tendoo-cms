@@ -7,7 +7,7 @@ class SimpleFileManager
     /**
      * Drop file from source
      * 
-     * @params string path to file
+     * @param string path to file
      * @return bool/void
     **/
     
@@ -33,8 +33,8 @@ class SimpleFileManager
     /**
      * Move file to a destination path
      * 
-     * @params string source path
-     * @params string destination path
+     * @param string source path
+     * @param string destination path
      * @return void
     **/
     
@@ -76,8 +76,8 @@ class SimpleFileManager
     /**
      * Copy a file from a source to a destination
      * 
-     * @params string Source path
-     * @params string Destiantion path
+     * @param string Source path
+     * @param string Destiantion path
      * @return bool/void
     **/
     
@@ -106,8 +106,8 @@ class SimpleFileManager
     /**
      * Copy directory from a source to a destination path
      * 
-     * @params string Source path
-     * @params string Destination Path
+     * @param string Source path
+     * @param string Destination Path
      * @return void
     **/
     

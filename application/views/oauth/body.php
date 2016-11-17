@@ -18,8 +18,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
         
             if ($scopes && @$_GET[ 'cb' ] != null) {
                 if (is_array($scopes)) {
+					// var_dump( $scopes );
                     foreach ($scopes as $scope) {
                         ?>
+                        <input type="hidden" value="<?php echo $scope[ 'app' ];?>" name="scopes[]">
+                        <input type="hidden" value="<?php echo $this->input->get( 'app_source_name' );?>" name="app_source_name">
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
         <div class="info-box <?php echo @$scope[ 'color' ];
                         ?>"> <span class="info-box-icon"><i class="<?php echo @$scope[ 'icon' ];
                         ?>"></i></span>

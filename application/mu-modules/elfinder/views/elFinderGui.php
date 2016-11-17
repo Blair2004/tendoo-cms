@@ -14,7 +14,7 @@ $this->Gui->add_meta( array(
 
 $this->Gui->add_item( array(
 'type'          =>    'dom',
-'content'       =>     $this->load->module_view( 'elfinder', 'elFinderDom', array(), true )
+'content'       =>     $this->load->mu_module_view( 'elfinder', 'elFinderDom', array(), true )
 ), 'elfinder', 1 );
 
 // Gui Output

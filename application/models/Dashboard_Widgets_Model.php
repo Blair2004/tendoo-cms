@@ -3,12 +3,10 @@ class Dashboard_Widgets_Model extends CI_Model
 {
     public function __construct()
     {
-        if (Modules::is_active('aauth')) {
-            global $AdminWidgetsCols;
-            if ($AdminWidgetsCols === null) {
-                $AdminWidgetsCols    =    force_array($this->options->get('dashboard_widget_position', User::id()));
-            }
-        }
+		global $AdminWidgetsCols;
+		if ($AdminWidgetsCols === null) {
+			$AdminWidgetsCols    =    force_array($this->options->get('dashboard_widget_position', User::id()));
+		}
     }
     
     /**
@@ -79,41 +77,37 @@ class Dashboard_Widgets_Model extends CI_Model
     
     public function save_position($widget_namespace, $col_id)
     {
-        if (Modules::is_active('aauth')) {
-            global $AdminWidgetsCols;
-            // is widget already exists within a cols, this save is ignored
-            if (is_array($AdminWidgetsCols)) {
-                foreach ($AdminWidgetsCols as $cols) {
-                    if (in_array($widget_namespace, $cols)) {
-                        return;
-                    }
-                }
-            }
-            if (! isset($AdminWidgetsCols[ $col_id ])) {
-                $AdminWidgetsCols[ $col_id ]    =    array();
-            }
-            if (! in_array($widget_namespace, $AdminWidgetsCols[ $col_id ])) {
-                $AdminWidgetsCols[ $col_id ][]    =    $widget_namespace;
-                $this->options->set('dashboard_widget_position', $AdminWidgetsCols, true, User::id());
-            }
-        }
+		global $AdminWidgetsCols;
+		// is widget already exists within a cols, this save is ignored
+		if (is_array($AdminWidgetsCols)) {
+			foreach ($AdminWidgetsCols as $cols) {
+				if (in_array($widget_namespace, $cols)) {
+					return;
+				}
+			}
+		}
+		if (! isset($AdminWidgetsCols[ $col_id ])) {
+			$AdminWidgetsCols[ $col_id ]    =    array();
+		}
+		if (! in_array($widget_namespace, $AdminWidgetsCols[ $col_id ])) {
+			$AdminWidgetsCols[ $col_id ][]    =    $widget_namespace;
+			$this->options->set('dashboard_widget_position', $AdminWidgetsCols, true, User::id());
+		}
     }
     
     /**
      * Save Widget posistions
      * 
-     * @params string namespace
-     * @params int Col Id
+     * @param string namespace
+     * @param int Col Id
      * @return void
     **/
     
     public function save_positions($widgets_namespaces, $col_id)
     {
-        if (Modules::is_active('aauth')) {
-            global $AdminWidgetsCols;
-            $AdminWidgetsCols[ $col_id ]    =    $widgets_namespaces;
-            $this->options->set('dashboard_widget_position', $AdminWidgetsCols, true, User::id());
-        }
+		global $AdminWidgetsCols;
+		$AdminWidgetsCols[ $col_id ]    =    $widgets_namespaces;
+		$this->options->set('dashboard_widget_position', $AdminWidgetsCols, true, User::id());
     }
     
     /**
@@ -134,7 +128,7 @@ class Dashboard_Widgets_Model extends CI_Model
 	/**
 	 * Remove Widget
 	 *
-	 * @params string widget namespace
+	 * @param string widget namespace
 	**/
 	
 	public function remove( $namespace ) 

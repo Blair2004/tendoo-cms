@@ -94,8 +94,8 @@ class User
     /**
      * Create User Permission
      * 
-     * @params string permission
-     * @params string definition
+     * @param string permission
+     * @param string definition
      * @return bool
     **/
     
@@ -107,7 +107,7 @@ class User
     /**
      * Delete User Permission
      * 
-     * @params int user id,
+     * @param int user id,
      * @return bool
     **/
     
@@ -119,9 +119,9 @@ class User
     /**
      * Update User Permission
      * 
-     * @params int user id,
-     * @params string name
-     * @params string definition
+     * @param int user id,
+     * @param string name
+     * @param string definition
      * @return bool
     **/
     
@@ -158,12 +158,12 @@ class User
     
     /**
      * Get use avatar
-     * @params string email
-     * @params int width
-     * @params string
-     * @params string
-     * @params bool
-     * @params array atts
+     * @param string email
+     * @param int width
+     * @param string
+     * @param string
+     * @param bool
+     * @param array atts
      * @return string avatar src/image tag
     **/
     
@@ -180,5 +180,45 @@ class User
             $url .= ' />';
         }
         return $url;
+    }
+	
+	/**
+     * 	Create user with default privilege
+     *  
+     * 	@access : public
+     *  @param : string email
+     * 	@param : string password
+     * 	@param : string name
+     * 	@return : bool
+    **/
+    
+    public function create($email, $password, $username, $group_par, $validate = false)
+    {
+        $user_creation_status    =    get_instance()->auth->create_user($email, $password, $username);
+        if (! $user_creation_status) {
+            return false;
+        }
+        // bind user to a speciifc group
+        $user_id        =    get_instance()->auth->get_user_id($email);
+        // Send Verification
+        get_instance()->auth->send_verification($user_id);
+        
+        // Adding to a group		
+        // refresh group
+        get_instance()->auth->add_member($user_id, $group_par);
+        
+        // Validate User
+        if ($validate == true) {
+            $user            =    get_instance()->auth->get_user($user_id);
+            get_instance()->auth->verify_user($user, $users->verification_code);
+        }
+        
+        // add custom user fields
+        $custom_fields    =    get_instance()->events->apply_filters('custom_user_meta', array());
+        foreach (force_array($custom_fields) as $key => $value) {
+            get_instance()->options->set($key, $value, $autoload = true, $user_id, $app = 'users');
+        }
+        
+        return 'user-created';
     }
 }

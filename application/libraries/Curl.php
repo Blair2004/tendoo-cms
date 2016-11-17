@@ -20,8 +20,8 @@ class Curl
     /**
      * Set Option
      * 
-     * @params Array object
-     * @params string value
+     * @param Array object
+     * @param string value
     **/
     
     public function _setOpt($opts, $value)
@@ -33,7 +33,7 @@ class Curl
     /**
      * Show Image
      * 
-     * @params bool 
+     * @param bool 
      * @return void
     **/
     
@@ -80,7 +80,7 @@ class Curl
     /**
      * Set user Agent
      * 
-     * @params string agent name
+     * @param string agent name
      * @return void
     **/
     
@@ -115,8 +115,8 @@ class Curl
     /**
      * Post
      * 
-     * @params string Url
-     * @params Array definition
+     * @param string Url
+     * @param Array definition
      * @return obj exect object
     **/
     
@@ -131,7 +131,7 @@ class Curl
     /**
      * Get CURL content
      * 
-     * @params string Url
+     * @param string Url
      * @return bool
     **/
     
@@ -144,7 +144,7 @@ class Curl
     /**
      * Enable Security
      * 
-     * @params bool
+     * @param bool
      * @return Object
     **/
     
@@ -158,9 +158,9 @@ class Curl
     /**
      * Update User Permission
      * 
-     * @params int user id,
-     * @params string name
-     * @params string definition
+     * @param int user id,
+     * @param string name
+     * @param string definition
      * @return bool
     **/
     
@@ -173,7 +173,7 @@ class Curl
     
     /**
      * User Password
-     * @params string user password
+     * @param string user password
      * @return obj current object
     **/
     

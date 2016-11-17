@@ -8,7 +8,7 @@ class Theme
     /**
      * Load Theme
      * 
-     * @params string Path,
+     * @param string Path,
      * @return void
     **/
     

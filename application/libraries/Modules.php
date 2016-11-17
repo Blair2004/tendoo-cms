@@ -2,6 +2,7 @@
 class Modules
 {
     private static $modules;
+	private static $mu_modules;
     private static $actives  = array();
     
     /**
@@ -12,10 +13,11 @@ class Modules
      * @copyright    name date
      * @param        string $module_path
      * @param		  int $deepness
+	 * @param		module type
      * @since        3.0.1
      */
      
-    public static function load($module_path, $deepness = 0)
+    public static function load($module_path, $deepness = 0, $type = 'default' )
     {
         if ($deepness < 2) { // avoid multi-folder parsing
             $dir    =    opendir($module_path);
@@ -26,7 +28,7 @@ class Modules
                 if (substr($file, -10) === 'config.xml') {
                     $config        =    get_instance()->xml2array->createArray(file_get_contents($module_path . '/' . $file));
                 } elseif (is_dir($module_path . '/' . $file) && ! in_array($file, array( '.', '..' ))) {
-                    self::load($module_path . '/' .$file, $deepness + 1); // Only top folder are parsed
+                    self::load($module_path . '/' .$file, $deepness + 1, $type ); // Only top folder are parsed
                 }
             }
             // Adding Valid init file to module array
@@ -34,12 +36,25 @@ class Modules
             if (isset($config[ 'application' ][ 'details' ][ 'namespace' ])) {
                 $namespace = strtolower($config[ 'application' ][ 'details' ][ 'namespace' ]);
                 // Saving details
-                self::$modules[ $namespace ]                    =    $config;
+				if( $type == 'mu-modules' ) {
+                	self::$mu_modules[ $namespace ]     =    $config;
+				} else {
+					self::$modules[ $namespace ]        =    $config;
+				}
                 // Edit main file path
                 if (isset($config[ 'application' ][ 'details' ][ 'main' ])) {
-                    self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ]    =    $module_path . '/' .  self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ];
+					if( $type == 'mu-modules' ) {
+						self::$mu_modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ]    =    $module_path . '/' .  self::$mu_modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ];
+					} else {
+						self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ]    =    $module_path . '/' .  self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'main' ];
+					}
                 }
-                self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ]    =    strtolower(self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ]);
+                
+				if( $type == 'mu-modules' ) {
+					self::$mu_modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ]    =    strtolower(self::$mu_modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ]);
+				} else {
+					self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ]    =    strtolower(self::$modules[ $namespace ][ 'application' ][ 'details' ][ 'namespace' ]);
+				}
             }
             
             // Check for language directory
@@ -103,15 +118,21 @@ class Modules
      * @author       blair Jersyer
      * @copyright    2015
      * @param        string $namespace module namespace string
+ 	 * @param		module type
      * @since        3.0.1
      * @return 		  bool|array
      */
-    public static function get($namespace = null)
+    public static function get($namespace = null, $type = 'default' )
     {
         if ($namespace == null) {
-            return self::$modules;
+            return ( $type == 'mu-modules' ) ? self::$mu_modules : self::$modules;
         }
-        return isset(self::$modules[ $namespace ]) ? self::$modules[ $namespace ] : false; // if module exists
+		
+		if( $type == 'mu-modules' ) {
+			return isset(self::$mu_modules[ $namespace ]) ? self::$mu_modules[ $namespace ] : false; // if module exists
+		} else {
+			return isset(self::$modules[ $namespace ]) ? self::$modules[ $namespace ] : false; // if module exists
+		}
     }
     
     /**
@@ -124,14 +145,15 @@ class Modules
      * @copyright    2015
      * @param        string filter
      * @param 		  string module namespace
+	 * @param		module type
      * @since        3.0.1
      * @return 		  void
      */
      
-    public static function init($filter, $module_namespace = null)
+    public static function init($filter, $module_namespace = null, $type = 'default')
     {
         if ($module_namespace != null) {
-            $modules        =    self::get($module_namespace);
+            $modules        =    ( $type == 'mu-modules' ) ? self::get( $module_namespace, 'mu-modules' ) : self::get( $module_namespace );
             if (isset($modules[ 'application' ][ 'details' ][ 'main' ])) {
                 if (is_file($init_file = $modules[ 'application' ][ 'details' ][ 'main' ]) && $filter === 'unique') {
                     include_once($init_file);
@@ -139,9 +161,10 @@ class Modules
                 }
             }
         } else {
-            $modules        =    self::get();
+            $modules        =    ( $type == 'mu-modules' ) ? self::get( null, 'mu-modules' ) : self::get();
         }
-        $modules_array    =    array();
+        
+		$modules_array    =    array();
         
         foreach (force_array($modules) as $module) {
             // print_array( $modules );

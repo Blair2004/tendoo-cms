@@ -72,7 +72,7 @@ class CustomQuery
      *
      * @accesss       :    Private
      *
-     * @params        :    String (Title)
+     * @param        :    String (Title)
      **/
 
     private function title_checker($title, $exclude_post = 0)
@@ -109,7 +109,7 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    String (Title), String (Content) , String/Int (ID/Custom Filter) , String (Filter Type)
+     * @param        :    String (Title), String (Content) , String/Int (ID/Custom Filter) , String (Filter Type)
      *
      * @param        $title
      * @param        $content
@@ -252,7 +252,7 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    Int( post id )
+     * @param        :    Int( post id )
      *
      * @param $post_id
      *
@@ -280,7 +280,7 @@ class CustomQuery
      *    Get data from custom query
      * @access        :    public
      *
-     * @params        :    Array/String
+     * @param        :    Array/String
      *
      * @return        :    Array/Boolean
      **/
@@ -488,9 +488,9 @@ class CustomQuery
      *    Define Taxonomy for custom query
      * @access        :    Public
      *
-     * @params        :    String (Namespace)
-     * @params        :    String (Title)
-     * @params        :    Array    (Config)
+     * @param        :    String (Namespace)
+     * @param        :    String (Title)
+     * @param        :    Array    (Config)
      *
      * @return        :    null
      **/
@@ -524,10 +524,10 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    String (Namespace)
-     * @params        :    String (Title)
-     * @params        :    String    (Description)
-     * @params        :    Int (Parent Id)
+     * @param        :    String (Namespace)
+     * @param        :    String (Title)
+     * @param        :    String    (Description)
+     * @param        :    Int (Parent Id)
      *
      * @return        :    String (result code)
      **/
@@ -577,7 +577,7 @@ class CustomQuery
      *
      * @access        :    public
      *
-     * @params        :    String (Title)
+     * @param        :    String (Title)
      *
      * @return        :    Bool
      **/
@@ -594,7 +594,7 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    Int (ID)
+     * @param        :    Int (ID)
      *
      * @return        :    Array
      **/
@@ -612,7 +612,7 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    String (Namespace)
+     * @param        :    String (Namespace)
      **/
 
     public function taxonomy_is_defined($taxonomy_namespace)
@@ -629,11 +629,11 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    String (Title)
-     * @params        :    String (Content)
-     * @params        :    String (Namespace)
-     * @params        :    String/Int (Identifier)
-     * @params        :    String (Filter)
+     * @param        :    String (Title)
+     * @param        :    String (Content)
+     * @param        :    String (Namespace)
+     * @param        :    String/Int (Identifier)
+     * @param        :    String (Filter)
      *
      * @return        :    Bool
      **/
@@ -672,9 +672,9 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    String (Namespace)
-     * @params        :    String/Int (Start offset/Title)
-     * @params        :    String/Int (End Offset/filter)
+     * @param        :    String (Namespace)
+     * @param        :    String/Int (Start offset/Title)
+     * @param        :    String/Int (End Offset/filter)
      *
      * @return        :    Array
      **/
@@ -714,7 +714,7 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    Int (ID)
+     * @param        :    Int (ID)
      *
      * @return        :    String/Array
      **/
@@ -749,7 +749,7 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    Int (ID)
+     * @param        :    Int (ID)
      *
      * @return        :    Bool
      **/
@@ -767,7 +767,7 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    Int (ID)
+     * @param        :    Int (ID)
      *
      * @return        :    Int
      **/
@@ -788,7 +788,7 @@ class CustomQuery
      *
      * @acess         :    Public
      *
-     * @params        :    String(Post Namespace), Array(Config)
+     * @param        :    String(Post Namespace), Array(Config)
      *
      * @return        :    Array
      **/
@@ -826,7 +826,7 @@ class CustomQuery
      *
      * @access        :    public
      *
-     * @params        :    string (post namespace), int( post id ), int ( author id if is connected ), string (comment content), int (comment parent id), string (author name), string (author email)
+     * @param        :    string (post namespace), int( post id ), int ( author id if is connected ), string (comment content), int (comment parent id), string (author name), string (author email)
      *
      * @return        :    string (response of the operation)
      **/
@@ -898,7 +898,7 @@ class CustomQuery
      *
      * @access    :    Public
      *
-     * @params    :    int (comment id)
+     * @param    :    int (comment id)
      *
      * @return    :    string (response of the operation)
      **/
@@ -921,7 +921,7 @@ class CustomQuery
      *
      * @access        :    Public
      *
-     * @params        :    int (comment id), int (status 0:draft, 1:publish, 2:trash, 3:trash)
+     * @param        :    int (comment id), int (status 0:draft, 1:publish, 2:trash, 3:trash)
      **/
 
     public function comment_status($id, $status = 0)
@@ -949,7 +949,7 @@ class CustomQuery
      *
      * @access    :    Public
      *
-     * @params    :    int( Status tu convert to string )
+     * @param    :    int( Status tu convert to string )
      **/
 
     public function get_status($int)

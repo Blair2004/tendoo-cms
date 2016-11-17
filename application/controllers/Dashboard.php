@@ -196,7 +196,8 @@ class Dashboard extends Tendoo_Controller
             }
 
             $module        =    Modules::get($arg2);
-            if (! $module) {
+            
+			if (! $module) {
                 redirect(array( 'dashboard', 'module-not-found' ));
             }
 

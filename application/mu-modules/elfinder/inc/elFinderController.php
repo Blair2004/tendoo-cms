@@ -19,7 +19,7 @@ class elFinderController extends CI_Model{
         $this->enqueue->css( 'elfinder.min', module_url( 'elfinder/css' ) );
 
         $this->Gui->set_title( __( 'File Manager', 'elfinder' ) );
-        $this->load->module_view( 'elfinder', 'elFinderGui' );
+        $this->load->mu_module_view( 'elfinder', 'elFinderGui' );
     }
 
 }

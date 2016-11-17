@@ -171,7 +171,7 @@ class Update_Model extends CI_model
     /**
      * Get Release
      * 
-     * @params string release id
+     * @param string release id
      * @return string error code
     **/
     
@@ -204,8 +204,8 @@ class Update_Model extends CI_model
     /**
      * Install a release
      * 
-     * @params string version 
-     * @params string zipball name
+     * @param string version 
+     * @param string zipball name
      * @return array
     **/
     

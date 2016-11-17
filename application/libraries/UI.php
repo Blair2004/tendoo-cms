@@ -8,8 +8,8 @@ class UI
      * Push notice to UI array
      *
      * @access public
-     * @params string message
-     * @params string type
+     * @param string message
+     * @param string type
      * @returns bool
     **/
     

@@ -122,7 +122,7 @@ class PostType
      * Save Post type to database
      * 
      * @access	:	Public
-     * @params	:	String (title) , String (Content) , String (Status) 
+     * @param	:	String (title) , String (Content) , String (Status) 
      * @return	:	String (Post status)
     **/
     
@@ -135,7 +135,7 @@ class PostType
      * Update Post type to database
      * 
      * @access	:	Public
-     * @params	:	String (title) , String (Content) , String (Status) 
+     * @param	:	String (title) , String (Content) , String (Status) 
      * @return	:	String (Post status)
     **/
     
@@ -148,7 +148,7 @@ class PostType
      * get post from database. is CustomQuery::get alias
      * 
      * @access	:	Public
-     * @params	:	Array 
+     * @param	:	Array 
      * @return	:	Multiform
     **/
     

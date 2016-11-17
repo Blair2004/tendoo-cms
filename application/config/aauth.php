@@ -26,7 +26,7 @@ $config['aauth'] = array(
     'users' => 'aauth_users',
     // the group table
     'groups' => 'aauth_groups',
-    // 
+    //
     'user_to_group' => 'aauth_user_to_group',
     // permitions
     'perms' => 'aauth_perms',
@@ -45,7 +45,7 @@ $config['aauth'] = array(
     'remember' => '+7 days',
 
     // pasword maximum char long (min is 4)
-    'max' => 13,
+    'max' => 20,
 
     // non alphanumeric characters that are allowed in a name
     'valid_chars' => array(' ', '\''),
@@ -64,12 +64,12 @@ $config['aauth'] = array(
     'max_login_attempt' => 10,
 
     // to register email verifitaion need? true / false
-    'verification' => false,
+    'verification' => true,
 
     // system email.
     'email' => 'user@tendoo.org',
     'name' => 'Tendoo CMS'
-    
+
 );
 
 /* End of file aauth.php */

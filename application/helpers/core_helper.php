@@ -2,7 +2,7 @@
      exit('No direct script access allowed');
  }
 
-/** 
+/**
  * Force a var to be an array.
  *
  * @param Var
@@ -16,7 +16,7 @@ function force_array($array)
     return array();
 }
 
-/** 
+/**
  * Output message with error tag
  *
  * @param String (error code)
@@ -31,7 +31,7 @@ if (!function_exists('tendoo_error')) {
     }
 }
 
-/** 
+/**
  * Output message with success tag
  *
  * @param String (error code)
@@ -45,7 +45,7 @@ if (!function_exists('tendoo_success')) {
     }
 }
 
-/** 
+/**
  * Output message with warning tag
  *
  * @param String (error code)
@@ -59,7 +59,7 @@ if (!function_exists('tendoo_warning')) {
     }
 }
 
-/** 
+/**
  * Output message with Info tag
  *
  * @param String (error code)
@@ -74,7 +74,7 @@ if (!function_exists('tendoo_info')) {
     }
 }
 
-/** 
+/**
  * Convert short string to long notice message
  *
  * @param String (error code)
@@ -104,7 +104,7 @@ if (!function_exists('fetch_error')) {
     }
 }
 
-/** 
+/**
  * Output message from URL
  *
  * @param String (error code)
@@ -122,11 +122,11 @@ if (!function_exists('fetch_notice_from_url')) {
     }
 }
 
-/** 
+/**
  * Return true or false if numeric var is between two numbers
  *
  * @param Int( Min ), Int( Max ), $subject
- * @return Bool 
+ * @return Bool
 **/
 
 if (!function_exists('between')) {
@@ -145,7 +145,7 @@ if (!function_exists('between')) {
 /**
 *	Returns if array key exists. If not, return false if $default is not set or return $default instead
 *	@access		:	Public
-*	@params		:	String (Key), $subject, $default
+*	@param		:	String (Key), $subject, $default
 **/
 
 function riake($key, $subject, $default = false)
@@ -158,7 +158,7 @@ function riake($key, $subject, $default = false)
 
 /**
  * Return first index from a given Array
- * 
+ *
  * @access 	:	public
  * @param 	:	Array
  * @return 	:	Array/False
@@ -193,61 +193,61 @@ function get($key) // add to doc
 }
 
 if (!function_exists('translate')) {
-    
+
     /**
      * Alias of "translate"
     **/
-    
+
     function __($code, $templating = 'tendoo-core')
     {
         return translate($code, $templating);
     }
-    
+
     /**
      * Alias of __, but echo instead
     **/
-    
+
     function _e($code, $templating = 'tendoo-core')
     {
         echo __($code, $templating);
     }
-    
+
     /**
      * Echo Translation filtered with addslashes
-     * @params string code
-     * @params string text domain
+     * @param string code
+     * @param string text domain
      * @return string
     **/
-    
+
     function _s($code, $templating)
     {
         return addslashes(__($code, $templating));
     }
-    
+
     /**
      * Get translated text
-     * @params string text string
-     * @params string text domain
+     * @param string text string
+     * @param string text domain
      * @return string translated text
     **/
-    
+
     function translate($code, $textdomain = 'tendoo-core')
     {
         $instance        =    get_instance();
         global $Options, $LangFileHandler, $PoParsed;
-        
+
         $text_domains    =    $instance->config->item('text_domain');
-        
+
         if (in_array($textdomain, array_keys($text_domains))) {
             $lang_file    =    $text_domains[ $textdomain ] . '/' . $instance->config->item('site_language') . '.po';
-            
+
             if (is_file($lang_file)) {
                 if (! isset($LangFileHandler[ $textdomain ])) {
                     $LangFileHandler[ $textdomain ]        =    new Sepia\FileHandler($lang_file);
                     $PoParsed[ $textdomain ]            =    new Sepia\PoParser($LangFileHandler[ $textdomain ]);
                     $PoParsed[ $textdomain ]->parse();
                     $PoParsed[ $textdomain ]->AllEntries    =    $PoParsed[ $textdomain ]->entries();
-                    
+
                     foreach ($PoParsed[ $textdomain ]->AllEntries as $key => $entry) {
                         $newKey                        =    str_replace('<##EOL##>', '', $key);
                         if ($key !== $newKey) {
@@ -264,7 +264,7 @@ if (!function_exists('translate')) {
     }
 }
 
-/** 
+/**
  * Output array details
  * @access public
  * @param Array
@@ -281,7 +281,7 @@ function print_array($array, $return = false)
     return $return ? ob_get_clean() : null;
 }
 
-/** 
+/**
  * date_now()
  * Returns current date considering Tendoo settings
  *
@@ -292,10 +292,9 @@ function print_array($array, $return = false)
  * @return string date
 **/
 
-function date_now($format = 'DATE_W3C')
+function date_now( $format = DATE_W3C )
 {
-    return standard_date($format, date_timestamp());
-    ;
+    return date( $format, date_timestamp());
 }
 
 /**
@@ -311,16 +310,16 @@ function date_now($format = 'DATE_W3C')
 function date_timestamp()
 {
     global $Options;
-    
+
     // while using options from CI_Controller interface
 
     if ($Options == null) {
-        $query    =    get_instance()->db->where('key', 'site_timezone')->get('options');
-        $result    =    $query->result_array();
-        $Options[ 'site_timezone' ]        =    @$result[0][ 'key' ];
+        $query                          =    get_instance()->db->where('key', 'site_timezone')->get('options');
+        $result                         =    $query->result_array();
+        $Options[ 'site_timezone' ]     =    @$result[0][ 'key' ];
     }
-    
-    return gmt_to_local(now(), riake('site_timezone', $Options, 'Etc/Greenwich'), true);
+
+    return now( @$Options[ 'site_timezone' ] );
 }
 
 /**
@@ -350,7 +349,7 @@ function doPaginate($elpp, $ttel, $current_page, $baselink)
     return; elseif (!is_finite($current_page))    : echo '<strong>$current_page</strong> is not finite';
     return;
     endif;
-    
+
     $more    =    array();
     $ttpage = ceil($ttel / $elpp);
     if (($current_page > $ttpage || $current_page < 1) && $ttel > 0): return array(
@@ -373,7 +372,7 @@ function doPaginate($elpp, $ttel, $current_page, $baselink)
     /*elseif($ttpage > 5):$lts = $ttpage - $current_page;*/
     else:$lts = $ttpage;
     endif;
-    
+
     $content = null;
     for ($i = $fts;$i<=$lts;$i++) {
         $more[]    =    array(
@@ -432,7 +431,7 @@ function __return_false()
  *
  * @see array_insert_after()
  */
-function array_insert_before($key, array &$array, $new_key, $new_value)
+function array_insert_before($key, $array, $new_key, $new_value)
 {
     if (array_key_exists($key, $array)) {
         $new = array();
@@ -477,5 +476,18 @@ function array_insert_after($key, &$array, $new_key, $new_value)
         return $new;
     }
     return false;
+}
+
+/**
+ * is
+ * Return boolean whether an item is a bool or not
+ * @param string page string slug
+**/
+
+function page_is( $page ) {
+	if( $page == get_instance()->uri->segment(3) ) {
+		return true;
+	}
+	return false;
 }
 /* End of file core_helper.php */
