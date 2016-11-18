@@ -17,7 +17,7 @@ class FileManager extends CI_Controller{
         //require './vendor/autoload.php';
 
         // elFinder autoload
-        require_once( MODULESPATH . 'elfinder/inc/autoload.php' );
+        require_once( MODULESPATH . '../mu-modules/elfinder/inc/autoload.php' );
         // ===============================================
 
         // Enable FTP connector netmount
