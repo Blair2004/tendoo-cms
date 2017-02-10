@@ -35,7 +35,7 @@
     </div><!-- /.register-box -->
 
     <script>
-	"use strict";	
+	"use strict";
       $(function () {
         $('input').iCheck({
           checkboxClass: 'icheckbox_square-blue',
@@ -44,6 +44,6 @@
         });
       });
     </script>
-  
+    <?php echo $this->events->do_action( 'common_footer' );?>
 </body>
 </html>

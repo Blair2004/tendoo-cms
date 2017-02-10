@@ -12,7 +12,7 @@ recovery_notice_message		:	Let you change the message display at the top of the 
 dashboard_logo_small		:	apply filter to dashboard min logo name
 dashboard_logo_long			:	apply filter to dashboard long logo name
 user_menu_card_header		:	apply filter to user menu header
-user_menu_name				:	apply filter to user 
+user_menu_name				:	apply filter to user
 validating_tendoo_setup	:	apply filter to tendoo validation notice code during tendoo installation.
 tendoo_login_notice		:	apply filter to tendoo login notice code during tendoo login
 ui_notices					:	return ui notices array
@@ -21,10 +21,10 @@ user_header_profile_link	:	contain profile link displayed on user header menu (v
 user_header_sign_out_link	:	contain sign out link displayed on user header menu (views/dashboard/horizontal-menu.php)
 tendoo_object_user_id		:	contain user id for tendoo object  saved on header.php
 recovery_fields			:	 contain user account recovery fields (views/sign-in/recovery.php)
-gui_page_title				:	let you change gui page title	
+gui_page_title				:	let you change gui page title
 gui_before_cols				:	Content before GUI Cols
 module_activation_status	:	contain module activation status
-module_disabling_status		:	containt module disabling status 
+module_disabling_status		:	containt module disabling status
 user_id						:	return user id
 default_css_libraries		:	array of tendoo dahsboard css files
 default_js_libraries		:	array of tendoo dahsboard js files
@@ -32,3 +32,11 @@ dashboard_footer_text		:	default footer text
 user_menu_card_avatar_src	:	contain user avatar src
 user_menu_card_avatar_alt	:	contain user avatar alt
 update_center_notice_nbr	:	hold notice number for update center sub menu
+gui_before_rows				:	before GUI row tag
+login_redirection			: 	contain default route when user login
+gui_wrapper_attrs			:	filter content output on gui div wrapper as attribute
+dashboard_body_attrs		:	filter content output on gui body tag as attribute
+dashboard_footer_text		:	filtre le texte au peid de page sur le tableau de bord
+dashboard_dependencies     :   filtre les dépendances pour l'application angular tendooApp
+tendoo_spinner              :   filtre l'animation de chargement de tendoo
+load_tendoo_app             :   control app loading

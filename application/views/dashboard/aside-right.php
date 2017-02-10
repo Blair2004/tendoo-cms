@@ -6,7 +6,8 @@
 **/
 ?>
 
-<aside class="control-sidebar control-sidebar-dark" style="position: fixed; max-height: 100%; overflow: auto; padding-bottom: 50px;"> 
+<?php if( true == false ): ?>
+<aside class="control-sidebar control-sidebar-dark" style="position: fixed; max-height: 100%; overflow: auto; padding-bottom: 50px;">
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
         <li class="active"><a href="#control-sidebar-theme-demo-options-tab" data-toggle="tab"><i class="fa fa-wrench"></i></a></li>
@@ -14,7 +15,7 @@
         <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
     </ul>
     <!-- Tab panes -->
-    <div class="tab-content"> 
+    <div class="tab-content">
         <!-- Home tab content -->
         <div class="tab-pane" id="control-sidebar-home-tab">
             <h3 class="control-sidebar-heading">Recent Activity</h3>
@@ -45,7 +46,7 @@
                     </a> </li>
             </ul>
             <!-- /.control-sidebar-menu -->
-            
+
             <h3 class="control-sidebar-heading">Tasks Progress</h3>
             <ul class="control-sidebar-menu">
                 <li> <a href="javascript::;">
@@ -73,8 +74,8 @@
                     </div>
                     </a> </li>
             </ul>
-            <!-- /.control-sidebar-menu --> 
-            
+            <!-- /.control-sidebar-menu -->
+
         </div>
         <div id="control-sidebar-theme-demo-options-tab" class="tab-pane active">
             <div>
@@ -192,10 +193,10 @@
                 </ul>
             </div>
         </div>
-        <!-- /.tab-pane --> 
+        <!-- /.tab-pane -->
         <!-- Stats tab content -->
         <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-        <!-- /.tab-pane --> 
+        <!-- /.tab-pane -->
         <!-- Settings tab content -->
         <div class="tab-pane" id="control-sidebar-settings-tab">
             <form method="post">
@@ -207,7 +208,7 @@
                     <p> Some information about this general settings option </p>
                 </div>
                 <!-- /.form-group -->
-                
+
                 <div class="form-group">
                     <label class="control-sidebar-subheading"> Allow mail redirect
                         <input type="checkbox" class="pull-right" checked="">
@@ -215,7 +216,7 @@
                     <p> Other sets of options are available </p>
                 </div>
                 <!-- /.form-group -->
-                
+
                 <div class="form-group">
                     <label class="control-sidebar-subheading"> Expose author name in posts
                         <input type="checkbox" class="pull-right" checked="">
@@ -223,7 +224,7 @@
                     <p> Allow the user to show his name in blog posts </p>
                 </div>
                 <!-- /.form-group -->
-                
+
                 <h3 class="control-sidebar-heading">Chat Settings</h3>
                 <div class="form-group">
                     <label class="control-sidebar-subheading"> Show me as online
@@ -231,27 +232,28 @@
                     </label>
                 </div>
                 <!-- /.form-group -->
-                
+
                 <div class="form-group">
                     <label class="control-sidebar-subheading"> Turn off notifications
                         <input type="checkbox" class="pull-right">
                     </label>
                 </div>
                 <!-- /.form-group -->
-                
+
                 <div class="form-group">
                     <label class="control-sidebar-subheading"> Delete chat history <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o"></i></a> </label>
                 </div>
                 <!-- /.form-group -->
             </form>
         </div>
-        <!-- /.tab-pane --> 
+        <!-- /.tab-pane -->
     </div>
 </aside>
 
 <div class="control-sidebar-bg" style="position: fixed; height: auto;"></div>
 
 </div>
+<?php endif; ?>
 
 </body>
 

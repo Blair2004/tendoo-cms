@@ -14,10 +14,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- End Add Scale for mobile devices -->
 
-<?php $this->enqueue->load_css();?>
-<?php $this->enqueue->load_js();?>
-
-<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />-->
-
 <?php Html::title();?>
+<?php $this->events->do_action('common_header');?>
 </head>

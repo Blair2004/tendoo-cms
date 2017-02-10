@@ -24,17 +24,82 @@ class Dashboard extends Tendoo_Controller
         // Special assets loading for dashboard
 
         // include static libraries
-        include_once(LIBPATH .'/Menu.php');
-        include_once(LIBPATH .'/Notice.php');
+        include_once( LIBPATH .'/Menu.php' );
+        include_once( LIBPATH .'/Notice.php' );
 
-        $this->load->model('Gui', null, 'gui');
-        $this->load->model('Update_Model'); // load update model @since 3.0
-        $this->load->model('Dashboard_Model', 'dashboard');
+        $this->load->model( 'Gui', null, 'gui' );
+        $this->load->model( 'Update_Model'); // load update model @since 3.0
+        $this->load->model( 'Dashboard_Model', 'dashboard' );
+
+        // Load Assets/JS
+        $this->_load_assets();
 
         // Loading Admin Menu
         // this action was move to Dashboard controler instead of aside.php output file.
         // which was called every time "create_dashboard_pages" was triggered
-        $this->events->do_action('load_dashboard');
+        $this->events->do_action( 'load_dashboard' );
+
+        // Load CSS and JS
+        $this->events->add_action( 'dashboard_header', array( $this, '_dashboard_header' ), 1 );
+        $this->events->add_action( 'dashboard_footer', array( $this, '_dashboard_footer' ), 1 );
+    }
+
+    /**
+     *  Dashboard Footer
+     *  @param void
+     *  @return void
+    **/
+
+    public function _dashboard_footer()
+    {
+        $this->events->do_action( 'common_footer' );
+        $this->enqueue->load_css( 'dashboard_footer' );
+        $this->enqueue->load_js( 'dashboard_footer' );
+        $this->load->view( 'dashboard/js-footer' );
+    }
+
+    /**
+     *  Dashboard header
+     *  @param void
+     *  @return void
+    **/
+
+    public function _dashboard_header()
+    {
+        $this->events->do_action( 'common_header' );
+        $this->enqueue->load_css( 'dashboard_header' );
+        $this->enqueue->load_js( 'dashboard_header' );
+    }
+
+    /**
+     *  Load Assets
+     *  @param void
+     *  @return void
+    **/
+
+    private function _load_assets()
+    {
+        $this->enqueue->js_namespace( 'common_header' );
+        // Underscore
+        $this->enqueue->js('../plugins/underscore/underscore-min');
+        $this->enqueue->js( 'tendoo.meta.options' );
+        $this->enqueue->js('tendoo.core');
+
+        $this->enqueue->js_namespace( 'common_footer' );
+        // Enqueuing slimscroll
+        $this->enqueue->js('../plugins/slimScroll/jquery.slimscroll.min');
+        $this->enqueue->js('../plugins/heartcode/heartcode-canvasloader-min');
+        // Bootsrap Notify
+        $this->enqueue->js('../plugins/bootstrap-notify-master/bootstrap-notify.min');
+        // ParseParams
+        $this->enqueue->js('jquery.parseParams');
+        // Bootbox
+        $this->enqueue->js('../plugins/bootbox/bootbox.min');
+
+        $segments    = $this->uri->segment_array();
+        if ( riake( 2, $segments, 'index' ) == 'index' ) {
+            $this->enqueue->js( 'tendoo.widget.dragging' );
+        }
     }
 
     /**
@@ -158,10 +223,11 @@ class Dashboard extends Tendoo_Controller
             $this->events->add_action('do_disable_module', function ($arg2) {
                 Modules::disable($arg2);
             });
-            //
+
             $this->events->do_action('do_disable_module', $arg2);
 
             redirect(array( 'dashboard', 'modules?notice=' . $this->events->apply_filters('module_disabling_status', 'module-disabled') ));
+
         } elseif ($page === 'remove') {
 
             // Can user delete modules ?
@@ -188,7 +254,7 @@ class Dashboard extends Tendoo_Controller
 
             $this->events->do_action('do_extract_module', $arg2);
         } elseif ($page == 'migrate' && $arg2 != null && $arg3 != null) {
-            
+
 
             // Can user extract modules ?
             if (! User::can('update_modules')) {
@@ -196,7 +262,7 @@ class Dashboard extends Tendoo_Controller
             }
 
             $module        =    Modules::get($arg2);
-            
+
 			if (! $module) {
                 redirect(array( 'dashboard', 'module-not-found' ));
             }
@@ -221,7 +287,7 @@ class Dashboard extends Tendoo_Controller
                     'msg'        =>    __('Unknow module')
                 ));
             } else {    // If module exists
-                $migrate_file        =    MODULESPATH . $module[ 'application' ][ 'details' ][ 'namespace' ] . '/migrate.php';
+                $migrate_file        =    MODULESPATH . $module[ 'application' ][ 'namespace' ] . '/migrate.php';
                 if (is_file($migrate_file)) {
                     ob_start();
                     $migration_array    =    include_once($migrate_file);
@@ -240,7 +306,7 @@ class Dashboard extends Tendoo_Controller
                         }
                         // When migrate is done the last version key is saved as previous migration version
                         // Next migration will start from here
-                        // $this->options->set('migration_' . $module[ 'application' ][ 'details' ][ 'namespace' ], $arg3, true);
+                        // $this->options->set('migration_' . $module[ 'application' ][ 'namespace' ], $arg3, true);
                     }
                     // Handling error
                     $content    =    ob_get_clean();

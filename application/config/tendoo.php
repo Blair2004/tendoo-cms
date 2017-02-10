@@ -7,7 +7,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |--------------------------------------------------------------------------
 |
 | Set reserved controller for the app.
-| 
+|
 */
 
 // Reserved Controllers
@@ -18,8 +18,10 @@ $config[ 'default_login_route' ]                    =    '/sign-in/';
 $config[ 'controllers_requiring_logout' ]            =    array( 'sign-in' , 'sign-up' );
 $config[ 'default_logout_route' ]                    =    '/dashboard/';
 
-// Core ID	
-$config[ 'version' ]                                =    $config[ 'core_version' ]    =    '3.1.4'; // core id
+$config[ 'core_app_name' ]                          =   'Tendoo';
+
+// Core ID
+$config[ 'version' ]                                =    $config[ 'core_version' ]    =    '3.1.5'; // core id
 $config[ 'core_signature' ]                            =    'Tendoo ' . $config[ 'version' ]; // core id
 $config[ 'supported_languages' ]                    =    array(
     'en_US' => 'English',
@@ -192,7 +194,7 @@ $config[ 'site_timezone' ]                                =    array_flip(array(
     '(UTC+12:00) Wellington' => 'Pacific/Auckland',
     '(UTC+13:00) Nuku\'alofa' => 'Pacific/Tongatapu'
 ));
-// 
+//
 $config[ 'default_user_names' ]                            =    'John Doe';
 $config[ 'admin_menus' ]                                =    array();
 $config[ 'admin_menu_position' ]                        =    array( 'before' , 'after' );

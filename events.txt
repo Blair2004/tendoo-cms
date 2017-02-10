@@ -28,7 +28,7 @@ tendoo_settings_tables		!	create table while creating tendo tables (models/insta
 
 tendoo_setup 					: Load action registered after database connection has been established during tendoo installation.
 
-before_setting_tables		:	Load action registered to trigger before setting tables and after database connection is established (models/installation_model.php)
+before_db_setup		:	Load action registered to trigger before setting tables and after database connection is established (models/installation_model.php)
 
 do_login					: trigger actions registered to execute during tendoo login
 

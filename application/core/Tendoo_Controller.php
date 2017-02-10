@@ -6,17 +6,19 @@ class Tendoo_Controller extends CI_Controller
         parent::__construct();
 
         // Include default library class
-        include_once(LIBPATH . '/Html.php');
-        include_once(LIBPATH . '/Modules.php');
-        include_once(LIBPATH . '/UI.php');
-        include_once(LIBPATH . '/SimpleFileManager.php');
-        include_once(APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/InterfaceHandler.php');
-        include_once(APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/FileHandler.php');
-        include_once(APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/PoParser.php');
-        include_once(APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/StringHandler.php');
+        include_once( LIBPATH . '/Html.php');
+        include_once( LIBPATH . '/Modules.php');
+        include_once( LIBPATH . '/UI.php');
+        include_once( LIBPATH . '/SimpleFileManager.php');
+        include_once( APPPATH . 'core/Tendoo_Module.php' );
+        include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/InterfaceHandler.php');
+        include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/FileHandler.php');
+        include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/PoParser.php');
+        include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/StringHandler.php');
 
         // get system lang
         $this->load->library('enqueue');
+        $this->load->library('notice');
 
         // Load Global Lang lines
         $this->lang->load_lines(APPPATH . '/language/system_lang.php'); // @since 3.0.9
@@ -29,7 +31,7 @@ class Tendoo_Controller extends CI_Controller
          * Global Vars
         **/
 
-        global $CurrentMethod, $CurrentScreen, $CurrentParams; 
+        global $CurrentMethod, $CurrentScreen, $CurrentParams;
 
         $CurrentMethod        =    $this->uri->segment(2);
         $CurrentScreen        =    $this->uri->segment(1);
@@ -43,9 +45,17 @@ class Tendoo_Controller extends CI_Controller
             **/
 
             $this->load->library('session');
+
             @$this->load->database(); // load new connection
             $this->load->model('options');
-			
+
+            // Delete expired api keys
+            $this->load->library( 'OauthLibrary' );
+            $this->oauthlibrary->deleteExpiredKeys( now() );
+
+            // Check dependencies
+            Modules::runDependency();
+
             // Get Active Modules and load it
 			Modules::init( 'all', null, 'mu-modules' );
             Modules::init( 'actives' );
@@ -54,20 +64,14 @@ class Tendoo_Controller extends CI_Controller
         }
         // Only for controller requiring installation
         elseif ($this->uri->segment(1) === 'do-setup' && $this->uri->segment(2) === 'database') {
-            // @since 3.0.5
-			// $this->lang->load( 'system' );	// Load default system Language
-			// Deprecated since all languages are included within /language folder and loaded by default.
 
+            // @since 3.0.5
 			$this->events->add_action('before_db_setup', function () {
 				// this hook let modules being called during tendoo installation
 				// Only when site name is being defined
 				Modules::init('all');
 				Modules::init( 'all', null, 'mu-modules' );
             });
-        }
-        // if is reserved controllers only
-        if (in_array($this->uri->segment(1), $this->config->item('reserved_controllers'))) {
-            $this->load->library('notice');
         }
 
         // Checks system status
@@ -82,16 +86,17 @@ class Tendoo_Controller extends CI_Controller
             }
 
             // loading assets for reserved controller
-            $css_libraries        =    $this->events->apply_filters('default_css_libraries', array(
+            $css_libraries        =    $this->events->apply_filters( 'default_css_libraries', array(
                 'bootstrap.min',
                 'AdminLTE.min',
                 'tendoo',
                 'skins/_all-skins.min',
                 'font-awesome.min',
                 '../plugins/iCheck/square/blue'
-            ));
-            
-            if ($css_libraries) {
+            ) );
+
+            if( $css_libraries ) {
+                $this->enqueue->css_namespace( 'common_header' );
                 foreach ($css_libraries as $lib) {
                     $this->enqueue->css($lib);
                 }
@@ -101,20 +106,44 @@ class Tendoo_Controller extends CI_Controller
              * 	Enqueueing Js
             **/
 
-            $js_libraries        =    $this->events->apply_filters('default_js_libraries', array(
+            $js_libraries        =    $this->events->apply_filters( 'default_js_libraries', array(
                 '../plugins/jQuery/jQuery-2.1.4.min',
                 '../plugins/jQuery/jquery-migrate-1.2.1',
                 '../plugins/jQueryUI/jquery-ui-1.10.3.min',
                 'bootstrap.min',
                 '../plugins/iCheck/icheck.min',
                 'app.min'
-            ));
+            ) );
 
-            if (is_array($js_libraries)) {
+            if ( is_array( $js_libraries ) ) {
+                $this->enqueue->js_namespace( 'common_header' );
                 foreach ($js_libraries as $lib) {
                     $this->enqueue->js($lib);
                 }
             }
+
+            // Enqueue Angular at bootom
+            $this->enqueue->js_namespace( 'common_footer' );
+            $this->enqueue->js( '../bower_components/angular/angular.min' );
+
+            // Add Common content
+            $this->events->add_action( 'common_footer', [ $this, '_common_footer' ] );
+
+            // Add Common content
+            $this->events->add_action( 'common_header', [ $this, '_common_header' ] );
+
         }
+    }
+
+    public function _common_footer()
+    {
+        $this->enqueue->load_css( 'common_footer' );
+        $this->enqueue->load_js( 'common_footer' );
+    }
+
+    public function _common_header()
+    {
+        $this->enqueue->load_css( 'common_header' );
+        $this->enqueue->load_js( 'common_header' );
     }
 }

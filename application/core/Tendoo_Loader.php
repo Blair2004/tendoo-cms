@@ -447,7 +447,19 @@ class Tendoo_Loader
     {
         return $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
     }
-    
+
+    /**
+     *  Module Include
+     *  @param
+     *  @return
+    **/
+
+    public function module_include($module_namespace, $view, $vars = array(), $return = false)
+    {
+        $view       =   str_replace( '.', '/', $view );
+        return $this->_ci_load(array( '_ci_view' => '../modules/' . $module_namespace . '/inc/' . $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
+    }
+
     /**
      * Module View
      *
@@ -457,12 +469,13 @@ class Tendoo_Loader
      * @param bool return of no
      * @return string/object
     **/
-    
+
     public function module_view($module_namespace, $view, $vars = array(), $return = false)
     {
+        $view       =   str_replace( '.', '/', $view );
         return $this->_ci_load(array( '_ci_view' => '../modules/' . $module_namespace . '/views/' . $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
     }
-	
+
 	/**
      * Must Use Module View
      *
@@ -472,7 +485,7 @@ class Tendoo_Loader
      * @param bool return of no
      * @return string/object
     **/
-    
+
     public function mu_module_view($module_namespace, $view, $vars = array(), $return = false)
     {
         return $this->_ci_load(array( '_ci_view' => '../mu-modules/' . $module_namespace . '/views/' . $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));

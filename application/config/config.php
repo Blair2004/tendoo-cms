@@ -135,7 +135,7 @@ $config['subclass_prefix'] = 'Tendoo_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = false;
+$config['composer_autoload'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -364,7 +364,7 @@ $config['encryption_key'] = '';
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 60*60*3;
-$config['sess_save_path'] = null;
+$config['sess_save_path'] = APPPATH . '/cache/sessions';
 $config['sess_match_ip'] = false;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = false;

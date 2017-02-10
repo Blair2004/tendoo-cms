@@ -8,11 +8,11 @@ class Nexo_Restful extends CI_Model
         $this->events->add_action('do_enable_module', array( $this, 'enable' ));
         $this->events->add_action('do_remove_module', array( $this, 'remove' ));
     }
-    
-    /** 
+
+    /**
      * Enable
     **/
-    
+
     public function enable($module)
     {
         global $Options;
@@ -21,7 +21,7 @@ class Nexo_Restful extends CI_Model
             $this->options->set('codeigniter_restful_installed', true, true);
         }
     }
-    
+
     public function remove($module)
     {
         if ($module == 'codeigniter_restful') {
@@ -29,11 +29,11 @@ class Nexo_Restful extends CI_Model
             $this->options->delete('codeigniter_restful_installed');
         }
     }
-    
+
     /**
      * Keys table
     **/
-    
+
     public function sql()
     {
         global $CurrentScreen;
@@ -51,12 +51,12 @@ class Nexo_Restful extends CI_Model
 			`ignore_limits` TINYINT(1) NOT NULL DEFAULT "0",
 			`user` INT(11) NOT NULL,
 			`date_created` DATETIME NOT NULL,
-			`expire` INT(1) NOT NULL,
+			`expire` datetime NOT NULL,
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
-        
+
         $randomString        =    $this->oauthlibrary->generateKey();
-        
+
         $this->db->insert('restapi_keys', array(
             'key'            =>    $randomString,
             'scopes'        =>    'core',
@@ -65,7 +65,7 @@ class Nexo_Restful extends CI_Model
             'date_created'    =>    date_now(),
             'expire'        =>    0
         ));
-        
+
         // Save Core Key
         $this->options->set('rest_key', $randomString, true);
     }

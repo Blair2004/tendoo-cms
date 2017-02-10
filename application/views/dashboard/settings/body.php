@@ -97,7 +97,7 @@ $this->Gui->add_item(array(
         0    =>    __('No'),
         1    =>    __('Yes')
     ),
-    'description'   =>  __( 'Eeach new account will have to check the verification email in order to validate their account.' )
+    'description'   =>  __( 'Each new account will have to check the verification email in order to validate their account.' )
 ), 'advanced-settings', 2);
 
 $this->Gui->add_item(array(
@@ -112,48 +112,26 @@ $this->Gui->add_item(array(
     )
 ), 'advanced-settings', 2);
 
-$this->Gui->add_item(array(
-    'type'        =>    'select',
-    'name'        =>    'allow-role-selection',
-    'label'        =>    __('Allow Role Selection'),
-    'placeholder'=>    __('Allow Role selection'),
-    'options'    =>    array(
-        0    =>    __('No'),
-        1    =>    __('Yes')
-    )
-), 'advanced-settings', 2);
-
-$this->Gui->add_item(array(
-    'type'        =>    'select',
-    'name'        =>    'auto_update',
-    'label'        =>    __('Auto update tendoo'),
-    'placeholder'=>    __('Auto update tendoo'),
-    'options'    =>    array(
-        0    =>    __('No'),
-        1    =>    __('Yes')
-    )
-), 'advanced-settings', 2);
-
-$this->Gui->add_item(array(
-    'type'        =>    'select',
-    'name'        =>    'remote_install',
-    'label'        =>    __('Enable Remote Themes and Module Installation'),
-    'placeholder'=>    __('Enable Remote Themes and Module Installation'),
-    'options'    =>    array(
-        0    =>    __('No'),
-        1    =>    __('Yes')
-    )
-), 'advanced-settings', 2);
-
-$this->Gui->add_item(array(
-    'type'        =>    'select',
-    'name'        =>    'enable_cache',
-    'label'        =>    __('Enable Cache'),
-    'placeholder'=>    __('Enable Cache'),
-    'options'    =>    array(
-        0    =>    __('No'),
-        1    =>    __('Yes')
-    )
-), 'advanced-settings', 2);
+// $this->Gui->add_item(array(
+//     'type'        =>    'select',
+//     'name'        =>    'allow-role-selection',
+//     'label'        =>    __('Allow Role Selection'),
+//     'placeholder'=>    __('Allow Role selection'),
+//     'options'    =>    array(
+//         0    =>    __('No'),
+//         1    =>    __('Yes')
+//     )
+// ), 'advanced-settings', 2);
+//
+// $this->Gui->add_item(array(
+//     'type'        =>    'select',
+//     'name'        =>    'auto_update',
+//     'label'        =>    __('Auto update tendoo'),
+//     'placeholder'=>    __('Auto update tendoo'),
+//     'options'    =>    array(
+//         0    =>    __('No'),
+//         1    =>    __('Yes')
+//     )
+// ), 'advanced-settings', 2);
 
 $this->Gui->output();

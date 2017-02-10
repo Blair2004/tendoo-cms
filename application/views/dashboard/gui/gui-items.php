@@ -7,16 +7,16 @@ if ($saver_enabled && riake('use_namespace', $meta)) {
 }
 
 foreach (force_array(riake('items', $meta)) as $_item) {
-    $name                =    riake('name', $_item);
-    $type            =    riake('type', $_item);
-    $placeholder        =    riake('placeholder', $_item);
-    $value                =    riake('value', $_item);
-    $icon                =    riake('icon', $_item);
-    $label                =    riake('label', $_item);
-    $rows                =    riake('rows', $_item);
-    $disabled            =    riake('disabled', $_item);
-    $description        =    riake('description', $_item);
-    $active                =    riake('active', $_item);
+    $name           =    riake('name', $_item);
+    $type           =    riake('type', $_item);
+    $placeholder    =    riake('placeholder', $_item);
+    $value          =    riake('value', $_item);
+    $icon           =    riake('icon', $_item);
+    $label          =    riake('label', $_item);
+    $rows           =    riake('rows', $_item);
+    $disabled       =    riake('disabled', $_item);
+    $description    =    riake('description', $_item);
+    $active         =    riake('active', $_item);
 
     // fetch option from dashboard
 
@@ -25,9 +25,9 @@ foreach (force_array(riake('items', $meta)) as $_item) {
         if (riake('use_namespace', $meta) === true) {
             $value    =    ($db_value        =    riake($name, $form_option)) ? $db_value : $value;
         } elseif (@$meta[ 'autoload' ] == true) { // fetch option directly from options table
-            // To avoid fetching from global cols, 
+            // To avoid fetching from global cols,
             $_item[ 'user_id' ]    =    @$_item[ 'user_id' ] == null ? 0 : $_item[ 'user_id' ];
-            
+
             if (@$_item[ 'user_id' ] != null) {
                 $value    =    ($db_value    =    $this->options->get($name, $_item[ 'user_id' ])) ? $db_value : $value;
             } else {
@@ -48,9 +48,10 @@ foreach (force_array(riake('items', $meta)) as $_item) {
             ?>" value="<?php echo $value;
             ?>">
         </div>
-        
+
         <p>
-		<?php echo xss_clean($description);
+		<?php echo xss_clean($description);?></p>
+        <?php
         } else {
             ?>
          <input <?php echo $disabled === true ? 'readonly="readonly"' : '';
@@ -59,8 +60,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
             ?>" class="form-control" placeholder="<?php echo riake('placeholder', $_item);
             ?>" value="<?php echo $value;
             ?>">
-         <p><?php echo xss_clean($description);
-            ?></p><?php
+         <p><?php echo xss_clean($description);?></p><?php
 
         }
     } elseif ($type == 'textarea') {
@@ -73,8 +73,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
         ?>" name="<?php echo $name;
         ?>"><?php echo $value;
         ?></textarea>
-       <p><?php echo xss_clean($description);
-        ?>
+       <p><?php echo xss_clean($description);?></p>
      </div>
      <?php
 
@@ -88,12 +87,12 @@ foreach (force_array(riake('items', $meta)) as $_item) {
         ?></label>
        <textarea id="editor-<?php echo $editor_time_called;
         ?>" <?php echo $disabled === true ? 'disabled="disabled"' : '';
-        ?> class="form-control" rows="3" placeholder="<?php echo $placeholder;
+        ?> class="form-control" rows="16" placeholder="<?php echo $placeholder;
         ?>" name="<?php echo $name;
         ?>"><?php echo $value;
         ?></textarea>
      </div>
-     <p><?php echo xss_clean($description);
+     <p><?php echo xss_clean($description);?></p><?php
     } elseif ($type == 'file-input') {
         ?>
         <div class="form-group">
@@ -102,8 +101,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
           <input <?php echo $disabled === true ? 'readonly="readonly"' : '';
         ?> type="file" id="exampleInputFile" name="<?php echo $name;
         ?>">
-          <p class="help-block"><?php echo $description;
-        ?></p>
+          <p class="help-block"><?php echo $description;?></p>
         </div>
         <?php
 
@@ -127,8 +125,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
         ?>/> <?php echo $label;
         ?>
           </label>
-          <p class="help-block"><?php echo $description;
-        ?></p>
+          <p class="help-block"><?php echo $description;?></p>
         </div>
         <?php
 
@@ -189,7 +186,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
         ?> <?php echo $disabled === true ? 'disabled="disabled"' : '';
         ?> class="form-control" name="<?php echo $name;
         ?>">
-          	<?php 
+          	<?php
             foreach (force_array(riake('options', $_item)) as $value    =>    $text) {
                 // Only when action is not changed (which send request to dashboard/options/set), Gui_saver is supported.
                 if ($saver_enabled === true  && in_array(riake('action', riake('custom', $meta)), array( null, false ))) {
@@ -223,7 +220,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
      *  ..add_meta( array(
              'type'		=>		'html-list',
             'options'	=>		array(
-                array( 
+                array(
                     'type'	=>	'foo',
                     'text'	=>	'bar'
                 )
@@ -284,7 +281,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
      *			array( 1 , __( 'Custom 1' ) , __( 'Name 1' ) , __( 'Description' ) ),
      *			array( 1 , __( 'Custom 1' ) , __( 'Name 1' ) , __( 'Description' ) ),
      * 			array( 1 , __( 'Custom 1' ) , __( 'Name 1' ) , __( 'Description' ) ),
-     *			array( 1 , __( 'Custom 1' ) , __( 'Name 1' ) , __( 'Description' ) )	
+     *			array( 1 , __( 'Custom 1' ) , __( 'Name 1' ) , __( 'Description' ) )
      * 		)
      *	) , 'settings' , 2 );
     **/
@@ -292,7 +289,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
     ?>
       <table class="table table-bordered">
         <tbody><tr>
-        	<?php 
+        	<?php
             foreach (force_array(riake('cols', $_item)) as $index    =>    $_col) {
                 ?>
           		<th style="<?php echo $width =    riake($index, riake('width', $_item)) ? 'width:' . $width . ';' : '';
@@ -318,7 +315,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
                     }
                 ?>
 				</tr>
-				<?php 
+				<?php
             }
         } else {
             ?>
@@ -331,7 +328,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
 
         }
         ?>
-        
+
       </tbody></table>
         <?php
 

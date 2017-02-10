@@ -53,7 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-    define('ENVIRONMENT', 'production');
+    define('ENVIRONMENT', 'development');
 
 /*
  *---------------------------------------------------------------
@@ -71,7 +71,7 @@ switch (ENVIRONMENT) {
 
     case 'testing':
     case 'production':
-        
+
         // ini_set('display_errors', 1);
 
         if (version_compare(PHP_VERSION, '5.3', '>=')) {
@@ -97,7 +97,7 @@ switch (ENVIRONMENT) {
  */
 	if(ini_get('date.timezone') == '' ) {
 	   date_default_timezone_set('GMT');
-	} 
+	}
 
 /*
  *---------------------------------------------------------------
@@ -228,13 +228,13 @@ switch (ENVIRONMENT) {
 
     // Path to the system folder
     define('BASEPATH', $system_path);
-    
+
     // Path to the front controller (this file)
     define('FCPATH', str_replace('\\', '/', dirname(__FILE__)) . '/');
 
     // Name of the "system folder"
     define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
-    
+
     // The path to the "application" folder
     if (is_dir($application_folder)) {
         if (($_temp = realpath($application_folder)) !== false) {

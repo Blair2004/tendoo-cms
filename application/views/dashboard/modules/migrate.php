@@ -15,27 +15,24 @@ $this->Gui->add_meta(array(
 ));
 
 ob_start();
-$migrate_file        =    MODULESPATH . $module[ 'application' ][ 'details' ][ 'namespace' ] . '/migrate.php';
+$migrate_file        =    MODULESPATH . $module[ 'application' ][ 'namespace' ] . '/migrate.php';
 
 if (is_file($migrate_file)) {
     $migrate_array            =    include_once($migrate_file);
-    
+
     // looping migrate functions
     // get latest saved migration version.
-    // $latestversion            =    $this->options->get('migration_' . $module[ 'application' ][ 'details' ][ 'namespace' ]);
+    // $latestversion            =    $this->options->get('migration_' . $module[ 'application' ][ 'namespace' ]);
 
     // If latest version is not defined. We assume this is a new installation and the migrate will start from the current module version.
     // $from has old version id
     $old_version            =    $from;
-
     $available_migration    =    array();
-
     $start_migration        =    false;
 
     foreach (array_keys(array_reverse($migrate_array, true)) as $version) {
-        if (version_compare($version, $old_version, '>')) {
+        if (version_compare( $version, $old_version, '>')) {
             $start_migration    =    true;
-            //Start migrate at the right moment.
         }
         if ($start_migration == true) {
             $available_migration[]    =    $version;
@@ -47,7 +44,7 @@ if (is_file($migrate_file)) {
     ?></p>
     </div>
     <script>
-	var Migration_Url	=	'<?php echo site_url(array( 'dashboard', 'modules', 'exec', $module[ 'application' ][ 'details' ][ 'namespace' ] ));
+	var Migration_Url	=	'<?php echo site_url(array( 'dashboard', 'modules', 'exec', $module[ 'application' ][ 'namespace' ] ));
     ?>';
 	var MigrationData	=	<?php echo json_encode($available_migration);
     ?>;
@@ -75,7 +72,7 @@ if (is_file($migrate_file)) {
 			} else {
 				$( '#migration-progress' ).append( '<p>' + '<?php _e('Migration done.');
     ?>' + '</p>' );
-				$( '#migration-progress' ).append( '<p><a class="btn btn-default" href="' + '<?php echo site_url(array( 'dashboard', 'modules?highlight=' . $module[ 'application' ][ 'details' ][ 'namespace' ] ));
+				$( '#migration-progress' ).append( '<p><a class="btn btn-default" href="' + '<?php echo site_url(array( 'dashboard', 'modules?highlight=' . $module[ 'application' ][ 'namespace' ] ));
     ?>' + '">' + '<?php _e('Go back to modules');
     ?>' + '</a></p>' );
 			}
@@ -86,7 +83,7 @@ if (is_file($migrate_file)) {
 		if( MigrationData.length == 0 ) {
 			$( '#migration-progress' ).append( '<p>' + '<?php _e('No migration content available');
     ?>' + '</p>' );
-			document.location = '<?php echo site_url(array( 'dashboard', 'modules?highlight=' . $module[ 'application' ][ 'details' ][ 'namespace' ] . '&notice=migration-not-required' ));
+			document.location = '<?php echo site_url(array( 'dashboard', 'modules?highlight=' . $module[ 'application' ][ 'namespace' ] . '&notice=migration-not-required' ));
     ?>';
 		} else {
 			Migration.Do();

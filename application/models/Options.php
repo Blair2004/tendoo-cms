@@ -7,7 +7,8 @@ class Options extends CI_Model
     public function __construct()
     {
         if ($this->setup->is_installed()) {
-            $this->events->add_action('after_app_init', array( $this, 'init' ), 1);
+            $this->init();
+            // $this->events->add_action('after_app_init', array( $this, 'init' ), 1);
         }
     }
 
@@ -18,27 +19,18 @@ class Options extends CI_Model
     public function init()
     {
         global $Options, $User_Options;
-        $Options    = $this->options    =    $this->get(null, null, true);
-        // Only when aauth is enabled
-        if (Modules::is_active('aauth')) {
-            $User_Options = $this->user_options = $this->get(null, $this->events->apply_filters('user_id', 0));
-        }
+        $Options        = $this->options        =   $this->get(null, null, true);
+        $User_Options   = $this->user_options   =   $this->get(null, $this->events->apply_filters('user_id', 0));
 
 
         /**
          * If language is set on dashboard
          * @since 3.0.5
         **/
-        
-        if (riake('site_language', $Options)) {
+
+        if ( @$Options[ 'site_language' ] ) {
             get_instance()->config->set_item('site_language', $Options[ 'site_language' ]);
         }
-
-        /**
-          * Load Language
-        **/
-
-        // $this->lang->load( 'system' );	deprecated
     }
 
     /**

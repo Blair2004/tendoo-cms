@@ -1,11 +1,12 @@
-# You're using Tendoo CMS 3.1.3
-This is a brand new release of Tendoo CMS, with auto update feature.
+# You're using Tendoo CMS 3.1.4
 
-### What's new ?
-- Oauth Feature Phase 1
-- Migration fixed
-- Merging CodeIgniter RestFul
+##Functions
+	- helpers
+		"this_is" 
+		@param string page slug [ 'migrate_page', 'dashboard_page', 'settings_page', 'modules_list_page', 'modules_install_page', 'users_list_page']
+		@return bool
 
-### Bug Fix
-
-- Migration
+##Hooks
+	- Actions
+		"before_setting_tables" has changed for "before_db_setup"
+		

@@ -6,6 +6,7 @@
 **/
 
 $this->Gui->col_width(1, 2);
+$this->Gui->col_width(2, 2);
 
 $this->Gui->add_meta(array(
     'col_id'    =>    1,
@@ -18,6 +19,18 @@ $this->Gui->add_meta(array(
         'submit'    =>    array(
             'label'    =>    __('Edit User')
         )
+    )
+));
+
+// Connected Apps
+
+$this->Gui->add_meta(array(
+    'col_id'    =>    2,
+    'title'     =>  __( 'Connected Applications' ),
+    'namespace'    =>    'user_apps',
+    'gui_saver'    =>    false,
+    'custom'    =>    array(
+        'action'    =>    null
     )
 ));
 
@@ -74,5 +87,12 @@ $this->events->do_action('load_users_custom_fields', array(
     'gui'            =>    $this->Gui,
     'user_id'        =>    $this->users->current->id
 ));
+
+$this->Gui->add_item( array(
+    'type'      =>    'dom',
+    'content'   =>    $this->load->mu_module_view( 'aauth', 'users/app-list', array(
+        'apps'   =>  $apps
+    ), true )
+), 'user_apps',  2 );
 
 $this->Gui->output();

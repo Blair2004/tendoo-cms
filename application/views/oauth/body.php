@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
- * 	@details : Login body page 
+ * 	@details : Login body page
  *	@role : This page page is used to displays login form
  * 	@since : 1.5
- *  
+ *
 **/
 ?>
 <body class="login-page">
@@ -13,32 +13,32 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="login-box-body">
         <form method="post">
         <h3 class="page-header text-center"><?php echo __('Permission request');?></h3>
-        <?php 
+        <input type="hidden" value="<?php echo $this->input->get( 'app_source_name' );?>" name="app_source_name">
+        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+        <?php
         $showButtons    =    false;
-        
+
             if ($scopes && @$_GET[ 'cb' ] != null) {
                 if (is_array($scopes)) {
 					// var_dump( $scopes );
                     foreach ($scopes as $scope) {
                         ?>
-                        <input type="hidden" value="<?php echo $scope[ 'app' ];?>" name="scopes[]">
-                        <input type="hidden" value="<?php echo $this->input->get( 'app_source_name' );?>" name="app_source_name">
-                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                        <input type="hidden" value="<?php echo @$scope[ 'app' ];?>" name="scopes[]">
         <div class="info-box <?php echo @$scope[ 'color' ];
                         ?>"> <span class="info-box-icon"><i class="<?php echo @$scope[ 'icon' ];
                         ?>"></i></span>
-            <div class="info-box-content"> 
+            <div class="info-box-content">
             	<!--<h4 class="info-box-text"><?php echo @$scope[ 'label' ];
                         ?></h4>-->
                 <span><?php echo @$scope[ 'description' ];
-                        ?></span> 
+                        ?></span>
 			</div>
-            <!-- /.info-box-content --> 
+            <!-- /.info-box-content -->
         </div>
         			<?php
 
                     }
-                    
+
                     $showButtons    =    true;
                 }
             } else {
@@ -55,12 +55,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<?php endif;?>
         </form>
                 <p class="login-box-msg">
-            <?php 
+            <?php
             $this->events->do_action('displays_public_errors');
             ?>
         </p>
     </div>
-    <!-- /.login-box-body --> 
+    <!-- /.login-box-body -->
 </div>
 </body>
 </html>

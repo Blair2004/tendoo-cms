@@ -94,14 +94,24 @@ class Gui extends CI_Model
 
 	public function load_page_objet( $page_slug, $params )
 	{
-        if ( @$this->created_page_objet[ $page_slug ] != null ) {
+        $with_dashes    =   str_replace( '_', '-', $page_slug );
+
+        if ( @$this->created_page_objet[ $page_slug ] != null || @$this->created_page_objet[ $with_dashes ] != null ) {
+
             // loading page content
-            if ( $page_objet	=	@$this->created_page_objet[ $page_slug ][ 'object' ] ) {
+            $page_with_dashes	=	@$this->created_page_objet[ $with_dashes ][ 'object' ];
+            $page_objet	        =	@$this->created_page_objet[ $page_slug ][ 'object' ];
+            if ( $page_objet || $page_with_dashes ) {
+                // @since 3.1.6
+                $page_objet     =   $page_objet == null ? $page_with_dashes : $page_objet;
+
 				if( method_exists( $page_objet, @$params[0] == null ? 'index' : $params[0] ) ){
                     $method     =   @$params[0];
                     $params		=	array_splice( $params, 1 );
 					call_user_func_array( array( $page_objet, @$method == null ? 'index' : $method ), $params );
-				} else {
+				} else if( method_exists( $page_objet, '__default' ) ) {
+                    call_user_func_array( array( $page_objet, '__default' ), $params );
+                } else {
 					// page doesn't exists load 404 internal page error
 					Html::set_title(sprintf(__('Error : 404 &mdash; %s'), get('core_signature')));
 					Html::set_description(__('Error page'));

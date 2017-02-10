@@ -357,9 +357,13 @@ class aauth_dashboard extends CI_model
                 $this->notice->push_notice_array($exec);
             }
 
+            $this->load->library( 'oauthLibrary' );
+
+            $data                   =   array();
+            $data[ 'apps' ]         =   $this->oauthlibrary->getUserApp( User::id() );
             $this->Gui->set_title(sprintf(__('My Profile &mdash; %s'), get('core_signature')));
 
-             $this->load->mu_module_view( 'aauth', 'users/profile');
+             $this->load->mu_module_view( 'aauth', 'users/profile', $data );
         }
     }
 

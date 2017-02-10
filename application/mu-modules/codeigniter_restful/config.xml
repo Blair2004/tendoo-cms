@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <application>
-	<details>
-		<name>CodeIgniter Restful</name>
-		<namespace>codeigniter_restful</namespace>
-		<version>1.5</version>
-		<author>Blair Jersyer</author>
-		<main>CodeIgniter_restful.php</main>
-		<description>A fully RESTful server implementation for CodeIgniter using one library, one config file and one controller.</description>
-	</details>
+	<name>CodeIgniter Restful</name>
+	<namespace>codeigniter_restful</namespace>
+	<version>1.5</version>
+	<author>Blair Jersyer</author>
+	<main>CodeIgniter_restful.php</main>
+	<description>A fully RESTful server implementation for CodeIgniter using one library, one config file and one controller.</description>
 </application>

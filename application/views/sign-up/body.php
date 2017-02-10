@@ -25,6 +25,6 @@
 
       </div><!-- /.form-box -->
     </div><!-- /.register-box -->
-
+    <?php echo $this->events->do_action( 'common_footer' );?>
 </body>
 </html>

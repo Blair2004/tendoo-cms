@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application>
-	<details>
-		<namespace>elfinder</namespace>
-		<name>elFinder</name>
-		<description>File Manager for Tendoo CMS</description>
-		<version>1.3</version>
-		<main>elfinder.php</main>
-		<language>language/</language>
-	</details>
+	<namespace>elfinder</namespace>
+	<name>elFinder</name>
+	<description>File Manager for Tendoo CMS</description>
+	<version>1.3</version>
+	<main>elfinder.php</main>
+	<language>language/</language>
 </application>

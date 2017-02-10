@@ -25,14 +25,30 @@ class Oauth extends Tendoo_Controller
     }
     public function index()
     {
+        $this->load->config( 'rest' );
         $this->load->model('Gui', null, 'gui');
         $this->load->model('Update_Model'); // load update model @since 3.0
+        $this->load->library( 'OauthLibrary' );
+        $this->load->library( 'form_validation' );
+
+        $this->form_validation->set_rules('scopes', __('Scopes'), 'requried');
+        if( $this->form_validation->run() ){
+            $generatedKey    =   $this->oauthlibrary->saveApp(
+                User::id(),
+                $_POST[ 'scopes' ],
+                $this->input->post( 'app_name' ),
+                @$_GET[ 'cb' ],
+                date_now()
+            );
+
+            redirect( @$_GET[ 'cb' ] . '?key=' . $generatedKey . '&key_header=' . $this->config->item( 'rest_header_key' ) );
+        }
 
         global $Options;
         $data[ 'scopes' ]    =    $this->oauthlibrary->getScopes(@$_GET[ 'scope' ]);
-        
+
         $this->Gui->set_title(sprintf(__('%s &mdash; Request permissions'), @$Options[ 'site_name' ]));
-        
+
         $this->load->view('shared/header');
         $this->load->view('oauth/body', $data);
     }

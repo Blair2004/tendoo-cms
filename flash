@@ -1,0 +1,31 @@
+<?php
+
+define( 'BASEPATH', dirname( __FILE__ ) . '/' );
+define( 'APPPATH', BASEPATH . 'application/' );
+define( 'MODULESPATH', APPPATH . 'modules/' );
+
+include_once( APPPATH . 'helpers/cmd_helper.php' );
+
+if( $argc < 2 ) {
+    echo "Not enough parameters";
+    return;
+}
+
+global $tendoo_cmd;
+$tendoo_cmd       =   explode( ':', $argv[1] );
+
+if( count( $tendoo_cmd ) == 1 ) {
+    if( $tendoo_cmd[0] == 'ci' ) {
+        include_once( dirname( __FILE__ ) . '/index.php' );
+        return;
+    }
+}
+
+if( count( $tendoo_cmd ) < 2 ) {
+    echo "Invalid functions";
+    return;
+}
+
+if( $tendoo_cmd[0] == 'create' ) {
+    include_once( dirname( __FILE__ ) . '/application/cmd/create.php' );
+}

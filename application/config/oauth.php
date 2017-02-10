@@ -10,10 +10,10 @@ $config[ 'oauth_scopes' ]    =    array(
     'profile'            =>        array(
         'label'            =>        __('Access user details'),
         'description'    =>        __('The current request would like to access user informations such as name, email, except password'),
-        'app'            =>        'system',
+        'app'            =>        'profile',
         'icon'            =>        'fa fa-user',
         'color'            =>        'bg-aqua',
-        'group'            =>        null
+        'group'            =>        array( 'user', 'master', 'administrator' )
     ),
     'core'                =>        array(
         'label'            =>        __('Control Tendoo CMS'),
@@ -24,3 +24,5 @@ $config[ 'oauth_scopes' ]    =    array(
         'group'            =>        array( 'master', 'administrator' )
     )
 );
+
+$config[ 'oauth_key_expiration_days' ]   =   7;

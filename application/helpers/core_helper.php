@@ -189,6 +189,9 @@ function get($key) // add to doc
         case "declared-shortcuts"    :
             return get_declared_shortcuts();
         break;
+        case 'app_name':
+            return $instance->config->item( 'core_app_name' );
+        break;
     }
 }
 
@@ -489,5 +492,77 @@ function page_is( $page ) {
 		return true;
 	}
 	return false;
+}
+
+/**
+ *  Get Cache with same prefix
+ *  @param string cache prefix
+ *  @return array
+**/
+
+function get_prefixed_cache( $prefix )
+{
+    $path           =   get_instance()->config->item('cache_path');
+    $cache_path     =   ($path === '') ? APPPATH.'cache/' : $path;
+    $cache_array	=	array();
+
+    if (is_dir($cache_path)) {
+        if ($dh = opendir($cache_path)) {
+            while( ( $file = readdir( $dh ) ) !== false ) {
+                $limit	=	strlen( $prefix );
+                $file_prefix	=	substr( $file, 0, $limit );
+
+                if( $file_prefix == $prefix ) {
+                    $cache_array[ $file ]	= 	unserialize( file_get_contents( $cache_path . $file ) );
+
+                    if ($cache_array[ $file ]['ttl'] > 0 && time() > $cache_array[ $file ]['time'] + $cache_array[ $file ]['ttl'])
+
+                    {
+                        $cache_array[ $file ]	=	array();
+                        unlink( $cache_path . $file );
+                    }
+                }
+            }
+            closedir( $dh );
+        }
+    }
+
+    return $cache_array;
+}
+
+/**
+ *  Unique Multi Dimensionnal Array
+ *  @param array Multi dimentional Array
+ *  @param string key
+ *  @return array a filtred array
+**/
+
+function unique_multidim_array($array, $key) {
+    $temp_array = array();
+    $i = 0;
+    $key_array = array();
+
+    foreach($array as $val) {
+        if (!in_array($val[$key], $key_array)) {
+            $key_array[$i] = $val[$key];
+            $temp_array[$i] = $val;
+        }
+        $i++;
+    }
+    return $temp_array;
+}
+
+/**
+ *  Get Options
+ *  @param string option key
+ *  @return string/int/array
+**/
+
+function get_option( $key = null ) {
+    global $Options;
+    if( $key != null ) {
+        return @$Options[ 'key' ];
+    }
+    return $Options;
 }
 /* End of file core_helper.php */

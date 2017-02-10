@@ -55,6 +55,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         });
       });
     </script>
-
+    <?php echo $this->events->do_action( 'common_footer' );?>
 </body>
 </html>
