@@ -166,7 +166,7 @@ class Tendoo_Lang
                 show_error(__('Unable to load the requested lang file'));
             }
         } else {
-            foreach (glob($path) as $filename) {
+            foreach ( glob($path) as $filename) {
                 if (is_file($filename)) {
                     include $filename;
                 } else {

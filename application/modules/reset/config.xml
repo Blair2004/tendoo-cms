@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+	<name>Reset on Active</name>
+	<namespace>reset</namespace>
+	<main>reset.php</main>
+	<version>1.1</version>
+	<author>Blair Jersyer</author>
+	<description>Enabling this module will reset Tendoo CMS.</description>
+</application>

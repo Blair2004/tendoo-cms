@@ -17,7 +17,7 @@ $this->Gui->add_meta(array(
     ),
     'footer'    =>    array(
         'submit'    =>    array(
-            'label'    =>    __('Edit User')
+            'label'    =>    __('Edit User', 'aauth')
         )
     )
 ));
@@ -26,7 +26,7 @@ $this->Gui->add_meta(array(
 
 $this->Gui->add_meta(array(
     'col_id'    =>    2,
-    'title'     =>  __( 'Connected Applications' ),
+    'title'     =>  __( 'Connected Applications' , 'aauth'),
     'namespace'    =>    'user_apps',
     'gui_saver'    =>    false,
     'custom'    =>    array(
@@ -38,7 +38,7 @@ $this->Gui->add_meta(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'text',
-    'label'            =>    __('User Name'),
+    'label'            =>    __('User Name', 'aauth'),
     'name'            =>    'username',
     'disabled'        =>    true,
     'value'            =>    $this->users->current->name
@@ -48,7 +48,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'text',
-    'label'            =>    __('User Email'),
+    'label'            =>    __('User Email', 'aauth'),
     'name'            =>    'user_email',
     'value'            =>    $this->users->current->email
 ), 'user_profile', 1);
@@ -57,13 +57,13 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'password',
-    'label'            =>    __('Old Password'),
+    'label'            =>    __('Old Password', 'aauth'),
     'name'            =>    'old_pass',
 ), 'user_profile', 1);
 
 $this->Gui->add_item(array(
     'type'            =>    'password',
-    'label'            =>    __('New Password'),
+    'label'            =>    __('New Password', 'aauth'),
     'name'            =>    'password',
 ), 'user_profile', 1);
 
@@ -71,7 +71,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'password',
-    'label'            =>    __('Confirm New'),
+    'label'            =>    __('Confirm New', 'aauth'),
     'name'            =>    'confirm',
 ), 'user_profile', 1);
 

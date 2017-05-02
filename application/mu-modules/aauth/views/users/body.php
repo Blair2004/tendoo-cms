@@ -14,24 +14,25 @@ foreach ($users as $user) {
         $user->group_name,
         $user->email ,
         $user->last_login,
-        $user->banned   ==  1 ? __( 'Unactive' ) : __( 'Active' ),
-         '<a href="' . site_url(array( 'dashboard', 'users', 'delete', $user->user_id )) . '">' . __('Delete') . '</a>' ,
+        $user->banned   ==  1 ? __( 'Unactive' , 'aauth') : __( 'Active' , 'aauth'),
+         '<a onclick="return confirm( \'' . _s( 'Would you like to delete this account ?', 'aauth' ) . '\' )" href="' . site_url(array( 'dashboard', 'users', 'delete', $user->user_id )) . '">' . __('Delete', 'aauth') . '</a>' ,
     );
 }
 
 $this->Gui->col_width(1, 4);
 
 $this->Gui->add_meta(array(
-    'namespace'    =>    'user-list',
-    'title'        =>    __('List'),
-    'pagination'=>    array( true ),
-    'col_id'    =>    1,
-    'type'        =>    'box-primary'
+    'namespace'         =>      'user-list',
+    'title'             =>      __('List', 'aauth'),
+    'pagination'        =>      array( true ),
+    'col_id'            =>      1,
+    'type'              =>      'box-primary',
+    'hide_body_wrapper' =>      true
 ));
 
 $this->Gui->add_item(array(
     'type'        =>    'table',
-    'cols'        =>    array( __('User Id'), __('Username'), __('Role'), __('Email'),  __('Activity'), __( 'Status' ), __('Actions') ),
+    'cols'        =>    array( __('Id', 'aauth'), __('Username', 'aauth'), __('Role', 'aauth'), __('Email', 'aauth'),  __('Activity', 'aauth'), __( 'Status' , 'aauth'), __('Actions', 'aauth') ),
     'rows'        =>    $complete_users
 ), 'user-list', 1);
 

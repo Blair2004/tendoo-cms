@@ -212,6 +212,40 @@ class Tendoo_Loader
         return $this;
     }
 
+    /**
+     *  Module Library
+     *  @param string module namespace
+     *  @param	string	$library	Library name
+     *  @param	array	$params		Optional parameters to pass to the library class constructor
+     *  @param	string	$object_name	An optional object name to assign to
+     *  @return this
+    **/
+
+    public function module_library( $module_namespace, $library, $params = null, $object_name = null)
+    {
+        if (empty($library)) {
+            return $this;
+        } elseif (is_array($library)) {
+            foreach ($library as $key => $value) {
+                if (is_int($key)) {
+                    $this->module_library( $module_namespace, $value, $params);
+                } else {
+                    $this->module_library( $module_namespace, $key, $params, $value);
+                }
+            }
+
+            return $this;
+        }
+
+        if ($params !== null && ! is_array($params)) {
+            $params = null;
+        }
+
+        $this->_ci_load_library( '../modules/' . $module_namespace . '/inc/libraries/' . $library, $params, $object_name);
+
+        return $this;
+    }
+
     // --------------------------------------------------------------------
 
     /**
@@ -314,6 +348,117 @@ class Tendoo_Loader
             if (! class_exists($model, false)) {
                 throw new RuntimeException('Unable to locate the model you have specified: '.$model);
             }
+        } elseif (! is_subclass_of($model, 'CI_Model')) {
+            throw new RuntimeException("Class ".$model." already exists and doesn't extend CI_Model");
+        }
+
+        $this->_ci_models[] = $name;
+        $CI->$name = new $model();
+        return $this;
+    }
+
+    /**
+     *  Module Model
+     *  @param string module namespace
+     *  @return
+    **/
+
+    public function module_model( $module_namespace, $model, $name = '', $db_conn = false)
+    {
+        if (empty($model)) {
+            return $this;
+        } elseif (is_array($model)) {
+            foreach ($model as $key => $value) {
+                is_int($key) ? $this->module_model( $module_namespace, $value, '', $db_conn) : $this->model( $module_namespace, $key, $value, $db_conn);
+            }
+
+            return $this;
+        }
+
+        $path = '';
+
+        // Is the model in a sub-folder? If so, parse out the filename and path.
+        if (($last_slash = strrpos($model, '/')) !== false) {
+            // The path is in front of the last slash
+            $path = substr($model, 0, ++$last_slash);
+
+            // And the model name behind it
+            $model = substr($model, $last_slash);
+        }
+
+        if (empty($name)) {
+            $name = $model;
+        }
+
+        if (in_array($name, $this->_ci_models, true)) {
+            return $this;
+        }
+
+        $CI =& get_instance();
+        if (isset($CI->$name)) {
+            throw new RuntimeException('The model name you are loading is the name of a resource that is already being used: '.$name);
+        }
+
+        if ($db_conn !== false && ! class_exists('CI_DB', false)) {
+            if ($db_conn === true) {
+                $db_conn = '';
+            }
+
+            $this->database($db_conn, false, true);
+        }
+
+        // Note: All of the code under this condition used to be just:
+        //
+        //       load_class('Model', 'core');
+        //
+        //       However, load_class() instantiates classes
+        //       to cache them for later use and that prevents
+        //       MY_Model from being an abstract class and is
+        //       sub-optimal otherwise anyway.
+
+        if (! class_exists('CI_Model', false)) {
+            $app_path = APPPATH.'core'.DIRECTORY_SEPARATOR;
+            if (file_exists($app_path.'Model.php')) {
+                require_once($app_path.'Model.php');
+                if (! class_exists('CI_Model', false)) {
+                    throw new RuntimeException($app_path."Model.php exists, but doesn't declare class CI_Model");
+                }
+            } elseif (! class_exists('CI_Model', false)) {
+                require_once(BASEPATH.'core'.DIRECTORY_SEPARATOR.'Model.php');
+            }
+
+            $class = config_item('subclass_prefix').'Model';
+            if (file_exists($app_path.$class.'.php')) {
+                require_once($app_path.$class.'.php');
+                if (! class_exists($class, false)) {
+                    throw new RuntimeException($app_path.$class.".php exists, but doesn't declare class ".$class);
+                }
+            }
+        }
+
+        $model = ucfirst($model);
+
+        if (! class_exists($model, false)) {
+
+            foreach ($this->_ci_model_paths as $mod_path) {
+
+                if (! file_exists($mod_path.'/modules/' . $module_namespace . '/inc/models/'.$path.$model.'.php')) {
+                    continue;
+                }
+
+                require_once($mod_path.'modules/' . $module_namespace . '/inc/models/'.$path.$model.'.php');
+
+                if (! class_exists($model, false)) {
+                    throw new RuntimeException($mod_path."modules/' . $module_namespace . '/inc/models/".$path.$model.".php exists, but doesn't declare class ".$model);
+                }
+
+                break;
+            }
+
+            if (! class_exists($model, false)) {
+                throw new RuntimeException('Unable to locate the model for the module : ' . $module_namespace . ' you have specified: '.$model);
+            }
+
         } elseif (! is_subclass_of($model, 'CI_Model')) {
             throw new RuntimeException("Class ".$model." already exists and doesn't extend CI_Model");
         }
@@ -688,6 +833,20 @@ class Tendoo_Loader
     public function config($file, $use_sections = false, $fail_gracefully = false)
     {
         return get_instance()->config->load($file, $use_sections, $fail_gracefully);
+    }
+
+    /**
+     *  Load Module Config
+     *  @param void
+     *  @return void
+    **/
+
+    public function module_config( $module_namespace, $file = '', $use_sections = false, $fail_gracefully = false)
+    {
+        if( $file == '' ) {
+            return get_instance()->config->load( '../modules/' . $module_namespace . '/inc/config/' . $module_namespace, $use_sections, $fail_gracefully);
+        }
+        return get_instance()->config->load( '../modules/' . $module_namespace . '/inc/config/' . $file, $use_sections, $fail_gracefully);
     }
 
     // --------------------------------------------------------------------

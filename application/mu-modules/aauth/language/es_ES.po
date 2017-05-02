@@ -1,0 +1,644 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-03-01 19:20+0100\n"
+"PO-Revision-Date: 2017-03-01 20:31+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_s\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: inc/aauth_lang.php:8
+#, fuzzy
+msgid "Tendoo CMS : Account Verification"
+msgstr "Tendoo CMS: Verificación de cuenta"
+
+#: inc/aauth_lang.php:9
+#, fuzzy
+msgid ""
+"Hey you have successfully created an account using Tendoo CMS. Please "
+"consider activating your account using the following verification code.\\n"
+"\\n<strong>Your verification code is</strong>: "
+msgstr ""
+"Hey has creado una cuenta con CMS Tendoo. Por favor considere activar su "
+"cuenta mediante el siguiente code.\\n\\n verificación<strong>es su código de "
+"verificación</strong>:"
+
+#: inc/aauth_lang.php:10
+#, fuzzy, php-format
+msgid ""
+" You can also click on (or copy and paste) the following link\n"
+"\n"
+"%s"
+msgstr "Puede también haga clic en (o copiar y pegar) el siguiente enlace %s"
+
+#: inc/aauth_lang.php:13
+#, fuzzy
+msgid "Tendoo CMS : Reset Password"
+msgstr "Tendoo CMS: Restablecer contraseña"
+
+#: inc/aauth_lang.php:14
+#, fuzzy, php-format
+msgid ""
+"To reset your password click on (or copy and paste in your browser address "
+"bar) the link below:\n"
+"\n"
+"%s"
+msgstr ""
+"Restablecer su contraseña clic en (o copiar y pegar en la barra de "
+"direcciones del navegador) el enlace de abajo: %s"
+
+#: inc/aauth_lang.php:17
+#, fuzzy
+msgid "Tendoo CMS : Successful Pasword Reset"
+msgstr "Tendoo CMS: Reset de contraseña exitosa"
+
+#: inc/aauth_lang.php:18
+#, fuzzy
+msgid "Your password has successfully been reset. Your new password is : "
+msgstr "Su contraseña se ha restablecido con éxito. Su nueva contraseña es:"
+
+#: inc/aauth_lang.php:24
+#, fuzzy
+msgid ""
+"Email address already exists on the system. If you forgot your password, you "
+"can click the link below."
+msgstr ""
+"Dirección de correo electrónico ya existe en el sistema. Si olvidó su "
+"contraseña, puede hacer clic en el enlace de más abajo."
+
+#: inc/aauth_lang.php:26
+#, fuzzy
+msgid "Invalid e-mail address"
+msgstr "Dirección de email no válida"
+
+#: inc/aauth_lang.php:27
+#, fuzzy
+msgid "Invalid password"
+msgstr "Contraseña no válida"
+
+#: inc/aauth_lang.php:28
+#, fuzzy
+msgid "Invalid Username"
+msgstr "Nombre de usuario no válido"
+
+#: inc/aauth_lang.php:29
+#, fuzzy
+msgid "Username required"
+msgstr "Se requiere el nombre de usuario"
+
+#: inc/aauth_lang.php:32
+#, fuzzy
+msgid "Sorry, you do not have access to the resource you requested."
+msgstr "Lo sentimos, que no tienes acceso a los recursos que solicitó."
+
+#: inc/aauth_lang.php:33
+#, fuzzy
+msgid "E-mail Address and Password do not match."
+msgstr "Dirección de correo electrónico y la contraseña no coinciden."
+
+#: inc/aauth_lang.php:34
+#, fuzzy
+msgid ""
+"You have exceeded your login attempts, your account has now been locked."
+msgstr ""
+"Han superado sus intentos de inicio de sesión, su cuenta ha sido bloqueada "
+"ahora."
+
+#: inc/aauth_lang.php:35
+#, fuzzy
+msgid "Sorry, the reCAPTCHA text entered was incorrect."
+msgstr "Lo sentimos, el texto de reCAPTCHA introducido era incorrecto."
+
+#: inc/aauth_lang.php:39
+#, fuzzy
+msgid "User does not exist"
+msgstr "El usuario no existe"
+
+#: inc/aauth_lang.php:40
+#, fuzzy
+msgid ""
+"Your account has not been verified. Please check your e-mail and verify your "
+"account."
+msgstr ""
+"Su cuenta no ha sido verificada. Por favor compruebe su correo electrónico y "
+"verificar su cuenta."
+
+#: inc/aauth_lang.php:41
+#, fuzzy
+msgid "Group does not exist"
+msgstr "Este grupo no existe"
+
+#: inc/aauth_lang.php:42
+#, fuzzy
+msgid "It is not possible to send a Message to yourself."
+msgstr "No es posible enviar un mensaje a ti mismo."
+
+#: inc/aauth_lang.php:43
+#, fuzzy
+msgid "Private Message not found"
+msgstr "Mensaje privado no encontrado"
+
+#: inc/aauth_lang.php:47
+#, fuzzy
+msgid "User is already member of group"
+msgstr "Usuario ya es miembro del grupo de"
+
+#: inc/aauth_lang.php:48
+#, fuzzy
+msgid "Group name already exists"
+msgstr "El nombre del grupo ya existe."
+
+#: inc/aauth_lang.php:49
+#, fuzzy
+msgid "Permission name already exists"
+msgstr "Permiso nombre ya existe"
+
+#: inc/aauth_lang.php:51
+#, fuzzy
+msgid "The group has been updated"
+msgstr "El grupo ha sido actualizado correctamente."
+
+#: inc/aauth_lang.php:64
+#, fuzzy
+msgid "User settings's has been updated."
+msgstr "Configuración de usuario se ha actualizado."
+
+#: inc/aauth_lang.php:65
+#, fuzzy
+msgid "The user has been deleted."
+msgstr "El usuario ha sido eliminado."
+
+#: inc/aauth_lang.php:66
+#, fuzzy
+msgid "The new password cannot match the old one, please use another password."
+msgstr "La nueva contraseña no coincide con la edad, utilice otra contraseña."
+
+#: inc/aauth_lang.php:67
+#, fuzzy
+msgid "Your old password is not correct."
+msgstr "La contraseña anterior no es correcta."
+
+#: inc/aauth_lang.php:70
+#, fuzzy
+msgid "A group with this name already exists. Please choose another name."
+msgstr "Un grupo con este nombre ya existe. Por favor elige otro nombre."
+
+#: inc/aauth_lang.php:71
+msgid "Group has been created."
+msgstr "Grupo ha sido creado."
+
+#: inc/aauth_lang.php:72
+#, fuzzy
+msgid "This group does'nt exists or has been deleted."
+msgstr "O similar de este grupo existe o ha sido eliminado."
+
+#: inc/aauth_lang.php:73
+#, fuzzy
+msgid "Unknow group."
+msgstr "Desconocido grupo."
+
+#: inc/aauth_lang.php:74
+#, fuzzy
+msgid "Group has been updated."
+msgstr "Grupo se ha actualizado."
+
+#: inc/aauth_lang.php:75
+#, fuzzy
+msgid "You can't delete your own  account."
+msgstr "Se puede eliminar tu propia cuenta."
+
+#: inc/dashboard.php:50
+#, fuzzy
+msgid "Users"
+msgstr "Usuarios"
+
+#: inc/dashboard.php:68
+#, fuzzy
+msgid "Manage Users"
+msgstr "Administrar usuarios"
+
+#: inc/dashboard.php:75
+#, fuzzy
+msgid "Create a new User"
+msgstr "Crear un usuario"
+
+#: inc/dashboard.php:82
+#, fuzzy
+msgid "Groups"
+msgstr "Grupos"
+
+#: inc/dashboard.php:90
+#, fuzzy
+msgid "My profile"
+msgstr "Mi perfil"
+
+#: inc/dashboard.php:186
+#, fuzzy, php-format
+msgid "Users &mdash; %s"
+msgstr "Los usuarios &mdash; %s"
+
+#: inc/dashboard.php:215 inc/dashboard.php:268 inc/dashboard.php:336
+#: views/users/create.php:37 views/users/edit.php:39 views/users/profile.php:51
+#, fuzzy
+msgid "User Email"
+msgstr "Correo electrónico del usuario"
+
+#: inc/dashboard.php:216 inc/dashboard.php:269 inc/dashboard.php:338
+#: inc/fields.php:52 inc/fields.php:77 inc/fields.php:121 inc/rules.php:19
+#: views/users/create.php:45
+msgid "Password"
+msgstr "Contraseña"
+
+#: inc/dashboard.php:217 inc/dashboard.php:270 inc/dashboard.php:339
+#: inc/fields.php:126 inc/rules.php:20 views/users/create.php:53
+#, fuzzy
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: inc/dashboard.php:218 inc/dashboard.php:271
+#, fuzzy
+msgid "User Privilege"
+msgstr "Privilegios del usuario"
+
+#: inc/dashboard.php:247
+#, fuzzy, php-format
+msgid "Edit user &mdash; %s"
+msgstr "Editar usuario &mdash; %s"
+
+#: inc/dashboard.php:267 inc/fields.php:40 inc/fields.php:109 inc/rules.php:17
+#: views/users/create.php:29 views/users/edit.php:29 views/users/profile.php:41
+#, fuzzy
+msgid "User Name"
+msgstr "Nombre de Usuario"
+
+#: inc/dashboard.php:298
+#, fuzzy, php-format
+msgid "Create a new user &mdash; %s"
+msgstr "Crear un nuevo usuario &mdash; %s"
+
+#: inc/dashboard.php:337
+#, fuzzy
+msgid "Old Pass"
+msgstr "Paso viejo"
+
+#: inc/dashboard.php:364
+#, fuzzy, php-format
+msgid "My Profile &mdash; %s"
+msgstr "Mi perfil &mdash; %s"
+
+#: inc/dashboard.php:391
+#, fuzzy, php-format
+msgid "Roles &mdash; %s"
+msgstr "Papeles &mdash; %s"
+
+#: inc/fields.php:20
+#, fuzzy
+msgid "Please provide your user email in order to get recovery email"
+msgstr ""
+"Por favor proporcione su correo electrónico del usuario para obtener correo "
+"electrónico de recuperación"
+
+#: inc/fields.php:23 inc/fields.php:25
+#, fuzzy
+msgid "User email or Pseudo"
+msgstr "Correo electrónico del usuario o Pseudo"
+
+#: inc/fields.php:28
+#, fuzzy
+msgid "Get recovery Email"
+msgstr "Conseguir la recuperación de correo electrónico"
+
+#: inc/fields.php:46 inc/fields.php:115 inc/rules.php:18
+#: views/users/body.php:34
+#, fuzzy
+msgid "Email"
+msgstr "Email"
+
+#: inc/fields.php:58
+#, fuzzy
+msgid "Password confirm"
+msgstr "Confirmar su contraseña"
+
+#: inc/fields.php:72 inc/rules.php:12 inc/rules.php:13
+#, fuzzy
+msgid "Email or User Name"
+msgstr "Correo electrónico o nombre de usuario"
+
+#: inc/fields.php:85
+#, fuzzy
+msgid "Remember me"
+msgstr "Recordarme"
+
+#: inc/fields.php:90
+#, fuzzy
+msgid "Sign In"
+msgstr "Ingresar"
+
+#: inc/fields.php:136
+#, fuzzy
+msgid "Sign Up"
+msgstr "Crear Cuenta"
+
+#: inc/fields.php:157
+#, fuzzy
+msgid "First Name"
+msgstr "Nombre"
+
+#: inc/fields.php:164
+#, fuzzy
+msgid "Last Name"
+msgstr "Apellidos"
+
+#: inc/fields.php:171
+#, fuzzy
+msgid "Select a theme"
+msgstr "Seleccione un tema"
+
+#: inc/fields.php:179
+#, fuzzy
+msgid "Blue"
+msgstr "Azul"
+
+#: inc/fields.php:187
+#, fuzzy
+msgid "Black"
+msgstr "Negro"
+
+#: inc/fields.php:195
+#, fuzzy
+msgid "Purple"
+msgstr "Púrpura"
+
+#: inc/fields.php:203
+#, fuzzy
+msgid "Green"
+msgstr "Verde"
+
+#: inc/fields.php:211
+#, fuzzy
+msgid "Red"
+msgstr "Rojo"
+
+#: inc/fields.php:219
+#, fuzzy
+msgid "Yellow"
+msgstr "Amarillo"
+
+#: inc/fields.php:227
+#, fuzzy
+msgid "Blue Light"
+msgstr "luz azul"
+
+#: inc/fields.php:235
+#, fuzzy
+msgid "Black Light"
+msgstr "Luz negra"
+
+#: inc/fields.php:243
+#, fuzzy
+msgid "Purple Light"
+msgstr "claridad purpúrea"
+
+#: inc/fields.php:251
+#, fuzzy
+msgid "Green Light"
+msgstr "Verde claro"
+
+#: inc/fields.php:259
+#, fuzzy
+msgid "Red Light"
+msgstr "luz roja"
+
+#: inc/fields.php:267
+#, fuzzy
+msgid "Yellow Light"
+msgstr "Amarillo claro"
+
+#: views/groups/body.php:14
+#, fuzzy
+msgid "Role List"
+msgstr "Lista de Rol"
+
+#: views/groups/body.php:39
+#, fuzzy
+msgid "Yes"
+msgstr "Sí"
+
+#: views/groups/body.php:39
+#, fuzzy
+msgid "No"
+msgstr "No"
+
+#: views/groups/body.php:46
+#, fuzzy
+msgid "Role name"
+msgstr "Nombre del rol"
+
+#: views/groups/body.php:46
+#, fuzzy
+msgid "Description"
+msgstr "Descripción"
+
+#: views/groups/body.php:46 views/groups/create.php:42 views/groups/edit.php:45
+#, fuzzy
+msgid "Admin"
+msgstr "Administrador"
+
+#: views/groups/body.php:46
+#, fuzzy
+msgid "Permissions"
+msgstr "Permisos"
+
+#: views/groups/create.php:13
+#, fuzzy
+msgid "Create a new role"
+msgstr "Crear nuevo rol"
+
+#: views/groups/create.php:18
+#, fuzzy
+msgid "Create the role"
+msgstr "Crear el rol"
+
+#: views/groups/create.php:31
+#, fuzzy
+msgid "Enter role name"
+msgstr "Introducir nombre de rol:"
+
+#: views/groups/create.php:32 views/groups/create.php:33
+#: views/groups/edit.php:34 views/groups/edit.php:35
+#, fuzzy
+msgid "Role Name"
+msgstr "Nombre del rol"
+
+#: views/groups/create.php:41 views/groups/edit.php:44
+#, fuzzy
+msgid "Public"
+msgstr "Público"
+
+#: views/groups/create.php:44 views/groups/create.php:45
+#: views/groups/edit.php:47 views/groups/edit.php:48
+#, fuzzy
+msgid "Role Type"
+msgstr "Tipo de rol"
+
+#: views/groups/edit.php:15
+#, fuzzy
+msgid "Edit a new role"
+msgstr "Editar un rol"
+
+#: views/groups/edit.php:20 views/groups/permissions.php:20
+#, fuzzy
+msgid "Edit the role"
+msgstr "Editar el papel"
+
+#: views/groups/edit.php:33
+#, fuzzy
+msgid "Edit role name"
+msgstr "Editar nombre de rol"
+
+#: views/groups/permissions.php:15
+#, fuzzy
+msgid "Groups permissions"
+msgstr "Grupos y permisos"
+
+#: views/users/app-list.php:5
+#, fuzzy
+msgid "App Keys"
+msgstr "Claves de la aplicación"
+
+#: views/users/app-list.php:10
+#, fuzzy
+msgid "Click on any key to revoke it"
+msgstr "Haga clic en cualquier tecla para revocarlo"
+
+#: views/users/app-list.php:17
+#, fuzzy, php-format
+msgid "Scopes : %s"
+msgstr "Ámbitos: %s"
+
+#: views/users/app-list.php:18
+#, fuzzy, php-format
+msgid "Created on : %s"
+msgstr "Agregado en %s"
+
+#: views/users/app-list.php:19
+#, fuzzy, php-format
+msgid "Expire on : %s"
+msgstr "Expira el: %s"
+
+#: views/users/app-list.php:20
+#, fuzzy, php-format
+msgid "Keys : %s"
+msgstr "Claves: %s"
+
+#: views/users/app-list.php:27
+#, fuzzy
+msgid "No application is linked to this account."
+msgstr "Ninguna aplicación está vinculada a esta cuenta."
+
+#: views/users/app-list.php:36
+#, fuzzy
+msgid "Would you like to revoke this App key ?"
+msgstr "¿Quieres revocar la clave de esta App?"
+
+#: views/users/body.php:17 views/users/create.php:64 views/users/edit.php:83
+#, fuzzy
+msgid "Unactive"
+msgstr "Más"
+
+#: views/users/body.php:17 views/users/create.php:63 views/users/edit.php:82
+#, fuzzy
+msgid "Active"
+msgstr "Activo"
+
+#: views/users/body.php:18
+#, fuzzy
+msgid "Delete"
+msgstr "Eliminar"
+
+#: views/users/body.php:26
+#, fuzzy
+msgid "List"
+msgstr "Lista"
+
+#: views/users/body.php:34
+#, fuzzy
+msgid "User Id"
+msgstr "User Id"
+
+#: views/users/body.php:34
+#, fuzzy
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: views/users/body.php:34
+#, fuzzy
+msgid "Role"
+msgstr "Función"
+
+#: views/users/body.php:34
+#, fuzzy
+msgid "Activity"
+msgstr "Actividad"
+
+#: views/users/body.php:34
+msgid "Status"
+msgstr "Estado"
+
+#: views/users/body.php:34
+#, fuzzy
+msgid "Actions"
+msgstr "Acciones"
+
+#: views/users/create.php:20
+#, fuzzy
+msgid "Create User"
+msgstr "Crear Usuario"
+
+#: views/users/create.php:60 views/users/edit.php:79
+#, fuzzy
+msgid "User Status"
+msgstr "Estado del Usuario"
+
+#: views/users/create.php:62 views/users/edit.php:81
+#, fuzzy
+msgid "Default"
+msgstr "Por defecto"
+
+#: views/users/create.php:78 views/users/edit.php:70
+#, fuzzy
+msgid "Add to a group"
+msgstr "Añadir un grupo"
+
+#: views/users/edit.php:20 views/users/profile.php:20
+#, fuzzy
+msgid "Edit User"
+msgstr "editar usuario"
+
+#: views/users/edit.php:48 views/users/profile.php:66
+#, fuzzy
+msgid "New Password"
+msgstr "Nueva contraseña"
+
+#: views/users/edit.php:56 views/users/profile.php:74
+#, fuzzy
+msgid "Confirm New"
+msgstr "Confirmar nueva:"
+
+#: views/users/profile.php:29
+#, fuzzy
+msgid "Connected Applications"
+msgstr "Aplicaciones conectadas"
+
+#: views/users/profile.php:60
+#, fuzzy
+msgid "Old Password"
+msgstr "﻿Contraseña anterior"

@@ -11,7 +11,7 @@ $this->Gui->col_width(1, 4);
 
 $this->Gui->add_meta(array(
     'namespace'        =>    'role_list',
-    'title'            =>    __('Role List'),
+    'title'            =>    __('Role List', 'aauth'),
     'col_id'        =>    1,
     'footer'        =>    array(
         //'pagination'	=>	array( true )
@@ -36,14 +36,14 @@ foreach (force_array($groups) as $group) {
         // '<a href="' . site_url( array( 'dashboard' , 'groups' , 'edit' , $group->id ) ) . '">' . $group->name . '</a>',
         $group->name,
         $group->definition,
-        $group->is_admin == 1 ? __('Yes') : __('No'),
+        $group->is_admin == 1 ? __('Yes', 'aauth') : __('No', 'aauth'),
         $label_permissions
     );
 }
 
 $this->Gui->add_item(array(
     'type'            =>    'table',
-    'cols'            =>    array( __('Role name'), __('Description'), __('Admin'), __('Permissions') ),
+    'cols'            =>    array( __('Role name', 'aauth'), __('Description', 'aauth'), __('Admin', 'aauth'), __('Permissions', 'aauth') ),
     'rows'            =>    $group_array
 ), 'role_list', 1);
 

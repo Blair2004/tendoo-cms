@@ -12,12 +12,12 @@ $this->Gui->col_width(1, 3);
 // Creating Meta
 $this->Gui->add_meta(array(
     'type'        =>    'box',
-    'title'        =>    __('Groups permissions'),
+    'title'        =>    __('Groups permissions', 'aauth'),
     'namespace'    =>    'permissions',
     'col_id'    =>    1,
     'footer'        =>    array(
         'submit'    =>    array(
-            'label'    =>    __('Edit the role')
+            'label'    =>    __('Edit the role', 'aauth')
         )
     ),
     'gui_saver'    =>    true,

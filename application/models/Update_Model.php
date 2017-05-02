@@ -9,10 +9,10 @@ class Update_Model extends CI_model
         $this->core_id        =    $this->config->item('version');
         $this->auto_update();
     }
-    
+
     /**
      * Auto Update Feature
-     * 
+     *
      * @return int/void
     **/
 
@@ -26,7 +26,7 @@ class Update_Model extends CI_model
                 $array_api            =    json_decode($json_api, true);
                 $regular_release    =    $this->config->item('version');
                 $major_release        =    $this->config->item('version');
-    
+
                 if (is_array($array_api) && $array_api) {
                     // Fetch Auto update
                     foreach ($array_api as $_rel) {
@@ -47,40 +47,40 @@ class Update_Model extends CI_model
                         }
                     }
                 }
-    
-    
+
+
                 // Save cache
                 $this->cache->save('regular_release', $regular_release, 7200);
                 $this->cache->save('major_release', $major_release, 7200);
             }
-    
+
             // Auto Update
             if (version_compare($this->cache->get('major_release'), $this->config->item('version'), '>') && $this->config->item('force_major_updates') === true) {
                 if (isset($_GET[ 'install_update' ]) && is_dir(APPPATH . '/temp/core')) {
                     $this->install(3, $this->cache->get('major_release'));
                     redirect(array( 'dashboard', 'about' ));
                 }
-    
+
                 if (is_file(APPPATH . '/temp/tendoo-cms.zip')) {
                     $this->install(2, $this->cache->get('major_release'));
                 }
-    
+
                 if (! is_file(APPPATH . '/temp/tendoo-cms.zip') && ! is_dir(APPPATH . '/temp/core')) {
                     $this->install(1, $this->cache->get('major_release'));
                 }
-    
+
                 if (is_dir(APPPATH . '/temp/core') || ! isset($_GET[ 'install_update' ])) {
                     $this->notice->push_notice(
                         tendoo_info(
                             sprintf(
-                                __('Une mise à jour est prète à être installée. <a href="%s">Cliquez ici pour l\'installer</a>'),
+                                __('An update is ready to be installed. <a href="%s">Click here to install it</a>'),
                                 current_url() . '?install_update=true'
                             )
                         )
                     );
                 }
             }
-    
+
             // If any regular release exist or major update we show a notice
             if ($this->cache->get('regular_release') || $this->cache->get('major_release')) {
                 if (
@@ -94,7 +94,7 @@ class Update_Model extends CI_model
             }
         }
     }
-    
+
     /**
      * Check Update
      * @return bool/array
@@ -167,14 +167,14 @@ class Update_Model extends CI_model
         }
         return false;
     }
-    
+
     /**
      * Get Release
-     * 
+     *
      * @param string release id
      * @return string error code
     **/
-    
+
     public function get($release_id)
     {
         $json_api    =    $this->curl->security(false)->get('https://api.github.com/repos/Blair2004/tendoo-cms/releases');
@@ -200,15 +200,15 @@ class Update_Model extends CI_model
         }
         return 'unknow-release';
     }
-    
+
     /**
      * Install a release
-     * 
-     * @param string version 
+     *
+     * @param string version
      * @param string zipball name
      * @return array
     **/
-    
+
     public function install($stage, $zipball = null)
     {
         $tendoo_zip        =    APPPATH . 'temp/tendoo-cms.zip';
@@ -260,13 +260,13 @@ class Update_Model extends CI_model
             'code'    =>    'error-occured'
         );
     }
-    
+
     /**
      * Store Conneciton
-     * 
+     *
      * @return void
     **/
-    
+
     public function store_connect()
     {
         if (! riake('HAS_LOGGED_TO_STORE', $_SESSION)) {
@@ -297,7 +297,7 @@ class Update_Model extends CI_model
 
     /**
      * Module Update feature
-     * 
+     *
      * @return void
     **/
 

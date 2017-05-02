@@ -242,6 +242,8 @@ if (!function_exists('translate')) {
         $text_domains    =    $instance->config->item('text_domain');
 
         if (in_array($textdomain, array_keys($text_domains))) {
+
+            // $module         =   Modules::get( $text_domain );
             $lang_file    =    $text_domains[ $textdomain ] . '/' . $instance->config->item('site_language') . '.po';
 
             if (is_file($lang_file)) {

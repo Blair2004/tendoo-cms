@@ -9,15 +9,15 @@ class aauth_rules extends CI_model
     }
     public function set_login_rules()
     {
-        $this->form_validation->set_rules('username_or_email', __('Email or User Name'), 'required|min_length[5]');
-        $this->form_validation->set_rules('password', __('Email or User Name'), 'required|min_length[6]');
+        $this->form_validation->set_rules('username_or_email', __('Email or User Name', 'aauth'), 'required|min_length[5]');
+        $this->form_validation->set_rules('password', __('Email or User Name', 'aauth'), 'required|min_length[6]');
     }
     public function registration_rules()
     {
-        $this->form_validation->set_rules('username', __('User Name'), 'required|min_length[5]');
-        $this->form_validation->set_rules('email', __('Email'), 'valid_email|required');
-        $this->form_validation->set_rules('password', __('Password'), 'required|min_length[6]');
-        $this->form_validation->set_rules('confirm', __('Confirm'), 'matches[password]');
+        $this->form_validation->set_rules('username', __('User Name', 'aauth'), 'required|min_length[5]');
+        $this->form_validation->set_rules('email', __('Email', 'aauth'), 'valid_email|required');
+        $this->form_validation->set_rules('password', __('Password', 'aauth'), 'required|min_length[6]');
+        $this->form_validation->set_rules('confirm', __('Confirm', 'aauth'), 'matches[password]');
     }
 }
 new aauth_rules;

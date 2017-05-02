@@ -69,6 +69,15 @@ class Modules
                     get_instance()->config->set_item('text_domain', $text_domain);
                 }
             }
+
+            // @since 3.0.5
+            if (isset($config[ 'application' ][ 'language' ])) {
+                if (is_dir(APPPATH . 'mu-modules/' . $namespace . '/' . $config[ 'application' ][ 'language' ])) {
+                    $text_domain    =    get_instance()->config->item('text_domain');
+                    $text_domain[ $namespace ]     =    APPPATH . 'mu-modules/' . $namespace . '/' . $config[ 'application' ][ 'language' ];
+                    get_instance()->config->set_item('text_domain', $text_domain);
+                }
+            }
         }
     }
 
@@ -176,7 +185,7 @@ class Modules
                     include_once($init_file);
                 } elseif (is_file($init_file = $module[ 'application' ][ 'main' ]) && $filter === 'actives') {
                     if (!isset($actives_modules)) {
-                        $actives_modules    =    ( array ) $Options[ 'actives_modules' ];
+                        $actives_modules    =    ( array ) @$Options[ 'actives_modules' ];
                     }
                     if (in_array(strtolower($module[ 'application' ][ 'namespace' ]), $actives_modules)) {
                         self::$actives[]    =    $module[ 'application' ][ 'namespace' ];
@@ -262,7 +271,7 @@ class Modules
 
          if( isset( $module[ 'application' ][ 'dependencies' ] ) && count( @$module[ 'application' ][ 'dependencies' ] ) > 0 ) {
              $dependencies_data    =   $module[ 'application' ][ 'dependencies' ];
-             $keys                 =    array_keys( $dependencies_data[ 'module' ] );
+             $keys                 =    array_keys( @$dependencies_data[ 'module' ] );
 
              if( in_array( $keys[0], array( '@value' ) , true ) ) {
                  $dependencies      =   array( $dependencies_data[ 'module' ] );
@@ -297,7 +306,7 @@ class Modules
          global $Options;
          $modules   =   self::get();
          foreach( $modules as $module ) {
-             if( in_array( $module[ 'application' ][ 'namespace' ], ( array ) $Options[ 'actives_modules' ] ) ) {
+             if( in_array( $module[ 'application' ][ 'namespace' ], ( array ) @$Options[ 'actives_modules' ] ) ) {
                  self::checkDependency( $module[ 'application' ][ 'namespace' ] );
              }
          }

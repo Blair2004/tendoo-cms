@@ -1,0 +1,47 @@
+#toast-btn {
+  display: inline-block;
+  float: left;
+  background: #fff;
+  padding: 10px;
+  cursor: pointer;
+  border: 2px solid #3B2F63;
+  white-space: no-wrap;
+  font-size: 20px;
+  color: #3B2F63;
+  width: 40%;
+  text-align: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#toast-btn:hover {
+  background: #3B2F63;
+  color: #fff;
+}
+
+#textbox {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  padding: 0 10px;
+  color: #fff;
+  border-left: 2px solid #fff;
+  width: 60%;
+}
+
+.toast {
+  padding: 15px 20px;
+  color: #fff;
+  background: rgba(0,0,10,0.7);
+  display: inline-block;
+  position: fixed;
+  top: -100px;
+  right: 15px;
+  z-index: 1100;
+  opacity: 0;
+  transition: all 0.4s ease-out;
+}

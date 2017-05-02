@@ -113,7 +113,9 @@ tendoo.notify			=	new function(){
 			type			:	'warning',
 			allow_dismiss	:	dismiss,
 			delay			:	delay,
-			z_index			:	8000
+			z_index			:	8000,
+			globalPosition	:	'top left',
+			showDuration	:	1000
 		})
 	};
 

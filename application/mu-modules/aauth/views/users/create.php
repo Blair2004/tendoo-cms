@@ -10,14 +10,15 @@ $this->Gui->col_width(1, 2);
 $this->Gui->add_meta(array(
     'col_id'    =>    1,
     'namespace'    =>    'create_user',
-    'gui_saver'    =>    true,
+    'gui_saver'    =>    false,
     'custom'    =>    array(
-        'action'    =>    ''
+        'action'    =>    null,
+        'app'        =>    'users'
     ),
     'autoload'    =>    false,
     'footer'    =>    array(
         'submit'    =>    array(
-            'label'    =>    __('Create User')
+            'label'    =>    __('Create User', 'aauth')
         )
     )
 ));
@@ -26,7 +27,7 @@ $this->Gui->add_meta(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'text',
-    'label'            =>    __('User Name'),
+    'label'            =>    __('User Name', 'aauth'),
     'name'            =>    'username',
 ), 'create_user', 1);
 
@@ -34,7 +35,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'text',
-    'label'            =>    __('User Email'),
+    'label'            =>    __('User Email', 'aauth'),
     'name'            =>    'user_email',
 ), 'create_user', 1);
 
@@ -42,7 +43,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'password',
-    'label'            =>    __('Password'),
+    'label'            =>    __('Password', 'aauth'),
     'name'            =>    'password',
 ), 'create_user', 1);
 
@@ -50,18 +51,18 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'password',
-    'label'            =>    __('Confirm'),
+    'label'            =>    __('Confirm', 'aauth'),
     'name'            =>    'confirm',
 ), 'create_user', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
     'name'        =>    'user_status',
-    'label'        =>    __('User Status'),
+    'label'        =>    __('User Status', 'aauth'),
     'options'    =>    array(
-        'defualt'   =>  __( 'Default'),
-        'active'    =>  __( 'Active' ),
-        'unactive'  =>  __( 'Unactive' )
+        'default'   =>  __( 'Default', 'aauth'),
+        '0'    =>  __( 'Active' , 'aauth'),
+        '1'  =>  __( 'Unactive' , 'aauth')
     )
 ), 'create_user',1 );
 
@@ -75,7 +76,7 @@ foreach ($groups as $group) {
 
 $this->Gui->add_item(array(
     'type'            =>    'select',
-    'label'            =>    __('Add to a group'),
+    'label'            =>    __('Add to a group', 'aauth'),
     'name'            =>    'userprivilege',
     'options'        =>    $groups_array
 ), 'create_user', 1);

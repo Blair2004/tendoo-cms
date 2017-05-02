@@ -734,7 +734,7 @@ class Aauth
     /**
      * List users
      * Return users as an object array
-     * @param bool|int $group_par Specify group id to list group or FALSE for all users
+     * @param bool|int|array $group_par Specify group id to list group or FALSE for all users
      * @param string $limit Limit of users to be returned
      * @param bool $offset Offset for limited number of users
      * @param bool $include_banneds Include banned users
@@ -750,14 +750,24 @@ class Aauth
 			aauth_users.id as user_id
 						";
         if ($group_par != false) {
-            $group_id = $this->get_group_id($group_par);
 
-            $this->CI->db->select($select)
+            // List users belonging to a set of group par
+            if( is_array( $group_par ) ) {
+                $this->CI->db->select($select)
                 ->from($this->config_vars['users'])
                 ->join($this->config_vars['user_to_group'], $this->config_vars['users'] . ".id = " . $this->config_vars['user_to_group'] . ".user_id")
-                ->join($this->config_vars[ 'groups' ], $this->config_vars[ 'groups' ] . '.id = ' . $this->config_vars['user_to_group']. '.group_id')
-                ->where($this->config_vars['user_to_group'] . ".group_id", $group_id)
+                ->join($this->config_vars[ 'groups' ], $this->config_vars[ 'groups' ] . '.id = ' . $this->config_vars['user_to_group']. '.group_id');
+                $this->CI->db->where_in( $this->config_vars['groups'] . ".name", $group_par );
+            } else {
+                $group_id = $this->get_group_id($group_par);
+
+                $this->CI->db->select($select)
+                ->from( $this->config_vars['users'] )
+                ->join( $this->config_vars['user_to_group'], $this->config_vars['users'] . ".id = " . $this->config_vars['user_to_group'] . ".user_id")
+                ->join( $this->config_vars[ 'groups' ], $this->config_vars[ 'groups' ] . '.id = ' . $this->config_vars['user_to_group']. '.group_id')
+                ->where( $this->config_vars['user_to_group'] . ".group_id", $group_id)
                 ->or_where($this->config_vars['groups'] . ".name", $group_par);
+            }
 
             // if group_par is not given, lists all users
         } else {
@@ -1238,25 +1248,50 @@ class Aauth
      */
     public function is_member($group_par, $user_id = false)
     {
-
         // if user_id FALSE (not given), current user
         if (! $user_id) {
             $user_id = $this->CI->session->userdata('id');
         }
 
-        $group_id = $this->get_group_id($group_par);
+        if( is_array( $group_par ) ) {
 
-        $query = $this->CI->db->where('user_id', $user_id);
-        $query = $this->CI->db->where('group_id', $group_id);
-        $query = $this->CI->db->get($this->config_vars['user_to_group']);
+            $this->CI->db->select( '*' )
+            ->from( $this->config_vars['user_to_group'] )
+            ->join(
+                $this->config_vars['groups'],
+                $this->config_vars['groups'] . '.id = ' . $this->config_vars['user_to_group'] . '.group_id'
+            );
 
-        $row = $query->row();
+            $this->CI->db->where( $this->config_vars['user_to_group']. '.user_id', $user_id );
+            $this->CI->db->where_in( $this->config_vars['groups'] . '.name', $group_par );
 
-        if ($query->num_rows() > 0) {
-            return true;
+            $query = $this->CI->db->get();
+            $row = $query->row();
+
+            if ($query->num_rows() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
         } else {
-            return false;
+
+            $group_id   = $this->get_group_id($group_par);
+            $query      = $this->CI->db->where('user_id', $user_id);
+            $query      = $this->CI->db->where('group_id', $group_id);
+            $query      = $this->CI->db->get($this->config_vars['user_to_group']);
+
+            $row = $query->row();
+
+            if ($query->num_rows() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
         }
+
+
     }
 
     /**

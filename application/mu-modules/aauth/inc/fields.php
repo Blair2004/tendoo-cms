@@ -17,15 +17,15 @@ class aauth_fields extends CI_model
     {
         ob_start();
         ?>
-      <?php echo tendoo_info(__('Please provide your user email in order to get recovery email'));
+      <?php echo tendoo_info(__('Please provide your user email in order to get recovery email', 'aauth'));
         ?>
       <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1"><?php _e('User email or Pseudo');
+        <span class="input-group-addon" id="basic-addon1"><?php _e('User email or Pseudo', 'aauth');
         ?></span>
-        <input type="text" class="form-control" placeholder="<?php _e('User email or Pseudo');
+        <input type="text" class="form-control" placeholder="<?php _e('User email or Pseudo', 'aauth');
         ?>" aria-describedby="basic-addon1" name="user_email">
         <span class="input-group-btn">
-          <button class="btn btn-default" type="submit"><?php _e('Get recovery Email');
+          <button class="btn btn-default" type="submit"><?php _e('Get recovery Email', 'aauth');
         ?></button>
         </span>
       </div>
@@ -37,25 +37,25 @@ class aauth_fields extends CI_model
         ob_start();
         ?>
       <div class="form-group has-feedback">
-         <input type="text" class="form-control" placeholder="<?php _e('User Name');
+         <input type="text" class="form-control" placeholder="<?php _e('User Name', 'aauth');
         ?>" name="username" value="<?php echo set_value('username');
         ?>">
          <span class="glyphicon glyphicon-user form-control-feedback"></span>
        </div>
        <div class="form-group has-feedback">
-         <input type="email" class="form-control" placeholder="<?php _e('Email');
+         <input type="email" class="form-control" placeholder="<?php _e('Email', 'aauth');
         ?>" name="email" value="<?php echo set_value('email');
         ?>">
          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
        </div>
        <div class="form-group has-feedback">
-         <input type="password" class="form-control" placeholder="<?php _e('Password');
+         <input type="password" class="form-control" placeholder="<?php _e('Password', 'aauth');
         ?>" name="password" value="<?php echo set_value('password');
         ?>">
          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
        </div>
        <div class="form-group has-feedback">
-         <input type="password" class="form-control" placeholder="<?php _e('Password confirm');
+         <input type="password" class="form-control" placeholder="<?php _e('Password confirm', 'aauth');
         ?>" name="confirm" value="<?php echo set_value('confirm');
         ?>">
          <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
@@ -69,12 +69,12 @@ class aauth_fields extends CI_model
         $this->config->set_item('signin_fields', array(
             'pseudo'    =>
             '<div class="form-group has-feedback">
-				<input type="text" class="form-control" placeholder="' . __('Email or User Name') .'" name="username_or_email">
+				<input type="text" class="form-control" placeholder="' . __('Email or User Name', 'aauth') .'" name="username_or_email">
 				<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			</div>',
             'password'    =>
             '<div class="form-group has-feedback">
-				<input type="password" class="form-control" placeholder="' . __('Password') .'" name="password">
+				<input type="password" class="form-control" placeholder="' . __('Password', 'aauth') .'" name="password">
 				<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 			</div>',
             'submit'    =>
@@ -82,12 +82,12 @@ class aauth_fields extends CI_model
 				<div class="col-xs-7">
 				  <div class="checkbox icheck">
 					<label>
-					  <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false"><input type="checkbox" name="keep_connected"><ins class="iCheck-helper"></ins></div> ' . __('Remember me') . '
+					  <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false"><input type="checkbox" name="keep_connected"><ins class="iCheck-helper"></ins></div> ' . __('Remember me', 'aauth') . '
 					</label>
 				  </div>
 				</div><!-- /.col -->
 				<div class="col-xs-5">
-				  <button type="submit" class="btn btn-primary btn-block btn-flat">' . __('Sign In') .'</button>
+				  <button type="submit" class="btn btn-primary btn-block btn-flat">' . __('Sign In', 'aauth') .'</button>
 				</div><!-- /.col -->
 			</div>'
         ));
@@ -106,24 +106,24 @@ class aauth_fields extends CI_model
         ob_start();
         ?>
       <div class="form-group has-feedback">
-         <input type="text" class="form-control" placeholder="<?php _e('User Name');
+         <input type="text" class="form-control" placeholder="<?php _e('User Name', 'aauth');
         ?>" name="username" value="<?php echo set_value('username');
         ?>">
          <span class="glyphicon glyphicon-user form-control-feedback"></span>
        </div>
        <div class="form-group has-feedback">
-         <input type="email" class="form-control" placeholder="<?php _e('Email');
+         <input type="email" class="form-control" placeholder="<?php _e('Email', 'aauth');
         ?>" name="email" value="<?php echo set_value('email');
         ?>">
          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
        </div>
        <div class="form-group has-feedback">
-         <input type="password" class="form-control" placeholder="<?php _e('Password');
+         <input type="password" class="form-control" placeholder="<?php _e('Password', 'aauth');
         ?>" name="password">
          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
        </div>
        <div class="form-group has-feedback">
-         <input type="password" class="form-control" placeholder="<?php _e('Confirm');
+         <input type="password" class="form-control" placeholder="<?php _e('Confirm', 'aauth');
         ?>" name="confirm">
          <span class="glyphicon glyphicon-lock  form-control-feedback"></span>
        </div>
@@ -133,7 +133,7 @@ class aauth_fields extends CI_model
            </div>
          </div><!-- /.col -->
          <div class="col-xs-4">
-           <button type="submit" class="btn btn-primary btn-block btn-flat"><?php _e('Sign Up');
+           <button type="submit" class="btn btn-primary btn-block btn-flat"><?php _e('Sign Up', 'aauth');
         ?></button>
          </div><!-- /.col -->
        </div>
@@ -154,21 +154,21 @@ class aauth_fields extends CI_model
         $this->Gui->add_item(array(
             'type'        =>        'text',
             'name'        =>        'first-name',
-            'label'        =>        __('First Name'),
+            'label'        =>        __('First Name', 'aauth'),
             'value'        =>        riake('user_id', $config) ? $this->options->get('first-name', riake('user_id', $config)) : false
         ), $config[ 'meta_namespace' ], $config[ 'col_id' ]);
 
         $this->Gui->add_item(array(
             'type'        =>        'text',
             'name'        =>        'last-name',
-            'label'        =>        __('Last Name'),
+            'label'        =>        __('Last Name', 'aauth'),
             'value'        =>        riake('user_id', $config) ? $this->options->get('last-name', riake('user_id', $config)) : false
         ), $config[ 'meta_namespace' ], $config[ 'col_id' ]);
 
         ob_start();
         $skin    =    riake('user_id', $config) ? $this->options->get('theme-skin', riake('user_id', $config)) : '';
         ?>
-        <h3><?php _e('Select a theme');
+        <h3><?php _e('Select a theme', 'aauth');
         ?></h3>
         <ul class="list-unstyled clearfix theme-selector">
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-blue" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-blue' ? 'active' : '';
@@ -176,7 +176,7 @@ class aauth_fields extends CI_model
                 <div><span style="display:block; width: 20%; float: left; height: 7px; background: #367fa9;"></span><span class="bg-light-blue" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222d32;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin"><?php _e('Blue');
+                <p class="text-center no-margin"><?php _e('Blue', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-black" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-black' ? 'active' : '';
@@ -184,7 +184,7 @@ class aauth_fields extends CI_model
                 <div style="box-shadow: 0 0 2px rgba(0,0,0,0.1)" class="clearfix"><span style="display:block; width: 20%; float: left; height: 7px; background: #fefefe;"></span><span style="display:block; width: 80%; float: left; height: 7px; background: #fefefe;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin"><?php _e('Black');
+                <p class="text-center no-margin"><?php _e('Black', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-purple" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-purple' ? 'active' : '';
@@ -192,7 +192,7 @@ class aauth_fields extends CI_model
                 <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-purple-active"></span><span class="bg-purple" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222d32;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin"><?php _e('Purple');
+                <p class="text-center no-margin"><?php _e('Purple', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-green" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-green' ? 'active' : '';
@@ -200,7 +200,7 @@ class aauth_fields extends CI_model
                 <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-green-active"></span><span class="bg-green" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222d32;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin"><?php _e('Green');
+                <p class="text-center no-margin"><?php _e('Green', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-red" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-red' ? 'active' : '';
@@ -208,7 +208,7 @@ class aauth_fields extends CI_model
                 <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-red-active"></span><span class="bg-red" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222d32;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin"><?php _e('Red');
+                <p class="text-center no-margin"><?php _e('Red', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-yellow" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-yellow' ? 'active' : '';
@@ -216,7 +216,7 @@ class aauth_fields extends CI_model
                 <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-yellow-active"></span><span class="bg-yellow" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #222d32;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin"><?php _e('Yellow');
+                <p class="text-center no-margin"><?php _e('Yellow', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-blue-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-blue-light' ? 'active' : '';
@@ -224,7 +224,7 @@ class aauth_fields extends CI_model
                 <div><span style="display:block; width: 20%; float: left; height: 7px; background: #367fa9;"></span><span class="bg-light-blue" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin" style="font-size: 12px"><?php _e('Blue Light');
+                <p class="text-center no-margin" style="font-size: 12px"><?php _e('Blue Light', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-black-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-black-light' ? 'active' : '';
@@ -232,7 +232,7 @@ class aauth_fields extends CI_model
                 <div style="box-shadow: 0 0 2px rgba(0,0,0,0.1)" class="clearfix"><span style="display:block; width: 20%; float: left; height: 7px; background: #fefefe;"></span><span style="display:block; width: 80%; float: left; height: 7px; background: #fefefe;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin" style="font-size: 12px"><?php _e('Black Light');
+                <p class="text-center no-margin" style="font-size: 12px"><?php _e('Black Light', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-purple-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-purple-light' ? 'active' : '';
@@ -240,7 +240,7 @@ class aauth_fields extends CI_model
                 <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-purple-active"></span><span class="bg-purple" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin" style="font-size: 12px"><?php _e('Purple Light');
+                <p class="text-center no-margin" style="font-size: 12px"><?php _e('Purple Light', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-green-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-green-light' ? 'active' : '';
@@ -248,7 +248,7 @@ class aauth_fields extends CI_model
                 <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-green-active"></span><span class="bg-green" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin" style="font-size: 12px"><?php _e('Green Light');
+                <p class="text-center no-margin" style="font-size: 12px"><?php _e('Green Light', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-red-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-red-light' ? 'active' : '';
@@ -256,7 +256,7 @@ class aauth_fields extends CI_model
                 <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-red-active"></span><span class="bg-red" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin" style="font-size: 12px"><?php _e('Red Light');
+                <p class="text-center no-margin" style="font-size: 12px"><?php _e('Red Light', 'aauth');
         ?></p>
             </li>
             <li style="float:left; width: 33.33333%; padding: 5px;"><a href="javascript:void(0);" data-skin="skin-yellow-light" style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover <?php echo $skin == 'skin-yellow-light' ? 'active' : '';
@@ -264,7 +264,7 @@ class aauth_fields extends CI_model
                 <div><span style="display:block; width: 20%; float: left; height: 7px;" class="bg-yellow-active"></span><span class="bg-yellow" style="display:block; width: 80%; float: left; height: 7px;"></span></div>
                 <div><span style="display:block; width: 20%; float: left; height: 50px; background: #f9fafc;"></span><span style="display:block; width: 80%; float: left; height: 50px; background: #f4f5f7;"></span></div>
                 </a>
-                <p class="text-center no-margin" style="font-size: 12px;"><?php _e('Yellow Light');
+                <p class="text-center no-margin" style="font-size: 12px;"><?php _e('Yellow Light', 'aauth');
         ?></p>
             </li>
         </ul>

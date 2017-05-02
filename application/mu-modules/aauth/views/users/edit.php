@@ -17,7 +17,7 @@ $this->Gui->add_meta(array(
     ),
     'footer'    =>    array(
         'submit'    =>    array(
-            'label'    =>    __('Edit User')
+            'label'    =>    __('Edit User', 'aauth')
         )
     )
 ));
@@ -26,7 +26,7 @@ $this->Gui->add_meta(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'text',
-    'label'            =>    __('User Name'),
+    'label'            =>    __('User Name', 'aauth'),
     'name'            =>    'username',
     'disabled'        =>    true,
     'value'            =>    $user->name
@@ -36,7 +36,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'text',
-    'label'            =>    __('User Email'),
+    'label'            =>    __('User Email', 'aauth'),
     'name'            =>    'user_email',
     'value'            =>    $user->email
 ), 'edit_user', 1);
@@ -45,7 +45,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'password',
-    'label'            =>    __('New Password'),
+    'label'            =>    __('New Password', 'aauth'),
     'name'            =>    'password',
 ), 'edit_user', 1);
 
@@ -53,7 +53,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'            =>    'password',
-    'label'            =>    __('Confirm New'),
+    'label'            =>    __('Confirm New', 'aauth'),
     'name'            =>    'confirm',
 ), 'edit_user', 1);
 
@@ -67,7 +67,7 @@ foreach ($groups as $group) {
 
 $this->Gui->add_item(array(
     'type'            =>    'select',
-    'label'            =>    __('Add to a group'),
+    'label'            =>    __('Add to a group', 'aauth'),
     'name'            =>    'userprivilege',
     'options'        =>    $groups_array,
     'active'        =>     is_object($user_group) ? $user_group->group_id : null
@@ -76,11 +76,11 @@ $this->Gui->add_item(array(
 $this->Gui->add_item(array(
     'type'        =>    'select',
     'name'        =>    'user_status',
-    'label'        =>    __('User Status'),
+    'label'        =>    __('User Status', 'aauth'),
     'options'    =>    array(
-        'default'   =>  __( 'Default'),
-        '0'         =>  __( 'Active' ),
-        '1'         =>  __( 'Unactive' )
+        'default'   =>  __( 'Default', 'aauth'),
+        '0'         =>  __( 'Active' , 'aauth'),
+        '1'         =>  __( 'Unactive' , 'aauth')
     ),
     'active'    =>  $user->banned
 ), 'edit_user',1 );

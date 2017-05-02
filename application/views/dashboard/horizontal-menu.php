@@ -41,11 +41,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         $notices_nbr    =    count($notices);
 
                         ?>
-                        <li class="dropdown notifications-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-bell-o"></i>
-                        <?php if ($notices_nbr > 0):?>
-                        <span class="label label-warning"><?php echo $notices_nbr;?></span>
-                        <?php endif;?>
-                        </a>
+                        <li class="dropdown notifications-menu"> 
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+                                <i class="fa fa-bell-o"></i>
+                                <?php if ($notices_nbr > 0):?>
+                                <span class="label label-warning"><?php echo $notices_nbr;?></span>
+                                <?php endif;?>
+                            </a>
                             <ul class="dropdown-menu">
                                 <li class="header"><?php echo sprintf(__('You have %s notices'), count($notices));?> </li>
                                 <li>

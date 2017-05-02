@@ -24,9 +24,9 @@ $config[ 'core_app_name' ]                          =   'Tendoo';
 $config[ 'version' ]                                =    $config[ 'core_version' ]    =    '3.1.5'; // core id
 $config[ 'core_signature' ]                            =    'Tendoo ' . $config[ 'version' ]; // core id
 $config[ 'supported_languages' ]                    =    array(
-    'en_US' => 'English',
-    'fr_FR'    => 'Français'
-    // 'es_ES'	=>	'Español' // Coming Soon
+    'en_US'     => 'English',
+    'fr_FR'     => 'Français',
+    'es_ES'	    =>  'Español'
 );
 $config[ 'site_language' ]                            =    'en_US'; // @since 4.0.5
 $config[ 'database_version' ]                        =    '1.1';

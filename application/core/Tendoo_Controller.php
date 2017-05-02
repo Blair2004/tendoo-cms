@@ -92,7 +92,8 @@ class Tendoo_Controller extends CI_Controller
                 'tendoo',
                 'skins/_all-skins.min',
                 'font-awesome.min',
-                '../plugins/iCheck/square/blue'
+                '../plugins/iCheck/square/blue',
+                'toast'
             ) );
 
             if( $css_libraries ) {
@@ -112,7 +113,8 @@ class Tendoo_Controller extends CI_Controller
                 '../plugins/jQueryUI/jquery-ui-1.10.3.min',
                 'bootstrap.min',
                 '../plugins/iCheck/icheck.min',
-                'app.min'
+                'app.min',
+                'toast'
             ) );
 
             if ( is_array( $js_libraries ) ) {

@@ -59,7 +59,7 @@ class Installation_Model extends CI_Model
 		  PRIMARY KEY (`id`)
 		) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 		");
-		
+
 		// Setup DB Session Table
 		$this->db->query("CREATE TABLE IF NOT EXISTS `{$database_prefix}system_sessions` (
 		  `id` varchar(40) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
@@ -82,14 +82,14 @@ class Installation_Model extends CI_Model
 
         return 'database-installed';
     }
-    
+
     /**
      * Create a config file
-     * 
+     *
      * @param Array config data
      * @return Void
     **/
-    
+
     public function create_config_file($config)
     {
         /* CREATE CONFIG FILE */
@@ -130,14 +130,14 @@ if(!defined('DB_PREFIX'))
         fwrite($file, $string_config);
         fclose($file);
     }
-    
+
     /**
      * Final Configuration
-     * 
+     *
      * @param string Site Name
      * @return mixed
     **/
-    
+
     public function final_configuration($site_name)
     {
         // Saving Site name
@@ -162,7 +162,7 @@ if(!defined('DB_PREFIX'))
         if ($IsInstalled != null) {
             return $IsInstalled;
         }
-        
+
         if (file_exists(APPPATH . 'config/database.php')) {
             $this->load->database();
             if ($this->db->table_exists('options')) {

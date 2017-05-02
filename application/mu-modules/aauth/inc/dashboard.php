@@ -47,7 +47,7 @@ class aauth_dashboard extends CI_model
     {
         $menus[ 'users' ]        =    array(
             array(
-                'title'            =>        __('Users'),
+                'title'            =>        __('Users', 'aauth'),
                 'icon'            =>        'fa fa-users',
                 'href'            =>        site_url('dashboard/users'),
                 'disable'    => true
@@ -65,21 +65,21 @@ class aauth_dashboard extends CI_model
         ) {
             $menus[ 'users' ]        =    array(
                 array(
-                    'title'            =>        __('Manage Users'),
-                    'icon'            =>        'fa fa-users',
-                    'href'            =>        site_url('dashboard/users'),
+                    'title'     =>        __('Manage Users', 'aauth'),
+                    'icon'      =>        'fa fa-users',
+                    'href'      =>        site_url('dashboard/users'),
                 )
             );
 
             $menus[ 'users' ][]    =                array(
-                'title'            =>        __('Create a new User'),
+                'title'            =>        __('Create a new User', 'aauth'),
                 'icon'            =>        'fa fa-users',
                 'href'            =>        site_url('dashboard/users/create')
             );
 
             $menus[ 'roles' ]        =        array(
                 array(
-                    'title'            =>        __('Groups'),
+                    'title'            =>        __('Groups', 'aauth'),
                     'icon'            =>        'fa fa-shield',
                     'href'            =>        site_url('dashboard/groups')
                 )
@@ -87,7 +87,7 @@ class aauth_dashboard extends CI_model
         }
 
         $menus[ 'users' ][]    =                array(
-            'title'            =>        __('My profile'),
+            'title'            =>        __('My profile', 'aauth'),
             'icon'            =>        'fa fa-users',
             'href'            =>        site_url('dashboard/users/profile')
         );
@@ -183,7 +183,18 @@ class aauth_dashboard extends CI_model
 
             $users                          =    $this->users->auth->list_users( false, $index, $config['per_page'], true);
 
-            $this->Gui->set_title(sprintf(__('Users &mdash; %s'), get('core_signature')));
+            $this->events->add_filter( 'gui_page_title', function( $filter ) {
+                $filter     =  '<section class="content-header">
+                  <h1>
+                        ' . str_replace('&mdash; ' . get('core_signature'), '', Html::get_title()) . '<small></small>
+                        <a class="btn btn-primary btn-sm pull-right ng-binding" href="' . site_url([ 'dashboard', 'users', 'create' ] ) . '">' . __( 'Add A user', 'aauth' ) . '</a>
+                  </h1>
+
+                </section>';
+                return $filter;
+            });
+
+            $this->Gui->set_title(sprintf(__('Users &mdash; %s', 'aauth'), get('core_signature')));
 
             $this->load->mu_module_view( 'aauth', 'users/body', array(
 				'users'                    =>    $users,
@@ -212,15 +223,16 @@ class aauth_dashboard extends CI_model
             // validation rules
             $this->load->library('form_validation');
 
-            $this->form_validation->set_rules('user_email', __('User Email'), 'required|valid_email');
-            $this->form_validation->set_rules('password', __('Password'), 'min_length[6]');
-            $this->form_validation->set_rules('confirm', __('Confirm'), 'matches[password]');
-            $this->form_validation->set_rules('userprivilege', __('User Privilege'), 'required');
+            $this->form_validation->set_rules('user_email', __('User Email', 'aauth'), 'required|valid_email');
+            $this->form_validation->set_rules('password', __('Password', 'aauth'), 'min_length[6]');
+            $this->form_validation->set_rules('confirm', __('Confirm', 'aauth'), 'matches[password]');
+            $this->form_validation->set_rules('userprivilege', __('User Privilege', 'aauth'), 'required');
 
             // load custom rules
             $this->events->do_action('user_creation_rules');
 
             if ($this->form_validation->run()) {
+
                 $exec    =    $this->users->edit(
                     $index,
                     $this->input->post('user_email'),
@@ -244,7 +256,18 @@ class aauth_dashboard extends CI_model
                 redirect(array( 'dashboard', 'unknow-user' ));
             }
 
-            $this->Gui->set_title(sprintf(__('Edit user &mdash; %s'), get('core_signature')));
+            $this->events->add_filter( 'gui_page_title', function( $filter ) {
+                $filter     =  '<section class="content-header">
+                  <h1>
+                        ' . str_replace('&mdash; ' . get('core_signature'), '', Html::get_title()) . '<small></small>
+                        <a class="btn btn-primary btn-sm pull-right ng-binding" href="' . site_url([ 'dashboard', 'users' ] ) . '">' . __( 'Return to the list', 'aauth' ) . '</a>
+                  </h1>
+
+                </section>';
+                return $filter;
+            });
+
+            $this->Gui->set_title(sprintf(__('Edit user &mdash; %s', 'aauth'), get('core_signature')));
             $this->load->mu_module_view( 'aauth', 'users/edit', array(
                 'groups'        =>    $groups,
                 'user'            =>    $user,
@@ -264,16 +287,17 @@ class aauth_dashboard extends CI_model
 
             $this->load->library('form_validation');
 
-            $this->form_validation->set_rules('username', __('User Name'), 'required|min_length[5]');
-            $this->form_validation->set_rules('user_email', __('User Email'), 'required|valid_email');
-            $this->form_validation->set_rules('password', __('Password'), 'required|min_length[6]');
-            $this->form_validation->set_rules('confirm', __('Confirm'), 'required|matches[password]');
-            $this->form_validation->set_rules('userprivilege', __('User Privilege'), 'required');
+            $this->form_validation->set_rules('username', __('User Name', 'aauth'), 'required|min_length[5]');
+            $this->form_validation->set_rules('user_email', __('User Email', 'aauth'), 'required|valid_email');
+            $this->form_validation->set_rules('password', __('Password', 'aauth'), 'required|min_length[6]');
+            $this->form_validation->set_rules('confirm', __('Confirm', 'aauth'), 'required|matches[password]');
+            $this->form_validation->set_rules('userprivilege', __('User Privilege', 'aauth'), 'required');
 
             // load custom rules
             $this->events->do_action('user_creation_rules');
 
             if ($this->form_validation->run()) {
+
                 $exec    =    $this->users->create(
                     $this->input->post('user_email'),
                     $this->input->post('password'),
@@ -295,7 +319,18 @@ class aauth_dashboard extends CI_model
             // selecting groups
             $groups                =    $this->users->auth->list_groups();
 
-            $this->Gui->set_title(sprintf(__('Create a new user &mdash; %s'), get('core_signature')));
+            $this->events->add_filter( 'gui_page_title', function( $filter ) {
+                $filter     =  '<section class="content-header">
+                  <h1>
+                        ' . str_replace('&mdash; ' . get('core_signature'), '', Html::get_title()) . '<small></small>
+                        <a class="btn btn-primary btn-sm pull-right ng-binding" href="' . site_url([ 'dashboard', 'users' ] ) . '">' . __( 'Return to the list', 'aauth' ) . '</a>
+                  </h1>
+
+                </section>';
+                return $filter;
+            });
+
+            $this->Gui->set_title(sprintf(__('Create a new user &mdash; %s', 'aauth'), get('core_signature')));
 
             $this->load->mu_module_view( 'aauth', 'users/create', array(
                 'groups'    =>    $groups
@@ -333,10 +368,10 @@ class aauth_dashboard extends CI_model
 
             $this->load->library('form_validation');
 
-            $this->form_validation->set_rules('user_email', __('User Email'), 'valid_email');
-            $this->form_validation->set_rules('old_pass', __('Old Pass'), 'min_length[6]');
-            $this->form_validation->set_rules('password', __('Password'), 'min_length[6]');
-            $this->form_validation->set_rules('confirm', __('Confirm'), 'matches[password]');
+            $this->form_validation->set_rules('user_email', __('User Email', 'aauth'), 'valid_email');
+            $this->form_validation->set_rules('old_pass', __('Old Pass', 'aauth'), 'min_length[6]');
+            $this->form_validation->set_rules('password', __('Password', 'aauth'), 'min_length[6]');
+            $this->form_validation->set_rules('confirm', __('Confirm', 'aauth'), 'matches[password]');
 
             // Launch events for user profiles edition rules
             $this->events->do_action('user_profile_rules');
@@ -361,7 +396,7 @@ class aauth_dashboard extends CI_model
 
             $data                   =   array();
             $data[ 'apps' ]         =   $this->oauthlibrary->getUserApp( User::id() );
-            $this->Gui->set_title(sprintf(__('My Profile &mdash; %s'), get('core_signature')));
+            $this->Gui->set_title(sprintf(__('My Profile &mdash; %s', 'aauth'), get('core_signature')));
 
              $this->load->mu_module_view( 'aauth', 'users/profile', $data );
         }
@@ -388,7 +423,7 @@ class aauth_dashboard extends CI_model
         if ($page == 'list') {
             $groups        =    $this->users->auth->list_groups();
 
-            $this->Gui->set_title(sprintf(__('Roles &mdash; %s'), get('core_signature')));
+            $this->Gui->set_title(sprintf(__('Roles &mdash; %s', 'aauth'), get('core_signature')));
 
             $this->load->mu_module_view( 'aauth', 'groups/body', array(
                 'groups'    =>    $groups
