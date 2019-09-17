@@ -1,3 +1,10 @@
+# Warning
+=========
+You should not download this version when you plan to use either : 
+- NexoPOS : https://1.envato.market/rqYnD
+- Gastro : https://1.envato.market/6Q4K3
+- Self Ordering Kiosk : https://1.envato.market/ZzqoX
+
 Tendoo-CMS 
 =========
 Are you looking for some handy tools to create your web applications ? Tendoo CMS is build for you.
